@@ -1,0 +1,39 @@
+name: Publish iOS and Android App to App Store and Play Store
+on: [workflow_dispatch]
+jobs:
+  beta-ios:
+    name: Build and push a new beta build to TestFlight
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 'v16.15.0'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+      - name: Install Fastlane
+        run: bundle install
+      - name: Install packages
+        run: yarn install
+      - name: Install pods
+        run: cd ios && pod install && cd ..
+      - name: Execute Fastlane command
+        run: yarn ios:beta
+  beta-android:
+    name: Build and push a new beta build to internal app testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 'v16.15.0'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+      - name: Install Fastlane
+        run: bundle install
+      - name: Install packages
+        run: yarn install
+      - name: Execute Fastlane command
+        run: yarn android:beta

@@ -1,0 +1,14 @@
+api_version = "2023-10"
+
+[[extensions]]
+type = "ui_extension"
+name = "Commission Checkout UI"
+handle = "commission-checkout-ui"
+
+[[extensions.targeting]]
+target = "purchase.checkout.block.render"
+module = "./src/index.tsx"
+
+[extensions.capabilities]
+network_access = true
+block_progress = true

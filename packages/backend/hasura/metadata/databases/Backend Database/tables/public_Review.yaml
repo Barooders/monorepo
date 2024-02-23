@@ -1,0 +1,31 @@
+table:
+  name: Review
+  schema: public
+object_relationships:
+  - name: Customer
+    using:
+      foreign_key_constraint_on: customerId
+  - name: Order
+    using:
+      foreign_key_constraint_on: orderId
+array_relationships:
+  - name: VendorReview
+    using:
+      foreign_key_constraint_on:
+        column: reviewId
+        table:
+          name: VendorReview
+          schema: public
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - content
+        - createdAt
+        - customerId
+        - id
+        - orderId
+        - rating
+        - title
+        - authorNickname
+      filter: {}

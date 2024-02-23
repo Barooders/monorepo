@@ -1,0 +1,72 @@
+table:
+  name: FulfillmentOrder
+  schema: public
+object_relationships:
+  - name: order
+    using:
+      manual_configuration:
+        column_mapping:
+          orderId: id
+        insertion_order: null
+        remote_table:
+          name: Order
+          schema: public
+array_relationships:
+  - name: fulfillments
+    using:
+      manual_configuration:
+        column_mapping:
+          id: fulfillmentOrderId
+        insertion_order: null
+        remote_table:
+          name: Fulfillment
+          schema: public
+  - name: orderLines
+    using:
+      manual_configuration:
+        column_mapping:
+          id: fulfillmentOrderId
+        insertion_order: null
+        remote_table:
+          name: OrderLines
+          schema: public
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - externalOrderId
+        - id
+        - orderId
+        - status
+      filter:
+        order:
+          customerId:
+            _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - externalOrderId
+        - id
+        - orderId
+        - status
+      filter:
+        order:
+          orderLines:
+            vendorId:
+              _eq: X-Hasura-User-Id
+  - role: registered_user
+    permission:
+      columns:
+        - externalOrderId
+        - id
+        - orderId
+        - status
+      filter:
+        _or:
+          - order:
+              orderLines:
+                vendorId:
+                  _eq: X-Hasura-User-Id
+          - order:
+              customerId:
+                _eq: X-Hasura-User-Id

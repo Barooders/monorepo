@@ -1,0 +1,10 @@
+table:
+  name: ReturnItem
+  schema: public
+object_relationships:
+  - name: fulfillmentItem
+    using:
+      foreign_key_constraint_on: fulfillmentItemId
+  - name: return
+    using:
+      foreign_key_constraint_on: returnId

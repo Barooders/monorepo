@@ -1,0 +1,87 @@
+{
+	"inputs": [
+		{
+			"id": "promptVendor",
+			"type": "command",
+			"command": "extension.commandvariable.promptStringRemember",
+			"args": {
+				"key": "vendorSlug",
+				"description": "Enter a vendor slug"
+			}
+		},
+		{
+			"id": "promptExternalProductId",
+			"type": "command",
+			"command": "extension.commandvariable.promptStringRemember",
+			"args": {
+				"key": "externalProductId",
+				"description": "Enter an external product id"
+			}
+		},
+	],
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Start dev",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["start:dev"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Update tags",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["update:tags"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Start consumer handler",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["start:consumer:dev"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Sync customers",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": [ "import:customers"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Sync new products",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "-f", "${input:promptVendor}"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Sync specific products",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "${input:promptVendor}", "-p", "${input:promptExternalProductId}"],
+			"outputCapture": "std",
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Update products",
+			"runtimeExecutable": "yarn",
+			"cwd": "${workspaceFolder}",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "updateProductStatuses", "-f", "${input:promptVendor}"],
+			"outputCapture": "std",
+		}
+	]
+}

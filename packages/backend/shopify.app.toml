@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "Barooders Backend - Staging"
+client_id = "6d3b45d6fdc0f0d41e78bdde0dd07139"
+application_url = "https://backend-staging.barooders.com/v1/shopify/auth"
+embedded = false
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = [
+  "https://backend-staging.barooders.com/",
+  "https://backend-staging.barooders.com/v1/shopify/auth",
+  "https://backend-staging.barooders.com/v1/shopify/auth/callback",
+  "https://barooders-backend-staging.herokuapp.com/",
+  "https://barooders-backend-staging.herokuapp.com/v1/shopify/auth",
+  "https://barooders-backend-staging.herokuapp.com/v1/shopify/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-01"
+
+[pos]
+embedded = false
+
+[build]
+dev_store_url = "barooders-dev-checkout-extensibility.myshopify.com"

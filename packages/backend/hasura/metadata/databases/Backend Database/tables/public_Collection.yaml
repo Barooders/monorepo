@@ -1,0 +1,56 @@
+table:
+  name: Collection
+  schema: public
+object_relationships:
+  - name: parentCollection
+    using:
+      foreign_key_constraint_on: parentCollectionId
+array_relationships:
+  - name: childCollections
+    using:
+      foreign_key_constraint_on:
+        column: parentCollectionId
+        table:
+          name: Collection
+          schema: public
+remote_relationships:
+  - definition:
+      hasura_fields:
+        - handle
+      remote_field:
+        collectionByHandle:
+          arguments:
+            handle: $handle
+      remote_schema: Barooders Shopify
+    name: shopifyCollection
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - id
+        - parentCollectionId
+        - shopifyId
+        - shortName
+        - title
+        - description
+        - seoTitle
+        - seoDescription
+        - featuredImageSrc
+        - type
+        - handle
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - type
+        - shopifyId
+        - id
+        - parentCollectionId
+        - shortName
+        - title
+        - description
+        - seoTitle
+        - seoDescription
+        - featuredImageSrc
+        - handle
+      filter: {}

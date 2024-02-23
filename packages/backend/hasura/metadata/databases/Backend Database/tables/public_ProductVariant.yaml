@@ -1,0 +1,53 @@
+table:
+  name: ProductVariant
+  schema: public
+object_relationships:
+  - name: product
+    using:
+      foreign_key_constraint_on: productId
+  - name: storeExposedVariant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopifyId: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product_variant
+          schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - createdAt
+        - id
+        - productId
+        - quantity
+        - condition
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - createdAt
+        - id
+        - productId
+        - quantity
+        - condition
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - createdAt
+        - id
+        - productId
+        - quantity
+        - condition
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - createdAt
+        - id
+        - productId
+        - quantity
+        - condition
+      filter: {}

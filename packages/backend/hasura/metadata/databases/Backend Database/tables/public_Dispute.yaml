@@ -1,0 +1,25 @@
+table:
+  name: Dispute
+  schema: public
+object_relationships:
+  - name: author
+    using:
+      foreign_key_constraint_on: authorId
+  - name: orderLine
+    using:
+      foreign_key_constraint_on: orderLineId
+array_relationships:
+  - name: attachments
+    using:
+      foreign_key_constraint_on:
+        column: disputeId
+        table:
+          name: DisputeAttachment
+          schema: public
+  - name: returns
+    using:
+      foreign_key_constraint_on:
+        column: disputeId
+        table:
+          name: Return
+          schema: public

@@ -1,0 +1,84 @@
+table:
+  name: SavedSearch
+  schema: public
+object_relationships:
+  - name: Collection
+    using:
+      foreign_key_constraint_on: collectionId
+  - name: Customer
+    using:
+      foreign_key_constraint_on: customerId
+array_relationships:
+  - name: FacetFilters
+    using:
+      foreign_key_constraint_on:
+        column: searchId
+        table:
+          name: FacetFilter
+          schema: public
+  - name: NumericFilters
+    using:
+      foreign_key_constraint_on:
+        column: searchId
+        table:
+          name: NumericFilter
+          schema: public
+  - name: SearchAlerts
+    using:
+      foreign_key_constraint_on:
+        column: searchId
+        table:
+          name: SearchAlert
+          schema: public
+insert_permissions:
+  - role: registered_user
+    permission:
+      check:
+        customerId:
+          _eq: X-Hasura-User-Id
+      set:
+        customerId: x-hasura-User-Id
+      columns:
+        - collectionId
+        - customerId
+        - name
+        - query
+        - source
+        - resultsUrl
+select_permissions:
+  - role: registered_user
+    permission:
+      columns:
+        - collectionId
+        - id
+        - name
+        - query
+        - source
+        - createdAt
+        - updatedAt
+        - customerId
+        - resultsUrl
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: registered_user
+    permission:
+      columns:
+        - collectionId
+        - name
+        - query
+        - source
+        - resultsUrl
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+      check: null
+      set:
+        customerId: x-hasura-User-Id
+delete_permissions:
+  - role: registered_user
+    permission:
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id

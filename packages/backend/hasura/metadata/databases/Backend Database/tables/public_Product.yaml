@@ -1,0 +1,73 @@
+table:
+  name: Product
+  schema: public
+object_relationships:
+  - name: Vendor
+    using:
+      foreign_key_constraint_on: vendorId
+  - name: storeExposedProduct
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product
+          schema: dbt
+array_relationships:
+  - name: variants
+    using:
+      manual_configuration:
+        column_mapping:
+          id: productId
+        insertion_order: null
+        remote_table:
+          name: ProductVariant
+          schema: public
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - createdAt
+        - id
+        - shopifyId
+        - handle
+        - productType
+        - status
+        - vendorId
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - createdAt
+        - id
+        - shopifyId
+        - handle
+        - productType
+        - status
+        - vendorId
+      filter:
+        vendorId:
+          _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+        - createdAt
+        - id
+        - shopifyId
+        - handle
+        - productType
+        - status
+        - vendorId
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - createdAt
+        - id
+        - shopifyId
+        - handle
+        - productType
+        - status
+        - vendorId
+      filter: {}

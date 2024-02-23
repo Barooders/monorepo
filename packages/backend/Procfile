@@ -1,0 +1,4 @@
+web: yarn start:prod
+consumer: yarn start:consumer:prod
+
+release: yarn prisma:migrate

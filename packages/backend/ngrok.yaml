@@ -1,0 +1,10 @@
+# Loaded with ngrok config edit
+# Ran with ngrok start --all
+version: '2'
+tunnels:
+  hasura:
+    proto: http
+    addr: 8080
+  backend:
+    proto: http
+    addr: 3000

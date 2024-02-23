@@ -1,0 +1,189 @@
+table:
+  name: Customer
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          authUserId: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: auth
+array_relationships:
+  - name: PublishedReviews
+    using:
+      foreign_key_constraint_on:
+        column: customerId
+        table:
+          name: Review
+          schema: public
+  - name: VendorReviews
+    using:
+      foreign_key_constraint_on:
+        column: vendorId
+        table:
+          name: VendorReview
+          schema: public
+  - name: favorites
+    using:
+      manual_configuration:
+        column_mapping:
+          authUserId: customerId
+        insertion_order: null
+        remote_table:
+          name: FavoriteProducts
+          schema: public
+  - name: negociationAgreements
+    using:
+      foreign_key_constraint_on:
+        column: vendorId
+        table:
+          name: NegociationAgreement
+          schema: public
+  - name: onlineProducts
+    using:
+      manual_configuration:
+        column_mapping:
+          authUserId: vendorId
+        insertion_order: null
+        remote_table:
+          name: Product
+          schema: public
+  - name: paymentAccounts
+    using:
+      foreign_key_constraint_on:
+        column: customerId
+        table:
+          name: PaymentAccounts
+          schema: public
+  - name: purchasedOrders
+    using:
+      manual_configuration:
+        column_mapping:
+          authUserId: customerId
+        insertion_order: null
+        remote_table:
+          name: Order
+          schema: public
+  - name: vendorSoldOrderLines
+    using:
+      manual_configuration:
+        column_mapping:
+          authUserId: vendorId
+        insertion_order: null
+        remote_table:
+          name: OrderLines
+          schema: public
+computed_fields:
+  - name: shopifySearch
+    definition:
+      function:
+        name: shopify_search
+        schema: public
+remote_relationships:
+  - definition:
+      hasura_fields:
+        - shopifySearch
+      remote_field:
+        products:
+          arguments:
+            query: $shopifySearch
+      remote_schema: Barooders Shopify
+    name: products
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - authUserId
+        - coverPictureShopifyCdnUrl
+        - createdAt
+        - description
+        - firstName
+        - phoneNumber
+        - isPro
+        - lastName
+        - profilePictureShopifyCdnUrl
+        - sellerName
+        - shipmentTimeframe
+        - shopifyId
+        - updatedAt
+        - usedShipping
+      computed_fields:
+        - shopifySearch
+      filter:
+        authUserId:
+          _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - authUserId
+        - coverPictureShopifyCdnUrl
+        - createdAt
+        - description
+        - firstName
+        - isPro
+        - lastName
+        - profilePictureShopifyCdnUrl
+        - sellerName
+        - shipmentTimeframe
+        - shopifyId
+        - updatedAt
+        - usedShipping
+      computed_fields:
+        - shopifySearch
+      filter:
+        authUserId:
+          _eq: X-Hasura-User-Id
+  - role: public
+    permission:
+      columns:
+        - authUserId
+        - coverPictureShopifyCdnUrl
+        - createdAt
+        - description
+        - firstName
+        - isPro
+        - lastName
+        - profilePictureShopifyCdnUrl
+        - sellerName
+        - shipmentTimeframe
+        - shopifyId
+        - updatedAt
+        - usedShipping
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - authUserId
+        - coverPictureShopifyCdnUrl
+        - createdAt
+        - description
+        - firstName
+        - isPro
+        - lastName
+        - profilePictureShopifyCdnUrl
+        - sellerName
+        - shipmentTimeframe
+        - shopifyId
+        - updatedAt
+        - usedShipping
+      computed_fields:
+        - shopifySearch
+      filter: {}
+update_permissions:
+  - role: registered_user
+    permission:
+      columns:
+        - coverPictureShopifyCdnUrl
+        - description
+        - firstName
+        - lastName
+        - phoneNumber
+        - profilePictureShopifyCdnUrl
+        - sellerName
+      filter:
+        authUserId:
+          _eq: X-Hasura-User-Id
+      check: null

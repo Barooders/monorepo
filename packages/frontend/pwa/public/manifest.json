@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Barooders",
+  "orientation": "portrait-primary",
+  "short_name": "Barooders",
+  "scope": "https://app.barooders.com/",
+  "start_url": "https://app.barooders.com/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#20292F",
+  "description": "Barooders, la première plateforme dédiée au matériel de sport outdoor d'occasion !",
+  "icons": [
+    {
+      "src": "https://cdn.shopify.com/s/files/1/0576/4340/1365/files/icon-app_3x_8c3cd15b-132e-492d-99f8-d8e78539334d.png?v=1652274571",
+      "sizes": "1548x1548",
+      "type": "image/png"
+    }
+  ]
+}

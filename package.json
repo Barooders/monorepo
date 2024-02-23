@@ -1,0 +1,9 @@
+{
+    "name": "monorepo",
+    "version": "1.0.0",
+    "description": "Barooders monorepo",
+    "private": true,
+    "workspaces": [
+      "packages/*"
+    ]
+  }

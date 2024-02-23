@@ -1,0 +1,13 @@
+table:
+  name: FulfillmentItem
+  schema: public
+object_relationships:
+  - name: productVariant
+    using:
+      manual_configuration:
+        column_mapping:
+          productVariantId: id
+        insertion_order: null
+        remote_table:
+          name: ProductVariant
+          schema: public

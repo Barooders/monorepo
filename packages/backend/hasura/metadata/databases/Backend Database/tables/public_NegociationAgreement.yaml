@@ -1,0 +1,74 @@
+table:
+  name: NegociationAgreement
+  schema: public
+object_relationships:
+  - name: vendor
+    using:
+      foreign_key_constraint_on: vendorId
+insert_permissions:
+  - role: me_as_vendor
+    permission:
+      check: {}
+      set:
+        vendorId: x-hasura-User-Id
+      columns:
+        - id
+        - maxAmountPercent
+        - priority
+        - productType
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - id
+        - maxAmountPercent
+        - priority
+        - productType
+        - vendorId
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - id
+        - maxAmountPercent
+        - priority
+        - productType
+        - vendorId
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - id
+        - maxAmountPercent
+        - priority
+        - productType
+        - vendorId
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - id
+        - maxAmountPercent
+        - priority
+        - productType
+        - vendorId
+      filter: {}
+update_permissions:
+  - role: me_as_vendor
+    permission:
+      columns:
+        - maxAmountPercent
+        - priority
+        - productType
+      filter:
+        vendorId:
+          _eq: X-Hasura-User-Id
+      check: {}
+      set:
+        vendorId: x-hasura-User-Id
+delete_permissions:
+  - role: me_as_vendor
+    permission:
+      filter:
+        vendorId:
+          _eq: X-Hasura-User-Id

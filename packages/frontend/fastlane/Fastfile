@@ -1,0 +1,93 @@
+fastlane_require 'dotenv'
+
+before_all do
+  Dotenv.overload '.env.secret'
+	ensure_git_branch(branch: 'main')
+	ensure_git_status_clean
+	git_pull
+end
+
+default_platform(:ios)
+
+platform :ios do
+	desc "Pull certificates from Match"
+	lane :certificates do
+		match(app_identifier: "com.barooders.app", type: 'appstore', readonly: true)
+	end
+	desc 'Build the iOS application.'
+	private_lane :build do
+		certificates
+		increment_build_number(xcodeproj: './native/ios/App/App.xcodeproj')
+		gym(scheme: 'App', workspace: './native/ios/App/App.xcworkspace')
+	end
+  desc "Build and push a new beta build to TestFlight"
+  lane :beta do
+    begin
+			build
+			pilot
+			clean_build_artifacts
+			commit_version_bump(message: '🔖 Bump iOS build', xcodeproj: './native/ios/App/App.xcodeproj')
+			push_to_git_remote
+      on_success("App successfully uploaded to Testflight. ✈️", lane_context[SharedValues::BUILD_NUMBER])
+    rescue => exception
+        on_error(exception)
+    end
+  end
+end
+
+platform :android do
+  desc "Build and push a new beta build to internal app testing"
+  lane :beta do
+    begin
+      increment_version_code('gradle_file_path': './native/android/app/build.gradle')
+
+      gradle(
+        project_dir: "./native/android",
+        task: "bundle",
+        build_type: "Release",
+        print_command: false,
+      )
+
+      upload_to_play_store(
+        skip_upload_apk: true,
+        track: "internal",
+        package_name: "com.barooders",
+        aab: "./native/android/app/build/outputs/bundle/release/app-release.aab",
+        json_key: "./native/android/key-upload-fastlane.json",
+      )
+
+      git_commit(path: ['./native/android/app/build.gradle'], message: '🔖 Bump Android versionCode')
+      push_to_git_remote
+
+      on_success("App successfully uploaded to Play Store Internal testing. 🚀", 0)
+
+    rescue => exception
+        on_error(exception)
+    end
+
+  end
+end
+
+def on_success(title, buildNumber)
+  slack(
+      message: "#{title}",
+      success: true,
+      attachment_properties: {
+       fields: [
+           {
+               title: "Build number",
+               value: "#{buildNumber}",
+           }
+       ]
+   },
+      slack_url: ENV["SLACK_URL"],
+  )
+end
+
+def on_error(exception)
+  slack(
+      message: "Lane failed with exception : #{exception}",
+      success: false,
+      slack_url: ENV["SLACK_URL"],
+  )
+end

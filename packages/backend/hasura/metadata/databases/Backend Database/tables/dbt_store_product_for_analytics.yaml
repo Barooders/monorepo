@@ -1,0 +1,3 @@
+table:
+  name: store_product_for_analytics
+  schema: dbt

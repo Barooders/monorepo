@@ -1,0 +1,28 @@
+table:
+  name: store_discount
+  schema: dbt
+array_relationships:
+  - name: collection
+    using:
+      manual_configuration:
+        column_mapping:
+          id: discount_id
+        insertion_order: null
+        remote_table:
+          name: store_discount_collection
+          schema: dbt
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - code
+        - ends_at
+        - id
+        - starts_at
+        - title
+        - value
+        - value_type
+        - min_amount
+      filter:
+        is_public:
+          _eq: true

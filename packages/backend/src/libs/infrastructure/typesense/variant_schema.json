@@ -1,0 +1,131 @@
+{
+  "name": "backend_products",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "vendor",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "vendor_informations.reviews.count",
+      "type": "int64"
+    },
+    {
+      "name": "vendor_informations.reviews.average_rating",
+      "type": "float",
+      "optional": true
+    },
+    {
+      "name": "meta.barooders.owner",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "meta.barooders.product_discount_range",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "product_type",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "variant_title",
+      "type": "string"
+    },
+    {
+      "name": "handle",
+      "type": "string"
+    },
+    {
+      "name": "computed_scoring",
+      "type": "float",
+      "facet": true
+    },
+    {
+      "name": "is_refurbished",
+      "type": "string",
+      "optional": true,
+      "facet": true
+    },
+    {
+      "name": "condition",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "inventory_quantity",
+      "type": "int32"
+    },
+    {
+      "name": "array_tags.*",
+      "type": "string[]",
+      "facet": true
+    },
+    {
+      "name": "price",
+      "type": "float",
+      "facet": true
+    },
+    {
+      "name": "discount",
+      "type": "float"
+    },
+    {
+      "name": "compare_at_price",
+      "type": "float"
+    },
+    {
+      "name": "product_shopify_id",
+      "type": "int64"
+    },
+    {
+      "name": "product_internal_id",
+      "facet": true,
+      "type": "string"
+    },
+    {
+      "name": "variant_shopify_id",
+      "type": "int64"
+    },
+    {
+      "name": "variant_internal_id",
+      "type": "string",
+      "optional": true
+    },
+    {
+      "name": "product_image",
+      "type": "string",
+      "index": false,
+      "optional": true
+    },
+    {
+      "name": "collection_internal_ids",
+      "type": "string[]"
+    },
+    {
+      "name": "collection_handles",
+      "type": "string[]"
+    },
+    {
+      "name": "updatedat_timestamp",
+      "type": "int64"
+    },
+    {
+      "name": "createdat_timestamp",
+      "type": "int64"
+    },
+    {
+      "name": "publishedat_timestamp",
+      "type": "int64"
+    }
+  ],
+  "default_sorting_field": "createdat_timestamp",
+  "enable_nested_fields": true
+}

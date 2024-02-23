@@ -1,0 +1,30 @@
+name: Static analysis & Tests
+
+on: push
+
+jobs:
+  static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install npm dependencies
+        run: yarn install
+      - name: Run ESLint on web folder
+        run: yarn lint
+      - name: Build TS app
+        run: yarn build:web
+        env:
+          NEXT_PUBLIC_STRAPI_URL: https://barooders-strapi.herokuapp.com/api
+          NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
+          NEXT_PUBLIC_SHOP_BASE_URL: ${{ secrets.NEXT_PUBLIC_SHOP_BASE_URL }}
+      - name: Build TS app pwa
+        run: yarn build:pwa
+        env:
+          NEXT_PUBLIC_STRAPI_URL: https://barooders-strapi.herokuapp.com/api
+          NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
+          NEXT_PUBLIC_SHOP_BASE_URL: ${{ secrets.NEXT_PUBLIC_SHOP_BASE_URL }}

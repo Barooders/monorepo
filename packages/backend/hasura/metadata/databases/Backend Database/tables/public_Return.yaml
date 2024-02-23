@@ -1,0 +1,15 @@
+table:
+  name: Return
+  schema: public
+object_relationships:
+  - name: dispute
+    using:
+      foreign_key_constraint_on: disputeId
+array_relationships:
+  - name: returnItems
+    using:
+      foreign_key_constraint_on:
+        column: returnId
+        table:
+          name: ReturnItem
+          schema: public

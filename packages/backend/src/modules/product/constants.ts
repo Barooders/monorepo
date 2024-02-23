@@ -1,0 +1,1 @@
+export const MAX_BREADCRUMBS_LENGTH = 10;

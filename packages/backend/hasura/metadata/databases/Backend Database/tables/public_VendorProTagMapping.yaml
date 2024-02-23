@@ -1,0 +1,3 @@
+table:
+  name: VendorProTagMapping
+  schema: public

@@ -1,0 +1,95 @@
+table:
+  name: Order
+  schema: public
+object_relationships:
+  - name: buyerCustomer
+    using:
+      foreign_key_constraint_on: customerId
+array_relationships:
+  - name: fulfillmentOrders
+    using:
+      manual_configuration:
+        column_mapping:
+          id: orderId
+        insertion_order: null
+        remote_table:
+          name: FulfillmentOrder
+          schema: public
+  - name: orderLines
+    using:
+      foreign_key_constraint_on:
+        column: orderId
+        table:
+          name: OrderLines
+          schema: public
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - createdAt
+        - customerEmail
+        - customerId
+        - id
+        - name
+        - shippingAddressAddress1
+        - shippingAddressAddress2
+        - shippingAddressCity
+        - shippingAddressCountry
+        - shippingAddressFirstName
+        - shippingAddressLastName
+        - shippingAddressZip
+        - status
+        - totalPriceCurrency
+        - totalPriceInCents
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - createdAt
+        - customerEmail
+        - customerId
+        - id
+        - name
+        - shippingAddressAddress1
+        - shippingAddressAddress2
+        - shippingAddressCity
+        - shippingAddressCountry
+        - shippingAddressFirstName
+        - shippingAddressLastName
+        - shippingAddressZip
+        - status
+        - totalPriceCurrency
+        - totalPriceInCents
+      filter:
+        orderLines:
+          vendorId:
+            _eq: X-Hasura-User-Id
+  - role: registered_user
+    permission:
+      columns:
+        - createdAt
+        - customerEmail
+        - customerId
+        - id
+        - name
+        - shippingAddressAddress1
+        - shippingAddressAddress2
+        - shippingAddressCity
+        - shippingAddressCountry
+        - shippingAddressFirstName
+        - shippingAddressLastName
+        - shippingAddressPhone
+        - shippingAddressZip
+        - shopifyId
+        - status
+        - totalPriceCurrency
+        - totalPriceInCents
+      filter:
+        _or:
+          - customerId:
+              _eq: X-Hasura-User-Id
+          - orderLines:
+              vendorId:
+                _eq: X-Hasura-User-Id

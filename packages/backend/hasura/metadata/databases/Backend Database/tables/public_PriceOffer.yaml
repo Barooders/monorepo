@@ -1,0 +1,67 @@
+table:
+  name: PriceOffer
+  schema: public
+object_relationships:
+  - name: buyer
+    using:
+      foreign_key_constraint_on: buyerId
+  - name: initiator
+    using:
+      foreign_key_constraint_on: initiatedBy
+  - name: product
+    using:
+      foreign_key_constraint_on: productId
+  - name: productVariant
+    using:
+      foreign_key_constraint_on: productVariantId
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - buyerId
+        - createdAt
+        - discountCode
+        - id
+        - initiatedBy
+        - newPriceInCents
+        - productId
+        - productVariantId
+        - status
+      filter:
+        buyerId:
+          _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - status
+        - newPriceInCents
+        - discountCode
+        - id
+        - productId
+        - productVariantId
+        - createdAt
+        - buyerId
+        - initiatedBy
+      filter:
+        product:
+          vendorId:
+            _eq: X-Hasura-User-Id
+  - role: registered_user
+    permission:
+      columns:
+        - status
+        - newPriceInCents
+        - discountCode
+        - id
+        - productId
+        - productVariantId
+        - createdAt
+        - buyerId
+        - initiatedBy
+      filter:
+        _or:
+          - buyerId:
+              _eq: X-Hasura-User-Id
+          - product:
+              vendorId:
+                _eq: X-Hasura-User-Id

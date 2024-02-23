@@ -1,0 +1,22 @@
+table:
+  name: store_product_collection
+  schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - collection_id
+        - product_id
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - collection_id
+        - product_id
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - collection_id
+        - product_id
+      filter: {}

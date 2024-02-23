@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'keen-slider/keen-slider.min.css';
+@import 'photoswipe/src/photoswipe.css';
+@import './SearchBar.scss';
+
+@layer base {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .scrollbar-hidden::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .scrollbar-hidden {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .scrollbar-thin {
+      scrollbar-color: #202830 #eef0f1;
+      scrollbar-width: thin;
+    }
+  }
+}
+
+.blog-article,
+.product-description__content,
+.builder-text {
+  & h1,
+  h2,
+  h3,
+  h4 {
+    @apply mt-2 mb-1 font-semibold;
+  }
+
+  & h1 {
+    @apply text-2xl;
+  }
+
+  & h2 {
+    @apply text-xl;
+  }
+
+  & h3 {
+    @apply text-lg;
+  }
+
+  & p {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  & ul {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    list-style-type: initial;
+    list-style-position: inside;
+
+    & > li {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.outlined-text {
+  -webkit-text-fill-color: #e51736;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+}

@@ -1,0 +1,3 @@
+table:
+  name: VendorProCategoryMapping
+  schema: public

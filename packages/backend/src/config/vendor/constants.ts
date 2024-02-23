@@ -1,0 +1,2 @@
+export const USED_PRODUCT_DEFAULT_DESCRIPTION = `Ce produit est en bon état, il a été nettoyé et vérifié par des experts, cependant, il peut y avoir des signes d’utilisation précédente. Si vous avez des doutes sur la taille ou des questions concernant l’article, n’hésitez pas à nous contacter pour plus de détails.`;
+export const NEW_PRODUCT_DEFAULT_DESCRIPTION = `Ce produit est neuf. Si vous avez des doutes sur la taille ou des questions concernant l’article, n’hésitez pas à nous contacter pour plus de détails.`;

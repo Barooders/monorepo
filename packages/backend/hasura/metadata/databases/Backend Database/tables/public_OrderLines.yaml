@@ -1,0 +1,118 @@
+table:
+  name: OrderLines
+  schema: public
+object_relationships:
+  - name: fulfillmentOrder
+    using:
+      manual_configuration:
+        column_mapping:
+          fulfillmentOrderId: id
+        insertion_order: null
+        remote_table:
+          name: FulfillmentOrder
+          schema: public
+  - name: order
+    using:
+      foreign_key_constraint_on: orderId
+  - name: productVariant
+    using:
+      manual_configuration:
+        column_mapping:
+          productVariantId: id
+        insertion_order: null
+        remote_table:
+          name: ProductVariant
+          schema: public
+  - name: vendorCustomer
+    using:
+      foreign_key_constraint_on: vendorId
+array_relationships:
+  - name: disputes
+    using:
+      foreign_key_constraint_on:
+        column: orderLineId
+        table:
+          name: Dispute
+          schema: public
+  - name: payouts
+    using:
+      foreign_key_constraint_on:
+        column: orderLineId
+        table:
+          name: Payout
+          schema: public
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - createdAt
+        - fulfillmentOrderId
+        - id
+        - name
+        - orderId
+        - priceCurrency
+        - priceInCents
+        - productBrand
+        - variantCondition
+        - productGender
+        - productHandle
+        - productImage
+        - productModelYear
+        - productSize
+        - productType
+        - shippingSolution
+        - vendorId
+      filter:
+        order:
+          customerId:
+            _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - createdAt
+        - fulfillmentOrderId
+        - id
+        - name
+        - orderId
+        - priceCurrency
+        - priceInCents
+        - productBrand
+        - variantCondition
+        - productGender
+        - productHandle
+        - productImage
+        - productModelYear
+        - productSize
+        - productType
+        - shippingSolution
+        - vendorId
+      filter:
+        vendorId:
+          _eq: X-Hasura-User-Id
+  - role: registered_user
+    permission:
+      columns:
+        - createdAt
+        - fulfillmentOrderId
+        - id
+        - name
+        - orderId
+        - priceCurrency
+        - priceInCents
+        - productBrand
+        - variantCondition
+        - productGender
+        - productHandle
+        - productImage
+        - productModelYear
+        - productSize
+        - productType
+        - shippingSolution
+        - vendorId
+      filter:
+        _or:
+          - vendorId:
+              _eq: X-Hasura-User-Id
+          - order:
+              customerId:
+                _eq: X-Hasura-User-Id

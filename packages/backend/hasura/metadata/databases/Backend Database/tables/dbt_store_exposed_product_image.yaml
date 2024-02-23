@@ -1,0 +1,48 @@
+table:
+  name: store_exposed_product_image
+  schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - alt
+        - height
+        - position
+        - productId
+        - shopify_id
+        - src
+        - width
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - alt
+        - height
+        - position
+        - productId
+        - shopify_id
+        - src
+        - width
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - alt
+        - height
+        - position
+        - productId
+        - shopify_id
+        - src
+        - width
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - alt
+        - height
+        - position
+        - productId
+        - shopify_id
+        - src
+        - width
+      filter: {}

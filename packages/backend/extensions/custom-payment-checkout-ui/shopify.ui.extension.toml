@@ -1,0 +1,41 @@
+api_version = "2023-10"
+
+[[extensions]]
+type = "ui_extension"
+name = "Custom Payment Checkout UI"
+handle = "custom-payment-checkout-ui"
+
+[[extensions.targeting]]
+target = "purchase.checkout.block.render"
+module = "./src/index.tsx"
+
+[extensions.capabilities]
+network_access = true
+block_progress = true
+
+[settings]
+[[settings.fields]]
+key = "backend_url"
+type = "single_line_text_field"
+name = "Backend URL"
+description = "Backend URL that is used to create commission without trailing slash"
+[[settings.fields]]
+key = "hasura_base_url"
+type = "single_line_text_field"
+name = "Hasura base URL"
+description = "Base url of hasura without trailing slash"
+[[settings.fields]]
+key = "floa_payment_4x_handle"
+type = "single_line_text_field"
+name = "Floa Payment 4x handle"
+description = "The handle created by Shopify for the 4x payment Floa payment"
+[[settings.fields]]
+key = "floa_payment_3x_handle"
+type = "single_line_text_field"
+name = "Floa Payment 3x handle"
+description = "The handle created by Shopify for the 3x payment Floa payment"
+[[settings.fields]]
+key = "floa_payment_10x_handle"
+type = "single_line_text_field"
+name = "Floa Payment 10x handle"
+description = "The handle created by Shopify for the 10x payment Floa payment"

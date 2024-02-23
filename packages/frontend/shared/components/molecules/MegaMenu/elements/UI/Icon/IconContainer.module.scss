@@ -1,0 +1,17 @@
+.IconContainer {
+  --icon-container-width: 100%;
+  --icon-container-height: auto;
+  --icon-container-max-width: auto;
+  --icon-container-max-height: auto;
+
+  @apply flex;
+  width: var(--icon-container-width);
+  height: var(--icon-container-height);
+  max-width: var(--icon-container-max-width);
+  max-height: var(--icon-container-max-height);
+  flex-shrink: 0;
+
+  > i {
+    margin: auto;
+  }
+}

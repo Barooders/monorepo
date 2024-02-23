@@ -1,0 +1,90 @@
+table:
+  name: store_exposed_product_variant
+  schema: dbt
+object_relationships:
+  - name: variant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopify_id: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_base_product_variant
+          schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - compareAtPrice
+        - inventoryQuantity
+        - option1
+        - option1Name
+        - option2
+        - option2Name
+        - option3
+        - option3Name
+        - price
+        - requiresShipping
+        - condition
+        - isRefurbished
+        - shopify_id
+        - title
+        - updatedAt
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - compareAtPrice
+        - inventoryQuantity
+        - option1
+        - option1Name
+        - option2
+        - option2Name
+        - option3
+        - option3Name
+        - price
+        - requiresShipping
+        - condition
+        - isRefurbished
+        - shopify_id
+        - title
+        - updatedAt
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - compareAtPrice
+        - inventoryQuantity
+        - option1
+        - option1Name
+        - option2
+        - option2Name
+        - option3
+        - option3Name
+        - price
+        - requiresShipping
+        - condition
+        - isRefurbished
+        - shopify_id
+        - title
+        - updatedAt
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - compareAtPrice
+        - inventoryQuantity
+        - option1
+        - option1Name
+        - option2
+        - option2Name
+        - option3
+        - option3Name
+        - price
+        - requiresShipping
+        - condition
+        - isRefurbished
+        - shopify_id
+        - title
+        - updatedAt
+      filter: {}

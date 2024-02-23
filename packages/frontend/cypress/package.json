@@ -1,0 +1,10 @@
+{
+    "name": "barooders-cypress-tests",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+      "typescript": "4.9.5",
+      "cypress": "^13.6.2"
+    }
+  }
+  

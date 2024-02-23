@@ -1,0 +1,7 @@
+{
+  "name": "backend_products_query_suggestions",
+  "fields": [
+    { "name": "q", "type": "string" },
+    { "name": "count", "type": "int32" }
+  ]
+}

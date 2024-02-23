@@ -1,0 +1,83 @@
+table:
+  name: store_base_product
+  schema: dbt
+object_relationships:
+  - name: product
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product
+          schema: dbt
+array_relationships:
+  - name: collections
+    using:
+      manual_configuration:
+        column_mapping:
+          id: product_id
+        insertion_order: null
+        remote_table:
+          name: store_product_collection
+          schema: dbt
+  - name: images
+    using:
+      manual_configuration:
+        column_mapping:
+          id: productId
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product_image
+          schema: dbt
+  - name: tags
+    using:
+      manual_configuration:
+        column_mapping:
+          id: product_id
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product_tag
+          schema: dbt
+  - name: variants
+    using:
+      manual_configuration:
+        column_mapping:
+          id: productId
+        insertion_order: null
+        remote_table:
+          name: store_base_product_variant
+          schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - shopifyId
+        - createdAt
+        - id
+        - vendorId
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - shopifyId
+        - createdAt
+        - id
+        - vendorId
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - shopifyId
+        - createdAt
+        - id
+        - vendorId
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - shopifyId
+        - createdAt
+        - id
+        - vendorId
+      filter: {}
