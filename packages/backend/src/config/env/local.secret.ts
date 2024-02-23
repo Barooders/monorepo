@@ -1,23 +1,20 @@
-import staging from './staging.secret';
-import { EnvConfigType, Environments } from './types';
-
-const local: EnvConfigType = {
-  envName: Environments.LOCAL,
-  logLevel: 'trace',
-  prettyLog: true,
-  hostname: 'http://localhost:3000',
-  backendBaseUrl: 'http://localhost:3000',
-  appJwtSecret:
-    '03115fc60a80b0c095272f082620a3fdabfc45834d59ffe9265a2f75c1ffbd84',
-  frontendBaseUrl: 'https://barooders.com',
-  technicalAccountId: 'a2c381be-84ec-4b6c-b819-410988bd3ae8',
-  locationId: '68533813489',
-  loginJwtSecret:
-    '5152fa850c02dc222631cca898ed1485821a70912a6e3649c49076912daa3b62182ba013315915d64f40cddfbb8b58eb5bd11ba225336a6af45bbae07ca873f3',
-  unleashServerApiToken:
-    '*:development.4e040c2233ff6b04f7e5268df906dc879f86df574d7633976f5be364',
-  mobileAppPublicationId: 'gid://shopify/Publication/94244602097',
-  externalServices: staging.externalServices,
-};
-
-export default local;
+U2FsdGVkX1/L6OzRJSCh7JUNun5eI/TbAgPJkd7hMKD6UGzY9fawWu7QNfe9CsZo
+OG4Tm1cCV8ZTlB4Nyzbrq7bcDTdUkEbs4QnvKG8bCwF3KQRv/3eGSYK8kq/Iu+05
+MSyERikuOB0dmPxtNiRTsZZ9JpbzeTkKpA+ev3lbjwS9E6pMJdr/RxiNEfDxPgju
+lSD+lkE7yordxyUxsH1RbKsBhoYFC6i+vIC2J7UyNS+dpcEHe+IJNeS/OiH30qPh
+JpjosMvBcL404xuXDoC8VYwVmLzHY1mXsciJCzYpNfW5Lnj62KGyx+R01+Opv2M/
+SOCoRmU5BdhwnXeh49hnZWYSZ8HwC34DVi1fw2bCJ4hYlOdT/ld+CvAZAdN03Yct
+MqTCZxl4f5Eh+Et6lViFUyt8vGLHay4IkjKBWbhfZ/waZwM24Q9DN30voNnMC6AJ
+pixEAGsoKoAhumdrJL5+Ft089iCTMMQLCv9M8H1kuszCFRnxbuEFqnqVugMJ+iHy
+dFzx5GMFXCu3jdgJ0frzfpAA3mkCibD7ePCMz8gTZUcJbzPWKzfDWDWv1ZolEbGV
+lLC2pytKsRfVd43lt8t75gFGm5C/vEFoX6kk/eoXg90hBBsOJznvLSy0hTdvJi8b
+HukInlhWcYn/SfEVvJkQsA+aZyWUUDyCqIi9FpUysTP8NhzdNnBM33ErsO6ETtbe
+Vl91k5AbT1rW6djoy0yG7SGuyLYsbfU1cKfJtdKxVv7pcvL6uMFybe4EItAq1P9Z
+jEAtyAnj7/FTia9vMUYP9rDYux0EswfahKBRkCBlVhaY81eOLh0oTnzp1b5oXCXx
+SIZ5bUZbfavKv24ZpJlbETKPyfQrEASPMoa8flx8UT8JSjmR+ykQxSbOaFvWfIGc
+f9FQRFQddrh4spkpznwnyfetQnA9QHrIqU6EfHCR/gwRHMtOEmtzdbaVS7hyZ/IP
+yPmU2mAunxXwTvfIrZJifEvwQDKSed5z7g7H4XK6eLrQzKOmAUNiGVMheLUIbcmw
+RvW7j3bZO02uJ6uRbIJ/HOrcZ9yc+t7M7ScSih3qQNBWs9FTzncVyTwG8P+KioK3
+RA3SXQX3NLINQrZ2CJmAWrObiL0GGEvzeNYiFGFLvDWuFlb8xRILCh/upQS7CETT
+NAw9iEmXEB+B4lHSyurFXOXRxS6cmSQsPgeivWX3tkcEBBHd+flbUbdbvarP8jSa
+Zn0Im4YspKza79XDpC8Q5g==

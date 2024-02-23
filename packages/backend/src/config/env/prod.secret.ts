@@ -1,100 +1,84 @@
-import { get } from 'env-var';
-import { EnvConfigType, Environments } from './types';
-
-const production: EnvConfigType = {
-  envName: Environments.PRODUCTION,
-  logLevel:
-    get('DEBUG').default('false').asString() === 'true' ? 'trace' : 'warn',
-  prettyLog: get('DEBUG').default('false').asBool(),
-  hostname: 'https://backend.barooders.com',
-  backendBaseUrl: 'https://backend.barooders.com',
-  frontendBaseUrl: 'https://barooders.com',
-  unleashServerApiToken:
-    '*:production.8a5678e073f1b218d12f0a75f62805b1ee3c955786be8495c4d24f4d',
-  appJwtSecret:
-    '25b453894a2501a678c27ec0aa158b5af5de38cc0771e31cfd746861657552ee',
-  loginJwtSecret:
-    '79574f082940aa36c899b3e54827ef9063733313688c88ed6c8db588fc4175eb98307ec9a5a1d8b7b157d0478260936b2101803b8a4d77568f1299063bb7b124',
-  locationId: '63305416853',
-  mobileAppPublicationId: 'gid://shopify/Publication/92204138723',
-  technicalAccountId: '4276ff9e-a377-42bf-a344-cb991fd4b2e9',
-  externalServices: {
-    sendgridApiKey:
-      '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',
-    strapiBaseUrl: 'https://barooders-strapi.herokuapp.com',
-    scrapflyApiKey: '9956b6f8eda24d969582554087375881',
-    talkjs: {
-      apiKey: 'sk_live_iXoA3s2A2vFr2D9LDj487iywAmvw5n7i',
-      appId: 'x3kQChsO',
-      chatIdEncryptionKey: '29827oiqusdo12374381994776iuOIUHKJSQKDhk987',
-      baroodersSupportAccountId: '971e7f58-ed74-4ca1-a115-ffb7c338e924',
-    },
-    slack: {
-      slackBotToken:
-        'xoxb-1554389548630-5309647657106-EKsSnQ72AOn43WAqqtBltjHP',
-      orderPaidSlackChannelId: 'C02DLMY8WFM',
-      salesTeamSlackChannelId: 'C038Z7N3C1H',
-      orderCreatedSlackChannelId: 'C05BG84RDJ8',
-      orderCanceledSlackChannelId: 'C06AL4A6D9V',
-      errorSlackChannelId: 'C05N03ZN9FD',
-    },
-    floa: {
-      apiKey:
-        'ZDhBVEJBUk9PREVSU0YtXmFoQ1Q0dGRoQUV0SiFtSUo6V29eZnFibXM5Ml8yTEhHcWFAdCQxdFh2ZDhCNlIhTkZYM1pkcWZLLV5zYQ==',
-      eligilityBaseUrl: 'https://eligibility.cb4x.fr',
-      paymentgatewayBaseUrl: 'https://paymentgateway.cb4x.fr',
-      hmacSecret: 'B1156A13F602CD01FB542160BB6FB4C3F9CCF3A7',
-    },
-    stripe: {
-      secretKey:
-        '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',
-    },
-    typesense: {
-      apiKey: 'XMymJqNAreI4NfvPP33FV52D84L71L2m',
-      variantsCollection: 'backend_products',
-      collectionsCollection: 'backend_collections',
-    },
-    batch: {
-      apiKey: '821f8aa17f379fa166aaed56b8a52521',
-    },
-    chatGpt: {
-      apiKey: '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',
-    },
-    gorgias: {
-      basicToken:
-        'amVhbi1waGlsaXBwZUBiYXJvb2RlcnMuY29tOmMxNzJhMDYxNDJkZDc2NzYyMmJiMDZiZjQ2MDFjZTc1YjkwMjNiMWFjYzkyOGFjMjU3OWFmOGYzMzYyNmJjZmU=',
-    },
-    sendCloud: {
-      basicToken:
-        'YTNjOWUwM2YtOTY4ZC00MDI3LTk2MDYtYjAxNjc2ODdlYzRiOmJlYzk2ODVkNjBiNDQ2ZjBiY2MxNzQ1N2E1NmQ5NWY4',
-      shopifyIntegrationId: '207753',
-      webhookSecretKey: 'bec9685d60b446f0bcc17457a56d95f8',
-    },
-    shopify: {
-      shop: 'barooders.myshopify.com',
-      shopDns: 'barooders.com',
-      apiKey: '6427984b2e3172b1a593ac30c8620bbd',
-      apiSecret: '10b8b11763222cfcce45916aeb6175d3',
-      accessToken: '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',
-      synchroAccessToken: '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',
-      customAppApiKey: 'c61d6b5974c73543bb3506e844db6a06',
-      customAppApiSecret: '9d1364d0e57d576148583cef788fb5be',
-      customAppScopes: [
-        'read_shipping',
-        'read_products',
-        'write_products',
-        'read_checkouts',
-        'write_checkouts',
-        'read_orders',
-        'read_publications',
-        'write_publications',
-      ],
-      multipassSecret: '17831614353bee06414ded81e0107ad5',
-      shopAdminWebhookSecret:
-        '3dcaf6ba9b5d5352842541c100533fc464dc0899645bea2f4eb5032de74487d5',
-      shopOnlineStorePublicationId: 'gid://shopify/Publication/74635804821',
-    },
-  },
-};
-
-export default production;
+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
+jXLiF8JaCzEHan/X8q1Juw==

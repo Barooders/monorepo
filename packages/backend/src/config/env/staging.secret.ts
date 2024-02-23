@@ -1,100 +1,84 @@
-import { get } from 'env-var';
-import { EnvConfigType, Environments } from './types';
-import { DEFAULT_USER } from 'prisma/seed';
-
-const staging: EnvConfigType = {
-  envName: Environments.STAGING,
-  logLevel:
-    get('DEBUG').default('false').asString() === 'true' ? 'trace' : 'warn',
-  prettyLog: get('DEBUG').default('false').asBool(),
-  hostname: 'https://backend-staging.barooders.com',
-  backendBaseUrl: 'https://backend-staging.barooders.com',
-  frontendBaseUrl: 'https://staging.barooders.com',
-  unleashServerApiToken:
-    '*:development.4e040c2233ff6b04f7e5268df906dc879f86df574d7633976f5be364',
-  appJwtSecret:
-    '03115fc60a80b0c095272f082620a3fdabfc45834d59ffe9265a2f75c1ffbd84',
-  loginJwtSecret:
-    '5152fa850c02dc222631cca898ed1485821a70912a6e3649c49076912daa3b62182ba013315915d64f40cddfbb8b58eb5bd11ba225336a6af45bbae07ca873f3',
-  locationId: '68533813489',
-  technicalAccountId: '52355f01-31c9-4f47-a062-d4a7564d4791',
-  mobileAppPublicationId: 'gid://shopify/Publication/94244602097',
-  externalServices: {
-    sendgridApiKey:
-      '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',
-    strapiBaseUrl: 'https://barooders-strapi.herokuapp.com',
-    scrapflyApiKey: '9956b6f8eda24d969582554087375881',
-    talkjs: {
-      apiKey: 'sk_test_dssuZgukJxwCsR4nd9l4QxBJr9YmdIB7',
-      appId: 'teZDC2o0',
-      chatIdEncryptionKey: '68ec307f-41aa-44ba-bece-a6f472458919',
-      baroodersSupportAccountId: DEFAULT_USER,
-    },
-    slack: {
-      slackBotToken:
-        'xoxb-1554389548630-5309647657106-EKsSnQ72AOn43WAqqtBltjHP',
-      orderPaidSlackChannelId: 'C0591UQNLMQ',
-      salesTeamSlackChannelId: 'unused_feature',
-      orderCreatedSlackChannelId: 'C05C3G903PA',
-      orderCanceledSlackChannelId: 'C06B347M1HS',
-      errorSlackChannelId: 'C06FL3JFNB0',
-    },
-    floa: {
-      apiKey: 'QkFST09ERVJTOkJBUk9PREVSUzEyMzQq',
-      eligilityBaseUrl: 'https://eligibility.integration-cb4x.fr',
-      paymentgatewayBaseUrl: 'https://paymentgateway.integration-cb4x.fr',
-      hmacSecret: 'B1156A13F602CD01FB542160BB6FB4C3F9CCF3A7',
-    },
-    stripe: {
-      secretKey:
-        'sk_test_51J7KkVIo2LjiA3XTqxGMMpLxhjweFajKrggRULSefCJBg9DhxvXjDRYs29e90Ht2emLgzV86T8USpktWKHqYFClL00LzmQO6Mo',
-    },
-    typesense: {
-      apiKey: 'XMymJqNAreI4NfvPP33FV52D84L71L2m',
-      variantsCollection: 'staging_backend_products',
-      collectionsCollection: 'staging_backend_collections',
-    },
-    batch: {
-      apiKey: '821f8aa17f379fa166aaed56b8a52521',
-    },
-    chatGpt: {
-      apiKey: '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',
-    },
-    gorgias: {
-      basicToken:
-        'amVhbi1waGlsaXBwZUBiYXJvb2RlcnMuY29tOmMxNzJhMDYxNDJkZDc2NzYyMmJiMDZiZjQ2MDFjZTc1YjkwMjNiMWFjYzkyOGFjMjU3OWFmOGYzMzYyNmJjZmU=',
-    },
-    sendCloud: {
-      basicToken:
-        'YTNjOWUwM2YtOTY4ZC00MDI3LTk2MDYtYjAxNjc2ODdlYzRiOmJlYzk2ODVkNjBiNDQ2ZjBiY2MxNzQ1N2E1NmQ5NWY4',
-      shopifyIntegrationId: '362629',
-      webhookSecretKey: 'bec9685d60b446f0bcc17457a56d95f8',
-    },
-    shopify: {
-      shop: 'barooders-stagging.myshopify.com',
-      shopDns: 'staging.barooders.com',
-      apiKey: '6427984b2e3172b1a593ac30c8620bbd',
-      apiSecret: '10b8b11763222cfcce45916aeb6175d3',
-      accessToken: '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',
-      synchroAccessToken: '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',
-      customAppApiKey: '6d3b45d6fdc0f0d41e78bdde0dd07139',
-      customAppApiSecret: '9a00f615d3b08a3adbc160639da58dce',
-      customAppScopes: [
-        'read_shipping',
-        'read_products',
-        'write_products',
-        'read_checkouts',
-        'write_checkouts',
-        'read_orders',
-        'read_publications',
-        'write_publications',
-      ],
-      multipassSecret: 'fe193803b66858a1bf5d799822c99bf7',
-      shopAdminWebhookSecret:
-        '27be0db31aad8de552c3fe633f18dd0d97334f355ab024c0081048723c394dc6',
-      shopOnlineStorePublicationId: 'gid://shopify/Publication/81970921713',
-    },
-  },
-};
-
-export default staging;
+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
