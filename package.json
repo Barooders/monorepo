@@ -7,7 +7,8 @@
       "packages/*"
     ],
     "scripts": {
-      "heroku-prebuild": "cd packages/backend"
+      "heroku-prebuild": "cd packages/backend",
+      "console": "cd packages/backend && yarn console"
     },
     "dependencies": {
       "typescript": "5.3.3"
