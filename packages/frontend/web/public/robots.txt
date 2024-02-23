@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkouts/
+Disallow: /checkout
+Disallow: /carts
+Disallow: /account
+Disallow: /policies/
+Disallow: /search
+Disallow: /apple-app-site-association
+Disallow: /collections/chaussures-ski-de-fond?*
+Disallow: /products/garantie-barooders-*
+Sitemap: https://barooders.com/sitemap.xml
+
+User-agent: Nutch
+Disallow: /
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: Pinterest
+Crawl-delay: 1

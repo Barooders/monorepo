@@ -1,0 +1,46 @@
+import { routesV1 } from '@config/routes.config';
+import { ShopifyBackofficeWebhookGuard } from '@libs/application/decorators/shopify-webhook.guard';
+import { UUID } from '@libs/domain/value-objects';
+import { IPaymentService } from '@modules/buy__payment/domain/ports/payment-service';
+import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
+import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import { IOrder } from 'shopify-api-node';
+import { OrderCreationService } from '../domain/order-creation.service';
+import { OrderNotificationService } from '../domain/order-notification.service';
+import { OrderMapper } from '../infrastructure/store/order.mapper';
+
+@Controller(routesV1.version)
+export class CreatedOrderWebhookShopifyController {
+  private readonly logger = new Logger(
+    CreatedOrderWebhookShopifyController.name,
+  );
+
+  constructor(
+    private orderMapper: OrderMapper,
+    private orderCreationService: OrderCreationService,
+    private priceOfferService: IPriceOfferService,
+    private paymentService: IPaymentService,
+    private orderNotificationService: OrderNotificationService,
+  ) {}
+
+  @Post(routesV1.order.onCreatedEvent)
+  @UseGuards(ShopifyBackofficeWebhookGuard)
+  async handleCreatedOrderEvent(@Body() orderData: IOrder): Promise<void> {
+    const order = await this.orderMapper.mapOrderToStore(orderData);
+    const orderId = await this.orderCreationService.storeOrder(order, {
+      type: 'shopify',
+    });
+    const orderUuid = new UUID({ uuid: orderId });
+
+    await this.priceOfferService.updatePriceOfferStatusFromOrder(orderData);
+    const checkoutUuid = await this.paymentService.updatePaymentStatusFromOrder(
+      orderUuid,
+      orderData.checkout_token,
+    );
+
+    await this.paymentService.linkCheckoutToOrder(orderUuid, checkoutUuid);
+
+    const orderToNotify = await this.orderMapper.mapOrderCreated(orderData);
+    await this.orderNotificationService.notifyOrderCreated(orderToNotify);
+  }
+}

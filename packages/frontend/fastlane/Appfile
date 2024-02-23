@@ -1,0 +1,5 @@
+app_identifier("com.barooders.app") # The bundle identifier of your app
+apple_id("tech@barooders.com") # Your Apple Developer Portal username
+
+itc_team_id("125693216") # App Store Connect Team ID
+team_id("X3HD53F8HX") # Developer Portal Team ID

@@ -1,0 +1,27 @@
+{
+  "name": "backend_collections",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "handle",
+      "type": "string"
+    },
+    {
+      "name": "product_count",
+      "type": "int32"
+    },
+    {
+      "name": "updatedat_timestamp",
+      "type": "int32"
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "index": false,
+      "optional": true
+    }
+  ]
+}

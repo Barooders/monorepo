@@ -1,0 +1,9 @@
+{
+    "name": "barooders-cypress-tests",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+      "cypress": "^13.6.2"
+    }
+  }
+  

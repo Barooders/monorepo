@@ -1,0 +1,37 @@
+# Node
+node_modules
+
+# Yarn
+.yarn
+.pnp.*
+
+# Next
+.next
+out
+
+# Typescript
+tsconfig.tsbuildinfo
+
+# Env
+.env
+# Sentry
+.sentryclirc
+
+# Sentry
+next.config.original.js
+
+# Storybook
+build-storybook.log
+
+# Sentry Auth Token
+.sentryclirc
+
+# New Relic
+newrelic_agent.log
+
+# Native
+App.app.dSYM.zip
+App.ipa
+fastlane/report.xml
+
+.DS_Store

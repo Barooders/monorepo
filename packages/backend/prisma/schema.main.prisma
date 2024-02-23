@@ -1,0 +1,1065 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["tracing", "multiSchema", "postgresqlExtensions"]
+  binaryTargets   = ["native", "darwin"]
+  output          = "../src/__generated/main-client"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [citext, pgcrypto]
+  schemas    = ["auth", "public"]
+}
+
+model Event {
+  id            String        @id @default(dbgenerated("(gen_random_uuid())::text"))
+  aggregateId   String
+  createdAt     DateTime      @default(now())
+  metadata      Json?
+  payload       Json?
+  aggregateName AggregateName
+  name          EventName
+
+  @@schema("public")
+}
+
+//  ======================================
+//  =========  Technical config  =========
+//  ======================================
+
+model Config {
+  key   String @id
+  value Json
+
+  @@schema("public")
+}
+
+//  ==========================
+//  =========  ORDER  =========
+//  ==========================
+
+model Order {
+  id                       String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  shopifyId                String             @unique
+  customerId               String?            @db.Uuid
+  createdAt                DateTime           @default(now())
+  name                     String
+  customerEmail            String
+  status                   OrderStatus
+  shippingAddressAddress1  String
+  shippingAddressAddress2  String?
+  shippingAddressCity      String
+  shippingAddressCountry   String
+  shippingAddressFirstName String?
+  shippingAddressLastName  String
+  shippingAddressZip       String
+  totalPriceCurrency       Currency
+  totalPriceInCents        Float
+  shippingAddressCompany   String?
+  shippingAddressPhone     String
+  paidAt                   DateTime?
+  checkoutId               String?            @unique
+  fulfillmentOrders        FulfillmentOrder[]
+  customer                 Customer?          @relation(fields: [customerId], references: [authUserId])
+  orderLines               OrderLines[]
+  reviews                  Review[]
+  vendorReviews            VendorReview[]
+  checkout                 Checkout?          @relation(fields: [checkoutId], references: [id])
+
+  @@index([createdAt])
+  @@schema("public")
+}
+
+model OrderLines {
+  id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
+  shopifyId          String            @unique
+  vendorId           String?           @db.Uuid
+  orderId            String
+  createdAt          DateTime          @default(now())
+  shippingSolution   ShippingSolution
+  name               String
+  priceCurrency      Currency
+  priceInCents       Float
+  productBrand       String?
+  variantCondition   Condition?
+  productGender      String?
+  productHandle      String
+  productImage       String?
+  productModelYear   String?
+  productSize        String?
+  productType        String
+  productVariantId   String?
+  quantity           Int               @default(1)
+  fulfillmentOrderId String?
+  buyerCommission    Float?
+  vendorCommission   Float?
+  vendorShipping     Float?
+  deliveredAt        DateTime?
+  comment            String?           @db.VarChar(300)
+  canceledAt         DateTime?
+  discountInCents    Float             @default(0)
+  disputes           Dispute[]
+  fulfillmentOrder   FulfillmentOrder? @relation(fields: [fulfillmentOrderId], references: [id])
+  order              Order             @relation(fields: [orderId], references: [id])
+  vendor             Customer?         @relation(fields: [vendorId], references: [authUserId])
+  Payout             Payout[]
+
+  @@index([orderId])
+  @@schema("public")
+}
+
+model Payout {
+  id                   String          @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt            DateTime        @default(now())
+  orderLineId          String
+  amountInCents        Int
+  currency             Currency        @default(EUR)
+  destinationAccountId String
+  destinationAccount   PaymentAccounts @relation(fields: [destinationAccountId], references: [id])
+  orderLine            OrderLines      @relation(fields: [orderLineId], references: [id])
+
+  @@index([orderLineId])
+  @@schema("public")
+}
+
+model CheckoutLineItem {
+  id         String   @id @default(dbgenerated("(gen_random_uuid())::text"))
+  checkoutId String
+  productId  String
+  checkout   Checkout @relation(fields: [checkoutId], references: [id])
+
+  @@schema("public")
+}
+
+model FulfillmentOrder {
+  id              String                 @id @default(dbgenerated("(gen_random_uuid())::text"))
+  shopifyId       BigInt                 @unique
+  status          FulfillmentOrderStatus @default(OPEN)
+  orderId         String
+  externalOrderId String?
+  fulfillments    Fulfillment[]
+  order           Order                  @relation(fields: [orderId], references: [id])
+  orderLines      OrderLines[]
+
+  @@index([orderId])
+  @@schema("public")
+}
+
+model Fulfillment {
+  id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt          DateTime          @default(now())
+  shopifyId          BigInt            @unique
+  fulfillmentOrderId String
+  status             FulfillmentStatus
+  trackingId         String?
+  trackingUrl        String
+  fulfillmentOrder   FulfillmentOrder  @relation(fields: [fulfillmentOrderId], references: [id])
+  fulfillmentItems   FulfillmentItem[]
+
+  @@index([fulfillmentOrderId])
+  @@schema("public")
+}
+
+model FulfillmentItem {
+  id               String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt        DateTime     @default(now())
+  shopifyId        BigInt       @unique
+  productVariantId String
+  quantity         Int
+  fulfillmentId    String
+  fulfillment      Fulfillment  @relation(fields: [fulfillmentId], references: [id])
+  returnItems      ReturnItem[]
+
+  @@schema("public")
+}
+
+model Dispute {
+  id                 String              @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt          DateTime            @default(now())
+  status             DisputeStatus
+  authorId           String              @db.Uuid
+  description        String?
+  closedAt           DateTime?
+  canceledAt         DateTime?
+  orderLineId        String
+  internalComment    String?
+  reason             DisputeReason
+  author             Customer            @relation(fields: [authorId], references: [authUserId])
+  orderLine          OrderLines          @relation(fields: [orderLineId], references: [id])
+  disputeAttachments DisputeAttachment[]
+  returns            Return[]
+
+  @@index([orderLineId])
+  @@schema("public")
+}
+
+model DisputeAttachment {
+  id         String   @id @default(dbgenerated("(gen_random_uuid())::text"))
+  uploadedAt DateTime @default(now())
+  disputeId  String
+  filename   String
+  authorId   String   @db.Uuid
+  author     Customer @relation(fields: [authorId], references: [authUserId])
+  dispute    Dispute  @relation(fields: [disputeId], references: [id])
+
+  @@schema("public")
+}
+
+model Return {
+  id          String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt   DateTime     @default(now())
+  disputeId   String
+  status      ReturnStatus
+  trackingUrl String?
+  dispute     Dispute      @relation(fields: [disputeId], references: [id])
+  returnItems ReturnItem[]
+
+  @@schema("public")
+}
+
+model ReturnItem {
+  id                String          @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt         DateTime        @default(now())
+  returnId          String
+  fulfillmentItemId String
+  quantity          Int
+  fulfillmentItem   FulfillmentItem @relation(fields: [fulfillmentItemId], references: [id])
+  return            Return          @relation(fields: [returnId], references: [id])
+
+  @@schema("public")
+}
+
+//  ==============================
+//  =========  CUSTOMER  =========
+//  ==============================
+
+model Customer {
+  shopifyId                   BigInt                 @unique
+  firstName                   String?
+  lastName                    String?
+  sellerName                  String?
+  phoneNumber                 String?
+  profilePictureShopifyCdnUrl String?
+  coverPictureShopifyCdnUrl   String?
+  description                 String?
+  isPro                       Boolean                @default(false)
+  isRefurbisher               Boolean                @default(false)
+  createdAt                   DateTime               @default(now())
+  updatedAt                   DateTime?              @updatedAt
+  authUserId                  String                 @id @unique @db.Uuid
+  buyerCommissionRate         Int                    @default(100)
+  scoring                     CustomerScoring?
+  overridesProductNotation    Boolean                @default(false)
+  usedShipping                ShippingType           @default(barooders)
+  preferredPaymentProvider    PaymentProvider        @default(STRIPE)
+  shipmentTimeframe           ShipmentTimeframe?
+  commissionRules             CommissionRule[]
+  user                        users                  @relation(fields: [authUserId], references: [id])
+  disputes                    Dispute[]
+  disputeAttachments          DisputeAttachment[]
+  favoriteProducts            FavoriteProducts[]
+  notifications               Notification[]
+  purchasedOrders             Order[]
+  soldProducts                OrderLines[]
+  paymentAccounts             PaymentAccounts[]
+  products                    Product[]
+  reviews                     Review[]
+  savedSearches               SavedSearch[]
+  vendorReviews               VendorReview[]
+  buyerOffers                 PriceOffer[]           @relation(name: "buyerOffers")
+  initiatedOffers             PriceOffer[]           @relation(name: "initiatedOffers")
+  NegociationAgreement        NegociationAgreement[]
+
+  @@index([sellerName])
+  @@schema("public")
+}
+
+model PaymentAccounts {
+  id         String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  type       PaymentAccountType
+  provider   PaymentProvider
+  customerId String?            @db.Uuid
+  accountId  String
+  email      String?
+  payments   Payment[]
+  customer   Customer?          @relation(fields: [customerId], references: [authUserId])
+  Payout     Payout[]
+
+  @@index([customerId])
+  @@schema("public")
+}
+
+model FavoriteProducts {
+  id         String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  customerId String?   @db.Uuid
+  createdAt  DateTime? @default(now())
+  productId  BigInt
+  customer   Customer? @relation(fields: [customerId], references: [authUserId])
+
+  @@schema("public")
+}
+
+model Message {
+  id             String   @id
+  text           String
+  hasAttachment  Boolean
+  senderId       String
+  metadata       Json?
+  conversationId String
+  createdAt      DateTime @default(now())
+
+  @@schema("public")
+}
+
+model Notification {
+  id            String            @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt     DateTime          @default(now())
+  type          NotificationType
+  name          NotificationName?
+  metadata      Json?
+  recipientId   String?           @db.Uuid
+  recipientType CustomerType
+  recipient     Customer?         @relation(fields: [recipientId], references: [authUserId])
+
+  @@schema("public")
+}
+
+model PriceOffer {
+  id               String           @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt        DateTime         @default(now())
+  initiatedBy      String           @db.Uuid
+  buyerId          String           @db.Uuid
+  newPriceInCents  BigInt
+  status           PriceOfferStatus
+  discountCode     String?
+  buyer            Customer         @relation(name: "buyerOffers", fields: [buyerId], references: [authUserId])
+  initiator        Customer         @relation(name: "initiatedOffers", fields: [initiatedBy], references: [authUserId])
+  Product          Product          @relation(fields: [productId], references: [id])
+  productId        String
+  ProductVariant   ProductVariant?  @relation(fields: [productVariantId], references: [id])
+  productVariantId String?
+
+  @@schema("public")
+}
+
+model NegociationAgreement {
+  id               String   @id @default(dbgenerated("(gen_random_uuid())::text"))
+  priority         Int
+  maxAmountPercent Int
+  vendorId         String   @db.Uuid
+  productType      String?
+  vendor           Customer @relation(fields: [vendorId], references: [authUserId])
+
+  @@schema("public")
+}
+
+//  ============================
+//  =========  PRODUCT  ========
+//  ============================
+
+model Product {
+  id             String           @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt      DateTime         @default(now())
+  vendorId       String           @db.Uuid
+  shopifyId      BigInt           @unique
+  status         ProductStatus
+  manualNotation ProductNotation?
+  handle         String?          @unique
+  productType    String?
+  EANCode        String?
+  GTINCode       String?
+  source         String?
+  sourceUrl      String?
+  vendor         Customer         @relation(fields: [vendorId], references: [authUserId])
+  variants       ProductVariant[]
+  PriceOffer     PriceOffer[]
+
+  @@schema("public")
+}
+
+model ProductVariant {
+  id           String       @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt    DateTime     @default(now())
+  shopifyId    BigInt       @unique
+  quantity     Int
+  productId    String
+  priceInCents BigInt?
+  condition    Condition?
+  product      Product      @relation(fields: [productId], references: [id])
+  PriceOffer   PriceOffer[]
+
+  @@schema("public")
+}
+
+//  ============================
+//  =======  VENDOR PRO  =======
+//  ============================
+
+model VendorProProduct {
+  id                String     @id @default(dbgenerated("(gen_random_uuid())::text"))
+  internalProductId String?    @unique
+  externalProductId String
+  vendorSlug        String
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime?  @updatedAt
+  syncStatus        SyncStatus
+
+  @@schema("public")
+}
+
+model VendorProVariant {
+  id                String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  internalVariantId String    @unique
+  externalVariantId String
+  vendorSlug        String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+
+  @@schema("public")
+}
+
+model VendorProCategoryMapping {
+  id                   String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  externalCategoryId   String?
+  externalCategoryName String?
+  mappingKey           String
+  internalCategoryName String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime? @updatedAt
+  metadata             Json?
+
+  @@schema("public")
+}
+
+model VendorProTagMapping {
+  id                  String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  externalTagId       String?
+  externalTagName     String
+  mappingKey          String
+  internalTagName     String?
+  createdAt           DateTime  @default(now())
+  useDefaultTagValues Boolean   @default(false)
+  updatedAt           DateTime? @updatedAt
+
+  @@schema("public")
+}
+
+model VendorProTagValueMapping {
+  id                 String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  externalTagValueId String?
+  externalTagValue   String
+  externalTagName    String
+  mappingKey         String
+  internalTagValue   String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime? @updatedAt
+  metadata           Json?
+
+  @@schema("public")
+}
+
+model VendorReview {
+  reviewId String   @id
+  orderId  String?
+  vendorId String   @db.Uuid
+  order    Order?   @relation(fields: [orderId], references: [id])
+  review   Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  vendor   Customer @relation(fields: [vendorId], references: [authUserId])
+
+  @@schema("public")
+}
+
+model Review {
+  id             String        @id @default(dbgenerated("(gen_random_uuid())::text"))
+  rating         Int
+  title          String
+  content        String?
+  createdAt      DateTime      @default(now())
+  customerId     String        @db.Uuid
+  orderId        String?
+  authorNickname String?
+  customer       Customer      @relation(fields: [customerId], references: [authUserId])
+  order          Order?        @relation(fields: [orderId], references: [id])
+  vendorReviews  VendorReview?
+
+  @@schema("public")
+}
+
+//  ============================
+//  =======  COMMISSION  =======
+//  ============================
+
+model ShopifySession {
+  /// Shopify session id
+  id               String    @id @unique
+  /// merchant shop URL format: {store}.myshopify.com
+  shop             String    @unique
+  /// data relative to shopify session
+  state            String
+  /// online or offline access_token (will always be offline in our case)
+  isOnline         Boolean
+  /// required access scopes
+  scope            String?
+  /// Shopify session expires
+  expires          DateTime?
+  /// Shopify store access token (retrieve through oauth)
+  accessToken      String?
+  /// Shopify session online access info
+  /// A stringified version of Shopify.SessionInterface.OnlineAccessInfo
+  onlineAccessInfo String?
+
+  @@schema("public")
+}
+
+model CommissionRule {
+  id         String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  customerId String             @db.Uuid
+  type       CommissionRuleType
+  criteria   Json?
+  rules      Json
+  priority   Int                @default(1)
+  Customer   Customer           @relation(fields: [customerId], references: [authUserId])
+
+  @@schema("public")
+}
+
+//  =========================
+//  =======  CATALOG  =======
+//  =========================
+
+model Collection {
+  id                 String          @id @default(dbgenerated("(gen_random_uuid())::text"))
+  shopifyId          String          @unique
+  shortName          String?
+  type               CollectionType?
+  parentCollectionId String?
+  handle             String          @unique
+  featuredImageSrc   String?
+  title              String?
+  description        String?
+  seoDescription     String?
+  seoTitle           String?
+  rules              Json?
+  parentCollection   Collection?     @relation("parentCollection", fields: [parentCollectionId], references: [id])
+  childCollections   Collection[]    @relation("parentCollection")
+  savedSearches      SavedSearch[]
+
+  @@schema("public")
+}
+
+//  =========================
+//  =======  BUY  =======
+//  =========================
+
+model Payment {
+  id                  String              @id @default(dbgenerated("(gen_random_uuid())::text"))
+  currency            String
+  status              PaymentStatusType
+  amountInCents       Int
+  token               String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime?           @updatedAt
+  checkoutId          String
+  paymentAccountId    String?
+  paymentUrl          String?
+  paymentSolutionCode PaymentSolutionCode
+  checkout            Checkout            @relation(fields: [checkoutId], references: [id])
+  paymentAccount      PaymentAccounts?    @relation(fields: [paymentAccountId], references: [id])
+
+  @@schema("public")
+}
+
+model Cart {
+  id        String     @id @default(dbgenerated("(gen_random_uuid())::text"))
+  storeId   String?    @unique
+  checkouts Checkout[]
+
+  @@schema("public")
+}
+
+model Checkout {
+  id                String             @id @default(dbgenerated("(gen_random_uuid())::text"))
+  cartId            String
+  status            CheckoutStatus
+  createdAt         DateTime           @default(now())
+  cart              Cart               @relation(fields: [cartId], references: [id])
+  checkoutLineItems CheckoutLineItem[]
+  payments          Payment[]
+  order             Order?
+
+  @@schema("public")
+}
+
+//  =============================
+//  =======  SEARCH  =======
+//  =============================
+
+model SavedSearch {
+  id             String          @id @default(dbgenerated("(gen_random_uuid())::text"))
+  customerId     String          @db.Uuid
+  name           String
+  source         String
+  collectionId   String?
+  query          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime?       @updatedAt
+  resultsUrl     String?
+  facetFilters   FacetFilter[]
+  numericFilters NumericFilter[]
+  collection     Collection?     @relation(fields: [collectionId], references: [shopifyId])
+  customer       Customer        @relation(fields: [customerId], references: [authUserId])
+  searchAlerts   SearchAlert[]
+
+  @@schema("public")
+}
+
+model SearchAlert {
+  id                 String      @id @default(dbgenerated("(gen_random_uuid())::text"))
+  isActive           Boolean
+  searchId           String
+  latestResultsCount Int?
+  latestRunAt        DateTime?
+  SavedSearch        SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model FacetFilter {
+  id          String      @id @default(dbgenerated("(gen_random_uuid())::text"))
+  facetName   String
+  value       String
+  label       String
+  searchId    String
+  savedSearch SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+model NumericFilter {
+  id          String      @id @default(dbgenerated("(gen_random_uuid())::text"))
+  facetName   String
+  operator    String
+  value       String
+  searchId    String
+  savedSearch SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
+}
+
+//  =============================
+//  =======  HASURA AUTH  =======
+//  =============================
+
+model migrations {
+  id          Int       @id
+  name        String    @unique @db.VarChar(100)
+  hash        String    @db.VarChar(40)
+  executed_at DateTime? @default(now()) @db.Timestamp(6)
+
+  @@schema("auth")
+}
+
+model provider_requests {
+  id      String @id @db.Uuid
+  options Json?
+
+  @@schema("auth")
+}
+
+model providers {
+  id             String           @id
+  user_providers user_providers[]
+
+  @@schema("auth")
+}
+
+model refresh_tokens {
+  refresh_token      String   @id @db.Uuid
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  expires_at         DateTime @db.Timestamptz(6)
+  user_id            String   @db.Uuid
+  refresh_token_hash String?  @default(dbgenerated("sha256(((refresh_token)::text)::bytea)")) @db.VarChar(255)
+  users              users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+
+  @@schema("auth")
+}
+
+model roles {
+  role       String       @id
+  user_roles user_roles[]
+  users      users[]
+
+  @@schema("auth")
+}
+
+model user_providers {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
+  user_id          String    @db.Uuid
+  access_token     String
+  refresh_token    String?
+  provider_id      String
+  provider_user_id String
+  providers        providers @relation(fields: [provider_id], references: [id], map: "fk_provider")
+  users            users     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+
+  @@unique([provider_id, provider_user_id])
+  @@unique([user_id, provider_id])
+  @@schema("auth")
+}
+
+model user_roles {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  user_id    String   @db.Uuid
+  role       String
+  roles      roles    @relation(fields: [role], references: [role], map: "fk_role")
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+
+  @@unique([user_id, role])
+  @@schema("auth")
+}
+
+model user_security_keys {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id               String  @db.Uuid
+  credential_id         String  @unique(map: "user_security_key_credential_id_key")
+  credential_public_key Bytes?
+  counter               BigInt  @default(0)
+  transports            String  @default("") @db.VarChar(255)
+  nickname              String?
+  users                 users   @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+
+  @@schema("auth")
+}
+
+model users {
+  id                         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                 DateTime             @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime             @default(now()) @db.Timestamptz(6)
+  last_seen                  DateTime?            @db.Timestamptz(6)
+  disabled                   Boolean              @default(false)
+  display_name               String               @default("")
+  avatar_url                 String               @default("")
+  locale                     String               @db.VarChar(2)
+  email                      String?              @unique @db.Citext
+  phone_number               String?
+  password_hash              String?
+  email_verified             Boolean              @default(false)
+  phone_number_verified      Boolean              @default(false)
+  new_email                  String?              @db.Citext
+  otp_method_last_used       String?
+  otp_hash                   String?
+  otp_hash_expires_at        DateTime             @default(now()) @db.Timestamptz(6)
+  default_role               String               @default("user")
+  is_anonymous               Boolean              @default(false)
+  totp_secret                String?
+  active_mfa_type            String?
+  ticket                     String?
+  ticket_expires_at          DateTime             @default(now()) @db.Timestamptz(6)
+  metadata                   Json?
+  webauthn_current_challenge String?
+  refresh_tokens             refresh_tokens[]
+  user_providers             user_providers[]
+  user_roles                 user_roles[]
+  user_security_keys         user_security_keys[]
+  roles                      roles                @relation(fields: [default_role], references: [role], map: "fk_default_role")
+  customer                   Customer?
+
+  @@schema("auth")
+}
+
+//  ======================
+//  ======  ENUMS  =======
+//  ======================
+
+enum PriceOfferStatus {
+  PROPOSED
+  DECLINED
+  ACCEPTED
+  BOUGHT_WITH
+  BOUGHT_WITHOUT
+  CANCELED
+
+  @@schema("public")
+}
+
+enum EventName {
+  USER_CREATED
+  PRODUCT_CREATED
+  PRODUCT_UPDATED
+  PRODUCT_DELETED
+  PRODUCT_REFUSED
+  VENDOR_CREATED
+  VENDOR_CONFIG_UPDATED
+  VENDOR_PRODUCTS_UPDATED
+  VENDOR_PRODUCTS_STOCK_UPDATED
+  DISCOUNT_CREATED
+  CUSTOMER_CREATED
+  PRICE_OFFER_CREATED
+  PRICE_OFFER_STATUS_UPDATED
+  SEARCH_ALERT_SENT
+  CHAT_STARTED
+  FAVORITE_PRODUCT_CREATED
+  SUPPORT_REQUEST_CREATED
+  ADD_TO_CART
+  REMOVE_FROM_CART
+  BEGIN_CHECKOUT
+  ABANDONED_CHECKOUT
+  ORDER_CREATED
+  ORDER_PAID
+  ORDER_LINE_LABELED
+  ORDER_LINE_SHIPPED
+  ORDER_LINE_RECEIVED
+  ORDER_LINE_REFUNDED
+  ORDER_FULFILLED
+  VENDOR_PAYOUT
+  ORDER_UPDATED
+  ORDER_LINE_CREATED_ON_VENDOR_SHOP
+  PAYMENT_STARTED
+  PAYMENT_STATUS_UPDATED
+
+  @@schema("public")
+}
+
+enum AggregateName {
+  USER
+  VENDOR
+  DISCOUNT
+  CUSTOMER
+  ORDER
+  CART
+  PAYOUT
+
+  @@schema("public")
+}
+
+enum CustomerType {
+  buyer
+  seller
+  ambassador
+  admin
+
+  @@schema("public")
+}
+
+enum ShippingType {
+  vendor
+  barooders
+
+  @@schema("public")
+}
+
+enum ShippingSolution {
+  HAND_DELIVERY
+  VENDOR
+  GEODIS
+  SENDCLOUD
+
+  @@schema("public")
+}
+
+enum OrderStatus {
+  CREATED
+  PAID
+  SHIPPED
+  DELIVERED
+  PAID_OUT
+  CANCELED
+  RETURNED
+  LABELED
+
+  @@schema("public")
+}
+
+enum NotificationType {
+  EMAIL
+  INTERNAL
+
+  @@schema("public")
+}
+
+enum NotificationName {
+  ORDER_LINE_NOT_SHIPPED
+  ORDER_REFUNDED
+  HAND_DELIVERY_VALIDATED
+  HAND_DELIVERY_PROCEDURE
+  MANUAL_PAYMENT_PROCEDURE
+  NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING
+  NEW_ORDER_FOR_VENDOR_WITH_OWN_SHIPPING
+  NEW_ORDER_PAID
+  FEEDBACK_ASKED
+
+  @@schema("public")
+}
+
+enum FulfillmentOrderStatus {
+  CANCELED
+  CLOSED
+  IN_PROGRESS
+  INCOMPLETE
+  OPEN
+
+  @@schema("public")
+}
+
+enum FulfillmentStatus {
+  CANCELED
+  ERROR
+  FAILURE
+  OPEN
+  PENDING
+  SUCCESS
+
+  @@schema("public")
+}
+
+enum CommissionRuleType {
+  VENDOR_SHIPPING
+  VENDOR_COMMISSION
+  BUYER_COMMISSION
+
+  @@schema("public")
+}
+
+enum PaymentProvider {
+  STRIPE
+  QONTO
+  FLOA
+
+  @@schema("public")
+}
+
+enum CustomerScoring {
+  A
+  B
+  C
+
+  @@schema("public")
+}
+
+enum Condition {
+  AS_NEW
+  VERY_GOOD
+  GOOD
+
+  @@schema("public")
+}
+
+enum ShipmentTimeframe {
+  SAME_DAY
+  TWO_DAYS
+  THREE_DAYS
+  FOUR_DAYS
+  FIVE_DAYS
+  THREE_WEEKS
+
+  @@schema("public")
+}
+
+enum ProductNotation {
+  A
+  B
+  C
+
+  @@schema("public")
+}
+
+enum PaymentAccountType {
+  CUSTOMER
+  VENDOR
+
+  @@schema("public")
+}
+
+enum DisputeStatus {
+  OPEN
+  CLOSED
+  CANCELED
+
+  @@schema("public")
+}
+
+enum ReturnStatus {
+  OPEN
+  CLOSED
+  CANCELED
+
+  @@schema("public")
+}
+
+enum DisputeReason {
+  ORDER_LINE_NOT_SHIPPED
+  ORDER_LINE_NOT_DELIVERED
+  PRODUCT_NOT_CONFORM
+  PRODUCT_IN_BAD_CONDITION
+  OTHER
+  CARRIER_DISPUTE
+
+  @@schema("public")
+}
+
+enum PaymentStatusType {
+  STARTED
+  REFUSED
+  VALIDATED
+  ORDER_CREATED
+  ELIGIBLE
+  NOT_ELIGIBLE
+  CREATED
+  ABANDONED
+
+  @@schema("public")
+}
+
+enum PaymentSolutionCode {
+  FLOA_10X
+  FLOA_4X
+  FLOA_3X
+
+  @@schema("public")
+}
+
+enum Currency {
+  EUR
+
+  @@schema("public")
+}
+
+enum CollectionType {
+  brand
+  sport
+  productType
+  event
+  category
+  gender
+  productTypeGendered
+  categoryGendered
+
+  @@schema("public")
+}
+
+enum SyncStatus {
+  ACTIVE
+  INACTIVE
+
+  @@schema("public")
+}
+
+enum ProductStatus {
+  ARCHIVED
+  DRAFT
+  ACTIVE
+
+  @@schema("public")
+}
+
+enum CheckoutStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+
+  @@schema("public")
+}

@@ -1,0 +1,3 @@
+table:
+  name: PaymentAccounts
+  schema: public

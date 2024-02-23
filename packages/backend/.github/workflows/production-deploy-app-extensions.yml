@@ -1,0 +1,42 @@
+# Example can be found here:
+# https://shopify.dev/docs/apps/tools/cli/ci-cd#github-actions
+
+name: Production - Deploy Shopify app extensions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install npm dependencies
+        run: yarn install
+      - name: Deploy
+        env:
+          # Token from the Partner Dashboard
+          SHOPIFY_CLI_PARTNERS_TOKEN: ${{ secrets.SHOPIFY_CLI_PARTNERS_TOKEN }}
+          # .env content after a deploy
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY_PRODUCTION }}
+        # https://shopify.dev/docs/apps/tools/cli/commands#deploy
+        run: |
+          yarn shopify:deploy -f --client-id ${{ secrets.SHOPIFY_STAGING_EXTENSION_CLIENT_ID }}
+          yarn shopify:deploy -f --client-id ${{ secrets.SHOPIFY_PROD_EXTENSION_CLIENT_ID }}
+      - name: Send slack notification on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_USERNAME: GitHub Actions
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON_EMOJI: ‼️
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: An error occurred
+          SLACK_MESSAGE: Github Action failed to deploy shopify app extensions

@@ -1,0 +1,12 @@
+- name: Barooders Shopify
+  definition:
+    url_from_env: SHOPIFY_GRAPHQL_URL
+    timeout_seconds: 60
+    customization:
+      root_fields_namespace: shopify
+      type_names:
+        mapping: {}
+        prefix: shopify_
+    headers:
+      - name: X-Shopify-Storefront-Access-Token
+        value_from_env: SHOPIFY_STOREFRONT_ACCESS_TOKEN

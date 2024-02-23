@@ -1,0 +1,90 @@
+table:
+  name: store_exposed_product
+  schema: dbt
+object_relationships:
+  - name: product
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: store_base_product
+          schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - brand
+        - description
+        - firstImage
+        - numberOfViews
+        - gender
+        - handle
+        - id
+        - model
+        - modelYear
+        - productType
+        - publishedAt
+        - size
+        - status
+        - title
+        - vendor
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - brand
+        - description
+        - firstImage
+        - numberOfViews
+        - gender
+        - handle
+        - id
+        - model
+        - modelYear
+        - productType
+        - publishedAt
+        - size
+        - status
+        - title
+        - vendor
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - brand
+        - description
+        - firstImage
+        - numberOfViews
+        - gender
+        - handle
+        - id
+        - model
+        - modelYear
+        - productType
+        - publishedAt
+        - size
+        - status
+        - title
+        - vendor
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - brand
+        - description
+        - firstImage
+        - numberOfViews
+        - gender
+        - handle
+        - id
+        - model
+        - modelYear
+        - productType
+        - publishedAt
+        - size
+        - status
+        - title
+        - vendor
+      filter: {}

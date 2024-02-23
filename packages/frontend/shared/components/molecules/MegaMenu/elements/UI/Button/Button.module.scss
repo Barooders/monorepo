@@ -1,0 +1,51 @@
+.Button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: var(--default-transition);
+  padding: 10px 20px;
+  outline: none;
+  background: var(--background-color);
+  border: solid 1px var(--border-color);
+  color: var(--content-color);
+  max-width: 100%;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: initial;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: -0.015em;
+  transition: 0.25s ease;
+  text-align: center;
+  line-height: 1em;
+
+  > *:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  svg {
+    fill: var(--content-color);
+  }
+
+  /* User interactions */
+  &:focus {
+    outline: none;
+  }
+
+  /* Modifiers */
+
+  /* ----- Variant */
+  &.Button--variantPrimary {
+    --content-color: #fff;
+    --background-color: rgb(224 26 55);
+    --border-color: rgb(224 26 55);
+
+    /* User interactions */
+    &:hover {
+      --content-color: #fff;
+      --background-color: rgb(211 24 52);
+      --border-color: rgb(211 24 52);
+    }
+  }
+}

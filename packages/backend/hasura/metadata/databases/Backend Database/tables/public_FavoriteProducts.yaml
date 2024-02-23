@@ -1,0 +1,60 @@
+table:
+  name: FavoriteProducts
+  schema: public
+object_relationships:
+  - name: product
+    using:
+      manual_configuration:
+        column_mapping:
+          productId: shopifyId
+        insertion_order: null
+        remote_table:
+          name: Product
+          schema: public
+insert_permissions:
+  - role: registered_user
+    permission:
+      check:
+        customerId:
+          _eq: X-Hasura-User-Id
+      columns:
+        - id
+        - productId
+        - customerId
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - productId
+        - id
+        - createdAt
+        - customerId
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+  - role: me_as_vendor
+    permission:
+      columns:
+        - productId
+        - id
+        - createdAt
+        - customerId
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+  - role: registered_user
+    permission:
+      columns:
+        - id
+        - productId
+        - customerId
+        - createdAt
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: registered_user
+    permission:
+      filter:
+        customerId:
+          _eq: X-Hasura-User-Id

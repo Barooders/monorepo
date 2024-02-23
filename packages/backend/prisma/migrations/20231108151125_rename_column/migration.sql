@@ -1,0 +1,1 @@
+ALTER TABLE "public"."VendorProProduct" RENAME COLUMN "status" TO "oldStatus";

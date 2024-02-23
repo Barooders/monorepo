@@ -1,0 +1,6 @@
+git_url("git@github.com:Barooders/codesigning")
+
+storage_mode("git")
+type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
+app_identifier(["com.barooders.app"])
+username("tech@barooders.com") # Your Apple Developer Portal username

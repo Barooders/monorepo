@@ -1,0 +1,112 @@
+version: '3'
+services:
+  barooders-DB:
+    container_name: barooders-DB
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    image: postgres:14.5-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: barooders-backend
+    volumes:
+      - barooders-data:/var/lib/postgresql/data/
+    ports:
+      - '2345:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-U', 'postgres']
+      interval: 2s
+      timeout: 1s
+      retries: 20
+
+  hasura:
+    image: hasura/graphql-engine:v2.35.1
+    ports:
+      - '8080:8080'
+    depends_on:
+      barooders-DB:
+        condition: service_healthy
+    restart: always
+    env_file: .env
+    environment:
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
+      BACKEND_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
+      SIGNUP_WEBHOOK_URL: http://host.docker.internal:3000/v1/customers/webhook/signup
+      SHOPIFY_GRAPHQL_URL: ${SHOPIFY_GRAPHQL_URL}
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_ACCESS_TOKEN}
+      BACKEND_API_KEY_HEADER: 'Api-Key some-secret'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'false' # use Hasura CLI to access the console, see projet README
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"5152fa850c02dc222631cca898ed1485821a70912a6e3649c49076912daa3b62182ba013315915d64f40cddfbb8b58eb5bd11ba225336a6af45bbae07ca873f3","issuer":"hasura-auth"}'
+      HASURA_GRAPHQL_DEFAULT_NAMING_CONVENTION: graphql-default
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    healthcheck:
+      test: bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 10
+      start_period: 5s
+
+  hasura-auth:
+    container_name: hasura-auth
+    platform: linux/amd64
+    image: barooders/hasura-auth:latest
+    depends_on:
+      barooders-DB:
+        condition: service_healthy
+      hasura:
+        condition: service_healthy
+    environment:
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"5152fa850c02dc222631cca898ed1485821a70912a6e3649c49076912daa3b62182ba013315915d64f40cddfbb8b58eb5bd11ba225336a6af45bbae07ca873f3","issuer":"hasura-auth"}'
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
+      HASURA_GRAPHQL_GRAPHQL_URL: http://hasura:8080/v1/graphql
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      AUTH_JWT_CUSTOM_CLAIMS: '{"shopifyCustomerId":"customer.shopifyId","sellerName":"customer.sellerName"}'
+      AUTH_USER_DEFAULT_ALLOWED_ROLES: public,me,registered_user, me_as_customer, me_as_vendor
+      AUTH_USER_DEFAULT_ROLE: registered_user
+      AUTH_LOG_LEVEL: info
+      AUTH_CLIENT_URL: http://barooders.com/auth-callback
+      AUTH_SERVER_URL: http://localhost:4000
+      AUTH_ACCESS_CONTROL_ALLOWED_REDIRECT_URLS: http://localhost:3001,http://barooders.com,barooders://auth-callback
+      AUTH_EMAIL_SIGNIN_EMAIL_VERIFIED_REQUIRED: true
+      AUTH_ACCESS_TOKEN_EXPIRES_IN: 2592000
+    ports:
+      - '4000:4000'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:4000/healthz || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 30
+
+  mailhog:
+    image: mailhog/mailhog
+    environment:
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_PASS: # Need to fill with correct value
+      SMTP_USER: # Need to fill with correct value
+      SMTP_SECURE: # Need to fill with correct value
+      SMTP_SENDER: # Need to fill with correct value
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    volumes:
+      - ./docker/data/mailhog:/maildir
+
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+      - redis-conf:/usr/local/etc/redis/redis.conf
+
+volumes:
+  barooders-data:
+  redis-data:
+  redis-conf:

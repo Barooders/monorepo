@@ -1,0 +1,31 @@
+{
+  "root": "src",
+  "rules": [
+    "__generated/**",
+    "config/**",
+    "libs/application/**",
+    "libs/domain/**",
+    "libs/helpers/**",
+    "libs/i18n/**",
+    "libs/infrastructure/**",
+    "libs/types/**",
+    "modules/*/application",
+    "modules/*/domain/**",
+    "modules/*/infrastructure/chat",
+    "modules/*/infrastructure/email",
+    "modules/*/infrastructure/notification",
+    "modules/*/infrastructure/internal-notification",
+    "modules/*/infrastructure/store",
+    "modules/*/infrastructure/queue",
+    "modules/*/infrastructure/payment-provider",
+    "modules/*/infrastructure/pim",
+    "modules/*/infrastructure/search",
+    "modules/*/infrastructure/translator",
+    "modules/*/infrastructure/parser",
+    "modules/*/infrastructure/config",
+    "modules/*/infrastructure/logging",
+    "modules/*/infrastructure/shipping",
+    "modules/*/infrastructure/support-center",
+    "modules/*/infrastructure/api/**"
+  ]
+}

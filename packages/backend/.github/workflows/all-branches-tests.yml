@@ -1,0 +1,35 @@
+# Example can be found here:
+# https://shopify.dev/docs/apps/tools/cli/ci-cd#github-actions
+
+name: Static analysis & Tests
+
+on: push
+
+env:
+  TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+
+jobs:
+  static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install npm dependencies
+        run: yarn install
+      - name: Decrypt secrets
+        run: yarn run decrypt-secrets
+      - name: Generate prisma clients
+        run: yarn prisma:generate
+      - name: Run ESLint
+        run: yarn lint
+      - name: Check folder structure
+        run: yarn validate-folder-structure
+      - name: Check circular dependencies
+        run: yarn find-circular-deps
+      - name: Build TS app
+        run: yarn build

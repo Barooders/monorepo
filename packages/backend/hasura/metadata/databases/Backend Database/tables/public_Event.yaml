@@ -1,0 +1,13 @@
+table:
+  name: Event
+  schema: public
+insert_permissions:
+  - role: public
+    permission:
+      check: {}
+      columns:
+        - aggregateId
+        - aggregateName
+        - metadata
+        - name
+        - payload

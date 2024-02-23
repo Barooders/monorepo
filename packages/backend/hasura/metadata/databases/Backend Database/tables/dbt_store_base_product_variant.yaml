@@ -1,0 +1,55 @@
+table:
+  name: store_base_product_variant
+  schema: dbt
+object_relationships:
+  - name: product
+    using:
+      manual_configuration:
+        column_mapping:
+          productId: id
+        insertion_order: null
+        remote_table:
+          name: store_base_product
+          schema: dbt
+  - name: variant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopify_id: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_exposed_product_variant
+          schema: dbt
+select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - shopify_id
+        - createdAt
+        - id
+        - productId
+      filter: {}
+  - role: me_as_vendor
+    permission:
+      columns:
+        - shopify_id
+        - createdAt
+        - id
+        - productId
+      filter: {}
+  - role: public
+    permission:
+      columns:
+        - shopify_id
+        - createdAt
+        - id
+        - productId
+      filter: {}
+  - role: registered_user
+    permission:
+      columns:
+        - shopify_id
+        - createdAt
+        - id
+        - productId
+      filter: {}

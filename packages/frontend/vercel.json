@@ -1,0 +1,14 @@
+{
+  "headers": [
+    {
+      "source": "(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-src https://barooders.com https://*.barooders.com https://*.talkjs.com https://*.trustpilot.com https://*.google.com https://airtable.com https://*.typeform.com https://contact.gorgias.help;"
+        }
+      ]
+    }
+  ],
+  "ignoreCommand": "if [ \"$VERCEL_AUTO_DEPLOY\" == \"true\" ]; then exit 1; else exit 0; fi"
+}
