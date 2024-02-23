@@ -31,7 +31,15 @@ export class CollectionIndexationCLIConsole {
       include: {
         _count: {
           select: {
-            products: true,
+            products: {
+              where: {
+                baseProduct: {
+                  exposedProduct: {
+                    status: ProductStatus.ACTIVE,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -117,6 +125,13 @@ export class CollectionIndexationCLIConsole {
     await Promise.allSettled(
       collections.map(async ({ shopifyId, title, handle, _count }) => {
         this.logger.warn(`This command will index collection (${shopifyId})`);
+
+        if (handle.toLowerCase().includes('admin')) {
+          this.logger.warn(
+            `This collection (${shopifyId}) has an admin handle, skipping`,
+          );
+          return;
+        }
 
         await this.indexationService.indexCollection({
           id: new ShopifyID({ id: Number(shopifyId) }),
