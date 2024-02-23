@@ -50,7 +50,7 @@
     "@newrelic/next": "0.7.0",
     "@next/bundle-analyzer": "13.1.6",
     "@sentry/cli": "2.18.0",
-    "@sentry/nextjs": "7.77.0",
+    "@sentry/nextjs": "7.102.1",
     "@talkjs/react": "0.1.6-beta.0",
     "@types/marked": "4.0.8",
     "@types/mixpanel-browser": "2.47.0",
