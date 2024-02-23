@@ -6,6 +6,9 @@
     "workspaces": [
       "packages/*"
     ],
+    "scripts": {
+      "heroku-prebuild": "cd packages/backend"
+    },
     "dependencies": {
       "typescript": "5.3.3"
     }
