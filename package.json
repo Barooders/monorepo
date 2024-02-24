@@ -8,7 +8,7 @@
     ],
     "scripts": {
       "prebuild": "yarn workspace backend prebuild",
-      "build": "yarn workspace backend build",
+      "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
       "console": "yarn workspace backend console"
     },
     "dependencies": {
