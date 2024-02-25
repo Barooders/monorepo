@@ -11,6 +11,12 @@
       "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
       "console": "yarn workspace backend console"
     },
+    "cacheDirectories": [
+      "node_modules",
+      "packages/backend/node_modules",
+      "packages/cypress/node_modules",
+      "packages/frontend/node_modules"
+    ],
     "dependencies": {
       "typescript": "5.3.3"
     }
