@@ -10,5 +10,5 @@
       ]
     }
   ],
-  "ignoreCommand": "if [ \"$VERCEL_AUTO_DEPLOY\" == \"true\" ]; then exit 1; else exit 0; fi"
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet ./"
 }
