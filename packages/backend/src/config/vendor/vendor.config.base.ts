@@ -152,6 +152,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.bikeXtremeApiKey,
     apiUrl: 'https://www.bikextreme.it/api/',
+    catalog: {
+      defaultProductCondition: Condition.VERY_GOOD,
+    }
   },
   milla_bikes: {
     slug: 'milla_bikes',
