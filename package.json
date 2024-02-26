@@ -10,7 +10,8 @@
     "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
     "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
     "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
-    "build-for-render": "./build-for-render.sh",
+    "create-empty-node-modules": "mkdir -p packages/backend/node_modules && mkdir -p packages/frontend/node_modules && mkdir -p packages/cypress/node_modules",
+    "build-for-render": "yarn create-empty-node-modules && yarn && yarn build",
     "console": "yarn workspace backend console",
     "prepare": "husky"
   },
