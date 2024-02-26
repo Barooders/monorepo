@@ -1,9 +1,9 @@
-# Example can be found here:
-# https://shopify.dev/docs/apps/tools/cli/ci-cd#github-actions
+name: Static analysis & Tests for backend
 
-name: Static analysis & Tests
-
-on: push
+on:
+  push:
+    paths:
+      - packages/backend/**
 
 env:
   TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
@@ -21,15 +21,13 @@ jobs:
           cache: 'yarn'
       - name: Install npm dependencies
         run: yarn install
-      - name: Decrypt secrets
-        run: yarn run decrypt-secrets
-      - name: Generate prisma clients
-        run: yarn prisma:generate
+      - name: Decrypt secrets and generate prisma client
+        run: yarn workspace backend run prebuild
       - name: Run ESLint
-        run: yarn lint
+        run: yarn workspace backend lint
       - name: Check folder structure
-        run: yarn validate-folder-structure
+        run: yarn workspace backend validate-folder-structure
       - name: Check circular dependencies
-        run: yarn find-circular-deps
+        run: yarn workspace backend find-circular-deps
       - name: Build TS app
-        run: yarn build
+        run: yarn workspace backend build
