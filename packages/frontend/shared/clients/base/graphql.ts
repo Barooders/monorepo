@@ -31,7 +31,7 @@ export const createGraphQLClient =
       method: 'POST',
       headers: new Headers(headerEntries),
       body: JSON.stringify({ query: print(query), variables }),
-      cache: 'no-store'
+      cache: 'no-store',
     });
 
     const result = await promise;

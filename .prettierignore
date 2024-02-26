@@ -1,0 +1,4 @@
+**/dist/
+**/__generated/
+node_modules/
+**/node_modules/

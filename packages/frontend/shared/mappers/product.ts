@@ -2,10 +2,10 @@ import { Product, ProductAPI } from '@/types';
 
 export const extractTagValue = (tags: string[], key: string) => {
   const matchingTags = tags.filter((tag) => tag.split(':')[0].trim() === key);
-  if (matchingTags.length === 0)  return undefined;
+  if (matchingTags.length === 0) return undefined;
 
   return matchingTags.map((tag) => tag.split(':')[1]).join('-');
-}
+};
 
 export const fromAPI = (productApi: ProductAPI): Product => {
   const mainVariant = productApi.variants.nodes[0];

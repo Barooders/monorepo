@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
-
 import { User } from '@libs/application/decorators/user.decorator';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';

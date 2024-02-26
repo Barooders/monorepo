@@ -5,7 +5,6 @@
   "scripts": {
     "link-env": "ln -fs ../.env web/.env && ln -fs ../.env native/.env && ln -fs ../.env pwa/.env",
     "lint": "next lint native && next lint web && next lint pwa",
-    "prettier:fix": "prettier --write \"**/*.*\"",
     "generate": "yarn generate:graphql && yarn generate:rest",
     "generate:rest": "openapi-typescript http://localhost:3000/api-yaml -o ./shared/__generated/rest-schema.d.ts",
     "generate:graphql": "graphql-codegen --config codegen.ts",
@@ -119,7 +118,8 @@
     "openapi-typescript": "6.7.1",
     "postcss": "8.4.31",
     "postcss-import": "^16.0.1",
-    "prettier-plugin-tailwindcss": "0.2.3",
+    "prettier": "3.2.5",
+    "prettier-plugin-tailwindcss": "0.5.11",
     "tailwindcss": "3.2.7"
   }
 }
