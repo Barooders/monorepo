@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint-staged
+git diff --cached --name-only | grep 'packages/frontend' && yarn workspace frontend lint-staged
+git diff --cached --name-only | grep 'packages/backend' && yarn workspace backend lint-staged
 
 
 # Transcrypt pre-commit hook: fail if secret file in staging lacks the magic prefix "Salted" in B64

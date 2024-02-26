@@ -1,36 +1,37 @@
 {
-    "name": "monorepo",
-    "version": "1.0.0",
-    "description": "Barooders monorepo",
-    "private": true,
-    "workspaces": [
-      "packages/*"
-    ],
-    "scripts": {
-      "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
-      "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
-      "prebuild": "yarn workspace backend prebuild",
-      "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
-      "console": "yarn workspace backend console"
-    },
-    "cacheDirectories": [
-      "node_modules",
-      "packages/backend/node_modules",
-      "packages/cypress/node_modules",
-      "packages/frontend/node_modules"
-    ],
-    "dependencies": {
-      "typescript": "5.3.3",
-      "newrelic": "11.8.0",
-      "react": "18.2.0",
-      "react-use": "17.4.0",
-      "@types/lodash": "4.14.198",
-      "@types/node": "18.14.0",
-      "eslint": "8.56.0",
-      "dotenv": "16.3.1"
-    },
-    "devDependencies": {
-      "husky": "8.0.3",
-      "lint-staged": "13.3.0"
-    }
+  "name": "monorepo",
+  "version": "1.0.0",
+  "description": "Barooders monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
+    "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
+    "prebuild": "yarn workspace backend prebuild",
+    "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
+    "console": "yarn workspace backend console",
+    "prepare": "husky"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "packages/backend/node_modules",
+    "packages/cypress/node_modules",
+    "packages/frontend/node_modules"
+  ],
+  "dependencies": {
+    "@types/lodash": "4.14.198",
+    "@types/node": "18.14.0",
+    "dotenv": "16.3.1",
+    "eslint": "8.56.0",
+    "newrelic": "11.8.0",
+    "react": "18.2.0",
+    "react-use": "17.4.0",
+    "typescript": "5.3.3"
+  },
+  "devDependencies": {
+    "husky": "9.0.11",
+    "lint-staged": "13.3.0"
   }
+}
