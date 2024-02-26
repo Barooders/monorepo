@@ -58,7 +58,7 @@
     "chromatic": "6.17.4",
     "clsx": "1.2.1",
     "critters": "0.0.16",
-    "dotenv": "16.0.3",
+    "dayjs": "1.11.10",
     "file-saver": "2.0.5",
     "fuse.js": "7.0.0",
     "graphql": "16.6.0",
