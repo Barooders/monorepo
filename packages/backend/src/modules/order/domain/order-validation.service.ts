@@ -30,9 +30,8 @@ export class OrderValidationService {
     const { customerEmail } = await this.prisma.order.findUniqueOrThrow({
       where: { id: orderId },
     });
-    const openTickets = await this.supportCenterClient.getOpenTickets(
-      customerEmail,
-    );
+    const openTickets =
+      await this.supportCenterClient.getOpenTickets(customerEmail);
 
     return {
       isValid: openTickets.length === 0,

@@ -76,9 +76,8 @@ const searchWithoutTypesenseAdditionalData = async (params: unknown) => {
   // This is done to reduce the payload size of the page that is serialized by Next.js
   // For grouped_hits, we keep the first hit of the group as it contains the most relevant data.
 
-  const { results } = await typesenseInstantsearchAdapter.searchClient.search(
-    params,
-  );
+  const { results } =
+    await typesenseInstantsearchAdapter.searchClient.search(params);
 
   return {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

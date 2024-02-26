@@ -49,9 +49,8 @@ export class WooCommerceProductService implements ProVendorStrategy {
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<WooCommerceProduct[]> {
-    const productsFromWooCommerce = await this.wooCommerceClient.getAllProducts(
-      sinceDate,
-    );
+    const productsFromWooCommerce =
+      await this.wooCommerceClient.getAllProducts(sinceDate);
 
     if (!productsFromWooCommerce)
       throw new Error('Products not found on WooCommerce');

@@ -87,8 +87,8 @@ export class PaymentFloaWebhookController {
       body.returnCode === '0'
         ? PaymentStatusType.VALIDATED
         : Number(body.returnCode) > 0
-        ? PaymentStatusType.REFUSED
-        : null;
+          ? PaymentStatusType.REFUSED
+          : null;
 
     const reason =
       floaCodeMapping.find(

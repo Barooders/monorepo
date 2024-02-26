@@ -68,9 +68,8 @@ export class PayoutController {
           order: true,
         },
       });
-      const commission = await this.commissionService.getCommissionByOrderLine(
-        id,
-      );
+      const commission =
+        await this.commissionService.getCommissionByOrderLine(id);
       const validation = await this.orderValidationService.isOrderValid(
         order.id,
       );

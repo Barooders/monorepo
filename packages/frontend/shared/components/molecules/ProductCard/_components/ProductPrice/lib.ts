@@ -4,10 +4,10 @@ export const calculateDiscountedPrice = (discount: Discount, price: number) =>
   !discount.value
     ? null
     : discount.valueType === 'fixed_amount'
-    ? discount.value
-    : discount.valueType === 'percentage'
-    ? price * (discount.value / 100)
-    : null;
+      ? discount.value
+      : discount.valueType === 'percentage'
+        ? price * (discount.value / 100)
+        : null;
 
 export const calculateTotalDiscountedPrice = (
   discounts: Discount[],

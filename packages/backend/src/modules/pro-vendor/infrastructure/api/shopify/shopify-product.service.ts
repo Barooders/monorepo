@@ -59,9 +59,8 @@ export class ShopifyProductService implements ProVendorStrategy {
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<IProduct[]> {
-    const productsFromShopify = await this.shopifyClient.getAllProducts(
-      sinceDate,
-    );
+    const productsFromShopify =
+      await this.shopifyClient.getAllProducts(sinceDate);
 
     if (!productsFromShopify) throw new Error('Products not found on Shopify');
 

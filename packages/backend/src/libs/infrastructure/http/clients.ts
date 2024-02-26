@@ -40,8 +40,8 @@ export const createRestClient = (baseUrl: string) => {
       payload = await (config?.responseParsing === 'text'
         ? result.text()
         : config?.responseParsing === 'buffer'
-        ? result.arrayBuffer()
-        : result.json());
+          ? result.arrayBuffer()
+          : result.json());
     } catch (e) {
       payload = null;
     }

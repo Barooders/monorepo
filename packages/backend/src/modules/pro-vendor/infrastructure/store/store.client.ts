@@ -124,9 +124,8 @@ export class StoreClient implements IStoreClient {
 
   async getProduct(productId: number): Promise<StoredProduct | null> {
     try {
-      const product = await this.getOrCreateShopifyApiByToken().product.get(
-        productId,
-      );
+      const product =
+        await this.getOrCreateShopifyApiByToken().product.get(productId);
       const productInDB = await this.prisma.product.findUnique({
         where: {
           shopifyId: productId,

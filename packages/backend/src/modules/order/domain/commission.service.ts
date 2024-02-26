@@ -148,9 +148,8 @@ export class CommissionService {
         `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
       );
 
-    const isFreeShipping = await this.storeClient.isHandDeliveryOrder(
-      orderStoreId,
-    );
+    const isFreeShipping =
+      await this.storeClient.isHandDeliveryOrder(orderStoreId);
 
     const commission = await this.getVendorCommission(
       {

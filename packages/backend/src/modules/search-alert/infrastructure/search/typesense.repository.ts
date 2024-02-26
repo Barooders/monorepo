@@ -83,10 +83,10 @@ export class TypesenseRepository implements SearchRepository {
             hit.document.condition === Condition.AS_NEW
               ? 'Neuf'
               : hit.document.condition === Condition.REFURBISHED_AS_NEW
-              ? 'Comme neuf'
-              : hit.document.condition === Condition.VERY_GOOD
-              ? 'Très bon état'
-              : 'Bon état',
+                ? 'Comme neuf'
+                : hit.document.condition === Condition.VERY_GOOD
+                  ? 'Très bon état'
+                  : 'Bon état',
           ]
             .filter((value) => !!value)
             .join('・'),

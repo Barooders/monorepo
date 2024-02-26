@@ -95,9 +95,8 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
     externalVariantId,
     quantity,
   }: OrderVendorInput['products'][0]) {
-    const combinationData = await this.getStockAndCombinationId(
-      externalVariantId,
-    );
+    const combinationData =
+      await this.getStockAndCombinationId(externalVariantId);
 
     const disableStockCheckBeforeOrder =
       this.vendorConfigService.getVendorConfig().order
@@ -134,9 +133,8 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
         : undefined;
     }
 
-    const combination = await this.prestashopClient.getCombination(
-      externalVariantId,
-    );
+    const combination =
+      await this.prestashopClient.getCombination(externalVariantId);
 
     return combination
       ? {
