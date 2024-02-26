@@ -7,6 +7,8 @@
       "packages/*"
     ],
     "scripts": {
+      "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
+      "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
       "prebuild": "yarn workspace backend prebuild",
       "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
       "console": "yarn workspace backend console"
