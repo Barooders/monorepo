@@ -3,14 +3,12 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Injectable } from '@nestjs/common';
 import { MAX_BREADCRUMBS_LENGTH } from '../constants';
 import { TooLongBreadcrumbsException } from './exceptions/collection.exceptions';
-import { IStoreClient } from './ports/store.client';
 
 @Injectable()
 export class CollectionService {
   constructor(
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
-    private storeClient: IStoreClient,
   ) {}
 
   async getCollectionBreadcrumbs(collectionId: string) {
