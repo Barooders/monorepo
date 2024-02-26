@@ -12,7 +12,9 @@ extract_cached_dependencies() {
 cache_dependencies() {
     source_dir="$1"
     package_dir="packages/$1/node_modules/"
-    mkdir -p "$subdirectories_nodemodules/$source_dir"  # Ensure destination directory exists
+    dest_dir="$subdirectories_nodemodules/$source_dir"
+    rm -rf "$dest_dir"  # Remove existing cache
+    mkdir -p "$dest_dir"  # Ensure destination directory exists
     cp -r "$package_dir" "$subdirectories_nodemodules/$source_dir" || true
 }
 
