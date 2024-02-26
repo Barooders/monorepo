@@ -21,12 +21,35 @@
 	],
 	"configurations": [
 		{
+			"name": "Next.js: debug server-side",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "yarn workspace frontend dev"
+		  },
+		  {
+			"name": "Next.js: debug client-side",
+			"type": "chrome",
+			"request": "launch",
+			"url": "http://localhost:3001"
+		  },
+		  {
+			"name": "Next.js: debug full stack",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "yarn workspace frontend dev",
+			"serverReadyAction": {
+			  "pattern": "started server on .+, url: (https?://.+)",
+			  "uriFormat": "%s",
+			  "action": "debugWithChrome"
+			}
+		  },
+		{
 			"type": "node",
 			"request": "launch",
 			"name": "Start dev",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["start:dev"],
+			"runtimeArgs": ["workspace backend", "start:dev"],
 			"outputCapture": "std",
 		},
 		{
@@ -35,7 +58,7 @@
 			"name": "Update tags",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["update:tags"],
+			"runtimeArgs": ["workspace backend", "update:tags"],
 			"outputCapture": "std",
 		},
 		{
@@ -44,7 +67,7 @@
 			"name": "Start consumer handler",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["start:consumer:dev"],
+			"runtimeArgs": ["workspace backend", "start:consumer:dev"],
 			"outputCapture": "std",
 		},
 		{
@@ -62,7 +85,7 @@
 			"name": "Sync new products",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "-f", "${input:promptVendor}"],
+			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "syncProducts", "-f", "${input:promptVendor}"],
 			"outputCapture": "std",
 		},
 		{
@@ -71,7 +94,7 @@
 			"name": "Sync specific products",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "${input:promptVendor}", "-p", "${input:promptExternalProductId}"],
+			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "syncProducts", "${input:promptVendor}", "-p", "${input:promptExternalProductId}"],
 			"outputCapture": "std",
 		},
 		{
@@ -80,7 +103,7 @@
 			"name": "Update products",
 			"runtimeExecutable": "yarn",
 			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["run", "console:dev", "proVendor", "updateProductStatuses", "-f", "${input:promptVendor}"],
+			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "updateProductStatuses", "-f", "${input:promptVendor}"],
 			"outputCapture": "std",
 		}
 	]
