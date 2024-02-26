@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-      - name: Install npm dependencies
+      - name: Install dependencies
         run: yarn install
       - name: Decrypt secrets and generate prisma client
         run: yarn workspace backend run prebuild
