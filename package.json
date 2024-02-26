@@ -10,6 +10,7 @@
     "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
     "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
     "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
+    "build-for-render": "./build-for-render.sh",
     "console": "yarn workspace backend console",
     "prepare": "husky"
   },
