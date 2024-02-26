@@ -84,7 +84,6 @@ export type SynchronizedProVendor =
   | 'velo_meldois'
   | 'velosport20'
   | 'willemd'
-  | 'world_bike_formia'
   | 'zyclora';
 
 export interface FullVendorConfig {

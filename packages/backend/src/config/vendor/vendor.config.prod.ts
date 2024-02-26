@@ -97,9 +97,6 @@ export const prodVendorConfig: EnvVendorsConfig = {
   daz_bike: {
     vendorId: '0a61c4e1-cdcd-40b7-88a3-71d0062d6d4e',
   },
-  world_bike_formia: {
-    vendorId: '28553b01-476c-4afc-b412-8faf57fa428d',
-  },
   pilat: {
     vendorId: '275c5c7d-7658-4c9e-b72a-e66b717d6f41',
   },

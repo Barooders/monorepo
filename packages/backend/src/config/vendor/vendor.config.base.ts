@@ -432,17 +432,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.dazBikeApiKey,
     apiSecret: vendorSecrets.dazBikeApiSecret,
   },
-  world_bike_formia: {
-    slug: 'world_bike_formia',
-    mappingKey: 'world_bike_formia',
-    type: VendorType.WOO_COMMERCE,
-    apiUrl: 'https://www.worldbikeformia.it/wp-json/wc/v3/products',
-    apiKey: vendorSecrets.worldBikeFormiaApiKey,
-    apiSecret: vendorSecrets.worldBikeFormiaApiSecret,
-    catalog: {
-      mapMultipleVariants: true,
-    },
-  },
   le_bon_coin: {
     slug: 'le_bon_coin',
     mappingKey: 'le_bon_coin',

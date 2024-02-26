@@ -40,7 +40,6 @@ export const localVendorConfig: EnvVendorsConfig = {
   bewak_excluded_brands: DEFAULT_CONFIG_WITHOUT_ORDER,
   bernaudeau_woo: DEFAULT_CONFIG,
   daz_bike: DEFAULT_CONFIG,
-  world_bike_formia: DEFAULT_CONFIG,
   all_cycles: DEFAULT_CONFIG,
   ferrareis: DEFAULT_CONFIG,
   alpin_store: DEFAULT_CONFIG,

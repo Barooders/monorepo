@@ -92,7 +92,6 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   daz_bike: DEFAULT_CONFIG,
   ferrareis: DEFAULT_CONFIG,
   roue_liber: DEFAULT_CONFIG,
-  world_bike_formia: DEFAULT_CONFIG,
   all_cycles: DEFAULT_CONFIG,
   tribici_presta: DEFAULT_CONFIG,
   club_in_sport: DEFAULT_CONFIG,
