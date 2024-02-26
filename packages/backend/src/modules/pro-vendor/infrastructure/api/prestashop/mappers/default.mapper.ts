@@ -184,6 +184,20 @@ export class PrestashopDefaultMapper {
     }
   }
 
+  public async generateSingleTag(tagKey: string, tagValue: string, mappingMetadata: FirstProductMapped): Promise<string[]> {
+   return this.tagService.getOrCreateTag(
+      'Brand',
+      tagValue,
+      tagKey,
+      this.vendorConfigService.getVendorConfig().mappingKey,
+      mappingMetadata,
+    );
+  }
+
+  public async getExtraTags(_productTitle: string, mappingMetadata: FirstProductMapped):Promise<string[]>{
+    return [];
+  }
+
   private async createCategory(
     categoriesSorted: number[],
     categoriesKey: string,
@@ -371,20 +385,20 @@ export class PrestashopDefaultMapper {
       stock_availables,
     } = associations;
 
-    const tagsFormatted = await this.generateTags(
-      mappingMetadata,
-      product_features,
-    );
-
-    const brandTag = await this.tagService.getOrCreateTag(
-      'Marque',
-      id_manufacturer ? id_manufacturer.toString() : 'unknown_brand_id',
-      'id_manufacturer',
-      this.vendorConfigService.getVendorConfig().mappingKey,
-      mappingMetadata,
-    );
-
-    tagsFormatted.push(...brandTag);
+    const tagsFormatted = [
+      ...(await this.generateTags(
+        mappingMetadata,
+        product_features,
+      )),
+      ...(await this.tagService.getOrCreateTag(
+        'Marque',
+        id_manufacturer ? id_manufacturer.toString() : 'unknown_brand_id',
+        'id_manufacturer',
+        this.vendorConfigService.getVendorConfig().mappingKey,
+        mappingMetadata,
+      )),
+      ...(await this.getExtraTags(lightProduct.title, mappingMetadata)),
+    ];
 
     const productType = await this.getProductTypeFromCategories(
       categories,

@@ -19,6 +19,7 @@ import { SEMotionMapper } from './mappers/semotion.mapper';
 import { TribiciMapper } from './mappers/tribici.mapper';
 import { Velosport34Mapper } from './mappers/velosport34.mapper';
 import { PrestashopClient } from './prestashop.client';
+import { BikeXtremeMapper } from './mappers/bike-xtreme.mapper';
 
 @Injectable()
 export class PrestashopProductService implements ProVendorStrategy {
@@ -30,6 +31,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     private fietsMapper: FietsMapper,
     private semotionMapper: SEMotionMapper,
     private funbikeMapper: FunbikeMapper,
+    private bikeXtremeMapper: BikeXtremeMapper,
     private tribiciMapper: TribiciMapper,
     private matbikeMapper: MatbikeMapper,
     private velosport34Mapper: Velosport34Mapper,
@@ -81,6 +83,8 @@ export class PrestashopProductService implements ProVendorStrategy {
         return this.velosport34Mapper;
       case 'funbike':
         return this.funbikeMapper;
+      case 'bike_xtreme':
+        return this.bikeXtremeMapper;
       case 'tribici_presta':
         return this.tribiciMapper;
       default:
