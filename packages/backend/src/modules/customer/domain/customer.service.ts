@@ -41,6 +41,12 @@ export class CustomerService {
         authUserId: user.id,
         phoneNumber: user.phone,
         profilePictureShopifyCdnUrl: user.profilePictureUrl,
+        negociationAgreements: {
+          create: {
+            maxAmountPercent: 10,
+            priority: 1,
+          }
+        }
       },
     });
 

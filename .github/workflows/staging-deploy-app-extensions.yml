@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - staging
+    paths:
+      - packages/backend/extensions/**
 
 jobs:
   deploy:
@@ -28,7 +30,7 @@ jobs:
           SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY_PRODUCTION }}
         # https://shopify.dev/docs/apps/tools/cli/commands#deploy
         run: |
-          yarn shopify:deploy -f --client-id ${{ secrets.SHOPIFY_STAGING_EXTENSION_CLIENT_ID }}
+          yarn workspace backend shopify:deploy -f --client-id ${{ secrets.SHOPIFY_STAGING_EXTENSION_CLIENT_ID }}
       - name: Send slack notification on failure
         if: failure()
         uses: rtCamp/action-slack-notify@v2

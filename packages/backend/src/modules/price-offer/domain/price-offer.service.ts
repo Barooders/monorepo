@@ -305,7 +305,7 @@ export class PriceOfferService implements IPriceOfferService {
       select: {
         vendor: {
           select: {
-            NegociationAgreement: { select: { maxAmountPercent: true } },
+            negociationAgreements: { select: { maxAmountPercent: true } },
           },
         },
       },
@@ -316,7 +316,7 @@ export class PriceOfferService implements IPriceOfferService {
       productVariantId,
     );
 
-    const negociationAgreement = first(product.vendor.NegociationAgreement);
+    const negociationAgreement = first(product.vendor.negociationAgreements);
 
     if (!negociationAgreement) {
       return false;

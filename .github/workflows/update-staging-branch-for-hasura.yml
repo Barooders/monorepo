@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - staging
+    paths:
+      - packages/backend/hasura/**
 
 jobs:
   update-staging-branch:
@@ -17,10 +19,10 @@ jobs:
       - name: Update staging branch
         run: |
           git checkout staging
-          awk '/total_max_connections: 100/ {sub(/100/, "3")} 1' hasura/metadata/databases/databases.yaml > tmpfile && mv tmpfile hasura/metadata/databases/databases.yaml
+          awk '/total_max_connections: 100/ {sub(/100/, "3")} 1' packages/hasura/metadata/databases/databases.yaml > tmpfile && mv tmpfile packages/hasura/metadata/databases/databases.yaml
           git config --global user.email "tech@barooders.com"
           git config --global user.name "Github Actions"
-          git add hasura/metadata/databases/databases.yaml
+          git add packages/hasura/metadata/databases/databases.yaml
           git diff-index --quiet HEAD || git commit -m "Update pool settings for staging"
           git push origin staging
       - name: Display branch information

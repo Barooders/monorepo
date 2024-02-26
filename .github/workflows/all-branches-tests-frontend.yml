@@ -1,6 +1,9 @@
-name: Static analysis & Tests
+name: Static analysis & Tests for frontend
 
-on: push
+on:
+  push:
+    paths:
+      - packages/frontend/**
 
 jobs:
   static_analysis:
@@ -15,16 +18,16 @@ jobs:
       - name: Install npm dependencies
         run: yarn install
       - name: Run ESLint on web folder
-        run: yarn lint
+        run: yarn workspace frontend lint
       - name: Build TS app
-        run: yarn build:web
+        run: yarn workspace frontend build:web
         env:
           NEXT_PUBLIC_STRAPI_URL: https://barooders-strapi.herokuapp.com/api
           NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
-          NEXT_PUBLIC_SHOP_BASE_URL: ${{ secrets.NEXT_PUBLIC_SHOP_BASE_URL }}
+          NEXT_PUBLIC_SHOP_BASE_URL: http://localhost:3000
       - name: Build TS app pwa
-        run: yarn build:pwa
+        run: yarn workspace frontend build:pwa
         env:
           NEXT_PUBLIC_STRAPI_URL: https://barooders-strapi.herokuapp.com/api
           NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
-          NEXT_PUBLIC_SHOP_BASE_URL: ${{ secrets.NEXT_PUBLIC_SHOP_BASE_URL }}
+          NEXT_PUBLIC_SHOP_BASE_URL: http://localhost:3000

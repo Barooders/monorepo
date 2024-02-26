@@ -269,7 +269,7 @@ model Customer {
   vendorReviews               VendorReview[]
   buyerOffers                 PriceOffer[]           @relation(name: "buyerOffers")
   initiatedOffers             PriceOffer[]           @relation(name: "initiatedOffers")
-  NegociationAgreement        NegociationAgreement[]
+  negociationAgreements       NegociationAgreement[]
 
   @@index([sellerName])
   @@schema("public")
