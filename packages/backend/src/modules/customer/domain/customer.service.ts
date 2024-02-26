@@ -45,8 +45,8 @@ export class CustomerService {
           create: {
             maxAmountPercent: 10,
             priority: 1,
-          }
-        }
+          },
+        },
       },
     });
 
