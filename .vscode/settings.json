@@ -5,7 +5,7 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true,
     },
-    "eslint.workingDirectories": [ "./packages/**"],
+    "eslint.workingDirectories": ["./packages/backend","./packages/frontend"],
     "files.autoSaveWorkspaceFilesOnly": false,
     "search.exclude": {
         "**/.yarn": true,
