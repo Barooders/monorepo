@@ -184,8 +184,12 @@ export class PrestashopDefaultMapper {
     }
   }
 
-  public async generateSingleTag(tagKey: string, tagValue: string, mappingMetadata: FirstProductMapped): Promise<string[]> {
-   return this.tagService.getOrCreateTag(
+  public async generateSingleTag(
+    tagKey: string,
+    tagValue: string,
+    mappingMetadata: FirstProductMapped,
+  ): Promise<string[]> {
+    return this.tagService.getOrCreateTag(
       'Brand',
       tagValue,
       tagKey,
@@ -194,7 +198,10 @@ export class PrestashopDefaultMapper {
     );
   }
 
-  public async getExtraTags(_productTitle: string, mappingMetadata: FirstProductMapped):Promise<string[]>{
+  public async getExtraTags(
+    _productTitle: string,
+    _mappingMetadata: FirstProductMapped,
+  ): Promise<string[]> {
     return [];
   }
 
@@ -386,10 +393,7 @@ export class PrestashopDefaultMapper {
     } = associations;
 
     const tagsFormatted = [
-      ...(await this.generateTags(
-        mappingMetadata,
-        product_features,
-      )),
+      ...(await this.generateTags(mappingMetadata, product_features)),
       ...(await this.tagService.getOrCreateTag(
         'Marque',
         id_manufacturer ? id_manufacturer.toString() : 'unknown_brand_id',
