@@ -27,4 +27,8 @@ export class NotificationService {
       Sentry.captureException(error);
     }
   }
+
+  async notifyVendorsWithOldProducts() {
+    throw new Error('Method not implemented.');
+  }
 }
