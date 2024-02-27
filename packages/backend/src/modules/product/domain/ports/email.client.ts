@@ -3,4 +3,10 @@ export abstract class IEmailClient {
     toEmail: string,
     toFirstName: string,
   ): Promise<void>;
+
+  abstract sendProductAvailabilityEmail(
+    toEmail: string,
+    toFirstName: string,
+    oldProductThresholdInDays: number,
+  ): Promise<void>;
 }
