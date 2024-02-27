@@ -576,6 +576,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       'https://feedfiles.woolytech.com/procycles.myshopify.com/9RclmUHL1O.csv',
     catalog: {
       defaultProductCondition: Condition.VERY_GOOD,
+      csvTransformer: (input: string) => {
+        return input.replace(/\n^(?![0-9]{13}).*$/gm, (match) =>
+          match.replace(/\n/g, '<br>'),
+        );
+      },
       csvColumns: {
         productId: 1,
         variantId: 1,

@@ -88,7 +88,13 @@ export class CSVClient {
       throw new Error('CSV columns config not found');
     }
 
-    const extractedRows = await extractRowsFromCSVRawText(text, { from: 2 });
+    const csvTransformer =
+      this.vendorConfigService.getVendorConfig().catalog?.csvTransformer;
+    const textToParse = csvTransformer ? csvTransformer(text) : text;
+
+    const extractedRows = await extractRowsFromCSVRawText(textToParse, {
+      from: 2,
+    });
 
     const rows = extractedRows.filter((row) => {
       if (!productId) return true;
@@ -97,7 +103,7 @@ export class CSVClient {
     });
 
     const headers = (
-      await extractRowsFromCSVRawText(text, { from: 1, to: 1 })
+      await extractRowsFromCSVRawText(textToParse, { from: 1, to: 1 })
     )[0];
 
     if (rows.some((row) => row.length !== headers.length)) {
