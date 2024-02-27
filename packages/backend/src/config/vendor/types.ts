@@ -129,7 +129,7 @@ export interface FullVendorConfig {
       variantId: number;
       variantCondition: number;
       productTitle: number;
-      description?: number;
+      description?: number[];
       tags: number[];
       images: number[];
       inventoryQuantity?: number;

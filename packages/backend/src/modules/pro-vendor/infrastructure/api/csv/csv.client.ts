@@ -126,7 +126,10 @@ export class CSVClient {
       variantId: getColumnValue(row, csvColumnsConfig.variantId),
       variantCondition: getColumnValue(row, csvColumnsConfig.variantCondition),
       productTitle: getColumnValue(row, csvColumnsConfig.productTitle),
-      description: getColumnValue(row, csvColumnsConfig.description),
+      description:
+        csvColumnsConfig.description
+          ?.map((description) => getColumnValue(row, description))
+          .join('<br>') ?? '',
       tags: csvColumnsConfig.tags.map((tag) => ({
         key: getColumnValue(headers, tag),
         value: getColumnValue(row, tag),
@@ -223,7 +226,7 @@ export class CSVClient {
           id: variant.productId,
           type: variant.productType,
           title: variant.productTitle,
-          description: variant.description ?? '',
+          description: variant.description,
           images: variant.images
             .flatMap((image) => (image ? [image] : []))
             .map((image) => new URL({ url: image })),
