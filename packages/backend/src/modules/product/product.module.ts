@@ -8,6 +8,7 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
 import { CollectionService } from './domain/collection.service';
@@ -27,49 +28,60 @@ import { SearchClient } from './infrastructure/search/search.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
 
+const commonImports = [
+  PrismaModule,
+  BullModule.registerQueueAsync({
+    name: QueueNames.PRODUCTS_TO_INDEX,
+    useFactory: getRedisConfig,
+  }),
+];
+
+const commonProviders = [
+  ShopifyApiBySession,
+  SessionMapper,
+  PostgreSQLSessionStorage,
+  CustomerRepository,
+  IndexationService,
+  StoreMapper,
+  {
+    provide: ISearchClient,
+    useClass: SearchClient,
+  },
+  {
+    provide: IQueueClient,
+    useClass: QueueClient,
+  },
+  {
+    provide: IPIMClient,
+    useClass: StrapiClient,
+  },
+  {
+    provide: IStoreClient,
+    useClass: ShopifyClient,
+  },
+  {
+    provide: IEmailClient,
+    useClass: SendGridClient,
+  },
+  NotificationService,
+  ProductCreationService,
+  ProductUpdateService,
+  CollectionService,
+  AdminGuard,
+  AuthGuard('header-api-key'),
+];
+
 @Module({
-  imports: [
-    PrismaModule,
-    BullModule.registerQueueAsync({
-      name: QueueNames.PRODUCTS_TO_INDEX,
-      useFactory: getRedisConfig,
-    }),
-  ],
+  imports: commonImports,
   controllers: [ProductController],
-  providers: [
-    ShopifyApiBySession,
-    SessionMapper,
-    PostgreSQLSessionStorage,
-    CustomerRepository,
-    IndexationService,
-    StoreMapper,
-    {
-      provide: ISearchClient,
-      useClass: SearchClient,
-    },
-    {
-      provide: IQueueClient,
-      useClass: QueueClient,
-    },
-    {
-      provide: IPIMClient,
-      useClass: StrapiClient,
-    },
-    {
-      provide: IStoreClient,
-      useClass: ShopifyClient,
-    },
-    {
-      provide: IEmailClient,
-      useClass: SendGridClient,
-    },
-    NotificationService,
-    ProductCreationService,
-    ProductUpdateService,
-    CollectionService,
-    AdminGuard,
-    AuthGuard('header-api-key'),
-  ],
+  providers: commonProviders,
   exports: [ProductCreationService, ProductUpdateService],
 })
 export class ProductModule {}
+
+@Module({
+  imports: commonImports,
+  controllers: [],
+  providers: [...commonProviders, ProductCLIConsole],
+})
+export class ProductConsoleModule {}
