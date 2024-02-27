@@ -3,7 +3,7 @@
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true,
+      "source.organizeImports": "explicit"
     },
     "eslint.workingDirectories": ["./packages/backend","./packages/frontend"],
     "files.autoSaveWorkspaceFilesOnly": false,
