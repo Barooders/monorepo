@@ -16,4 +16,19 @@ export class SendGridClient implements IEmailClient {
       },
     );
   }
+
+  async sendProductAvailabilityEmail(
+    toEmail: string,
+    toFirstName: string,
+    oldProductThresholdInDays: number,
+  ): Promise<void> {
+    await sendEmailFromTemplate(
+      [{ email: toEmail }],
+      'd-e2e562ea5d55474aa26055ec97b616dd',
+      {
+        firstName: toFirstName,
+        product_age: oldProductThresholdInDays,
+      },
+    );
+  }
 }

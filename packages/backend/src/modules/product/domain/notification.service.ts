@@ -1,4 +1,5 @@
 import {
+  CustomerType,
   NotificationName,
   NotificationType,
   PrismaMainClient,
@@ -9,8 +10,8 @@ import * as Sentry from '@sentry/node';
 import { IEmailClient } from './ports/email.client';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
-const PRODUCT_AVAILABILITY_TRIGGER = 30 * ONE_DAY;
-const EMAIL_AVAILABILITY_FREQUENCY = 20 * ONE_DAY;
+const OLD_PRODUCT_IN_DAYS = 30;
+const EMAIL_FREQUENCY_IN_DAYS = 20;
 
 @Injectable()
 export class NotificationService {
@@ -45,7 +46,7 @@ export class NotificationService {
     const productQuery = {
       status: ProductStatus.ACTIVE,
       createdAt: {
-        lte: new Date(new Date().getTime() - PRODUCT_AVAILABILITY_TRIGGER),
+        lte: new Date(new Date().getTime() - OLD_PRODUCT_IN_DAYS * ONE_DAY),
       },
       OR: [
         {
@@ -72,13 +73,14 @@ export class NotificationService {
             name: NotificationName.IS_PRODUCT_STILL_AVAILABLE,
             createdAt: {
               gte: new Date(
-                new Date().getTime() - EMAIL_AVAILABILITY_FREQUENCY,
+                new Date().getTime() - EMAIL_FREQUENCY_IN_DAYS * ONE_DAY,
               ),
             },
           },
         },
       },
       include: {
+        user: true,
         _count: {
           select: {
             products: {
@@ -89,8 +91,50 @@ export class NotificationService {
       },
     });
 
-    this.logger.debug(vendors.length);
+    this.logger.warn(`Found ${vendors.length} vendors with old products`);
 
-    throw new Error('Method not implemented.');
+    for (const vendor of vendors) {
+      try {
+        if (!vendor.user?.email)
+          throw new Error(`Vendor ${vendor.authUserId} has no email`);
+        if (vendor.user.disabled)
+          throw new Error(`Vendor ${vendor.authUserId} is disabled`);
+        if (vendor._count.products === 0)
+          throw new Error(`Vendor ${vendor.authUserId} has no old products`);
+
+        await this.emailClient.sendProductAvailabilityEmail(
+          vendor.user.email,
+          vendor.firstName ?? '',
+          OLD_PRODUCT_IN_DAYS,
+        );
+        await this.prisma.notification.create({
+          data: {
+            type: NotificationType.EMAIL,
+            name: NotificationName.IS_PRODUCT_STILL_AVAILABLE,
+            recipientType: CustomerType.seller,
+            metadata: {
+              vendorEmail: vendor.user.email,
+              emailFrequency: EMAIL_FREQUENCY_IN_DAYS,
+              oldProductThresholdInDays: OLD_PRODUCT_IN_DAYS,
+              oldProductsCount: vendor._count.products,
+            },
+            recipient: {
+              connect: {
+                authUserId: vendor.authUserId,
+              },
+            },
+          },
+        });
+        this.logger.warn(
+          `Notified vendor ${vendor.authUserId} for old products`,
+        );
+      } catch (error: any) {
+        this.logger.error(
+          `Cannot notify vendor (${vendor.authUserId}) because ${error.message}`,
+          error,
+        );
+        Sentry.captureException(error);
+      }
+    }
   }
 }
