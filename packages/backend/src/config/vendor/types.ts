@@ -132,7 +132,7 @@ export interface FullVendorConfig {
       description?: number;
       tags: number[];
       images: number[];
-      inventoryQuantity: number;
+      inventoryQuantity?: number;
       price: number;
       compareAtPrice: number;
       option1?: number;
@@ -271,7 +271,6 @@ export type VendorSecretsType = {
   techniCyclesAccessToken: string;
   loewiAccessToken: string;
   baroudeurAccessToken: string;
-  tchAccessToken: string;
   velomeldoisAccessToken: string;
   cyclinkAccessToken: string;
   mintAccessToken: string;

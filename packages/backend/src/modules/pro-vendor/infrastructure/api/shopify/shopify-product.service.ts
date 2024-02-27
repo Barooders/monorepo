@@ -21,7 +21,6 @@ import { MintMapper } from './mappers/mint.mapper';
 import { NordicsMapper } from './mappers/nordics.mapper';
 import { PastelMapper } from './mappers/pastel.mapper';
 import { PilatMapper } from './mappers/pilat.mapper';
-import { TCHMapper } from './mappers/tch.mapper';
 import { TechniCyclesMapper } from './mappers/techni-cycles.mapper';
 import { TNCMapper } from './mappers/tnc.mapper';
 import { VeloMeldoisMapper } from './mappers/velo-meldois.mapper';
@@ -37,7 +36,6 @@ export class ShopifyProductService implements ProVendorStrategy {
     private shopifyDefaultMapper: ShopifyDefaultMapper,
     private nordicsMapper: NordicsMapper,
     private tncMapper: TNCMapper,
-    private tchMapper: TCHMapper,
     private boussoleMapper: BoussoleMapper,
     private pilatMapper: PilatMapper,
     private cyclinkMapper: CyclinkMapper,
@@ -59,8 +57,9 @@ export class ShopifyProductService implements ProVendorStrategy {
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<IProduct[]> {
-    const productsFromShopify =
-      await this.shopifyClient.getAllProducts(sinceDate);
+    const productsFromShopify = await this.shopifyClient.getAllProducts(
+      sinceDate,
+    );
 
     if (!productsFromShopify) throw new Error('Products not found on Shopify');
 
@@ -139,8 +138,6 @@ export class ShopifyProductService implements ProVendorStrategy {
         return this.mintMapper;
       case 'tnc':
         return this.tncMapper;
-      case 'tch':
-        return this.tchMapper;
       case 'cyclink':
         return this.cyclinkMapper;
       case 'techni_cycles':

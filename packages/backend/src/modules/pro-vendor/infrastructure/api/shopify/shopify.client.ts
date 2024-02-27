@@ -15,7 +15,6 @@ import { NordicsValueClient } from './clients/nordics-value.client';
 import { PastelClient } from './clients/pastel.client';
 import { PilatClient } from './clients/pilat.client';
 import { ProjetBoussoleClient } from './clients/projet-boussole.client';
-import { TCHClient } from './clients/tch.client';
 import { TechniCyclesClient } from './clients/techni-cycles.client';
 import { TNCClient } from './clients/tnc.client';
 import { VeloMeldoisClient } from './clients/velo-meldois.client';
@@ -54,7 +53,6 @@ export class ShopifyClient {
     private nordicsValueClient: NordicsValueClient,
     private cyclinkClient: CyclinkClient,
     private hbeClient: HbeClient,
-    private tchClient: TCHClient,
     private pastelClient: PastelClient,
     private techniCyclesClient: TechniCyclesClient,
     private willemClient: WillemClient,
@@ -73,8 +71,9 @@ export class ShopifyClient {
     let products: Shopify.IProduct[] = [];
 
     do {
-      const newProducts =
-        await this.getOrCreateShopifyApiNode().product.list(params);
+      const newProducts = await this.getOrCreateShopifyApiNode().product.list(
+        params,
+      );
 
       products = [...products, ...newProducts];
 
@@ -193,8 +192,6 @@ export class ShopifyClient {
         return this.veloMeldoisClient.getClient();
       case 'tnc':
         return this.tncClient.getClient();
-      case 'tch':
-        return this.tchClient.getClient();
       case 'pastel':
         return this.pastelClient.getClient();
       case 'techni_cycles':

@@ -571,9 +571,28 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   tch: {
     slug: 'tch',
     mappingKey: 'tch',
-    type: VendorType.SHOPIFY,
-    apiUrl: 'procycles.myshopify.com',
-    accessToken: vendorSecrets.tchAccessToken,
+    type: VendorType.CSV,
+    apiUrl:
+      'https://feedfiles.woolytech.com/procycles.myshopify.com/9RclmUHL1O.csv',
+    catalog: {
+      defaultProductCondition: Condition.VERY_GOOD,
+      csvColumns: {
+        productId: 1,
+        variantId: 1,
+        productType: [5],
+        productTitle: 3,
+        description: 38,
+        variantCondition: 4,
+        tags: [2, 3, 4, 6, 7, 9, 12],
+        images: [
+          13, 14, 15, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+          31, 32, 33, 34, 35, 36, 37,
+        ],
+        option1: 8,
+        compareAtPrice: 10,
+        price: 11,
+      },
+    },
   },
   velo_meldois: {
     slug: 'velo_meldois',

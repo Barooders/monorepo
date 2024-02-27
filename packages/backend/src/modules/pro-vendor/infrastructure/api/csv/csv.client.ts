@@ -134,10 +134,9 @@ export class CSVClient {
       images: csvColumnsConfig.images.map((image) =>
         getColumnValue(row, image),
       ),
-      inventoryQuantity: getColumnValue(
-        row,
-        csvColumnsConfig.inventoryQuantity,
-      ),
+      inventoryQuantity: csvColumnsConfig.inventoryQuantity
+        ? getColumnValue(row, csvColumnsConfig.inventoryQuantity)
+        : '1',
       isActive: getColumnValue(row, csvColumnsConfig.isActive)
         ? getColumnValue(row, csvColumnsConfig.isActive) === '1'
         : true,
