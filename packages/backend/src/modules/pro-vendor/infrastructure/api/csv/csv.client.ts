@@ -88,7 +88,13 @@ export class CSVClient {
       throw new Error('CSV columns config not found');
     }
 
-    const extractedRows = await extractRowsFromCSVRawText(text, { from: 2 });
+    const csvTransformer =
+      this.vendorConfigService.getVendorConfig().catalog?.csvTransformer;
+    const textToParse = csvTransformer ? csvTransformer(text) : text;
+
+    const extractedRows = await extractRowsFromCSVRawText(textToParse, {
+      from: 2,
+    });
 
     const rows = extractedRows.filter((row) => {
       if (!productId) return true;
@@ -97,7 +103,7 @@ export class CSVClient {
     });
 
     const headers = (
-      await extractRowsFromCSVRawText(text, { from: 1, to: 1 })
+      await extractRowsFromCSVRawText(textToParse, { from: 1, to: 1 })
     )[0];
 
     if (rows.some((row) => row.length !== headers.length)) {
@@ -126,7 +132,10 @@ export class CSVClient {
       variantId: getColumnValue(row, csvColumnsConfig.variantId),
       variantCondition: getColumnValue(row, csvColumnsConfig.variantCondition),
       productTitle: getColumnValue(row, csvColumnsConfig.productTitle),
-      description: getColumnValue(row, csvColumnsConfig.description),
+      description:
+        csvColumnsConfig.description
+          ?.map((description) => getColumnValue(row, description))
+          .join('<br>') ?? '',
       tags: csvColumnsConfig.tags.map((tag) => ({
         key: getColumnValue(headers, tag),
         value: getColumnValue(row, tag),
@@ -134,10 +143,9 @@ export class CSVClient {
       images: csvColumnsConfig.images.map((image) =>
         getColumnValue(row, image),
       ),
-      inventoryQuantity: getColumnValue(
-        row,
-        csvColumnsConfig.inventoryQuantity,
-      ),
+      inventoryQuantity: csvColumnsConfig.inventoryQuantity
+        ? getColumnValue(row, csvColumnsConfig.inventoryQuantity)
+        : '1',
       isActive: getColumnValue(row, csvColumnsConfig.isActive)
         ? getColumnValue(row, csvColumnsConfig.isActive) === '1'
         : true,
@@ -224,7 +232,7 @@ export class CSVClient {
           id: variant.productId,
           type: variant.productType,
           title: variant.productTitle,
-          description: variant.description ?? '',
+          description: variant.description,
           images: variant.images
             .flatMap((image) => (image ? [image] : []))
             .map((image) => new URL({ url: image })),

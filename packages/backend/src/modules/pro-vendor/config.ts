@@ -20,7 +20,6 @@ import { MintBikesClient } from '@modules/pro-vendor/infrastructure/api/shopify/
 import { NordicsValueClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/nordics-value.client';
 import { PastelClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/pastel.client';
 import { ProjetBoussoleClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/projet-boussole.client';
-import { TCHClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/tch.client';
 import { TNCClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/tnc.client';
 import { VeloMeldoisClient } from '@modules/pro-vendor/infrastructure/api/shopify/clients/velo-meldois.client';
 import { BoussoleMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/boussole.mapper';
@@ -29,7 +28,6 @@ import { ShopifyDefaultMapper } from '@modules/pro-vendor/infrastructure/api/sho
 import { MintMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/mint.mapper';
 import { NordicsMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/nordics.mapper';
 import { PastelMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/pastel.mapper';
-import { TCHMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/tch.mapper';
 import { TNCMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/tnc.mapper';
 import { VeloMeldoisMapper } from '@modules/pro-vendor/infrastructure/api/shopify/mappers/velo-meldois.mapper';
 import { ShopifyProductService } from '@modules/pro-vendor/infrastructure/api/shopify/shopify-product.service';
@@ -56,6 +54,7 @@ import { IVendorProductServiceProvider } from './domain/ports/vendor-product-ser
 import { CSVProductService } from './infrastructure/api/csv/csv-product.service';
 import { CSVClient } from './infrastructure/api/csv/csv.client';
 import { CSVMapper } from './infrastructure/api/csv/csv.mapper';
+import { BikeXtremeMapper } from './infrastructure/api/prestashop/mappers/bike-xtreme.mapper';
 import { FunbikeMapper } from './infrastructure/api/prestashop/mappers/funbike.mapper';
 import { TribiciMapper } from './infrastructure/api/prestashop/mappers/tribici.mapper';
 import { Velosport34Mapper } from './infrastructure/api/prestashop/mappers/velosport34.mapper';
@@ -88,7 +87,6 @@ import { VendorConfigService } from './infrastructure/config/vendor-config.servi
 import { VendorOrderServiceProvider } from './infrastructure/config/vendor-order-service.provider';
 import { VendorProductServiceProvider } from './infrastructure/config/vendor-product-service.provider';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
-import { BikeXtremeMapper } from './infrastructure/api/prestashop/mappers/bike-xtreme.mapper';
 
 export const proVendorSharedServices = [
   CustomerRepository,
@@ -99,7 +97,6 @@ export const proVendorSharedServices = [
   MintBikesClient,
   CyclinkClient,
   HbeClient,
-  TCHClient,
   PastelClient,
   TechniCyclesClient,
   WillemClient,
@@ -140,7 +137,6 @@ export const proVendorSharedServices = [
   VeloMeldoisMapper,
   NordicsMapper,
   TNCMapper,
-  TCHMapper,
   BoussoleMapper,
   PilatMapper,
   CyclinkMapper,

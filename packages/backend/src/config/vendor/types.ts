@@ -122,6 +122,7 @@ export interface FullVendorConfig {
     ignoredVariants?: string[];
     brandFilter?: BrandFilter;
     excludedTitles?: string[];
+    csvTransformer?: (input: string) => string;
     csvColumns?: {
       isActive?: number;
       productId: number;
@@ -129,10 +130,10 @@ export interface FullVendorConfig {
       variantId: number;
       variantCondition: number;
       productTitle: number;
-      description?: number;
+      description?: number[];
       tags: number[];
       images: number[];
-      inventoryQuantity: number;
+      inventoryQuantity?: number;
       price: number;
       compareAtPrice: number;
       option1?: number;
@@ -271,7 +272,6 @@ export type VendorSecretsType = {
   techniCyclesAccessToken: string;
   loewiAccessToken: string;
   baroudeurAccessToken: string;
-  tchAccessToken: string;
   velomeldoisAccessToken: string;
   cyclinkAccessToken: string;
   mintAccessToken: string;
