@@ -71,9 +71,8 @@ export class ShopifyClient {
     let products: Shopify.IProduct[] = [];
 
     do {
-      const newProducts = await this.getOrCreateShopifyApiNode().product.list(
-        params,
-      );
+      const newProducts =
+        await this.getOrCreateShopifyApiNode().product.list(params);
 
       products = [...products, ...newProducts];
 
