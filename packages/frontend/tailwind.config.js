@@ -31,6 +31,7 @@ module.exports = {
       },
       gray: {
         ...colors.gray,
+        150: '#EEF0F1',
         900: '#323232',
       },
     },

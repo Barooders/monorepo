@@ -22,7 +22,7 @@ const TrustpilotWidget = () => {
           data-style-width="100%"
           data-theme="dark"
           data-font-family="Roboto"
-          data-text-color="#ffffff"
+          data-text-color="#20292F"
           data-style-alignment="left"
         >
           <a
