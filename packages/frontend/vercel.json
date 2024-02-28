@@ -10,5 +10,5 @@
       ]
     }
   ],
-  "ignoreCommand": "git diff HEAD^ HEAD --quiet ./"
+  "ignoreCommand": "bash vercel-should-deploy.sh"
 }
