@@ -88,9 +88,9 @@ export class CSVClient {
       throw new Error('CSV columns config not found');
     }
 
-    const csvTransformer =
-      this.vendorConfigService.getVendorConfig().catalog?.csvTransformer;
-    const textToParse = csvTransformer ? csvTransformer(text) : text;
+    const textTransformer =
+      this.vendorConfigService.getVendorConfig().catalog?.textTransformer;
+    const textToParse = textTransformer ? textTransformer(text) : text;
 
     const extractedRows = await extractRowsFromCSVRawText(textToParse, {
       from: 2,

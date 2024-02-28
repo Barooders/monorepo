@@ -576,7 +576,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       'https://feedfiles.woolytech.com/procycles.myshopify.com/9RclmUHL1O.csv',
     catalog: {
       defaultProductCondition: Condition.VERY_GOOD,
-      csvTransformer: (input: string) => {
+      textTransformer: (input: string) => {
         return input.replace(/\n^(?![0-9]{13}).*$/gm, (match) =>
           match.replace(/\n/g, '<br>'),
         );
@@ -708,6 +708,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://files.channable.com/XhAjAJB4Y8SPMLjfBDhJPg==.xml',
     catalog: {
       defaultPublishedProductStatus: ProductStatus.DRAFT,
+      textTransformer: (input: string) => {
+        return input.replaceAll('taille cadre_vtt', 'taille_cadre_vtt');
+      },
       xmlFields: {
         variant: 'Product',
         productId: 'id_produit',
@@ -747,7 +750,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
         },
         option2: {
           key: 'Taille VTT',
-          value: 'taille cadre_vtt',
+          value: 'taille_cadre_vtt',
         },
       },
     },

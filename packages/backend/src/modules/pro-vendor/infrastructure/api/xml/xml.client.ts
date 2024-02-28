@@ -66,7 +66,11 @@ export class XMLClient {
     text: string,
     productId?: string,
   ): Promise<XMLProduct[]> {
-    const $ = load(text, { xmlMode: true });
+    const textTransformer =
+      this.vendorConfigService.getVendorConfig().catalog?.textTransformer;
+    const textToParse = textTransformer ? textTransformer(text) : text;
+
+    const $ = load(textToParse, { xmlMode: true });
 
     const xmlFieldsConfig =
       this.vendorConfigService.getVendorConfig().catalog?.xmlFields;

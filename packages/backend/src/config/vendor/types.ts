@@ -122,7 +122,7 @@ export interface FullVendorConfig {
     ignoredVariants?: string[];
     brandFilter?: BrandFilter;
     excludedTitles?: string[];
-    csvTransformer?: (input: string) => string;
+    textTransformer?: (input: string) => string;
     csvColumns?: {
       isActive?: number;
       productId: number;
