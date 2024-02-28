@@ -13,25 +13,25 @@ const TrustpilotWidget = () => {
 
   return (
     <>
-        <div
-          className="trustpilot-widget"
-          data-locale="fr-FR"
-          data-template-id="5419b6a8b0d04a076446a9ad"
-          data-businessunit-id="61724ed16359eeffdfeeebbc"
-          data-style-height="24px"
-          data-style-width="100%"
-          data-theme="dark"
-          data-font-family="Roboto"
-          data-text-color="#20292F"
-          data-style-alignment="left"
-        >
-          <a
-            href="https://fr.trustpilot.com/review/barooders.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          </a>
-        </div>
+      <div
+        ref={ref}
+        className="trustpilot-widget"
+        data-locale="fr-FR"
+        data-template-id="5419b6a8b0d04a076446a9ad"
+        data-businessunit-id="61724ed16359eeffdfeeebbc"
+        data-style-height="24px"
+        data-style-width="100%"
+        data-theme="light"
+        data-font-family="Roboto"
+        data-text-color="#20292F"
+        data-style-alignment="left"
+      >
+        <a
+          href="https://fr.trustpilot.com/review/barooders.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        ></a>
+      </div>
     </>
   );
 };
