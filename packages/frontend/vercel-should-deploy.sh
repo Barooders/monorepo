@@ -19,8 +19,3 @@ else
   echo "🛑 - Build cancelled"
   exit 0;
 fi
-
-
-
-
-git diff HEAD^ HEAD --quiet ./
