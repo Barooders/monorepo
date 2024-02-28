@@ -34,4 +34,9 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     label: 'Wheely',
     type: 'dynamic',
   },
+  {
+    title: 'TREK30',
+    label: 'Wheely',
+    type: 'dynamic',
+  },
 ];
