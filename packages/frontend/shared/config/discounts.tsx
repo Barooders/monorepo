@@ -30,8 +30,8 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    title: 'TNC10',
-    label: 'TNC',
+    title: 'WHEELY100',
+    label: 'Wheely',
     type: 'dynamic',
   },
 ];
