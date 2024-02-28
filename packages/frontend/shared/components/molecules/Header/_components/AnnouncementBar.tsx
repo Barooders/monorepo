@@ -29,7 +29,7 @@ const AnnouncementBar = () => {
   const dict = getDictionary('fr');
 
   return (
-    <div className="bg-secondary-900 relative hidden h-9 w-full text-white lg:block">
+    <div className="bg-secondary-900 relative hidden h-9 w-full px-2 text-white lg:block lg:px-4">
       <Ellipse className="absolute left-0 top-0" />
       <div className="max-w-page-content mx-auto flex h-full items-center justify-between">
         <div>
@@ -37,16 +37,16 @@ const AnnouncementBar = () => {
             <TrustpilotWidget />
           </NoSSR>
         </div>
-        <div className="flex gap-12">
+        <div className="flex gap-8 xl:gap-12">
           {dict.header.announcementItems.map((item) => (
             <div
               key={item}
-              className="flex flex-row items-center text-sm"
+              className="flex flex-row items-center"
             >
               <div className="rounded-2xl bg-white bg-opacity-10 p-1">
                 <FaCheck />
               </div>
-              <span className="ml-3">{item}</span>
+              <span className="ml-3 text-xs xl:text-sm">{item}</span>
             </div>
           ))}
         </div>
