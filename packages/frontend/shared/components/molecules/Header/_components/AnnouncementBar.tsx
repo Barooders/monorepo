@@ -17,17 +17,6 @@ const AnnouncementBar = () => {
     <div className="hidden h-9 w-full bg-secondary-900 text-white lg:block">
       <div className="mx-auto flex h-full max-w-page-content items-center px-10">
         <div className="flex flex-grow justify-center text-sm">
-          <NoSSR>
-            <div
-              className={`${libreFranklin.className}`}
-              dangerouslySetInnerHTML={{
-                __html: marked.parse(dictionnary.header.announcement),
-              }}
-            />
-          </NoSSR>
-        </div>
-        <div className="flex flex-shrink-0 gap-2 fill-white">
-          <SocialIcons />
         </div>
       </div>
     </div>

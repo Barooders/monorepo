@@ -396,9 +396,12 @@ const fr = {
       messages: 'Vos messages',
       account: 'Votre compte',
     },
-    announcement:
-      '100% Annonces vérifiées - Satisfait ou Remboursé - Paiement en 4 X - Service client 7 j / 7',
-    countdown: '1ère vente des articles de Mike Horn dans',
+    announcementItems: [
+      '100% Annonces vérifiées',
+      'Satisfait ou remboursé',
+      'Paiement en 4X',
+      'Service client 7j/7',
+    ]
   },
   vendorShop: {
     title: 'La boutique de ',

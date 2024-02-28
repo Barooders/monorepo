@@ -12,7 +12,6 @@ import {
 import { MegaMenuChunk } from '../MegaMenu/shared/types/app/MegaMenu.types';
 import SearchBar from '../SearchBar';
 import AnnouncementBar from './_components/AnnouncementBar';
-import CountDownBar from './_components/CountdownBar';
 import HeaderButton from './_components/HeaderButton';
 
 type PropsType = {
@@ -28,7 +27,7 @@ const HeaderContainer: React.FC<{
     id={id}
     className={`relative my-0 flex w-full justify-center border-0 bg-white px-2 lg:px-4 ${className}`}
   >
-    <div className="flex w-full max-w-page-content flex-col items-center justify-center">
+    <div className="max-w-page-content flex w-full flex-col items-center justify-center">
       {children}
     </div>
   </div>
@@ -39,7 +38,6 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
   return (
     <>
       <AnnouncementBar />
-      <CountDownBar />
       <header
         id="barooders-main-header"
         className="sticky top-0 z-30 flex flex-col items-center lg:static"
@@ -53,7 +51,7 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
               href="/account"
               title={dictionnary.header.icons.account}
             >
-              <MdOutlineAccountCircle className="h-full w-full fill-secondary-900" />
+              <MdOutlineAccountCircle className="fill-secondary-900 h-full w-full" />
             </HeaderButton>
           </div>
 
@@ -78,19 +76,19 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
                 href="/pages/favoris"
                 title={dictionnary.header.icons.favorites}
               >
-                <MdFavoriteBorder className="h-full w-full fill-secondary-900" />
+                <MdFavoriteBorder className="fill-secondary-900 h-full w-full" />
               </HeaderButton>
               <HeaderButton
                 href="/pages/chat"
                 title={dictionnary.header.icons.messages}
               >
-                <MdMailOutline className="h-full w-full fill-secondary-900" />
+                <MdMailOutline className="fill-secondary-900 h-full w-full" />
               </HeaderButton>
               <HeaderButton
                 href="/account"
                 title={dictionnary.header.icons.account}
               >
-                <MdOutlineAccountCircle className="h-full w-full fill-secondary-900" />
+                <MdOutlineAccountCircle className="fill-secondary-900 h-full w-full" />
               </HeaderButton>
             </div>
             <div className="hidden lg:block">
