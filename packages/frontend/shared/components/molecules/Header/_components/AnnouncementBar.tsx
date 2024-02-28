@@ -1,3 +1,4 @@
+import NoSSR from '@/components/atoms/NoSSR';
 import { getDictionary } from '@/i18n/translate';
 import { FaCheck } from 'react-icons/fa';
 import TrustpilotWidget from './TrustpilotWidget';
@@ -31,7 +32,11 @@ const AnnouncementBar = () => {
     <div className="bg-secondary-900 relative hidden h-9 w-full text-white lg:block">
       <Ellipse className="absolute left-0 top-0" />
       <div className="max-w-page-content mx-auto flex h-full items-center justify-between">
-        <TrustpilotWidget />
+        <div>
+          <NoSSR>
+            <TrustpilotWidget />
+          </NoSSR>
+        </div>
         <div className="flex gap-12">
           {dict.header.announcementItems.map((item) => (
             <div
