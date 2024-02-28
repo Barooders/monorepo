@@ -1,3 +1,4 @@
+import { Condition } from '@libs/domain/prisma.main.client';
 import { mapCondition } from '@libs/domain/product.interface';
 import {
   SyncLightProduct,
@@ -5,7 +6,10 @@ import {
 } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { CategoryService } from '@modules/pro-vendor/domain/service/category.service';
-import { TagService } from '@modules/pro-vendor/domain/service/tag.service';
+import {
+  FirstProductMapped,
+  TagService,
+} from '@modules/pro-vendor/domain/service/tag.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { compact } from 'lodash';
 import { XMLProduct } from './types';
@@ -29,14 +33,16 @@ export class XMLMapper {
   }
 
   async mapProduct(product: XMLProduct): Promise<SyncProduct | null> {
+    const metadata = {
+      externalId: product.id,
+      title: product.title,
+    };
+
     const productType = await this.categoryService.getOrCreateCategory(
       product.type,
       this.vendorConfigService.getVendorConfig().mappingKey,
       product.type,
-      {
-        externalId: product.id,
-        title: product.title,
-      },
+      metadata,
     );
 
     if (!productType) {
@@ -48,24 +54,41 @@ export class XMLMapper {
       ...(await this.mapLightProduct(product)),
       product_type: productType,
       body_html: product.description,
-      variants: product.variants.map((variant) => ({
-        external_id: variant.id,
-        condition: mapCondition(variant.condition),
-        inventory_quantity: variant.inventoryQuantity.stock,
-        price: variant.price.amount.toString(),
-        compare_at_price: variant.compareAtPrice?.amount.toString(),
-        optionProperties: compact([
-          variant.option1,
-          variant.option2,
-          variant.option3,
-        ]),
-      })),
+      variants: await Promise.all(
+        product.variants.map(async (variant) => ({
+          external_id: variant.id,
+          condition: await this.getCondition(variant.condition, metadata),
+          inventory_quantity: variant.inventoryQuantity.stock,
+          price: variant.price.amount.toString(),
+          compare_at_price: variant.compareAtPrice?.amount.toString(),
+          optionProperties: compact([
+            variant.option1,
+            variant.option2,
+            variant.option3,
+          ]),
+        })),
+      ),
       tags: await this.getTags(product),
       EANCode: product.EANCode,
       images: product.images.map(({ url: src }) => ({
         src,
       })),
     };
+  }
+
+  private async getCondition(
+    vendorCondition: string,
+    metadata: FirstProductMapped,
+  ): Promise<Condition> {
+    const mappedCondition = await this.tagService.getOrCreateTag(
+      'condition',
+      vendorCondition,
+      'condition',
+      this.vendorConfigService.getVendorConfig().mappingKey,
+      metadata,
+    );
+
+    return mapCondition(mappedCondition.join('-'));
   }
 
   private async getTags(xmlProduct: XMLProduct): Promise<string[]> {
