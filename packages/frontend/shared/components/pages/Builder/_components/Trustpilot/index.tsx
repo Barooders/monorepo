@@ -1,4 +1,3 @@
-import Link from '@/components/atoms/Link';
 import { useEffect, useRef } from 'react';
 
 const Trustpilot = () => {
@@ -23,13 +22,12 @@ const Trustpilot = () => {
         data-stars="4,5"
         data-review-languages="fr"
       >
-        <Link
+        <a
           href="https://fr.trustpilot.com/review/barooders.com"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Trustpilot
-        </Link>
+        </a>
       </div>
     </>
   );
