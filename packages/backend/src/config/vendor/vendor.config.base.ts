@@ -1,4 +1,4 @@
-import { Condition } from '@libs/domain/prisma.main.client';
+import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import { jsonParse } from '@libs/helpers/json';
 import { JSDOM } from 'jsdom';
 import { cloneDeep, merge } from 'lodash';
@@ -704,24 +704,51 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   zyclora: {
     slug: 'zyclora',
     mappingKey: 'zyclora',
-    type: VendorType.CSV,
-    apiUrl: 'https://files.channable.com/VwmJxs-EI-imWg60hufkLw==.csv',
+    type: VendorType.XML,
+    apiUrl: 'https://files.channable.com/XhAjAJB4Y8SPMLjfBDhJPg==.xml',
     catalog: {
-      csvColumns: {
-        productId: 1,
-        variantId: 2,
-        productEANCode: 3,
-        productTitle: 4,
-        tags: [5, 17, 18, 19, 20, 21, 22, 31, 32, 33, 34, 39, 40],
-        variantCondition: 24,
-        inventoryQuantity: 25,
-        compareAtPrice: 27,
-        price: 29,
-        description: [7],
-        images: [9, 10, 11, 12, 13, 14, 15, 16],
-        option1: 31,
-        option2: 32,
-        productType: [8, 35],
+      defaultPublishedProductStatus: ProductStatus.DRAFT,
+      xmlFields: {
+        variant: 'Product',
+        productId: 'id_produit',
+        productType: 'categories',
+        variantId: 'external_id',
+        variantCondition: 'etat',
+        productTitle: 'name',
+        description: 'long_description',
+        tags: [
+          'model_of_the_bike',
+          'short_description',
+          'marques',
+          'matiere_cadre',
+          'taille_roue_route',
+          'taille_roue_vtt',
+          'taille_du_cycliste_route',
+          'taille_du_cycliste_vtt',
+          'debattement_fourche',
+          'year',
+        ],
+        images: [
+          'image_1',
+          'image_2',
+          'image_3',
+          'image_4',
+          'image_5',
+          'image_6',
+          'image_7',
+          'image_8',
+        ],
+        inventoryQuantity: 'quantity',
+        price: 'specific_price_value',
+        compareAtPrice: 'price_tax_exc',
+        option1: {
+          key: 'Taille',
+          value: 'taille_cadre_route',
+        },
+        option2: {
+          key: 'Taille VTT',
+          value: 'taille cadre_vtt',
+        },
       },
     },
   },

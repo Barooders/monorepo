@@ -104,7 +104,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
     vendorId: 'f89cec51-7968-41d6-b42b-a967928a9591',
   },
   zyclora: {
-    vendorId: UNUSED_VENDOR_ID,
+    vendorId: '37c4f291-36d9-40de-933e-719eb4d2d833',
   },
   le_bon_coin: {
     vendorId: UNUSED_VENDOR_ID,
