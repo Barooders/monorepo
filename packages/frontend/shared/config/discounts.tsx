@@ -15,16 +15,6 @@ export type DiscountConfig = DynamicDiscountConfig | StaticDiscountConfig;
 
 export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   {
-    title: 'WEEK_VENDOR',
-    label: 'cette semaine',
-    type: 'dynamic',
-  },
-  {
-    title: 'CUBE30',
-    label: 'Cube',
-    type: 'dynamic',
-  },
-  {
     title: 'FREE_SHIPPING',
     label: 'Livraison gratuite',
     type: 'dynamic',
