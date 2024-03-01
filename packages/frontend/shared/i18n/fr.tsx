@@ -856,6 +856,7 @@ const fr = {
       columns: {
         label: 'Annonce',
         price: 'Prix',
+        numberOfViews: 'Nombre de vues',
         orderDate: 'Date de commande',
         orderName: 'Numéro de commande',
         status: 'Statut',
