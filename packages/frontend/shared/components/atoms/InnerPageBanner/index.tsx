@@ -16,14 +16,14 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: 'Marque de la semaine - CUBE - jusqu’à -50%',
+    label: 'Marque de la semaine - TREK - jusqu’à -50%',
     icon: '🚴‍♀️',
-    link: 'https://barooders.com/collections/cube',
+    link: 'https://barooders.com/collections/trek',
   },
   {
-    label: '️Vendeur de la semaine - CyclesY - jusqu’à -60%',
+    label: '️Vendeur de la semaine - Wheely - jusqu’à -60%',
     icon: '⭐️',
-    link: 'https://barooders.com/collections/vendors?q=CyclesY',
+    link: 'https://barooders.com/collections/wheely',
   },
 ];
 
