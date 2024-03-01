@@ -12,11 +12,11 @@ import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { ProductStatus } from '@/types';
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { mapProductFromGraphQl } from '../../_helpers/map-product';
-import { ProductStatus } from '@/types';
 
 const dict = getDictionary('fr');
 
@@ -37,6 +37,7 @@ type OnlineProduct = {
   imageSrc: string | null;
   price: string;
   link: string;
+  numberOfViews: number;
   status: ProductStatus;
   actions: {
     label: string;
@@ -60,6 +61,7 @@ const FETCH_ONLINE_PRODUCTS = gql`
         storeProduct: storeExposedProduct {
           handle
           productType
+          numberOfViews
           size
           product {
             variants(order_by: { variant: { price: asc } }, limit: 1) {
@@ -173,6 +175,7 @@ const OnlineProductsTable = () => {
           link,
           price,
           status,
+          numberOfViews: storeProduct.numberOfViews,
           actions: getActionsFromStatus(status, product.shopifyId),
         },
       };
@@ -208,6 +211,7 @@ const OnlineProductsTable = () => {
           price,
           status,
           link,
+          numberOfViews,
           actions,
         }) => ({
           label: (
@@ -219,6 +223,7 @@ const OnlineProductsTable = () => {
               link={link}
             />
           ),
+          numberOfViews: numberOfViews.toString(),
           price,
           status: (
             <div
@@ -291,19 +296,23 @@ const OnlineProductsTable = () => {
       columns={{
         desktopColumns: {
           label: {
-            width: 500,
+            width: 400,
             label: dict.account.tables.columns.label,
           },
+          numberOfViews: {
+            width: 160,
+            label: dict.account.tables.columns.numberOfViews,
+          },
           price: {
-            width: 150,
+            width: 130,
             label: dict.account.tables.columns.price,
           },
           status: {
-            width: 150,
+            width: 130,
             label: dict.account.tables.columns.status,
           },
           actions: {
-            width: 400,
+            width: 380,
             label: dict.account.tables.columns.actions,
           },
         },
