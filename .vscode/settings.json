@@ -11,5 +11,6 @@
         "**/.yarn": true,
         "**/.pnp.*": true
       },
-    "typescript.preferences.preferTypeOnlyAutoImports": false
+    "typescript.preferences.preferTypeOnlyAutoImports": false,
+    "prettier.configPath": "prettier.config.js"
 }
