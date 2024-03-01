@@ -25,7 +25,7 @@ const ProductDescription: React.FC<{
     ] as TagPairsType),
     ...(PINNED_TAGS.map((name) => [name, tags[name] ?? '-']) as TagPairsType),
     ...tagPairs.filter(
-      ([name]) => ![...PINNED_TAGS, 'état', 'taille-velo'].includes(name),
+      ([name]) => ![...PINNED_TAGS, 'état', 'taille-velo'].includes(name), //TODO: clean this up
     ),
   ];
   const TitleWrapper = isTitle ? 'h2' : 'p';

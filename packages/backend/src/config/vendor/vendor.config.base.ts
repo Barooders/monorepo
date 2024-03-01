@@ -729,6 +729,12 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           'taille_du_cycliste_route',
           'taille_du_cycliste_vtt',
           'debattement_fourche',
+          'type_suspension',
+          'groupe_transmission',
+          'développement_cassette',
+          'plateau',
+          'materiau_de_la_roue',
+          'vitesses',
           'year',
         ],
         images: [
