@@ -26,7 +26,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   },
   {
     title: 'TREK30',
-    label: 'Wheely',
+    label: 'Trek',
     type: 'dynamic',
   },
 ];
