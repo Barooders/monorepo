@@ -735,6 +735,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           'plateau',
           'materiau_de_la_roue',
           'vitesses',
+          'moteur',
+          'kilometrage',
+          'batterie',
           'year',
         ],
         images: [
