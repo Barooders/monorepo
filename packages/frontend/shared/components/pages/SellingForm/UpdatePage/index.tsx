@@ -1,24 +1,24 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
-import { FormStepType } from '../types';
-import StepMenu from './StepMenu';
-import { formSteps } from './steps';
-import useGetProductToUpdate from '../_hooks/useGetProductToUpdate';
-import Loader from '@/components/atoms/Loader';
 import Button from '@/components/atoms/Button';
-import useSellForm from '../_state/useSellForm';
-import { getDictionary } from '@/i18n/translate';
-import { useRouter } from 'next/navigation';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
-import { HiLockClosed } from 'react-icons/hi2';
-import Validation from './Validation';
-import { toast } from 'react-hot-toast';
-import { ProductStatus } from '@/types';
-import SellingFormPageContainer from '../_components/SellingFormPageContainer';
-import useFetchSellFormInformation from '../_hooks/useFetchSellFormInformation';
+import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import useUser from '@/hooks/state/useUser';
+import { getDictionary } from '@/i18n/translate';
+import { ProductStatus } from '@/types';
+import { useRouter } from 'next/navigation';
+import React, { Fragment, useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { HiLockClosed } from 'react-icons/hi2';
+import SellingFormPageContainer from '../_components/SellingFormPageContainer';
+import useFetchSellFormInformation from '../_hooks/useFetchSellFormInformation';
+import useGetProductToUpdate from '../_hooks/useGetProductToUpdate';
+import useCurrentStep from '../_state/useCurrentStep';
+import useSellForm from '../_state/useSellForm';
+import StepMenu from './StepMenu';
+import Validation from './Validation';
+import { formSteps } from './steps';
 
 const dict = getDictionary('fr');
 
@@ -29,8 +29,7 @@ type PropsType = {
 
 const UpdatePage: React.FC<PropsType> = ({ productId, variantId }) => {
   const [fetchState, doFetch] = useGetProductToUpdate();
-  const [currentEditingStep, setCurrentEditingStep] =
-    useState<FormStepType | null>(null);
+  const { currentEditingStep, onStepPress, goBackToMenu } = useCurrentStep();
   const [showPublicationMessage, setShowPublicationMessage] =
     useState<boolean>(false);
   const [, doFetchSellInformation] = useFetchSellFormInformation();
@@ -44,16 +43,6 @@ const UpdatePage: React.FC<PropsType> = ({ productId, variantId }) => {
       doFetchSellInformation();
     }
   }, [productId, variantId]);
-
-  const onStepPress = (item: FormStepType) => {
-    setCurrentEditingStep(item);
-    window.scrollTo({ top: 0, left: 0 });
-  };
-
-  const goBackToMenu = () => {
-    setCurrentEditingStep(null);
-    window.scrollTo({ top: 0, left: 0 });
-  };
 
   const currentStep = formSteps.find(
     (formStep) => formStep.name === currentEditingStep?.name,
