@@ -1,6 +1,6 @@
 'use client';
 
-import PersonalInfoForm from '@/components/molecules/PersonalInfoForm/container';
+import WrappedPersonalInfoForm from '@/components/molecules/PersonalInfoForm/container';
 import useCurrentStep from '../../../_state/useCurrentStep';
 import { FormStepProps } from '../../../types';
 
@@ -9,7 +9,7 @@ const PersonalInfoStep: React.FC<FormStepProps> = () => {
 
   return (
     <div className="p-5">
-      <PersonalInfoForm onSuccess={goBackToMenu} />
+      <WrappedPersonalInfoForm onSuccess={goBackToMenu} />
     </div>
   );
 };

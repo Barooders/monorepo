@@ -1,7 +1,7 @@
 'use client';
 
 import PageContainer from '@/components/atoms/PageContainer';
-import PersonalInfoForm from '@/components/molecules/PersonalInfoForm/container';
+import WrappedPersonalInfoForm from '@/components/molecules/PersonalInfoForm/container';
 import { getDictionary } from '@/i18n/translate';
 
 const dict = getDictionary('fr');
@@ -13,7 +13,7 @@ const PersonalInfo: React.FC = () => {
         <h1 className="mb-3 text-3xl font-semibold">
           {dict.account.myInfo.title}
         </h1>
-        <PersonalInfoForm />
+        <WrappedPersonalInfoForm />
       </div>
     </PageContainer>
   );
