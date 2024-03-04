@@ -27,7 +27,7 @@ const HeaderContainer: React.FC<{
     id={id}
     className={`relative my-0 flex w-full justify-center border-0 bg-white px-2 lg:px-4 ${className}`}
   >
-    <div className="max-w-page-content flex w-full flex-col items-center justify-center">
+    <div className="flex w-full max-w-page-content flex-col items-center justify-center">
       {children}
     </div>
   </div>
@@ -40,7 +40,7 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
       <AnnouncementBar />
       <header
         id="barooders-main-header"
-        className="sticky top-0 z-30 flex flex-col items-center lg:static"
+        className="sticky top-0 z-30 flex flex-col items-center"
       >
         <HeaderContainer className="py-2 lg:py-4">
           <div className="lg:hidden">
@@ -51,7 +51,7 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
               href="/account"
               title={dictionnary.header.icons.account}
             >
-              <MdOutlineAccountCircle className="fill-secondary-900 h-full w-full" />
+              <MdOutlineAccountCircle className="h-full w-full fill-secondary-900" />
             </HeaderButton>
           </div>
 
@@ -76,19 +76,19 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
                 href="/pages/favoris"
                 title={dictionnary.header.icons.favorites}
               >
-                <MdFavoriteBorder className="fill-secondary-900 h-full w-full" />
+                <MdFavoriteBorder className="h-full w-full fill-secondary-900" />
               </HeaderButton>
               <HeaderButton
                 href="/pages/chat"
                 title={dictionnary.header.icons.messages}
               >
-                <MdMailOutline className="fill-secondary-900 h-full w-full" />
+                <MdMailOutline className="h-full w-full fill-secondary-900" />
               </HeaderButton>
               <HeaderButton
                 href="/account"
                 title={dictionnary.header.icons.account}
               >
-                <MdOutlineAccountCircle className="fill-secondary-900 h-full w-full" />
+                <MdOutlineAccountCircle className="h-full w-full fill-secondary-900" />
               </HeaderButton>
             </div>
             <div className="hidden lg:block">
@@ -96,13 +96,13 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
             </div>
           </div>
         </HeaderContainer>
+        <HeaderContainer
+          id="barooders-main-menu"
+          className="border-gray-2 py-1 lg:border-b lg:py-2"
+        >
+          <MegaMenu megaMenu={megaMenu} />
+        </HeaderContainer>
       </header>
-      <HeaderContainer
-        id="barooders-main-menu"
-        className="border-gray-2 py-1 lg:border-b lg:py-2"
-      >
-        <MegaMenu megaMenu={megaMenu} />
-      </HeaderContainer>
     </>
   );
 };
