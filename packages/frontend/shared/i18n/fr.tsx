@@ -1127,7 +1127,8 @@ const fr = {
         state: 'Que son état est conforme à notre charte d’utilisation',
         pictures: 'La qualité des photos',
       },
-      findYourListing: 'Retrouvez votre annonce dans l’espace',
+      findYourListing:
+        "Vous pourrez voir votre annonce d'ici 15min dans l’espace",
       myShop: 'Ma boutique',
       addAnother: 'Ajouter un autre produit',
     },
