@@ -401,7 +401,7 @@ const fr = {
       'Satisfait ou remboursé',
       'Paiement en 4X',
       'Service client 7j/7',
-    ]
+    ],
   },
   vendorShop: {
     title: 'La boutique de ',
@@ -1033,7 +1033,7 @@ const fr = {
     productTypeSearchPlaceholder: 'VTT, Vélo de route, Ski...',
     stepToComplete: (plural: boolean) =>
       plural ? 'étapes restantes' : 'étape restante',
-    validate: 'Valider',
+    validate: 'Valider 1',
     informationStep: {
       stepTitle: 'Informations',
     },
