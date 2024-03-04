@@ -401,7 +401,7 @@ const fr = {
       'Satisfait ou remboursé',
       'Paiement en 4X',
       'Service client 7j/7',
-    ]
+    ],
   },
   vendorShop: {
     title: 'La boutique de ',
@@ -991,7 +991,7 @@ const fr = {
     offerHasBeenSent: 'Votre offre à bien été envoyée au vendeur',
     quickResponse: 'Vous recevrez une réponse dans les meilleurs délais',
     backToSite: 'Retour au site',
-    goToChat: 'Ouvrir le chat',
+    goToChat: 'Ouvrir la messagerie',
     customerService: 'Une question ? Contactez notre service client',
     newPricePlaceholder: '€',
     newPriceLabel: 'Prix proposé',
