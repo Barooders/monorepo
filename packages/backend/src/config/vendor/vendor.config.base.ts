@@ -451,7 +451,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
             ...jsDom.window.document.querySelectorAll(
               '[data-qa-id*=adview_title]',
             ),
-          ].some((el) => el.textContent?.toLowerCase().includes('vendu'))
+          ].some((el) => el.textContent?.includes('#VENDU#'))
         );
       },
     },
