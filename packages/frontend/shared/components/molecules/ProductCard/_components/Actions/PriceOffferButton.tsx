@@ -1,13 +1,14 @@
 'use client';
 
+import { OpenedPriceOfferProductPageSubscription } from '@/__generated/graphql';
 import Button, {
   PropsType as ButtonPropsType,
 } from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
+import useUser from '@/hooks/state/useUser';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
-import { OpenedPriceOfferProductPageSubscription } from '@/__generated/graphql';
 import { gql, useSubscription } from '@apollo/client';
 import { first } from 'lodash';
 import React from 'react';
@@ -37,7 +38,7 @@ const OPENED_PRICE_OFFERS_PRODUCT_PAGE = gql`
   }
 `;
 
-const PriceOffferButton: React.FC<{
+type PropsType = {
   variant: ProductSingleVariant['variantShopifyId'];
   productId: ProductSingleVariant['id'];
   price: ProductSingleVariant['price'];
@@ -46,7 +47,9 @@ const PriceOffferButton: React.FC<{
   className?: string;
   size?: ButtonPropsType['size'];
   shouldRedirectToChat?: boolean;
-}> = ({
+};
+
+const PriceOffferButton: React.FC<PropsType> = ({
   productId,
   variant,
   price,
@@ -56,6 +59,23 @@ const PriceOffferButton: React.FC<{
   size,
   shouldRedirectToChat,
 }) => {
+  const MakeOfferButton: React.FC<{
+    openModal: () => void;
+  }> = ({ openModal }) => {
+    const { needsLogin } = useIsLoggedIn();
+
+    return (
+      <Button
+        className={`text-sm ${className}`}
+        intent="tertiary"
+        onClick={needsLogin(openModal)}
+        size={size}
+      >
+        {dict.makeOffer.openModal}
+      </Button>
+    );
+  };
+
   const ButtonComponent: React.FC<{ openModal: () => void }> = ({
     openModal,
   }) => {
@@ -68,8 +88,6 @@ const PriceOffferButton: React.FC<{
       );
 
     const productShopifyId = first(data?.PriceOffer)?.product.shopifyId;
-
-    const { needsLogin } = useIsLoggedIn();
 
     return loading ? (
       <div className="flex items-start justify-center">
@@ -85,20 +103,15 @@ const PriceOffferButton: React.FC<{
         {dict.makeOffer.seePriceOffer}
       </Button>
     ) : (
-      <Button
-        className={`text-sm ${className}`}
-        intent="tertiary"
-        onClick={needsLogin(openModal)}
-        size={size}
-      >
-        {dict.makeOffer.openModal}
-      </Button>
+      <MakeOfferButton openModal={openModal} />
     );
   };
 
+  const { hasuraToken } = useUser();
+
   return (
     <Modal
-      ButtonComponent={ButtonComponent}
+      ButtonComponent={hasuraToken ? ButtonComponent : MakeOfferButton}
       ContentComponent={({ closeModal }) => (
         <MakeOfferModal
           originalPrice={price}
