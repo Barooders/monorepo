@@ -3,13 +3,13 @@ import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Separator from '@/components/atoms/Separator';
 import YesNoSelector from '@/components/atoms/YesNoSelector';
-import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import FormInput from '../FormInput';
+import usePersonalInfoForm from './_state/usePersonalInfoForm';
 
 const dict = getDictionary('fr');
 
@@ -41,16 +41,12 @@ const PersonalInfoForm: React.FC<PropsType> = ({
       phoneNumber,
     },
   });
-  const { hasuraToken, setHasuraToken } = useUser();
   const { fetchAPI } = useBackend();
+  const { setPhoneNumber } = usePersonalInfoForm();
 
   const watchOpenToNego = formMethods.watch('openToNegociation');
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (!hasuraToken) {
-      throw new Error('Need login to update personal info');
-    }
-
     if (agreementId && !data.openToNegociation) {
       await fetchAPI('/v1/negociation-agreement', { method: 'DELETE' });
     }
@@ -75,10 +71,7 @@ const PersonalInfoForm: React.FC<PropsType> = ({
         method: 'PUT',
         body: JSON.stringify(body),
       });
-      setHasuraToken({
-        ...hasuraToken,
-        user: { ...hasuraToken.user, phoneNumber: data.phoneNumber },
-      });
+      setPhoneNumber(data.phoneNumber);
     }
 
     if (onSuccess) {

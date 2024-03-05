@@ -1,15 +1,15 @@
 import Button from '@/components/atoms/Button';
 import Callout, { CalloutTypes } from '@/components/atoms/Callout';
 import Loader from '@/components/atoms/Loader';
-import useUser from '@/hooks/state/useUser';
+import usePersonalInfoForm from '@/components/molecules/PersonalInfoForm/_state/usePersonalInfoForm';
 import { getDictionary } from '@/i18n/translate';
 import { useEffect } from 'react';
 import { MdCheck } from 'react-icons/md';
-import { FormStepType } from '../types';
 import SellingFormLine from '../_components/SellingFormLine';
 import SellingFormPageContainer from '../_components/SellingFormPageContainer';
 import useUpdateProduct from '../_hooks/useUpdateProduct';
 import useSellForm from '../_state/useSellForm';
+import { FormStepType } from '../types';
 import { formSteps } from './steps';
 
 const dict = getDictionary('fr');
@@ -29,11 +29,12 @@ const StepMenu: React.FC<PropsType> = ({
 }) => {
   const { productInfos, isStepValidated } = useSellForm();
   const [updateState, doUpdate] = useUpdateProduct();
-  const { hasuraToken } = useUser();
+  const { phoneNumber } = usePersonalInfoForm();
+
   const getStepCompleted = () => {
     return formSteps
       .map(({ name }) => name)
-      .filter((stepName) => isStepValidated(stepName, hasuraToken?.user));
+      .filter((stepName) => isStepValidated(stepName, phoneNumber));
   };
 
   const nbStepToComplete = formSteps.length - getStepCompleted().length;
@@ -78,12 +79,12 @@ const StepMenu: React.FC<PropsType> = ({
             <div className="flex items-center gap-3">
               <div
                 className={`flex h-8 w-8 items-center justify-center rounded-full ${
-                  isStepValidated(step.name, hasuraToken?.user)
+                  isStepValidated(step.name, phoneNumber)
                     ? 'bg-primary-400'
                     : 'bg-gray-200'
                 }`}
               >
-                {isStepValidated(step.name, hasuraToken?.user) ? (
+                {isStepValidated(step.name, phoneNumber) ? (
                   <MdCheck className="text-white" />
                 ) : (
                   index + 1
