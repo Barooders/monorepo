@@ -1,6 +1,7 @@
 import PageContainer from '@/components/atoms/PageContainer';
 import { Condition } from '@/components/pages/SellingForm/types';
 import { Discount } from '@/types';
+import { useWindowScroll } from 'react-use';
 import BuyButton from './Actions/BuyButton';
 import Characteristics from './Characteristics';
 import ProductPrice from './ProductPrice';
@@ -28,8 +29,13 @@ const StickyBarPayment: React.FC<PropsType> = ({
   variantId,
   discounts,
 }) => {
+  const { y } = useWindowScroll();
+
   return (
-    <div className="sticky bottom-0 w-full border-t border-gray-300 bg-gray-100 px-4 py-4">
+    <div
+      className="sticky bottom-0 w-full border-t border-gray-300 bg-gray-100 px-4 py-4"
+      style={{ opacity: Math.min(y, 100) / 100 }}
+    >
       <PageContainer includeVerticalPadding={false}>
         <div className="flex w-full justify-end sm:justify-between">
           <Characteristics
