@@ -18,6 +18,8 @@ type PropsType = {
   discounts: Discount[];
 };
 
+const STICKY_BAR_THRESHOLD_PX = 100;
+
 const StickyBarPayment: React.FC<PropsType> = ({
   compareAtPrice,
   price,
@@ -33,8 +35,10 @@ const StickyBarPayment: React.FC<PropsType> = ({
 
   return (
     <div
-      className="sticky bottom-0 w-full border-t border-gray-300 bg-gray-100 px-4 py-4"
-      style={{ opacity: Math.min(y, 100) / 100 }}
+      className="sticky w-full border-t border-gray-300 bg-gray-100 px-4 py-4"
+      style={{
+        bottom: Math.min(y, STICKY_BAR_THRESHOLD_PX) - STICKY_BAR_THRESHOLD_PX,
+      }}
     >
       <PageContainer includeVerticalPadding={false}>
         <div className="flex w-full justify-end sm:justify-between">
