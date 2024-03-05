@@ -443,8 +443,15 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       isAvailable: (apiContent: string) => {
         const jsDom = new JSDOM(apiContent);
-        return ![...jsDom.window.document.querySelectorAll('span')].some(
-          (el) => el.textContent === 'Un achat est en cours sur cet article',
+        return (
+          ![...jsDom.window.document.querySelectorAll('span')].some(
+            (el) => el.textContent === 'Un achat est en cours sur cet article',
+          ) &&
+          ![
+            ...jsDom.window.document.querySelectorAll(
+              '[data-qa-id*=adview_title]',
+            ),
+          ].some((el) => el.textContent?.toLowerCase().includes('vendu'))
         );
       },
     },
