@@ -1,3 +1,4 @@
+import { operations } from '@/__generated/rest-schema';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Separator from '@/components/atoms/Separator';
@@ -6,7 +7,6 @@ import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { operations } from '@/__generated/rest-schema';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import FormInput from '../FormInput';
@@ -102,6 +102,9 @@ const PersonalInfoForm: React.FC<PropsType> = ({
           className="max-w-xs"
           type="tel"
           placeholder="+33 "
+          options={{
+            required: dict.global.forms.required,
+          }}
         />
         <Separator />
         <h2 className="my-2 text-xl font-semibold">
