@@ -17,6 +17,9 @@ const GET_VENDOR_NEGOCIATION_AGREEMENT = gql`
       id
       maxAmountPercent
     }
+    Customer(where: { authUserId: { _eq: $vendorId } }) {
+      phoneNumber
+    }
   }
 `;
 
@@ -27,7 +30,7 @@ type PropsType = {
 const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
   const fetchVendorNegoAgreement = useHasura<FetchNegociationAgreementQuery>(
     GET_VENDOR_NEGOCIATION_AGREEMENT,
-    HASURA_ROLES.REGISTERED_USER,
+    HASURA_ROLES.ME_AS_VENDOR,
   );
   const { hasuraToken } = useUser();
 
@@ -39,6 +42,7 @@ const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
 
   const negociationAgreement = first(initState.value?.NegociationAgreement);
   const openToNegociation = !!negociationAgreement?.id;
+  const phoneNumber = first(initState.value?.Customer)?.phoneNumber;
 
   return !initState.value || initState.loading ? (
     <Loader />
@@ -48,7 +52,7 @@ const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
       agreementId={negociationAgreement?.id}
       maxAmountPercent={negociationAgreement?.maxAmountPercent}
       openToNegociation={openToNegociation}
-      phoneNumber={hasuraToken?.user.phoneNumber ?? undefined}
+      phoneNumber={phoneNumber ?? undefined}
     />
   );
 };
