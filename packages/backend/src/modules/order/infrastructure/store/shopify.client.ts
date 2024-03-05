@@ -159,19 +159,21 @@ export class ShopifyClient implements IStoreClient {
     return {
       shopifyId: id,
       fulfilledItems: await Promise.all(
-        line_items.map(async ({ id, variant_id }) => {
-          const { id: productVariantId } =
-            await this.mainPrisma.productVariant.findUniqueOrThrow({
-              where: {
-                shopifyId: variant_id,
-              },
-            });
+        line_items
+          .filter(({ requires_shipping }) => requires_shipping)
+          .map(async ({ id, variant_id }) => {
+            const { id: productVariantId } =
+              await this.mainPrisma.productVariant.findUniqueOrThrow({
+                where: {
+                  shopifyId: variant_id,
+                },
+              });
 
-          return {
-            fulfillmentItemShopifyId: id,
-            productVariantId,
-          };
-        }),
+            return {
+              fulfillmentItemShopifyId: id,
+              productVariantId,
+            };
+          }),
       ),
     };
   }
