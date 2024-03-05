@@ -1,0 +1,14 @@
+{
+  "name": "hasura",
+  "version": "0.0.2",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "hasura metadata apply --project . --skip-update-check && hasura console --skip-update-check --project . --no-browser"
+  },
+  "devDependencies": {
+    "hasura-cli": "2.33.4"
+  }
+}

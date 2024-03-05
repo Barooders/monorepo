@@ -2,7 +2,7 @@ import {
   ProductAttributes,
   productAttributesConfiguration,
 } from '@/config/productAttributes';
-import { ProductStatus, User } from '@/types';
+import { ProductStatus } from '@/types';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import {
@@ -44,7 +44,7 @@ interface SellFormState {
   loadProductInForm: (product: ProductToUpdate) => void;
   getMandatoryInformationPrefixes: () => string[];
   getInformationsConfig: () => FieldDefinitionType[];
-  isStepValidated: (stepName: SellFormSteps, user?: User) => boolean;
+  isStepValidated: (stepName: SellFormSteps, phoneNumber?: string) => boolean;
   addProductTagsInfo: (tagPrefix: string, value: ProductInfoValueType) => void;
   setSellFormConfig: (sellFormConfig: SellFormConfig | null) => void;
   clearForm: () => void;
@@ -92,7 +92,7 @@ const useSellForm = create<SellFormState>()(
           });
         },
 
-        isStepValidated: (stepName, user) => {
+        isStepValidated: (stepName, phoneNumber) => {
           if (stepName === SellFormSteps.PRODUCT_INFOS) {
             const informationsSelected = get().informationsSelected;
 
@@ -122,7 +122,7 @@ const useSellForm = create<SellFormState>()(
               (!!productInfos.handDeliveryPostalCode &&
                 !!productInfos.handDeliveryPostalCode.match(/\d{5}$/));
 
-            return isValidHandDeliveryPostalCode && !!user?.phoneNumber;
+            return isValidHandDeliveryPostalCode && !!phoneNumber;
           }
 
           if (stepName === SellFormSteps.DESCRIPTION) {

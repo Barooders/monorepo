@@ -125,6 +125,7 @@ select_permissions:
         - firstName
         - isPro
         - lastName
+        - phoneNumber
         - profilePictureShopifyCdnUrl
         - sellerName
         - shipmentTimeframe
@@ -163,6 +164,7 @@ select_permissions:
         - firstName
         - isPro
         - lastName
+        - phoneNumber
         - profilePictureShopifyCdnUrl
         - sellerName
         - shipmentTimeframe

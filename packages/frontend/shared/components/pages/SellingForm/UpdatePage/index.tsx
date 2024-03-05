@@ -4,7 +4,6 @@ import Button from '@/components/atoms/Button';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
-import useUser from '@/hooks/state/useUser';
 import { getDictionary } from '@/i18n/translate';
 import { ProductStatus } from '@/types';
 import { useRouter } from 'next/navigation';
@@ -35,7 +34,6 @@ const UpdatePage: React.FC<PropsType> = ({ productId, variantId }) => {
   const [, doFetchSellInformation] = useFetchSellFormInformation();
   const { isStepValidated, sellFormConfig, productInfos } = useSellForm();
   const router = useRouter();
-  const { hasuraToken } = useUser();
 
   useEffect(() => {
     doFetch(productId, variantId);
@@ -70,9 +68,7 @@ const UpdatePage: React.FC<PropsType> = ({ productId, variantId }) => {
           {!currentStep?.hideValidateButton && (
             <div className="mt-2 w-full p-5">
               <Button
-                disabled={
-                  !isStepValidated(currentEditingStep.name, hasuraToken?.user)
-                }
+                disabled={!isStepValidated(currentEditingStep.name)}
                 onClick={goBackToMenu}
                 className="w-full"
               >
