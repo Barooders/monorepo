@@ -401,7 +401,7 @@ const fr = {
       'Satisfait ou remboursé',
       'Paiement en 4X',
       'Service client 7j/7',
-    ]
+    ],
   },
   vendorShop: {
     title: 'La boutique de ',
@@ -991,7 +991,7 @@ const fr = {
     offerHasBeenSent: 'Votre offre à bien été envoyée au vendeur',
     quickResponse: 'Vous recevrez une réponse dans les meilleurs délais',
     backToSite: 'Retour au site',
-    goToChat: 'Ouvrir le chat',
+    goToChat: 'Ouvrir la messagerie',
     customerService: 'Une question ? Contactez notre service client',
     newPricePlaceholder: '€',
     newPriceLabel: 'Prix proposé',
@@ -1127,7 +1127,8 @@ const fr = {
         state: 'Que son état est conforme à notre charte d’utilisation',
         pictures: 'La qualité des photos',
       },
-      findYourListing: 'Retrouvez votre annonce dans l’espace',
+      findYourListing:
+        "Vous pourrez voir votre annonce d'ici 15min dans l’espace",
       myShop: 'Ma boutique',
       addAnother: 'Ajouter un autre produit',
     },
