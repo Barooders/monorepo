@@ -749,6 +749,7 @@ export type Customer = {
   /** An aggregate relationship */
   favorites_aggregate: FavoriteProducts_Aggregate;
   firstName: Maybe<Scalars['String']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   isPro: Scalars['Boolean'];
   isRefurbisher: Scalars['Boolean'];
   lastName: Maybe<Scalars['String']>;
@@ -989,6 +990,7 @@ export type Customer_Aggregate_FieldsCountArgs = {
 export type Customer_Avg_Fields = {
   __typename?: 'Customer_avg_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1009,6 +1011,7 @@ export type Customer_Bool_Exp = {
   favorites: InputMaybe<FavoriteProducts_Bool_Exp>;
   favorites_aggregate: InputMaybe<FavoriteProducts_Aggregate_Bool_Exp>;
   firstName: InputMaybe<String_Comparison_Exp>;
+  forcedShippingPriceInCents: InputMaybe<Float8_Comparison_Exp>;
   isPro: InputMaybe<Boolean_Comparison_Exp>;
   isRefurbisher: InputMaybe<Boolean_Comparison_Exp>;
   lastName: InputMaybe<String_Comparison_Exp>;
@@ -1049,6 +1052,7 @@ export enum Customer_Constraint {
 /** input type for incrementing numeric columns in table "Customer" */
 export type Customer_Inc_Input = {
   buyerCommissionRate: InputMaybe<Scalars['Int']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
   shopifyId: InputMaybe<Scalars['bigint']>;
 };
 
@@ -1063,6 +1067,7 @@ export type Customer_Insert_Input = {
   description: InputMaybe<Scalars['String']>;
   favorites: InputMaybe<FavoriteProducts_Arr_Rel_Insert_Input>;
   firstName: InputMaybe<Scalars['String']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
   isPro: InputMaybe<Scalars['Boolean']>;
   isRefurbisher: InputMaybe<Scalars['Boolean']>;
   lastName: InputMaybe<Scalars['String']>;
@@ -1093,6 +1098,7 @@ export type Customer_Max_Fields = {
   createdAt: Maybe<Scalars['timestamp']>;
   description: Maybe<Scalars['String']>;
   firstName: Maybe<Scalars['String']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   lastName: Maybe<Scalars['String']>;
   phoneNumber: Maybe<Scalars['String']>;
   preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
@@ -1116,6 +1122,7 @@ export type Customer_Min_Fields = {
   createdAt: Maybe<Scalars['timestamp']>;
   description: Maybe<Scalars['String']>;
   firstName: Maybe<Scalars['String']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   lastName: Maybe<Scalars['String']>;
   phoneNumber: Maybe<Scalars['String']>;
   preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
@@ -1164,6 +1171,7 @@ export type Customer_Order_By = {
   description: InputMaybe<Order_By>;
   favorites_aggregate: InputMaybe<FavoriteProducts_Aggregate_Order_By>;
   firstName: InputMaybe<Order_By>;
+  forcedShippingPriceInCents: InputMaybe<Order_By>;
   isPro: InputMaybe<Order_By>;
   isRefurbisher: InputMaybe<Order_By>;
   lastName: InputMaybe<Order_By>;
@@ -1206,6 +1214,8 @@ export enum Customer_Select_Column {
   /** column name */
   FirstName = 'firstName',
   /** column name */
+  ForcedShippingPriceInCents = 'forcedShippingPriceInCents',
+  /** column name */
   IsPro = 'isPro',
   /** column name */
   IsRefurbisher = 'isRefurbisher',
@@ -1241,6 +1251,7 @@ export type Customer_Set_Input = {
   createdAt: InputMaybe<Scalars['timestamp']>;
   description: InputMaybe<Scalars['String']>;
   firstName: InputMaybe<Scalars['String']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
   isPro: InputMaybe<Scalars['Boolean']>;
   isRefurbisher: InputMaybe<Scalars['Boolean']>;
   lastName: InputMaybe<Scalars['String']>;
@@ -1260,6 +1271,7 @@ export type Customer_Set_Input = {
 export type Customer_Stddev_Fields = {
   __typename?: 'Customer_stddev_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1267,6 +1279,7 @@ export type Customer_Stddev_Fields = {
 export type Customer_Stddev_Pop_Fields = {
   __typename?: 'Customer_stddev_pop_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1274,6 +1287,7 @@ export type Customer_Stddev_Pop_Fields = {
 export type Customer_Stddev_Samp_Fields = {
   __typename?: 'Customer_stddev_samp_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1293,6 +1307,7 @@ export type Customer_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamp']>;
   description: InputMaybe<Scalars['String']>;
   firstName: InputMaybe<Scalars['String']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
   isPro: InputMaybe<Scalars['Boolean']>;
   isRefurbisher: InputMaybe<Scalars['Boolean']>;
   lastName: InputMaybe<Scalars['String']>;
@@ -1312,6 +1327,7 @@ export type Customer_Stream_Cursor_Value_Input = {
 export type Customer_Sum_Fields = {
   __typename?: 'Customer_sum_fields';
   buyerCommissionRate: Maybe<Scalars['Int']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   shopifyId: Maybe<Scalars['bigint']>;
 };
 
@@ -1329,6 +1345,8 @@ export enum Customer_Update_Column {
   Description = 'description',
   /** column name */
   FirstName = 'firstName',
+  /** column name */
+  ForcedShippingPriceInCents = 'forcedShippingPriceInCents',
   /** column name */
   IsPro = 'isPro',
   /** column name */
@@ -1370,6 +1388,7 @@ export type Customer_Updates = {
 export type Customer_Var_Pop_Fields = {
   __typename?: 'Customer_var_pop_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1377,6 +1396,7 @@ export type Customer_Var_Pop_Fields = {
 export type Customer_Var_Samp_Fields = {
   __typename?: 'Customer_var_samp_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -1384,6 +1404,7 @@ export type Customer_Var_Samp_Fields = {
 export type Customer_Variance_Fields = {
   __typename?: 'Customer_variance_fields';
   buyerCommissionRate: Maybe<Scalars['Float']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
   shopifyId: Maybe<Scalars['Float']>;
 };
 
@@ -30282,6 +30303,7 @@ export type FetchProductNotationQuery = {
     __typename?: 'Product';
     manualNotation: any | null;
     source: string | null;
+    sourceUrl: string | null;
   }>;
   dbt_store_product_for_analytics: Array<{
     __typename?: 'dbt_store_product_for_analytics';
