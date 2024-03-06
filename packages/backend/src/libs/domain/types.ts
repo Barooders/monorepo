@@ -57,22 +57,17 @@ export type PIMDynamicAttribute = {
 
 export const getValidTags = (tags: string[]): string[] => {
   const formattedTags = tags.reduce((acc: string[], tag) => {
-    const tagEntries = tag.split(':');
-    const isValidTag =
-      tagEntries.length === 2 && tagEntries[0] !== '' && tagEntries[1] !== '';
+    const [key, ...valueEntries] = tag.split(':');
+    const value = valueEntries.join(':');
 
-    if (!isValidTag) return acc;
+    if (!key || !value) return acc;
 
-    return [
-      ...acc,
-      `${tagEntries[0].toLowerCase().trim()}:${tagEntries[1].trim()}`,
-    ];
+    return [...acc, `${key.toLowerCase().trim()}:${value.trim()}`];
   }, []);
 
   if (formattedTags.some((tag) => tag.includes('genre'))) {
     return formattedTags;
   }
-
   return [...formattedTags, `genre:Mixte`];
 };
 
