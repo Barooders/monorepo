@@ -53,7 +53,7 @@ export class XMLMapper {
     return {
       ...(await this.mapLightProduct(product)),
       product_type: productType,
-      body_html: product.description,
+      body_html: this.getDescription(product),
       variants: await Promise.all(
         product.variants.map(async (variant) => ({
           external_id: variant.id,
@@ -74,6 +74,10 @@ export class XMLMapper {
         src,
       })),
     };
+  }
+
+  getDescription({ description }: XMLProduct): string {
+    return description;
   }
 
   private async getCondition(

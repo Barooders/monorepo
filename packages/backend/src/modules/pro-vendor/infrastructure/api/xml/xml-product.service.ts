@@ -6,12 +6,14 @@ import {
   SyncProduct,
   VariantStockToUpdate,
 } from '@modules/pro-vendor/domain/ports/types';
+import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { ProductService } from '@modules/pro-vendor/domain/service/product.service';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
+import { ZycloraMapper } from './mappers/zyclora.mapper';
+import { XMLProduct } from './types';
 import { XMLClient } from './xml.client';
 import { XMLMapper } from './xml.mapper';
-import { XMLProduct } from './types';
 
 @Injectable()
 export class XMLProductService implements ProVendorStrategy {
@@ -20,7 +22,9 @@ export class XMLProductService implements ProVendorStrategy {
   constructor(
     private xmlClient: XMLClient,
     private xmlMapper: XMLMapper,
+    private zycloraMapper: ZycloraMapper,
     private productService: ProductService,
+    private readonly vendorConfigService: IVendorConfigService,
   ) {}
 
   async getAllVendorProducts(
@@ -78,14 +82,23 @@ export class XMLProductService implements ProVendorStrategy {
   }
 
   async mapProduct(product: XMLProduct): Promise<SyncProduct | null> {
-    return this.xmlMapper.mapProduct(product);
+    return this.getMapper().mapProduct(product);
   }
 
   async mapLightProduct(product: XMLProduct): Promise<SyncLightProduct> {
-    return this.xmlMapper.mapLightProduct(product);
+    return this.getMapper().mapLightProduct(product);
   }
 
   async isUp(): Promise<boolean> {
     return true;
+  }
+
+  private getMapper(): XMLMapper {
+    switch (this.vendorConfigService.getVendorConfig().slug) {
+      case 'zyclora':
+        return this.zycloraMapper;
+      default:
+        return this.xmlMapper;
+    }
   }
 }
