@@ -79,7 +79,9 @@ const AdminProductBanner = ({
         {value?.Product[0]?.sourceUrl && (
           <a
             className="text-xs underline"
+            target="_blank"
             href={value?.Product[0]?.sourceUrl}
+            rel="noreferrer"
           >
             source product
           </a>
