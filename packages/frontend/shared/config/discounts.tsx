@@ -34,4 +34,9 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     label: 'Renobyke',
     type: 'dynamic',
   },
+  {
+    title: 'KALKHOFF30',
+    label: 'Kalkhoff',
+    type: 'dynamic',
+  },
 ];
