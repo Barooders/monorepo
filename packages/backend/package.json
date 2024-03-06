@@ -19,6 +19,7 @@
     "update:products": "ts-node -r tsconfig-paths/register scripts/update-products/update-products.ts",
     "update:orders": "ts-node -r tsconfig-paths/register scripts/update-orders/update-orders.ts",
     "update:vendor-variants": "ts-node -r tsconfig-paths/register scripts/update-products/update-all-variants-of-vendor.ts",
+    "fix:variants-weight": "ts-node -r tsconfig-paths/register scripts/update-products/fix-variants-weight.ts",
     "update:vendor-products": "ts-node -r tsconfig-paths/register scripts/update-products/update-all-products-of-vendor.ts",
     "update:stocks": "ts-node -r tsconfig-paths/register scripts/update-products/update-all-variants-stocks.ts",
     "archive:products": "ts-node -r tsconfig-paths/register scripts/update-products/archive-list-of-products.ts",
