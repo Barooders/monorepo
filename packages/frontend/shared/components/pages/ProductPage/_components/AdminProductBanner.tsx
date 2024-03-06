@@ -1,5 +1,6 @@
 'use client';
 
+import { FetchProductNotationQuery } from '@/__generated/graphql';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
@@ -9,7 +10,6 @@ import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
-import { FetchProductNotationQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 
@@ -17,6 +17,7 @@ const PRODUCT_NOTATION_QUERY = gql`
   query fetchProductNotation($productShopifyId: bigint) {
     Product(where: { shopifyId: { _eq: $productShopifyId } }) {
       manualNotation
+      source
     }
     dbt_store_product_for_analytics(
       where: { shopify_id: { _eq: $productShopifyId } }
@@ -65,13 +66,16 @@ const AdminProductBanner = ({
   );
   return (
     <AdminBanner>
-      <p>
-        ID: {productShopifyId} (created at:{' '}
-        {new Date(
-          value?.dbt_store_product_for_analytics[0].created_at,
-        ).toLocaleDateString('fr-FR')}
-        )
-      </p>
+      <div>
+        <p>
+          ID: {productShopifyId} (created at:{' '}
+          {new Date(
+            value?.dbt_store_product_for_analytics[0].created_at,
+          ).toLocaleDateString('fr-FR')}
+          )
+        </p>
+        <p className="text-xs">source: ${value?.Product[0]?.source ?? '-'}</p>
+      </div>
       <Button href={`/admin/products/${productShopifyId}`}>See</Button>
       <Button
         onClick={() => doUpdateProduct({ status: ProductStatus.ARCHIVED })}
