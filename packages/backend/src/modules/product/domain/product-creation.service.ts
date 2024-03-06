@@ -23,7 +23,6 @@ import { getSEOMetafields } from '@libs/helpers/seo.helper';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { IPIMClient } from './ports/pim.client';
 import { IStoreClient } from './ports/store.client';
 
 import { UUID } from '@libs/domain/value-objects';
@@ -87,7 +86,6 @@ export class ProductCreationService {
 
   constructor(
     private customerRepository: CustomerRepository,
-    private pimClient: IPIMClient,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private queueClient: IQueueClient,
@@ -103,9 +101,6 @@ export class ProductCreationService {
 
     const { product_type, variants, metafields } = product;
 
-    const {
-      attributes: { weight },
-    } = await this.pimClient.getPimProductType(product_type);
     const productStatus = this.isProductReadyToPublish(
       product,
       options.bypassImageCheck,
@@ -120,11 +115,7 @@ export class ProductCreationService {
       status: productStatus,
       vendorId,
       published: true,
-      variants: variants.map((variant) => ({
-        ...variant,
-        weight,
-        weight_unit: 'kg',
-      })),
+      variants,
       metafields: [...metafields, ...seoMetafields],
     });
 
