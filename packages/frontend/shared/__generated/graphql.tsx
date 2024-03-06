@@ -30278,7 +30278,11 @@ export type FetchProductNotationQueryVariables = Exact<{
 
 export type FetchProductNotationQuery = {
   __typename?: 'query_root';
-  Product: Array<{ __typename?: 'Product'; manualNotation: any | null }>;
+  Product: Array<{
+    __typename?: 'Product';
+    manualNotation: any | null;
+    source: string | null;
+  }>;
   dbt_store_product_for_analytics: Array<{
     __typename?: 'dbt_store_product_for_analytics';
     created_at: any;
