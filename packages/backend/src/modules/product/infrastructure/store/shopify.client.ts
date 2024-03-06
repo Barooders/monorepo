@@ -6,8 +6,6 @@ import {
   ProductStatus,
 } from '@libs/domain/prisma.main.client';
 import {
-  getVariantsOptions,
-  mapCondition,
   Metafield,
   ProductToStore,
   ProductToUpdate,
@@ -16,11 +14,13 @@ import {
   StoredProduct,
   StoredVariant,
   Variant,
+  getVariantsOptions,
+  mapCondition,
 } from '@libs/domain/product.interface';
 import {
   BAROODERS_NAMESPACE,
-  getValidTags,
   MetafieldType,
+  getValidTags,
 } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import {
@@ -35,14 +35,15 @@ import {
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import {
   getValidShopifyId,
-  getValidVariantToCreate,
   getValidVariantToUpdate,
 } from '@libs/infrastructure/shopify/validators';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { IStoreClient } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { MutationPublishablePublishArgs } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { get } from 'lodash';
+import { IProductVariant } from 'shopify-api-node';
 
 const mapShopifyStatus = (status: ProductStatus): ShopifyProductStatus => {
   switch (status) {
@@ -71,6 +72,7 @@ export class ShopifyClient implements IStoreClient {
     private customerRepository: CustomerRepository,
     private shopifyApiBySession: ShopifyApiBySession,
     private prisma: PrismaMainClient,
+    private pimClient: IPIMClient,
   ) {}
 
   async getProductDetails(productId: string): Promise<StoredProduct> {
@@ -94,6 +96,9 @@ export class ShopifyClient implements IStoreClient {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );
+    const {
+      attributes: { weight },
+    } = await this.pimClient.getPimProductType(product.product_type);
 
     if (!customer)
       throw new Error(`Cannot find vendor with id: ${product.vendorId}`);
@@ -106,7 +111,9 @@ export class ShopifyClient implements IStoreClient {
       ...product,
       vendor: sellerName,
       tags: getValidTags(product.tags),
-      variants: product.variants.map(getValidVariantToCreate),
+      variants: product.variants.map((variant) =>
+        this.getValidVariantToCreate(variant, weight),
+      ),
       options,
       metafields: [
         ...product.metafields,
@@ -163,10 +170,17 @@ export class ShopifyClient implements IStoreClient {
     data: Variant,
   ): Promise<StoredVariant> {
     try {
+      const { product_type } = await shopifyApiByToken.product.get(productId);
+      const {
+        attributes: { weight },
+      } = await this.pimClient.getPimProductType(product_type);
+      const validVariant = await this.getValidVariantToCreate(data, weight);
+
       const productVariant = await shopifyApiByToken.productVariant.create(
         productId,
-        getValidVariantToCreate(data),
+        validVariant,
       );
+
       return {
         ...cleanShopifyVariant(productVariant),
         condition: data.condition,
@@ -315,6 +329,27 @@ export class ShopifyClient implements IStoreClient {
 
   async rejectProduct(productId: string): Promise<void> {
     await this.updateProductStatus(productId, 'denied');
+  }
+
+  private getValidVariantToCreate(
+    variant: Variant,
+    weight: number,
+  ): Partial<IProductVariant> {
+    const { optionProperties, ...baseVariant } = variant;
+    return {
+      ...baseVariant,
+      option1: optionProperties[0]?.value ?? null,
+      option2: optionProperties[1]?.value ?? null,
+      option3: optionProperties[2]?.value ?? null,
+      compare_at_price:
+        (!Number(variant.compare_at_price)
+          ? variant.price
+          : variant.compare_at_price) ?? null,
+      inventory_management: 'shopify',
+      inventory_policy: 'deny',
+      weight,
+      weight_unit: 'kg',
+    };
   }
 
   private async enrichVariantWithCondition(
