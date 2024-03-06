@@ -6,14 +6,7 @@ import { ProductMultiVariants } from '../types';
 
 const dict = getDictionary('fr');
 
-const PINNED_TAGS = [
-  'marque',
-  'modele',
-  'taille',
-  'genre',
-  'année',
-  'lien-360',
-];
+const PINNED_TAGS = ['marque', 'modele', 'taille', 'genre', 'année'];
 type TagPairsType = [string, string][];
 
 const ValueTag: React.FC<{
