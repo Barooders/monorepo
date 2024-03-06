@@ -6,9 +6,32 @@ import { ProductMultiVariants } from '../types';
 
 const dict = getDictionary('fr');
 
-const PINNED_TAGS = ['marque', 'modele', 'taille', 'genre', 'année'];
+const PINNED_TAGS = [
+  'marque',
+  'modele',
+  'taille',
+  'genre',
+  'année',
+  'lien-360',
+];
 type TagPairsType = [string, string][];
 
+const ValueTag: React.FC<{
+  value: string;
+}> = ({ value }) => {
+  const isLink = value.startsWith('https://');
+  return isLink ? (
+    <a
+      href={value}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Cliquer ici
+    </a>
+  ) : (
+    <span>{value}</span>
+  );
+};
 const ProductDescription: React.FC<{
   description: string | undefined;
   tags: ProductMultiVariants['tags'];
@@ -59,7 +82,9 @@ const ProductDescription: React.FC<{
                 <td className="pr-5 text-slate-500">
                   {capitalize(name.replaceAll('-', ' '))}
                 </td>
-                <td>{value}</td>
+                <td>
+                  <ValueTag value={value} />
+                </td>
               </tr>
             ))}
           </tbody>
