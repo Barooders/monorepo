@@ -740,6 +740,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           'groupe_transmission',
           'développement_cassette',
           'plateau',
+          'url_video',
           'materiau_de_la_roue',
           'vitesses',
           'moteur',
