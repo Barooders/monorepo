@@ -28,7 +28,7 @@ SELECT
     COALESCE(p."productType", sp.product_type) AS "productType",
     sp.title,
     sp.vendor,
-    REPLACE_PHONE_NUMBER(REPLACE_LINKS_AND_MAILS(sp.body_html)) AS "description",
+    sp.body_html AS "description",
     sp.handle,
     CAST(p.status::TEXT AS dbt."ProductStatus") AS status,
     t_brand.value AS brand,

@@ -9,6 +9,11 @@ export class BernaudeauMapper extends WooCommerceDefaultMapper {
     wooCommerceProduct: WooCommerceProduct,
   ): Promise<SyncProduct['variants']> {
     const variants = await super.getVariants(wooCommerceProduct);
+    const variantsWithStock = variants.map((variant) => ({
+      ...variant,
+      inventory_quantity: 1,
+    }));
+
     const observedNewProductPrice = wooCommerceProduct.meta_data.filter(
       ({ key, value }) => {
         return (
@@ -17,11 +22,10 @@ export class BernaudeauMapper extends WooCommerceDefaultMapper {
       },
     );
 
-    if (observedNewProductPrice.length === 0) return variants;
+    if (observedNewProductPrice.length === 0) return variantsWithStock;
 
-    return variants.map((variant) => ({
+    return variantsWithStock.map((variant) => ({
       ...variant,
-      inventory_quantity: 1,
       compare_at_price: observedNewProductPrice[0].value,
     }));
   }
