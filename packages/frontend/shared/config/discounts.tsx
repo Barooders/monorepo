@@ -29,4 +29,9 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     label: 'Trek',
     type: 'dynamic',
   },
+  {
+    title: 'RENOBYKE50',
+    label: 'Renobyke',
+    type: 'dynamic',
+  },
 ];
