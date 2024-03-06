@@ -7,7 +7,8 @@
 WITH variant_data AS (
 	SELECT
 		bpv."productId" AS product_id,
-		min(epv.price) AS cheapest_variant_price
+		min(epv.price) AS cheapest_variant_price,
+		max(epv.price) AS most_expensive_variant_price
 	FROM
 		fivetran_shopify.product_variant epv
 	LEFT JOIN {{ref('store_base_product_variant')}} bpv ON bpv.shopify_id = epv.id
@@ -92,7 +93,10 @@ FROM
 				AND p.title NOT LIKE '%' || ec.rule_value || '%')
 			OR(ec.rule_field = 'variant_price'
 				AND ec.rule_operator = 'less_than'
-				AND p.cheapest_variant_price < ec.rule_value::float))
+				AND p.cheapest_variant_price < ec.rule_value::float)
+			OR(ec.rule_field = 'variant_price'
+				AND ec.rule_operator = 'more_than'
+				AND p.most_expensive_variant_price > ec.rule_value::float))
 	GROUP BY
 		ec.collection_id,
 		ec.operator,
