@@ -87,6 +87,7 @@ import { VendorConfigService } from './infrastructure/config/vendor-config.servi
 import { VendorOrderServiceProvider } from './infrastructure/config/vendor-order-service.provider';
 import { VendorProductServiceProvider } from './infrastructure/config/vendor-product-service.provider';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
+import { ZycloraMapper } from './infrastructure/api/xml/mappers/zyclora.mapper';
 
 export const proVendorSharedServices = [
   CustomerRepository,
@@ -158,6 +159,7 @@ export const proVendorSharedServices = [
   MontaniniMapper,
   PanameBicisMapper,
   BernaudeauMapper,
+  ZycloraMapper,
   SBikesMapper,
   RecocycleMapper,
   TagService,
