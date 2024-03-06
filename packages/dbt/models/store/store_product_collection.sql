@@ -52,7 +52,8 @@ products AS (
 		LOWER(TRIM(ep.title)) AS title,
 		LOWER(TRIM(ep.model)) AS model,
 		LOWER(TRIM(ep."productType")) AS product_type,
-		vd.cheapest_variant_price::float AS cheapest_variant_price
+		vd.cheapest_variant_price::float AS cheapest_variant_price,
+		vd.most_expensive_variant_price::float AS most_expensive_variant_price
 	FROM
 		{{ref('store_exposed_product')}} ep
 	LEFT JOIN variant_data vd ON ep.id = vd.product_id
