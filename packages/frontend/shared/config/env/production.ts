@@ -15,6 +15,7 @@ const productionEnv = {
       beginCheckout: '8Kr8CKOGrrcYEMeMo5Mo',
       submitPaymentInfo: 'FncsCLy6rLcYEMeMo5Mo',
       finishCheckout: 'blIdCI2PkvcCEMeMo5Mo',
+      newConversation: 'zeOYCLjA2ZgZEMeMo5Mo',
     },
   },
 };
