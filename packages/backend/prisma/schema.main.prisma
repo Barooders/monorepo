@@ -252,6 +252,7 @@ model Customer {
   scoring                     CustomerScoring?
   overridesProductNotation    Boolean                @default(false)
   usedShipping                ShippingType           @default(barooders)
+  forcedShippingPriceInCents  Float?
   preferredPaymentProvider    PaymentProvider        @default(STRIPE)
   shipmentTimeframe           ShipmentTimeframe?
   commissionRules             CommissionRule[]
