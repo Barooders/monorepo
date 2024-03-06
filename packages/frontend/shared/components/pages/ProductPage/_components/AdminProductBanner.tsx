@@ -18,6 +18,7 @@ const PRODUCT_NOTATION_QUERY = gql`
     Product(where: { shopifyId: { _eq: $productShopifyId } }) {
       manualNotation
       source
+      sourceUrl
     }
     dbt_store_product_for_analytics(
       where: { shopify_id: { _eq: $productShopifyId } }
@@ -75,6 +76,14 @@ const AdminProductBanner = ({
           )
         </p>
         <p className="text-xs">source: {value?.Product[0]?.source ?? '-'}</p>
+        {value?.Product[0]?.sourceUrl && (
+          <a
+            className="text-xs"
+            href={value?.Product[0]?.sourceUrl}
+          >
+            source product
+          </a>
+        )}
       </div>
       <Button href={`/admin/products/${productShopifyId}`}>See</Button>
       <Button
