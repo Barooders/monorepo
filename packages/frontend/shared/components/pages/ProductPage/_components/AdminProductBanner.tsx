@@ -78,7 +78,7 @@ const AdminProductBanner = ({
         <p className="text-xs">source: {value?.Product[0]?.source ?? '-'}</p>
         {value?.Product[0]?.sourceUrl && (
           <a
-            className="text-xs"
+            className="text-xs underline"
             href={value?.Product[0]?.sourceUrl}
           >
             source product

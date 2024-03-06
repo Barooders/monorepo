@@ -1,7 +1,7 @@
-import { sendEvent, init as initMixpanel } from './mixpanel';
-import { gtag } from './google';
-import { trackEvent } from './klaviyo';
 import { Url } from '@/types';
+import { gtag, sendNewConversationConversion } from './google';
+import { trackEvent } from './klaviyo';
+import { init as initMixpanel, sendEvent } from './mixpanel';
 
 export const initAnalytics = () => {
   initMixpanel();
@@ -13,6 +13,7 @@ export const sendOpenNewConversation = (
 ) => {
   gtag('event', 'newConversationOpened', { productId, customerId });
   sendEvent('newConversationOpened', { productId, customerId });
+  sendNewConversationConversion();
 };
 
 export const sendBeginCheckout = (productId: string) => {
