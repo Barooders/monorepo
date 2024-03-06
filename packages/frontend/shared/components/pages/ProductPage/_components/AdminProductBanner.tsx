@@ -74,7 +74,7 @@ const AdminProductBanner = ({
           ).toLocaleDateString('fr-FR')}
           )
         </p>
-        <p className="text-xs">source: ${value?.Product[0]?.source ?? '-'}</p>
+        <p className="text-xs">source: {value?.Product[0]?.source ?? '-'}</p>
       </div>
       <Button href={`/admin/products/${productShopifyId}`}>See</Button>
       <Button
