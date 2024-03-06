@@ -21,6 +21,7 @@ export class BernaudeauMapper extends WooCommerceDefaultMapper {
 
     return variants.map((variant) => ({
       ...variant,
+      inventory_quantity: 1,
       compare_at_price: observedNewProductPrice[0].value,
     }));
   }
