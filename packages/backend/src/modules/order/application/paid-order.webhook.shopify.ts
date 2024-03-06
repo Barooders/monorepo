@@ -63,7 +63,7 @@ export class PaidOrderWebhookShopifyController {
       await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
         id,
         OrderStatus.PAID,
-        { type: 'shopify' },
+        { type: 'admin' },
       );
       await this.orderNotificationService.notifyOrderPaid(order);
       this.logger.debug(`Order ${orderData.id} notified on paid event`);
