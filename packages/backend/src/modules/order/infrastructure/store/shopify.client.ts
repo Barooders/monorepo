@@ -156,9 +156,20 @@ export class ShopifyClient implements IStoreClient {
   }
 
   async getAppliedDiscounts(
-    _orderStoreId: string,
+    orderStoreId: string,
   ): Promise<DiscountApplication[]> {
-    return [];
+    try {
+      const order = await shopifyApiByToken.order.get(Number(orderStoreId));
+
+      return order.discount_applications.map(({ code, ...details }) => ({
+        code,
+        details,
+      }));
+    } catch (error: unknown) {
+      throw new Error(
+        `Could not fetch or map order with id ${orderStoreId} because: ${error}`,
+      );
+    }
   }
 
   private async mapFulfilledFulfillmentOrder({
