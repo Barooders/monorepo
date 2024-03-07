@@ -1134,6 +1134,7 @@ const fr = {
     },
   },
   productPage: {
+    clickHere: 'Cliquez ici',
     ownerBanner: {
       title: 'Vendeur',
       warning:
