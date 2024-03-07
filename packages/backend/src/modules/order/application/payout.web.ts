@@ -3,8 +3,8 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
   NotFoundException as HttpNotFoundException,
+  Logger,
   Post,
   Query,
   UseGuards,
@@ -24,6 +24,8 @@ import {
   OrderValidationService,
 } from '../domain/order-validation.service';
 import { PayoutService } from '../domain/payout.service';
+import { IStoreClient } from '../domain/ports/store.client';
+import { DiscountApplication } from '../domain/ports/types';
 
 class PayoutInputQuery {
   @IsNotEmpty()
@@ -51,6 +53,7 @@ export class PayoutController {
     private commissionService: CommissionService,
     private orderValidationService: OrderValidationService,
     private prisma: PrismaMainClient,
+    private storeClient: IStoreClient,
   ) {}
 
   @Get(routesV1.invoice.previewPayout)
@@ -58,7 +61,11 @@ export class PayoutController {
   async previewPayout(
     @Query()
     { orderLineShopifyId }: PreviewPayoutInputQuery,
-  ): Promise<{ commission: Commission; validation: OrderValidation }> {
+  ): Promise<{
+    commission: Commission;
+    validation: OrderValidation;
+    appliedDiscounts: DiscountApplication[];
+  }> {
     try {
       const { id, order } = await this.prisma.orderLines.findUniqueOrThrow({
         where: {
@@ -73,10 +80,14 @@ export class PayoutController {
       const validation = await this.orderValidationService.isOrderValid(
         order.id,
       );
+      const appliedDiscounts = await this.storeClient.getAppliedDiscounts(
+        order.shopifyId,
+      );
 
       return {
         commission,
         validation,
+        appliedDiscounts,
       };
     } catch (error: any) {
       if (error instanceof NotFoundException) {

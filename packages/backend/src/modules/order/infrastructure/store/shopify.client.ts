@@ -27,7 +27,10 @@ import {
   RefundOptions,
   StoreFulfilledFulfillmentOrder,
 } from '@modules/order/domain/ports/store.client';
-import { TrackingInfo } from '@modules/order/domain/ports/types';
+import {
+  DiscountApplication,
+  TrackingInfo,
+} from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { MutationProductCreateArgs } from '@quasarwork/shopify-api-types/api/admin/2023-01';
 import {
@@ -150,6 +153,23 @@ export class ShopifyClient implements IStoreClient {
     });
 
     return await this.mapFulfilledFulfillmentOrder(newFulfillment);
+  }
+
+  async getAppliedDiscounts(
+    orderStoreId: string,
+  ): Promise<DiscountApplication[]> {
+    try {
+      const order = await shopifyApiByToken.order.get(Number(orderStoreId));
+
+      return order.discount_applications.map(({ code, ...details }) => ({
+        code,
+        details,
+      }));
+    } catch (error: unknown) {
+      throw new Error(
+        `Could not fetch or map order with id ${orderStoreId} because: ${error}`,
+      );
+    }
   }
 
   private async mapFulfilledFulfillmentOrder({
