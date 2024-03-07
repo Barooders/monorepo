@@ -12,14 +12,15 @@ type TagPairsType = [string, string][];
 const ValueTag: React.FC<{
   value: string;
 }> = ({ value }) => {
-  const isLink = value.startsWith('https://');
+  const isLink = value.toLowerCase().startsWith('https://');
   return isLink ? (
     <a
       href={value}
       target="_blank"
       rel="noopener noreferrer"
+      className="underline"
     >
-      Cliquer ici
+      {dict.productPage.clickHere}
     </a>
   ) : (
     <span>{value}</span>
