@@ -1,7 +1,12 @@
 import { Currency } from '@libs/domain/prisma.main.client';
 import { EntityId } from '@libs/domain/product.interface';
 import { Amount as AmountObject, URL } from '@libs/domain/value-objects';
-import { Amount, BuyerPriceLines, TrackingInfo } from './types';
+import {
+  Amount,
+  BuyerPriceLines,
+  DiscountApplication,
+  TrackingInfo,
+} from './types';
 
 export type OrderInChat = {
   orderShopifyId: string;
@@ -73,4 +78,8 @@ export abstract class IStoreClient {
   ): Promise<string[]>;
 
   abstract cleanOldCommissions(): Promise<void>;
+
+  abstract getAppliedDiscounts(
+    orderStoreId: string,
+  ): Promise<DiscountApplication[]>;
 }

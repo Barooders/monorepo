@@ -27,7 +27,10 @@ import {
   RefundOptions,
   StoreFulfilledFulfillmentOrder,
 } from '@modules/order/domain/ports/store.client';
-import { TrackingInfo } from '@modules/order/domain/ports/types';
+import {
+  DiscountApplication,
+  TrackingInfo,
+} from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { MutationProductCreateArgs } from '@quasarwork/shopify-api-types/api/admin/2023-01';
 import {
@@ -150,6 +153,12 @@ export class ShopifyClient implements IStoreClient {
     });
 
     return await this.mapFulfilledFulfillmentOrder(newFulfillment);
+  }
+
+  async getAppliedDiscounts(
+    _orderStoreId: string,
+  ): Promise<DiscountApplication[]> {
+    return [];
   }
 
   private async mapFulfilledFulfillmentOrder({
