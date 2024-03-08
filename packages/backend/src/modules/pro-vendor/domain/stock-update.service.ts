@@ -6,7 +6,6 @@ import { Queue } from 'bull';
 import { QueueNames, SyncedProductToUpdate, SyncOutput } from './ports/types';
 import { IVendorProductServiceProvider } from './ports/vendor-product-service.provider';
 
-const FIVE_MINUTES = 1000 * 60 * 5;
 @Injectable()
 export class StockUpdateService {
   private readonly logger = new Logger(StockUpdateService.name);
@@ -40,7 +39,7 @@ export class StockUpdateService {
           attempts: 2,
           removeOnComplete: true,
           removeOnFail: true,
-          delay: Math.random() * FIVE_MINUTES,
+          delay: 0,
         },
       );
     }
