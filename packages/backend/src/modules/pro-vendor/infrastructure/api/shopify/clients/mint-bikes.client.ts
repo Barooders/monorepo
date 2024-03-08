@@ -1,5 +1,5 @@
 import { vendorConfig } from '@config/vendor/vendor.config';
-import { DEFAULT_PLAN_AUTO_LIMIT_CONFIG } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
+import { DEFAULT_PLAN_CONFIG } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { Injectable, Logger } from '@nestjs/common';
 import Shopify from 'shopify-api-node';
 
@@ -18,7 +18,7 @@ export class MintBikesClient {
     this.shopifyApiNode = new Shopify({
       shopName: vendorConfig.mint_bikes.apiUrl,
       accessToken: vendorConfig.mint_bikes.accessToken,
-      autoLimit: DEFAULT_PLAN_AUTO_LIMIT_CONFIG,
+      ...DEFAULT_PLAN_CONFIG,
       apiVersion: '2024-01',
     });
   }
