@@ -75,7 +75,7 @@ const BlogArticle: React.FC<PropsType> = ({ article, tagList }) => {
             </div>
           )}
         </div>
-        <CollectionPreviewInjector article={article} />
+        <CollectionPreviewInjector />
       </BlogLayout>
     </>
   );

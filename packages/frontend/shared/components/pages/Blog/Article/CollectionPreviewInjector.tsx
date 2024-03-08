@@ -1,15 +1,10 @@
 'use client';
 
-import { FullArticle } from '@/types';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import CollectionPreview from '../../Builder/_components/CollectionPreview';
 
-export type PropsType = {
-  article: FullArticle;
-};
-
-const CollectionPreviewInjector: React.FC<PropsType> = ({ article }) => {
+const CollectionPreviewInjector: React.FC = () => {
   const [featuredCollections, setFeaturedCollectionEls] = useState<
     { collectionHandle: string; el: Element }[]
   >([]);
@@ -28,9 +23,7 @@ const CollectionPreviewInjector: React.FC<PropsType> = ({ article }) => {
         })),
       );
     }
-  }, [article]);
-
-  if (!article) throw new Error('Could not find article');
+  }, []);
 
   return (
     <>
