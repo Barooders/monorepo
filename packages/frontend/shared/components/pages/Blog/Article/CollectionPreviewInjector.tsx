@@ -9,7 +9,7 @@ export type PropsType = {
   article: FullArticle;
 };
 
-const DisplayCollection: React.FC<PropsType> = ({ article }) => {
+const CollectionPreviewInjector: React.FC<PropsType> = ({ article }) => {
   const [featuredCollections, setFeaturedCollectionEls] = useState<
     { collectionHandle: string; el: Element }[]
   >([]);
@@ -46,4 +46,4 @@ const DisplayCollection: React.FC<PropsType> = ({ article }) => {
   );
 };
 
-export default DisplayCollection;
+export default CollectionPreviewInjector;

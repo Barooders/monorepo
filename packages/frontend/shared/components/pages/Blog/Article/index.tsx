@@ -7,7 +7,7 @@ import { FullArticle } from '@/types';
 import startCase from 'lodash/startCase';
 import { marked } from 'marked';
 import React from 'react';
-import DisplayCollection from './DisplayCollection';
+import CollectionPreviewInjector from './CollectionPreviewInjector';
 
 const dict = getDictionary('fr');
 
@@ -75,7 +75,7 @@ const BlogArticle: React.FC<PropsType> = ({ article, tagList }) => {
             </div>
           )}
         </div>
-        <DisplayCollection article={article} />
+        <CollectionPreviewInjector article={article} />
       </BlogLayout>
     </>
   );
