@@ -1,5 +1,5 @@
 import { vendorConfig } from '@config/vendor/vendor.config';
-import { DEFAULT_PLAN_AUTO_LIMIT_CONFIG } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
+import { DEFAULT_PLAN_CONFIG } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { Injectable, Logger } from '@nestjs/common';
 import Shopify from 'shopify-api-node';
 
@@ -18,7 +18,7 @@ export class WillemClient {
     this.shopifyApiNode = new Shopify({
       shopName: vendorConfig.willemd.apiUrl,
       accessToken: vendorConfig.willemd.accessToken,
-      autoLimit: DEFAULT_PLAN_AUTO_LIMIT_CONFIG,
+      ...DEFAULT_PLAN_CONFIG,
     });
   }
   getClient(): Shopify {
