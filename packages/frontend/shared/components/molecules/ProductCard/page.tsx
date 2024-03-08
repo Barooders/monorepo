@@ -11,8 +11,6 @@ import { createPortal } from 'react-dom';
 import { FaEye } from 'react-icons/fa';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import Modal from '../../atoms/Modal';
-import { BOTTOM_PAGE_PORTAL_ANCHOR } from './config';
-import { ProductSingleVariant } from './types';
 import BuyButton from './_components/Actions/BuyButton';
 import ConversationButton from './_components/Actions/ConversationButton';
 import PriceOffferButton from './_components/Actions/PriceOffferButton';
@@ -32,6 +30,8 @@ import SplittedPayments from './_components/SplittedPayments';
 import StickyBarPayment from './_components/StickyBarPayment';
 import Support from './_components/Support';
 import VariantSelector from './_components/VariantSelector';
+import { BOTTOM_PAGE_PORTAL_ANCHOR } from './config';
+import { ProductSingleVariant } from './types';
 
 const dict = getDictionary('fr');
 
@@ -157,7 +157,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 <DiscountLabel
                   key={discount.title}
                   discount={discount}
-                  displayCode={true}
+                  displayDetails={true}
                   sticked={false}
                 />
               ))}

@@ -165,8 +165,8 @@ export type FreeShippingDiscount = {
   hideReduction: true;
 };
 
-export type LoweringPriceDiscount = {
-  valueType: 'lowering_price';
+export type CustomDiscount = {
+  valueType: 'custom';
   value: null;
   hideReduction: true;
 };
@@ -185,8 +185,9 @@ export type Discount = {
   endsAt?: Date;
   id?: string;
   label: string;
+  description?: string;
   minAmount?: number;
-} & (LoweringPriceDiscount | FreeShippingDiscount | PriceDiscount);
+} & (CustomDiscount | FreeShippingDiscount | PriceDiscount);
 
 export type ListArticle = {
   imageSrc: string | null;

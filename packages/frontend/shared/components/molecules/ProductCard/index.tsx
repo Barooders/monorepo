@@ -1,14 +1,14 @@
 'use client';
 
-import FullProductCard from './full';
-import MediumProductCard from './card';
-import ProductPage from './page';
-import config from '@/config/env';
-import { useEffect, useState } from 'react';
-import SmallProductCard from './small';
 import { sendProductViewed } from '@/analytics';
-import { ProductMultiVariants, ProductSingleVariant } from './types';
+import config from '@/config/env';
 import useDiscounts from '@/hooks/state/useDiscounts';
+import { useEffect, useState } from 'react';
+import MediumProductCard from './card';
+import FullProductCard from './full';
+import ProductPage from './page';
+import SmallProductCard from './small';
+import { ProductMultiVariants, ProductSingleVariant } from './types';
 
 const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const availableVariants = props.variants.filter(({ available }) => available);

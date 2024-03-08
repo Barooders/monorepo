@@ -4,9 +4,9 @@ import { Discount } from '@/types';
 import { formatCurrency } from '@/utils/currency';
 import { ProductMultiVariants, Variant } from '../../types';
 import CommissionShield from './CommissionShield';
-import { calculateTotalDiscountedPrice } from './lib';
 import PriceRecap from './PriceRecap';
 import Timer from './Timer';
+import { calculateTotalDiscountedPrice } from './lib';
 
 const dict = getDictionary('fr');
 
@@ -32,7 +32,7 @@ const ProductPrice: React.FC<{
       : 0;
   const showSavings = savingsPercent < 10 && savingsAmount > 10;
   const discountedPrice = calculateTotalDiscountedPrice(discounts, price);
-  const hasDiscount = discounts.length > 0;
+  const hasDiscount = discountedPrice !== price;
   const showCompareAtPrice =
     !!compareAtPrice && !!savingsPercent && savingsPercent > 1;
   const referencePrice = discountedPrice ?? price;
@@ -51,9 +51,9 @@ const ProductPrice: React.FC<{
               componentSize === 'large' && !hasDiscount
                 ? 'text-2xl lg:text-3xl'
                 : (componentSize === 'large' && hasDiscount) ||
-                  (componentSize === 'medium' && !hasDiscount)
-                ? 'text-base lg:text-xl'
-                : 'text-sm lg:text-base'
+                    (componentSize === 'medium' && !hasDiscount)
+                  ? 'text-base lg:text-xl'
+                  : 'text-sm lg:text-base'
             }`}
           >
             {formatCurrency(price)}€
@@ -65,9 +65,9 @@ const ProductPrice: React.FC<{
                 componentSize === 'large' && !hasDiscount
                   ? 'text-lg lg:text-xl'
                   : (componentSize === 'large' && hasDiscount) ||
-                    (componentSize === 'medium' && !hasDiscount)
-                  ? 'text-sm lg:text-lg'
-                  : 'text-xs lg:text-sm'
+                      (componentSize === 'medium' && !hasDiscount)
+                    ? 'text-sm lg:text-lg'
+                    : 'text-xs lg:text-sm'
               } text-gray-400 line-through`}
             >
               {formatCurrency(compareAtPrice, { round: true })}€
@@ -114,7 +114,7 @@ const ProductPrice: React.FC<{
         />
       </div>
 
-      {discountedPrice !== price && (
+      {hasDiscount && (
         <div
           className={`flex items-center gap-2 ${
             componentSize === 'large' ? 'py-2' : ''
@@ -125,8 +125,8 @@ const ProductPrice: React.FC<{
               componentSize === 'large'
                 ? 'text-2xl lg:text-3xl'
                 : componentSize === 'medium'
-                ? 'text-base lg:text-xl'
-                : 'text-sm lg:text-base'
+                  ? 'text-base lg:text-xl'
+                  : 'text-sm lg:text-base'
             }`}
           >
             {formatCurrency(discountedPrice, { round: true })}€

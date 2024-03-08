@@ -16,8 +16,8 @@ const ProductImage: React.FC<{
         alt={image.altText}
       />
     )}
-    <div className="from-0% to-30% absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t from-black to-transparent opacity-25" />
-    <div className="absolute top-2 left-2 md:left-3 md:top-3">
+    <div className="absolute bottom-0 left-0 right-0 top-0 bg-gradient-to-t from-black from-0% to-transparent to-30% opacity-25" />
+    <div className="absolute left-2 top-2 md:left-3 md:top-3">
       {labels
         .filter((label) => label.position === 'left')
         .map((label, index) => (
@@ -27,7 +27,7 @@ const ProductImage: React.FC<{
           />
         ))}
     </div>
-    <div className="absolute top-2 right-2 md:right-3 md:top-3">
+    <div className="absolute right-2 top-2 md:right-3 md:top-3">
       {labels
         .filter((label) => label.position === 'right')
         .map((label, index) => (
@@ -43,7 +43,7 @@ const ProductImage: React.FC<{
           <DiscountLabel
             key={discount.title}
             discount={discount}
-            displayCode={false}
+            displayDetails={false}
             sticked={true}
           />
         ))}
