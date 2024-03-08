@@ -166,7 +166,7 @@ const getProductsFromFilterQuery = async (
   );
 };
 
-export const fetchProductsInSearchFromCollectionShopifyId = async (
+export const fetchProductsInSearchFromCollectionHandle = async (
   collectionHandle: string,
 ): Promise<ProductMultiVariants[]> => {
   return getProductsFromFilterQuery(
