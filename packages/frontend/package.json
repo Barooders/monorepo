@@ -117,7 +117,7 @@
     "eslint-plugin-storybook": "0.6.12",
     "openapi-typescript": "6.7.1",
     "postcss": "8.4.31",
-    "postcss-import": "^16.0.1",
+    "postcss-import": "16.0.1",
     "prettier-plugin-tailwindcss": "0.5.11",
     "tailwindcss": "3.2.7"
   }
