@@ -133,8 +133,6 @@ export class TuvalumMapper {
       return null;
     }
 
-    const baroodersPrice = tuvalumProduct.price - 15;
-    const oldPrice = tuvalumProduct.old_price;
     const tagsObject = getTagsObject(mappedTags);
     const productCondition = mapCondition(head(tagsObject[CONDITION_TAG_KEY]));
 
@@ -153,14 +151,12 @@ export class TuvalumMapper {
               value: tuvalumProduct.size,
             },
           ],
-          price: baroodersPrice.toString(),
+          price: tuvalumProduct.price.toString(),
           sku: `${tuvalumProduct.uuid}${
             envName === Environments.LOCAL ? '-local' : ''
           }`,
           condition: productCondition,
-          compare_at_price: oldPrice
-            ? oldPrice.toString()
-            : baroodersPrice.toString(),
+          compare_at_price: tuvalumProduct.old_price.toString(),
           inventory_quantity: this.getProductQuantity(tuvalumProduct),
         },
       ],

@@ -94,6 +94,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: vendorSecrets.tuvalumApiUrl,
     username: vendorSecrets.tuvalumUsername,
     password: vendorSecrets.tuvalumPassword,
+    catalog: {
+      priceExtraCharge: -15,
+    },
   },
   freeglisse: {
     slug: 'freeglisse',
@@ -1068,6 +1071,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.sbikesApiKey,
     apiSecret: vendorSecrets.sbikesApiSecret,
     catalog: {
+      priceExtraCharge: 40,
       translateDescription: true,
       descriptionPrefix: `<ul>
       <li>Une boîte endommagée ne donne pas le droit de refuser/retourner le vélo</li>
