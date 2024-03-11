@@ -69,6 +69,10 @@
 
     & > li {
       padding-left: 1rem;
+
+      & > p {
+        display: inline;
+      }
     }
   }
 }

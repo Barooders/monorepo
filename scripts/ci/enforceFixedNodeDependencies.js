@@ -1,4 +1,4 @@
-const glob = require('glob');
+const { glob } = require('glob');
 const path = require('path');
 
 const checkDependencies = (packageJsonFile) => {
@@ -28,35 +28,29 @@ const hasFixedDependency = ([name, version]) => {
   return !isNotFixed;
 };
 
-const root = path.resolve(__dirname, '../..');
-
-glob(
-  root + '/**/package.json',
-  {
+const run = async () => {
+  const root = path.resolve(__dirname, '../..');
+  const files = await glob([`${root}/**/package.json`], {
     ignore: [
       root + '/**/node_modules/**',
       root + '/**/dist/**',
       root + '/**/__generated/**',
     ],
-  },
-  (err, files) => {
-    if (err) {
-      console.error('Error reading package.json files', err);
+  });
+
+  let areAllOk = true;
+  files.forEach((file) => {
+    console.log(`Checking ${file}...`);
+    const isOk = checkDependencies(file);
+
+    if (!isOk) {
+      areAllOk = false;
     }
+  });
 
-    let areAllOk = true;
+  if (!areAllOk) {
+    process.exit(1);
+  }
+};
 
-    files.forEach((file) => {
-      console.log(`Checking ${file}...`);
-      const isOk = checkDependencies(file);
-
-      if (!isOk) {
-        areAllOk = false;
-      }
-    });
-
-    if (!areAllOk) {
-      process.exit(1);
-    }
-  },
-);
+run();
