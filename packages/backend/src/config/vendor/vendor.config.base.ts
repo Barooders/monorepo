@@ -1068,6 +1068,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.sbikesApiKey,
     apiSecret: vendorSecrets.sbikesApiSecret,
     catalog: {
+      priceExtraCharge: 40,
       translateDescription: true,
       descriptionPrefix: `<ul>
       <li>Une boîte endommagée ne donne pas le droit de refuser/retourner le vélo</li>
