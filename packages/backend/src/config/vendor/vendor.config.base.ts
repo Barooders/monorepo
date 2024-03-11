@@ -94,6 +94,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: vendorSecrets.tuvalumApiUrl,
     username: vendorSecrets.tuvalumUsername,
     password: vendorSecrets.tuvalumPassword,
+    catalog: {
+      priceExtraCharge: -15,
+    },
   },
   freeglisse: {
     slug: 'freeglisse',
