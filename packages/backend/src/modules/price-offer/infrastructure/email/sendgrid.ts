@@ -53,6 +53,7 @@ export class SendGridClient implements IEmailClient {
 
   buildAcceptedEmailSender(
     newPrice: Amount,
+    productTitle: string,
     discountCode: string,
   ): ParticipantEmailSender {
     return async (participants, conversationId) => {
@@ -65,6 +66,7 @@ export class SendGridClient implements IEmailClient {
         {
           buyer_pseudo: buyer.name,
           new_price: newPrice.formattedAmount,
+          product_title: productTitle,
           seller_pseudo: seller.name,
           code_promo: discountCode,
           conversation_id: conversationId,
