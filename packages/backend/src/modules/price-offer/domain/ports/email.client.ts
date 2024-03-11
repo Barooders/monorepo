@@ -11,5 +11,7 @@ export abstract class IEmailClient {
     productTitle: string,
     newPrice: Amount,
   ): ParticipantEmailSender;
-  abstract buildDeclinedEmailSender(): ParticipantEmailSender;
+  abstract buildDeclinedEmailSender(
+    productTitle: string,
+  ): ParticipantEmailSender;
 }

@@ -89,16 +89,15 @@ export class PriceOfferService implements IPriceOfferService {
       dict.priceOffer.newPriceOffer(sellerName, newPrice),
     );
 
-    const product = await this.storePrisma.storeExposedProduct.findFirstOrThrow(
-      {
+    const { title } =
+      await this.storePrisma.storeExposedProduct.findFirstOrThrow({
         where: { id: productId.uuid },
         select: { title: true },
-      },
-    );
+      });
 
     await this.sendEmailToPriceOfferParticipants(
       priceOfferUUID,
-      this.emailClient.buildNewEmailSender(product.title, newPrice),
+      this.emailClient.buildNewEmailSender(title, newPrice),
     );
 
     return newPriceOffer;
@@ -138,6 +137,11 @@ export class PriceOfferService implements IPriceOfferService {
       priceOfferId,
       PriceOfferStatus.DECLINED,
     );
+    const { title } =
+      await this.storePrisma.storeExposedProduct.findFirstOrThrow({
+        where: { id: updatedPriceOffer.productId },
+        select: { title: true },
+      });
 
     const priceOfferAmount = new Amount({
       amountInCents: Number(updatedPriceOffer.newPriceInCents),
@@ -151,7 +155,7 @@ export class PriceOfferService implements IPriceOfferService {
 
     await this.sendEmailToPriceOfferParticipants(
       priceOfferId,
-      this.emailClient.buildDeclinedEmailSender(),
+      this.emailClient.buildDeclinedEmailSender(title),
     );
   }
 
@@ -192,18 +196,17 @@ export class PriceOfferService implements IPriceOfferService {
       dict.priceOffer.discountCode(discountCode),
     );
 
-    const product = await this.storePrisma.storeExposedProduct.findFirstOrThrow(
-      {
+    const { title } =
+      await this.storePrisma.storeExposedProduct.findFirstOrThrow({
         where: { id: updatedPriceOffer.productId },
         select: { title: true },
-      },
-    );
+      });
 
     await this.sendEmailToPriceOfferParticipants(
       priceOfferId,
       this.emailClient.buildAcceptedEmailSender(
         priceOfferAmount,
-        product.title,
+        title,
         discountCode,
       ),
     );
