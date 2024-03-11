@@ -1,7 +1,8 @@
-import BlogArticle, {
+import BlogArticle from '@/components/pages/Blog/Article';
+import {
   getData,
   getMetadata,
-} from '@/components/pages/Blog/Article';
+} from '@/components/pages/Blog/Article/container';
 import { AppRouterPage } from '@/types';
 import { Metadata } from 'next';
 

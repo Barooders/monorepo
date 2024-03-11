@@ -1,15 +1,13 @@
-import React from 'react';
-import config from '@/config/env';
-import { FullArticle } from '@/types';
-import { fetchArticle, fetchTagList } from '@/clients/articles';
-import Tag from '@/components/atoms/Tag';
-import Image from '@/components/atoms/Image';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
-import { getDictionary } from '@/i18n/translate';
+import Image from '@/components/atoms/Image';
+import Tag from '@/components/atoms/Tag';
 import BlogLayout from '@/components/layouts/blog';
+import { getDictionary } from '@/i18n/translate';
+import { FullArticle } from '@/types';
 import startCase from 'lodash/startCase';
 import { marked } from 'marked';
-import { Metadata } from 'next';
+import React from 'react';
+import CollectionPreviewInjector from './CollectionPreviewInjector';
 
 const dict = getDictionary('fr');
 
@@ -18,42 +16,9 @@ export type PropsType = {
   tagList: string[];
 };
 
-export const getMetadata = async (articleHandle: string): Promise<Metadata> => {
-  const [article] = await Promise.all([fetchArticle(articleHandle)]);
-
-  return {
-    title: article.seoTitle,
-    description: article.seoDescription,
-    openGraph: {
-      title: article.seoTitle,
-      description: article.seoDescription,
-      images: [{ url: article.imageSrc ?? '' }],
-    },
-    twitter: {
-      title: article.seoTitle,
-      description: article.seoDescription,
-      images: [{ url: article.imageSrc ?? '' }],
-    },
-    alternates: {
-      canonical: `${config.baseUrl}/blogs/infos/${articleHandle}`,
-    },
-  };
-};
-
-export const getData = async (articleHandle: string): Promise<PropsType> => {
-  const [tagList, article] = await Promise.all([
-    fetchTagList(),
-    fetchArticle(articleHandle),
-  ]);
-
-  return {
-    article,
-    tagList,
-  };
-};
-
 const BlogArticle: React.FC<PropsType> = ({ article, tagList }) => {
   if (!article) throw new Error('Could not find article');
+
   return (
     <>
       <BlogLayout tagList={tagList}>
@@ -110,6 +75,7 @@ const BlogArticle: React.FC<PropsType> = ({ article, tagList }) => {
             </div>
           )}
         </div>
+        <CollectionPreviewInjector />
       </BlogLayout>
     </>
   );

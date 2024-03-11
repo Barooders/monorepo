@@ -1,7 +1,9 @@
+'use client';
+
 import HorizontalScroller from '@/components/atoms/HorizontalScroller';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { fetchProductsInSearchFromCollectionShopifyId } from '@/mappers/fromSearchToProductCard';
+import { fetchProductsInSearchFromCollectionHandle } from '@/mappers/fromSearchToProductCard';
 import compact from 'lodash/compact';
 import { useEffect } from 'react';
 import ProductCard from '../../../../molecules/ProductCard';
@@ -16,7 +18,7 @@ type PropsType = {
 const CollectionPreview: React.FC<PropsType> = ({ collectionHandle }) => {
   const [fetchState, fetchProducts] = useWrappedAsyncFn<
     (collectionHandle: string) => Promise<ProductMultiVariants[]>
-  >(fetchProductsInSearchFromCollectionShopifyId);
+  >(fetchProductsInSearchFromCollectionHandle);
 
   useEffect(() => {
     fetchProducts(collectionHandle);
