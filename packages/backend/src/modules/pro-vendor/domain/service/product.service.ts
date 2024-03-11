@@ -12,8 +12,8 @@ import {
 } from '@libs/domain/product.interface';
 import {
   BAROODERS_NAMESPACE,
-  getValidTags,
   MetafieldType,
+  getValidTags,
 } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { getSEOMetafields } from '@libs/helpers/seo.helper';
@@ -22,9 +22,9 @@ import {
   VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/store-client';
 import {
-  SyncedVendorProProduct,
   SyncLightProduct,
   SyncProduct,
+  SyncedVendorProProduct,
 } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
@@ -170,11 +170,12 @@ export class ProductService {
   }
 
   async updateProductOnStore(
-    productStoreId: number,
     mappedProduct: SyncProduct,
     shouldUpdateImages: boolean,
     productFromStore: StoredProduct,
   ): Promise<number> {
+    const productStoreId = productFromStore.id;
+
     await this.updateVariants(mappedProduct, productStoreId, productFromStore);
     await this.updateSEOMetafields(productStoreId, mappedProduct);
 
@@ -229,7 +230,9 @@ export class ProductService {
       images: addUpdate(
         mappedProduct.images,
         productFromStore.images,
-        () => shouldUpdateImages,
+        () =>
+          shouldUpdateImages ||
+          mappedProduct.images.length !== productFromStore.images.length,
       ),
       GTINCode: addUpdate(
         mappedProduct.GTINCode,

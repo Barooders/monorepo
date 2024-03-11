@@ -44,7 +44,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   bewak_excluded_brands: DEFAULT_CONFIG_WITHOUT_ORDER,
   mint_bikes: DEFAULT_CONFIG_WITHOUT_ORDER,
   nordics_value: DEFAULT_CONFIG,
-  fastalp: DEFAULT_CONFIG,
+  fastlap: DEFAULT_CONFIG,
   kite_spirit: DEFAULT_CONFIG,
   freeglisse: DEFAULT_CONFIG_WITHOUT_ORDER,
   projet_boussole: {

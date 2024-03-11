@@ -196,7 +196,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
   jbikes: {
     vendorId: '67b93b6f-7467-402d-8f32-91a2ebb8f9ea',
   },
-  fastalp: {
+  fastlap: {
     vendorId: 'fe56506b-d9cc-4210-a702-97eeec72c45b',
   },
   le_hollandais: {

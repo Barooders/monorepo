@@ -40,7 +40,7 @@ export type SynchronizedProVendor =
   | 'cyclink'
   | 'darosa_parts'
   | 'darosa_bikes'
-  | 'fastalp'
+  | 'fastlap'
   | 'velo_emotion'
   | 'baroudeur_cycles'
   | 'roue_liber'
@@ -98,6 +98,7 @@ export interface FullVendorConfig {
   username?: string;
   password?: string;
   catalog?: {
+    skipProductUpdate?: boolean;
     externalVendorId?: string;
     productCollectionHandle?: string;
     shouldIgnoreCheapBikesBelow150?: boolean;
@@ -280,8 +281,8 @@ export type VendorSecretsType = {
   boussoleAccessToken: string;
   jbikesApiKey: string;
   jbikesApiSecret: string;
-  fastalpApiKey: string;
-  fastalpApiSecret: string;
+  fastlapApiKey: string;
+  fastlapApiSecret: string;
   bernaudeauApiKey: string;
   bernaudeauApiSecret: string;
   bikePointApiKey: string;

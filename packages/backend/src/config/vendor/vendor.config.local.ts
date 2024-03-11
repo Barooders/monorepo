@@ -34,7 +34,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   darosa_parts: DEFAULT_CONFIG,
   darosa_bikes: DEFAULT_CONFIG,
   chris_bikes: DEFAULT_CONFIG,
-  fastalp: DEFAULT_CONFIG,
+  fastlap: DEFAULT_CONFIG,
   velo_emotion: DEFAULT_CONFIG,
   bewak: DEFAULT_CONFIG_WITHOUT_ORDER,
   bewak_excluded_brands: DEFAULT_CONFIG_WITHOUT_ORDER,
