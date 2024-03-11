@@ -965,13 +965,13 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       defaultProductCondition: Condition.VERY_GOOD,
     },
   },
-  fastalp: {
-    slug: 'fastalp',
-    mappingKey: 'fastalp',
+  fastlap: {
+    slug: 'fastlap',
+    mappingKey: 'fastlap',
     type: VendorType.WOO_COMMERCE,
     apiUrl: 'https://fastlap.shop/wp-json/wc/v3/products',
-    apiKey: vendorSecrets.fastalpApiKey,
-    apiSecret: vendorSecrets.fastalpApiSecret,
+    apiKey: vendorSecrets.fastlapApiKey,
+    apiSecret: vendorSecrets.fastlapApiSecret,
     catalog: {
       defaultProductCondition: Condition.VERY_GOOD,
     },
