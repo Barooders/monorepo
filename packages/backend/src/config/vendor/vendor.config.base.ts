@@ -1074,6 +1074,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       priceExtraCharge: 40,
       translateDescription: true,
       descriptionPrefix: `<ul>
+      <li>Tous les vélos seront livrés avec un antivol et une sonnette</li>
       <li>Une boîte endommagée ne donne pas le droit de refuser/retourner le vélo</li>
       <li>Les vélos peuvent présenter des rayures ou des défauts de peinture</li>
       <li>Les vélos ont une garantie de 2 semaines</li>
