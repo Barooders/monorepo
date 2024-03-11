@@ -20,13 +20,14 @@ const TEMPLATE_IDS = {
 };
 
 export class SendGridClient implements IEmailClient {
-  buildDeclinedEmailSender(): ParticipantEmailSender {
+  buildDeclinedEmailSender(productTitle: string): ParticipantEmailSender {
     return async (participants, conversationId) => {
       await sendEmailFromTemplate(
         [{ email: participants[Participants.INITIATOR].email }],
         TEMPLATE_IDS.DECLINED_PRICE_OFFER.INITIATOR,
         {
           receiver_offer_name: participants[Participants.RECEIVER].name,
+          product_title: productTitle,
           conversation_id: conversationId,
         },
       );
@@ -64,7 +65,6 @@ export class SendGridClient implements IEmailClient {
         [{ email: buyer.email }],
         TEMPLATE_IDS.ACCEPTED_PRICE_OFFER[Participants.BUYER],
         {
-          buyer_pseudo: buyer.name,
           new_price: newPrice.formattedAmount,
           product_title: productTitle,
           seller_pseudo: seller.name,
@@ -78,7 +78,6 @@ export class SendGridClient implements IEmailClient {
         {
           buyer_pseudo: buyer.name,
           new_price: newPrice.formattedAmount,
-          seller_pseudo: seller.email,
           code_promo: discountCode,
           conversation_id: conversationId,
         },
