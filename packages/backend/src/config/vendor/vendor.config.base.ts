@@ -1000,6 +1000,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.velosport20ApiKey,
     apiSecret: vendorSecrets.velosport20ApiSecret,
     catalog: {
+      skipProductUpdate: true,
       commissionPercentToAdd: 6,
     },
   },

@@ -117,13 +117,17 @@ export class ProductSyncService {
           );
         }
 
-        await this.updateProduct(
-          mappedProduct,
-          vendorProductFromDb,
-          productFromStore,
-          wasSyncActive,
-          shouldUpdateImages,
-        );
+        if (
+          !this.vendorConfigService.getVendorConfig().catalog?.skipProductUpdate
+        ) {
+          await this.updateProduct(
+            mappedProduct,
+            vendorProductFromDb,
+            productFromStore,
+            wasSyncActive,
+            shouldUpdateImages,
+          );
+        }
       } catch (e: any) {
         if (e instanceof SkippedProductException) {
           this.logger.debug(
