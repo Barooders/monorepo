@@ -496,19 +496,18 @@ export class PriceOfferService implements IPriceOfferService {
     };
 
     const conversationId = await this.getAssociatedConversationId(priceOfferId);
+    const isInitiatedByBuyer = buyer.authUserId === priceOffer.initiatedBy;
 
     return await sendEmailToParticipants(
       {
         [Participants.BUYER]: buyerParticipant,
         [Participants.SELLER]: sellerParticipant,
-        [Participants.INITIATOR]:
-          buyer.authUserId === priceOffer.initiatedBy
-            ? buyerParticipant
-            : sellerParticipant,
-        [Participants.RECEIVER]:
-          buyer.authUserId === priceOffer.initiatedBy
-            ? sellerParticipant
-            : buyerParticipant,
+        [Participants.INITIATOR]: isInitiatedByBuyer
+          ? buyerParticipant
+          : sellerParticipant,
+        [Participants.RECEIVER]: isInitiatedByBuyer
+          ? sellerParticipant
+          : buyerParticipant,
       },
       conversationId,
     );
