@@ -4,6 +4,7 @@ import {
   VendorProProduct,
 } from '@libs/domain/prisma.main.client';
 import { StoredProduct } from '@libs/domain/product.interface';
+import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { CreatedProductException } from './exception/created-product.exception';
@@ -19,8 +20,7 @@ import {
 import { IVendorConfigService } from './ports/vendor-config.service';
 import { IVendorProductServiceProvider } from './ports/vendor-product-service.provider';
 import { ProductMapper } from './service/product.mapper';
-import { getProductStatus, ProductService } from './service/product.service';
-import { jsonStringify } from '@libs/helpers/json';
+import { ProductService, getProductStatus } from './service/product.service';
 
 export enum SynchroEvent {
   PRODUCTS_UPDATED = 'PRODUCTS_UPDATED',
@@ -57,7 +57,6 @@ export class ProductSyncService {
     const productsFromVendor = await this.getProductsFromVendor(
       sinceDate,
       productIdsFilter,
-      shouldUpdateImages,
     );
 
     for (const productFromVendor of productsFromVendor) {
@@ -207,7 +206,6 @@ export class ProductSyncService {
   private async getProductsFromVendor(
     sinceDate: Date | null | undefined,
     productIdsFilter: string[],
-    shouldUpdateImages: boolean,
   ) {
     let productsFromVendor: VendorProduct[] = [];
 
@@ -215,7 +213,6 @@ export class ProductSyncService {
       `Fetching products from vendor: ${jsonStringify({
         productIdsFilter,
         sinceDate,
-        shouldUpdateImages,
       })}`,
     );
 
@@ -285,7 +282,6 @@ export class ProductSyncService {
     }
 
     const updatedProductId = await this.productService.updateProductOnStore(
-      productFromStore.id,
       mappedProduct,
       shouldUpdateImages,
       productFromStore,
