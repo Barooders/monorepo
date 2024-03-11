@@ -5,24 +5,25 @@ import {
   PriceOfferStatus,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
-import { Injectable, Logger } from '@nestjs/common';
+import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
+import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
+import { Injectable, Logger } from '@nestjs/common';
+import dayjs from 'dayjs';
+import { first } from 'lodash';
+import { IOrder } from 'shopify-api-node';
+import { ParticipantEmailSender, Participants } from './config';
 import {
+  ForbiddenParticipation,
   IncoherentPriceOfferStatus,
   OngoingPriceOfferExisting,
-  PriceOfferNotFound,
-  ForbiddenParticipation,
   PriceOfferIsNotAcceptable,
+  PriceOfferNotFound,
 } from './exceptions';
-import { IStoreClient } from './ports/store.client';
-import dayjs from 'dayjs';
-import { capitalize, first } from 'lodash';
-import { IPriceOfferService } from './ports/price-offer';
-import { IOrder } from 'shopify-api-node';
-import { Locales, getDictionnary } from '@libs/i18n';
 import { IEmailClient } from './ports/email.client';
-import { ParticipantEmailSender, Participants } from './config';
+import { IPriceOfferService } from './ports/price-offer';
+import { IStoreClient } from './ports/store.client';
 
 const dict = getDictionnary(Locales.FR);
 
@@ -32,6 +33,7 @@ export class PriceOfferService implements IPriceOfferService {
 
   constructor(
     protected readonly prisma: PrismaMainClient,
+    protected readonly storePrisma: PrismaStoreClient,
     protected readonly chatService: IChatService,
     protected readonly storeClient: IStoreClient,
     protected readonly emailClient: IEmailClient,
@@ -87,17 +89,16 @@ export class PriceOfferService implements IPriceOfferService {
       dict.priceOffer.newPriceOffer(sellerName, newPrice),
     );
 
-    const product = await this.prisma.product.findFirstOrThrow({
-      where: { id: productId.uuid },
-      select: { handle: true },
-    });
+    const product = await this.storePrisma.storeExposedProduct.findFirstOrThrow(
+      {
+        where: { id: productId.uuid },
+        select: { title: true },
+      },
+    );
 
     await this.sendEmailToPriceOfferParticipants(
       priceOfferUUID,
-      this.emailClient.buildNewEmailSender(
-        capitalize(product.handle?.replaceAll('-', ' ')),
-        newPrice,
-      ),
+      this.emailClient.buildNewEmailSender(product.title, newPrice),
     );
 
     return newPriceOffer;
@@ -191,16 +192,18 @@ export class PriceOfferService implements IPriceOfferService {
       dict.priceOffer.discountCode(discountCode),
     );
 
-    const product = await this.prisma.product.findFirstOrThrow({
-      where: { id: updatedPriceOffer.productId },
-      select: { handle: true },
-    });
+    const product = await this.storePrisma.storeExposedProduct.findFirstOrThrow(
+      {
+        where: { id: updatedPriceOffer.productId },
+        select: { title: true },
+      },
+    );
 
     await this.sendEmailToPriceOfferParticipants(
       priceOfferId,
       this.emailClient.buildAcceptedEmailSender(
         priceOfferAmount,
-        product.handle ?? '',
+        product.title,
         discountCode,
       ),
     );
@@ -493,19 +496,18 @@ export class PriceOfferService implements IPriceOfferService {
     };
 
     const conversationId = await this.getAssociatedConversationId(priceOfferId);
+    const isInitiatedByBuyer = buyer.authUserId === priceOffer.initiatedBy;
 
     return await sendEmailToParticipants(
       {
         [Participants.BUYER]: buyerParticipant,
         [Participants.SELLER]: sellerParticipant,
-        [Participants.INITIATOR]:
-          buyer.authUserId === priceOffer.initiatedBy
-            ? buyerParticipant
-            : sellerParticipant,
-        [Participants.RECEIVER]:
-          buyer.authUserId === priceOffer.initiatedBy
-            ? sellerParticipant
-            : buyerParticipant,
+        [Participants.INITIATOR]: isInitiatedByBuyer
+          ? buyerParticipant
+          : sellerParticipant,
+        [Participants.RECEIVER]: isInitiatedByBuyer
+          ? sellerParticipant
+          : buyerParticipant,
       },
       conversationId,
     );

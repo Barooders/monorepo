@@ -4,7 +4,7 @@ import { ParticipantEmailSender } from '../config';
 export abstract class IEmailClient {
   abstract buildAcceptedEmailSender(
     newPrice: Amount,
-    productHandle: string,
+    productTitle: string,
     discountCode: string,
   ): ParticipantEmailSender;
   abstract buildNewEmailSender(

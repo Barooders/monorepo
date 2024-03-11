@@ -15,7 +15,7 @@ const TEMPLATE_IDS = {
     [Participants.INITIATOR]: 'd-203b88c106404b049557b10fa22fc460',
   },
   NEW_PRICE_OFFER: {
-    [Participants.RECEIVER]: 'd-e2e562ea5d55474aa26055ec97b616dd',
+    [Participants.RECEIVER]: 'd-2b1fe53ed192445294e3681448ee59fa',
   },
 };
 
@@ -53,6 +53,7 @@ export class SendGridClient implements IEmailClient {
 
   buildAcceptedEmailSender(
     newPrice: Amount,
+    productTitle: string,
     discountCode: string,
   ): ParticipantEmailSender {
     return async (participants, conversationId) => {
@@ -65,6 +66,7 @@ export class SendGridClient implements IEmailClient {
         {
           buyer_pseudo: buyer.name,
           new_price: newPrice.formattedAmount,
+          product_title: productTitle,
           seller_pseudo: seller.name,
           code_promo: discountCode,
           conversation_id: conversationId,
