@@ -27,7 +27,7 @@ const promoCodes: PromoCodeType[] = [
     code: 'WELCOME10',
     value: 10,
     type: 'amount',
-    isAvailable: (product: ProductSingleVariant) => product.price >= 100,
+    isAvailable: () => false,
   },
 ];
 
