@@ -230,7 +230,9 @@ export class ProductService {
       images: addUpdate(
         mappedProduct.images,
         productFromStore.images,
-        () => shouldUpdateImages,
+        () =>
+          shouldUpdateImages ||
+          mappedProduct.images.length !== productFromStore.images.length,
       ),
       GTINCode: addUpdate(
         mappedProduct.GTINCode,
