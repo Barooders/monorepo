@@ -40,11 +40,11 @@ export class ProductMapper {
         getMultiplierFromCommission(
           catalogFeatures?.commissionPercentToAdd ?? 0,
         ) * (catalogFeatures?.priceMultiplier ?? 1);
-      const priceExtraCharge = catalogFeatures?.priceExtraCharge ?? 0;
+      const priceCorrection = catalogFeatures?.priceCorrection ?? 0;
 
       variant.price = (
         Number(variant.price) * variantMutiplier +
-        priceExtraCharge
+        priceCorrection
       ).toFixed(2);
 
       for (const { key, value } of variant.optionProperties) {

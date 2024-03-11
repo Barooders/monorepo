@@ -115,7 +115,7 @@ export interface FullVendorConfig {
     showExternalIdInDescription?: boolean;
     commissionPercentToAdd?: number;
     priceMultiplier?: number;
-    priceExtraCharge?: number;
+    priceCorrection?: number;
     minimumDiscount?: number;
     externalLanguageId?: string;
     defaultPublishedProductStatus?: ProductStatus;

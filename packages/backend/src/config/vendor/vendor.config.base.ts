@@ -95,7 +95,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     username: vendorSecrets.tuvalumUsername,
     password: vendorSecrets.tuvalumPassword,
     catalog: {
-      priceExtraCharge: -15,
+      priceCorrection: -15,
     },
   },
   freeglisse: {
@@ -1071,7 +1071,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.sbikesApiKey,
     apiSecret: vendorSecrets.sbikesApiSecret,
     catalog: {
-      priceExtraCharge: 40,
+      priceCorrection: 40,
       translateDescription: true,
       descriptionPrefix: `<ul>
       <li>Tous les vélos seront livrés avec un antivol et une sonnette</li>
