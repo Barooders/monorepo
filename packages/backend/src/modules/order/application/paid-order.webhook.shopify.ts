@@ -1,4 +1,8 @@
 import { routesV1 } from '@config/routes.config';
+import {
+  BackOffPolicy,
+  Retryable,
+} from '@libs/application/decorators/retryable.decorator';
 import { ShopifyBackofficeWebhookGuard } from '@libs/application/decorators/shopify-webhook.guard';
 import {
   Order,
@@ -27,6 +31,15 @@ export class PaidOrderWebhookShopifyController {
   ) {}
 
   @Post(routesV1.order.onPaidEvent)
+  @Retryable({
+    backOff: 500,
+    maxAttempts: 4,
+    exponentialOption: {
+      maxInterval: 15000,
+      multiplier: 3,
+    },
+    backOffPolicy: BackOffPolicy.ExponentialBackOffPolicy,
+  })
   @UseGuards(ShopifyBackofficeWebhookGuard)
   async handlePaidOrderEvent(@Body() orderData: IOrder): Promise<void> {
     const order = await this.orderMapper.mapOrderPaid(orderData);
