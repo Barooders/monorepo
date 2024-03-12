@@ -42,7 +42,7 @@ export type GeodisDeliveryTemplateData = GenericShippingTemplateData & {
     name: string;
     shipmentEmail: string;
   };
-  has_previous_bike_order_with_geodis_shipping: boolean;
+  hasPreviousBikeOrderWithGeodisShipping: boolean;
 };
 
 export type HandDeliveryVendorTemplateData = GenericShippingTemplateData & {

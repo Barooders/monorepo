@@ -670,7 +670,7 @@ export class OrderNotificationService {
               vendor,
               customer,
               order,
-              has_previous_bike_order_with_geodis_shipping:
+              hasPreviousBikeOrderWithGeodisShipping:
                 await this.hasVendorAlreadyHadAnOrderWithGeodisShipping(
                   vendor.previousOrderLines,
                 ),

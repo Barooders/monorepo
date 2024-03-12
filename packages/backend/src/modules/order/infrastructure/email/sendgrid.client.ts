@@ -227,7 +227,7 @@ export class SendGridClient implements IEmailClient {
       vendor,
       order,
       customer,
-      has_previous_bike_order_with_geodis_shipping,
+      hasPreviousBikeOrderWithGeodisShipping,
     }: GeodisDeliveryTemplateData,
   ): Promise<void> {
     const metadata = {
@@ -242,7 +242,8 @@ export class SendGridClient implements IEmailClient {
       customer_address: customer.address,
       shipment_email: order.shipmentEmail,
       client_phone: customer.phone,
-      has_previous_bike_order_with_geodis_shipping,
+      has_previous_bike_order_with_geodis_shipping:
+        hasPreviousBikeOrderWithGeodisShipping,
     };
 
     await sendEmailFromTemplate(
