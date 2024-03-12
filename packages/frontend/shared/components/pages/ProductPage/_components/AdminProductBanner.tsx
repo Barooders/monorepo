@@ -78,6 +78,7 @@ const AdminProductBanner = ({
         <p className="text-xs">
           source: {value?.Product[0]?.source ?? '-'} -{' '}
           <a
+            className="font-semibold text-gray-500 underline"
             href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
           >
             Perf
