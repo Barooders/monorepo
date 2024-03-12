@@ -412,6 +412,17 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       mapMultipleVariants: true,
     },
   },
+  nestor: {
+    slug: 'nestor',
+    mappingKey: 'nestor',
+    type: VendorType.WOO_COMMERCE,
+    apiUrl: 'https://bikesoutletnestor.es/wp-json/wc/v3',
+    apiKey: vendorSecrets.nestorApiKey,
+    apiSecret: vendorSecrets.nestorApiSecret,
+    catalog: {
+      mapMultipleVariants: true,
+    },
+  },
   paname_bicis: {
     slug: 'paname_bicis',
     mappingKey: 'paname_bicis',

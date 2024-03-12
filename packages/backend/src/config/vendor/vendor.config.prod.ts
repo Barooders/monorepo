@@ -85,6 +85,9 @@ export const prodVendorConfig: EnvVendorsConfig = {
   ciklet: {
     vendorId: '938e2c7b-e692-4443-a87c-00fb874c9d5f',
   },
+  nestor: {
+    vendorId: '12c9930e-4e64-4d0e-8e57-f04f3a3f8f36',
+  },
   montanini: {
     vendorId: '4918c185-a2ec-487e-9cf6-a67e8bb12692',
   },

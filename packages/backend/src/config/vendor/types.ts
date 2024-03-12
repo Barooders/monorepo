@@ -24,6 +24,7 @@ export type SynchronizedProVendor =
   | 'horizons_angers'
   | 'bernaudeau_woo'
   | 'ciklet'
+  | 'nestor'
   | 'bewak'
   | 'dayak'
   | 'bewak_excluded_brands'
@@ -291,6 +292,8 @@ export type VendorSecretsType = {
   bikePointApiSecret: string;
   cikletApiKey: string;
   cikletApiSecret: string;
+  nestorApiKey: string;
+  nestorApiSecret: string;
   panameBicisApiKey: string;
   panameBicisApiSecret: string;
   montaniniApiKey: string;

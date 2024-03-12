@@ -26,6 +26,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   agava_presales: DEFAULT_CONFIG,
   montanini: DEFAULT_CONFIG,
   ciklet: DEFAULT_CONFIG,
+  nestor: DEFAULT_CONFIG,
   velosport34: DEFAULT_CONFIG,
   lario_ebike: DEFAULT_CONFIG,
   horizons_angers: DEFAULT_CONFIG,
