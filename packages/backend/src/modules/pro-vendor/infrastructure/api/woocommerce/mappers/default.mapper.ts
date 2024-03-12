@@ -244,10 +244,10 @@ export class WooCommerceDefaultMapper {
   }
 
   getVariantQuantity(
-    { purchasable }: { purchasable: boolean; name: string },
+    { purchasable }: { purchasable?: boolean; name: string },
     variantQuantity: number | null,
   ): number {
-    if (!purchasable) return 0;
+    if (purchasable === false) return 0;
 
     return variantQuantity ?? 0;
   }
