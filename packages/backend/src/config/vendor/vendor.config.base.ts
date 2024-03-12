@@ -388,6 +388,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.bernaudeaucycloccasions.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.bernaudeauApiKey,
     apiSecret: vendorSecrets.bernaudeauApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
   bike_point: {
     slug: 'bike_point',
@@ -398,6 +401,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.bikePointApiSecret,
     catalog: {
       priceMultiplier: 1.2,
+      mapSingleVariant: true,
     },
   },
   ciklet: {
@@ -408,9 +412,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     allProductsPathOverride: '/products-ng',
     apiKey: vendorSecrets.cikletApiKey,
     apiSecret: vendorSecrets.cikletApiSecret,
-    catalog: {
-      mapMultipleVariants: true,
-    },
   },
   nestor: {
     slug: 'nestor',
@@ -419,9 +420,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://bikesoutletnestor.es/wp-json/wc/v3',
     apiKey: vendorSecrets.nestorApiKey,
     apiSecret: vendorSecrets.nestorApiSecret,
-    catalog: {
-      mapMultipleVariants: true,
-    },
   },
   paname_bicis: {
     slug: 'paname_bicis',
@@ -430,6 +428,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://panamebicis.com/wp-json/wc/v3',
     apiKey: vendorSecrets.panameBicisApiKey,
     apiSecret: vendorSecrets.panameBicisApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
   montanini: {
     slug: 'montanini',
@@ -440,6 +441,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.montaniniApiSecret,
     catalog: {
       variantOptionTagsWithCategorySuffix: ['taglia'],
+      mapSingleVariant: true,
     },
   },
   daz_bike: {
@@ -449,6 +451,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://ciclidalzilio.com/wp-json/wc/v3',
     apiKey: vendorSecrets.dazBikeApiKey,
     apiSecret: vendorSecrets.dazBikeApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
   le_bon_coin: {
     slug: 'le_bon_coin',
@@ -977,6 +982,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       parsedTagKeysFromDescription: DESIRED_BIKES_TAGS,
       defaultProductCondition: Condition.VERY_GOOD,
+      mapSingleVariant: true,
     },
   },
   fastlap: {
@@ -988,6 +994,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.fastlapApiSecret,
     catalog: {
       defaultProductCondition: Condition.VERY_GOOD,
+      mapSingleVariant: true,
     },
   },
   gary_bom: {
@@ -997,6 +1004,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.atelierduride.com/wp-json/wc/v3',
     apiKey: vendorSecrets.garybomApiKey,
     apiSecret: vendorSecrets.garybomApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
   joost_bikes: {
     slug: 'joost_bikes',
@@ -1005,6 +1015,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://joostracefietsen.nl/wp-json/wc/v3',
     apiKey: vendorSecrets.joostBikesApiKey,
     apiSecret: vendorSecrets.joostBikesApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
   velosport20: {
     slug: 'velosport20',
@@ -1016,6 +1029,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       skipProductUpdate: true,
       commissionPercentToAdd: 6,
+      mapSingleVariant: true,
     },
   },
   le_hollandais: {
@@ -1025,9 +1039,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://lehollandaisvelo.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.lehollandaisApiKey,
     apiSecret: vendorSecrets.lehollandaisApiSecret,
-    catalog: {
-      mapMultipleVariants: true,
-    },
   },
   dayak: {
     slug: 'dayak',
@@ -1038,7 +1049,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.dayakApiSecret,
     catalog: {
       minimumDiscount: 0.1,
-      mapMultipleVariants: true,
       defaultProductCondition: Condition.AS_NEW,
     },
   },
@@ -1071,7 +1081,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       commissionPercentToAdd: 10,
       translateDescription: true,
-      mapMultipleVariants: true,
     },
   },
   sbikes: {
@@ -1084,6 +1093,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       priceCorrection: 40,
       translateDescription: true,
+      mapSingleVariant: true,
       descriptionPrefix: `<ul>
       <li>Tous les vélos seront livrés avec un antivol et une sonnette</li>
       <li>Une boîte endommagée ne donne pas le droit de refuser/retourner le vélo</li>
@@ -1105,7 +1115,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.recoApiSecret,
     catalog: {
       parsedTagKeysFromDescription: ['brand'],
-      mapMultipleVariants: true,
     },
   },
   manufaktur: {
@@ -1116,6 +1125,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.manufakturApiKey,
     apiSecret: vendorSecrets.manufakturApiSecret,
     catalog: {
+      mapSingleVariant: true,
       parsedTagKeysFromDescription: MINIMAL_BIKES_TAGS,
       translateDescription: true,
       defaultProductCondition: Condition.AS_NEW,
@@ -1129,6 +1139,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiKey: vendorSecrets.elettronicApiKey,
     apiSecret: vendorSecrets.elettronicApiSecret,
     catalog: {
+      mapSingleVariant: true,
       defaultProductCondition: Condition.VERY_GOOD,
       translateDescription: true,
     },
@@ -1140,5 +1151,8 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.lemoulinavelos.com/wp-json/wc/v3',
     apiKey: vendorSecrets.moulinApiKey,
     apiSecret: vendorSecrets.moulinApiSecret,
+    catalog: {
+      mapSingleVariant: true,
+    },
   },
 };

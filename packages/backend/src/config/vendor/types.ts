@@ -107,7 +107,7 @@ export interface FullVendorConfig {
     minimalPriceInCents?: number;
     categoriesToFilterInFetch?: number[];
     defaultDescription?: string;
-    mapMultipleVariants?: boolean;
+    mapSingleVariant?: boolean;
     defaultProductCondition?: Condition;
     parsedTagKeysFromDescription?: string[];
     isAvailable?: (apiContent: string) => boolean;
