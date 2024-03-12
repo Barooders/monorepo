@@ -652,16 +652,16 @@ export class OrderNotificationService {
     const isBikeSentWithGeodis =
       isBike && product.shippingSolution === ShippingSolution.GEODIS;
 
-    if (isBikeSentWithGeodis) {
-      await this.sendNotificationIfNotAlreadySent(
-        NotificationType.EMAIL,
-        NotificationName.NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING,
-        CustomerType.seller,
-        vendorMetadata,
-        {
-          metadata: vendorMetadata,
-        },
-        async () => {
+    await this.sendNotificationIfNotAlreadySent(
+      NotificationType.EMAIL,
+      NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING,
+      CustomerType.seller,
+      vendorMetadata,
+      {
+        metadata: vendorMetadata,
+      },
+      async () => {
+        if (isBikeSentWithGeodis) {
           await this.emailClient.sendNewOrderEmailToVendorWithGeodisShipping(
             vendor.email,
             vendor.fullName,
@@ -676,18 +676,7 @@ export class OrderNotificationService {
                 ),
             },
           );
-        },
-      );
-    } else {
-      await this.sendNotificationIfNotAlreadySent(
-        NotificationType.EMAIL,
-        NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING,
-        CustomerType.seller,
-        vendorMetadata,
-        {
-          metadata: vendorMetadata,
-        },
-        async () => {
+        } else {
           await this.emailClient.sendNewOrderEmailToVendor(
             vendor.email,
             vendor.fullName,
@@ -696,9 +685,9 @@ export class OrderNotificationService {
               vendor,
             },
           );
-        },
-      );
-    }
+        }
+      },
+    );
   }
 
   private async hasVendorAlreadyHadAnOrderWithGeodisShipping(
