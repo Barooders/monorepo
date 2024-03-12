@@ -60,8 +60,9 @@ export class OrderMapper {
       throw new Error(`No shippable product found in order ${id}`);
     }
 
-    const fulfillmentOrders =
-      await shopifyApiByToken.order.fulfillmentOrders(id);
+    const fulfillmentOrders = await shopifyApiByToken.order.fulfillmentOrders(
+      id,
+    );
 
     if (fulfillmentOrders.length === 0) {
       throw new Error(`No fulfillment order found yet for order ${id}`);
@@ -251,9 +252,9 @@ export class OrderMapper {
         vendor: {
           authUserId,
         },
-        AND: {
-          NOT: {
-            orderId: String(id),
+        order: {
+          shopifyId: {
+            not: String(id),
           },
         },
       },
