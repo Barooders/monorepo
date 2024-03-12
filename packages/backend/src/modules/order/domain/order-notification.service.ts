@@ -474,7 +474,8 @@ export class OrderNotificationService {
         orderName: order.name,
       };
 
-      const isImportantFirstSale = vendor.isPro && vendor.isFirstOrder;
+      const isFirstSale = vendor.previousOrderLines.length === 0;
+      const isImportantFirstSale = vendor.isPro && isFirstSale;
 
       await this.sendNotificationIfNotAlreadySent(
         NotificationType.INTERNAL,
