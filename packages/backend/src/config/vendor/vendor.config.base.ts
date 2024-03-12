@@ -148,6 +148,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.matkiteApiKey,
     apiUrl: 'https://www.mckiteshop.com/api/',
+    catalog: {},
   },
   bike_xtreme: {
     slug: 'bike_xtreme',
@@ -165,6 +166,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.millaBikesApiKey,
     apiUrl: 'https://millabikes.es/api/',
+    catalog: {},
   },
   velo_emotion: {
     slug: 'velo_emotion',
@@ -172,6 +174,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.veloEmotionApiKey,
     apiUrl: 'https://ac-emotion.com/api/',
+    catalog: {},
   },
   velosport34: {
     slug: 'velosport34',
@@ -179,6 +182,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.velosport34ApiKey,
     apiUrl: 'https://www.velo-sport34.fr/api/',
+    catalog: {},
   },
   ferrareis: {
     slug: 'ferrareis',
@@ -216,6 +220,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.ebikeApiKey,
     apiUrl: 'https://www.ebike-occasions.com/api/',
+    catalog: {},
   },
   trocsport: {
     slug: 'trocsport',
@@ -288,6 +293,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.kitespiritApiKey,
     apiUrl: vendorSecrets.kitespiritApiUrl,
+    catalog: {},
   },
   skidoc: {
     slug: 'skidoc',
@@ -295,6 +301,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.skidocApiKey,
     apiUrl: vendorSecrets.skidocApiUrl,
+    catalog: {},
     order: {
       isSyncActivated: true,
       customerDefaultGroupId: '3',
@@ -400,6 +407,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     allProductsPathOverride: '/products-ng',
     apiKey: vendorSecrets.cikletApiKey,
     apiSecret: vendorSecrets.cikletApiSecret,
+    catalog: {},
   },
   paname_bicis: {
     slug: 'paname_bicis',
@@ -574,6 +582,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'loewi2.myshopify.com',
     accessToken: vendorSecrets.loewiAccessToken,
+    catalog: {},
   },
   tch: {
     slug: 'tch',
@@ -623,6 +632,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: '73f5c0-2.myshopify.com',
     accessToken: vendorSecrets.cyclinkAccessToken,
+    catalog: {},
   },
   mint_bikes: {
     slug: 'mint_bikes',
@@ -630,6 +640,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'velokaz.myshopify.com',
     accessToken: vendorSecrets.mintAccessToken,
+    catalog: {},
     order: { isSyncActivated: true, sendRealCustomerEmail: true },
   },
   tnc: {
@@ -688,6 +699,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.alpinstoreApiKey,
     apiUrl: vendorSecrets.alpinstoreApiUrl,
+    catalog: {},
     order: {
       isSyncActivated: true,
       forceOrderStatusAfterCreation: true,
@@ -951,6 +963,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'projet-boussole.myshopify.com',
     accessToken: vendorSecrets.boussoleAccessToken,
+    catalog: {},
   },
   jbikes: {
     slug: 'jbikes',
@@ -1019,6 +1032,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://lehollandaisvelo.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.lehollandaisApiKey,
     apiSecret: vendorSecrets.lehollandaisApiSecret,
+    catalog: {},
   },
   dayak: {
     slug: 'dayak',

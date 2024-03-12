@@ -97,7 +97,7 @@ export interface FullVendorConfig {
   accessToken?: string;
   username?: string;
   password?: string;
-  catalog?: {
+  catalog: {
     skipProductUpdate?: boolean;
     externalVendorId?: string;
     productCollectionHandle?: string;
