@@ -39,6 +39,10 @@ export type OrderPaidData = {
     fullName: string;
     isFirstOrder: boolean;
     isPro: boolean;
+    previousOrders: {
+      shippingSolution: ShippingSolution;
+      productType: string;
+    }[];
   };
 };
 
