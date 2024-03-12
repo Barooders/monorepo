@@ -1,4 +1,4 @@
-import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
+import { Condition } from '@libs/domain/prisma.main.client';
 import { jsonParse } from '@libs/helpers/json';
 import { JSDOM } from 'jsdom';
 import { cloneDeep, merge } from 'lodash';
@@ -729,7 +729,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.XML,
     apiUrl: 'https://files.channable.com/XhAjAJB4Y8SPMLjfBDhJPg==.xml',
     catalog: {
-      defaultPublishedProductStatus: ProductStatus.DRAFT,
       textTransformer: (input: string) => {
         return input.replaceAll('taille cadre_vtt', 'taille_cadre_vtt');
       },
