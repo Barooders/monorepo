@@ -85,6 +85,11 @@ export type SynchronizedProVendor =
   | 'willemd'
   | 'zyclora';
 
+export enum BrandFilterAction {
+  ONLY = 'only',
+  EXCLUDE = 'exclude',
+}
+
 interface CommonCatalogConfig {
   skipProductUpdate?: boolean;
   shouldIgnoreCheapBikesBelow150?: boolean;
@@ -103,7 +108,7 @@ interface CommonCatalogConfig {
   descriptionPrefix?: string;
   descriptionSuffix?: string;
   ignoredVariants?: string[];
-  brandFilter?: BrandFilter;
+  brandFilter?: { names: string[]; action: BrandFilterAction };
   excludedTitles?: string[];
 }
 
@@ -169,7 +174,7 @@ interface CSVCatalogConfig {
   };
 }
 
-interface ScraflyCatalogConfig {
+interface ScrapflyCatalogConfig {
   productCollectionHandle?: string;
   isAvailable?: (apiContent: string) => boolean;
   mapReferenceUrl?: (url: string) => string;
@@ -196,7 +201,11 @@ interface PrestashopOrderConfig {
   paymentModule: string;
   paymentMethodName: string;
   orderStateId: string;
-  getShippingCost: (input: ShippingCostInput) => number;
+  getShippingCost: (input: {
+    weight?: number;
+    productsTotalPrice: number;
+    productType: string;
+  }) => number;
   forceOrderStatusAfterCreation?: boolean;
   useExternalVariantIdAsCombinationId?: boolean;
   disableStockCheckBeforeOrder?: boolean;
@@ -218,7 +227,7 @@ export interface FullVendorConfig {
   password?: string;
   catalog: {
     common?: CommonCatalogConfig;
-    scrapfly?: ScraflyCatalogConfig;
+    scrapfly?: ScrapflyCatalogConfig;
     prestashop?: PrestashopCatalogConfig;
     wooCommerce?: WooCommerceCatalogConfig;
     csv?: CSVCatalogConfig;
@@ -229,11 +238,6 @@ export interface FullVendorConfig {
     shopify?: ShopifyOrderConfig;
     prestashop?: PrestashopOrderConfig;
   };
-}
-
-export enum BrandFilterAction {
-  ONLY = 'only',
-  EXCLUDE = 'exclude',
 }
 
 export interface BrandFilter {
@@ -250,10 +254,8 @@ export type VendorConfig = FullVendorConfig & {
   vendorName: string;
 };
 
-type BaseVendorConfig = Omit<FullVendorConfig, 'vendorId'>;
-
 export type AllBaseVendorsConfig = {
-  [key in SynchronizedProVendor]: BaseVendorConfig;
+  [key in SynchronizedProVendor]: Omit<FullVendorConfig, 'vendorId'>;
 };
 
 export type AllVendorsConfigInterface = {
@@ -261,7 +263,7 @@ export type AllVendorsConfigInterface = {
 };
 
 export type EnvVendorsConfig = {
-  [key in SynchronizedProVendor]: RecursivePartial<BaseVendorConfig> & {
+  [key in SynchronizedProVendor]: RecursivePartial<FullVendorConfig> & {
     vendorId: string;
   };
 };
