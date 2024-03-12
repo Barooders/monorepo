@@ -263,8 +263,18 @@ export class OrderMapper {
         vendor: {
           authUserId,
         },
+        AND: {
+          NOT: {
+            orderId: String(id),
+          },
+        },
+      },
+      select: {
+        shippingSolution: true,
+        productType: true,
       },
     });
+
     const soldProductType = await this.mainPrisma.product.findUnique({
       where: {
         shopifyId: soldProduct.product_id,
@@ -326,7 +336,7 @@ export class OrderMapper {
         email,
         isFirstOrder: ordersCount === 1,
         isPro,
-        previousOrders: previousOrders.map(
+        previousOrderLines: previousOrders.map(
           ({ shippingSolution, productType }) => ({
             shippingSolution: shippingSolution,
             productType,
