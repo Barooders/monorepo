@@ -29,9 +29,11 @@ const CollectionPreviewInjector: React.FC = () => {
     <>
       {featuredCollections.map((featuredCollection) =>
         createPortal(
-          <CollectionPreview
-            collectionHandle={featuredCollection.collectionHandle}
-          />,
+          <div className="my-2">
+            <CollectionPreview
+              collectionHandle={featuredCollection.collectionHandle}
+            />
+          </div>,
           featuredCollection.el,
         ),
       )}
