@@ -37,19 +37,6 @@ export type PIMProductType = {
     updatedAt: Date;
     publishedAt: Date;
     order?: number;
-    categories: {
-      data: {
-        id: number;
-        attributes: {
-          name: string;
-          label: string;
-          createdAt: Date;
-          updatedAt: Date;
-          publishedAt: Date;
-          order: number | null;
-        };
-      }[];
-    };
   };
 };
 
