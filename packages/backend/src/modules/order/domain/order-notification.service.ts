@@ -8,6 +8,7 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { IEmailClient } from './ports/email.client';
@@ -19,8 +20,6 @@ import {
   OrderPaidData,
   OrderRefundedData,
 } from './ports/types';
-// TODO: find correct location for constant
-import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 
 const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
   'Paiement 10x - Younited Pay',
@@ -109,8 +108,8 @@ export class OrderNotificationService {
       await this.internalNotificationClient
         .sendOrderCreatedWithBaroodersSplitPaymentNotification(`
           📦 *Nouvelle commande créée avec paiement ${order.paymentMethod}! (${
-            order.name
-          })*
+        order.name
+      })*
           🛒 Lien admin: ${order.adminUrl}
 
           🚲 Produit: ${product.name}
@@ -489,15 +488,15 @@ export class OrderNotificationService {
         async () => {
           await this.internalNotificationClient.sendOrderPaidNotification(`
             📦 *<${OMS_URL}?order_name=${order.name.replace('#', '')}|${
-              order.name
-            }>${isImportantFirstSale ? ' - Première vente 🥇' : ''}*
+            order.name
+          }>${isImportantFirstSale ? ' - Première vente 🥇' : ''}*
 
             🚲 Produit: ${product.variantTitle}
             💶 Prix : ${Math.round(Number(order.totalPrice))} €
 
             👤 Vendeur : ${vendor.sellerName} (${
-              vendor.isPro ? 'pro' : 'particulier'
-            })
+            vendor.isPro ? 'pro' : 'particulier'
+          })
           `);
 
           if (!isImportantFirstSale) return;
