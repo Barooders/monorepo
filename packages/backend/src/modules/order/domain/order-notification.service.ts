@@ -8,8 +8,6 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
-// TODO: find correct location for constant
-import { BIKE_PRODUCT_TYPES } from '@modules/pro-vendor/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { IEmailClient } from './ports/email.client';
@@ -21,6 +19,8 @@ import {
   OrderPaidData,
   OrderRefundedData,
 } from './ports/types';
+// TODO: find correct location for constant
+import { isBikeProduct } from '@modules/pro-vendor/domain/ports/types';
 
 const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
   'Paiement 10x - Younited Pay',
@@ -647,15 +647,11 @@ export class OrderNotificationService {
     customer,
     vendorMetadata,
   }: OrderPaidData & { vendorMetadata: Record<string, string> }) {
-    const isBike = BIKE_PRODUCT_TYPES.includes(
-      product.productType.toLowerCase(),
-    );
+    const isBike = isBikeProduct(product.productType);
     const hasPreviousBikeOrderWithGeodisShipping =
       vendor.previousOrderLines.some((orderLine) => {
         const isGeodis = orderLine.shippingSolution === ShippingSolution.GEODIS;
-        const isBike = BIKE_PRODUCT_TYPES.includes(
-          orderLine.productType.toLowerCase(),
-        );
+        const isBike = isBikeProduct(orderLine.productType);
 
         return isGeodis && isBike;
       });
