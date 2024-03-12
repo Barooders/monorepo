@@ -1,6 +1,10 @@
-import { PIMProductType } from '@libs/domain/types';
-import { getPimProductTypesFromName } from '@libs/infrastructure/strapi/strapi.helper';
+import { PIMCategory, PIMProductType } from '@libs/domain/types';
 import {
+  getPimCategoryFromId,
+  getPimProductTypesFromName,
+} from '@libs/infrastructure/strapi/strapi.helper';
+import {
+  PIM_CATEGORY_CACHE_TTL_IN_MILLISECONDS,
   PIM_PRODUCT_TYPE_CACHE_TTL_IN_MILLISECONDS,
   BIKE_CATEGORY_ID as STRAPI_BIKE_CATEGORY_ID,
 } from '@modules/product/constants';
@@ -44,10 +48,38 @@ export class StrapiClient implements IPIMClient {
   }
 
   async isBike(productType: string): Promise<boolean> {
-    const pimProductType = await this.getPimProductType(productType);
+    const bikeCategory = await this.getPimCategory(STRAPI_BIKE_CATEGORY_ID);
 
-    return pimProductType.attributes.categories.data.some(
-      (category) => category.id === STRAPI_BIKE_CATEGORY_ID,
+    const bikeProductTypes = bikeCategory.attributes.productTypes.data.map(
+      (type) => type.attributes.name,
     );
+
+    return bikeProductTypes.includes(productType);
+  }
+
+  private async getPimCategory(categoryId: number) {
+    const cacheKey = `pim-category_${categoryId}`;
+    const cachedPimCategory = await this.cacheManager.get<PIMCategory>(
+      cacheKey,
+    );
+
+    if (cachedPimCategory) {
+      return cachedPimCategory;
+    }
+
+    const results = await getPimCategoryFromId(categoryId);
+    const firstMatch = results[0];
+
+    if (!firstMatch) {
+      throw new Error(`Category ${categoryId} does not exist in PIM`);
+    }
+
+    await this.cacheManager.set(
+      cacheKey,
+      firstMatch,
+      PIM_CATEGORY_CACHE_TTL_IN_MILLISECONDS,
+    );
+
+    return firstMatch;
   }
 }
