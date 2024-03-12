@@ -56,7 +56,7 @@ export class WooCommerceDefaultMapper {
             metadata,
           );
         }),
-        ...wooCommerceProduct.meta_data.map(({ key, value }) => {
+        ...(wooCommerceProduct?.meta_data ?? []).map(({ key, value }) => {
           return this.tagService.getOrCreateTag(
             key,
             isString(value) ? value : jsonStringify(value),
@@ -67,7 +67,7 @@ export class WooCommerceDefaultMapper {
         }),
         this.tagService.getOrCreateTag(
           'tags',
-          wooCommerceProduct.tags.map(({ slug }) => slug).join('-'),
+          (wooCommerceProduct?.tags ?? []).map(({ slug }) => slug).join('-'),
           'tags',
           this.vendorConfigService.getVendorConfig().mappingKey,
           metadata,
@@ -108,7 +108,7 @@ export class WooCommerceDefaultMapper {
     return {
       external_id: id.toString(),
       title: name,
-      isVisibleInStore: status === 'publish',
+      isVisibleInStore: !status || status === 'publish',
     };
   }
 

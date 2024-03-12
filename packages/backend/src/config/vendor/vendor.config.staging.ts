@@ -27,6 +27,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   },
   chris_bikes: DEFAULT_CONFIG,
   ciklet: DEFAULT_CONFIG,
+  nestor: DEFAULT_CONFIG,
   montanini: DEFAULT_CONFIG,
   velosport34: DEFAULT_CONFIG,
   pilat: DEFAULT_CONFIG,

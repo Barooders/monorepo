@@ -7,7 +7,8 @@ import { WooCommerceDefaultMapper } from './default.mapper';
 export class JBikesMapper extends WooCommerceDefaultMapper {
   getDescription({ meta_data }: WooCommerceProduct): string {
     return (
-      meta_data.find(({ key }) => key === '_et_pb_old_content')?.value ??
+      (meta_data &&
+        meta_data.find(({ key }) => key === '_et_pb_old_content')?.value) ??
       USED_PRODUCT_DEFAULT_DESCRIPTION
     );
   }
