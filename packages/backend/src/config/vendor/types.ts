@@ -99,7 +99,6 @@ export interface FullVendorConfig {
   password?: string;
   catalog: {
     skipProductUpdate?: boolean;
-    externalVendorId?: string;
     productCollectionHandle?: string;
     shouldIgnoreCheapBikesBelow150?: boolean;
     minimalPriceInCents?: number;
