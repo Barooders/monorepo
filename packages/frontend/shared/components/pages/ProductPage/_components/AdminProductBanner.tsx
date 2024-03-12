@@ -75,7 +75,14 @@ const AdminProductBanner = ({
           ).toLocaleDateString('fr-FR')}
           )
         </p>
-        <p className="text-xs">source: {value?.Product[0]?.source ?? '-'}</p>
+        <p className="text-xs">
+          source: {value?.Product[0]?.source ?? '-'} -{' '}
+          <a
+            href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
+          >
+            Perf
+          </a>
+        </p>
         {value?.Product[0]?.sourceUrl && (
           <a
             className="text-xs underline"
