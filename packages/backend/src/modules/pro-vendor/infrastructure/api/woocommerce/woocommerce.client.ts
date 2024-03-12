@@ -1,9 +1,10 @@
+import { jsonStringify } from '@libs/helpers/json';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { WooCommerceProduct, WooCommerceProductVariation } from './types';
-import { jsonStringify } from '@libs/helpers/json';
 
 const PRODUCTS_PER_PAGE = 40;
+const PRODUCTS_PATH = '/products';
 
 @Injectable()
 export class WooCommerceClient {
@@ -36,7 +37,11 @@ export class WooCommerceClient {
     itemsPerPage: number,
     sinceDate?: Date,
   ): Promise<WooCommerceProduct[]> {
-    const endpoint = this.getUrl('', {
+    const allProductsPath =
+      this.vendorConfigService.getVendorConfig().allProductsPathOverride ??
+      PRODUCTS_PATH;
+
+    const endpoint = this.getUrl(allProductsPath, {
       page: page.toString(),
       per_page: itemsPerPage.toString(),
       ...(sinceDate && { modified_after: sinceDate.toISOString() }),
@@ -55,7 +60,7 @@ export class WooCommerceClient {
 
   async getProduct(productId: number): Promise<WooCommerceProduct | null> {
     try {
-      const endpoint = this.getUrl(`/${productId}`);
+      const endpoint = this.getUrl(`${PRODUCTS_PATH}/${productId}`);
       const response = await fetch(endpoint);
 
       if (!response.ok) {
@@ -75,7 +80,9 @@ export class WooCommerceClient {
     variationId: number,
   ): Promise<WooCommerceProductVariation | null> {
     try {
-      const endpoint = this.getUrl(`/${productId}/variations/${variationId}`);
+      const endpoint = this.getUrl(
+        `${PRODUCTS_PATH}/${productId}/variations/${variationId}`,
+      );
       const response = await fetch(endpoint);
 
       if (!response.ok) {
@@ -114,5 +121,12 @@ export class WooCommerceClient {
     url.search = new URLSearchParams(queryParams).toString();
 
     return url.href;
+  }
+
+  private getAllProductsPath(): string {
+    return (
+      this.vendorConfigService.getVendorConfig().allProductsPathOverride ??
+      '/products'
+    );
   }
 }
