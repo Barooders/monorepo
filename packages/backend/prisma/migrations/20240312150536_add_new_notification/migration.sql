@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "public"."NotificationName" ADD VALUE 'NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING';
