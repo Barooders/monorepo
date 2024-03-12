@@ -24,6 +24,7 @@ export type OrderPaidData = {
     referenceUrl: string;
     createdAt: Date;
     chatConversationLink: string;
+    productType: string;
   };
   customer: {
     email: string;

@@ -13,5 +13,5 @@
   },
   "typescript.preferences.preferTypeOnlyAutoImports": false,
   "prettier.configPath": "prettier.config.js",
-  "cSpell.words": ["BAROODERS", "GEODIS", "SENDCLOUD"]
+  "cSpell.words": ["BAROODERS", "Geodis", "GEODIS", "SENDCLOUD"]
 }

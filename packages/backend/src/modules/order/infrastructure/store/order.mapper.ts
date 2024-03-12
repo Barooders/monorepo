@@ -265,6 +265,14 @@ export class OrderMapper {
         },
       },
     });
+    const soldProductType = await this.mainPrisma.product.findUnique({
+      where: {
+        shopifyId: soldProduct.product_id,
+      },
+      select: {
+        productType: true,
+      },
+    });
 
     return {
       order: {
@@ -292,6 +300,7 @@ export class OrderMapper {
         createdAt,
         handle: handle ?? '',
         chatConversationLink,
+        productType: soldProductType?.productType ?? '',
       },
       customer: {
         email: orderData.customer.email,

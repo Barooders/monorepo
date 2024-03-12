@@ -8,6 +8,8 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
+// TODO: find correct location for constant
+import { BIKE_PRODUCT_TYPES } from '@modules/pro-vendor/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { IEmailClient } from './ports/email.client';
@@ -578,6 +580,14 @@ export class OrderNotificationService {
         );
         break;
       case ShippingSolution.GEODIS:
+        await this.triggerGeodisOrderPaidActions({
+          vendor,
+          order,
+          customer,
+          product,
+          vendorMetadata,
+        });
+        break;
       case ShippingSolution.SENDCLOUD:
         await this.sendNotificationIfNotAlreadySent(
           NotificationType.EMAIL,
@@ -630,13 +640,78 @@ export class OrderNotificationService {
     }
   }
 
+  private async triggerGeodisOrderPaidActions({
+    order,
+    product,
+    vendor,
+    customer,
+    vendorMetadata,
+  }: OrderPaidData & { vendorMetadata: Record<string, string> }) {
+    const isBike = BIKE_PRODUCT_TYPES.includes(
+      product.productType.toLowerCase(),
+    );
+    const hasPreviousBikeOrderWithGeodisShipping = vendor.previousOrders.some(
+      (previousOrder) => {
+        const isGeodis =
+          previousOrder.shippingSolution === ShippingSolution.GEODIS;
+        const isBike = BIKE_PRODUCT_TYPES.includes(
+          previousOrder.productType.toLowerCase(),
+        );
+
+        return isGeodis && isBike;
+      },
+    );
+
+    const isBikeSentWithGeodis =
+      isBike && product.shippingSolution === ShippingSolution.GEODIS;
+    const notificationName = isBikeSentWithGeodis
+      ? NotificationName.NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING
+      : NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING;
+
+    const bikeGeodisMetadata = {
+      order_name: order.name,
+      variant_title: product.variantTitle,
+      first_name: vendor.firstName,
+      product_name: product.name,
+      product_reference: product.referenceId,
+      product_price: product.price,
+      product_handle: product.handle, // Why ?
+      customer_name: customer.fullName,
+      customer_address: customer.address,
+      shipment_email: order.shipmentEmail,
+      client_phone: customer.phone,
+      hasPreviousBikeOrderWithGeodisShipping,
+    };
+    const metadata = isBikeSentWithGeodis ? bikeGeodisMetadata : vendorMetadata;
+
+    await this.sendNotificationIfNotAlreadySent(
+      NotificationType.EMAIL,
+      notificationName,
+      CustomerType.seller,
+      metadata,
+      {
+        metadata,
+      },
+      async () => {
+        await this.emailClient.sendNewOrderEmailToVendor(
+          vendor.email,
+          vendor.fullName,
+          {
+            product,
+            vendor,
+          },
+        );
+      },
+    );
+  }
+
   private async sendNotificationIfNotAlreadySent(
     type: NotificationType,
     name: NotificationName,
     recipientType: CustomerType,
-    metadata: Record<string, string | number>,
+    metadata: Record<string, string | number | boolean>,
     conditions: {
-      metadata: Record<string, string>;
+      metadata: Record<string, string | boolean>;
       createdAt?: { gte: Date; lte: Date };
     },
     callback: () => Promise<void>,
