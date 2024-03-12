@@ -40,7 +40,7 @@ export type OrderPaidData = {
     fullName: string;
     isFirstOrder: boolean;
     isPro: boolean;
-    previousOrders: {
+    previousOrderLines: {
       shippingSolution: ShippingSolution;
       productType: string;
     }[];

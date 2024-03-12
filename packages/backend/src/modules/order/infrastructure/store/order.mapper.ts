@@ -258,7 +258,7 @@ export class OrderMapper {
       String(orderData.customer.id),
     );
 
-    const previousOrders = await this.mainPrisma.orderLines.findMany({
+    const previousOrderLines = await this.mainPrisma.orderLines.findMany({
       where: {
         vendor: {
           authUserId,
@@ -336,7 +336,7 @@ export class OrderMapper {
         email,
         isFirstOrder: ordersCount === 1,
         isPro,
-        previousOrderLines: previousOrders.map(
+        previousOrderLines: previousOrderLines.map(
           ({ shippingSolution, productType }) => ({
             shippingSolution: shippingSolution,
             productType,

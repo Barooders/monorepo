@@ -650,17 +650,15 @@ export class OrderNotificationService {
     const isBike = BIKE_PRODUCT_TYPES.includes(
       product.productType.toLowerCase(),
     );
-    const hasPreviousBikeOrderWithGeodisShipping = vendor.previousOrders.some(
-      (previousOrder) => {
-        const isGeodis =
-          previousOrder.shippingSolution === ShippingSolution.GEODIS;
+    const hasPreviousBikeOrderWithGeodisShipping =
+      vendor.previousOrderLines.some((orderLine) => {
+        const isGeodis = orderLine.shippingSolution === ShippingSolution.GEODIS;
         const isBike = BIKE_PRODUCT_TYPES.includes(
-          previousOrder.productType.toLowerCase(),
+          orderLine.productType.toLowerCase(),
         );
 
         return isGeodis && isBike;
-      },
-    );
+      });
 
     const isBikeSentWithGeodis =
       isBike && product.shippingSolution === ShippingSolution.GEODIS;
