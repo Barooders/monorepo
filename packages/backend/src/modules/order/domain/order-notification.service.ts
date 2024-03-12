@@ -647,17 +647,10 @@ export class OrderNotificationService {
     customer,
     vendorMetadata,
   }: OrderPaidData & { vendorMetadata: Record<string, string> }) {
-    const isBike = isBikeProduct(product.productType);
-    const hasPreviousBikeOrderWithGeodisShipping =
-      vendor.previousOrderLines.some((orderLine) => {
-        const isGeodis = orderLine.shippingSolution === ShippingSolution.GEODIS;
-        const isBike = isBikeProduct(orderLine.productType);
-
-        return isGeodis && isBike;
-      });
-
     const isBikeSentWithGeodis =
-      isBike && product.shippingSolution === ShippingSolution.GEODIS;
+      isBikeProduct(product.productType) &&
+      product.shippingSolution === ShippingSolution.GEODIS;
+
     const notificationName = isBikeSentWithGeodis
       ? NotificationName.NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING
       : NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING;
@@ -674,7 +667,12 @@ export class OrderNotificationService {
       customer_address: customer.address,
       shipment_email: order.shipmentEmail,
       client_phone: customer.phone,
-      hasPreviousBikeOrderWithGeodisShipping,
+      has_previous_bike_order_with_geodis_shipping:
+        vendor.previousOrderLines.some(
+          (orderLine) =>
+            orderLine.shippingSolution === ShippingSolution.GEODIS &&
+            isBikeProduct(orderLine.productType),
+        ),
     };
     const metadata = isBikeSentWithGeodis ? bikeGeodisMetadata : vendorMetadata;
 
