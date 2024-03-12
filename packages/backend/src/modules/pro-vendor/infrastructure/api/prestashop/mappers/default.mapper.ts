@@ -1,5 +1,5 @@
 import { Condition, PrismaMainClient } from '@libs/domain/prisma.main.client';
-import { mapCondition, Variant } from '@libs/domain/product.interface';
+import { Variant, mapCondition } from '@libs/domain/product.interface';
 import {
   BAROODERS_NAMESPACE,
   CONDITION_TAG_KEY,
@@ -238,7 +238,8 @@ export class PrestashopDefaultMapper {
     if (!Array.isArray(value)) return value;
 
     const languageId =
-      this.vendorConfigService.getVendorConfig().catalog?.externalLanguageId;
+      this.vendorConfigService.getVendorConfig().catalog.prestashop
+        ?.externalLanguageId;
 
     if (!languageId) return value[0].value;
 

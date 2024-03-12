@@ -26,7 +26,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
 
   async getProductsToUpdate(): Promise<ProductWithReferenceUrl[]> {
     const collectionHandle =
-      this.vendorConfigService.getVendorConfig().catalog
+      this.vendorConfigService.getVendorConfig().catalog.scrapfly
         ?.productCollectionHandle;
 
     if (!collectionHandle) {
@@ -97,8 +97,8 @@ export class ScrapflyProductService implements ProVendorStrategy {
     }
 
     const mapReferenceUrl =
-      this.vendorConfigService.getVendorConfig().catalog?.mapReferenceUrl ||
-      ((url: string) => url);
+      this.vendorConfigService.getVendorConfig().catalog.scrapfly
+        ?.mapReferenceUrl || ((url: string) => url);
     const scrappedUrl = mapReferenceUrl(referenceUrl);
 
     const scrappingUrl = new URL('https://api.scrapfly.io/scrape');
@@ -132,7 +132,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
     }
 
     const isAvailableMethod =
-      this.vendorConfigService.getVendorConfig().catalog?.isAvailable;
+      this.vendorConfigService.getVendorConfig().catalog.scrapfly?.isAvailable;
 
     const isAvailable = isAvailableMethod ? isAvailableMethod(content) : true;
 

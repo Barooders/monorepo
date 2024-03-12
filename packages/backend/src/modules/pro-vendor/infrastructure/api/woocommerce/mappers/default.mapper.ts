@@ -158,7 +158,10 @@ export class WooCommerceDefaultMapper {
   async getVariants(
     wooCommerceProduct: WooCommerceProduct,
   ): Promise<SyncProduct['variants']> {
-    if (this.vendorConfigService.getVendorConfig().catalog?.mapSingleVariant) {
+    if (
+      this.vendorConfigService.getVendorConfig().catalog.wooCommerce
+        ?.mapSingleVariant
+    ) {
       return this.getSingleVariant(wooCommerceProduct);
     }
 

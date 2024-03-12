@@ -8,7 +8,9 @@ const DEFAULT_CONFIG = {
 const DEFAULT_CONFIG_WITHOUT_ORDER = {
   ...DEFAULT_CONFIG,
   order: {
-    isSyncActivated: false,
+    common: {
+      isSyncActivated: false,
+    },
   },
 };
 

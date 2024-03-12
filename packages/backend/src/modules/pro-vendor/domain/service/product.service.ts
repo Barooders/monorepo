@@ -94,7 +94,7 @@ export class ProductService {
     const newProduct = await this.storeClient.createProduct({
       ...product,
       status:
-        this.vendorConfigService.getVendorConfig().catalog
+        this.vendorConfigService.getVendorConfig().catalog.common
           ?.defaultPublishedProductStatus ?? getProductStatus(product),
       metafields: [
         {

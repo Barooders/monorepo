@@ -1,3 +1,4 @@
+import { jsonStringify } from '@libs/helpers/json';
 import { OrderVendorInput } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
@@ -13,7 +14,6 @@ import { ProductOptionValuesDTO } from './dto/prestashop-product-option-values.d
 import { ProductOptionDTO } from './dto/prestashop-product-options.dto';
 import { OrderDTO, ProductDTO } from './dto/prestashop-product.dto';
 import { StockAvailableDTO } from './dto/prestashop-stock-available.dto';
-import { jsonStringify } from '@libs/helpers/json';
 
 const PRODUCTS_PER_PAGE = 1000;
 const MAX_OFFSET = 1000 * PRODUCTS_PER_PAGE;
@@ -283,7 +283,7 @@ export class PrestashopClient {
     itemsPerPage: number,
   ): Promise<ProductDTO[]> {
     const categoriesToFilterInFetch =
-      this.vendorConfigService.getVendorConfig().catalog
+      this.vendorConfigService.getVendorConfig().catalog.prestashop
         ?.categoriesToFilterInFetch;
     const queryParams = {
       output_format: 'JSON',
@@ -352,9 +352,11 @@ export class PrestashopClient {
     obfuscatedEmail,
   }: OrderVendorInput['customer']): Promise<string> {
     const suffix =
-      this.vendorConfigService.getVendorConfig().order?.firstNameSuffix ?? '';
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.firstNameSuffix ?? '';
     const customerGroupId =
-      this.vendorConfigService.getVendorConfig().order?.customerGroupId;
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.customerGroupId;
 
     const xmlBody = create(
       { version: '1.0' },
@@ -369,7 +371,7 @@ export class PrestashopClient {
             newsletter: '0',
             optin: '0',
             id_default_group:
-              this.vendorConfigService.getVendorConfig().order
+              this.vendorConfigService.getVendorConfig().order?.prestashop
                 ?.customerDefaultGroupId ?? '0',
             ...(customerGroupId
               ? {
@@ -413,8 +415,8 @@ export class PrestashopClient {
         prestashop: {
           address: {
             id_country:
-              this.vendorConfigService.getVendorConfig().order?.countryId ??
-              '0',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.countryId ?? '0',
             alias: firstName,
             company,
             lastname: lastName,
@@ -453,18 +455,20 @@ export class PrestashopClient {
         prestashop: {
           cart: {
             id_currency:
-              this.vendorConfigService.getVendorConfig().order?.currencyId ??
-              '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.currencyId ?? '1',
             id_lang:
-              this.vendorConfigService.getVendorConfig().order?.langId ?? '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.langId ?? '1',
             id_customer: customerId,
             id_address_delivery: addressId,
             id_address_invoice: addressId,
             id_shop_group:
-              this.vendorConfigService.getVendorConfig().order?.shopGroupId ??
-              '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.shopGroupId ?? '1',
             id_shop:
-              this.vendorConfigService.getVendorConfig().order?.shopId ?? '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.shopId ?? '1',
             id_carrier: carrierId,
             delivery_option: `{"${addressId}":"${carrierId},"}`,
             associations: {
@@ -505,7 +509,8 @@ export class PrestashopClient {
     });
 
     const orderStateId =
-      this.vendorConfigService.getVendorConfig().order?.orderStateId ?? '1';
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.orderStateId ?? '1';
 
     const xmlBody = create(
       { version: '1.0' },
@@ -516,17 +521,18 @@ export class PrestashopClient {
             id_address_invoice: addressId,
             id_cart: cartId,
             id_currency:
-              this.vendorConfigService.getVendorConfig().order?.currencyId ??
-              '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.currencyId ?? '1',
             id_lang:
-              this.vendorConfigService.getVendorConfig().order?.langId ?? '1',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.langId ?? '1',
             id_customer: customerId,
             id_carrier: carrierId,
             module:
-              this.vendorConfigService.getVendorConfig().order?.paymentModule ??
-              'module',
+              this.vendorConfigService.getVendorConfig().order?.prestashop
+                ?.paymentModule ?? 'module',
             payment:
-              this.vendorConfigService.getVendorConfig().order
+              this.vendorConfigService.getVendorConfig().order?.prestashop
                 ?.paymentMethodName ?? 'payment',
             total_paid: totalPaid.toFixed(5),
             total_paid_real: totalPaid.toFixed(5),
@@ -549,7 +555,7 @@ export class PrestashopClient {
     );
 
     if (
-      this.vendorConfigService.getVendorConfig()?.order
+      this.vendorConfigService.getVendorConfig()?.order?.prestashop
         ?.forceOrderStatusAfterCreation
     ) {
       const updateXmlBody = create(
@@ -633,14 +639,15 @@ export class PrestashopClient {
     productType: string;
   }): Promise<number> {
     const getShippingCost =
-      this.vendorConfigService.getVendorConfig().order?.getShippingCost;
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.getShippingCost;
 
     if (!getShippingCost) {
       throw new Error(`getShippingCost is not set`);
     }
 
     if (
-      !this.vendorConfigService.getVendorConfig().order
+      !this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.fetchProductWeightForShippingCompute
     ) {
       return (

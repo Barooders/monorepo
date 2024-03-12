@@ -28,7 +28,8 @@ export class ProductMapper {
   async applyGenericRulesOnMappedProduct(
     mappedProduct: SyncProduct,
   ): Promise<SyncProduct> {
-    const catalogFeatures = this.vendorConfigService.getVendorConfig().catalog;
+    const catalogFeatures =
+      this.vendorConfigService.getVendorConfig().catalog.common;
     let productDescription =
       catalogFeatures?.defaultDescription ?? mappedProduct.body_html;
 

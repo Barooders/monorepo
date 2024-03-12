@@ -81,7 +81,8 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
     }
 
     const trackingUrlBaseUrl =
-      this.vendorConfigService.getVendorConfig().order?.trackingUrlBaseUrl;
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.trackingUrlBaseUrl;
 
     return {
       trackingId: order.shipping_number,
@@ -99,7 +100,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
       await this.getStockAndCombinationId(externalVariantId);
 
     const disableStockCheckBeforeOrder =
-      this.vendorConfigService.getVendorConfig().order
+      this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.disableStockCheckBeforeOrder;
 
     if (
@@ -119,7 +120,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
 
   private async getStockAndCombinationId(externalVariantId: string) {
     const useExternalVariantIdAsCombinationId =
-      this.vendorConfigService.getVendorConfig().order
+      this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.useExternalVariantIdAsCombinationId;
 
     if (!useExternalVariantIdAsCombinationId) {
@@ -146,7 +147,8 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
 
   private async getCarrier(): Promise<CarrierDTO> {
     const carrierSolution =
-      this.vendorConfigService.getVendorConfig().order?.carrierSolution;
+      this.vendorConfigService.getVendorConfig().order?.prestashop
+        ?.carrierSolution;
 
     if (!carrierSolution) throw new Error(`carrierSolution is not set`);
 

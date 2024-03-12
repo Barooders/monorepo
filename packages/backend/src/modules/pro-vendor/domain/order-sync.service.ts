@@ -42,7 +42,7 @@ export class OrderSyncService implements IOrderSyncService {
       this.vendorOrderServiceProvider.setVendorConfigFromVendorId(vendorId);
       const config = this.vendorConfigService.getVendorConfig();
 
-      if (!config?.order?.isSyncActivated) {
+      if (!config?.order?.common.isSyncActivated) {
         this.logger.debug(
           `Vendor ${vendorId} does not need to sync order. Skipping...`,
         );

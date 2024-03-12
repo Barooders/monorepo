@@ -66,14 +66,10 @@ export class XMLClient {
     text: string,
     productId?: string,
   ): Promise<XMLProduct[]> {
-    const textTransformer =
-      this.vendorConfigService.getVendorConfig().catalog?.textTransformer;
-    const textToParse = textTransformer ? textTransformer(text) : text;
-
-    const $ = load(textToParse, { xmlMode: true });
+    const $ = load(text, { xmlMode: true });
 
     const xmlFieldsConfig =
-      this.vendorConfigService.getVendorConfig().catalog?.xmlFields;
+      this.vendorConfigService.getVendorConfig().catalog.xml?.fields;
 
     if (!xmlFieldsConfig) {
       throw new Error('XML fields config not found');

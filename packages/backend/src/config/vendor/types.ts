@@ -85,6 +85,125 @@ export type SynchronizedProVendor =
   | 'willemd'
   | 'zyclora';
 
+interface CommonCatalogConfig {
+  skipProductUpdate?: boolean;
+  shouldIgnoreCheapBikesBelow150?: boolean;
+  minimalPriceInCents?: number;
+  defaultDescription?: string;
+  defaultProductCondition?: Condition;
+  parsedTagKeysFromDescription?: string[];
+  translateDescription?: boolean;
+  variantOptionTagsWithCategorySuffix?: string[];
+  showExternalIdInDescription?: boolean;
+  commissionPercentToAdd?: number;
+  priceMultiplier?: number;
+  priceCorrection?: number;
+  minimumDiscount?: number;
+  defaultPublishedProductStatus?: ProductStatus;
+  descriptionPrefix?: string;
+  descriptionSuffix?: string;
+  ignoredVariants?: string[];
+  brandFilter?: BrandFilter;
+  excludedTitles?: string[];
+}
+
+interface PrestashopCatalogConfig {
+  categoriesToFilterInFetch?: number[];
+  externalLanguageId?: string;
+}
+
+interface WooCommerceCatalogConfig {
+  mapSingleVariant?: boolean;
+}
+
+interface XMLCatalogConfig {
+  fields: {
+    variant: string;
+    productId: string;
+    productType: string;
+    variantId: string;
+    variantCondition: string;
+    productTitle: string;
+    description: string;
+    tags: string[];
+    images: string[];
+    inventoryQuantity: string;
+    price: string;
+    compareAtPrice: string;
+    option1?: {
+      key: string;
+      value: string;
+    };
+    option2?: {
+      key: string;
+      value: string;
+    };
+    option3?: {
+      key: string;
+      value: string;
+    };
+    productEANCode?: string;
+  };
+}
+
+interface CSVCatalogConfig {
+  textTransformer?: (input: string) => string;
+  columns: {
+    isActive?: number;
+    productId: number;
+    productType: number[];
+    variantId: number;
+    variantCondition: number;
+    productTitle: number;
+    description?: number[];
+    tags: number[];
+    images: number[];
+    inventoryQuantity?: number;
+    price: number;
+    compareAtPrice: number;
+    option1?: number;
+    option2?: number;
+    option3?: number;
+    productEANCode?: number;
+  };
+}
+
+interface ScraflyCatalogConfig {
+  productCollectionHandle?: string;
+  isAvailable?: (apiContent: string) => boolean;
+  mapReferenceUrl?: (url: string) => string;
+}
+
+interface CommonOrderConfig {
+  isSyncActivated: boolean;
+}
+
+interface ShopifyOrderConfig {
+  sendDiscountedPrice?: boolean;
+  sendRealCustomerEmail?: boolean;
+}
+
+interface PrestashopOrderConfig {
+  customerDefaultGroupId: string;
+  customerGroupId?: string;
+  countryId: string; //TODO: Get country from user country
+  currencyId: string;
+  langId: string;
+  shopId: string;
+  shopGroupId: string;
+  carrierSolution: string;
+  paymentModule: string;
+  paymentMethodName: string;
+  orderStateId: string;
+  getShippingCost: (input: ShippingCostInput) => number;
+  forceOrderStatusAfterCreation?: boolean;
+  useExternalVariantIdAsCombinationId?: boolean;
+  disableStockCheckBeforeOrder?: boolean;
+  trackingUrlBaseUrl?: string;
+  firstNameSuffix?: string;
+  fetchProductWeightForShippingCompute?: boolean;
+}
+
 export interface FullVendorConfig {
   slug: SynchronizedProVendor;
   mappingKey: MappingKey;
@@ -98,100 +217,17 @@ export interface FullVendorConfig {
   username?: string;
   password?: string;
   catalog: {
-    skipProductUpdate?: boolean;
-    productCollectionHandle?: string;
-    shouldIgnoreCheapBikesBelow150?: boolean;
-    minimalPriceInCents?: number;
-    categoriesToFilterInFetch?: number[];
-    defaultDescription?: string;
-    mapSingleVariant?: boolean;
-    defaultProductCondition?: Condition;
-    parsedTagKeysFromDescription?: string[];
-    isAvailable?: (apiContent: string) => boolean;
-    mapReferenceUrl?: (url: string) => string;
-    translateDescription?: boolean;
-    variantOptionTagsWithCategorySuffix?: string[];
-    showExternalIdInDescription?: boolean;
-    commissionPercentToAdd?: number;
-    priceMultiplier?: number;
-    priceCorrection?: number;
-    minimumDiscount?: number;
-    externalLanguageId?: string;
-    defaultPublishedProductStatus?: ProductStatus;
-    descriptionPrefix?: string;
-    descriptionSuffix?: string;
-    ignoredVariants?: string[];
-    brandFilter?: BrandFilter;
-    excludedTitles?: string[];
-    textTransformer?: (input: string) => string;
-    csvColumns?: {
-      isActive?: number;
-      productId: number;
-      productType: number[];
-      variantId: number;
-      variantCondition: number;
-      productTitle: number;
-      description?: number[];
-      tags: number[];
-      images: number[];
-      inventoryQuantity?: number;
-      price: number;
-      compareAtPrice: number;
-      option1?: number;
-      option2?: number;
-      option3?: number;
-      productEANCode?: number;
-    };
-    xmlFields?: {
-      variant: string;
-      productId: string;
-      productType: string;
-      variantId: string;
-      variantCondition: string;
-      productTitle: string;
-      description: string;
-      tags: string[];
-      images: string[];
-      inventoryQuantity: string;
-      price: string;
-      compareAtPrice: string;
-      option1?: {
-        key: string;
-        value: string;
-      };
-      option2?: {
-        key: string;
-        value: string;
-      };
-      option3?: {
-        key: string;
-        value: string;
-      };
-      productEANCode?: string;
-    };
+    common?: CommonCatalogConfig;
+    scrapfly?: ScraflyCatalogConfig;
+    prestashop?: PrestashopCatalogConfig;
+    wooCommerce?: WooCommerceCatalogConfig;
+    csv?: CSVCatalogConfig;
+    xml?: XMLCatalogConfig;
   };
   order?: {
-    isSyncActivated: boolean;
-    sendDiscountedPrice?: boolean;
-    sendRealCustomerEmail?: boolean;
-    forceOrderStatusAfterCreation?: boolean;
-    useExternalVariantIdAsCombinationId?: boolean;
-    disableStockCheckBeforeOrder?: boolean;
-    trackingUrlBaseUrl?: string;
-    firstNameSuffix?: string;
-    customerDefaultGroupId?: string;
-    customerGroupId?: string;
-    countryId?: string; //TODO: Get country from user country
-    currencyId?: string;
-    langId?: string;
-    shopId?: string;
-    shopGroupId?: string;
-    carrierSolution?: string;
-    paymentModule?: string;
-    paymentMethodName?: string;
-    orderStateId?: string;
-    getShippingCost?: (input: ShippingCostInput) => number;
-    fetchProductWeightForShippingCompute?: boolean;
+    common: CommonOrderConfig;
+    shopify?: ShopifyOrderConfig;
+    prestashop?: PrestashopOrderConfig;
   };
 }
 
@@ -231,92 +267,3 @@ export type EnvVendorsConfig = {
 };
 
 export type MappingKey = VendorType | SynchronizedProVendor;
-
-export type VendorSecretsType = {
-  tuvalumApiKey: string;
-  tuvalumApiUrl: string;
-  tuvalumUsername: string;
-  tuvalumPassword: string;
-  freeglisseApiKey: string;
-  freeglisseApiUrl: string;
-  alpinstoreApiUrl: string;
-  alpinstoreApiKey: string;
-  matkiteApiKey: string;
-  bikeXtremeApiKey: string;
-  millaBikesApiKey: string;
-  veloEmotionApiKey: string;
-  velosport34ApiKey: string;
-  ferrareisApiKey: string;
-  cyclingStoreApiKey: string;
-  semotionApiKey: string;
-  ebikeApiKey: string;
-  trocsportApiKey: string;
-  trocsportApiUrl: string;
-  bcyclesApiKey: string;
-  bewakApiKey: string;
-  bewakApiUrl: string;
-  kitespiritApiKey: string;
-  kitespiritApiUrl: string;
-  skidocApiKey: string;
-  skidocApiUrl: string;
-  freerideApiKey: string;
-  fietsApiKey: string;
-  fietsApiUrl: string;
-  mbsProApiKey: string;
-  funbikeApiKey: string;
-  tribiciApiKey: string;
-  clubInSportApiKey: string;
-  chrisAccessToken: string;
-  pilatAccessToken: string;
-  allCyclesToken: string;
-  pastelAccessToken: string;
-  techniCyclesAccessToken: string;
-  loewiAccessToken: string;
-  baroudeurAccessToken: string;
-  velomeldoisAccessToken: string;
-  cyclinkAccessToken: string;
-  mintAccessToken: string;
-  tncAccessToken: string;
-  nordicsAccessToken: string;
-  boussoleAccessToken: string;
-  jbikesApiKey: string;
-  jbikesApiSecret: string;
-  fastlapApiKey: string;
-  fastlapApiSecret: string;
-  bernaudeauApiKey: string;
-  bernaudeauApiSecret: string;
-  cikletApiKey: string;
-  cikletApiSecret: string;
-  panameBicisApiKey: string;
-  panameBicisApiSecret: string;
-  montaniniApiKey: string;
-  montaniniApiSecret: string;
-  dazBikeApiKey: string;
-  dazBikeApiSecret: string;
-  worldBikeFormiaApiKey: string;
-  worldBikeFormiaApiSecret: string;
-  garybomApiKey: string;
-  garybomApiSecret: string;
-  joostBikesApiKey: string;
-  joostBikesApiSecret: string;
-  velosport20ApiKey: string;
-  velosport20ApiSecret: string;
-  lehollandaisApiKey: string;
-  lehollandaisApiSecret: string;
-  dayakApiKey: string;
-  dayakApiSecret: string;
-  hbeShopifyAccessToken: string;
-  bikefApiKey: string;
-  bikefApiSecret: string;
-  sbikesApiKey: string;
-  sbikesApiSecret: string;
-  recoApiKey: string;
-  recoApiSecret: string;
-  manufakturApiKey: string;
-  manufakturApiSecret: string;
-  elettronicApiKey: string;
-  elettronicApiSecret: string;
-  moulinApiKey: string;
-  moulinApiSecret: string;
-  willemAccessToken: string;
-};

@@ -109,13 +109,17 @@ export const prodVendorConfig: EnvVendorsConfig = {
   le_bon_coin: {
     vendorId: UNUSED_VENDOR_ID,
     catalog: {
-      productCollectionHandle: 'admin-vendeurs-synchro-leboncoin',
+      scrapfly: {
+        productCollectionHandle: 'admin-vendeurs-synchro-leboncoin',
+      },
     },
   },
   everide: {
     vendorId: UNUSED_VENDOR_ID,
     catalog: {
-      productCollectionHandle: 'admin-vendeurs-synchro-everide',
+      scrapfly: {
+        productCollectionHandle: 'admin-vendeurs-synchro-everide',
+      },
     },
   },
   ferrareis: {
