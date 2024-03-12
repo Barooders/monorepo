@@ -27,6 +27,24 @@ export type VendorShippingTemplateData = GenericShippingTemplateData & {
   };
 };
 
+export type GeodisDeliveryTemplateData = GenericShippingTemplateData & {
+  product: {
+    referenceId: string;
+    variantTitle: string;
+    handle: string;
+  };
+  customer: {
+    address: string;
+    phone: string;
+    fullName: string;
+  };
+  order: {
+    name: string;
+    shipmentEmail: string;
+  };
+  has_previous_bike_order_with_geodis_shipping: boolean;
+};
+
 export type HandDeliveryVendorTemplateData = GenericShippingTemplateData & {
   product: {
     variantTitle: string;
@@ -94,6 +112,12 @@ export abstract class IEmailClient {
     toEmail: string,
     toName: string,
     templateData: GenericShippingTemplateData,
+  ): Promise<void>;
+
+  abstract sendNewOrderEmailToVendorWithGeodisShipping(
+    toEmail: string,
+    toName: string,
+    templateData: GeodisDeliveryTemplateData,
   ): Promise<void>;
 
   abstract sendNewOrderEmailToVendorWithOwnShipping(

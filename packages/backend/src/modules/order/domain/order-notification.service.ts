@@ -652,50 +652,55 @@ export class OrderNotificationService {
       isBikeProduct(product.productType) &&
       product.shippingSolution === ShippingSolution.GEODIS;
 
-    const notificationName = isBikeSentWithGeodis
-      ? NotificationName.NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING
-      : NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING;
-
-    const bikeGeodisMetadata = {
-      order_name: order.name,
-      variant_title: product.variantTitle,
-      first_name: vendor.firstName,
-      product_name: product.name,
-      product_reference: product.referenceId,
-      product_price: product.price,
-      product_handle: product.handle, // Why ?
-      customer_name: customer.fullName,
-      customer_address: customer.address,
-      shipment_email: order.shipmentEmail,
-      client_phone: customer.phone,
-      has_previous_bike_order_with_geodis_shipping:
-        vendor.previousOrderLines.some(
-          (orderLine) =>
-            orderLine.shippingSolution === ShippingSolution.GEODIS &&
-            isBikeProduct(orderLine.productType),
-        ),
-    };
-    const metadata = isBikeSentWithGeodis ? bikeGeodisMetadata : vendorMetadata;
-
-    await this.sendNotificationIfNotAlreadySent(
-      NotificationType.EMAIL,
-      notificationName,
-      CustomerType.seller,
-      metadata,
-      {
-        metadata,
-      },
-      async () => {
-        await this.emailClient.sendNewOrderEmailToVendor(
-          vendor.email,
-          vendor.fullName,
-          {
-            product,
-            vendor,
-          },
-        );
-      },
-    );
+    if (isBikeSentWithGeodis) {
+      await this.sendNotificationIfNotAlreadySent(
+        NotificationType.EMAIL,
+        NotificationName.NEW_BIKE_ORDER_FOR_VENDOR_WITH_GEODIS_SHIPPING,
+        CustomerType.seller,
+        vendorMetadata,
+        {
+          metadata: vendorMetadata,
+        },
+        async () => {
+          await this.emailClient.sendNewOrderEmailToVendorWithGeodisShipping(
+            vendor.email,
+            vendor.fullName,
+            {
+              product,
+              vendor,
+              customer,
+              order,
+              has_previous_bike_order_with_geodis_shipping:
+                vendor.previousOrderLines.some(
+                  (orderLine) =>
+                    orderLine.shippingSolution === ShippingSolution.GEODIS &&
+                    isBikeProduct(orderLine.productType),
+                ),
+            },
+          );
+        },
+      );
+    } else {
+      await this.sendNotificationIfNotAlreadySent(
+        NotificationType.EMAIL,
+        NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING,
+        CustomerType.seller,
+        vendorMetadata,
+        {
+          metadata: vendorMetadata,
+        },
+        async () => {
+          await this.emailClient.sendNewOrderEmailToVendor(
+            vendor.email,
+            vendor.fullName,
+            {
+              product,
+              vendor,
+            },
+          );
+        },
+      );
+    }
   }
 
   private async sendNotificationIfNotAlreadySent(

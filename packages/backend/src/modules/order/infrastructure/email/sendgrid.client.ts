@@ -7,6 +7,7 @@ import {
 import {
   BarooderPaymentProcedureData,
   GenericShippingTemplateData,
+  GeodisDeliveryTemplateData,
   HandDeliveryCustomerTemplateData,
   HandDeliveryVendorTemplateData,
   IEmailClient,
@@ -19,6 +20,7 @@ import {
 import { Injectable } from '@nestjs/common';
 
 const GENERIC_SHIPPING_TEMPLATE_ID = 'd-5d628ffeb5b644c09b4551958fc3001e';
+const GEODIS_SHIPPING_TEMPLATE_ID = 'd-055dbe8e84af48dabe772445c6758b7a';
 const VENDOR_SHIPPING_TEMPLATE_ID = 'd-881d8500c68a4210871da5b9ec954c04';
 const HAND_DELIVERY_VENDOR_TEMPLATE_ID = 'd-dd1b2964a13348fdb423110e52dc5d4c';
 const HAND_DELIVERY_CUSTOMER_TEMPLATE_ID = 'd-3155e7d88bcd4356bf8621b52ce1fc2a';
@@ -213,6 +215,45 @@ export class SendGridClient implements IEmailClient {
         product_name: name,
         product_price: price,
       },
+      BAROODERS_SUPPORT_RECIPIENT,
+    );
+  }
+
+  async sendNewOrderEmailToVendorWithGeodisShipping(
+    toEmail: string,
+    toName: string,
+    {
+      product,
+      vendor,
+      order,
+      customer,
+      has_previous_bike_order_with_geodis_shipping,
+    }: GeodisDeliveryTemplateData,
+  ): Promise<void> {
+    const metadata = {
+      order_name: order.name,
+      variant_title: product.variantTitle,
+      first_name: vendor.firstName,
+      product_name: product.name,
+      product_reference: product.referenceId,
+      product_price: product.price,
+      product_handle: product.handle, // Why ?
+      customer_name: customer.fullName,
+      customer_address: customer.address,
+      shipment_email: order.shipmentEmail,
+      client_phone: customer.phone,
+      has_previous_bike_order_with_geodis_shipping,
+    };
+
+    await sendEmailFromTemplate(
+      [
+        {
+          email: toEmail,
+          name: toName,
+        },
+      ],
+      GEODIS_SHIPPING_TEMPLATE_ID,
+      metadata,
       BAROODERS_SUPPORT_RECIPIENT,
     );
   }
