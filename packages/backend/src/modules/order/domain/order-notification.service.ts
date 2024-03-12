@@ -20,7 +20,7 @@ import {
   OrderRefundedData,
 } from './ports/types';
 // TODO: find correct location for constant
-import { isBikeProduct } from '@modules/pro-vendor/domain/ports/types';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 
 const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
   'Paiement 10x - Younited Pay',
@@ -46,6 +46,7 @@ export class OrderNotificationService {
     private prisma: PrismaMainClient,
     private emailClient: IEmailClient,
     private internalNotificationClient: IInternalNotificationClient,
+    private pimClient: IPIMClient,
   ) {}
 
   async sendAskFeedbackEmail({
@@ -648,9 +649,9 @@ export class OrderNotificationService {
     customer,
     vendorMetadata,
   }: OrderPaidData & { vendorMetadata: Record<string, string> }) {
+    const isBike = await this.pimClient.isBike(product.productType);
     const isBikeSentWithGeodis =
-      isBikeProduct(product.productType) &&
-      product.shippingSolution === ShippingSolution.GEODIS;
+      isBike && product.shippingSolution === ShippingSolution.GEODIS;
 
     if (isBikeSentWithGeodis) {
       await this.sendNotificationIfNotAlreadySent(
@@ -671,10 +672,8 @@ export class OrderNotificationService {
               customer,
               order,
               has_previous_bike_order_with_geodis_shipping:
-                vendor.previousOrderLines.some(
-                  (orderLine) =>
-                    orderLine.shippingSolution === ShippingSolution.GEODIS &&
-                    isBikeProduct(orderLine.productType),
+                await this.hasVendorAlreadyHadAnOrderWithGeodisShipping(
+                  vendor.previousOrderLines,
                 ),
             },
           );
@@ -701,6 +700,15 @@ export class OrderNotificationService {
         },
       );
     }
+  }
+
+  private async hasVendorAlreadyHadAnOrderWithGeodisShipping(
+    previousOrderLines: OrderPaidData['vendor']['previousOrderLines'],
+  ): Promise<boolean> {
+    for (const orderLine of previousOrderLines) {
+      if (await this.pimClient.isBike(orderLine.productType)) return true;
+    }
+    return false;
   }
 
   private async sendNotificationIfNotAlreadySent(

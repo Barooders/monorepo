@@ -14,7 +14,7 @@ export const getPimProductTypesFromName = async (
   }>(
     `/api/pim-product-types?filters[name][$eq]=${encodeURIComponent(
       productType,
-    )}&pagination[limit]=1`,
+    )}&pagination[limit]=1&populate[0]=categories`,
   );
 
   return data;
