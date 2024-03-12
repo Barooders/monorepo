@@ -18,13 +18,11 @@ export type SynchronizedProVendor =
   | 'agava_presales'
   | 'all_cycles'
   | 'alpin_store'
-  | 'bike_point'
   | 'alpin_store_orders'
   | 'bcycles'
   | 'horizons_angers'
   | 'bernaudeau_woo'
   | 'ciklet'
-  | 'nestor'
   | 'bewak'
   | 'dayak'
   | 'bewak_excluded_brands'
@@ -288,12 +286,8 @@ export type VendorSecretsType = {
   fastlapApiSecret: string;
   bernaudeauApiKey: string;
   bernaudeauApiSecret: string;
-  bikePointApiKey: string;
-  bikePointApiSecret: string;
   cikletApiKey: string;
   cikletApiSecret: string;
-  nestorApiKey: string;
-  nestorApiSecret: string;
   panameBicisApiKey: string;
   panameBicisApiSecret: string;
   montaniniApiKey: string;

@@ -85,9 +85,6 @@ export const prodVendorConfig: EnvVendorsConfig = {
   ciklet: {
     vendorId: '938e2c7b-e692-4443-a87c-00fb874c9d5f',
   },
-  nestor: {
-    vendorId: '12c9930e-4e64-4d0e-8e57-f04f3a3f8f36',
-  },
   montanini: {
     vendorId: '4918c185-a2ec-487e-9cf6-a67e8bb12692',
   },
@@ -120,9 +117,6 @@ export const prodVendorConfig: EnvVendorsConfig = {
     catalog: {
       productCollectionHandle: 'admin-vendeurs-synchro-everide',
     },
-  },
-  bike_point: {
-    vendorId: 'd3a14599-1a4d-4918-a169-06ae9ebf9f47',
   },
   ferrareis: {
     vendorId: '92d87ca9-efd5-4468-b7b3-16d9a56cfe20',

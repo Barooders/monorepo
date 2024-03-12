@@ -392,18 +392,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       mapSingleVariant: true,
     },
   },
-  bike_point: {
-    slug: 'bike_point',
-    mappingKey: 'bike_point',
-    type: VendorType.WOO_COMMERCE,
-    apiUrl: 'https://bikepointtenerife.com/shop/wp-json/wc/v3',
-    apiKey: vendorSecrets.bikePointApiKey,
-    apiSecret: vendorSecrets.bikePointApiSecret,
-    catalog: {
-      priceMultiplier: 1.2,
-      mapSingleVariant: true,
-    },
-  },
   ciklet: {
     slug: 'ciklet',
     mappingKey: 'ciklet',
@@ -412,14 +400,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     allProductsPathOverride: '/products-ng',
     apiKey: vendorSecrets.cikletApiKey,
     apiSecret: vendorSecrets.cikletApiSecret,
-  },
-  nestor: {
-    slug: 'nestor',
-    mappingKey: 'nestor',
-    type: VendorType.WOO_COMMERCE,
-    apiUrl: 'https://bikesoutletnestor.es/wp-json/wc/v3',
-    apiKey: vendorSecrets.nestorApiKey,
-    apiSecret: vendorSecrets.nestorApiSecret,
   },
   paname_bicis: {
     slug: 'paname_bicis',
