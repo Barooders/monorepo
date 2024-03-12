@@ -58,10 +58,6 @@ export const BIKE_PRODUCT_TYPES = [
   'vélos vintage',
 ];
 
-export const isBikeProduct = (productType: string) => {
-  return BIKE_PRODUCT_TYPES.includes(productType.toLowerCase());
-};
-
 export interface FulfillmentOrderToSyncOnVendor {
   vendorId: string;
   orderId: string;
