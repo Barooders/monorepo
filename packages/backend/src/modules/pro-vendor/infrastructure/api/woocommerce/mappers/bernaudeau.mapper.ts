@@ -14,13 +14,11 @@ export class BernaudeauMapper extends WooCommerceDefaultMapper {
       inventory_quantity: 1,
     }));
 
-    const observedNewProductPrice = wooCommerceProduct.meta_data.filter(
-      ({ key, value }) => {
-        return (
-          key === 'prix_neuf_constate_v' && !!value && !isNaN(Number(value))
-        );
-      },
-    );
+    const observedNewProductPrice = (
+      wooCommerceProduct?.meta_data ?? []
+    ).filter(({ key, value }) => {
+      return key === 'prix_neuf_constate_v' && !!value && !isNaN(Number(value));
+    });
 
     if (observedNewProductPrice.length === 0) return variantsWithStock;
 
