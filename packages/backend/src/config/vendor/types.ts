@@ -113,6 +113,7 @@ interface PrestashopCatalogConfig {
 }
 
 interface WooCommerceCatalogConfig {
+  allProductsPathOverride?: string;
   mapSingleVariant?: boolean;
 }
 
@@ -210,7 +211,6 @@ export interface FullVendorConfig {
   type: VendorType;
   apiUrl: string;
   vendorId: string;
-  allProductsPathOverride?: string;
   apiKey?: string;
   apiSecret?: string;
   accessToken?: string;

@@ -464,10 +464,13 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'ciklet',
     type: VendorType.WOO_COMMERCE,
     apiUrl: 'https://api.ciklet.cc/wp-json/wc/v3',
-    allProductsPathOverride: '/products-ng',
     apiKey: vendorSecrets.cikletApiKey,
     apiSecret: vendorSecrets.cikletApiSecret,
-    catalog: {},
+    catalog: {
+      wooCommerce: {
+        allProductsPathOverride: '/products-ng',
+      },
+    },
   },
   paname_bicis: {
     slug: 'paname_bicis',
