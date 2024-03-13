@@ -22,6 +22,7 @@ export type SynchronizedProVendor =
   | 'bcycles'
   | 'horizons_angers'
   | 'bernaudeau_woo'
+  | 'bicipedia'
   | 'ciklet'
   | 'bewak'
   | 'dayak'

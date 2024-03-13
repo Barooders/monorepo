@@ -459,6 +459,15 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
+  bicipedia: {
+    slug: 'bicipedia',
+    mappingKey: 'bicipedia',
+    type: VendorType.WOO_COMMERCE,
+    apiUrl: 'https://www.bicipedia.it/wp-json/wc/v3',
+    apiKey: vendorSecrets.bernaudeauApiKey,
+    apiSecret: vendorSecrets.bernaudeauApiSecret,
+    catalog: {},
+  },
   ciklet: {
     slug: 'ciklet',
     mappingKey: 'ciklet',

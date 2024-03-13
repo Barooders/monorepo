@@ -19,6 +19,9 @@ export const prodVendorConfig: EnvVendorsConfig = {
   cycling_store: {
     vendorId: '1ebc5f48-eab2-40fe-a43b-da65d61cf828',
   },
+  bicipedia: {
+    vendorId: '3ac82924-0bb3-4ede-a5fe-81d09df0fa39',
+  },
   semotion: {
     vendorId: '8f56e505-cb73-44f0-b53f-83c0340e0ee8',
   },
