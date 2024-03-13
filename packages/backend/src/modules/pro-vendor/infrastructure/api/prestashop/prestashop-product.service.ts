@@ -20,6 +20,7 @@ import { TribiciMapper } from './mappers/tribici.mapper';
 import { Velosport34Mapper } from './mappers/velosport34.mapper';
 import { PrestashopClient } from './prestashop.client';
 import { BikeXtremeMapper } from './mappers/bike-xtreme.mapper';
+import { FreeglisseMapper } from './mappers/freeglisse.mapper';
 
 @Injectable()
 export class PrestashopProductService implements ProVendorStrategy {
@@ -29,6 +30,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     private prestashopClient: PrestashopClient,
     private prestashopDefaultMapper: PrestashopDefaultMapper,
     private fietsMapper: FietsMapper,
+    private freeglisseMapper: FreeglisseMapper,
     private semotionMapper: SEMotionMapper,
     private funbikeMapper: FunbikeMapper,
     private bikeXtremeMapper: BikeXtremeMapper,
@@ -75,6 +77,8 @@ export class PrestashopProductService implements ProVendorStrategy {
     switch (this.vendorConfigService.getVendorConfig().slug) {
       case 'fiets':
         return this.fietsMapper;
+      case 'freeglisse':
+        return this.freeglisseMapper;
       case 'semotion':
         return this.semotionMapper;
       case 'matkite':

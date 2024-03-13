@@ -87,6 +87,7 @@ import { VendorConfigService } from './infrastructure/config/vendor-config.servi
 import { VendorOrderServiceProvider } from './infrastructure/config/vendor-order-service.provider';
 import { VendorProductServiceProvider } from './infrastructure/config/vendor-product-service.provider';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
+import { FreeglisseMapper } from './infrastructure/api/prestashop/mappers/freeglisse.mapper';
 
 export const proVendorSharedServices = [
   CustomerRepository,
@@ -127,6 +128,7 @@ export const proVendorSharedServices = [
   ShopifyDefaultMapper,
   PrestashopDefaultMapper,
   FietsMapper,
+  FreeglisseMapper,
   SEMotionMapper,
   FunbikeMapper,
   BikeXtremeMapper,
