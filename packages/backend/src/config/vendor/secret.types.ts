@@ -51,6 +51,8 @@ export type VendorSecretsType = {
   fastlapApiSecret: string;
   bernaudeauApiKey: string;
   bernaudeauApiSecret: string;
+  bbbikeApiKey: string;
+  bbbikeApiSecret: string;
   bicipediaApiKey: string;
   bicipediaApiSecret: string;
   cikletApiKey: string;

@@ -51,6 +51,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   nordics_value: DEFAULT_CONFIG,
   fastlap: DEFAULT_CONFIG,
   kite_spirit: DEFAULT_CONFIG,
+  bbbike: DEFAULT_CONFIG,
   bicipedia: DEFAULT_CONFIG,
   freeglisse: DEFAULT_CONFIG_WITHOUT_ORDER,
   projet_boussole: {

@@ -468,6 +468,15 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.bernaudeauApiSecret,
     catalog: {},
   },
+  bbbike: {
+    slug: 'bbbike',
+    mappingKey: 'bbbike',
+    type: VendorType.WOO_COMMERCE,
+    apiUrl: 'https://www.bbbikeforli.it/wp-json/wc/v3',
+    apiKey: vendorSecrets.bbbikeApiKey,
+    apiSecret: vendorSecrets.bbbikeApiSecret,
+    catalog: {},
+  },
   ciklet: {
     slug: 'ciklet',
     mappingKey: 'ciklet',
