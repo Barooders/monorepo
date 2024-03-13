@@ -475,7 +475,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.bbbikeforli.it/wp-json/wc/v3',
     apiKey: vendorSecrets.bbbikeApiKey,
     apiSecret: vendorSecrets.bbbikeApiSecret,
-    catalog: {},
+    catalog: {
+      common: {
+        commissionPercentToAdd: 5,
+      },
+    },
   },
   ciklet: {
     slug: 'ciklet',
