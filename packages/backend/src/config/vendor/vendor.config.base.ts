@@ -482,6 +482,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -498,6 +499,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -511,6 +513,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1118,6 +1121,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1160,6 +1164,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1177,6 +1182,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1187,7 +1193,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://lehollandaisvelo.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.lehollandaisApiKey,
     apiSecret: vendorSecrets.lehollandaisApiSecret,
-    catalog: {},
+    catalog: {
+      wooCommerce: {
+        stringifySingleItemArray: true,
+      },
+    },
   },
   dayak: {
     slug: 'dayak',
@@ -1200,6 +1210,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       common: {
         minimumDiscount: 0.1,
         defaultProductCondition: Condition.AS_NEW,
+      },
+      wooCommerce: {
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1262,6 +1275,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1275,6 +1289,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       common: {
         parsedTagKeysFromDescription: ['brand'],
+      },
+      wooCommerce: {
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1293,6 +1310,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },
@@ -1323,6 +1341,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
+        stringifySingleItemArray: true,
       },
     },
   },

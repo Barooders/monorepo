@@ -120,6 +120,7 @@ interface PrestashopCatalogConfig {
 interface WooCommerceCatalogConfig {
   allProductsPathOverride?: string;
   mapSingleVariant?: boolean;
+  stringifySingleItemArray?: boolean;
 }
 
 interface XMLCatalogConfig {
