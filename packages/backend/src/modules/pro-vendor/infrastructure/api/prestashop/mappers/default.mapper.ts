@@ -17,6 +17,7 @@ import {
   FirstProductMapped,
   TagService,
 } from '@modules/pro-vendor/domain/service/tag.service';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
 import { head } from 'lodash';
 import { TranslatedValue } from '../dto/prestashop-product-features.dto';
@@ -39,6 +40,7 @@ export class PrestashopDefaultMapper {
     private tagService: TagService,
     private readonly vendorConfigService: IVendorConfigService,
     private prisma: PrismaMainClient,
+    protected readonly pimClient: IPIMClient,
   ) {}
 
   private async getProductImages({
