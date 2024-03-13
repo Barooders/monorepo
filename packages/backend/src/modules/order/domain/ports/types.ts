@@ -24,6 +24,7 @@ export type OrderPaidData = {
     referenceUrl: string;
     createdAt: Date;
     chatConversationLink: string;
+    productType: string;
   };
   customer: {
     email: string;
@@ -37,8 +38,11 @@ export type OrderPaidData = {
     sellerName: string;
     firstName: string;
     fullName: string;
-    isFirstOrder: boolean;
     isPro: boolean;
+    previousOrderLines: {
+      shippingSolution: ShippingSolution;
+      productType: string;
+    }[];
   };
 };
 

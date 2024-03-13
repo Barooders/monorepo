@@ -1,5 +1,9 @@
 import envConfig from '@config/env/env.config';
-import { PIMDynamicAttribute, PIMProductType } from '@libs/domain/types';
+import {
+  PIMCategory,
+  PIMDynamicAttribute,
+  PIMProductType,
+} from '@libs/domain/types';
 import { createRestClient } from '../http/clients';
 
 export const strapiClient = createRestClient(
@@ -47,4 +51,16 @@ export const getPimDynamicAttribute = async (
   }
 
   return null;
+};
+
+export const getPimCategoryFromId = async (
+  categoryId: number,
+): Promise<PIMCategory[]> => {
+  const { data } = await strapiClient<{
+    data: PIMCategory[];
+  }>(
+    `/api/pim-categories?filters[id][$eq]=${categoryId}&pagination[limit]=1&populate[productTypes][fields][0]=name`,
+  );
+
+  return data;
 };

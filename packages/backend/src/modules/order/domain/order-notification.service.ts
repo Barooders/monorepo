@@ -8,6 +8,7 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { IEmailClient } from './ports/email.client';
@@ -44,6 +45,7 @@ export class OrderNotificationService {
     private prisma: PrismaMainClient,
     private emailClient: IEmailClient,
     private internalNotificationClient: IInternalNotificationClient,
+    private pimClient: IPIMClient,
   ) {}
 
   async sendAskFeedbackEmail({
@@ -472,7 +474,8 @@ export class OrderNotificationService {
         orderName: order.name,
       };
 
-      const isImportantFirstSale = vendor.isPro && vendor.isFirstOrder;
+      const isFirstSale = vendor.previousOrderLines.length === 0;
+      const isImportantFirstSale = vendor.isPro && isFirstSale;
 
       await this.sendNotificationIfNotAlreadySent(
         NotificationType.INTERNAL,
@@ -578,6 +581,14 @@ export class OrderNotificationService {
         );
         break;
       case ShippingSolution.GEODIS:
+        await this.triggerGeodisOrderPaidActions({
+          vendor,
+          order,
+          customer,
+          product,
+          vendorMetadata,
+        });
+        break;
       case ShippingSolution.SENDCLOUD:
         await this.sendNotificationIfNotAlreadySent(
           NotificationType.EMAIL,
@@ -630,13 +641,76 @@ export class OrderNotificationService {
     }
   }
 
+  private async triggerGeodisOrderPaidActions({
+    order,
+    product,
+    vendor,
+    customer,
+    vendorMetadata,
+  }: OrderPaidData & { vendorMetadata: Record<string, string> }) {
+    const isBike = await this.pimClient.isBike(product.productType);
+    const isBikeSentWithGeodis =
+      isBike && product.shippingSolution === ShippingSolution.GEODIS;
+
+    await this.sendNotificationIfNotAlreadySent(
+      NotificationType.EMAIL,
+      NotificationName.NEW_ORDER_FOR_VENDOR_WITH_BAROODERS_SHIPPING,
+      CustomerType.seller,
+      vendorMetadata,
+      {
+        metadata: vendorMetadata,
+      },
+      async () => {
+        if (isBikeSentWithGeodis) {
+          await this.emailClient.sendNewOrderEmailToVendorWithGeodisShipping(
+            vendor.email,
+            vendor.fullName,
+            {
+              product,
+              vendor,
+              customer,
+              order,
+              hasPreviousBikeOrderWithGeodisShipping:
+                await this.hasVendorAlreadyHadAnOrderWithGeodisShipping(
+                  vendor.previousOrderLines,
+                ),
+            },
+          );
+        } else {
+          await this.emailClient.sendNewOrderEmailToVendor(
+            vendor.email,
+            vendor.fullName,
+            {
+              product,
+              vendor,
+            },
+          );
+        }
+      },
+    );
+  }
+
+  private async hasVendorAlreadyHadAnOrderWithGeodisShipping(
+    previousOrderLines: OrderPaidData['vendor']['previousOrderLines'],
+  ): Promise<boolean> {
+    for (const orderLine of previousOrderLines) {
+      try {
+        if (await this.pimClient.isBike(orderLine.productType)) return true;
+      } catch (error: any) {
+        this.logger.error(error.message, error);
+        Sentry.captureException(error);
+      }
+    }
+    return false;
+  }
+
   private async sendNotificationIfNotAlreadySent(
     type: NotificationType,
     name: NotificationName,
     recipientType: CustomerType,
-    metadata: Record<string, string | number>,
+    metadata: Record<string, string | number | boolean>,
     conditions: {
-      metadata: Record<string, string>;
+      metadata: Record<string, string | boolean>;
       createdAt?: { gte: Date; lte: Date };
     },
     callback: () => Promise<void>,

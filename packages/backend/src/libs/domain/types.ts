@@ -55,6 +55,26 @@ export type PIMDynamicAttribute = {
   };
 };
 
+export type PIMCategory = {
+  id: number;
+  attributes: {
+    name: string;
+    label: string;
+    createdAt: Date;
+    updatedAt: Date;
+    publishedAt: Date;
+    order: number | null;
+    productTypes: {
+      data: {
+        id: number;
+        attributes: {
+          name: string;
+        };
+      }[];
+    };
+  };
+};
+
 export const getValidTags = (tags: string[]): string[] => {
   const formattedTags = tags.reduce((acc: string[], tag) => {
     const [key, ...valueEntries] = tag.split(':');

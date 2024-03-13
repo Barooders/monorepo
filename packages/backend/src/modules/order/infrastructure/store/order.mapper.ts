@@ -229,18 +229,6 @@ export class OrderMapper {
       handle,
     } = await this.getVendorFromProductShopifyId(soldProduct.product_id);
 
-    const ordersCount = await this.mainPrisma.order.count({
-      where: {
-        orderLines: {
-          some: {
-            vendor: {
-              authUserId,
-            },
-          },
-        },
-      },
-    });
-
     if (!email) {
       throw new Error(
         `Cannot map order paid because no vendor email found for order ${id}`,
@@ -257,6 +245,32 @@ export class OrderMapper {
       String(soldProduct.product_id),
       String(orderData.customer.id),
     );
+
+    const previousOrderLines = await this.mainPrisma.orderLines.findMany({
+      where: {
+        vendor: {
+          authUserId,
+        },
+        order: {
+          shopifyId: {
+            not: String(id),
+          },
+        },
+      },
+      select: {
+        shippingSolution: true,
+        productType: true,
+      },
+    });
+
+    const soldProductType = await this.mainPrisma.product.findUnique({
+      where: {
+        shopifyId: soldProduct.product_id,
+      },
+      select: {
+        productType: true,
+      },
+    });
 
     return {
       order: {
@@ -284,6 +298,7 @@ export class OrderMapper {
         createdAt,
         handle: handle ?? '',
         chatConversationLink,
+        productType: soldProductType?.productType ?? '',
       },
       customer: {
         email: orderData.customer.email,
@@ -307,8 +322,13 @@ export class OrderMapper {
         sellerName: sellerName ?? 'seller-name-not-found',
         fullName: [firstName, lastName].filter(Boolean).join(' '),
         email,
-        isFirstOrder: ordersCount === 1,
         isPro,
+        previousOrderLines: previousOrderLines.map(
+          ({ shippingSolution, productType }) => ({
+            shippingSolution: shippingSolution,
+            productType,
+          }),
+        ),
       },
     };
   }

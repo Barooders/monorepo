@@ -1,16 +1,25 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
-    },
-    "eslint.workingDirectories": ["./packages/backend","./packages/frontend"],
-    "files.autoSaveWorkspaceFilesOnly": false,
-    "search.exclude": {
-        "**/.yarn": true,
-        "**/.pnp.*": true
-      },
-    "typescript.preferences.preferTypeOnlyAutoImports": false,
-    "prettier.configPath": "prettier.config.js"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "eslint.workingDirectories": ["./packages/backend", "./packages/frontend"],
+  "files.autoSaveWorkspaceFilesOnly": false,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "typescript.preferences.preferTypeOnlyAutoImports": false,
+  "prettier.configPath": "prettier.config.js",
+  "cSpell.words": [
+    "BAROODERS",
+    "geodis",
+    "Geodis",
+    "GEODIS",
+    "SENDCLOUD",
+    "Strapi",
+    "STRAPI"
+  ]
 }
