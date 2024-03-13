@@ -59,9 +59,8 @@ export class StrapiClient implements IPIMClient {
 
   private async getPimCategory(categoryId: number) {
     const cacheKey = `pim-category_${categoryId}`;
-    const cachedPimCategory = await this.cacheManager.get<PIMCategory>(
-      cacheKey,
-    );
+    const cachedPimCategory =
+      await this.cacheManager.get<PIMCategory>(cacheKey);
 
     if (cachedPimCategory) {
       return cachedPimCategory;

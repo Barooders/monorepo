@@ -108,8 +108,8 @@ export class OrderNotificationService {
       await this.internalNotificationClient
         .sendOrderCreatedWithBaroodersSplitPaymentNotification(`
           📦 *Nouvelle commande créée avec paiement ${order.paymentMethod}! (${
-        order.name
-      })*
+            order.name
+          })*
           🛒 Lien admin: ${order.adminUrl}
 
           🚲 Produit: ${product.name}
@@ -488,15 +488,15 @@ export class OrderNotificationService {
         async () => {
           await this.internalNotificationClient.sendOrderPaidNotification(`
             📦 *<${OMS_URL}?order_name=${order.name.replace('#', '')}|${
-            order.name
-          }>${isImportantFirstSale ? ' - Première vente 🥇' : ''}*
+              order.name
+            }>${isImportantFirstSale ? ' - Première vente 🥇' : ''}*
 
             🚲 Produit: ${product.variantTitle}
             💶 Prix : ${Math.round(Number(order.totalPrice))} €
 
             👤 Vendeur : ${vendor.sellerName} (${
-            vendor.isPro ? 'pro' : 'particulier'
-          })
+              vendor.isPro ? 'pro' : 'particulier'
+            })
           `);
 
           if (!isImportantFirstSale) return;
