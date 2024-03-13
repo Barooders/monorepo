@@ -10,7 +10,6 @@ import { OrderModule } from '@modules/order/order.module';
 import { PriceOfferModule } from '@modules/price-offer/price-offer.module';
 import { ProductModule } from '@modules/product/product.module';
 import { ShopifyAuthModule } from '@modules/shopify-auth/shopify-auth.module';
-import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -47,7 +46,6 @@ const applicationModules = [
     RequestContextModule,
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
-    CacheModule.register({ isGlobal: true }),
     BaseModule,
     ...applicationModules,
   ],
