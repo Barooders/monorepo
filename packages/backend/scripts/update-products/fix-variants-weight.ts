@@ -6,7 +6,7 @@ import Shopify from 'shopify-api-node';
 
 const DATA_FOLDER = `${__dirname}/data`;
 const PRODUCTS_FILE = 'weight.csv';
-type VariantWeight = [string, string, string];
+type VariantWeight = [string, string];
 
 const shopifyClient = new Shopify({
   shopName: 'barooders.myshopify.com',
