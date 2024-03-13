@@ -51,10 +51,10 @@ export class StrapiClient implements IPIMClient {
     const bikeCategory = await this.getPimCategory(STRAPI_BIKE_CATEGORY_ID);
 
     const bikeProductTypes = bikeCategory.attributes.productTypes.data.map(
-      (type) => type.attributes.name,
+      (type) => type.attributes.name.toLowerCase(),
     );
 
-    return bikeProductTypes.includes(productType);
+    return bikeProductTypes.includes(productType.toLowerCase());
   }
 
   private async getPimCategory(categoryId: number) {

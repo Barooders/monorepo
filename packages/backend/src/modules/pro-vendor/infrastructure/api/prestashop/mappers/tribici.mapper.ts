@@ -10,7 +10,7 @@ export class TribiciMapper extends PrestashopDefaultMapper {
 
     const isNotABike =
       !mappedProduct ||
-      !(await this.pimClient.isBike(mappedProduct.product_type.toLowerCase()));
+      !(await this.pimClient.isBike(mappedProduct.product_type));
 
     if (isNotABike) {
       return mappedProduct;

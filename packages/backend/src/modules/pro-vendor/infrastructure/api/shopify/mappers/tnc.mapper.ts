@@ -36,7 +36,7 @@ export class TNCMapper extends ShopifyDefaultMapper {
     _productMetafields: IMetafield[],
     productType: string | null,
   ): Promise<string> {
-    if (productType && (await this.pimClient.isBike(productType.toLowerCase())))
+    if (productType && (await this.pimClient.isBike(productType)))
       return shopifyProduct.body_html;
 
     const noteBlock = shopifyProduct.body_html.match(

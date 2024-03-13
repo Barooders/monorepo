@@ -116,9 +116,7 @@ export class ProductMapper {
       );
     }
 
-    const isBike = await this.pimClient.isBike(
-      mappedProduct.product_type.toLowerCase(),
-    );
+    const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     if (isBike && !mappedTagsObject.genre) {
       tags.push('genre:Mixte');
     }
