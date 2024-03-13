@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { IMetafield, IProduct } from 'shopify-api-node';
 import {
+  ShopifyDefaultMapper,
   getMetafieldValueFromKey,
   mapMetafieldToBlockList,
-  ShopifyDefaultMapper,
 } from './default.mapper';
 
 @Injectable()
 export class MintMapper extends ShopifyDefaultMapper {
-  getDescription(
+  async getDescription(
     shopifyProduct: IProduct,
     productMetafields: IMetafield[],
     _productType: string | null,
-  ): string {
+  ): Promise<string> {
     const positivePointsText = mapMetafieldToBlockList(
       productMetafields,
       'pospoints',

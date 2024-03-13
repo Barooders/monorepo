@@ -1,8 +1,8 @@
 import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
+  ShopifyProductStatus,
   mapCondition,
   mapProductStatus,
-  ShopifyProductStatus,
 } from '@libs/domain/product.interface';
 import { CONDITION_TAG_KEY } from '@libs/domain/types';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
@@ -16,6 +16,7 @@ import {
   FirstProductMapped,
   TagService,
 } from '@modules/pro-vendor/domain/service/tag.service';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
 import { head } from 'lodash';
 import { IMetafield, IProduct, IProductVariant } from 'shopify-api-node';
@@ -55,6 +56,7 @@ export class ShopifyDefaultMapper {
     private readonly vendorConfigService: IVendorConfigService,
     private shopifyClient: ShopifyClient,
     private tagService: TagService,
+    protected pimClient: IPIMClient,
   ) {}
 
   async mapperLight(shopifyProduct: IProduct): Promise<SyncLightProduct> {
@@ -92,7 +94,7 @@ export class ShopifyDefaultMapper {
       await this.getTags(shopifyProduct, productMetafields)
     ).flatMap((f) => (f ? [f] : []));
 
-    const description = this.getDescription(
+    const description = await this.getDescription(
       shopifyProduct,
       productMetafields,
       productType,
@@ -155,12 +157,12 @@ export class ShopifyDefaultMapper {
     return shopifyProduct.tags;
   }
 
-  getDescription(
+  async getDescription(
     shopifyProduct: IProduct,
     _productMetafields: IMetafield[],
     _productType: string | null,
     _mappedTags: (string | null)[],
-  ): string {
+  ): Promise<string> {
     return shopifyProduct.body_html;
   }
 

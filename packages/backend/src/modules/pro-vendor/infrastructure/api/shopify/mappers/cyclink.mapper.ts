@@ -12,12 +12,12 @@ export class CyclinkMapper extends ShopifyDefaultMapper {
     return product_type;
   }
 
-  getDescription(
+  async getDescription(
     shopifyProduct: IProduct,
     _productMetafields: IMetafield[],
     _productType: string | null,
     mappedTags: string[],
-  ): string {
+  ): Promise<string> {
     const isNewProduct =
       super.getProductCondition(shopifyProduct, mappedTags) ===
       Condition.AS_NEW;
