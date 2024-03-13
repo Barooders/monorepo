@@ -38,8 +38,8 @@ export class WooCommerceClient {
     sinceDate?: Date,
   ): Promise<WooCommerceProduct[]> {
     const allProductsPath =
-      this.vendorConfigService.getVendorConfig().allProductsPathOverride ??
-      PRODUCTS_PATH;
+      this.vendorConfigService.getVendorConfig().catalog.wooCommerce
+        ?.allProductsPathOverride ?? PRODUCTS_PATH;
 
     const endpoint = this.getUrl(allProductsPath, {
       page: page.toString(),
@@ -121,12 +121,5 @@ export class WooCommerceClient {
     url.search = new URLSearchParams(queryParams).toString();
 
     return url.href;
-  }
-
-  private getAllProductsPath(): string {
-    return (
-      this.vendorConfigService.getVendorConfig().allProductsPathOverride ??
-      '/products'
-    );
   }
 }

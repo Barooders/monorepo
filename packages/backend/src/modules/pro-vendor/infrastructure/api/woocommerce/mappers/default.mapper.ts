@@ -44,13 +44,22 @@ export class WooCommerceDefaultMapper {
       name,
       metadata,
     );
+    const stringifyArray = (array: string[]) => {
+      if (
+        this.vendorConfigService.getVendorConfig().catalog.wooCommerce
+          ?.stringifySingleItemArray
+      )
+        return jsonStringify(array);
+
+      return array.length === 1 ? array[0] : jsonStringify(array);
+    };
 
     const tags = (
       await Promise.all([
         ...wooCommerceProduct.attributes.map(({ id, name, options }) => {
           return this.tagService.getOrCreateTag(
             name,
-            jsonStringify(options),
+            stringifyArray(options),
             this.getTagKey(id, name),
             this.vendorConfigService.getVendorConfig().mappingKey,
             metadata,
@@ -59,7 +68,7 @@ export class WooCommerceDefaultMapper {
         ...(wooCommerceProduct?.meta_data ?? []).map(({ key, value }) => {
           return this.tagService.getOrCreateTag(
             key,
-            isString(value) ? value : jsonStringify(value),
+            isString(value) ? value : stringifyArray(value),
             key,
             this.vendorConfigService.getVendorConfig().mappingKey,
             metadata,
@@ -159,12 +168,13 @@ export class WooCommerceDefaultMapper {
     wooCommerceProduct: WooCommerceProduct,
   ): Promise<SyncProduct['variants']> {
     if (
-      this.vendorConfigService.getVendorConfig().catalog?.mapMultipleVariants
+      this.vendorConfigService.getVendorConfig().catalog.wooCommerce
+        ?.mapSingleVariant
     ) {
-      return this.getMultipleVariants(wooCommerceProduct);
+      return this.getSingleVariant(wooCommerceProduct);
     }
 
-    return this.getSingleVariant(wooCommerceProduct);
+    return this.getMultipleVariants(wooCommerceProduct);
   }
 
   private getSingleVariant({
@@ -243,10 +253,10 @@ export class WooCommerceDefaultMapper {
   }
 
   getVariantQuantity(
-    { purchasable }: { purchasable: boolean; name: string },
+    { purchasable }: { purchasable?: boolean; name: string },
     variantQuantity: number | null,
   ): number {
-    if (!purchasable) return 0;
+    if (purchasable === false) return 0;
 
     return variantQuantity ?? 0;
   }

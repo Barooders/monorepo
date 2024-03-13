@@ -118,7 +118,8 @@ export class ProductSyncService {
         }
 
         if (
-          !this.vendorConfigService.getVendorConfig().catalog?.skipProductUpdate
+          !this.vendorConfigService.getVendorConfig().catalog.common
+            ?.skipProductUpdate
         ) {
           await this.updateProduct(
             mappedProduct,

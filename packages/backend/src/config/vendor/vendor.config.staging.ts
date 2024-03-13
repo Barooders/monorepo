@@ -4,11 +4,17 @@ const DEFAULT_USER = '52355f01-31c9-4f47-a062-d4a7564d4791';
 const DEFAULT_CONFIG = {
   vendorId: DEFAULT_USER,
 };
+const DISABLED_ORDER_SYNC_CONFIG = {
+  order: {
+    common: {
+      isSyncActivated: false,
+    },
+  },
+};
+
 const DEFAULT_CONFIG_WITHOUT_ORDER = {
   ...DEFAULT_CONFIG,
-  order: {
-    isSyncActivated: false,
-  },
+  ...DISABLED_ORDER_SYNC_CONFIG,
 };
 
 export const stagingVendorConfig: EnvVendorsConfig = {
@@ -27,7 +33,6 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   },
   chris_bikes: DEFAULT_CONFIG,
   ciklet: DEFAULT_CONFIG,
-  nestor: DEFAULT_CONFIG,
   montanini: DEFAULT_CONFIG,
   velosport34: DEFAULT_CONFIG,
   pilat: DEFAULT_CONFIG,
@@ -35,7 +40,6 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   agava_presales: DEFAULT_CONFIG,
   alpin_store_orders: DEFAULT_CONFIG_WITHOUT_ORDER,
   dayak: DEFAULT_CONFIG,
-  bike_point: DEFAULT_CONFIG,
   manufaktur: DEFAULT_CONFIG,
   horizons_angers: DEFAULT_CONFIG,
   lario_ebike: DEFAULT_CONFIG,
@@ -59,9 +63,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   },
   tnc: {
     vendorId: 'dbf74a44-a9c9-4cb6-b025-260efe28ad23',
-    order: {
-      isSyncActivated: false,
-    },
+    ...DISABLED_ORDER_SYNC_CONFIG,
   },
   skidoc: DEFAULT_CONFIG_WITHOUT_ORDER,
   trocsport: DEFAULT_CONFIG_WITHOUT_ORDER,

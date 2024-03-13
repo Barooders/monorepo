@@ -82,14 +82,14 @@ export class CSVClient {
     productId?: string,
   ): Promise<CSVProduct[]> {
     const csvColumnsConfig =
-      this.vendorConfigService.getVendorConfig().catalog?.csvColumns;
+      this.vendorConfigService.getVendorConfig().catalog.csv?.columns;
 
     if (!csvColumnsConfig) {
       throw new Error('CSV columns config not found');
     }
 
     const textTransformer =
-      this.vendorConfigService.getVendorConfig().catalog?.textTransformer;
+      this.vendorConfigService.getVendorConfig().catalog.csv?.textTransformer;
     const textToParse = textTransformer ? textTransformer(text) : text;
 
     const extractedRows = await extractRowsFromCSVRawText(textToParse, {

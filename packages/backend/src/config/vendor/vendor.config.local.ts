@@ -8,7 +8,9 @@ const DEFAULT_CONFIG = {
 const DEFAULT_CONFIG_WITHOUT_ORDER = {
   ...DEFAULT_CONFIG,
   order: {
-    isSyncActivated: false,
+    common: {
+      isSyncActivated: false,
+    },
   },
 };
 
@@ -26,7 +28,6 @@ export const localVendorConfig: EnvVendorsConfig = {
   agava_presales: DEFAULT_CONFIG,
   montanini: DEFAULT_CONFIG,
   ciklet: DEFAULT_CONFIG,
-  nestor: DEFAULT_CONFIG,
   velosport34: DEFAULT_CONFIG,
   lario_ebike: DEFAULT_CONFIG,
   horizons_angers: DEFAULT_CONFIG,
@@ -79,7 +80,6 @@ export const localVendorConfig: EnvVendorsConfig = {
   tch: DEFAULT_CONFIG,
   pastel: DEFAULT_CONFIG,
   tribici_presta: DEFAULT_CONFIG,
-  bike_point: DEFAULT_CONFIG,
   club_in_sport: DEFAULT_CONFIG,
   bikef: DEFAULT_CONFIG,
   matkite: DEFAULT_CONFIG,

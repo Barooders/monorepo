@@ -114,7 +114,8 @@ export class ShopifyClient {
     };
 
     const sendDiscountedPrice =
-      this.vendorConfigService.getVendorConfig().order?.sendDiscountedPrice;
+      this.vendorConfigService.getVendorConfig().order?.shopify
+        ?.sendDiscountedPrice;
 
     const orderToCreate = {
       ...(sendDiscountedPrice
@@ -130,7 +131,7 @@ export class ShopifyClient {
         first_name: sharedAddress.first_name,
         last_name: sharedAddress.last_name,
         email: obfuscatedEmail,
-        ...(this.vendorConfigService.getVendorConfig().order
+        ...(this.vendorConfigService.getVendorConfig().order?.shopify
           ?.sendRealCustomerEmail
           ? { note: realEmail }
           : {}),

@@ -48,7 +48,7 @@ export type WooCommerceProduct = {
   description: string;
   stock_quantity: number | null;
   stock_status?: 'instock' | 'outofstock';
-  purchasable: boolean;
+  purchasable?: boolean;
   status?: string;
   images: WooCommerceProductImage[];
   price: string;

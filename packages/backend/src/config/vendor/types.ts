@@ -18,13 +18,11 @@ export type SynchronizedProVendor =
   | 'agava_presales'
   | 'all_cycles'
   | 'alpin_store'
-  | 'bike_point'
   | 'alpin_store_orders'
   | 'bcycles'
   | 'horizons_angers'
   | 'bernaudeau_woo'
   | 'ciklet'
-  | 'nestor'
   | 'bewak'
   | 'dayak'
   | 'bewak_excluded_brands'
@@ -87,120 +85,160 @@ export type SynchronizedProVendor =
   | 'willemd'
   | 'zyclora';
 
+export enum BrandFilterAction {
+  ONLY = 'only',
+  EXCLUDE = 'exclude',
+}
+
+interface CommonCatalogConfig {
+  skipProductUpdate?: boolean;
+  shouldIgnoreCheapBikesBelow150?: boolean;
+  minimalPriceInCents?: number;
+  defaultDescription?: string;
+  defaultProductCondition?: Condition;
+  parsedTagKeysFromDescription?: string[];
+  translateDescription?: boolean;
+  variantOptionTagsWithCategorySuffix?: string[];
+  showExternalIdInDescription?: boolean;
+  commissionPercentToAdd?: number;
+  priceMultiplier?: number;
+  priceCorrection?: number;
+  minimumDiscount?: number;
+  defaultPublishedProductStatus?: ProductStatus;
+  descriptionPrefix?: string;
+  descriptionSuffix?: string;
+  ignoredVariants?: string[];
+  brandFilter?: { names: string[]; action: BrandFilterAction };
+  excludedTitles?: string[];
+}
+
+interface PrestashopCatalogConfig {
+  categoriesToFilterInFetch?: number[];
+  externalLanguageId?: string;
+}
+
+interface WooCommerceCatalogConfig {
+  allProductsPathOverride?: string;
+  mapSingleVariant?: boolean;
+  stringifySingleItemArray?: boolean;
+}
+
+interface XMLCatalogConfig {
+  fields: {
+    variant: string;
+    productId: string;
+    productType: string;
+    variantId: string;
+    variantCondition: string;
+    productTitle: string;
+    description: string;
+    tags: string[];
+    images: string[];
+    inventoryQuantity: string;
+    price: string;
+    compareAtPrice: string;
+    option1?: {
+      key: string;
+      value: string;
+    };
+    option2?: {
+      key: string;
+      value: string;
+    };
+    option3?: {
+      key: string;
+      value: string;
+    };
+    productEANCode?: string;
+  };
+}
+
+interface CSVCatalogConfig {
+  textTransformer?: (input: string) => string;
+  columns: {
+    isActive?: number;
+    productId: number;
+    productType: number[];
+    variantId: number;
+    variantCondition: number;
+    productTitle: number;
+    description?: number[];
+    tags: number[];
+    images: number[];
+    inventoryQuantity?: number;
+    price: number;
+    compareAtPrice: number;
+    option1?: number;
+    option2?: number;
+    option3?: number;
+    productEANCode?: number;
+  };
+}
+
+interface ScrapflyCatalogConfig {
+  productCollectionHandle?: string;
+  isAvailable?: (apiContent: string) => boolean;
+  mapReferenceUrl?: (url: string) => string;
+}
+
+interface CommonOrderConfig {
+  isSyncActivated: boolean;
+}
+
+interface ShopifyOrderConfig {
+  sendDiscountedPrice?: boolean;
+  sendRealCustomerEmail?: boolean;
+}
+
+interface PrestashopOrderConfig {
+  customerDefaultGroupId: string;
+  customerGroupId?: string;
+  countryId: string; //TODO: Get country from user country
+  currencyId: string;
+  langId: string;
+  shopId: string;
+  shopGroupId: string;
+  carrierSolution: string;
+  paymentModule: string;
+  paymentMethodName: string;
+  orderStateId: string;
+  getShippingCost: (input: {
+    weight?: number;
+    productsTotalPrice: number;
+    productType: string;
+  }) => number;
+  forceOrderStatusAfterCreation?: boolean;
+  useExternalVariantIdAsCombinationId?: boolean;
+  disableStockCheckBeforeOrder?: boolean;
+  trackingUrlBaseUrl?: string;
+  firstNameSuffix?: string;
+  fetchProductWeightForShippingCompute?: boolean;
+}
+
 export interface FullVendorConfig {
   slug: SynchronizedProVendor;
   mappingKey: MappingKey;
   type: VendorType;
   apiUrl: string;
   vendorId: string;
-  allProductsPathOverride?: string;
   apiKey?: string;
   apiSecret?: string;
   accessToken?: string;
   username?: string;
   password?: string;
-  catalog?: {
-    skipProductUpdate?: boolean;
-    externalVendorId?: string;
-    productCollectionHandle?: string;
-    shouldIgnoreCheapBikesBelow150?: boolean;
-    minimalPriceInCents?: number;
-    categoriesToFilterInFetch?: number[];
-    defaultDescription?: string;
-    mapMultipleVariants?: boolean;
-    defaultProductCondition?: Condition;
-    parsedTagKeysFromDescription?: string[];
-    isAvailable?: (apiContent: string) => boolean;
-    mapReferenceUrl?: (url: string) => string;
-    translateDescription?: boolean;
-    variantOptionTagsWithCategorySuffix?: string[];
-    showExternalIdInDescription?: boolean;
-    commissionPercentToAdd?: number;
-    priceMultiplier?: number;
-    priceCorrection?: number;
-    minimumDiscount?: number;
-    externalLanguageId?: string;
-    defaultPublishedProductStatus?: ProductStatus;
-    descriptionPrefix?: string;
-    descriptionSuffix?: string;
-    ignoredVariants?: string[];
-    brandFilter?: BrandFilter;
-    excludedTitles?: string[];
-    textTransformer?: (input: string) => string;
-    csvColumns?: {
-      isActive?: number;
-      productId: number;
-      productType: number[];
-      variantId: number;
-      variantCondition: number;
-      productTitle: number;
-      description?: number[];
-      tags: number[];
-      images: number[];
-      inventoryQuantity?: number;
-      price: number;
-      compareAtPrice: number;
-      option1?: number;
-      option2?: number;
-      option3?: number;
-      productEANCode?: number;
-    };
-    xmlFields?: {
-      variant: string;
-      productId: string;
-      productType: string;
-      variantId: string;
-      variantCondition: string;
-      productTitle: string;
-      description: string;
-      tags: string[];
-      images: string[];
-      inventoryQuantity: string;
-      price: string;
-      compareAtPrice: string;
-      option1?: {
-        key: string;
-        value: string;
-      };
-      option2?: {
-        key: string;
-        value: string;
-      };
-      option3?: {
-        key: string;
-        value: string;
-      };
-      productEANCode?: string;
-    };
+  catalog: {
+    common?: CommonCatalogConfig;
+    scrapfly?: ScrapflyCatalogConfig;
+    prestashop?: PrestashopCatalogConfig;
+    wooCommerce?: WooCommerceCatalogConfig;
+    csv?: CSVCatalogConfig;
+    xml?: XMLCatalogConfig;
   };
   order?: {
-    isSyncActivated: boolean;
-    sendDiscountedPrice?: boolean;
-    sendRealCustomerEmail?: boolean;
-    forceOrderStatusAfterCreation?: boolean;
-    useExternalVariantIdAsCombinationId?: boolean;
-    disableStockCheckBeforeOrder?: boolean;
-    trackingUrlBaseUrl?: string;
-    firstNameSuffix?: string;
-    customerDefaultGroupId?: string;
-    customerGroupId?: string;
-    countryId?: string; //TODO: Get country from user country
-    currencyId?: string;
-    langId?: string;
-    shopId?: string;
-    shopGroupId?: string;
-    carrierSolution?: string;
-    paymentModule?: string;
-    paymentMethodName?: string;
-    orderStateId?: string;
-    getShippingCost?: (input: ShippingCostInput) => number;
-    fetchProductWeightForShippingCompute?: boolean;
+    common: CommonOrderConfig;
+    shopify?: ShopifyOrderConfig;
+    prestashop?: PrestashopOrderConfig;
   };
-}
-
-export enum BrandFilterAction {
-  ONLY = 'only',
-  EXCLUDE = 'exclude',
 }
 
 export interface BrandFilter {
@@ -217,10 +255,8 @@ export type VendorConfig = FullVendorConfig & {
   vendorName: string;
 };
 
-type BaseVendorConfig = Omit<FullVendorConfig, 'vendorId'>;
-
 export type AllBaseVendorsConfig = {
-  [key in SynchronizedProVendor]: BaseVendorConfig;
+  [key in SynchronizedProVendor]: Omit<FullVendorConfig, 'vendorId'>;
 };
 
 export type AllVendorsConfigInterface = {
@@ -228,102 +264,9 @@ export type AllVendorsConfigInterface = {
 };
 
 export type EnvVendorsConfig = {
-  [key in SynchronizedProVendor]: RecursivePartial<BaseVendorConfig> & {
+  [key in SynchronizedProVendor]: RecursivePartial<FullVendorConfig> & {
     vendorId: string;
   };
 };
 
 export type MappingKey = VendorType | SynchronizedProVendor;
-
-export type VendorSecretsType = {
-  tuvalumApiKey: string;
-  tuvalumApiUrl: string;
-  tuvalumUsername: string;
-  tuvalumPassword: string;
-  freeglisseApiKey: string;
-  freeglisseApiUrl: string;
-  alpinstoreApiUrl: string;
-  alpinstoreApiKey: string;
-  matkiteApiKey: string;
-  bikeXtremeApiKey: string;
-  millaBikesApiKey: string;
-  veloEmotionApiKey: string;
-  velosport34ApiKey: string;
-  ferrareisApiKey: string;
-  cyclingStoreApiKey: string;
-  semotionApiKey: string;
-  ebikeApiKey: string;
-  trocsportApiKey: string;
-  trocsportApiUrl: string;
-  bcyclesApiKey: string;
-  bewakApiKey: string;
-  bewakApiUrl: string;
-  kitespiritApiKey: string;
-  kitespiritApiUrl: string;
-  skidocApiKey: string;
-  skidocApiUrl: string;
-  freerideApiKey: string;
-  fietsApiKey: string;
-  fietsApiUrl: string;
-  mbsProApiKey: string;
-  funbikeApiKey: string;
-  tribiciApiKey: string;
-  clubInSportApiKey: string;
-  chrisAccessToken: string;
-  pilatAccessToken: string;
-  allCyclesToken: string;
-  pastelAccessToken: string;
-  techniCyclesAccessToken: string;
-  loewiAccessToken: string;
-  baroudeurAccessToken: string;
-  velomeldoisAccessToken: string;
-  cyclinkAccessToken: string;
-  mintAccessToken: string;
-  tncAccessToken: string;
-  nordicsAccessToken: string;
-  boussoleAccessToken: string;
-  jbikesApiKey: string;
-  jbikesApiSecret: string;
-  fastlapApiKey: string;
-  fastlapApiSecret: string;
-  bernaudeauApiKey: string;
-  bernaudeauApiSecret: string;
-  bikePointApiKey: string;
-  bikePointApiSecret: string;
-  cikletApiKey: string;
-  cikletApiSecret: string;
-  nestorApiKey: string;
-  nestorApiSecret: string;
-  panameBicisApiKey: string;
-  panameBicisApiSecret: string;
-  montaniniApiKey: string;
-  montaniniApiSecret: string;
-  dazBikeApiKey: string;
-  dazBikeApiSecret: string;
-  worldBikeFormiaApiKey: string;
-  worldBikeFormiaApiSecret: string;
-  garybomApiKey: string;
-  garybomApiSecret: string;
-  joostBikesApiKey: string;
-  joostBikesApiSecret: string;
-  velosport20ApiKey: string;
-  velosport20ApiSecret: string;
-  lehollandaisApiKey: string;
-  lehollandaisApiSecret: string;
-  dayakApiKey: string;
-  dayakApiSecret: string;
-  hbeShopifyAccessToken: string;
-  bikefApiKey: string;
-  bikefApiSecret: string;
-  sbikesApiKey: string;
-  sbikesApiSecret: string;
-  recoApiKey: string;
-  recoApiSecret: string;
-  manufakturApiKey: string;
-  manufakturApiSecret: string;
-  elettronicApiKey: string;
-  elettronicApiSecret: string;
-  moulinApiKey: string;
-  moulinApiSecret: string;
-  willemAccessToken: string;
-};
