@@ -97,14 +97,56 @@ const Footer = () => {
         },
       ],
     },
+    {
+      title: footerLabels.topCategories.title,
+      links: [
+        {
+          label: footerLabels.topCategories.categories.bikes,
+          url: 'https://barooders.com/collections/velo',
+        },
+        {
+          label: footerLabels.topCategories.categories.electricBikes,
+          url: 'https://barooders.com/collections/velos-electriques',
+        },
+        {
+          label: footerLabels.topCategories.categories.roadBikes,
+          url: 'https://barooders.com/collections/velos-de-route',
+        },
+        {
+          label: footerLabels.topCategories.categories.electricMountainBikes,
+          url: 'https://barooders.com/collections/vtt-electriques',
+        },
+        {
+          label: footerLabels.topCategories.categories.electricVtc,
+          url: 'https://barooders.com/collections/vtc-electriques',
+        },
+        {
+          label: footerLabels.topCategories.categories.mountainBikes,
+          url: 'https://barooders.com/collections/vtt',
+        },
+        {
+          label: footerLabels.topCategories.categories.gravelBikes,
+          url: 'https://barooders.com/collections/gravel',
+        },
+        {
+          label: footerLabels.topCategories.categories.cargoBikes,
+          url: 'https://barooders.com/collections/velos-cargo',
+        },
+        {
+          label: footerLabels.topCategories.categories.foldingBikes,
+          url: 'https://barooders.com/collections/velos-pliants',
+        },
+      ],
+    },
   ];
+
   return (
     <div
       className="bg-secondary-200"
       id="barooders-main-footer"
     >
-      <div className="border border-y-black py-12 px-8">
-        <div className="mx-auto flex max-w-page-content flex-wrap justify-between px-4">
+      <div className="border border-y-black px-8 py-12">
+        <div className="mx-auto flex flex-wrap justify-between px-4">
           {footerSections.map((footerSection) => (
             <FooterSection
               key={footerSection.title}

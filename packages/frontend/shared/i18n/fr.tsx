@@ -597,6 +597,20 @@ const fr = {
         android: 'Android',
       },
     },
+    topCategories: {
+      title: 'Top catégories',
+      categories: {
+        bikes: 'Vélos',
+        electricBikes: 'Vélos électriques',
+        mountainBikes: 'VTT',
+        roadBikes: 'Vélos de route',
+        electricMountainBikes: 'VTT électriques',
+        gravelBikes: 'Gravel',
+        cargoBikes: 'Vélos cargo',
+        foldingBikes: 'Vélos pliants',
+        electricVtc: 'VTC électriques',
+      },
+    },
   },
   blog: {
     blogBreadcrumb: 'Blog',
