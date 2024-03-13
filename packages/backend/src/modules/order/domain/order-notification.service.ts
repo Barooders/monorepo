@@ -694,7 +694,12 @@ export class OrderNotificationService {
     previousOrderLines: OrderPaidData['vendor']['previousOrderLines'],
   ): Promise<boolean> {
     for (const orderLine of previousOrderLines) {
-      if (await this.pimClient.isBike(orderLine.productType)) return true;
+      try {
+        if (await this.pimClient.isBike(orderLine.productType)) return true;
+      } catch (error: any) {
+        this.logger.error(error.message, error);
+        Sentry.captureException(error);
+      }
     }
     return false;
   }
