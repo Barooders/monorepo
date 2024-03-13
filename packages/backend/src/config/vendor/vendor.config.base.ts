@@ -56,7 +56,6 @@ const baseCsvConfig = {
 };
 
 const bewakConfig = {
-  type: VendorType.PRESTASHOP,
   apiKey: vendorSecrets.bewakApiKey,
   apiUrl: vendorSecrets.bewakApiUrl,
   catalog: {
@@ -296,6 +295,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   bewak: {
     slug: 'bewak',
     mappingKey: 'bewak',
+    type: VendorType.PRESTASHOP,
     ...merge(cloneDeep(bewakConfig), {
       catalog: {
         common: {
@@ -311,6 +311,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   bewak_excluded_brands: {
     slug: 'bewak_excluded_brands',
     mappingKey: 'bewak',
+    type: VendorType.PRESTASHOP,
     ...merge(cloneDeep(bewakConfig), {
       catalog: {
         common: {

@@ -215,31 +215,87 @@ interface PrestashopOrderConfig {
   fetchProductWeightForShippingCompute?: boolean;
 }
 
-export interface FullVendorConfig {
+interface MinimalVendorConfig {
   slug: SynchronizedProVendor;
   mappingKey: MappingKey;
-  type: VendorType;
   apiUrl: string;
-  vendorId: string;
   apiKey?: string;
   apiSecret?: string;
   accessToken?: string;
   username?: string;
   password?: string;
+}
+
+interface PrestashopVendorConfig extends MinimalVendorConfig {
+  type: VendorType.PRESTASHOP;
   catalog: {
     common?: CommonCatalogConfig;
-    scrapfly?: ScrapflyCatalogConfig;
     prestashop?: PrestashopCatalogConfig;
-    wooCommerce?: WooCommerceCatalogConfig;
-    csv?: CSVCatalogConfig;
-    xml?: XMLCatalogConfig;
   };
   order?: {
     common: CommonOrderConfig;
-    shopify?: ShopifyOrderConfig;
-    prestashop?: PrestashopOrderConfig;
+    prestashop: PrestashopOrderConfig;
   };
 }
+
+interface WooCommerceVendorConfig extends MinimalVendorConfig {
+  type: VendorType.WOO_COMMERCE;
+  catalog: {
+    common?: CommonCatalogConfig;
+    wooCommerce?: WooCommerceCatalogConfig;
+  };
+}
+
+interface TuvalumVendorConfig extends MinimalVendorConfig {
+  type: VendorType.TUVALUM;
+  catalog: {
+    common?: CommonCatalogConfig;
+  };
+}
+
+interface ScrapflyVendorConfig extends MinimalVendorConfig {
+  type: VendorType.SCRAPFLY;
+  catalog: {
+    common?: CommonCatalogConfig;
+    scrapfly: ScrapflyCatalogConfig;
+  };
+}
+
+interface ShopifyVendorConfig extends MinimalVendorConfig {
+  type: VendorType.SHOPIFY;
+  catalog: {
+    common?: CommonCatalogConfig;
+  };
+  order?: {
+    common: CommonOrderConfig;
+    shopify: ShopifyOrderConfig;
+  };
+}
+
+interface CSVVendorConfig extends MinimalVendorConfig {
+  type: VendorType.CSV;
+  catalog: {
+    common?: CommonCatalogConfig;
+    csv: CSVCatalogConfig;
+  };
+}
+
+interface XMLVendorConfig extends MinimalVendorConfig {
+  type: VendorType.XML;
+  catalog: {
+    common?: CommonCatalogConfig;
+    xml: XMLCatalogConfig;
+  };
+}
+
+export type FullVendorConfig =
+  | PrestashopVendorConfig
+  | WooCommerceVendorConfig
+  | TuvalumVendorConfig
+  | ScrapflyVendorConfig
+  | ShopifyVendorConfig
+  | CSVVendorConfig
+  | XMLVendorConfig;
 
 export interface BrandFilter {
   names: string[];
@@ -256,10 +312,6 @@ export type VendorConfig = FullVendorConfig & {
 };
 
 export type AllBaseVendorsConfig = {
-  [key in SynchronizedProVendor]: Omit<FullVendorConfig, 'vendorId'>;
-};
-
-export type AllVendorsConfigInterface = {
   [key in SynchronizedProVendor]: FullVendorConfig;
 };
 
