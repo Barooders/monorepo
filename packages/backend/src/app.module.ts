@@ -47,7 +47,7 @@ const applicationModules = [
     RequestContextModule,
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
-    CacheModule.register(),
+    CacheModule.register({ isGlobal: true }),
     BaseModule,
     ...applicationModules,
   ],

@@ -75,7 +75,7 @@ const commonProviders = [
   imports: commonImports,
   controllers: [ProductController],
   providers: commonProviders,
-  exports: [ProductCreationService, ProductUpdateService],
+  exports: [ProductCreationService, ProductUpdateService, IPIMClient],
 })
 export class ProductModule {}
 
