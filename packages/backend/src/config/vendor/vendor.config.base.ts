@@ -464,8 +464,8 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'bicipedia',
     type: VendorType.WOO_COMMERCE,
     apiUrl: 'https://www.bicipedia.it/wp-json/wc/v3',
-    apiKey: vendorSecrets.bernaudeauApiKey,
-    apiSecret: vendorSecrets.bernaudeauApiSecret,
+    apiKey: vendorSecrets.bicipediaApiKey,
+    apiSecret: vendorSecrets.bicipediaApiSecret,
     catalog: {},
   },
   bbbike: {
