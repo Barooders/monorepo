@@ -1,4 +1,5 @@
 import envConfig from '@config/env/env.config';
+import { ScrapflyCatalogConfig } from '@config/vendor/types';
 import {
   PrismaStoreClient,
   ProductStatus,
@@ -25,9 +26,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
   ) {}
 
   async getProductsToUpdate(): Promise<ProductWithReferenceUrl[]> {
-    const collectionHandle =
-      this.vendorConfigService.getVendorConfig().catalog.scrapfly
-        ?.productCollectionHandle;
+    const collectionHandle = this.getConfig().productCollectionHandle;
 
     if (!collectionHandle) {
       throw new Error('No collection handle found in config');
@@ -97,8 +96,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
     }
 
     const mapReferenceUrl =
-      this.vendorConfigService.getVendorConfig().catalog.scrapfly
-        ?.mapReferenceUrl || ((url: string) => url);
+      this.getConfig().mapReferenceUrl || ((url: string) => url);
     const scrappedUrl = mapReferenceUrl(referenceUrl);
 
     const scrappingUrl = new URL('https://api.scrapfly.io/scrape');
@@ -131,8 +129,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
       return;
     }
 
-    const isAvailableMethod =
-      this.vendorConfigService.getVendorConfig().catalog.scrapfly?.isAvailable;
+    const isAvailableMethod = this.getConfig().isAvailable;
 
     const isAvailable = isAvailableMethod ? isAvailableMethod(content) : true;
 
@@ -149,5 +146,15 @@ export class ScrapflyProductService implements ProVendorStrategy {
     this.logger.warn(
       `Product ${internalProductId} is still available for sale`,
     );
+  }
+
+  private getConfig(): ScrapflyCatalogConfig {
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+
+    if (!('scrapfly' in catalog)) {
+      throw new Error('Config is not a Scrapfly config');
+    }
+
+    return catalog.scrapfly;
   }
 }

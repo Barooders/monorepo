@@ -117,7 +117,7 @@ interface PrestashopCatalogConfig {
   externalLanguageId?: string;
 }
 
-interface WooCommerceCatalogConfig {
+export interface WooCommerceCatalogConfig {
   allProductsPathOverride?: string;
   mapSingleVariant?: boolean;
   stringifySingleItemArray?: boolean;
@@ -175,7 +175,7 @@ interface CSVCatalogConfig {
   };
 }
 
-interface ScrapflyCatalogConfig {
+export interface ScrapflyCatalogConfig {
   productCollectionHandle?: string;
   isAvailable?: (apiContent: string) => boolean;
   mapReferenceUrl?: (url: string) => string;

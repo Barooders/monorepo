@@ -81,15 +81,14 @@ export class CSVClient {
     text: string,
     productId?: string,
   ): Promise<CSVProduct[]> {
-    const csvColumnsConfig =
-      this.vendorConfigService.getVendorConfig().catalog.csv?.columns;
-
-    if (!csvColumnsConfig) {
-      throw new Error('CSV columns config not found');
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+    if (!('csv' in catalog)) {
+      throw new Error('Config is not a CSV config');
     }
 
-    const textTransformer =
-      this.vendorConfigService.getVendorConfig().catalog.csv?.textTransformer;
+    const csvColumnsConfig = catalog.csv.columns;
+    const textTransformer = catalog.csv.textTransformer;
+
     const textToParse = textTransformer ? textTransformer(text) : text;
 
     const extractedRows = await extractRowsFromCSVRawText(textToParse, {

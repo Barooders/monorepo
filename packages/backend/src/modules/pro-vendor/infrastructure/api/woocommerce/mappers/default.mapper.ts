@@ -1,5 +1,6 @@
 import { envName } from '@config/env/env.config';
 import { Environments } from '@config/env/types';
+import { WooCommerceCatalogConfig } from '@config/vendor/types';
 import { Condition } from '@libs/domain/prisma.main.client';
 import { mapCondition } from '@libs/domain/product.interface';
 import { CONDITION_TAG_KEY, DISABLED_VARIANT_OPTION } from '@libs/domain/types';
@@ -45,10 +46,7 @@ export class WooCommerceDefaultMapper {
       metadata,
     );
     const stringifyArray = (array: string[]) => {
-      if (
-        this.vendorConfigService.getVendorConfig().catalog.wooCommerce
-          ?.stringifySingleItemArray
-      )
+      if (this.getConfig()?.stringifySingleItemArray)
         return jsonStringify(array);
 
       return array.length === 1 ? array[0] : jsonStringify(array);
@@ -167,14 +165,21 @@ export class WooCommerceDefaultMapper {
   async getVariants(
     wooCommerceProduct: WooCommerceProduct,
   ): Promise<SyncProduct['variants']> {
-    if (
-      this.vendorConfigService.getVendorConfig().catalog.wooCommerce
-        ?.mapSingleVariant
-    ) {
+    if (this.getConfig()?.mapSingleVariant) {
       return this.getSingleVariant(wooCommerceProduct);
     }
 
     return this.getMultipleVariants(wooCommerceProduct);
+  }
+
+  private getConfig(): WooCommerceCatalogConfig | undefined {
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+
+    if (!('wooCommerce' in catalog)) {
+      throw new Error('Config is not a WooCommerce config');
+    }
+
+    return catalog.wooCommerce;
   }
 
   private getSingleVariant({

@@ -237,9 +237,13 @@ export class PrestashopDefaultMapper {
   private getSingleValue = (value: string | TranslatedValue[]) => {
     if (!Array.isArray(value)) return value;
 
-    const languageId =
-      this.vendorConfigService.getVendorConfig().catalog.prestashop
-        ?.externalLanguageId;
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+
+    if (!('prestashop' in catalog)) {
+      throw new Error('Config is not a Prestashop config');
+    }
+
+    const languageId = catalog.prestashop?.externalLanguageId;
 
     if (!languageId) return value[0].value;
 

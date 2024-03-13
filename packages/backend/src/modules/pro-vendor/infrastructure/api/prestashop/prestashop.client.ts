@@ -282,9 +282,12 @@ export class PrestashopClient {
     offset: number,
     itemsPerPage: number,
   ): Promise<ProductDTO[]> {
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+    if (!('prestashop' in catalog)) {
+      throw new Error('Config is not a Prestashop config');
+    }
     const categoriesToFilterInFetch =
-      this.vendorConfigService.getVendorConfig().catalog.prestashop
-        ?.categoriesToFilterInFetch;
+      catalog.prestashop?.categoriesToFilterInFetch;
     const queryParams = {
       output_format: 'JSON',
       ws_key: this.vendorConfigService.getVendorConfig().apiKey ?? 'NO_API_KEY',

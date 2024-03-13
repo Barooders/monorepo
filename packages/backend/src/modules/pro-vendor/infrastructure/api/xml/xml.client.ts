@@ -66,10 +66,15 @@ export class XMLClient {
     text: string,
     productId?: string,
   ): Promise<XMLProduct[]> {
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+
+    if (!('xml' in catalog)) {
+      throw new Error('Config is not a XML config');
+    }
+
     const $ = load(text, { xmlMode: true });
 
-    const xmlFieldsConfig =
-      this.vendorConfigService.getVendorConfig().catalog.xml?.fields;
+    const xmlFieldsConfig = catalog.xml.fields;
 
     if (!xmlFieldsConfig) {
       throw new Error('XML fields config not found');

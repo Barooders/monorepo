@@ -37,9 +37,14 @@ export class WooCommerceClient {
     itemsPerPage: number,
     sinceDate?: Date,
   ): Promise<WooCommerceProduct[]> {
+    const { catalog } = this.vendorConfigService.getVendorConfig();
+
+    if (!('wooCommerce' in catalog)) {
+      throw new Error('Config is not a WooCommerce config');
+    }
+
     const allProductsPath =
-      this.vendorConfigService.getVendorConfig().catalog.wooCommerce
-        ?.allProductsPathOverride ?? PRODUCTS_PATH;
+      catalog.wooCommerce?.allProductsPathOverride ?? PRODUCTS_PATH;
 
     const endpoint = this.getUrl(allProductsPath, {
       page: page.toString(),
