@@ -21,16 +21,6 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    title: 'WHEELY100',
-    label: 'Wheely',
-    type: 'dynamic',
-  },
-  {
-    title: 'TREK30',
-    label: 'Trek',
-    type: 'dynamic',
-  },
-  {
     title: 'RENOBYKE50',
     label: 'Renobyke',
     type: 'dynamic',
@@ -50,5 +40,15 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     endsAt: dayjs('2024-03-11').toDate(),
     value: null,
     hideReduction: true,
+  },
+  {
+    title: 'TUBIKE40',
+    label: 'Tubike',
+    type: 'dynamic',
+  },
+  {
+    title: 'SPECIALIZED30',
+    label: 'Vélos et VTT Specialized',
+    type: 'dynamic',
   },
 ];
