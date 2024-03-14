@@ -1,5 +1,9 @@
 import { Url } from '@/types';
-import { gtag, sendNewConversationConversion } from './google';
+import {
+  gtag,
+  sendNewConversationConversion,
+  sendNewPriceOfferConversion,
+} from './google';
 import { trackEvent } from './klaviyo';
 import { init as initMixpanel, sendEvent } from './mixpanel';
 
@@ -84,4 +88,5 @@ export const sendPriceOffer = (
 ) => {
   gtag('event', 'sendPriceOffer', { customerId, variantId, productId });
   sendEvent('sendPriceOffer', { customerId, variantId, productId });
+  sendNewPriceOfferConversion();
 };

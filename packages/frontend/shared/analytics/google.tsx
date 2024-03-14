@@ -11,3 +11,9 @@ export const sendNewConversationConversion = () => {
     send_to: `${config.gtag.id}/${config.gtag.conversionLabels.newConversation}`,
   });
 };
+
+export const sendNewPriceOfferConversion = () => {
+  gtag('event', 'conversion', {
+    send_to: `${config.gtag.id}/${config.gtag.conversionLabels.newPriceOffer}`,
+  });
+};

@@ -16,6 +16,7 @@ const developmentEnv = {
       submitPaymentInfo: '1yI-CLuOh7gYEJiV5PQp',
       finishCheckout: 'NuA-CPjg_bcYEJiV5PQp',
       newConversation: '',
+      newPriceOffer: '',
     },
   },
 };

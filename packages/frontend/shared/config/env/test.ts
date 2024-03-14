@@ -16,6 +16,7 @@ const testEnv = {
       submitPaymentInfo: '',
       finishCheckout: '',
       newConversation: '',
+      newPriceOffer: '',
     },
   },
 };
