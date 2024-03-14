@@ -21,16 +21,6 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    title: 'RENOBYKE50',
-    label: 'Renobyke',
-    type: 'dynamic',
-  },
-  {
-    title: 'KALKHOFF30',
-    label: 'Kalkhoff',
-    type: 'dynamic',
-  },
-  {
     title: 'AGPPRO',
     label: 'Vente privée',
     type: 'static',
@@ -49,6 +39,11 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   {
     title: 'SPECIALIZED30',
     label: 'Vélos et VTT Specialized',
+    type: 'dynamic',
+  },
+  {
+    title: 'GRAVEL20',
+    label: 'Gravel',
     type: 'dynamic',
   },
 ];
