@@ -16,14 +16,14 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: 'Marque de la semaine - TREK - jusqu’à -50%',
+    label: 'Marque de la semaine - Specialized - jusqu’à -50%',
     icon: '🚴‍♀️',
-    link: 'https://barooders.com/collections/trek',
+    link: '/collections/specialized-bikes',
   },
   {
-    label: '️Vendeur de la semaine - Wheely - jusqu’à -60%',
+    label: '️Vendeur de la semaine - Tubike - jusqu’à -60%',
     icon: '⭐️',
-    link: 'https://barooders.com/collections/wheely',
+    link: '/collections/promo-tubike',
   },
 ];
 
