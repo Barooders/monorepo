@@ -64,6 +64,7 @@ export type SynchronizedProVendor =
   | 'loewi'
   | 'manufaktur'
   | 'matkite'
+  | 'elite_bikes'
   | 'bike_xtreme'
   | 'mbspro'
   | 'mint_bikes'

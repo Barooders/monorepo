@@ -8,6 +8,7 @@ export type VendorSecretsType = {
   alpinstoreApiUrl: string;
   alpinstoreApiKey: string;
   matkiteApiKey: string;
+  eliteBikesApiKey: string;
   bikeXtremeApiKey: string;
   millaBikesApiKey: string;
   veloEmotionApiKey: string;

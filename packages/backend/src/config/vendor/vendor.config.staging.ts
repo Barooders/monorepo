@@ -109,6 +109,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   bikef: DEFAULT_CONFIG,
   techni_cycles: DEFAULT_CONFIG,
   matkite: DEFAULT_CONFIG,
+  elite_bikes: DEFAULT_CONFIG,
   velo_emotion: DEFAULT_CONFIG,
   hbe_shopify: DEFAULT_CONFIG,
   elettronic: DEFAULT_CONFIG,
