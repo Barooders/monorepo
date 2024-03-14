@@ -85,6 +85,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   club_in_sport: DEFAULT_CONFIG,
   bikef: DEFAULT_CONFIG,
   matkite: DEFAULT_CONFIG,
+  elite_bikes: DEFAULT_CONFIG,
   bike_xtreme: DEFAULT_CONFIG,
   hbe_shopify: DEFAULT_CONFIG,
   elettronic: DEFAULT_CONFIG,
