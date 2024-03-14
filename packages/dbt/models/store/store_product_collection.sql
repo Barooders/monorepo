@@ -65,7 +65,8 @@ SELECT
 	CURRENT_DATE AS "syncDate"
 FROM
 	expanded_collections ec
-	JOIN products p ON ((ec.rule_field = 'brand'
+	JOIN products p ON (
+			(ec.rule_field = 'brand'
 				AND ec.rule_operator = 'equals'
 				AND p.brand = ec.rule_value)
 			OR(ec.rule_field = 'gender'
@@ -97,7 +98,11 @@ FROM
 				AND p.cheapest_variant_price < ec.rule_value::float)
 			OR(ec.rule_field = 'variant_price'
 				AND ec.rule_operator = 'more_than'
-				AND p.most_expensive_variant_price > ec.rule_value::float))
+				AND p.most_expensive_variant_price > ec.rule_value::float)
+			OR(ec.rule_field = 'id'
+				AND ec.rule_operator = 'in'
+				AND p.id = any(string_to_array(ec.rule_value, ',')))
+		)
 	GROUP BY
 		ec.collection_id,
 		ec.operator,
