@@ -26,7 +26,12 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/*.test.ts', '**/*.spec.ts', '**/*.e2e-spec.ts'],
+        devDependencies: [
+          '**/*.test.ts',
+          '**/*.spec.ts',
+          '**/*.e2e-spec.ts',
+          'jest.config.ts',
+        ],
       },
     ],
     '@typescript-eslint/interface-name-prefix': 'off',

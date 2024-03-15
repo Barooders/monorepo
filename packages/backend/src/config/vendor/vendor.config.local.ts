@@ -1,4 +1,4 @@
-import { DEFAULT_USER } from 'prisma/seed';
+import { DEFAULT_USER } from '../../../prisma/constants';
 import { EnvVendorsConfig, UNUSED_VENDOR_ID } from './types';
 
 const DEFAULT_CONFIG = {

@@ -19,6 +19,7 @@ const config: Config = {
         '@config/(.*)': ['<rootDir>/src/config/$1'],
         '@libs/(.*)': ['<rootDir>/src/libs/$1'],
         '@modules/(.*)': ['<rootDir>/src/modules/$1'],
+        '@generated/(.*)': ['<rootDir>/src/__generated/$1'],
         '@tests/(.*)': ['<rootDir>/tests/$1'],
       },
       rootDir: '.',
