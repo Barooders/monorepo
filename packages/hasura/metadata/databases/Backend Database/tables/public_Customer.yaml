@@ -101,7 +101,6 @@ select_permissions:
         - createdAt
         - description
         - firstName
-        - phoneNumber
         - isPro
         - lastName
         - profilePictureShopifyCdnUrl
@@ -125,7 +124,6 @@ select_permissions:
         - firstName
         - isPro
         - lastName
-        - phoneNumber
         - profilePictureShopifyCdnUrl
         - sellerName
         - shipmentTimeframe
@@ -164,7 +162,6 @@ select_permissions:
         - firstName
         - isPro
         - lastName
-        - phoneNumber
         - profilePictureShopifyCdnUrl
         - sellerName
         - shipmentTimeframe
@@ -182,7 +179,6 @@ update_permissions:
         - description
         - firstName
         - lastName
-        - phoneNumber
         - profilePictureShopifyCdnUrl
         - sellerName
       filter:
