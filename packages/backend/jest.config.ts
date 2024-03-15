@@ -1,4 +1,10 @@
+import { config as dotenvConfig } from 'dotenv';
 import { Config } from 'jest';
+
+dotenvConfig({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+});
+
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
