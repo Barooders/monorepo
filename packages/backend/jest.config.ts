@@ -21,6 +21,7 @@ const config: Config = {
         '@modules/(.*)': ['<rootDir>/src/modules/$1'],
         '@generated/(.*)': ['<rootDir>/src/__generated/$1'],
         '@tests/(.*)': ['<rootDir>/tests/$1'],
+        'prisma/(.*)': ['<rootDir>/prisma/$1'],
       },
       rootDir: '.',
       testEnvironment: 'node',
