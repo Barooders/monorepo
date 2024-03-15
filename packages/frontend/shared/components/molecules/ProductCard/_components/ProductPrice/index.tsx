@@ -114,23 +114,25 @@ const ProductPrice: React.FC<{
         />
       </div>
 
-      {hasDiscount && (
+      {(hasDiscount || discountDeadline) && (
         <div
           className={`flex items-center gap-2 ${
             componentSize === 'large' ? 'py-2' : ''
           }`}
         >
-          <div
-            className={`font-semibold tracking-tighter text-red-600 ${
-              componentSize === 'large'
-                ? 'text-2xl lg:text-3xl'
-                : componentSize === 'medium'
-                  ? 'text-base lg:text-xl'
-                  : 'text-sm lg:text-base'
-            }`}
-          >
-            {formatCurrency(discountedPrice, { round: true })}€
-          </div>
+          {!!hasDiscount && (
+            <div
+              className={`font-semibold tracking-tighter text-red-600 ${
+                componentSize === 'large'
+                  ? 'text-2xl lg:text-3xl'
+                  : componentSize === 'medium'
+                    ? 'text-base lg:text-xl'
+                    : 'text-sm lg:text-base'
+              }`}
+            >
+              {formatCurrency(discountedPrice, { round: true })}€
+            </div>
+          )}
           {!!discountDeadline && <Timer endDate={discountDeadline} />}
         </div>
       )}
