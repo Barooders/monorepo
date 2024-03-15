@@ -6,22 +6,27 @@ import { useHasura } from './useHasura';
 
 const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql`
   mutation updateCustomerInfo(
-    $userId: uuid
+    $userId: uuid!
     $lastName: String!
     $firstName: String!
     $sellerName: String!
     $phoneNumber: String!
   ) {
-    update_Customer(
-      where: { authUserId: { _eq: $userId } }
+    update_Customer_by_pk(
+      pk_columns: { authUserId: $userId }
       _set: {
         firstName: $firstName
         lastName: $lastName
         sellerName: $sellerName
-        phoneNumber: $phoneNumber
       }
     ) {
-      affected_rows
+      authUserId
+    }
+    updateUser(
+      _set: { phoneNumber: $phoneNumber }
+      pk_columns: { id: $userId }
+    ) {
+      id
     }
   }
 `;
@@ -40,16 +45,8 @@ const LIGHT_SIGNUP_AUTH_MUTATION = gql`
 const useLightSignup = () => {
   const { loginWithToken } = useAuth();
   const { hasuraToken } = useUser.getState();
-  const updateCustomer = useHasura<{
-    update_Customer_by_pk: {
-      affected_rows: number;
-    };
-  }>(LIGHT_SIGNUP_CUSTOMER_MUTATION);
-  const updateAuthUser = useHasura<{
-    updateUsers: {
-      affected_rows: number;
-    };
-  }>(LIGHT_SIGNUP_AUTH_MUTATION);
+  const updateCustomer = useHasura(LIGHT_SIGNUP_CUSTOMER_MUTATION);
+  const updateAuthUser = useHasura(LIGHT_SIGNUP_AUTH_MUTATION);
 
   return useWrappedAsyncFn(
     async (variables: {

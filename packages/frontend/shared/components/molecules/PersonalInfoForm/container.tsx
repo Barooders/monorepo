@@ -18,7 +18,9 @@ const GET_VENDOR_NEGOCIATION_AGREEMENT = gql`
       maxAmountPercent
     }
     Customer(where: { authUserId: { _eq: $vendorId } }) {
-      phoneNumber
+      user {
+        phoneNumber
+      }
     }
   }
 `;
@@ -42,7 +44,7 @@ const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
 
   const negociationAgreement = first(initState.value?.NegociationAgreement);
   const openToNegociation = !!negociationAgreement?.id;
-  const phoneNumber = first(initState.value?.Customer)?.phoneNumber;
+  const phoneNumber = first(initState.value?.Customer)?.user?.phoneNumber;
 
   return !initState.value || initState.loading ? (
     <Loader />
