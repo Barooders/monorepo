@@ -1,4 +1,4 @@
-import { Customer, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Injectable } from '@nestjs/common';
 import { IStoreRepository } from './ports/store.repository';
@@ -11,13 +11,13 @@ export class CustomerService {
     protected readonly prisma: PrismaMainClient,
   ) {}
 
-  async updateUserInfo(userId: UUID, { phoneNumber }: Partial<Customer>) {
+  async updateUserInfo(userId: UUID, { phoneNumber }: { phoneNumber: string }) {
     const concreteUpdates = {
-      ...(phoneNumber && { phoneNumber }),
+      ...(phoneNumber && { phone_number: phoneNumber }),
     };
 
-    await this.prisma.customer.update({
-      where: { authUserId: userId.uuid },
+    await this.prisma.users.update({
+      where: { id: userId.uuid },
       data: concreteUpdates,
     });
     return;
@@ -39,7 +39,6 @@ export class CustomerService {
         lastName: user.lastName,
         sellerName: user.userName,
         authUserId: user.id,
-        phoneNumber: user.phone,
         profilePictureShopifyCdnUrl: user.profilePictureUrl,
         negociationAgreements: {
           create: {
