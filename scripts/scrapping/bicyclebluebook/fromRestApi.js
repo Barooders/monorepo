@@ -11,16 +11,6 @@ const downloadImageFromUrl = async (url, dest) => {
   fs.writeFileSync(dest, buffer);
 };
 
-const getYears = async (brand, family) => {
-  const data = await fetch(
-    `${baseUrl}?brandId=&brandName=${brand}&familyName=${family}`,
-  );
-  const body = await data.json();
-  const years = body.years.map((year) => year.id);
-
-  return years;
-};
-
 const getBikeForYear = async ({ brand, family, year }) => {
   const data = await fetch(
     `${baseUrl}?brandId=&brandName=${brand}&familyName=${family}&yearId=${year}`,
@@ -39,19 +29,6 @@ const getBikeForYear = async ({ brand, family, year }) => {
   return bikes;
 };
 
-async function getBikesForBrandFamily(brand, family) {
-  const years = await getYears(brand, family);
-  const bikes = (
-    await Promise.all(
-      years.map(async (year) => {
-        const bikes = await getBikeForYear({ brand, family, year });
-        return bikes;
-      }),
-    )
-  ).flatMap((bikes) => bikes);
-  return bikes;
-}
-
 async function getBikesForBrandFamilyWithYear(brand, family) {
   const result = [];
   for (const year of family.years) {
@@ -63,9 +40,9 @@ async function getBikesForBrandFamilyWithYear(brand, family) {
   return result.flatMap((bikes) => bikes);
 }
 
-const getFamilies = async (brandId) => {
+const getFamilies = async (brand) => {
   const data = await fetch(
-    `https://api.bicyclebluebook.com/vg/api/model/families?brandId=${brandId}`,
+    `https://api.bicyclebluebook.com/vg/api/model/families?brandName=${brand}`,
   );
   const body = await data.json();
   const families = body.map((family) => ({
@@ -76,33 +53,56 @@ const getFamilies = async (brandId) => {
   return families;
 };
 
+const cacheFamily = async (root, brand) => {
+  const brandDataDirectory = `${root}/data/${brand}`;
+  if (!fs.existsSync(brandDataDirectory)) {
+    fs.mkdirSync(brandDataDirectory);
+  }
+
+  if (fs.existsSync(`${brandDataDirectory}/families.json`)) {
+    return require(`${brandDataDirectory}/families.json`);
+  }
+
+  console.log('Retrieve families...');
+  const families = await getFamilies(brand);
+
+  fs.writeFileSync(
+    `${brandDataDirectory}/families.json`,
+    JSON.stringify(families),
+  );
+
+  return families;
+};
+
+const cacheBikes = async (root, brand) => {
+  const brandDataDirectory = `${root}/data/${brand}`;
+  if (!fs.existsSync(brandDataDirectory)) {
+    fs.mkdirSync(brandDataDirectory);
+  }
+
+  if (fs.existsSync(`${brandDataDirectory}/bikes.json`)) {
+    return require(`${brandDataDirectory}/bikes.json`);
+  }
+
+  const families = await cacheFamily(root, brand);
+
+  console.log('Retrieve bikes for families...');
+  const bikes = [];
+  for (const family of families) {
+    const familyBikes = await getBikesForBrandFamilyWithYear(brand, family);
+    bikes.push(familyBikes);
+  }
+
+  fs.writeFileSync(`${brandDataDirectory}/bikes.json`, JSON.stringify(bikes));
+
+  return bikes;
+};
+
 const run = async () => {
   const root = path.resolve(__dirname, '..');
 
-  const brand = 'Specialized';
-  const brandId = 741;
-  // const family = '1FG';
-
-  // const families = await getFamilies(brandId);
-
-  // const brandDataDirectory = `${root}/data/${brand}`;
-  // if (!fs.existsSync(brandDataDirectory)) {
-  //   fs.mkdirSync(brandDataDirectory);
-  // }
-  // fs.writeFileSync(
-  //   `${brandDataDirectory}/families.json`,
-  //   JSON.stringify(families),
-  // );
-
-  // console.log(families);
-
-  // const bikes = [];
-  // for (const family of families) {
-  //   const familyBikes = await getBikesForBrandFamilyWithYear(brand, family);
-  //   bikes.push(familyBikes);
-  // }
-  // fs.writeFileSync(`${brandDataDirectory}/bikes.json`, JSON.stringify(bikes));
-  const bikes = require(root + '/data/Specialized/bikes.json');
+  const brand = 'Cannondale';
+  const bikes = await cacheBikes(root, brand);
 
   const brandDirectory = `${root}/images/${brand}`;
   if (!fs.existsSync(brandDirectory)) {
@@ -113,7 +113,7 @@ const run = async () => {
     .flatMap((b) => b)
     .filter((bike) => bike.imageSrc != null)
     .forEach(async ({ name, family, year, imageSrc }) => {
-      const familyDirectory = `${brandDirectory}/${family}`;
+      const familyDirectory = `${brandDirectory}/${family.replace(/\//g, '__')}`;
       if (!fs.existsSync(familyDirectory)) {
         fs.mkdirSync(familyDirectory);
       }
@@ -122,8 +122,12 @@ const run = async () => {
         fs.mkdirSync(yearDirectory);
       }
 
-      const extension = imageSrc.split('.').pop();
-      const dest = `${yearDirectory}/${name}.${extension}`;
+      let extension = imageSrc.split('.').pop();
+      if (!['jpeg', 'jpg', 'png', 'webp'].includes(extension.toLowerCase())) {
+        console.log(`Unknown extension for ${name} - ${extension}`);
+        return;
+      }
+      const dest = `${yearDirectory}/${name.replace(/\//g, '__')}.${extension}`;
       try {
         await downloadImageFromUrl(imageSrc, dest);
       } catch (e) {
