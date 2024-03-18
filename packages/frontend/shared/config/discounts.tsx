@@ -27,7 +27,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     collections: ['dea8bd50-7334-4943-ba1c-4f4863bdefbc'],
     valueType: 'custom',
     description: "Vélo disponible jusqu'au 18/03",
-    endsAt: dayjs('2024-03-18').toDate(),
+    endsAt: dayjs('2024-03-18T20:00:00').toDate(),
     value: null,
     hideReduction: true,
   },
