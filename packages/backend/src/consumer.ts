@@ -13,7 +13,9 @@ initClients();
 
 const bootstrap = async () => {
   try {
-    const app = await NestFactory.create(ConsumerModule, {});
+    const app = await NestFactory.create(ConsumerModule, {
+      abortOnError: false,
+    });
 
     initSentry(SentryContext.CONSUMER);
     app.useLogger(app.get(LoggerService));
@@ -22,11 +24,17 @@ const bootstrap = async () => {
 
     await app.listen(process.env.PORT || 3000);
   } catch (e) {
+    const parsedError = e as { message?: string };
+    const errorMessage = parsedError?.message ?? 'Unknown error';
     await sendSlackMessage(
       envConfig.externalServices.slack.errorSlackChannelId,
-      'Global error occured in consumer, stopping process',
+      `💥 Global error occured in consumer:
+
+${errorMessage}`,
     );
-    throw e;
+    // eslint-disable-next-line no-console
+    console.error(e);
+    process.exit(1);
   }
 };
 

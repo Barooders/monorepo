@@ -13,6 +13,7 @@ initClients();
 const bootstraper = new BootstrapConsole({
   module: ConsoleModule,
   useDecorators: true,
+  contextOptions: { abortOnError: false },
 });
 
 const bootstrap = async () => {
@@ -28,15 +29,16 @@ const bootstrap = async () => {
     await bootstraper.boot();
     await app.close();
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
+    const parsedError = e as { message?: string };
+    const errorMessage = parsedError?.message ?? 'Unknown error';
     await sendSlackMessage(
       envConfig.externalServices.slack.errorSlackChannelId,
-      'Global error occured in console, stopping process',
+      `💥 Global error occured in console :
+
+${errorMessage}`,
     );
-
-    if (app) await app.close();
-
+    // eslint-disable-next-line no-console
+    console.error(e);
     process.exit(1);
   }
 };
