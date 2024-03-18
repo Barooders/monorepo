@@ -5,6 +5,7 @@ import {
   EventName,
   PrismaMainClient,
   ProductStatus,
+  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import {
   Image,
@@ -28,9 +29,9 @@ import { IStoreClient } from './ports/store.client';
 import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
+import { jsonStringify } from '@libs/helpers/json';
 import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
-import { jsonStringify } from '@libs/helpers/json';
 
 export class DraftProductInputDto {
   @IsOptional()
@@ -147,6 +148,11 @@ export class ProductCreationService {
               priceInCents: variant.price ? toCents(variant.price) : 0,
               condition: variant.condition,
             })),
+          },
+        },
+        productSalesChannels: {
+          create: {
+            salesChannelName: SalesChannelName.PUBLIC,
           },
         },
       },
