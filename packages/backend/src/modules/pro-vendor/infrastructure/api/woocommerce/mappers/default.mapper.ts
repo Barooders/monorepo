@@ -132,7 +132,7 @@ export class WooCommerceDefaultMapper {
 
   computeProductConditionTagFromCategories(
     { categories }: WooCommerceProduct,
-    hint: string,
+    hints: string[],
     usedCondition?: Condition,
   ): Condition {
     const categoryName = categories
@@ -140,7 +140,7 @@ export class WooCommerceDefaultMapper {
       .join(' - ')
       .toLowerCase();
 
-    if (categoryName.includes(hint))
+    if (hints.some((hint) => categoryName.includes(hint)))
       return usedCondition ?? Condition.VERY_GOOD;
 
     return Condition.AS_NEW;

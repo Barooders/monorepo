@@ -9,9 +9,9 @@ export class LeHollandaisMapper extends WooCommerceDefaultMapper {
     wooCommerceProduct: WooCommerceProduct,
     _tags: string[],
   ): Condition {
-    return this.computeProductConditionTagFromCategories(
-      wooCommerceProduct,
+    return this.computeProductConditionTagFromCategories(wooCommerceProduct, [
       'recondition',
-    );
+      'occasion',
+    ]);
   }
 }

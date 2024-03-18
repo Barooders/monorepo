@@ -9,9 +9,8 @@ export class MoulinAVelosMapper extends WooCommerceDefaultMapper {
     wooCommerceProduct: WooCommerceProduct,
     _tags: string[],
   ): Condition {
-    return this.computeProductConditionTagFromCategories(
-      wooCommerceProduct,
+    return this.computeProductConditionTagFromCategories(wooCommerceProduct, [
       'occasion',
-    );
+    ]);
   }
 }
