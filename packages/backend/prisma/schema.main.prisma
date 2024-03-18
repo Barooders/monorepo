@@ -239,7 +239,6 @@ model Customer {
   firstName                   String?
   lastName                    String?
   sellerName                  String?
-  phoneNumber                 String?
   profilePictureShopifyCdnUrl String?
   coverPictureShopifyCdnUrl   String?
   description                 String?

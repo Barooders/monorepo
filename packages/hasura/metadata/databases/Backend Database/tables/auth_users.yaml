@@ -130,6 +130,14 @@ array_relationships:
           name: user_providers
           schema: auth
 select_permissions:
+  - role: me_as_vendor
+    permission:
+      columns:
+        - phone_number
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    comment: ""
   - role: public
     permission:
       columns:
@@ -168,6 +176,7 @@ update_permissions:
     permission:
       columns:
         - display_name
+        - phone_number
       filter:
         id:
           _eq: X-Hasura-User-Id

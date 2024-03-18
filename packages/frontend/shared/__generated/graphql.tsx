@@ -29781,7 +29781,10 @@ export type FetchNegociationAgreementQuery = {
     id: string;
     maxAmountPercent: number;
   }>;
-  Customer: Array<{ __typename?: 'Customer'; phoneNumber: string | null }>;
+  Customer: Array<{
+    __typename?: 'Customer';
+    user: { __typename?: 'users'; phoneNumber: string | null } | null;
+  }>;
 };
 
 export type OpenedPriceOfferProductPageSubscriptionVariables = Exact<{
@@ -30457,7 +30460,7 @@ export type RemoveFavoriteProductsMutation = {
 };
 
 export type UpdateCustomerInfoMutationVariables = Exact<{
-  userId: InputMaybe<Scalars['uuid']>;
+  userId: Scalars['uuid'];
   lastName: Scalars['String'];
   firstName: Scalars['String'];
   sellerName: Scalars['String'];
@@ -30466,10 +30469,8 @@ export type UpdateCustomerInfoMutationVariables = Exact<{
 
 export type UpdateCustomerInfoMutation = {
   __typename?: 'mutation_root';
-  update_Customer: {
-    __typename?: 'Customer_mutation_response';
-    affected_rows: number;
-  } | null;
+  update_Customer_by_pk: { __typename?: 'Customer'; authUserId: any } | null;
+  updateUser: { __typename?: 'users'; id: any } | null;
 };
 
 export type UpdateDisplayNameMutationVariables = Exact<{
