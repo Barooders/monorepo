@@ -2,11 +2,9 @@ import { BrandFilterAction } from '@config/vendor/types';
 import { Variant } from '@libs/domain/product.interface';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { ITranslator } from '@modules/pro-vendor/domain/ports/translator';
-import {
-  BIKE_PRODUCT_TYPES,
-  SyncProduct,
-} from '@modules/pro-vendor/domain/ports/types';
+import { SyncProduct } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
+import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
 import { head } from 'lodash';
 import { SkippedProductException } from '../exception/skipped-product.exception';
@@ -23,6 +21,7 @@ export class ProductMapper {
     private tagService: TagService,
     private translator: ITranslator,
     private readonly vendorConfigService: IVendorConfigService,
+    private readonly pimClient: IPIMClient,
   ) {}
 
   async applyGenericRulesOnMappedProduct(
@@ -117,10 +116,8 @@ export class ProductMapper {
       );
     }
 
-    if (
-      BIKE_PRODUCT_TYPES.includes(mappedProduct.product_type.toLowerCase()) &&
-      !mappedTagsObject.genre
-    ) {
+    const isBike = await this.pimClient.isBike(mappedProduct.product_type);
+    if (isBike && !mappedTagsObject.genre) {
       tags.push('genre:Mixte');
     }
 
@@ -154,7 +151,7 @@ export class ProductMapper {
     if (
       catalogFeatures?.shouldIgnoreCheapBikesBelow150 === true &&
       mappedProduct.variants.some((variant) => Number(variant.price) < 150) &&
-      BIKE_PRODUCT_TYPES.includes(mappedProduct.product_type.toLowerCase())
+      isBike
     ) {
       throw new SkippedProductException(
         mappedProduct.external_id,

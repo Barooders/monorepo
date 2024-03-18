@@ -46,18 +46,6 @@ export type SkippedProduct = {
   reason: string;
 };
 
-export const BIKE_PRODUCT_TYPES = [
-  'vtc électriques',
-  'vélo de route',
-  'vélos de ville',
-  'vtt',
-  'vtt électriques',
-  'gravel',
-  'bmx',
-  'vtc',
-  'vélos vintage',
-];
-
 export interface FulfillmentOrderToSyncOnVendor {
   vendorId: string;
   orderId: string;

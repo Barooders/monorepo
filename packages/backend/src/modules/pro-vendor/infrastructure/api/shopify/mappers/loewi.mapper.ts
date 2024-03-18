@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IMetafield, IProduct } from 'shopify-api-node';
 import {
-  mapMetafieldToBlockList,
   ShopifyDefaultMapper,
+  mapMetafieldToBlockList,
 } from './default.mapper';
 
 @Injectable()
@@ -23,12 +23,12 @@ export class LoewiMapper extends ShopifyDefaultMapper {
     return [...defaultTags, `marque:${shopifyProduct.vendor}`];
   }
 
-  getDescription(
+  async getDescription(
     _shopifyProduct: IProduct,
     productMetafields: IMetafield[],
     _productType: string | null,
     _mappedTags: (string | null)[],
-  ): string {
+  ): Promise<string> {
     return [
       mapMetafieldToBlockList(
         productMetafields,

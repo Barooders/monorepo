@@ -1,7 +1,4 @@
-import {
-  BIKE_PRODUCT_TYPES,
-  SyncProduct,
-} from '@modules/pro-vendor/domain/ports/types';
+import { SyncProduct } from '@modules/pro-vendor/domain/ports/types';
 import { Injectable } from '@nestjs/common';
 import { ProductDTO } from '../dto/prestashop-product.dto';
 import { PrestashopDefaultMapper } from './default.mapper';
@@ -11,11 +8,13 @@ export class TribiciMapper extends PrestashopDefaultMapper {
   async map(product: ProductDTO): Promise<SyncProduct | null> {
     const mappedProduct = await super.map(product);
 
-    if (
+    const isNotABike =
       !mappedProduct ||
-      !BIKE_PRODUCT_TYPES.includes(mappedProduct.product_type.toLowerCase())
-    )
+      !(await this.pimClient.isBike(mappedProduct.product_type));
+
+    if (isNotABike) {
       return mappedProduct;
+    }
 
     return {
       ...mappedProduct,

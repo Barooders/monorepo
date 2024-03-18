@@ -4,7 +4,6 @@ import {
 } from '@config/vendor/constants';
 import { Condition } from '@libs/domain/prisma.main.client';
 import { SkippedProductException } from '@modules/pro-vendor/domain/exception/skipped-product.exception';
-import { BIKE_PRODUCT_TYPES } from '@modules/pro-vendor/domain/ports/types';
 import { Injectable } from '@nestjs/common';
 import { nth } from 'lodash';
 import { IMetafield, IProduct } from 'shopify-api-node';
@@ -32,12 +31,12 @@ export class TNCMapper extends ShopifyDefaultMapper {
     ].join(' - ');
   }
 
-  getDescription(
+  async getDescription(
     shopifyProduct: IProduct,
     _productMetafields: IMetafield[],
     productType: string | null,
-  ): string {
-    if (productType && BIKE_PRODUCT_TYPES.includes(productType.toLowerCase()))
+  ): Promise<string> {
+    if (productType && (await this.pimClient.isBike(productType)))
       return shopifyProduct.body_html;
 
     const noteBlock = shopifyProduct.body_html.match(
