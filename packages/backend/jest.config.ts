@@ -1,4 +1,10 @@
+import { config as dotenvConfig } from 'dotenv';
 import { Config } from 'jest';
+
+dotenvConfig({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+});
+
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
@@ -19,7 +25,9 @@ const config: Config = {
         '@config/(.*)': ['<rootDir>/src/config/$1'],
         '@libs/(.*)': ['<rootDir>/src/libs/$1'],
         '@modules/(.*)': ['<rootDir>/src/modules/$1'],
+        '@generated/(.*)': ['<rootDir>/src/__generated/$1'],
         '@tests/(.*)': ['<rootDir>/tests/$1'],
+        'prisma/(.*)': ['<rootDir>/prisma/$1'],
       },
       rootDir: '.',
       testEnvironment: 'node',

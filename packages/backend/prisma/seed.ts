@@ -1,6 +1,5 @@
 import { PrismaClient } from '@libs/domain/prisma.main.client';
-
-export const DEFAULT_USER = 'a2c381be-84ec-4b6c-b819-410988bd3ae8';
+import { DEFAULT_USER } from './constants';
 
 const prisma = new PrismaClient();
 async function main() {
