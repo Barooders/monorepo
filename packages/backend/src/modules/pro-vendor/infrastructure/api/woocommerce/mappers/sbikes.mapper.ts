@@ -30,7 +30,7 @@ export class SBikesMapper extends WooCommerceDefaultMapper {
   ): Condition {
     return this.computeProductConditionTagFromCategories(
       wooCommerceProduct,
-      'tweedehands',
+      ['tweedehands'],
       Condition.GOOD,
     );
   }
