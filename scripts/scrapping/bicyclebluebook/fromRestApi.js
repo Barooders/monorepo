@@ -1,10 +1,7 @@
-const fs = require('node:fs');
-const path = require('path');
 const fetch = require('node-fetch');
-const { readdirSync } = require('fs');
+const AWS = require('aws-sdk');
 
 const baseUrl = 'https://api.bicyclebluebook.com/vg/api/brand/year/model';
-const root = path.resolve(__dirname, '..');
 
 const BRAND_IDs = {
   Specialized: 741,
@@ -12,28 +9,67 @@ const BRAND_IDs = {
   Giant: 683,
 };
 
+const s3 = new AWS.S3({
+  apiVersion: '2006-03-01',
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+const BUCKET_NAME = 'barooders-s3-bucket';
+const PATH_PREFIX = 'private/bicyclebluebook';
+
+const uploadFile = (fileName, content) => {
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: `${fileName}`,
+    Body: content,
+  };
+
+  s3.upload(params, function (err, data) {
+    if (err) {
+      throw err;
+    }
+    console.log(`File uploaded successfully. ${data.Location}`);
+  });
+};
+
+const doesFileExist = async (fileName) => {
+  try {
+    await s3.headObject({ Bucket: BUCKET_NAME, Key: fileName }).promise();
+    return true;
+  } catch (err) {
+    if (err.code === 'NotFound') {
+      return false;
+    }
+    throw err;
+  }
+};
+
+const getObjectContent = async (fileName) => {
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: `${PATH_PREFIX}/${fileName}`,
+  };
+
+  const body = await s3.getObject(params).promise();
+
+  return JSON.parse(body.Body.toString('utf-8'));
+};
+
 const downloadImageFromUrl = async (url, dest) => {
   const response = await fetch(url);
   const buffer = await response.buffer();
 
-  fs.writeFileSync(dest, buffer);
+  uploadFile(dest, buffer);
 };
 
 const getBikeForYear = async ({ brand, family, year }) => {
-  const root = path.resolve(__dirname, '..');
-
-  const brandDataDirectory = `${root}/data/${escape(brand)}`;
-  createDirectoryIfNotExists(brandDataDirectory);
-
+  const brandDataDirectory = `${PATH_PREFIX}/data/${escape(brand)}`;
   const familiesDataDirectory = `${brandDataDirectory}/${escape(family)}`;
-  createDirectoryIfNotExists(familiesDataDirectory);
-
   const yearDirectory = `${familiesDataDirectory}/${year}`;
-  createDirectoryIfNotExists(yearDirectory);
 
   const fileName = `${yearDirectory}/simple-bikes.json`;
-  if (fs.existsSync(fileName)) {
-    return require(fileName);
+  if (await doesFileExist(fileName)) {
+    return getObjectContent(fileName);
   }
 
   const data = await fetch(
@@ -52,7 +88,7 @@ const getBikeForYear = async ({ brand, family, year }) => {
       imageSrc: bike.bicycleImageDefault,
     }));
 
-  fs.writeFileSync(fileName, JSON.stringify(bikes));
+  uploadFile(fileName, JSON.stringify(bikes));
   return bikes;
 };
 
@@ -86,38 +122,28 @@ const getFamilies = async (brand) => {
   return families;
 };
 
-const cacheFamily = async (root, brand) => {
-  const brandDataDirectory = `${root}/data/${brand}`;
-  if (!fs.existsSync(brandDataDirectory)) {
-    fs.mkdirSync(brandDataDirectory);
-  }
+const cacheFamily = async (brand) => {
+  const brandDataDirectory = `${PATH_PREFIX}/data/${brand}`;
 
-  if (fs.existsSync(`${brandDataDirectory}/families.json`)) {
-    return require(`${brandDataDirectory}/families.json`);
+  if (await doesFileExist(`${brandDataDirectory}/families.json`)) {
+    return getObjectContent(`${brandDataDirectory}/families.json`);
   }
 
   console.log('Retrieve families...');
   const families = await getFamilies(brand);
 
-  fs.writeFileSync(
-    `${brandDataDirectory}/families.json`,
-    JSON.stringify(families),
-  );
+  uploadFile(`${brandDataDirectory}/families.json`, JSON.stringify(families));
 
   return families;
 };
 
-const cacheBikes = async (root, brand) => {
-  const brandDataDirectory = `${root}/data/${brand}`;
-  if (!fs.existsSync(brandDataDirectory)) {
-    fs.mkdirSync(brandDataDirectory);
+const cacheBikes = async (brand) => {
+  const brandDataDirectory = `${PATH_PREFIX}/data/${brand}`;
+  if (await doesFileExist(`${brandDataDirectory}/bikes.json`)) {
+    return getObjectContent(`${brandDataDirectory}/bikes.json`);
   }
 
-  if (fs.existsSync(`${brandDataDirectory}/bikes.json`)) {
-    return require(`${brandDataDirectory}/bikes.json`);
-  }
-
-  const families = await cacheFamily(root, brand);
+  const families = await cacheFamily(brand);
 
   console.log('Retrieve bikes for families...');
   const bikes = [];
@@ -126,8 +152,7 @@ const cacheBikes = async (root, brand) => {
     bikes.push(familyBikes);
   }
 
-  fs.writeFileSync(`${brandDataDirectory}/bikes.json`, JSON.stringify(bikes));
-
+  uploadFile(`${brandDataDirectory}/bikes.json`, JSON.stringify(bikes));
   return bikes;
 };
 
@@ -142,53 +167,33 @@ const additionalInfo = async (bike, brand) => {
   };
 };
 
-const cacheAdditionalInfo = async (root, brand, bike) => {
-  const brandDataDirectory = `${root}/data/${escape(brand)}`;
-  createDirectoryIfNotExists(brandDataDirectory);
-
+const cacheAdditionalInfo = async (brand, bike) => {
+  const brandDataDirectory = `${PATH_PREFIX}/data/${escape(brand)}`;
   const familiesDataDirectory = `${brandDataDirectory}/${escape(bike.family)}`;
-  createDirectoryIfNotExists(familiesDataDirectory);
-
   const yearDirectory = `${familiesDataDirectory}/${bike.year}`;
-  createDirectoryIfNotExists(yearDirectory);
 
   const fileName = `${yearDirectory}/${escape(bike.name)}.json`;
-  if (fs.existsSync(fileName)) {
-    return require(fileName);
+  if (await doesFileExist(fileName)) {
+    return getObjectContent(fileName);
   }
 
   console.log(`Retrieve info on product ${bike.name}...`);
   const more = await additionalInfo(bike, brand);
 
-  fs.writeFileSync(fileName, JSON.stringify(more));
-
+  uploadFile(fileName, JSON.stringify(more));
   return more;
 };
 
-const createDirectoryIfNotExists = (path) => {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path);
-  }
-};
 const escape = (str) => str.replace(/\//g, '__');
 
-function getImages(root, brand, bikes) {
-  const brandDirectory = `${root}/images/${brand}`;
-  if (!fs.existsSync(brandDirectory)) {
-    fs.mkdirSync(brandDirectory);
-  }
+function getImages(brand, bikes) {
+  const brandDirectory = `${PATH_PREFIX}/images/${brand}`;
 
   bikes
     .filter((bike) => bike.imageSrc != null)
     .forEach(async ({ name, family, year, imageSrc }) => {
       const familyDirectory = `${brandDirectory}/${escape(family)}`;
-      if (!fs.existsSync(familyDirectory)) {
-        fs.mkdirSync(familyDirectory);
-      }
       const yearDirectory = `${familyDirectory}/${year}`;
-      if (!fs.existsSync(yearDirectory)) {
-        fs.mkdirSync(yearDirectory);
-      }
 
       let extension = imageSrc.split('.').pop();
       if (!['jpeg', 'jpg', 'png', 'webp'].includes(extension.toLowerCase())) {
@@ -204,85 +209,21 @@ function getImages(root, brand, bikes) {
     });
 }
 
-const getDirectories = (source) =>
-  readdirSync(source, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-
-const getFiles = (source) =>
-  readdirSync(source, { withFileTypes: true })
-    .filter((dirent) => dirent.isFile())
-    .map((dirent) => dirent.name);
-
-const clear = () => {
-  const brandDirectory = `${root}/data/Giant`;
-
-  getDirectories(brandDirectory).forEach((family) => {
-    const familyDirectory = `${brandDirectory}/${family}`;
-    getDirectories(familyDirectory).forEach((year) => {
-      const yearDirectory = `${familyDirectory}/${year}`;
-      const simpleBikes = require(`${yearDirectory}/simple-bikes.json`);
-
-      if (simpleBikes.length === 0) {
-        console.log(`Undefined simple-bikes.json in ${yearDirectory}`);
-        return;
-      }
-
-      if (simpleBikes[0].modelId == null) {
-        // Delete file
-        console.log(`Deleting ${yearDirectory}/simple-bikes.json`);
-        fs.unlinkSync(`${yearDirectory}/${file}`);
-      }
-      getFiles(yearDirectory)
-        .filter((file) => file !== 'simple-bikes.json')
-        .forEach((file) => {
-          const data = require(`${yearDirectory}/${file}`);
-          if (data.errorCode != null) {
-            // Delete file
-            console.log(`Deleting ${yearDirectory}/${file}`);
-            fs.unlinkSync(`${yearDirectory}/${file}`);
-          }
-        });
-    });
-  });
-};
-
 const run = async () => {
   const brand = 'Giant';
-  const simpleBikes = (await cacheBikes(root, brand)).flatMap((b) => b);
+  const simpleBikes = (await cacheBikes(brand)).flatMap((b) => b);
 
   const bikes = [];
   for (const bike of simpleBikes) {
     try {
-      bikes.push(await cacheAdditionalInfo(root, brand, bike));
+      bikes.push(await cacheAdditionalInfo(brand, bike));
     } catch (e) {
       console.error(`Failed to cache additional info for ${bike.name} - ${e}`);
     }
   }
 
   console.log('Downloading images...');
-  getImages(root, brand, bikes);
+  getImages(brand, bikes);
 };
 
 run();
-
-const check = () => {
-//   const brandDirectory = `${root}/data/Giant`;
-
-//   getDirectories(brandDirectory).forEach((family) => {
-//     const familyDirectory = `${brandDirectory}/${family}`;
-//     getDirectories(familyDirectory).forEach((year) => {
-//       const yearDirectory = `${familyDirectory}/${year}`;
-//       getFiles(yearDirectory)
-//         .filter((file) => file !== 'simple-bikes.json')
-//         .forEach((file) => {
-//           const data = require(`${yearDirectory}/${file}`);
-//           if (data.components == null) {
-//             console.log(`wrong ${yearDirectory}/${file}`);
-//           }
-//         });
-//     });
-//   });
-// };
-
-// clear();
