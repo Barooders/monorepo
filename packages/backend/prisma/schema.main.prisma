@@ -359,21 +359,22 @@ model NegociationAgreement {
 //  ============================
 
 model Product {
-  id             String           @id @default(dbgenerated("(gen_random_uuid())::text"))
-  createdAt      DateTime         @default(now())
-  vendorId       String           @db.Uuid
-  shopifyId      BigInt           @unique
-  status         ProductStatus
-  manualNotation ProductNotation?
-  handle         String?          @unique
-  productType    String?
-  EANCode        String?
-  GTINCode       String?
-  source         String?
-  sourceUrl      String?
-  vendor         Customer         @relation(fields: [vendorId], references: [authUserId])
-  variants       ProductVariant[]
-  PriceOffer     PriceOffer[]
+  id                   String                @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt            DateTime              @default(now())
+  vendorId             String                @db.Uuid
+  shopifyId            BigInt                @unique
+  status               ProductStatus
+  manualNotation       ProductNotation?
+  handle               String?               @unique
+  productType          String?
+  EANCode              String?
+  GTINCode             String?
+  source               String?
+  sourceUrl            String?
+  vendor               Customer              @relation(fields: [vendorId], references: [authUserId])
+  variants             ProductVariant[]
+  priceOffers          PriceOffer[]
+  productSalesChannels ProductSalesChannel[]
 
   @@schema("public")
 }
@@ -387,7 +388,7 @@ model ProductVariant {
   priceInCents BigInt?
   condition    Condition?
   product      Product      @relation(fields: [productId], references: [id])
-  PriceOffer   PriceOffer[]
+  priceOffers  PriceOffer[]
 
   @@schema("public")
 }
@@ -545,6 +546,24 @@ model Collection {
   childCollections   Collection[]    @relation("parentCollection")
   savedSearches      SavedSearch[]
 
+  @@schema("public")
+}
+
+model SalesChannel {
+  name                 SalesChannelName      @id
+  productSalesChannels ProductSalesChannel[]
+
+  @@schema("public")
+}
+
+model ProductSalesChannel {
+  salesChannelName SalesChannelName
+  salesChannel     SalesChannel     @relation(fields: [salesChannelName], references: [name])
+  productId        String
+  product          Product          @relation(fields: [productId], references: [id])
+  createdAt        DateTime         @default(now())
+
+  @@id([salesChannelName, productId])
   @@schema("public")
 }
 
@@ -857,6 +876,13 @@ enum ShippingSolution {
   VENDOR
   GEODIS
   SENDCLOUD
+
+  @@schema("public")
+}
+
+enum SalesChannelName {
+  PUBLIC
+  B2B
 
   @@schema("public")
 }
