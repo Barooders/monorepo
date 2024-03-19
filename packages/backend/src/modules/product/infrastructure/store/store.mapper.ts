@@ -21,12 +21,14 @@ import {
 } from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { VariantToIndexWithTarget } from '@modules/product/domain/indexation.service';
-import { VariantToIndex } from '@modules/product/domain/ports/variant-to-index.type';
+import { PublicVariantToIndex } from '@modules/product/domain/ports/variant-to-index.type';
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { meanBy } from 'lodash';
 
-const getHighestDiscount = (variants: VariantToIndex['variant'][]): number => {
+const getHighestDiscount = (
+  variants: PublicVariantToIndex['variant'][],
+): number => {
   return variants.reduce((acc: number, { compareAtPrice, price }) => {
     if (!compareAtPrice || !price || compareAtPrice.amount < price.amount) {
       return acc;
@@ -156,7 +158,7 @@ export class StoreMapper {
     baseProductVariants: (StoreBaseProductVariant & {
       exposedProductVariant: StoreExposedProductVariant | null;
     })[],
-  ): VariantToIndex['variant'][] {
+  ): PublicVariantToIndex['variant'][] {
     return baseProductVariants
       .map((baseProductVariant) => {
         const variant = baseProductVariant.exposedProductVariant;

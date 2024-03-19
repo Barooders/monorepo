@@ -9,7 +9,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CollectionToIndex } from './ports/collection-to-index.type';
 import { IndexationStrategy } from './ports/indexation.strategy';
 import { ISearchClient } from './ports/search-client';
-import { VariantToIndex } from './ports/variant-to-index.type';
+import { PublicVariantToIndex } from './ports/variant-to-index.type';
 
 const mapBikeSize = (size: string) => {
   const matchOneOf = (values: string[]) =>
@@ -151,7 +151,7 @@ export class PublicIndexationService implements IndexationStrategy {
     variant,
     product,
     vendor,
-  }: VariantToIndex): Promise<void> {
+  }: PublicVariantToIndex): Promise<void> {
     try {
       if (!product.isActive) {
         this.logger.debug(

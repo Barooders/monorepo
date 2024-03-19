@@ -1,26 +1,29 @@
 import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { jsonStringify } from '@libs/helpers/json';
-import { Injectable, Logger } from '@nestjs/common';
-import { VariantToIndex } from './ports/variant-to-index.type';
+import { Injectable } from '@nestjs/common';
+import { B2BIndexationService } from './b2b-indexation.service';
+import {
+  B2BVariantToIndex,
+  PublicVariantToIndex,
+} from './ports/variant-to-index.type';
 import { PublicIndexationService } from './public-indexation.service';
 
 export type VariantToIndexWithTarget =
   | {
       target: typeof SalesChannelName.PUBLIC;
-      data: VariantToIndex;
+      data: PublicVariantToIndex;
     }
   | {
       target: typeof SalesChannelName.B2B;
-      data: { id: string };
+      data: B2BVariantToIndex;
     };
 
 @Injectable()
 export class IndexationService {
-  private readonly logger = new Logger(IndexationService.name);
-
   constructor(
     private publicIndexationService: PublicIndexationService,
+    private b2bIndexationService: B2BIndexationService,
     private storePrisma: PrismaStoreClient,
   ) {}
 
@@ -30,7 +33,7 @@ export class IndexationService {
         case SalesChannelName.PUBLIC:
           return this.publicIndexationService.indexVariant(variantToIndex.data);
         case SalesChannelName.B2B:
-          throw new Error('Not implemented');
+          return this.b2bIndexationService.indexVariant(variantToIndex.data);
         default:
           throw new Error(`Unknown target: ${jsonStringify(variantToIndex)}`);
       }

@@ -28,6 +28,7 @@ import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
+import { B2BIndexationService } from './domain/b2b-indexation.service';
 
 const commonImports = [
   PrismaModule,
@@ -43,6 +44,7 @@ const commonProviders = [
   PostgreSQLSessionStorage,
   CustomerRepository,
   PublicIndexationService,
+  B2BIndexationService,
   IndexationService,
   StoreMapper,
   {

@@ -11,7 +11,7 @@ import {
 } from '@libs/domain/value-objects';
 import { ProductType } from '../value-objects/product-type.value-object';
 
-export interface VariantToIndex {
+export interface PublicVariantToIndex {
   variant: {
     shopifyId: ShopifyID;
     id?: UUID;
@@ -48,5 +48,28 @@ export interface VariantToIndex {
       count: number;
       averageRating?: number;
     };
+  };
+}
+
+export interface B2BVariantToIndex {
+  variant: {
+    shopifyId: ShopifyID;
+    id?: UUID;
+    updatedAt: ValueDate;
+    createdAt: ValueDate;
+    quantityAvailable?: Stock;
+    condition: Condition;
+    price: Amount;
+  };
+  product: {
+    shopifyId: ShopifyID;
+    id: UUID;
+    isActive: boolean;
+    imageSrc?: URL;
+    title: string;
+    handle: string;
+    publishedAt: ValueDate;
+    productType: ProductType;
+    tags: Tags;
   };
 }

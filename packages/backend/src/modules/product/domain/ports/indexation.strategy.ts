@@ -1,7 +1,7 @@
-import { VariantToIndex } from './variant-to-index.type';
+import { VariantToIndexWithTarget } from '../indexation.service';
 
 export interface IndexationStrategy {
-  indexVariant(variant: VariantToIndex): Promise<void>;
+  indexVariant(variant: VariantToIndexWithTarget['data']): Promise<void>;
   pruneVariants(
     existingVariantIds: string[],
     shouldDeleteDocuments?: boolean,

@@ -14,6 +14,7 @@ import { ISearchClient } from './domain/ports/search-client';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
+import { B2BIndexationService } from './domain/b2b-indexation.service';
 
 const commonImports = [
   SharedLoggerModule,
@@ -26,6 +27,7 @@ const commonImports = [
 
 const commonProviders = [
   PublicIndexationService,
+  B2BIndexationService,
   IndexationService,
   {
     provide: ISearchClient,
