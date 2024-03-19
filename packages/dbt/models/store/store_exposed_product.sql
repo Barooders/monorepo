@@ -41,6 +41,7 @@ SELECT
     ir."firstImage" AS "firstImage"
 
 FROM {{ref('store_base_product')}} bp
+LEFT JOIN public."ProductSalesChannel" psc ON bp.id = psc."productId"
 LEFT JOIN public."Product" p ON p.id = bp.id
 LEFT JOIN fivetran_shopify.product sp ON sp.id = bp."shopifyId"
 
@@ -56,3 +57,4 @@ WHERE
   sp.id IS NOT NULL
   AND COALESCE(p."productType",sp.product_type) IS NOT NULL
   AND sp.title IS NOT NULL
+  AND psc."salesChannelName"::TEXT='PUBLIC'

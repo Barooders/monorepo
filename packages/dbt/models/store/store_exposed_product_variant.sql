@@ -34,6 +34,7 @@ SELECT
 
 FROM {{ref('store_base_product_variant')}} bpv
 LEFT JOIN public."ProductVariant" ppv ON ppv.id = bpv.id
+LEFT JOIN public."ProductSalesChannel" psc ON ppv."productId" = psc."productId"
 LEFT JOIN public."Product" pp ON ppv."productId"=pp.id
 LEFT JOIN public."Customer" c ON pp."vendorId"=c."authUserId"
 LEFT JOIN fivetran_shopify.product_variant pv ON pv.id = bpv."shopify_id"
@@ -46,3 +47,4 @@ WHERE
   pv.inventory_quantity IS NOT NULL
   AND pv.price IS NOT NULL
   AND pv.updated_at IS NOT NULL
+  AND psc."salesChannelName"::TEXT='PUBLIC'

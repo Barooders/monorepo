@@ -27,8 +27,10 @@ FROM {{ref('store_base_product')}} bp
 LEFT JOIN public."Product" p ON p.id = bp.id
 LEFT JOIN fivetran_shopify.product sp ON sp.id = bp."shopifyId"
 LEFT JOIN images_ranked ir ON ir."productId" = bp.id AND ir.row_number = 1
+LEFT JOIN public."ProductSalesChannel" psc ON bp.id = psc."productId"
 
 WHERE
   sp.id IS NOT NULL
   AND COALESCE(p."productType",sp.product_type) IS NOT NULL
   AND sp.title IS NOT NULL
+  AND psc."salesChannelName"::TEXT='B2B'

@@ -15,8 +15,10 @@ SELECT
 FROM {{ref('store_base_product_variant')}} bpv
 LEFT JOIN public."ProductVariant" ppv ON ppv.id = bpv.id
 LEFT JOIN fivetran_shopify.product_variant pv ON pv.id = bpv."shopify_id"
+LEFT JOIN public."ProductSalesChannel" psc ON ppv."productId" = psc."productId"
 
 WHERE
   pv.inventory_quantity IS NOT NULL
   AND pv.price IS NOT NULL
   AND pv.updated_at IS NOT NULL
+  AND psc."salesChannelName"::TEXT='B2B'
