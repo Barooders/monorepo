@@ -1,4 +1,3 @@
-import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import {
   addFormattedBikeSizeToTags,
   getDiscountRange,
@@ -6,18 +5,22 @@ import {
 import { jsonParse, jsonStringify } from '@libs/helpers/json';
 import {
   TypesenseB2BVariantDocument,
+  TypesenseCollectionDocument,
   TypesensePublicVariantDocument,
   typesenseB2BVariantClient,
   typesenseCollectionClient,
   typesensePublicVariantClient,
 } from '@libs/infrastructure/typesense/typesense.base.client';
 import { CollectionToIndex } from '@modules/product/domain/ports/collection-to-index.type';
-import { ISearchClient } from '@modules/product/domain/ports/search-client';
+import {
+  DocumentToIndex,
+  DocumentType,
+  ExistingEntity,
+  ISearchClient,
+} from '@modules/product/domain/ports/search-client';
 import {
   B2BVariantToIndex,
-  ExistingVariant,
   PublicVariantToIndex,
-  VariantToIndexWithTarget,
 } from '@modules/product/domain/ports/variant-to-index.type';
 import { Logger } from '@nestjs/common';
 import { TypesenseError } from 'typesense/lib/Typesense/Errors';
@@ -25,8 +28,8 @@ import { TypesenseError } from 'typesense/lib/Typesense/Errors';
 const isTypesenseNotFoundError = (error: any) =>
   error instanceof TypesenseError && error.name === 'ObjectNotFound';
 
-const VARIANT_MAPPING = {
-  [SalesChannelName.PUBLIC]: {
+const DOCUMENT_CONFIG = {
+  [DocumentType.PUBLIC_VARIANT]: {
     client: typesensePublicVariantClient,
     map: ({
       variant,
@@ -82,7 +85,7 @@ const VARIANT_MAPPING = {
       createdat_timestamp: variant.createdAt.timestamp,
     }),
   },
-  [SalesChannelName.B2B]: {
+  [DocumentType.B2B_VARIANT]: {
     client: typesenseB2BVariantClient,
     map: ({
       variant,
@@ -106,139 +109,16 @@ const VARIANT_MAPPING = {
       createdat_timestamp: variant.createdAt.timestamp,
     }),
   },
-};
-
-export class SearchClient implements ISearchClient {
-  private readonly logger = new Logger(SearchClient.name);
-
-  async indexVariantDocument({
-    target,
-    data,
-  }: VariantToIndexWithTarget): Promise<void> {
-    try {
-      switch (target) {
-        case SalesChannelName.PUBLIC:
-          const publicMapping = VARIANT_MAPPING[target];
-          await publicMapping.client
-            .documents()
-            .upsert(publicMapping.map(data));
-          break;
-        case SalesChannelName.B2B:
-          const b2bMapping = VARIANT_MAPPING[target];
-          await b2bMapping.client.documents().upsert(b2bMapping.map(data));
-          break;
-        default:
-          throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
-      }
-    } catch (e: any) {
-      this.logger.error(
-        `Error while indexing variant: ${jsonStringify({ target, data })}`,
-        e,
-      );
-    }
-  }
-
-  async deleteVariantDocument({
-    target,
-    data,
-  }: VariantToIndexWithTarget): Promise<void> {
-    await this.deleteVariantDocumentByTarget(
-      data.variant.shopifyId.id.toString(),
-      target,
-    );
-  }
-
-  async pruneVariantDocuments(
-    existingVariants: ExistingVariant[],
-    shouldDeleteDocuments: boolean,
-  ): Promise<void> {
-    await this.pruneVariantDocumentsByTarget(
-      existingVariants,
-      SalesChannelName.PUBLIC,
-      shouldDeleteDocuments,
-    );
-
-    await this.pruneVariantDocumentsByTarget(
-      existingVariants,
-      SalesChannelName.B2B,
-      shouldDeleteDocuments,
-    );
-  }
-
-  private async pruneVariantDocumentsByTarget(
-    existingVariants: ExistingVariant[],
-    target: SalesChannelName,
-    shouldDeleteDocuments: boolean,
-  ): Promise<void> {
-    const filteredExistingVariants = existingVariants
-      .filter(({ target: variantTarget }) => variantTarget === target)
-      .map(({ shopifyId }) => shopifyId.id.toString());
-
-    this.logger.warn(
-      `Found ${filteredExistingVariants.length} stored variants`,
-    );
-
-    const variantDocumentsIds = await this.listVariantDocumentIds(target);
-
-    this.logger.warn(`Found ${variantDocumentsIds.length} indexed variants`);
-    const variantIdsToDelete = variantDocumentsIds.filter(
-      (variantId) => !filteredExistingVariants.includes(variantId),
-    );
-
-    this.logger.warn(`Found ${variantIdsToDelete.length} variants to delete`);
-
-    if (!shouldDeleteDocuments) {
-      this.logger.warn(`No documents were deleted, use --apply to delete them`);
-      return;
-    }
-    await Promise.allSettled(
-      variantIdsToDelete.map((variantId) =>
-        this.deleteVariantDocumentByTarget(variantId, target),
-      ),
-    );
-  }
-
-  private async deleteVariantDocumentByTarget(
-    documentId: string,
-    target: SalesChannelName,
-  ): Promise<void> {
-    try {
-      await VARIANT_MAPPING[target].client.documents().delete(documentId);
-    } catch (e: any) {
-      if (isTypesenseNotFoundError(e)) {
-        this.logger.debug(
-          `Public Variant ${documentId} is already not part of index`,
-        );
-        return;
-      }
-      this.logger.error(`Error while deleting variant ${documentId}`, e);
-    }
-  }
-
-  private async listVariantDocumentIds(
-    target: SalesChannelName,
-  ): Promise<string[]> {
-    const documentsJsonL = await VARIANT_MAPPING[target].client
-      .documents()
-      .export({
-        include_fields: 'id',
-      });
-    const parsedDocumentIds = jsonParse(
-      `[${documentsJsonL.replace(/\n/g, ',')}]`,
-    ) as { id: string }[];
-
-    return parsedDocumentIds.map(({ id }) => id);
-  }
-
-  async indexCollectionDocument({
-    id,
-    title,
-    handle,
-    productCount,
-    updatedAt,
-    imageSrc,
-  }: CollectionToIndex): Promise<void> {
-    const collectionDocument = {
+  [DocumentType.COLLECTION]: {
+    client: typesenseCollectionClient,
+    map: ({
+      id,
+      title,
+      handle,
+      productCount,
+      updatedAt,
+      imageSrc,
+    }: CollectionToIndex): TypesenseCollectionDocument => ({
       id: id.id.toString(),
       collectionId: id.id.toString(),
       title: title,
@@ -246,36 +126,131 @@ export class SearchClient implements ISearchClient {
       product_count: productCount.stock,
       updatedat_timestamp: updatedAt.timestamp,
       image: imageSrc?.url,
-    };
+    }),
+  },
+};
 
+export class SearchClient implements ISearchClient {
+  private readonly logger = new Logger(SearchClient.name);
+
+  async indexDocument({ documentType, data }: DocumentToIndex): Promise<void> {
     try {
-      await typesenseCollectionClient.documents().upsert(collectionDocument);
+      switch (documentType) {
+        case DocumentType.PUBLIC_VARIANT:
+          const publicConfig = DOCUMENT_CONFIG[documentType];
+          await publicConfig.client.documents().upsert(publicConfig.map(data));
+          break;
+        case DocumentType.B2B_VARIANT:
+          const b2bConfig = DOCUMENT_CONFIG[documentType];
+          await b2bConfig.client.documents().upsert(b2bConfig.map(data));
+          break;
+        case DocumentType.COLLECTION:
+          const collectionConfig = DOCUMENT_CONFIG[documentType];
+          await collectionConfig.client
+            .documents()
+            .upsert(collectionConfig.map(data));
+          break;
+        default:
+          throw new Error(
+            `Unknown document type: ${jsonStringify({ documentType, data })}`,
+          );
+      }
     } catch (e: any) {
       this.logger.error(
-        `Error while indexing collection: ${jsonStringify(collectionDocument)}`,
+        `Error while indexing: ${jsonStringify({ documentType, data })}`,
         e,
       );
     }
   }
 
-  async deleteCollectionDocument(documentId: string): Promise<void> {
+  async deleteDocument(
+    documentId: string,
+    documentType: DocumentType,
+  ): Promise<void> {
     try {
-      await typesenseCollectionClient.documents().delete(documentId);
+      await DOCUMENT_CONFIG[documentType].client.documents().delete(documentId);
     } catch (e: any) {
       if (isTypesenseNotFoundError(e)) {
         this.logger.debug(
-          `Collection ${documentId} is already not part of index`,
+          `Document ${documentId} is already not part of index`,
         );
         return;
       }
-      this.logger.error(`Error while deleting collection ${documentId}`, e);
+      this.logger.error(`Error while deleting document ${documentId}`, e);
     }
   }
 
-  async listCollectionDocumentIds(): Promise<string[]> {
-    const documentsJsonL = await typesenseCollectionClient.documents().export({
-      include_fields: 'id',
-    });
+  async pruneDocuments(
+    existingEntities: ExistingEntity[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
+    await this.pruneDocumentsByType(
+      existingEntities,
+      DocumentType.PUBLIC_VARIANT,
+      shouldDeleteDocuments,
+    );
+
+    await this.pruneDocumentsByType(
+      existingEntities,
+      DocumentType.B2B_VARIANT,
+      shouldDeleteDocuments,
+    );
+
+    await this.pruneDocumentsByType(
+      existingEntities,
+      DocumentType.COLLECTION,
+      shouldDeleteDocuments,
+    );
+  }
+
+  private async pruneDocumentsByType(
+    existingEntities: ExistingEntity[],
+    documentType: DocumentType,
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
+    const filteredExistingEntities = existingEntities
+      .filter(
+        ({ documentType: existingItemType }) =>
+          existingItemType === documentType,
+      )
+      .map(({ id }) => id);
+
+    this.logger.warn(
+      `Found ${filteredExistingEntities.length} existing ${documentType} entities`,
+    );
+
+    const indexedDocumentIds = await this.listVariantDocumentIds(documentType);
+
+    this.logger.warn(
+      `Found ${indexedDocumentIds.length} indexed ${documentType} documents`,
+    );
+    const documentsToPrune = indexedDocumentIds.filter(
+      (documentId) => !filteredExistingEntities.includes(documentId),
+    );
+
+    this.logger.warn(
+      `Found ${documentsToPrune.length} ${documentType} documents to delete`,
+    );
+
+    if (!shouldDeleteDocuments) {
+      this.logger.warn(`No documents were deleted, use --apply to delete them`);
+      return;
+    }
+    await Promise.allSettled(
+      documentsToPrune.map((documentId) =>
+        this.deleteDocument(documentId, documentType),
+      ),
+    );
+  }
+
+  private async listVariantDocumentIds(
+    documentType: DocumentType,
+  ): Promise<string[]> {
+    const documentsJsonL = await DOCUMENT_CONFIG[documentType].client
+      .documents()
+      .export({
+        include_fields: 'id',
+      });
     const parsedDocumentIds = jsonParse(
       `[${documentsJsonL.replace(/\n/g, ',')}]`,
     ) as { id: string }[];

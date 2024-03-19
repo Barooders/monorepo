@@ -1,9 +1,27 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
-import { ShopifyID } from '@libs/domain/value-objects';
+import {
+  PrismaMainClient,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 import { Injectable, Logger } from '@nestjs/common';
-import { ISearchClient } from './ports/search-client';
+import {
+  DocumentToIndex,
+  DocumentType,
+  ISearchClient,
+} from './ports/search-client';
 import { VariantToIndexWithTarget } from './ports/variant-to-index.type';
 
+const getDocumentTypeFromSalesChannel = (
+  salesChannelName: SalesChannelName,
+) => {
+  switch (salesChannelName) {
+    case SalesChannelName.PUBLIC:
+      return DocumentType.PUBLIC_VARIANT;
+    case SalesChannelName.B2B:
+      return DocumentType.B2B_VARIANT;
+    default:
+      throw new Error(`Unknown sales channel ${salesChannelName}`);
+  }
+};
 @Injectable()
 export class VariantIndexationService {
   private readonly logger = new Logger(VariantIndexationService.name);
@@ -32,13 +50,13 @@ export class VariantIndexationService {
       },
     });
 
-    await this.searchClient.pruneVariantDocuments(
+    await this.searchClient.pruneDocuments(
       existingVariants
         .map((variant) => {
           return variant.product.productSalesChannels.map(
             ({ salesChannelName }) => ({
-              target: salesChannelName,
-              shopifyId: new ShopifyID({ id: Number(variant.shopifyId) }),
+              documentType: getDocumentTypeFromSalesChannel(salesChannelName),
+              id: variant.shopifyId.toString(),
             }),
           );
         })
@@ -54,15 +72,24 @@ export class VariantIndexationService {
       target,
       data: { variant, product },
     } = variantToIndex;
+    const documentType = getDocumentTypeFromSalesChannel(target);
+    const documentToIndex = {
+      documentType,
+      data: variantToIndex.data,
+    } as DocumentToIndex;
+
     try {
       if (!product.isActive) {
         this.logger.debug(
-          `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from ${target} index`,
+          `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from ${documentType} collection`,
         );
-        await this.searchClient.deleteVariantDocument(variantToIndex);
+        await this.searchClient.deleteDocument(
+          variant.shopifyId.id.toString(),
+          documentType,
+        );
         return;
       }
-      await this.searchClient.indexVariantDocument(variantToIndex);
+      await this.searchClient.indexDocument(documentToIndex);
     } catch (error: any) {
       this.logger.error(error.message, error);
     }

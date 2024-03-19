@@ -106,16 +106,8 @@ export class CollectionIndexationCLIConsole {
   }: {
     apply?: boolean;
   }): Promise<void> {
-    const existingCollectionIds =
-      await this.storePrisma.storeCollection.findMany({
-        select: {
-          shopifyId: true,
-        },
-      });
-
     await this.collectionIndexationService.pruneCollections(
-      existingCollectionIds.map(({ shopifyId }) => String(shopifyId)),
-      shouldDeleteDocuments,
+      shouldDeleteDocuments ?? false,
     );
   }
 
