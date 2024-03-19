@@ -37,6 +37,7 @@ import { TuvalumProductService } from '@modules/pro-vendor/infrastructure/api/tu
 import { TuvalumClient } from '@modules/pro-vendor/infrastructure/api/tuvalum/tuvalum.client';
 import { BikeFMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/bikef.mapper';
 import { WooCommerceDefaultMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/default.mapper';
+import { FastlapMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/fastlap.mapper';
 import { JBikesMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/j-bikes.mapper';
 import { MoulinAVelosMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/moulin-a-velos.mapper';
 import { RecocycleMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/recocycle.mapper';
@@ -55,6 +56,7 @@ import { CSVProductService } from './infrastructure/api/csv/csv-product.service'
 import { CSVClient } from './infrastructure/api/csv/csv.client';
 import { CSVMapper } from './infrastructure/api/csv/csv.mapper';
 import { BikeXtremeMapper } from './infrastructure/api/prestashop/mappers/bike-xtreme.mapper';
+import { FreeglisseMapper } from './infrastructure/api/prestashop/mappers/freeglisse.mapper';
 import { FunbikeMapper } from './infrastructure/api/prestashop/mappers/funbike.mapper';
 import { TribiciMapper } from './infrastructure/api/prestashop/mappers/tribici.mapper';
 import { Velosport34Mapper } from './infrastructure/api/prestashop/mappers/velosport34.mapper';
@@ -87,7 +89,6 @@ import { VendorConfigService } from './infrastructure/config/vendor-config.servi
 import { VendorOrderServiceProvider } from './infrastructure/config/vendor-order-service.provider';
 import { VendorProductServiceProvider } from './infrastructure/config/vendor-product-service.provider';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
-import { FreeglisseMapper } from './infrastructure/api/prestashop/mappers/freeglisse.mapper';
 
 export const proVendorSharedServices = [
   CustomerRepository,
@@ -162,6 +163,7 @@ export const proVendorSharedServices = [
   BernaudeauMapper,
   SBikesMapper,
   RecocycleMapper,
+  FastlapMapper,
   TagService,
   CategoryService,
   WooCommerceProductService,

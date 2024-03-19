@@ -13,6 +13,7 @@ import { BernaudeauMapper } from './mappers/bernaudeau.mapper';
 import { BikeFMapper } from './mappers/bikef.mapper';
 import { DazBikeMapper } from './mappers/daz-bike.mapper';
 import { WooCommerceDefaultMapper } from './mappers/default.mapper';
+import { FastlapMapper } from './mappers/fastlap.mapper';
 import { JBikesMapper } from './mappers/j-bikes.mapper';
 import { LeHollandaisMapper } from './mappers/le-hollandais.mapper';
 import { MontaniniMapper } from './mappers/montanini.mapper';
@@ -41,6 +42,7 @@ export class WooCommerceProductService implements ProVendorStrategy {
     private panameBicisMapper: PanameBicisMapper,
     private bernaudeauMapper: BernaudeauMapper,
     private recocycleMapper: RecocycleMapper,
+    private fastlapMapper: FastlapMapper,
     private readonly vendorConfigService: IVendorConfigService,
   ) {}
 
@@ -131,6 +133,8 @@ export class WooCommerceProductService implements ProVendorStrategy {
         return this.sBikesMapper;
       case 'recocycle':
         return this.recocycleMapper;
+      case 'fastlap':
+        return this.fastlapMapper;
       case 'bikef':
         return this.bikefMapper;
       case 'bernaudeau_woo':
