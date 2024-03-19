@@ -6,6 +6,7 @@ import {
   Condition,
   PrismaStoreClient,
   ProductStatus,
+  StoreB2BProductVariant,
   StoreBaseProductVariant,
   StoreExposedProductVariant,
 } from '@libs/domain/prisma.store.client';
@@ -140,7 +141,7 @@ export class StoreMapper {
         },
       });
 
-    const variants = this.mapVariants(baseProductVariants);
+    const variants = this.mapPublicVariants(baseProductVariants);
 
     const highestDiscount = getHighestDiscount(variants);
 
@@ -193,12 +194,66 @@ export class StoreMapper {
   }
 
   private async mapB2BVariantsToIndex(
-    _productId: UUID,
+    productId: UUID,
   ): Promise<B2BVariantToIndex[]> {
-    throw new Error('Not implemented');
+    const {
+      baseProductVariants,
+      shopifyId,
+      storeB2BProduct,
+      exposedProductTags,
+    } = await this.prismaStoreClient.storeBaseProduct.findUniqueOrThrow({
+      where: {
+        id: productId.uuid,
+      },
+      include: {
+        storeB2BProduct: true,
+        exposedProductTags: true,
+        baseProductVariants: {
+          include: {
+            storeB2BProductVariant: true,
+          },
+        },
+      },
+    });
+
+    if (!storeB2BProduct) {
+      this.logger.warn(
+        `Could not find detailed B2B product with id ${productId.uuid}`,
+      );
+      return [];
+    }
+
+    const variants = this.mapB2BVariants(baseProductVariants);
+
+    const product = {
+      shopifyId: new ShopifyID({ id: Number(shopifyId) }),
+      id: productId,
+      isActive:
+        storeB2BProduct.status === ProductStatus.ACTIVE &&
+        !!storeB2BProduct.publishedAt,
+      imageSrc: storeB2BProduct.firstImage
+        ? new URL({ url: storeB2BProduct.firstImage })
+        : undefined,
+      title: storeB2BProduct.title,
+      handle: storeB2BProduct.handle,
+      publishedAt: new ValueDate({
+        date: storeB2BProduct.publishedAt ?? new Date(),
+      }),
+      productType: new ProductType({
+        productType: storeB2BProduct.productType,
+      }),
+      tags: new Tags({
+        tags: getTagsObject(exposedProductTags.map(({ fullTag }) => fullTag)),
+      }),
+    };
+
+    return variants.map((variant) => ({
+      product,
+      variant,
+    }));
   }
 
-  private mapVariants(
+  private mapPublicVariants(
     baseProductVariants: (StoreBaseProductVariant & {
       exposedProductVariant: StoreExposedProductVariant | null;
     })[],
@@ -245,6 +300,55 @@ export class StoreMapper {
         } catch (error: any) {
           this.logger.error(
             `Could not map variant with id ${baseProductVariant.id} to index: ${error.message}`,
+            error,
+          );
+
+          return undefined;
+        }
+      })
+      .flatMap((vendorId) => (vendorId ? [vendorId] : []));
+  }
+
+  private mapB2BVariants(
+    baseProductVariants: (StoreBaseProductVariant & {
+      storeB2BProductVariant: StoreB2BProductVariant | null;
+    })[],
+  ): B2BVariantToIndex['variant'][] {
+    return baseProductVariants
+      .map((baseProductVariant) => {
+        const variant = baseProductVariant.storeB2BProductVariant;
+        if (!variant) {
+          this.logger.warn(
+            `Could not find detailed B2B product variant with id ${baseProductVariant.id}`,
+          );
+          return undefined;
+        }
+
+        try {
+          return {
+            shopifyId: new ShopifyID({
+              id: Number(baseProductVariant.shopifyId),
+            }),
+            id: baseProductVariant.id
+              ? new UUID({ uuid: baseProductVariant.id })
+              : undefined,
+            updatedAt: new ValueDate({
+              date: variant.updatedAt,
+            }),
+            createdAt: new ValueDate({
+              date: baseProductVariant.createdAt,
+            }),
+            quantityAvailable: variant.inventoryQuantity
+              ? new Stock({ stock: Number(variant.inventoryQuantity) })
+              : undefined,
+            price: new Amount({
+              amountInCents: Math.floor(variant.price * 100),
+            }),
+            condition: variant.condition ?? Condition.GOOD,
+          };
+        } catch (error: any) {
+          this.logger.error(
+            `Could not map B2B variant with id ${baseProductVariant.id} to index: ${error.message}`,
             error,
           );
 
