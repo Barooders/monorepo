@@ -34,7 +34,9 @@ export const parseUrl = (strapiUrl: string): string => {
 
   const url = new URL(strapiUrl);
 
-  return url.host === 'barooders.com' ? url.pathname : strapiUrl;
+  return url.host === 'barooders.com'
+    ? url.href.replace(url.origin, '')
+    : strapiUrl;
 };
 
 /**
