@@ -119,7 +119,7 @@ export const getDiscountRange = (discount: number): DiscountRange => {
   return range;
 };
 
-export type SearchVariantDocument = {
+export type SearchPublicVariantDocument = {
   variant_shopify_id: number;
   variant_internal_id?: string;
   title: string;
@@ -152,6 +152,24 @@ export type SearchVariantDocument = {
   compare_at_price: number;
   collection_internal_ids: string[];
   collection_handles: string[];
+  updatedat_timestamp: number;
+  createdat_timestamp: number;
+  publishedat_timestamp: number;
+};
+
+export type SearchB2BVariantDocument = {
+  variant_shopify_id: number;
+  variant_internal_id?: string;
+  title: string;
+  product_type: string;
+  condition: string;
+  handle: string;
+  inventory_quantity: number;
+  array_tags: Record<string, string[]>;
+  price: number;
+  product_shopify_id: number;
+  product_internal_id: string;
+  product_image?: string;
   updatedat_timestamp: number;
   createdat_timestamp: number;
   publishedat_timestamp: number;

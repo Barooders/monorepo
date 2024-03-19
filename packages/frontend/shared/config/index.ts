@@ -15,18 +15,18 @@ export const SNOWFALL_OVERLAY_ANCHOR = 'snowfall-overlay';
 export const MODAL_ROOT_ANCHOR = 'modal-root';
 export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';
 
-export const variantsCollection = `${config.search.mainSearchIndexPrefix}_products`;
+export const publicVariantsCollection = `${config.search.mainSearchIndexPrefix}_products`;
 
 export const searchIndexes = {
   products: {
-    main: `${variantsCollection}/sort/computed_scoring:desc`,
-    priceAsc: `${variantsCollection}/sort/price:asc`,
-    priceDesc: `${variantsCollection}/sort/price:desc`,
-    discountDesc: `${variantsCollection}/sort/discount:desc`,
-    dateDesc: `${variantsCollection}/sort/createdat_timestamp:desc`,
+    main: `${publicVariantsCollection}/sort/computed_scoring:desc`,
+    priceAsc: `${publicVariantsCollection}/sort/price:asc`,
+    priceDesc: `${publicVariantsCollection}/sort/price:desc`,
+    discountDesc: `${publicVariantsCollection}/sort/discount:desc`,
+    dateDesc: `${publicVariantsCollection}/sort/createdat_timestamp:desc`,
   },
   collections: `${config.search.mainSearchIndexPrefix}_collections`,
-  suggestions: `${variantsCollection}_query_suggestions`,
+  suggestions: `${publicVariantsCollection}_query_suggestions`,
 };
 
 export const SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET =
@@ -54,7 +54,7 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   },
   flattenGroupedHits: false,
   collectionSpecificSearchParameters: {
-    [variantsCollection]: {
+    [publicVariantsCollection]: {
       preset: SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
       group_by: 'product_internal_id',
       group_limit: 50,

@@ -157,12 +157,12 @@ export class PublicIndexationService implements IndexationStrategy {
         this.logger.debug(
           `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
         );
-        await this.searchClient.deleteVariantDocument(
+        await this.searchClient.deletePublicVariantDocument(
           variant.shopifyId.id.toString(),
         );
         return;
       }
-      await this.searchClient.indexVariantDocument({
+      await this.searchClient.indexPublicVariantDocument({
         variant_shopify_id: variant.shopifyId.id,
         variant_internal_id: variant.id?.uuid,
         title: product.title,
@@ -244,7 +244,7 @@ export class PublicIndexationService implements IndexationStrategy {
   ): Promise<void> {
     this.logger.warn(`Found ${existingVariantIds.length} stored variants`);
     const variantDocumentsIds =
-      await this.searchClient.listVariantDocumentIds();
+      await this.searchClient.listPublicVariantDocumentIds();
 
     this.logger.warn(`Found ${variantDocumentsIds.length} indexed variants`);
 
@@ -261,7 +261,7 @@ export class PublicIndexationService implements IndexationStrategy {
 
     await Promise.allSettled(
       variantIdsToDelete.map((variantId) =>
-        this.searchClient.deleteVariantDocument(variantId),
+        this.searchClient.deletePublicVariantDocument(variantId),
       ),
     );
   }

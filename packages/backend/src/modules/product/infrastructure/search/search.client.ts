@@ -1,12 +1,17 @@
-import { CollectionDocument, SearchVariantDocument } from '@libs/domain/types';
 import {
+  CollectionDocument,
+  SearchB2BVariantDocument,
+  SearchPublicVariantDocument,
+} from '@libs/domain/types';
+import { jsonParse, jsonStringify } from '@libs/helpers/json';
+import {
+  typesenseB2BVariantClient,
   typesenseCollectionClient,
-  typesenseVariantClient,
+  typesensePublicVariantClient,
 } from '@libs/infrastructure/typesense/typesense.base.client';
 import { ISearchClient } from '@modules/product/domain/ports/search-client';
 import { Logger } from '@nestjs/common';
 import { TypesenseError } from 'typesense/lib/Typesense/Errors';
-import { jsonParse, jsonStringify } from '@libs/helpers/json';
 
 const isTypesenseNotFoundError = (error: any) =>
   error instanceof TypesenseError && error.name === 'ObjectNotFound';
@@ -14,31 +19,67 @@ const isTypesenseNotFoundError = (error: any) =>
 export class SearchClient implements ISearchClient {
   private readonly logger = new Logger(SearchClient.name);
 
-  async indexVariantDocument(document: SearchVariantDocument): Promise<void> {
+  async indexPublicVariantDocument(
+    document: SearchPublicVariantDocument,
+  ): Promise<void> {
     const variantDocument = {
       id: document.variant_shopify_id.toString(),
       ...document,
     };
 
     try {
-      await typesenseVariantClient.documents().upsert(variantDocument);
+      await typesensePublicVariantClient.documents().upsert(variantDocument);
     } catch (e: any) {
       this.logger.error(
-        `Error while indexing variant: ${jsonStringify(variantDocument)}`,
+        `Error while indexing public variant: ${jsonStringify(variantDocument)}`,
         e,
       );
     }
   }
 
-  async deleteVariantDocument(documentId: string): Promise<void> {
+  async indexB2BVariantDocument(
+    document: SearchB2BVariantDocument,
+  ): Promise<void> {
+    const variantDocument = {
+      id: document.variant_shopify_id.toString(),
+      ...document,
+    };
+
     try {
-      await typesenseVariantClient.documents().delete(documentId);
+      await typesenseB2BVariantClient.documents().upsert(variantDocument);
+    } catch (e: any) {
+      this.logger.error(
+        `Error while indexing b2b variant: ${jsonStringify(variantDocument)}`,
+        e,
+      );
+    }
+  }
+
+  async deletePublicVariantDocument(documentId: string): Promise<void> {
+    try {
+      await typesensePublicVariantClient.documents().delete(documentId);
     } catch (e: any) {
       if (isTypesenseNotFoundError(e)) {
-        this.logger.debug(`Variant ${documentId} is already not part of index`);
+        this.logger.debug(
+          `Public Variant ${documentId} is already not part of index`,
+        );
         return;
       }
-      this.logger.error(`Error while deleting variant ${documentId}`, e);
+      this.logger.error(`Error while deleting public variant ${documentId}`, e);
+    }
+  }
+
+  async deleteB2BVariantDocument(documentId: string): Promise<void> {
+    try {
+      await typesenseB2BVariantClient.documents().delete(documentId);
+    } catch (e: any) {
+      if (isTypesenseNotFoundError(e)) {
+        this.logger.debug(
+          `B2B Variant ${documentId} is already not part of index`,
+        );
+        return;
+      }
+      this.logger.error(`Error while deleting b2b variant ${documentId}`, e);
     }
   }
 
@@ -72,8 +113,21 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async listVariantDocumentIds(): Promise<string[]> {
-    const documentsJsonL = await typesenseVariantClient.documents().export({
+  async listPublicVariantDocumentIds(): Promise<string[]> {
+    const documentsJsonL = await typesensePublicVariantClient
+      .documents()
+      .export({
+        include_fields: 'id',
+      });
+    const parsedDocumentIds = jsonParse(
+      `[${documentsJsonL.replace(/\n/g, ',')}]`,
+    ) as { id: string }[];
+
+    return parsedDocumentIds.map(({ id }) => id);
+  }
+
+  async listB2BVariantDocumentIds(): Promise<string[]> {
+    const documentsJsonL = await typesenseB2BVariantClient.documents().export({
       include_fields: 'id',
     });
     const parsedDocumentIds = jsonParse(

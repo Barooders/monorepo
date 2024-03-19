@@ -126,7 +126,7 @@ export class StoreMapper {
 
     if (!exposedProduct) {
       this.logger.warn(
-        `Could not find detailed product with id ${productId.uuid}`,
+        `Could not find detailed public product with id ${productId.uuid}`,
       );
       return [];
     }
@@ -263,7 +263,7 @@ export class StoreMapper {
         const variant = baseProductVariant.exposedProductVariant;
         if (!variant) {
           this.logger.warn(
-            `Could not find detailed product variant with id ${baseProductVariant.id}`,
+            `Could not find detailed public product variant with id ${baseProductVariant.id}`,
           );
           return undefined;
         }
@@ -299,7 +299,7 @@ export class StoreMapper {
           };
         } catch (error: any) {
           this.logger.error(
-            `Could not map variant with id ${baseProductVariant.id} to index: ${error.message}`,
+            `Could not map public variant with id ${baseProductVariant.id} to index: ${error.message}`,
             error,
           );
 

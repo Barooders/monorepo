@@ -1,5 +1,9 @@
 import envConfig from '@config/env/env.config';
-import { CollectionDocument, SearchVariantDocument } from '@libs/domain/types';
+import {
+  CollectionDocument,
+  SearchB2BVariantDocument,
+  SearchPublicVariantDocument,
+} from '@libs/domain/types';
 import { Client } from 'typesense';
 
 const sharedConfig = {
@@ -14,15 +18,25 @@ const sharedConfig = {
   connectionTimeoutSeconds: 2,
 };
 
-export type TypesenseVariantDocument = SearchVariantDocument & { id: string };
+export type TypesensePublicVariantDocument = SearchPublicVariantDocument & {
+  id: string;
+};
+export type TypesenseB2BVariantDocument = SearchB2BVariantDocument & {
+  id: string;
+};
 export type TypesenseCollectionDocument = CollectionDocument & {
   id: string;
 };
 
-export const typesenseVariantClient = new Client(
+export const typesensePublicVariantClient = new Client(
   sharedConfig,
-).collections<TypesenseVariantDocument>(
-  envConfig.externalServices.typesense.variantsCollection,
+).collections<TypesensePublicVariantDocument>(
+  envConfig.externalServices.typesense.publicVariantsCollection,
+);
+export const typesenseB2BVariantClient = new Client(
+  sharedConfig,
+).collections<TypesenseB2BVariantDocument>(
+  envConfig.externalServices.typesense.b2bVariantsCollection,
 );
 
 export const typesenseCollectionClient = new Client(

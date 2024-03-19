@@ -5,8 +5,8 @@ import {
 import { ProductCardProps } from '@/components/pages/ProductPage';
 import {
   SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
+  publicVariantsCollection,
   typesenseInstantsearchAdapter,
-  variantsCollection,
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
 import { HitSearchType } from '@/types';
@@ -142,7 +142,7 @@ const getProductsFromFilterQuery = async (
   maxResults = 20,
 ) => {
   const { grouped_hits } = await typesenseInstantsearchAdapter.typesenseClient
-    .collections<HitSearchType>(variantsCollection)
+    .collections<HitSearchType>(publicVariantsCollection)
     .documents()
     .search(
       {
