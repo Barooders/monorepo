@@ -47,20 +47,21 @@ const uploadFile = (fileName) => {
 
 const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const uploadGiantFiles = async () => {
-  const giantPath = path.resolve(root, 'data', 'Giant');
+// const uploadGiantFiles = async () => {
+//   const giantPath = path.resolve(root, 'data', 'Giant');
 
-  const directories = getDirectories(giantPath);
-  for (const directory of directories) {
-    const yearDirectories = getDirectories(path.resolve(giantPath, directory));
-    for (const yearDirectory of yearDirectories) {
-      const files = getFiles(path.resolve(giantPath, directory, yearDirectory));
-      for (const file of files) {
-        uploadFile(path.resolve(giantPath, directory, yearDirectory, file));
-        await sleep(500);
-      }
-    }
-  }
-};
+//   const directories = getDirectories(giantPath);
+//   for (const directory of directories) {
+//     const yearDirectories = getDirectories(path.resolve(giantPath, directory));
+//     for (const yearDirectory of yearDirectories) {
+//       const files = getFiles(path.resolve(giantPath, directory, yearDirectory));
+//       for (const file of files) {
+//         uploadFile(path.resolve(giantPath, directory, yearDirectory, file));
+//         await sleep(500);
+//       }
+//     }
+//   }
+// };
 
-uploadGiantFiles();
+// uploadGiantFiles();
+uploadFile(root + '/data/brandData.json');

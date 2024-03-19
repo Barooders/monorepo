@@ -3,13 +3,6 @@ const AWS = require('aws-sdk');
 
 const baseUrl = 'https://api.bicyclebluebook.com/vg/api/brand/year/model';
 
-const BRAND_IDs = {
-  Specialized: 741,
-  Cannondale: 672,
-  Giant: 683,
-  Trek: 750,
-};
-
 const s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -159,7 +152,7 @@ const cacheBikes = async (brand) => {
 
 const additionalInfo = async (bike, brand, brandId) => {
   const data = await fetch(
-    `https://api.bicyclebluebook.com/core/api/tradeIn/bicycle?brandId=${BRAND_IDs[brand]}&modelId=${bike.modelId}&yearId=${bike.year}`,
+    `https://api.bicyclebluebook.com/core/api/tradeIn/bicycle?brandId=${brandId}&modelId=${bike.modelId}&yearId=${bike.year}`,
   );
   const body = await data.json();
   return {
@@ -210,24 +203,26 @@ function getImages(brand, bikes) {
     });
 }
 
-const getBrandInformations = async (brand) => {
-  const brandDataDirectory = `${PATH_PREFIX}/data/${brand}`;
-  if (await doesFileExist(`${brandDataDirectory}/informations.json`)) {
-    return getObjectContent(`${brandDataDirectory}/informations.json`);
+const getBrandInformations = async () => {
+  const brandDataFile = `${PATH_PREFIX}/data/brandData.json`;
+  if (await doesFileExist(brandDataFile)) {
+    return getObjectContent('data/brandData.json');
   }
 
+  console.log('Retrieve brand informations...');
   const data = await fetch(
-    `https://api.bicyclebluebook.com/vg/api/brand/info?id=${brand}`,
+    `https://api.bicyclebluebook.com/vg/api/bicycleSearch/baseComponent`,
   );
   const body = await data.json();
 
-  uploadFile(`${brandDataDirectory}/informations.json`, JSON.stringify(body));
+  uploadFile(brandDataFile, JSON.stringify(body));
   return body;
 };
 
 const run = async () => {
   const brand = 'Adams';
-  const { id: brandId } = await getBrandInformations(brand);
+  const { bicycleBrands: brands } = await getBrandInformations(brand);
+  const brandId = brands.find((b) => b.name === brand).id;
 
   const simpleBikes = (await cacheBikes(brand)).flatMap((b) => b);
 
