@@ -5,6 +5,7 @@ import {
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable } from '@nestjs/common';
 import { B2BIndexationService } from './b2b-indexation.service';
+import { IndexationStrategy } from './ports/indexation.strategy';
 import {
   B2BVariantToIndex,
   PublicVariantToIndex,
@@ -23,22 +24,28 @@ export type VariantToIndexWithTarget =
 
 @Injectable()
 export class IndexationService {
+  private serviceMapping?: Record<SalesChannelName, IndexationStrategy>;
+
   constructor(
     private publicIndexationService: PublicIndexationService,
     private b2bIndexationService: B2BIndexationService,
     private mainPrisma: PrismaMainClient,
-  ) {}
+  ) {
+    this.serviceMapping = {
+      [SalesChannelName.PUBLIC]: publicIndexationService,
+      [SalesChannelName.B2B]: b2bIndexationService,
+    };
+  }
 
   async indexVariants(variants: VariantToIndexWithTarget[]): Promise<void> {
     const indexationPromises = variants.map((variantToIndex) => {
-      switch (variantToIndex.target) {
-        case SalesChannelName.PUBLIC:
-          return this.publicIndexationService.indexVariant(variantToIndex.data);
-        case SalesChannelName.B2B:
-          return this.b2bIndexationService.indexVariant(variantToIndex.data);
-        default:
-          throw new Error(`Unknown target: ${jsonStringify(variantToIndex)}`);
+      const indexingService = this.serviceMapping?.[variantToIndex.target];
+
+      if (!indexingService) {
+        throw new Error(`Unknown target: ${jsonStringify(variantToIndex)}`);
       }
+
+      return indexingService.indexVariant(variantToIndex.data);
     });
     await Promise.allSettled(indexationPromises);
   }
@@ -55,26 +62,24 @@ export class IndexationService {
       },
     });
 
-    const publicVariants = existingVariants.filter(({ product }) =>
-      product.productSalesChannels.some(
-        ({ salesChannelName }) => salesChannelName === SalesChannelName.PUBLIC,
-      ),
-    );
+    if (!this.serviceMapping) {
+      throw new Error('Service mapping is not set.');
+    }
 
-    const b2BVariants = existingVariants.filter(({ product }) =>
-      product.productSalesChannels.some(
-        ({ salesChannelName }) => salesChannelName === SalesChannelName.B2B,
-      ),
-    );
+    Object.entries(this.serviceMapping).forEach(
+      async ([salesChannelName, indexingService]) => {
+        const variants = existingVariants.filter(({ product }) =>
+          product.productSalesChannels.some(
+            ({ salesChannelName: productSalesChannelName }) =>
+              productSalesChannelName === salesChannelName,
+          ),
+        );
 
-    await this.publicIndexationService.pruneVariants(
-      publicVariants.map(({ shopifyId }) => String(shopifyId)),
-      shouldDeleteDocuments,
-    );
-
-    await this.b2bIndexationService.pruneVariants(
-      b2BVariants.map(({ shopifyId }) => String(shopifyId)),
-      shouldDeleteDocuments,
+        await indexingService.pruneVariants(
+          variants.map(({ shopifyId }) => String(shopifyId)),
+          shouldDeleteDocuments,
+        );
+      },
     );
   }
 }
