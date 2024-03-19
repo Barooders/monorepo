@@ -90,6 +90,7 @@
     "@types/node-fetch": "2.6.6",
     "@types/qs": "6.9.11",
     "async-mutex": "0.4.1",
+    "aws-sdk": "2.1579.0",
     "bull": "4.11.3",
     "cache-manager": "5.4.0",
     "cheerio": "1.0.0-rc.12",
