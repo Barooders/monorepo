@@ -39,6 +39,7 @@ const CancelOrderForm: React.FC<PropsType> = ({ orderLineId, closeModal }) => {
             dict.account.order.cancel.form.cancelSuccess,
             toastOptions,
           );
+          location.reload();
         } catch (error) {
           toast.error(dict.account.order.cancel.form.cancelError, toastOptions);
         }
@@ -47,7 +48,6 @@ const CancelOrderForm: React.FC<PropsType> = ({ orderLineId, closeModal }) => {
 
   const onSubmit: SubmitHandler<CancelOrderInput> = async ({ orderLineId }) => {
     cancelOrderLine(orderLineId);
-    location.reload();
   };
 
   return (
@@ -71,14 +71,14 @@ const CancelOrderForm: React.FC<PropsType> = ({ orderLineId, closeModal }) => {
           <>
             <Button
               type="submit"
-              className="mt-2 py-2.5 px-3 text-sm font-medium"
+              className="mt-2 px-3 py-2.5 text-sm font-medium"
               intent="secondary"
             >
               {dict.account.order.cancel.form.actions.confirm}
             </Button>
             <Button
               type="button"
-              className="ml-2 mt-2 py-2.5 px-3 text-sm font-medium"
+              className="ml-2 mt-2 px-3 py-2.5 text-sm font-medium"
               intent="tertiary"
               onClick={closeModal}
             >
