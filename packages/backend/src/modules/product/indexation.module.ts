@@ -7,14 +7,13 @@ import { CollectionIndexationCLIConsole } from './application/collection-indexat
 import { ProductIndexationCLIConsole } from './application/product-indexation.cli';
 import { ProductIndexationConsumer } from './application/product-indexation.consumer.redis';
 import { QueueNames } from './config';
-import { PublicIndexationService } from './domain/public-indexation.service';
 import { IndexationService } from './domain/indexation.service';
 import { IQueueClient } from './domain/ports/queue-client';
 import { ISearchClient } from './domain/ports/search-client';
+import { PublicIndexationService } from './domain/public-indexation.service';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
-import { B2BIndexationService } from './domain/b2b-indexation.service';
 
 const commonImports = [
   SharedLoggerModule,
@@ -27,7 +26,6 @@ const commonImports = [
 
 const commonProviders = [
   PublicIndexationService,
-  B2BIndexationService,
   IndexationService,
   {
     provide: ISearchClient,

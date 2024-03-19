@@ -13,6 +13,7 @@ import { CollectionToIndex } from '@modules/product/domain/ports/collection-to-i
 import { ISearchClient } from '@modules/product/domain/ports/search-client';
 import {
   B2BVariantToIndex,
+  ExistingVariant,
   PublicVariantToIndex,
   VariantToIndexWithTarget,
 } from '@modules/product/domain/ports/variant-to-index.type';
@@ -37,6 +38,105 @@ export class SearchClient implements ISearchClient {
       default:
         throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
     }
+  }
+
+  async deleteVariantDocument({
+    target,
+    data,
+  }: VariantToIndexWithTarget): Promise<void> {
+    switch (target) {
+      case SalesChannelName.PUBLIC:
+        return this.deletePublicVariantDocument(
+          data.variant.shopifyId.id.toString(),
+        );
+      case SalesChannelName.B2B:
+        return this.deleteB2BVariantDocument(
+          data.variant.shopifyId.id.toString(),
+        );
+      default:
+        throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
+    }
+  }
+
+  async pruneVariantDocuments(
+    existingVariants: ExistingVariant[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
+    const existingPublicVariants = existingVariants.filter(
+      ({ target }) => target === SalesChannelName.PUBLIC,
+    );
+
+    await this.prunePublicVariantDocuments(
+      existingPublicVariants.map(({ shopifyId }) => shopifyId.id.toString()),
+      shouldDeleteDocuments,
+    );
+
+    const existingB2BVariants = existingVariants.filter(
+      ({ target }) => target === SalesChannelName.B2B,
+    );
+
+    await this.pruneB2BVariantDocuments(
+      existingB2BVariants.map(({ shopifyId }) => shopifyId.id.toString()),
+      shouldDeleteDocuments,
+    );
+  }
+
+  private async prunePublicVariantDocuments(
+    existingVariantIds: string[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
+    this.logger.warn(
+      `Found ${existingVariantIds.length} stored public variants`,
+    );
+
+    const variantDocumentsIds = await this.listPublicVariantDocumentIds();
+
+    this.logger.warn(
+      `Found ${variantDocumentsIds.length} indexed public variants`,
+    );
+    const variantIdsToDelete = variantDocumentsIds.filter(
+      (variantId) => !existingVariantIds.includes(variantId),
+    );
+    this.logger.warn(
+      `Found ${variantIdsToDelete.length} public variants to delete`,
+    );
+    if (!shouldDeleteDocuments) {
+      this.logger.warn(`No documents were deleted, use --apply to delete them`);
+      return;
+    }
+    await Promise.allSettled(
+      variantIdsToDelete.map((variantId) =>
+        this.deletePublicVariantDocument(variantId),
+      ),
+    );
+  }
+
+  private async pruneB2BVariantDocuments(
+    existingVariantIds: string[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
+    this.logger.warn(`Found ${existingVariantIds.length} stored b2b variants`);
+
+    const variantDocumentsIds = await this.listB2BVariantDocumentIds();
+
+    this.logger.warn(
+      `Found ${variantDocumentsIds.length} indexed b2b variants`,
+    );
+    const variantIdsToDelete = variantDocumentsIds.filter(
+      (variantId) => !existingVariantIds.includes(variantId),
+    );
+    this.logger.warn(
+      `Found ${variantIdsToDelete.length} b2b variants to delete`,
+    );
+    if (!shouldDeleteDocuments) {
+      this.logger.warn(`No documents were deleted, use --apply to delete them`);
+      return;
+    }
+    await Promise.allSettled(
+      variantIdsToDelete.map((variantId) =>
+        this.deleteB2BVariantDocument(variantId),
+      ),
+    );
   }
 
   private async indexPublicVariantDocument({
@@ -137,25 +237,7 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async deleteVariantDocument({
-    target,
-    data,
-  }: VariantToIndexWithTarget): Promise<void> {
-    switch (target) {
-      case SalesChannelName.PUBLIC:
-        return this.deletePublicVariantDocument(
-          data.variant.shopifyId.id.toString(),
-        );
-      case SalesChannelName.B2B:
-        return this.deleteB2BVariantDocument(
-          data.variant.shopifyId.id.toString(),
-        );
-      default:
-        throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
-    }
-  }
-
-  async deletePublicVariantDocument(documentId: string): Promise<void> {
+  private async deletePublicVariantDocument(documentId: string): Promise<void> {
     try {
       await typesensePublicVariantClient.documents().delete(documentId);
     } catch (e: any) {
@@ -169,7 +251,7 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async deleteB2BVariantDocument(documentId: string): Promise<void> {
+  private async deleteB2BVariantDocument(documentId: string): Promise<void> {
     try {
       await typesenseB2BVariantClient.documents().delete(documentId);
     } catch (e: any) {
@@ -181,6 +263,30 @@ export class SearchClient implements ISearchClient {
       }
       this.logger.error(`Error while deleting b2b variant ${documentId}`, e);
     }
+  }
+
+  private async listPublicVariantDocumentIds(): Promise<string[]> {
+    const documentsJsonL = await typesensePublicVariantClient
+      .documents()
+      .export({
+        include_fields: 'id',
+      });
+    const parsedDocumentIds = jsonParse(
+      `[${documentsJsonL.replace(/\n/g, ',')}]`,
+    ) as { id: string }[];
+
+    return parsedDocumentIds.map(({ id }) => id);
+  }
+
+  private async listB2BVariantDocumentIds(): Promise<string[]> {
+    const documentsJsonL = await typesenseB2BVariantClient.documents().export({
+      include_fields: 'id',
+    });
+    const parsedDocumentIds = jsonParse(
+      `[${documentsJsonL.replace(/\n/g, ',')}]`,
+    ) as { id: string }[];
+
+    return parsedDocumentIds.map(({ id }) => id);
   }
 
   async indexCollectionDocument({
@@ -223,30 +329,6 @@ export class SearchClient implements ISearchClient {
       }
       this.logger.error(`Error while deleting collection ${documentId}`, e);
     }
-  }
-
-  async listPublicVariantDocumentIds(): Promise<string[]> {
-    const documentsJsonL = await typesensePublicVariantClient
-      .documents()
-      .export({
-        include_fields: 'id',
-      });
-    const parsedDocumentIds = jsonParse(
-      `[${documentsJsonL.replace(/\n/g, ',')}]`,
-    ) as { id: string }[];
-
-    return parsedDocumentIds.map(({ id }) => id);
-  }
-
-  async listB2BVariantDocumentIds(): Promise<string[]> {
-    const documentsJsonL = await typesenseB2BVariantClient.documents().export({
-      include_fields: 'id',
-    });
-    const parsedDocumentIds = jsonParse(
-      `[${documentsJsonL.replace(/\n/g, ',')}]`,
-    ) as { id: string }[];
-
-    return parsedDocumentIds.map(({ id }) => id);
   }
 
   async listCollectionDocumentIds(): Promise<string[]> {

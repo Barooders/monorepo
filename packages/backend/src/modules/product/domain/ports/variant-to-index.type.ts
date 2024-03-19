@@ -84,3 +84,8 @@ export type VariantToIndexWithTarget =
       target: typeof SalesChannelName.B2B;
       data: B2BVariantToIndex;
     };
+
+export type ExistingVariant = {
+  target: SalesChannelName;
+  shopifyId: ShopifyID;
+};

@@ -12,7 +12,6 @@ import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
 import { CollectionService } from './domain/collection.service';
-import { PublicIndexationService } from './domain/public-indexation.service';
 import { IndexationService } from './domain/indexation.service';
 import { NotificationService } from './domain/notification.service';
 import { IEmailClient } from './domain/ports/email.client';
@@ -22,13 +21,13 @@ import { ISearchClient } from './domain/ports/search-client';
 import { IStoreClient } from './domain/ports/store.client';
 import { ProductCreationService } from './domain/product-creation.service';
 import { ProductUpdateService } from './domain/product-update.service';
+import { PublicIndexationService } from './domain/public-indexation.service';
 import { SendGridClient } from './infrastructure/email/sendgrid.client';
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
-import { B2BIndexationService } from './domain/b2b-indexation.service';
 
 const commonImports = [
   PrismaModule,
@@ -44,7 +43,6 @@ const commonProviders = [
   PostgreSQLSessionStorage,
   CustomerRepository,
   PublicIndexationService,
-  B2BIndexationService,
   IndexationService,
   StoreMapper,
   {

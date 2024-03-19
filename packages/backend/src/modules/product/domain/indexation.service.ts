@@ -1,32 +1,17 @@
-import {
-  PrismaMainClient,
-  SalesChannelName,
-} from '@libs/domain/prisma.main.client';
-import { jsonStringify } from '@libs/helpers/json';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { ShopifyID } from '@libs/domain/value-objects';
 import { Injectable, Logger } from '@nestjs/common';
-import { B2BIndexationService } from './b2b-indexation.service';
-import { IndexationStrategy } from './ports/indexation.strategy';
 import { ISearchClient } from './ports/search-client';
 import { VariantToIndexWithTarget } from './ports/variant-to-index.type';
-import { PublicIndexationService } from './public-indexation.service';
 
 @Injectable()
 export class IndexationService {
   private readonly logger = new Logger(IndexationService.name);
 
-  private serviceMapping?: Record<SalesChannelName, IndexationStrategy>;
-
   constructor(
-    private publicIndexationService: PublicIndexationService,
-    private b2bIndexationService: B2BIndexationService,
     private mainPrisma: PrismaMainClient,
     private searchClient: ISearchClient,
-  ) {
-    this.serviceMapping = {
-      [SalesChannelName.PUBLIC]: publicIndexationService,
-      [SalesChannelName.B2B]: b2bIndexationService,
-    };
-  }
+  ) {}
 
   async indexVariants(variants: VariantToIndexWithTarget[]): Promise<void> {
     const indexationPromises = variants.map((variantToIndex) =>
@@ -35,7 +20,7 @@ export class IndexationService {
     await Promise.allSettled(indexationPromises);
   }
 
-  async pruneVariants(shouldDeleteDocuments?: boolean): Promise<void> {
+  async pruneVariants(shouldDeleteDocuments: boolean): Promise<void> {
     const existingVariants = await this.mainPrisma.productVariant.findMany({
       select: {
         shopifyId: true,
@@ -47,24 +32,18 @@ export class IndexationService {
       },
     });
 
-    if (!this.serviceMapping) {
-      throw new Error('Service mapping is not set.');
-    }
-
-    Object.entries(this.serviceMapping).forEach(
-      async ([salesChannelName, indexingService]) => {
-        const variants = existingVariants.filter(({ product }) =>
-          product.productSalesChannels.some(
-            ({ salesChannelName: productSalesChannelName }) =>
-              productSalesChannelName === salesChannelName,
-          ),
-        );
-
-        await indexingService.pruneVariants(
-          variants.map(({ shopifyId }) => String(shopifyId)),
-          shouldDeleteDocuments,
-        );
-      },
+    await this.searchClient.pruneVariantDocuments(
+      existingVariants
+        .map((variant) => {
+          return variant.product.productSalesChannels.map(
+            ({ salesChannelName }) => ({
+              target: salesChannelName,
+              shopifyId: new ShopifyID({ id: Number(variant.shopifyId) }),
+            }),
+          );
+        })
+        .flat(),
+      shouldDeleteDocuments,
     );
   }
 

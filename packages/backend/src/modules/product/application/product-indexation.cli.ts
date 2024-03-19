@@ -71,7 +71,7 @@ export class ProductIndexationCLIConsole {
   }: {
     apply?: boolean;
   }): Promise<void> {
-    await this.indexationService.pruneVariants(shouldDeleteDocuments);
+    await this.indexationService.pruneVariants(shouldDeleteDocuments ?? false);
   }
 
   @Command({
