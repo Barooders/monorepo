@@ -43,25 +43,29 @@ export class B2BIndexationService implements IndexationStrategy {
   }
 
   async pruneVariants(
-    _existingVariantIds: string[],
-    _shouldDeleteDocuments?: boolean,
+    existingVariantIds: string[],
+    shouldDeleteDocuments?: boolean,
   ): Promise<void> {
-    // this.logger.warn(`Found ${existingVariantIds.length} stored variants`);
-    // const variantDocumentsIds =
-    //   await this.searchClient.listPublicVariantDocumentIds();
-    // this.logger.warn(`Found ${variantDocumentsIds.length} indexed variants`);
-    // const variantIdsToDelete = variantDocumentsIds.filter(
-    //   (variantId) => !existingVariantIds.includes(variantId),
-    // );
-    // this.logger.warn(`Found ${variantIdsToDelete.length} variants to delete`);
-    // if (!shouldDeleteDocuments) {
-    //   this.logger.warn(`No documents were deleted, use --apply to delete them`);
-    //   return;
-    // }
-    // await Promise.allSettled(
-    //   variantIdsToDelete.map((variantId) =>
-    //     this.searchClient.deletePublicVariantDocument(variantId),
-    //   ),
-    // );
+    this.logger.warn(`Found ${existingVariantIds.length} stored B2B variants`);
+    const variantDocumentsIds =
+      await this.searchClient.listB2BVariantDocumentIds();
+    this.logger.warn(
+      `Found ${variantDocumentsIds.length} indexed B2B variants`,
+    );
+    const variantIdsToDelete = variantDocumentsIds.filter(
+      (variantId) => !existingVariantIds.includes(variantId),
+    );
+    this.logger.warn(
+      `Found ${variantIdsToDelete.length} B2B variants to delete`,
+    );
+    if (!shouldDeleteDocuments) {
+      this.logger.warn(`No documents were deleted, use --apply to delete them`);
+      return;
+    }
+    await Promise.allSettled(
+      variantIdsToDelete.map((variantId) =>
+        this.searchClient.deleteB2BVariantDocument(variantId),
+      ),
+    );
   }
 }

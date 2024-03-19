@@ -1,5 +1,7 @@
-import { SalesChannelName } from '@libs/domain/prisma.main.client';
-import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import {
+  PrismaMainClient,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable } from '@nestjs/common';
 import { B2BIndexationService } from './b2b-indexation.service';
@@ -24,7 +26,7 @@ export class IndexationService {
   constructor(
     private publicIndexationService: PublicIndexationService,
     private b2bIndexationService: B2BIndexationService,
-    private storePrisma: PrismaStoreClient,
+    private mainPrisma: PrismaMainClient,
   ) {}
 
   async indexVariants(variants: VariantToIndexWithTarget[]): Promise<void> {
@@ -42,15 +44,36 @@ export class IndexationService {
   }
 
   async pruneVariants(shouldDeleteDocuments?: boolean): Promise<void> {
-    const existingVariantIds =
-      await this.storePrisma.storeBaseProductVariant.findMany({
-        select: {
-          shopifyId: true,
+    const existingVariants = await this.mainPrisma.productVariant.findMany({
+      select: {
+        shopifyId: true,
+        product: {
+          select: {
+            productSalesChannels: true,
+          },
         },
-      });
+      },
+    });
+
+    const publicVariants = existingVariants.filter(({ product }) =>
+      product.productSalesChannels.some(
+        ({ salesChannelName }) => salesChannelName === SalesChannelName.PUBLIC,
+      ),
+    );
+
+    const b2BVariants = existingVariants.filter(({ product }) =>
+      product.productSalesChannels.some(
+        ({ salesChannelName }) => salesChannelName === SalesChannelName.B2B,
+      ),
+    );
 
     await this.publicIndexationService.pruneVariants(
-      existingVariantIds.map(({ shopifyId }) => String(shopifyId)),
+      publicVariants.map(({ shopifyId }) => String(shopifyId)),
+      shouldDeleteDocuments,
+    );
+
+    await this.b2bIndexationService.pruneVariants(
+      b2BVariants.map(({ shopifyId }) => String(shopifyId)),
       shouldDeleteDocuments,
     );
   }

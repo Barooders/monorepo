@@ -242,17 +242,23 @@ export class PublicIndexationService implements IndexationStrategy {
     existingVariantIds: string[],
     shouldDeleteDocuments?: boolean,
   ): Promise<void> {
-    this.logger.warn(`Found ${existingVariantIds.length} stored variants`);
+    this.logger.warn(
+      `Found ${existingVariantIds.length} stored public variants`,
+    );
     const variantDocumentsIds =
       await this.searchClient.listPublicVariantDocumentIds();
 
-    this.logger.warn(`Found ${variantDocumentsIds.length} indexed variants`);
+    this.logger.warn(
+      `Found ${variantDocumentsIds.length} indexed public variants`,
+    );
 
     const variantIdsToDelete = variantDocumentsIds.filter(
       (variantId) => !existingVariantIds.includes(variantId),
     );
 
-    this.logger.warn(`Found ${variantIdsToDelete.length} variants to delete`);
+    this.logger.warn(
+      `Found ${variantIdsToDelete.length} public variants to delete`,
+    );
 
     if (!shouldDeleteDocuments) {
       this.logger.warn(`No documents were deleted, use --apply to delete them`);
