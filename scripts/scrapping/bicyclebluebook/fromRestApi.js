@@ -552,9 +552,12 @@ const doesFileExist = async (fileName) => {
 };
 
 const getObjectContent = async (fileName) => {
+  const key = fileName.includes(PATH_PREFIX)
+    ? fileName
+    : `${PATH_PREFIX}/${fileName}`;
   const params = {
     Bucket: BUCKET_NAME,
-    Key: `${PATH_PREFIX}/${fileName}`,
+    Key: key,
   };
 
   const body = await s3.getObject(params).promise();
@@ -772,6 +775,7 @@ const run = async () => {
     return priorityOne - priorityTwo;
   });
 
+  console.log(orderedBrands);
   for (const brand of orderedBrands) {
     await scrapBrand({ brandName: brand.name, brandId: brand.id });
   }
