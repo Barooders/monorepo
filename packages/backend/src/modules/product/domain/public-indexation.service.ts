@@ -3,31 +3,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CollectionToIndex } from './ports/collection-to-index.type';
 import { IndexationStrategy } from './ports/indexation.strategy';
 import { ISearchClient } from './ports/search-client';
-import { PublicVariantToIndex } from './ports/variant-to-index.type';
 
 @Injectable()
 export class PublicIndexationService implements IndexationStrategy {
   private readonly logger = new Logger(PublicIndexationService.name);
 
   constructor(private searchClient: ISearchClient) {}
-
-  async indexVariant(variantToIndex: PublicVariantToIndex): Promise<void> {
-    const { variant, product } = variantToIndex;
-    try {
-      if (!product.isActive) {
-        this.logger.debug(
-          `Public Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
-        );
-        await this.searchClient.deletePublicVariantDocument(
-          variant.shopifyId.id.toString(),
-        );
-        return;
-      }
-      await this.searchClient.indexPublicVariantDocument(variantToIndex);
-    } catch (error: any) {
-      this.logger.error(error.message, error);
-    }
-  }
 
   async indexCollection(collectionToIndex: CollectionToIndex): Promise<void> {
     await this.searchClient.indexCollectionDocument(collectionToIndex);

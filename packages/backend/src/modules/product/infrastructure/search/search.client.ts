@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import {
   addFormattedBikeSizeToTags,
   getDiscountRange,
@@ -13,6 +14,7 @@ import { ISearchClient } from '@modules/product/domain/ports/search-client';
 import {
   B2BVariantToIndex,
   PublicVariantToIndex,
+  VariantToIndexWithTarget,
 } from '@modules/product/domain/ports/variant-to-index.type';
 import { Logger } from '@nestjs/common';
 import { TypesenseError } from 'typesense/lib/Typesense/Errors';
@@ -23,7 +25,21 @@ const isTypesenseNotFoundError = (error: any) =>
 export class SearchClient implements ISearchClient {
   private readonly logger = new Logger(SearchClient.name);
 
-  async indexPublicVariantDocument({
+  async indexVariantDocument({
+    target,
+    data,
+  }: VariantToIndexWithTarget): Promise<void> {
+    switch (target) {
+      case SalesChannelName.PUBLIC:
+        return this.indexPublicVariantDocument(data);
+      case SalesChannelName.B2B:
+        return this.indexB2BVariantDocument(data);
+      default:
+        throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
+    }
+  }
+
+  private async indexPublicVariantDocument({
     variant,
     product,
     vendor,
@@ -88,7 +104,7 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async indexB2BVariantDocument({
+  private async indexB2BVariantDocument({
     variant,
     product,
   }: B2BVariantToIndex): Promise<void> {
@@ -118,6 +134,24 @@ export class SearchClient implements ISearchClient {
         `Error while indexing b2b variant: ${jsonStringify(variantDocument)}`,
         e,
       );
+    }
+  }
+
+  async deleteVariantDocument({
+    target,
+    data,
+  }: VariantToIndexWithTarget): Promise<void> {
+    switch (target) {
+      case SalesChannelName.PUBLIC:
+        return this.deletePublicVariantDocument(
+          data.variant.shopifyId.id.toString(),
+        );
+      case SalesChannelName.B2B:
+        return this.deleteB2BVariantDocument(
+          data.variant.shopifyId.id.toString(),
+        );
+      default:
+        throw new Error(`Unknown target: ${jsonStringify({ target, data })}`);
     }
   }
 

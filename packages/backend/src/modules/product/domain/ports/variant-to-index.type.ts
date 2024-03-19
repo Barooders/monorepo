@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { Condition } from '@libs/domain/prisma.store.client';
 import {
   Amount,
@@ -73,3 +74,13 @@ export interface B2BVariantToIndex {
     tags: Tags;
   };
 }
+
+export type VariantToIndexWithTarget =
+  | {
+      target: typeof SalesChannelName.PUBLIC;
+      data: PublicVariantToIndex;
+    }
+  | {
+      target: typeof SalesChannelName.B2B;
+      data: B2BVariantToIndex;
+    };

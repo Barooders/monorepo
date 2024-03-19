@@ -21,10 +21,10 @@ import {
   ValueDate,
 } from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
-import { VariantToIndexWithTarget } from '@modules/product/domain/ports/indexation.strategy';
 import {
   B2BVariantToIndex,
   PublicVariantToIndex,
+  VariantToIndexWithTarget,
 } from '@modules/product/domain/ports/variant-to-index.type';
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
 import { Injectable, Logger } from '@nestjs/common';

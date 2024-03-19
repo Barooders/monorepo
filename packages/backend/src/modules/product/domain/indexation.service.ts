@@ -3,22 +3,24 @@ import {
   SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { B2BIndexationService } from './b2b-indexation.service';
-import {
-  IndexationStrategy,
-  VariantToIndexWithTarget,
-} from './ports/indexation.strategy';
+import { IndexationStrategy } from './ports/indexation.strategy';
+import { ISearchClient } from './ports/search-client';
+import { VariantToIndexWithTarget } from './ports/variant-to-index.type';
 import { PublicIndexationService } from './public-indexation.service';
 
 @Injectable()
 export class IndexationService {
+  private readonly logger = new Logger(IndexationService.name);
+
   private serviceMapping?: Record<SalesChannelName, IndexationStrategy>;
 
   constructor(
     private publicIndexationService: PublicIndexationService,
     private b2bIndexationService: B2BIndexationService,
     private mainPrisma: PrismaMainClient,
+    private searchClient: ISearchClient,
   ) {
     this.serviceMapping = {
       [SalesChannelName.PUBLIC]: publicIndexationService,
@@ -27,15 +29,9 @@ export class IndexationService {
   }
 
   async indexVariants(variants: VariantToIndexWithTarget[]): Promise<void> {
-    const indexationPromises = variants.map((variantToIndex) => {
-      const indexingService = this.serviceMapping?.[variantToIndex.target];
-
-      if (!indexingService) {
-        throw new Error(`Unknown target: ${jsonStringify(variantToIndex)}`);
-      }
-
-      return indexingService.indexVariant(variantToIndex.data);
-    });
+    const indexationPromises = variants.map((variantToIndex) =>
+      this.indexVariant(variantToIndex),
+    );
     await Promise.allSettled(indexationPromises);
   }
 
@@ -70,5 +66,26 @@ export class IndexationService {
         );
       },
     );
+  }
+
+  private async indexVariant(
+    variantToIndex: VariantToIndexWithTarget,
+  ): Promise<void> {
+    const {
+      target,
+      data: { variant, product },
+    } = variantToIndex;
+    try {
+      if (!product.isActive) {
+        this.logger.debug(
+          `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from ${target} index`,
+        );
+        await this.searchClient.deleteVariantDocument(variantToIndex);
+        return;
+      }
+      await this.searchClient.indexVariantDocument(variantToIndex);
+    } catch (error: any) {
+      this.logger.error(error.message, error);
+    }
   }
 }
