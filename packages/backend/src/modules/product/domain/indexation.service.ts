@@ -1,12 +1,13 @@
 import {
   BIKES_COLLECTION_HANDLE,
   BIKE_SIZE_TAG_KEY,
-  getDiscountRange,
   MOUNTAIN_BIKES_COLLECTION_HANDLES,
+  getDiscountRange,
 } from '@libs/domain/types';
 import { ShopifyID, UUID } from '@libs/domain/value-objects';
 import { Injectable, Logger } from '@nestjs/common';
 import { CollectionToIndex } from './ports/collection-to-index.type';
+import { IndexationStrategy } from './ports/indexation.strategy';
 import { ISearchClient } from './ports/search-client';
 import { VariantToIndex } from './ports/variant-to-index.type';
 
@@ -141,7 +142,7 @@ const mapMountainBikeSize = (size: string) => {
 };
 
 @Injectable()
-export class IndexationService {
+export class IndexationService implements IndexationStrategy {
   private readonly logger = new Logger(IndexationService.name);
 
   constructor(private searchClient: ISearchClient) {}
