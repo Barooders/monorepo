@@ -155,7 +155,7 @@ export class PublicIndexationService implements IndexationStrategy {
     try {
       if (!product.isActive) {
         this.logger.debug(
-          `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
+          `Public Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
         );
         await this.searchClient.deletePublicVariantDocument(
           variant.shopifyId.id.toString(),

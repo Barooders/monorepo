@@ -9,68 +9,37 @@ export class B2BIndexationService implements IndexationStrategy {
 
   constructor(private searchClient: ISearchClient) {}
 
-  async indexVariant(_variant: B2BVariantToIndex): Promise<void> {
-    // try {
-    //   if (!product.isActive) {
-    //     this.logger.debug(
-    //       `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
-    //     );
-    //     await this.searchClient.deletePublicVariantDocument(
-    //       variant.shopifyId.id.toString(),
-    //     );
-    //     return;
-    //   }
-    //   await this.searchClient.indexPublicVariantDocument({
-    //     variant_shopify_id: variant.shopifyId.id,
-    //     variant_internal_id: variant.id?.uuid,
-    //     title: product.title,
-    //     vendor: vendor.name,
-    //     vendor_informations: {
-    //       reviews: {
-    //         count: vendor.reviews.count,
-    //         average_rating: vendor.reviews?.averageRating,
-    //       },
-    //     },
-    //     meta: {
-    //       barooders: {
-    //         owner: vendor.isPro ? 'b2c' : 'c2c',
-    //         product_discount_range: getDiscountRange(
-    //           product.highestDiscount.percentageOn100,
-    //         ),
-    //       },
-    //     },
-    //     product_type: product.productType.productType,
-    //     variant_title: variant.title,
-    //     computed_scoring: product.calculatedScoring,
-    //     is_refurbished: variant.isRefurbished ? 'true' : 'false',
-    //     condition: variant.condition.toString(),
-    //     handle: product.handle,
-    //     inventory_quantity: variant.quantityAvailable?.stock ?? 0,
-    //     array_tags: this.addFormattedBikeSizeToTags(
-    //       product.tags.tagsObjectWithArrays,
-    //       product.collections,
-    //     ),
-    //     price: variant.price.amount,
-    //     discount:
-    //       variant.compareAtPrice.amount === 0
-    //         ? 0
-    //         : (variant.compareAtPrice.amount - variant.price.amount) /
-    //           variant.compareAtPrice.amount,
-    //     product_internal_id: product.id.uuid,
-    //     product_shopify_id: product.shopifyId.id,
-    //     product_image: product.imageSrc?.url,
-    //     compare_at_price: variant.compareAtPrice.amount,
-    //     collection_internal_ids: product.collections.map(
-    //       (collection) => collection.id.uuid,
-    //     ),
-    //     collection_handles: product.collections.map(({ handle }) => handle),
-    //     publishedat_timestamp: product.publishedAt.timestamp,
-    //     updatedat_timestamp: variant.updatedAt.timestamp,
-    //     createdat_timestamp: variant.createdAt.timestamp,
-    //   });
-    // } catch (error: any) {
-    //   this.logger.error(error.message, error);
-    // }
+  async indexVariant({ variant, product }: B2BVariantToIndex): Promise<void> {
+    try {
+      if (!product.isActive) {
+        this.logger.debug(
+          `B2B Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from index`,
+        );
+        await this.searchClient.deleteB2BVariantDocument(
+          variant.shopifyId.id.toString(),
+        );
+        return;
+      }
+      await this.searchClient.indexB2BVariantDocument({
+        variant_shopify_id: variant.shopifyId.id,
+        variant_internal_id: variant.id?.uuid,
+        title: product.title,
+        product_type: product.productType.productType,
+        condition: variant.condition.toString(),
+        handle: product.handle,
+        inventory_quantity: variant.quantityAvailable?.stock ?? 0,
+        array_tags: product.tags.tagsObjectWithArrays,
+        price: variant.price.amount,
+        product_internal_id: product.id.uuid,
+        product_shopify_id: product.shopifyId.id,
+        product_image: product.imageSrc?.url,
+        publishedat_timestamp: product.publishedAt.timestamp,
+        updatedat_timestamp: variant.updatedAt.timestamp,
+        createdat_timestamp: variant.createdAt.timestamp,
+      });
+    } catch (error: any) {
+      this.logger.error(error.message, error);
+    }
   }
 
   async pruneVariants(
