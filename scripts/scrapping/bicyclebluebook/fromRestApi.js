@@ -566,6 +566,10 @@ const getObjectContent = async (fileName) => {
 };
 
 const downloadImageFromUrl = async (url, dest) => {
+  if (await doesFileExist(dest)) {
+    return;
+  }
+
   const response = await fetch(url);
   const buffer = await response.buffer();
 
@@ -701,28 +705,44 @@ const cacheAdditionalInfo = async (brand, brandId, bike) => {
 
 const escape = (str) => str.replace(/\//g, '__');
 
-function getImages(brand, bikes) {
+async function getImages(brand, bikes) {
   const brandDirectory = `${PATH_PREFIX}/images/${brand}`;
 
-  bikes
-    .filter((bike) => bike.imageSrc != null)
-    .forEach(async ({ name, family, year, imageSrc }) => {
-      const familyDirectory = `${brandDirectory}/${escape(family)}`;
-      const yearDirectory = `${familyDirectory}/${year}`;
+  const bikesWithImages = bikes.filter((bike) => bike.imageSrc != null);
+  const chunkedBikes = chunkArray(bikesWithImages, 30);
 
-      let extension = imageSrc.split('.').pop();
-      if (!['jpeg', 'jpg', 'png', 'webp'].includes(extension.toLowerCase())) {
-        console.log(`Unknown extension for ${name} - ${extension}`);
-        return;
-      }
-      const dest = `${yearDirectory}/${escape(name)}.${extension}`;
-      try {
-        await downloadImageFromUrl(imageSrc, dest);
-      } catch (e) {
-        console.error(`Failed to download image for ${name} - ${e}`);
-      }
-    });
+  console.log(`Downloading ${bikesWithImages.length} images...`);
+  let i = 0;
+  for (const chunk of chunkedBikes) {
+    console.log(`Downloading chunk ${i++}...`);
+    await Promise.all(
+      chunk.map(async ({ name, family, year, imageSrc }) => {
+        const familyDirectory = `${brandDirectory}/${escape(family)}`;
+        const yearDirectory = `${familyDirectory}/${year}`;
+
+        let extension = imageSrc.split('.').pop();
+        if (!['jpeg', 'jpg', 'png', 'webp'].includes(extension.toLowerCase())) {
+          console.log(`Unknown extension for ${name} - ${extension}`);
+          return;
+        }
+        const dest = `${yearDirectory}/${escape(name)}.${extension}`;
+        try {
+          await downloadImageFromUrl(imageSrc, dest);
+        } catch (e) {
+          console.error(`Failed to download image for ${name} - ${e}`);
+        }
+      }),
+    );
+  }
 }
+
+const chunkArray = (array, chunkSize) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize));
+  }
+  return result;
+};
 
 const getBrandInformations = async () => {
   const brandDataFile = `${PATH_PREFIX}/data/brandData.json`;
@@ -760,7 +780,7 @@ async function scrapBrand({ brandName, brandId }) {
   }
 
   console.log('Downloading images...');
-  getImages(brandName, bikes);
+  await getImages(brandName, simpleBikes);
 
   uploadFile(completedFile, 'completed !');
 }
@@ -775,7 +795,6 @@ const run = async () => {
     return priorityOne - priorityTwo;
   });
 
-  console.log(orderedBrands);
   for (const brand of orderedBrands) {
     await scrapBrand({ brandName: brand.name, brandId: brand.id });
   }
