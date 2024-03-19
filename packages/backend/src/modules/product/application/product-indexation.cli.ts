@@ -71,17 +71,7 @@ export class ProductIndexationCLIConsole {
   }: {
     apply?: boolean;
   }): Promise<void> {
-    const existingVariantIds =
-      await this.storePrisma.storeBaseProductVariant.findMany({
-        select: {
-          shopifyId: true,
-        },
-      });
-
-    await this.indexationService.pruneVariants(
-      existingVariantIds.map(({ shopifyId }) => String(shopifyId)),
-      shouldDeleteDocuments,
-    );
+    await this.indexationService.pruneVariants(shouldDeleteDocuments);
   }
 
   @Command({
