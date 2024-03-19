@@ -13,6 +13,7 @@ import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
 import { CollectionService } from './domain/collection.service';
 import { PublicIndexationService } from './domain/public-indexation.service';
+import { IndexationService } from './domain/indexation.service';
 import { NotificationService } from './domain/notification.service';
 import { IEmailClient } from './domain/ports/email.client';
 import { IPIMClient } from './domain/ports/pim.client';
@@ -42,6 +43,7 @@ const commonProviders = [
   PostgreSQLSessionStorage,
   CustomerRepository,
   PublicIndexationService,
+  IndexationService,
   StoreMapper,
   {
     provide: ISearchClient,

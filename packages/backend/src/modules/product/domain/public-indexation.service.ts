@@ -147,13 +147,6 @@ export class PublicIndexationService implements IndexationStrategy {
 
   constructor(private searchClient: ISearchClient) {}
 
-  async indexVariants(variantsToIndex: VariantToIndex[]): Promise<void> {
-    const indexationPromises = variantsToIndex.map((variantToIndex) =>
-      this.indexVariant(variantToIndex),
-    );
-    await Promise.allSettled(indexationPromises);
-  }
-
   async indexVariant({
     variant,
     product,
