@@ -1,4 +1,7 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  PrismaMainClient,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 import {
   Condition,
   PrismaStoreClient,
@@ -17,6 +20,7 @@ import {
   ValueDate,
 } from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
+import { VariantToIndexWithTarget } from '@modules/product/domain/indexation.service';
 import { VariantToIndex } from '@modules/product/domain/ports/variant-to-index.type';
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
 import { Injectable, Logger } from '@nestjs/common';
@@ -46,7 +50,7 @@ export class StoreMapper {
 
   async mapVariantsToIndexFromProductId(
     productId: UUID,
-  ): Promise<VariantToIndex[]> {
+  ): Promise<VariantToIndexWithTarget[]> {
     const {
       baseProductVariants,
       exposedProduct,
@@ -132,16 +136,19 @@ export class StoreMapper {
     const reviews = vendorReviews.map(({ review }) => review);
 
     return variants.map((variant) => ({
-      product,
-      vendor: {
-        name: sellerName ?? '',
-        isPro,
-        reviews: {
-          count: reviews.length,
-          averageRating: meanBy(reviews, 'rating'),
+      target: SalesChannelName.PUBLIC,
+      data: {
+        product,
+        vendor: {
+          name: sellerName ?? '',
+          isPro,
+          reviews: {
+            count: reviews.length,
+            averageRating: meanBy(reviews, 'rating'),
+          },
         },
+        variant,
       },
-      variant,
     }));
   }
 
