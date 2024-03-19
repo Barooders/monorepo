@@ -93,6 +93,7 @@ export class WooCommerceDefaultMapper {
 
     const variants = await this.getVariants(wooCommerceProduct);
     const productCondition = this.getProductCondition(wooCommerceProduct, tags);
+    const productImages = this.getProductImages(wooCommerceProduct);
 
     return {
       ...(await this.mapLightProduct(wooCommerceProduct)),
@@ -103,9 +104,7 @@ export class WooCommerceDefaultMapper {
         ...variant,
         condition: productCondition,
       })),
-      images: wooCommerceProduct.images.map(({ src }) => {
-        return { src };
-      }),
+      images: productImages,
     };
   }
 
@@ -259,5 +258,11 @@ export class WooCommerceDefaultMapper {
     if (purchasable === false) return 0;
 
     return variantQuantity ?? 0;
+  }
+
+  getProductImages(wooCommerceProduct: WooCommerceProduct): { src: string }[] {
+    return wooCommerceProduct.images.map(({ src }) => {
+      return { src };
+    });
   }
 }
