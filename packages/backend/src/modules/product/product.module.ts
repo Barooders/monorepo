@@ -11,8 +11,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
+import { CollectionIndexationService } from './domain/collection-indexation.service';
 import { CollectionService } from './domain/collection.service';
-import { IndexationService } from './domain/indexation.service';
 import { NotificationService } from './domain/notification.service';
 import { IEmailClient } from './domain/ports/email.client';
 import { IPIMClient } from './domain/ports/pim.client';
@@ -21,7 +21,7 @@ import { ISearchClient } from './domain/ports/search-client';
 import { IStoreClient } from './domain/ports/store.client';
 import { ProductCreationService } from './domain/product-creation.service';
 import { ProductUpdateService } from './domain/product-update.service';
-import { PublicIndexationService } from './domain/public-indexation.service';
+import { VariantIndexationService } from './domain/variant-indexation.service';
 import { SendGridClient } from './infrastructure/email/sendgrid.client';
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
@@ -42,8 +42,8 @@ const commonProviders = [
   SessionMapper,
   PostgreSQLSessionStorage,
   CustomerRepository,
-  PublicIndexationService,
-  IndexationService,
+  VariantIndexationService,
+  CollectionIndexationService,
   StoreMapper,
   {
     provide: ISearchClient,

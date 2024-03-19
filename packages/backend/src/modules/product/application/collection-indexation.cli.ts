@@ -6,7 +6,7 @@ import {
 import { ShopifyID, Stock, ValueDate } from '@libs/domain/value-objects';
 import { Logger } from '@nestjs/common';
 import { Command, Console } from 'nestjs-console';
-import { PublicIndexationService } from '../domain/public-indexation.service';
+import { CollectionIndexationService } from '../domain/collection-indexation.service';
 
 @Console({
   command: 'indexCollection',
@@ -18,7 +18,7 @@ export class CollectionIndexationCLIConsole {
   );
 
   constructor(
-    private publicIndexationService: PublicIndexationService,
+    private collectionIndexationService: CollectionIndexationService,
     private storePrisma: PrismaStoreClient,
   ) {}
 
@@ -113,7 +113,7 @@ export class CollectionIndexationCLIConsole {
         },
       });
 
-    await this.publicIndexationService.pruneCollections(
+    await this.collectionIndexationService.pruneCollections(
       existingCollectionIds.map(({ shopifyId }) => String(shopifyId)),
       shouldDeleteDocuments,
     );
@@ -133,7 +133,7 @@ export class CollectionIndexationCLIConsole {
           return;
         }
 
-        await this.publicIndexationService.indexCollection({
+        await this.collectionIndexationService.indexCollection({
           id: new ShopifyID({ id: Number(shopifyId) }),
           title,
           handle,

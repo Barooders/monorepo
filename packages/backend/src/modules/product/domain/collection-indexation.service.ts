@@ -4,8 +4,8 @@ import { CollectionToIndex } from './ports/collection-to-index.type';
 import { ISearchClient } from './ports/search-client';
 
 @Injectable()
-export class PublicIndexationService {
-  private readonly logger = new Logger(PublicIndexationService.name);
+export class CollectionIndexationService {
+  private readonly logger = new Logger(CollectionIndexationService.name);
 
   constructor(private searchClient: ISearchClient) {}
 

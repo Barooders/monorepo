@@ -5,8 +5,8 @@ import { ISearchClient } from './ports/search-client';
 import { VariantToIndexWithTarget } from './ports/variant-to-index.type';
 
 @Injectable()
-export class IndexationService {
-  private readonly logger = new Logger(IndexationService.name);
+export class VariantIndexationService {
+  private readonly logger = new Logger(VariantIndexationService.name);
 
   constructor(
     private mainPrisma: PrismaMainClient,
