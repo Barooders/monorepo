@@ -21,7 +21,7 @@ import {
   ValueDate,
 } from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
-import { VariantToIndexWithTarget } from '@modules/product/domain/indexation.service';
+import { VariantToIndexWithTarget } from '@modules/product/domain/ports/indexation.strategy';
 import {
   B2BVariantToIndex,
   PublicVariantToIndex,

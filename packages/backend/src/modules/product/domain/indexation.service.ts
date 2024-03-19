@@ -5,22 +5,11 @@ import {
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable } from '@nestjs/common';
 import { B2BIndexationService } from './b2b-indexation.service';
-import { IndexationStrategy } from './ports/indexation.strategy';
 import {
-  B2BVariantToIndex,
-  PublicVariantToIndex,
-} from './ports/variant-to-index.type';
+  IndexationStrategy,
+  VariantToIndexWithTarget,
+} from './ports/indexation.strategy';
 import { PublicIndexationService } from './public-indexation.service';
-
-export type VariantToIndexWithTarget =
-  | {
-      target: typeof SalesChannelName.PUBLIC;
-      data: PublicVariantToIndex;
-    }
-  | {
-      target: typeof SalesChannelName.B2B;
-      data: B2BVariantToIndex;
-    };
 
 @Injectable()
 export class IndexationService {
