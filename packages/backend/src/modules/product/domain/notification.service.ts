@@ -48,6 +48,7 @@ export class NotificationService {
       createdAt: {
         lte: new Date(new Date().getTime() - OLD_PRODUCT_IN_DAYS * ONE_DAY),
       },
+      variants: { some: { quantity: { gt: 0 } } },
       OR: [
         {
           source: {
