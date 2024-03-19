@@ -32,16 +32,25 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     hideReduction: true,
   },
   {
+    // Until 28/03
+    title: 'CYCLESAV40',
+    label: 'CyclesAveyron',
+    type: 'dynamic',
+  },
+  {
+    // Until 21/03
     title: 'TUBIKE40',
     label: 'Tubike',
     type: 'dynamic',
   },
   {
+    // Until 21/03
     title: 'SPECIALIZED30',
     label: 'Vélos et VTT Specialized',
     type: 'dynamic',
   },
   {
+    // Until 23/03
     title: 'GRAVEL20',
     label: 'Gravel',
     type: 'dynamic',
