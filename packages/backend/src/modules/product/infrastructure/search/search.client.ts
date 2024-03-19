@@ -1,7 +1,6 @@
 import {
-  CollectionDocument,
-  SearchB2BVariantDocument,
-  SearchPublicVariantDocument,
+  addFormattedBikeSizeToTags,
+  getDiscountRange,
 } from '@libs/domain/types';
 import { jsonParse, jsonStringify } from '@libs/helpers/json';
 import {
@@ -9,7 +8,12 @@ import {
   typesenseCollectionClient,
   typesensePublicVariantClient,
 } from '@libs/infrastructure/typesense/typesense.base.client';
+import { CollectionToIndex } from '@modules/product/domain/ports/collection-to-index.type';
 import { ISearchClient } from '@modules/product/domain/ports/search-client';
+import {
+  B2BVariantToIndex,
+  PublicVariantToIndex,
+} from '@modules/product/domain/ports/variant-to-index.type';
 import { Logger } from '@nestjs/common';
 import { TypesenseError } from 'typesense/lib/Typesense/Errors';
 
@@ -19,12 +23,59 @@ const isTypesenseNotFoundError = (error: any) =>
 export class SearchClient implements ISearchClient {
   private readonly logger = new Logger(SearchClient.name);
 
-  async indexPublicVariantDocument(
-    document: SearchPublicVariantDocument,
-  ): Promise<void> {
+  async indexPublicVariantDocument({
+    variant,
+    product,
+    vendor,
+  }: PublicVariantToIndex): Promise<void> {
     const variantDocument = {
-      id: document.variant_shopify_id.toString(),
-      ...document,
+      id: variant.shopifyId.id.toString(),
+      variant_shopify_id: variant.shopifyId.id,
+      variant_internal_id: variant.id?.uuid,
+      title: product.title,
+      vendor: vendor.name,
+      vendor_informations: {
+        reviews: {
+          count: vendor.reviews.count,
+          average_rating: vendor.reviews?.averageRating,
+        },
+      },
+      meta: {
+        barooders: {
+          owner: vendor.isPro ? 'b2c' : 'c2c',
+          product_discount_range: getDiscountRange(
+            product.highestDiscount.percentageOn100,
+          ),
+        },
+      },
+      product_type: product.productType.productType,
+      variant_title: variant.title,
+      computed_scoring: product.calculatedScoring,
+      is_refurbished: variant.isRefurbished ? 'true' : 'false',
+      condition: variant.condition.toString(),
+      handle: product.handle,
+      inventory_quantity: variant.quantityAvailable?.stock ?? 0,
+      array_tags: addFormattedBikeSizeToTags(
+        product.tags.tagsObjectWithArrays,
+        product.collections,
+      ),
+      price: variant.price.amount,
+      discount:
+        variant.compareAtPrice.amount === 0
+          ? 0
+          : (variant.compareAtPrice.amount - variant.price.amount) /
+            variant.compareAtPrice.amount,
+      product_internal_id: product.id.uuid,
+      product_shopify_id: product.shopifyId.id,
+      product_image: product.imageSrc?.url,
+      compare_at_price: variant.compareAtPrice.amount,
+      collection_internal_ids: product.collections.map(
+        (collection) => collection.id.uuid,
+      ),
+      collection_handles: product.collections.map(({ handle }) => handle),
+      publishedat_timestamp: product.publishedAt.timestamp,
+      updatedat_timestamp: variant.updatedAt.timestamp,
+      createdat_timestamp: variant.createdAt.timestamp,
     };
 
     try {
@@ -37,12 +88,27 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async indexB2BVariantDocument(
-    document: SearchB2BVariantDocument,
-  ): Promise<void> {
+  async indexB2BVariantDocument({
+    variant,
+    product,
+  }: B2BVariantToIndex): Promise<void> {
     const variantDocument = {
-      id: document.variant_shopify_id.toString(),
-      ...document,
+      id: variant.shopifyId.id.toString(),
+      variant_shopify_id: variant.shopifyId.id,
+      variant_internal_id: variant.id?.uuid,
+      title: product.title,
+      product_type: product.productType.productType,
+      condition: variant.condition.toString(),
+      handle: product.handle,
+      inventory_quantity: variant.quantityAvailable?.stock ?? 0,
+      array_tags: product.tags.tagsObjectWithArrays,
+      price: variant.price.amount,
+      product_internal_id: product.id.uuid,
+      product_shopify_id: product.shopifyId.id,
+      product_image: product.imageSrc?.url,
+      publishedat_timestamp: product.publishedAt.timestamp,
+      updatedat_timestamp: variant.updatedAt.timestamp,
+      createdat_timestamp: variant.createdAt.timestamp,
     };
 
     try {
@@ -83,10 +149,22 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async indexCollectionDocument(document: CollectionDocument): Promise<void> {
+  async indexCollectionDocument({
+    id,
+    title,
+    handle,
+    productCount,
+    updatedAt,
+    imageSrc,
+  }: CollectionToIndex): Promise<void> {
     const collectionDocument = {
-      id: document.collectionId,
-      ...document,
+      id: id.id.toString(),
+      collectionId: id.id.toString(),
+      title: title,
+      handle: handle,
+      product_count: productCount.stock,
+      updatedat_timestamp: updatedAt.timestamp,
+      image: imageSrc?.url,
     };
 
     try {

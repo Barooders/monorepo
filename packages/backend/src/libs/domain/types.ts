@@ -1,3 +1,5 @@
+import { UUID } from './value-objects';
+
 export const DISABLED_VARIANT_OPTION = 'Default Title';
 export const BAROODERS_NAMESPACE = 'barooders';
 
@@ -119,67 +121,157 @@ export const getDiscountRange = (discount: number): DiscountRange => {
   return range;
 };
 
-export type SearchPublicVariantDocument = {
-  variant_shopify_id: number;
-  variant_internal_id?: string;
-  title: string;
-  vendor: string;
-  vendor_informations: {
-    reviews: {
-      count: number;
-      average_rating?: number;
-    };
-  };
-  meta: {
-    barooders: {
-      owner: 'b2c' | 'c2c';
-      product_discount_range: DiscountRange;
-    };
-  };
-  product_type: string;
-  variant_title: string;
-  computed_scoring: number;
-  is_refurbished?: string;
-  condition: string;
-  handle: string;
-  inventory_quantity: number;
-  array_tags: Record<string, string[]>;
-  price: number;
-  discount: number;
-  product_shopify_id: number;
-  product_internal_id: string;
-  product_image?: string;
-  compare_at_price: number;
-  collection_internal_ids: string[];
-  collection_handles: string[];
-  updatedat_timestamp: number;
-  createdat_timestamp: number;
-  publishedat_timestamp: number;
+const mapBikeSize = (size: string) => {
+  const matchOneOf = (values: string[]) =>
+    values.some((v) => size.toLowerCase().replaceAll('/', '').includes(v));
+
+  if (matchOneOf(['unique', 'universelle'])) return 'UNIQUE';
+  if (matchOneOf(['enfant'])) return 'CHILD';
+
+  if (
+    matchOneOf([
+      'xxl',
+      '23 pouces',
+      '24 pouces',
+      '23',
+      '24',
+      '61',
+      '62',
+      '63',
+      '64',
+      '65',
+    ])
+  )
+    return 'XXL';
+  if (matchOneOf(['xl', '22 pouces', '22', '58', '59', '60'])) return 'XL';
+  if (matchOneOf(['ml'])) return 'M/L';
+  if (matchOneOf(['xxs', '42', '43', '44', '45'])) return 'XXS';
+  if (
+    matchOneOf(['xs', '16 pouces', '17 pouces', '16', '17', '46', '47', '48'])
+  )
+    return 'XS';
+
+  if (matchOneOf(['l', '21 pouces', '21', '55', '56', '57'])) return 'L';
+  if (matchOneOf(['m', '20 pouces', '20', '52', '53', '54'])) return 'M';
+  if (matchOneOf(['s', '18 pouces', '18', '19 pouces', '19', '49', '50', '51']))
+    return 'S';
+
+  return null;
 };
 
-export type SearchB2BVariantDocument = {
-  variant_shopify_id: number;
-  variant_internal_id?: string;
-  title: string;
-  product_type: string;
-  condition: string;
-  handle: string;
-  inventory_quantity: number;
-  array_tags: Record<string, string[]>;
-  price: number;
-  product_shopify_id: number;
-  product_internal_id: string;
-  product_image?: string;
-  updatedat_timestamp: number;
-  createdat_timestamp: number;
-  publishedat_timestamp: number;
+const mapMountainBikeSize = (size: string) => {
+  const matchOneOf = (values: string[]) =>
+    values.some((v) => size.toLowerCase().replaceAll('/', '').includes(v));
+
+  if (matchOneOf(['unique', 'universelle'])) return 'UNIQUE';
+  if (matchOneOf(['enfant'])) return 'CHILD';
+
+  if (
+    matchOneOf([
+      'xxl',
+      '23 pouces',
+      '24 pouces',
+      '23',
+      '24',
+      '57',
+      '58',
+      '59',
+      '60',
+      '61',
+      '62',
+      '63',
+      '64',
+    ])
+  )
+    return 'XXL';
+  if (
+    matchOneOf([
+      'xl',
+      '21 pouces',
+      '22 pouces',
+      '21',
+      '22',
+      '52',
+      '53',
+      '54',
+      '55',
+      '56',
+    ])
+  )
+    return 'XL';
+  if (matchOneOf(['ml', '18 pouces', '18', '46', '47'])) return 'M/L';
+  if (matchOneOf(['xxs'])) return 'XXS';
+  if (
+    matchOneOf([
+      'xs',
+      '13 pouces',
+      '14 pouces',
+      '13',
+      '14',
+      '33',
+      '34',
+      '35',
+      '36',
+    ])
+  )
+    return 'XS';
+
+  if (
+    matchOneOf([
+      'l',
+      '19 pouces',
+      '20 pouces',
+      '19',
+      '20',
+      '48',
+      '49',
+      '50',
+      '51',
+    ])
+  )
+    return 'L';
+  if (matchOneOf(['m', '17 pouces', '17', '43', '44', '45'])) return 'M';
+  if (
+    matchOneOf([
+      's',
+      '15 pouces',
+      '16 pources',
+      '15',
+      '16',
+      '37',
+      '38',
+      '39',
+      '40',
+      '41',
+      '42',
+    ])
+  )
+    return 'S';
+
+  return null;
 };
 
-export type CollectionDocument = {
-  collectionId: string;
-  title: string;
-  handle: string;
-  product_count: number;
-  updatedat_timestamp: number;
-  image?: string;
+export const addFormattedBikeSizeToTags = (
+  tags: Record<string, string[]>,
+  collections: {
+    id: UUID;
+    handle: string;
+  }[],
+): Record<string, string[]> => {
+  const isBike = collections.some(
+    ({ handle }) => handle === BIKES_COLLECTION_HANDLE,
+  );
+  const isMountainBike = collections.some(({ handle }) =>
+    MOUNTAIN_BIKES_COLLECTION_HANDLES.includes(handle),
+  );
+  const existingSizeTags = tags[BIKE_SIZE_TAG_KEY] ?? [];
+
+  if (existingSizeTags.length === 0 || !isBike) return tags;
+
+  return {
+    ...tags,
+    'formatted-bike-size': existingSizeTags
+      .map(isMountainBike ? mapMountainBikeSize : mapBikeSize)
+      .flatMap((size) => (size ? [size] : [])),
+  };
 };

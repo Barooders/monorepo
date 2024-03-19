@@ -1,145 +1,9 @@
-import {
-  BIKES_COLLECTION_HANDLE,
-  BIKE_SIZE_TAG_KEY,
-  MOUNTAIN_BIKES_COLLECTION_HANDLES,
-  getDiscountRange,
-} from '@libs/domain/types';
-import { ShopifyID, UUID } from '@libs/domain/value-objects';
+import { ShopifyID } from '@libs/domain/value-objects';
 import { Injectable, Logger } from '@nestjs/common';
 import { CollectionToIndex } from './ports/collection-to-index.type';
 import { IndexationStrategy } from './ports/indexation.strategy';
 import { ISearchClient } from './ports/search-client';
 import { PublicVariantToIndex } from './ports/variant-to-index.type';
-
-const mapBikeSize = (size: string) => {
-  const matchOneOf = (values: string[]) =>
-    values.some((v) => size.toLowerCase().replaceAll('/', '').includes(v));
-
-  if (matchOneOf(['unique', 'universelle'])) return 'UNIQUE';
-  if (matchOneOf(['enfant'])) return 'CHILD';
-
-  if (
-    matchOneOf([
-      'xxl',
-      '23 pouces',
-      '24 pouces',
-      '23',
-      '24',
-      '61',
-      '62',
-      '63',
-      '64',
-      '65',
-    ])
-  )
-    return 'XXL';
-  if (matchOneOf(['xl', '22 pouces', '22', '58', '59', '60'])) return 'XL';
-  if (matchOneOf(['ml'])) return 'M/L';
-  if (matchOneOf(['xxs', '42', '43', '44', '45'])) return 'XXS';
-  if (
-    matchOneOf(['xs', '16 pouces', '17 pouces', '16', '17', '46', '47', '48'])
-  )
-    return 'XS';
-
-  if (matchOneOf(['l', '21 pouces', '21', '55', '56', '57'])) return 'L';
-  if (matchOneOf(['m', '20 pouces', '20', '52', '53', '54'])) return 'M';
-  if (matchOneOf(['s', '18 pouces', '18', '19 pouces', '19', '49', '50', '51']))
-    return 'S';
-
-  return null;
-};
-
-const mapMountainBikeSize = (size: string) => {
-  const matchOneOf = (values: string[]) =>
-    values.some((v) => size.toLowerCase().replaceAll('/', '').includes(v));
-
-  if (matchOneOf(['unique', 'universelle'])) return 'UNIQUE';
-  if (matchOneOf(['enfant'])) return 'CHILD';
-
-  if (
-    matchOneOf([
-      'xxl',
-      '23 pouces',
-      '24 pouces',
-      '23',
-      '24',
-      '57',
-      '58',
-      '59',
-      '60',
-      '61',
-      '62',
-      '63',
-      '64',
-    ])
-  )
-    return 'XXL';
-  if (
-    matchOneOf([
-      'xl',
-      '21 pouces',
-      '22 pouces',
-      '21',
-      '22',
-      '52',
-      '53',
-      '54',
-      '55',
-      '56',
-    ])
-  )
-    return 'XL';
-  if (matchOneOf(['ml', '18 pouces', '18', '46', '47'])) return 'M/L';
-  if (matchOneOf(['xxs'])) return 'XXS';
-  if (
-    matchOneOf([
-      'xs',
-      '13 pouces',
-      '14 pouces',
-      '13',
-      '14',
-      '33',
-      '34',
-      '35',
-      '36',
-    ])
-  )
-    return 'XS';
-
-  if (
-    matchOneOf([
-      'l',
-      '19 pouces',
-      '20 pouces',
-      '19',
-      '20',
-      '48',
-      '49',
-      '50',
-      '51',
-    ])
-  )
-    return 'L';
-  if (matchOneOf(['m', '17 pouces', '17', '43', '44', '45'])) return 'M';
-  if (
-    matchOneOf([
-      's',
-      '15 pouces',
-      '16 pources',
-      '15',
-      '16',
-      '37',
-      '38',
-      '39',
-      '40',
-      '41',
-      '42',
-    ])
-  )
-    return 'S';
-
-  return null;
-};
 
 @Injectable()
 export class PublicIndexationService implements IndexationStrategy {
@@ -147,11 +11,8 @@ export class PublicIndexationService implements IndexationStrategy {
 
   constructor(private searchClient: ISearchClient) {}
 
-  async indexVariant({
-    variant,
-    product,
-    vendor,
-  }: PublicVariantToIndex): Promise<void> {
+  async indexVariant(variantToIndex: PublicVariantToIndex): Promise<void> {
+    const { variant, product } = variantToIndex;
     try {
       if (!product.isActive) {
         this.logger.debug(
@@ -162,75 +23,14 @@ export class PublicIndexationService implements IndexationStrategy {
         );
         return;
       }
-      await this.searchClient.indexPublicVariantDocument({
-        variant_shopify_id: variant.shopifyId.id,
-        variant_internal_id: variant.id?.uuid,
-        title: product.title,
-        vendor: vendor.name,
-        vendor_informations: {
-          reviews: {
-            count: vendor.reviews.count,
-            average_rating: vendor.reviews?.averageRating,
-          },
-        },
-        meta: {
-          barooders: {
-            owner: vendor.isPro ? 'b2c' : 'c2c',
-            product_discount_range: getDiscountRange(
-              product.highestDiscount.percentageOn100,
-            ),
-          },
-        },
-        product_type: product.productType.productType,
-        variant_title: variant.title,
-        computed_scoring: product.calculatedScoring,
-        is_refurbished: variant.isRefurbished ? 'true' : 'false',
-        condition: variant.condition.toString(),
-        handle: product.handle,
-        inventory_quantity: variant.quantityAvailable?.stock ?? 0,
-        array_tags: this.addFormattedBikeSizeToTags(
-          product.tags.tagsObjectWithArrays,
-          product.collections,
-        ),
-        price: variant.price.amount,
-        discount:
-          variant.compareAtPrice.amount === 0
-            ? 0
-            : (variant.compareAtPrice.amount - variant.price.amount) /
-              variant.compareAtPrice.amount,
-        product_internal_id: product.id.uuid,
-        product_shopify_id: product.shopifyId.id,
-        product_image: product.imageSrc?.url,
-        compare_at_price: variant.compareAtPrice.amount,
-        collection_internal_ids: product.collections.map(
-          (collection) => collection.id.uuid,
-        ),
-        collection_handles: product.collections.map(({ handle }) => handle),
-        publishedat_timestamp: product.publishedAt.timestamp,
-        updatedat_timestamp: variant.updatedAt.timestamp,
-        createdat_timestamp: variant.createdAt.timestamp,
-      });
+      await this.searchClient.indexPublicVariantDocument(variantToIndex);
     } catch (error: any) {
       this.logger.error(error.message, error);
     }
   }
 
-  async indexCollection({
-    id,
-    title,
-    handle,
-    productCount,
-    updatedAt,
-    imageSrc,
-  }: CollectionToIndex): Promise<void> {
-    await this.searchClient.indexCollectionDocument({
-      collectionId: id.id.toString(),
-      title: title,
-      handle: handle,
-      product_count: productCount.stock,
-      updatedat_timestamp: updatedAt.timestamp,
-      image: imageSrc?.url,
-    });
+  async indexCollection(collectionToIndex: CollectionToIndex): Promise<void> {
+    await this.searchClient.indexCollectionDocument(collectionToIndex);
   }
 
   async deleteCollection({ id }: ShopifyID): Promise<void> {
@@ -304,30 +104,5 @@ export class PublicIndexationService implements IndexationStrategy {
         this.searchClient.deleteCollectionDocument(collectionId),
       ),
     );
-  }
-
-  private addFormattedBikeSizeToTags(
-    tags: Record<string, string[]>,
-    collections: {
-      id: UUID;
-      handle: string;
-    }[],
-  ): Record<string, string[]> {
-    const isBike = collections.some(
-      ({ handle }) => handle === BIKES_COLLECTION_HANDLE,
-    );
-    const isMountainBike = collections.some(({ handle }) =>
-      MOUNTAIN_BIKES_COLLECTION_HANDLES.includes(handle),
-    );
-    const existingSizeTags = tags[BIKE_SIZE_TAG_KEY] ?? [];
-
-    if (existingSizeTags.length === 0 || !isBike) return tags;
-
-    return {
-      ...tags,
-      'formatted-bike-size': existingSizeTags
-        .map(isMountainBike ? mapMountainBikeSize : mapBikeSize)
-        .flatMap((size) => (size ? [size] : [])),
-    };
   }
 }
