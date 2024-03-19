@@ -102,18 +102,20 @@ model StoreBaseProduct {
   collections              StoreProductCollectionWithManualCollections[]
   storeProductForAnalytics StoreProductForAnalytics?
   storeProductForAdmin     StoreProductForAdmin?
+  storeB2BProduct          StoreB2BProduct?
 
   @@map("store_base_product")
   @@schema("dbt")
 }
 
 model StoreBaseProductVariant {
-  id                    String? //TODO: remove "?" once all variants are in database
-  shopifyId             BigInt                      @id @map("shopify_id")
-  createdAt             DateTime                    @db.Timestamptz(6)
-  productId             String
-  product               StoreBaseProduct            @relation(fields: [productId], references: [id])
-  exposedProductVariant StoreExposedProductVariant?
+  id                     String? //TODO: remove "?" once all variants are in database
+  shopifyId              BigInt                      @id @map("shopify_id")
+  createdAt              DateTime                    @db.Timestamptz(6)
+  productId              String
+  product                StoreBaseProduct            @relation(fields: [productId], references: [id])
+  exposedProductVariant  StoreExposedProductVariant?
+  storeB2BProductVariant StoreB2BProductVariant?
 
   @@index([productId])
   @@index([id])
@@ -149,6 +151,22 @@ model StoreExposedProduct {
   @@index([gender])
   @@index([vendor])
   @@map("store_exposed_product")
+  @@schema("dbt")
+}
+
+model StoreB2BProduct {
+  id          String           @id
+  publishedAt DateTime?        @map("published_at") @db.Timestamptz(6)
+  productType String           @map("product_type") @db.VarChar(256)
+  status      ProductStatus
+  title       String           @db.VarChar(256)
+  handle      String           @db.VarChar(256)
+  syncDate    DateTime         @map("sync_date") @db.Date
+  firstImage  String?          @map("first_image") @db.VarChar(512)
+  product     StoreBaseProduct @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_b2b_product")
   @@schema("dbt")
 }
 
@@ -216,6 +234,20 @@ model StoreExposedProductVariant {
 
   @@index([shopifyId])
   @@map("store_exposed_product_variant")
+  @@schema("dbt")
+}
+
+model StoreB2BProductVariant {
+  shopifyId         BigInt                  @id @map("shopify_id")
+  inventoryQuantity BigInt                  @map("inventory_quantity")
+  syncDate          DateTime                @map("sync_date") @db.Date
+  price             Float
+  condition         Condition?
+  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6)
+  variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
+
+  @@index([shopifyId])
+  @@map("store_b2b_product_variant")
   @@schema("dbt")
 }
 
