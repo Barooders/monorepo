@@ -247,8 +247,7 @@ async function scrapBrand({ brandName, brandId }) {
 const run = async () => {
   const { bicycleBrands: brands } = await getBrandInformations();
 
-  const filteredBrands = brands.filter((b) => b.name === 'Adams');
-  for (const brand of filteredBrands) {
+  for (const brand of brands) {
     await scrapBrand({ brandName: brand.name, brandId: brand.id });
   }
 };
