@@ -219,24 +219,38 @@ const getBrandInformations = async () => {
   return body;
 };
 
-const run = async () => {
-  const brand = 'Adams';
-  const { bicycleBrands: brands } = await getBrandInformations(brand);
-  const brandId = brands.find((b) => b.name === brand).id;
+async function scrapBrand({ brandName, brandId }) {
+  console.log(`Scraping ${brandName}...`);
+  const completedFile = `${PATH_PREFIX}/data/${brandName}/completed.txt`;
+  if (await doesFileExist(completedFile)) {
+    console.log(`${brandName} already scraped !`);
+    return;
+  }
 
-  const simpleBikes = (await cacheBikes(brand)).flatMap((b) => b);
+  const simpleBikes = (await cacheBikes(brandName)).flatMap((b) => b);
 
   const bikes = [];
   for (const bike of simpleBikes) {
     try {
-      bikes.push(await cacheAdditionalInfo(brand, brandId, bike));
+      bikes.push(await cacheAdditionalInfo(brandName, brandId, bike));
     } catch (e) {
       console.error(`Failed to cache additional info for ${bike.name} - ${e}`);
     }
   }
 
   console.log('Downloading images...');
-  getImages(brand, bikes);
+  getImages(brandName, bikes);
+
+  uploadFile(completedFile, 'completed !');
+}
+
+const run = async () => {
+  const { bicycleBrands: brands } = await getBrandInformations();
+
+  const filteredBrands = brands.filter((b) => b.name === 'Adams');
+  for (const brand of filteredBrands) {
+    await scrapBrand({ brandName: brand.name, brandId: brand.id });
+  }
 };
 
 run();
