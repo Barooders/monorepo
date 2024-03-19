@@ -12,7 +12,7 @@ import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
 import { CollectionService } from './domain/collection.service';
-import { IndexationService } from './domain/indexation.service';
+import { PublicIndexationService } from './domain/public-indexation.service';
 import { NotificationService } from './domain/notification.service';
 import { IEmailClient } from './domain/ports/email.client';
 import { IPIMClient } from './domain/ports/pim.client';
@@ -41,7 +41,7 @@ const commonProviders = [
   SessionMapper,
   PostgreSQLSessionStorage,
   CustomerRepository,
-  IndexationService,
+  PublicIndexationService,
   StoreMapper,
   {
     provide: ISearchClient,

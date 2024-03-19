@@ -142,8 +142,8 @@ const mapMountainBikeSize = (size: string) => {
 };
 
 @Injectable()
-export class IndexationService implements IndexationStrategy {
-  private readonly logger = new Logger(IndexationService.name);
+export class PublicIndexationService implements IndexationStrategy {
+  private readonly logger = new Logger(PublicIndexationService.name);
 
   constructor(private searchClient: ISearchClient) {}
 

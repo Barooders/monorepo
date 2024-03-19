@@ -7,7 +7,7 @@ import { CollectionIndexationCLIConsole } from './application/collection-indexat
 import { ProductIndexationCLIConsole } from './application/product-indexation.cli';
 import { ProductIndexationConsumer } from './application/product-indexation.consumer.redis';
 import { QueueNames } from './config';
-import { IndexationService } from './domain/indexation.service';
+import { PublicIndexationService } from './domain/public-indexation.service';
 import { IQueueClient } from './domain/ports/queue-client';
 import { ISearchClient } from './domain/ports/search-client';
 import { QueueClient } from './infrastructure/queue/queue.client';
@@ -24,7 +24,7 @@ const commonImports = [
 ];
 
 const commonProviders = [
-  IndexationService,
+  PublicIndexationService,
   {
     provide: ISearchClient,
     useClass: SearchClient,

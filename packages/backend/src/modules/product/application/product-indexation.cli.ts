@@ -3,7 +3,7 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Logger } from '@nestjs/common';
 import { Command, Console } from 'nestjs-console';
-import { IndexationService } from '../domain/indexation.service';
+import { PublicIndexationService } from '../domain/indexation.service';
 import { IQueueClient } from '../domain/ports/queue-client';
 
 @Console({
@@ -19,7 +19,7 @@ export class ProductIndexationCLIConsole {
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
     private queueClient: IQueueClient,
-    private indexationService: IndexationService,
+    private indexationService: PublicIndexationService,
   ) {}
 
   @Command({
