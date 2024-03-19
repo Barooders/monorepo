@@ -1,0 +1,76 @@
+{
+  "name": "backend_b2b_products",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "product_type",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "handle",
+      "type": "string"
+    },
+    {
+      "name": "condition",
+      "type": "string",
+      "facet": true
+    },
+    {
+      "name": "inventory_quantity",
+      "type": "int32"
+    },
+    {
+      "name": "array_tags.*",
+      "type": "string[]",
+      "facet": true
+    },
+    {
+      "name": "price",
+      "type": "float",
+      "facet": true
+    },
+    {
+      "name": "product_shopify_id",
+      "type": "int64"
+    },
+    {
+      "name": "product_internal_id",
+      "facet": true,
+      "type": "string"
+    },
+    {
+      "name": "variant_shopify_id",
+      "type": "int64"
+    },
+    {
+      "name": "variant_internal_id",
+      "type": "string",
+      "optional": true
+    },
+    {
+      "name": "product_image",
+      "type": "string",
+      "index": false,
+      "optional": true
+    },
+    {
+      "name": "updatedat_timestamp",
+      "type": "int64"
+    },
+    {
+      "name": "createdat_timestamp",
+      "type": "int64"
+    },
+    {
+      "name": "publishedat_timestamp",
+      "type": "int64"
+    }
+  ],
+  "default_sorting_field": "createdat_timestamp",
+  "enable_nested_fields": true
+}
