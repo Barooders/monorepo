@@ -21,7 +21,10 @@ import {
 } from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { VariantToIndexWithTarget } from '@modules/product/domain/indexation.service';
-import { PublicVariantToIndex } from '@modules/product/domain/ports/variant-to-index.type';
+import {
+  B2BVariantToIndex,
+  PublicVariantToIndex,
+} from '@modules/product/domain/ports/variant-to-index.type';
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { meanBy } from 'lodash';
@@ -53,6 +56,44 @@ export class StoreMapper {
   async mapVariantsToIndexFromProductId(
     productId: UUID,
   ): Promise<VariantToIndexWithTarget[]> {
+    const salesChannels =
+      await this.prismaMainClient.productSalesChannel.findMany({
+        where: {
+          productId: productId.uuid,
+        },
+        select: {
+          salesChannelName: true,
+        },
+      });
+
+    const variantsToIndexPromises = salesChannels.map(
+      async ({ salesChannelName }) => {
+        switch (salesChannelName) {
+          case SalesChannelName.PUBLIC:
+            const publicVariants =
+              await this.mapPublicVariantsToIndex(productId);
+            return publicVariants.map((variant) => ({
+              target: salesChannelName,
+              data: variant,
+            }));
+          case SalesChannelName.B2B:
+            const b2bVariants = await this.mapB2BVariantsToIndex(productId);
+            return b2bVariants.map((variant) => ({
+              target: salesChannelName,
+              data: variant,
+            }));
+          default:
+            throw new Error(`Unknown sales channel: ${salesChannelName}`);
+        }
+      },
+    );
+
+    return (await Promise.all(variantsToIndexPromises)).flat();
+  }
+
+  private async mapPublicVariantsToIndex(
+    productId: UUID,
+  ): Promise<PublicVariantToIndex[]> {
     const {
       baseProductVariants,
       exposedProduct,
@@ -138,20 +179,23 @@ export class StoreMapper {
     const reviews = vendorReviews.map(({ review }) => review);
 
     return variants.map((variant) => ({
-      target: SalesChannelName.PUBLIC,
-      data: {
-        product,
-        vendor: {
-          name: sellerName ?? '',
-          isPro,
-          reviews: {
-            count: reviews.length,
-            averageRating: meanBy(reviews, 'rating'),
-          },
+      product,
+      vendor: {
+        name: sellerName ?? '',
+        isPro,
+        reviews: {
+          count: reviews.length,
+          averageRating: meanBy(reviews, 'rating'),
         },
-        variant,
       },
+      variant,
     }));
+  }
+
+  private async mapB2BVariantsToIndex(
+    _productId: UUID,
+  ): Promise<B2BVariantToIndex[]> {
+    throw new Error('Not implemented');
   }
 
   private mapVariants(
