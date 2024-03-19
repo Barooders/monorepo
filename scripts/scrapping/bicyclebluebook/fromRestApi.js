@@ -7,6 +7,7 @@ const BRAND_IDs = {
   Specialized: 741,
   Cannondale: 672,
   Giant: 683,
+  Trek: 750,
 };
 
 const s3 = new AWS.S3({
@@ -156,7 +157,7 @@ const cacheBikes = async (brand) => {
   return bikes;
 };
 
-const additionalInfo = async (bike, brand) => {
+const additionalInfo = async (bike, brand, brandId) => {
   const data = await fetch(
     `https://api.bicyclebluebook.com/core/api/tradeIn/bicycle?brandId=${BRAND_IDs[brand]}&modelId=${bike.modelId}&yearId=${bike.year}`,
   );
@@ -167,7 +168,7 @@ const additionalInfo = async (bike, brand) => {
   };
 };
 
-const cacheAdditionalInfo = async (brand, bike) => {
+const cacheAdditionalInfo = async (brand, brandId, bike) => {
   const brandDataDirectory = `${PATH_PREFIX}/data/${escape(brand)}`;
   const familiesDataDirectory = `${brandDataDirectory}/${escape(bike.family)}`;
   const yearDirectory = `${familiesDataDirectory}/${bike.year}`;
@@ -178,7 +179,7 @@ const cacheAdditionalInfo = async (brand, bike) => {
   }
 
   console.log(`Retrieve info on product ${bike.name}...`);
-  const more = await additionalInfo(bike, brand);
+  const more = await additionalInfo(bike, brand, brandId);
 
   uploadFile(fileName, JSON.stringify(more));
   return more;
@@ -209,14 +210,31 @@ function getImages(brand, bikes) {
     });
 }
 
+const getBrandInformations = async (brand) => {
+  const brandDataDirectory = `${PATH_PREFIX}/data/${brand}`;
+  if (await doesFileExist(`${brandDataDirectory}/informations.json`)) {
+    return getObjectContent(`${brandDataDirectory}/informations.json`);
+  }
+
+  const data = await fetch(
+    `https://api.bicyclebluebook.com/vg/api/brand/info?id=${brand}`,
+  );
+  const body = await data.json();
+
+  uploadFile(`${brandDataDirectory}/informations.json`, JSON.stringify(body));
+  return body;
+};
+
 const run = async () => {
-  const brand = 'Giant';
+  const brand = 'Adams';
+  const { id: brandId } = await getBrandInformations(brand);
+
   const simpleBikes = (await cacheBikes(brand)).flatMap((b) => b);
 
   const bikes = [];
   for (const bike of simpleBikes) {
     try {
-      bikes.push(await cacheAdditionalInfo(brand, bike));
+      bikes.push(await cacheAdditionalInfo(brand, brandId, bike));
     } catch (e) {
       console.error(`Failed to cache additional info for ${bike.name} - ${e}`);
     }
