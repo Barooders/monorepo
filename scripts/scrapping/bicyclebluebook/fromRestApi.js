@@ -705,7 +705,7 @@ function getImages(brand, bikes) {
   const brandDirectory = `${PATH_PREFIX}/images/${brand}`;
 
   bikes
-    .filter((bike) => bike.imageSrc != 4)
+    .filter((bike) => bike.imageSrc != null)
     .forEach(async ({ name, family, year, imageSrc }) => {
       const familyDirectory = `${brandDirectory}/${escape(family)}`;
       const yearDirectory = `${familyDirectory}/${year}`;
