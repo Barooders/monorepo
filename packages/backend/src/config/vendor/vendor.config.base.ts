@@ -599,14 +599,14 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           try {
             const {
               status,
-              response: { canBeSold },
+              response: { canBeSold, qte },
             } = jsonParse(apiContent);
 
             if (status !== 'success' || canBeSold === undefined) {
               throw new Error(`Invalid Everide API response`);
             }
 
-            return canBeSold === 1;
+            return canBeSold === 1 && qte > 0;
           } catch (e: unknown) {
             throw new Error(
               `Could not parse Everide API response: ${apiContent}`,
