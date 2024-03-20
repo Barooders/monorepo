@@ -44,7 +44,7 @@
     @apply mb-1 mt-2 font-semibold;
   }
 
-  & a {
+  & a:not(.barooders__featured-collections a) {
     @apply underline;
   }
 
