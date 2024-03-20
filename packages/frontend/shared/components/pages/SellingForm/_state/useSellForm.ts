@@ -3,6 +3,7 @@ import {
   productAttributesConfiguration,
 } from '@/config/productAttributes';
 import { ProductStatus } from '@/types';
+import deburr from 'lodash/deburr';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import {
@@ -47,6 +48,7 @@ interface SellFormState {
   isStepValidated: (stepName: SellFormSteps, phoneNumber?: string) => boolean;
   addProductTagsInfo: (tagPrefix: string, value: ProductInfoValueType) => void;
   setSellFormConfig: (sellFormConfig: SellFormConfig | null) => void;
+  isInCategory: (categoryName: string) => boolean;
   clearForm: () => void;
 }
 
@@ -250,6 +252,23 @@ const useSellForm = create<SellFormState>()(
             const [tagPrefix, ...valueParts] = tag.split(':');
             get().addProductTagsInfo(tagPrefix, valueParts.join(':'));
           });
+        },
+
+        isInCategory: (categoryName) => {
+          const taxonomy = get().sellFormConfig?.taxonomy;
+          if (!taxonomy) {
+            throw new Error(
+              `Sell form config is not loaded, could not determine if in category ${categoryName}`,
+            );
+          }
+
+          return (
+            Object.values(taxonomy).find(
+              (item) =>
+                deburr(item.name).toLowerCase() ===
+                deburr(categoryName).toLowerCase(),
+            )?.children ?? []
+          ).some((child) => taxonomy[child].name === get().selectedProductType);
         },
 
         clearForm: () => {

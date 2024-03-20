@@ -2,13 +2,14 @@
 
 import Button from '@/components/atoms/Button';
 import Modal from '@/components/atoms/Modal';
+import { BIKE_CATEGORY_NAME, MTB_PRODUCT_TYPES } from '@/config/productTypes';
 import { getDictionary } from '@/i18n/translate';
 import { FaInfo } from 'react-icons/fa';
 import { FaRotate } from 'react-icons/fa6';
-import { FormStepProps } from '../../../types';
 import useAddProductImages from '../../../_hooks/useAddProductImages';
 import useRefreshImages from '../../../_hooks/useRefreshImages';
 import useSellForm from '../../../_state/useSellForm';
+import { FormStepProps } from '../../../types';
 import ImageItem from './ImageItem';
 import SelectImageItem from './SelectImageItem';
 import SellFormImagesAdvices from './SellFormImagesAdvices';
@@ -16,7 +17,7 @@ import SellFormImagesAdvices from './SellFormImagesAdvices';
 const dict = getDictionary('fr');
 const imageStepLabels = dict.sellingForm.imageStep;
 
-const placeholderDatas = [
+const defaultPlaceholderDatas = [
   imageStepLabels.imagePlaceholderData.front,
   imageStepLabels.imagePlaceholderData.side,
   imageStepLabels.imagePlaceholderData.back,
@@ -25,8 +26,21 @@ const placeholderDatas = [
   imageStepLabels.imagePlaceholderData.addPicture,
 ];
 
+const bikePlaceholderDatas = [
+  imageStepLabels.imagePlaceholderData.rightProfile,
+  imageStepLabels.imagePlaceholderData.leftProfile,
+  imageStepLabels.imagePlaceholderData.direction,
+  imageStepLabels.imagePlaceholderData.frontDerailleur,
+  imageStepLabels.imagePlaceholderData.rearDerailleur,
+];
+
+const mtbPlaceholderDatas = [
+  ...bikePlaceholderDatas,
+  imageStepLabels.imagePlaceholderData.fork,
+];
+
 const ImagesStep: React.FC<FormStepProps> = ({ productId }) => {
-  const { productInfos } = useSellForm();
+  const { productInfos, isInCategory } = useSellForm();
   const [addImagesState, uploadImages] = useAddProductImages();
 
   const [refreshImagesState, doRefreshImages] = useRefreshImages();
@@ -35,6 +49,12 @@ const ImagesStep: React.FC<FormStepProps> = ({ productId }) => {
     if (!productInfos.productId) throw new Error('No product id');
     uploadImages(productInfos.productId, images);
   };
+
+  const placeholderDatas = isInCategory(BIKE_CATEGORY_NAME)
+    ? bikePlaceholderDatas
+    : MTB_PRODUCT_TYPES.includes(productInfos.type ?? '')
+      ? mtbPlaceholderDatas
+      : defaultPlaceholderDatas;
 
   return (
     <div className="p-5">
