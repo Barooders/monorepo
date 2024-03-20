@@ -1142,6 +1142,9 @@ const fr = {
       editProduct: 'Modifier',
     },
   },
+  b2b: {
+    unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
+  },
 };
 
 export default fr;

@@ -60,7 +60,8 @@ export type HasuraUserRole =
   | 'me'
   | 'admin'
   | 'me_as_customer'
-  | 'me_as_vendor';
+  | 'me_as_vendor'
+  | 'b2b_user';
 
 export type ProductAPI = {
   availableForSale: boolean;

@@ -102,6 +102,10 @@ export const useAuth = () => {
     return hasuraToken?.user.roles.includes('admin');
   };
 
+  const isB2BUser = () => {
+    return hasuraToken?.user.roles.includes('b2b_user');
+  };
+
   const getShopifyToken = async () => {
     const multipassResponse = await fetchAPI<
       operations['ShopifyController_shopifyLogin']['responses']['default']['content']['application/json']
@@ -120,6 +124,7 @@ export const useAuth = () => {
     loginWithToken,
     logout,
     isAdmin,
+    isB2BUser,
     getShopifyToken,
   };
 };
