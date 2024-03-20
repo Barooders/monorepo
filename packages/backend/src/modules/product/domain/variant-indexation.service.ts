@@ -50,7 +50,7 @@ export class VariantIndexationService {
       },
     });
 
-    await this.searchClient.pruneDocuments(
+    await this.searchClient.pruneVariantDocuments(
       existingVariants
         .map((variant) => {
           return variant.product.productSalesChannels.map(

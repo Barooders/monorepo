@@ -35,8 +35,13 @@ export abstract class ISearchClient {
     id: string,
     documentType: DocumentType,
   ): Promise<void>;
-  abstract pruneDocuments(
-    existingEntites: ExistingEntity[],
+  abstract pruneVariantDocuments(
+    existingVariants: ExistingEntity[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void>;
+
+  abstract pruneCollectionDocuments(
+    existingCollections: ExistingEntity[],
     shouldDeleteDocuments: boolean,
   ): Promise<void>;
 }

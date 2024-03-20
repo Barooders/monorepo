@@ -180,7 +180,7 @@ export class SearchClient implements ISearchClient {
     }
   }
 
-  async pruneDocuments(
+  async pruneVariantDocuments(
     existingEntities: ExistingEntity[],
     shouldDeleteDocuments: boolean,
   ): Promise<void> {
@@ -195,7 +195,12 @@ export class SearchClient implements ISearchClient {
       DocumentType.B2B_VARIANT,
       shouldDeleteDocuments,
     );
+  }
 
+  async pruneCollectionDocuments(
+    existingEntities: ExistingEntity[],
+    shouldDeleteDocuments: boolean,
+  ): Promise<void> {
     await this.pruneDocumentsByType(
       existingEntities,
       DocumentType.COLLECTION,

@@ -26,7 +26,7 @@ export class CollectionIndexationService {
       },
     );
 
-    await this.searchClient.pruneDocuments(
+    await this.searchClient.pruneCollectionDocuments(
       existingCollections.map(({ shopifyId }) => ({
         documentType: DocumentType.COLLECTION,
         id: shopifyId.toString(),
