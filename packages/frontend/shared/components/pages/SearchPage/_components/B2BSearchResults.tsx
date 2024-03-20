@@ -77,7 +77,9 @@ const B2BSearchResults: React.FC = () => {
                     variantCondition={variantCondition}
                     componentSize="medium"
                   />
-                  <p className="mt-1 text-xs">Quantité disponible: {stock}</p>
+                  <p className="mt-2 text-xs text-gray-600 lg:text-sm">
+                    Quantité disponible: {stock}
+                  </p>
                   <div className="my-1">
                     <ProductPrice
                       productId={id}
@@ -89,6 +91,7 @@ const B2BSearchResults: React.FC = () => {
                   <Button
                     intent="primary"
                     href="/"
+                    className="mt-2"
                   >
                     Faire une offre
                   </Button>
