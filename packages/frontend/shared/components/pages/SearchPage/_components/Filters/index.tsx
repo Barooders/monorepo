@@ -147,14 +147,12 @@ export const Filters = () => {
   return (
     <>
       <PriceRange attribute="price" />
-      {Object.values(productAttributesConfiguration)
-        .filter(({ isFilter }) => isFilter)
-        .map((attribute) => (
-          <FallbackComponent
-            key={attribute.name}
-            attribute={attribute}
-          />
-        ))}
+      {Object.values(productAttributesConfiguration).map((attribute) => (
+        <FallbackComponent
+          key={attribute.name}
+          attribute={attribute}
+        />
+      ))}
     </>
   );
 };
