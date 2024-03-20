@@ -35,9 +35,6 @@ function NoResults() {
         {dict.search.noResults.title}
       </p>
       <p className="text-sm text-slate-500">{dict.search.noResults.subtitle}</p>
-      {/* <div className="mt-3">
-        <SearchAlertButton />
-      </div> */}
     </div>
   );
 }

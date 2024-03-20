@@ -27,9 +27,6 @@ const ProPage: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* <div className="fixed right-6 bottom-3 md:hidden">
-        <SearchAlertButton />
-      </div> */}
       </InstantSearchProvider>
     </PageContainer>
   );
