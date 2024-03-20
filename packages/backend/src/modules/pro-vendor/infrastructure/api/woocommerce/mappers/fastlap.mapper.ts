@@ -22,4 +22,11 @@ export class FastlapMapper extends WooCommerceDefaultMapper {
       name: key,
     };
   }
+
+  getVariantQuantity(
+    { stock_status }: WooCommerceProduct,
+    _variantQuantity: number | null,
+  ): number {
+    return stock_status === 'outofstock' ? 0 : 1;
+  }
 }
