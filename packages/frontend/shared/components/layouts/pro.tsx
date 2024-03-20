@@ -18,36 +18,34 @@ export type PropsType = {
 
 const ProLayout: React.FC<PropsType> = ({ children }) => {
   return (
-    <>
-      <div className={`${poppins.className}`}>
-        <div id={MODAL_ROOT_ANCHOR} />
-        <FeatureFlagsProvider>
-          <HasuraApolloProvider>
-            <ProHeader />
-            <div id={INNER_PAGE_BANNER_ANCHOR} />
-            <AnalyticsProvider>{children}</AnalyticsProvider>
-          </HasuraApolloProvider>
-        </FeatureFlagsProvider>
+    <div className={`${poppins.className}`}>
+      <div id={MODAL_ROOT_ANCHOR} />
+      <FeatureFlagsProvider>
+        <HasuraApolloProvider>
+          <ProHeader />
+          <div id={INNER_PAGE_BANNER_ANCHOR} />
+          <AnalyticsProvider>{children}</AnalyticsProvider>
+        </HasuraApolloProvider>
+      </FeatureFlagsProvider>
 
-        <NoSSR>
-          <Toaster
-            position="bottom-right"
-            reverseOrder={false}
-            toastOptions={{
-              success: {
-                icon: <MdCheckCircle className="text-white" />,
-              },
-              style: {
-                color: '#fff',
-                borderRadius: '0px',
-                background: '#000',
-                width: 'fit-content',
-              },
-            }}
-          />
-        </NoSSR>
-      </div>
-    </>
+      <NoSSR>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+          toastOptions={{
+            success: {
+              icon: <MdCheckCircle className="text-white" />,
+            },
+            style: {
+              color: '#fff',
+              borderRadius: '0px',
+              background: '#000',
+              width: 'fit-content',
+            },
+          }}
+        />
+      </NoSSR>
+    </div>
   );
 };
 
