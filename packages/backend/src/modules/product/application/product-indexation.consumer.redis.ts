@@ -6,17 +6,17 @@ import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
 import { QueueNames, QueuePayload } from '../config';
-import { IndexationService } from '../domain/indexation.service';
+import { VariantIndexationService } from '../domain/variant-indexation.service';
 import { StoreMapper } from '../infrastructure/store/store.mapper';
 
-const MAX_CONCURRENCY = envName === Environments.PRODUCTION ? 6 : 1;
+const MAX_CONCURRENCY = envName === Environments.LOCAL ? 1 : 6;
 
 @Processor(QueueNames.PRODUCTS_TO_INDEX)
 export class ProductIndexationConsumer {
   private readonly logger = new Logger(ProductIndexationConsumer.name);
 
   constructor(
-    private indexationService: IndexationService,
+    private variantIndexationService: VariantIndexationService,
     private storeMapper: StoreMapper,
     private readonly loggerService: LoggerService,
   ) {}
@@ -32,6 +32,6 @@ export class ProductIndexationConsumer {
     const variantsToIndex =
       await this.storeMapper.mapVariantsToIndexFromProductId(productUuid);
 
-    await this.indexationService.indexVariants(variantsToIndex);
+    await this.variantIndexationService.indexVariants(variantsToIndex);
   }
 }

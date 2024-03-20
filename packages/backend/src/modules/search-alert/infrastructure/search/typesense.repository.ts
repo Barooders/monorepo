@@ -1,8 +1,8 @@
 import { Condition } from '@libs/domain/prisma.store.client';
 import { jsonStringify } from '@libs/helpers/json';
 import {
-  typesenseVariantClient,
-  TypesenseVariantDocument,
+  typesensePublicVariantClient,
+  TypesensePublicVariantDocument,
 } from '@libs/infrastructure/typesense/typesense.base.client';
 import { SearchRepository } from '@modules/search-alert/domain/ports/search-repository';
 import { Logger } from '@nestjs/common';
@@ -47,7 +47,7 @@ export class TypesenseRepository implements SearchRepository {
       `Searching with options ${jsonStringify(queryOptions, 2)}`,
     );
 
-    const { hits, found: nbHits } = await typesenseVariantClient
+    const { hits, found: nbHits } = await typesensePublicVariantClient
       .documents()
       .search({
         q: query,
@@ -59,7 +59,7 @@ export class TypesenseRepository implements SearchRepository {
       });
 
     const results =
-      hits ?? ([] as SearchResponseHit<TypesenseVariantDocument>[]);
+      hits ?? ([] as SearchResponseHit<TypesensePublicVariantDocument>[]);
 
     return {
       nbHits,

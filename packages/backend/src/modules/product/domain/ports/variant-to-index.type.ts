@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { Condition } from '@libs/domain/prisma.store.client';
 import {
   Amount,
@@ -11,7 +12,7 @@ import {
 } from '@libs/domain/value-objects';
 import { ProductType } from '../value-objects/product-type.value-object';
 
-export interface VariantToIndex {
+export interface PublicVariantToIndex {
   variant: {
     shopifyId: ShopifyID;
     id?: UUID;
@@ -50,3 +51,36 @@ export interface VariantToIndex {
     };
   };
 }
+
+export interface B2BVariantToIndex {
+  variant: {
+    shopifyId: ShopifyID;
+    id?: UUID;
+    updatedAt: ValueDate;
+    createdAt: ValueDate;
+    quantityAvailable?: Stock;
+    condition: Condition;
+    price: Amount;
+  };
+  product: {
+    shopifyId: ShopifyID;
+    id: UUID;
+    isActive: boolean;
+    imageSrc?: URL;
+    title: string;
+    handle: string;
+    publishedAt: ValueDate;
+    productType: ProductType;
+    tags: Tags;
+  };
+}
+
+export type VariantToIndexWithTarget =
+  | {
+      target: typeof SalesChannelName.PUBLIC;
+      data: PublicVariantToIndex;
+    }
+  | {
+      target: typeof SalesChannelName.B2B;
+      data: B2BVariantToIndex;
+    };

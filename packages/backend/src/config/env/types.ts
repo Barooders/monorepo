@@ -46,7 +46,8 @@ export type EnvConfigType = {
     };
     typesense: {
       apiKey: string;
-      variantsCollection: string;
+      publicVariantsCollection: string;
+      b2bVariantsCollection: string;
       collectionsCollection: string;
     };
     batch: {

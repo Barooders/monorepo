@@ -3,8 +3,8 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Logger } from '@nestjs/common';
 import { Command, Console } from 'nestjs-console';
-import { IndexationService } from '../domain/indexation.service';
 import { IQueueClient } from '../domain/ports/queue-client';
+import { VariantIndexationService } from '../domain/variant-indexation.service';
 
 @Console({
   command: 'indexProduct',
@@ -19,7 +19,7 @@ export class ProductIndexationCLIConsole {
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
     private queueClient: IQueueClient,
-    private indexationService: IndexationService,
+    private variantIndexationService: VariantIndexationService,
   ) {}
 
   @Command({
@@ -71,16 +71,8 @@ export class ProductIndexationCLIConsole {
   }: {
     apply?: boolean;
   }): Promise<void> {
-    const existingVariantIds =
-      await this.storePrisma.storeBaseProductVariant.findMany({
-        select: {
-          shopifyId: true,
-        },
-      });
-
-    await this.indexationService.pruneVariants(
-      existingVariantIds.map(({ shopifyId }) => String(shopifyId)),
-      shouldDeleteDocuments,
+    await this.variantIndexationService.pruneVariants(
+      shouldDeleteDocuments ?? false,
     );
   }
 
