@@ -7,12 +7,14 @@ import {
 } from '@/components/pages/SearchPage/_components/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import SearchResults from '@/components/pages/SearchPage/_components/SearchResults';
+import { searchIndexes } from '@/config';
 import { Pagination } from 'react-instantsearch-hooks-web';
 
 const ProPage: React.FC = () => {
   return (
     <PageContainer>
       <InstantSearchProvider
+        indexName={searchIndexes.b2bProducts.main}
         filters={[]}
         query={''}
         ruleContexts={[]}

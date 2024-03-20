@@ -19,6 +19,7 @@ import {
   InstantSearchSSRProvider,
 } from 'react-instantsearch-hooks-web';
 import { getDictionary } from '@/i18n/translate';
+import { searchIndexes } from '@/config';
 
 type PropsType = {
   serverUrl: string;
@@ -206,6 +207,7 @@ const CollectionPage: React.FC<PropsType> = ({
       <InstantSearchSSRProvider {...serverState}>
         {serverState === null ? (
           <InstantSearchProvider
+            indexName={searchIndexes.products.main}
             serverUrl={serverUrl}
             filters={searchPageProps.filters}
             query={searchPageProps.query}

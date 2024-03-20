@@ -15,7 +15,7 @@ export const SNOWFALL_OVERLAY_ANCHOR = 'snowfall-overlay';
 export const MODAL_ROOT_ANCHOR = 'modal-root';
 export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';
 
-export const publicVariantsCollection = `${config.search.mainSearchIndexPrefix}_products`;
+export const publicVariantsCollection = config.search.publicVariantsCollection;
 
 export const searchIndexes = {
   products: {
@@ -25,8 +25,11 @@ export const searchIndexes = {
     discountDesc: `${publicVariantsCollection}/sort/discount:desc`,
     dateDesc: `${publicVariantsCollection}/sort/createdat_timestamp:desc`,
   },
-  collections: `${config.search.mainSearchIndexPrefix}_collections`,
-  suggestions: `${publicVariantsCollection}_query_suggestions`,
+  b2bProducts: {
+    main: `${config.search.b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+  },
+  collections: config.search.collectionsCollection,
+  suggestions: config.search.publicVariantSuggestionsCollection,
 };
 
 export const SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET =

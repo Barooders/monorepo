@@ -38,6 +38,7 @@ import { DesktopFilters, MobileFilters } from './_components/Filters';
 import InstantSearchProvider from './_components/InstantSearchProvider';
 import Pagination from './_components/Pagination';
 import SearchResults from './_components/SearchResults';
+import { searchIndexes } from '@/config';
 
 const dict = getDictionary('fr');
 
@@ -284,6 +285,7 @@ const SearchPage: React.FC<PropsType> = ({
 
   return (
     <InstantSearchProvider
+      indexName={searchIndexes.products.main}
       serverUrl={serverUrl}
       filters={filters}
       query={query}
@@ -345,7 +347,7 @@ const SearchPage: React.FC<PropsType> = ({
           </div>
         </div>
       </div>
-      <div className="fixed right-6 bottom-3 md:hidden">
+      <div className="fixed bottom-3 right-6 md:hidden">
         <SearchAlertButton />
       </div>
     </InstantSearchProvider>

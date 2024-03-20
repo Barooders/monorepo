@@ -1,10 +1,11 @@
-import { searchClient, searchIndexes } from '@/config';
+import { searchClient } from '@/config';
 import config from '@/config/env';
 import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-hooks-router-nextjs';
 import { Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 
 type PropsType = {
+  indexName: string;
   filters: string[];
   query: string;
   serverUrl?: string;
@@ -13,6 +14,7 @@ type PropsType = {
 };
 
 const InstantSearchProvider: React.FC<PropsType> = ({
+  indexName,
   filters,
   query,
   serverUrl,
@@ -45,7 +47,7 @@ const InstantSearchProvider: React.FC<PropsType> = ({
   return (
     <InstantSearch
       searchClient={searchClient}
-      indexName={searchIndexes.products.main}
+      indexName={indexName}
       routing={
         serverUrl
           ? {
