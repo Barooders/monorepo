@@ -9,7 +9,7 @@ import { QueueNames, QueuePayload } from '../config';
 import { VariantIndexationService } from '../domain/variant-indexation.service';
 import { StoreMapper } from '../infrastructure/store/store.mapper';
 
-const MAX_CONCURRENCY = envName === Environments.PRODUCTION ? 6 : 1;
+const MAX_CONCURRENCY = envName === Environments.LOCAL ? 1 : 6;
 
 @Processor(QueueNames.PRODUCTS_TO_INDEX)
 export class ProductIndexationConsumer {
