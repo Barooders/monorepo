@@ -1,4 +1,7 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  PrismaMainClient,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Logger } from '@nestjs/common';
@@ -40,9 +43,27 @@ export class ProductIndexationCLIConsole {
   @Command({
     command: 'all',
     description: 'Fill queue with a product to index',
+    options: [
+      {
+        flags: '-b, --b2bOnly',
+        required: false,
+        description: 'Index only products available for B2B',
+      },
+    ],
   })
-  async fullIndex(): Promise<void> {
+  async fullIndex({ b2bOnly }: { b2bOnly?: boolean }): Promise<void> {
     const productIds = await this.mainPrisma.product.findMany({
+      where: {
+        ...(b2bOnly
+          ? {
+              productSalesChannels: {
+                some: {
+                  salesChannelName: SalesChannelName.B2B,
+                },
+              },
+            }
+          : {}),
+      },
       select: {
         id: true,
       },
