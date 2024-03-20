@@ -22,12 +22,4 @@ export class FastlapMapper extends WooCommerceDefaultMapper {
       name: key,
     };
   }
-
-  getProductImages(wooCommerceProduct: WooCommerceProduct) {
-    const truncatedImages = wooCommerceProduct.images.slice(1);
-    return super.getProductImages({
-      ...wooCommerceProduct,
-      images: truncatedImages,
-    });
-  }
 }
