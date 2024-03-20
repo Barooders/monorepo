@@ -93,6 +93,7 @@ const DOCUMENT_CONFIG = {
     }: B2BVariantToIndex): TypesenseB2BVariantDocument => ({
       id: variant.shopifyId.id.toString(),
       variant_shopify_id: variant.shopifyId.id,
+      vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
       title: product.title,
       product_type: product.productType.productType,

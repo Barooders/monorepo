@@ -201,6 +201,7 @@ export class StoreMapper {
       shopifyId,
       storeB2BProduct,
       exposedProductTags,
+      vendorId,
     } = await this.prismaStoreClient.storeBaseProduct.findUniqueOrThrow({
       where: {
         id: productId.uuid,
@@ -228,6 +229,7 @@ export class StoreMapper {
     const product = {
       shopifyId: new ShopifyID({ id: Number(shopifyId) }),
       id: productId,
+      vendorId: new UUID({ uuid: vendorId }),
       isActive:
         storeB2BProduct.status === ProductStatus.ACTIVE &&
         !!storeB2BProduct.publishedAt,

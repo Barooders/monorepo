@@ -44,7 +44,9 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
   collection_internal_ids: string[];
   collection_handles: string[];
 };
-export type SearchB2BVariantDocument = SearchBaseVariantDocument;
+export type SearchB2BVariantDocument = SearchBaseVariantDocument & {
+  vendor_id: string;
+};
 export type SearchCollectionDocument = {
   collectionId: string;
   title: string;
