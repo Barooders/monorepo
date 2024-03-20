@@ -11,7 +11,10 @@ import {
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
 import { mapValues } from 'lodash';
-import { SearchPublicVariantDocument } from 'shared-types';
+import {
+  SearchB2BVariantDocument,
+  SearchPublicVariantDocument,
+} from 'shared-types';
 
 const TAG_VALUES_JOINER = ' / ';
 const RECOMMENDED_PRODUCT_PRICE_PERCENTAGE_RANGE = 30;
@@ -135,6 +138,40 @@ export const fromSearchToProductCard = (
     shopifyId: hit.product_shopify_id.toString(),
     id: hit.product_internal_id,
     collections: hit.collection_internal_ids ?? [],
+  };
+};
+
+export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
+  let imageUrl = null;
+  const image = hit.product_image ?? null;
+  if (image) {
+    imageUrl = new URL(image);
+    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
+  }
+
+  const productTags = enrichTags(
+    mapValues(hit.array_tags, (tag) => tag.join(TAG_VALUES_JOINER)),
+  );
+
+  return {
+    tags: productTags,
+    variantCondition: hit.condition as Condition,
+    image:
+      imageUrl !== null
+        ? {
+            src: imageUrl.toString(),
+            altText: hit.title,
+            width: null,
+            height: null,
+          }
+        : undefined,
+    title: hit.title,
+    price: hit.price,
+    stock: hit.inventory_quantity,
+    productType: hit.product_type,
+    handle: hit.handle,
+    shopifyId: hit.product_shopify_id.toString(),
+    id: hit.product_internal_id,
   };
 };
 

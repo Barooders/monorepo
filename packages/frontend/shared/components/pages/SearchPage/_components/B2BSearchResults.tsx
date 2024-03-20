@@ -1,6 +1,12 @@
+import Button from '@/components/atoms/Button';
+import Link from '@/components/atoms/Link';
+import Characteristics from '@/components/molecules/ProductCard/_components/Characteristics';
+import ProductImage from '@/components/molecules/ProductCard/_components/ProductImage';
+import ProductPrice from '@/components/molecules/ProductCard/_components/ProductPrice';
 import { getDictionary } from '@/i18n/translate';
+import { fromSearchToB2BProductCard } from '@/mappers/fromSearchToProductCard';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
-import { SearchPublicVariantDocument } from 'shared-types';
+import { SearchB2BVariantDocument } from 'shared-types';
 
 const dict = getDictionary('fr');
 
@@ -43,11 +49,56 @@ const B2BSearchResults: React.FC = () => {
         classNames={{
           list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
         }}
-        hitComponent={({ hit }: { hit: SearchPublicVariantDocument }) => {
-          console.log(hit);
-          //const productCardProps = fromSearchToProductCard(hit);
-
-          return <div>hello</div>;
+        hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
+          const {
+            id,
+            image,
+            title,
+            tags,
+            productType,
+            variantCondition,
+            price,
+            stock,
+          } = fromSearchToB2BProductCard(hit);
+          return (
+            <Link href={'/'}>
+              <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
+                <div className="relative col-span-2 h-52 w-full flex-grow sm:h-64">
+                  {image && (
+                    <ProductImage
+                      image={image}
+                      labels={[]}
+                      discounts={[]}
+                    />
+                  )}
+                </div>
+                <div className="relative col-span-2 my-auto flex flex-grow flex-col">
+                  <Characteristics
+                    tags={tags}
+                    title={title}
+                    productType={productType}
+                    variantCondition={variantCondition}
+                    componentSize="medium"
+                  />
+                  <p className="mt-1 text-xs">Quantité disponible: {stock}</p>
+                  <div className="my-1">
+                    <ProductPrice
+                      productId={id}
+                      discounts={[]}
+                      compareAtPrice={price}
+                      price={price}
+                    />
+                  </div>
+                  <Button
+                    intent="primary"
+                    href="/"
+                  >
+                    Faire une offre
+                  </Button>
+                </div>
+              </div>
+            </Link>
+          );
         }}
       />
       {/* <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
