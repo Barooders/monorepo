@@ -12,6 +12,9 @@ export const viewportConfig: Viewport = {
 };
 
 export const metadataConfig = {
+  metadataBase: new URL(
+    `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN ?? 'https://barooders.com'}`,
+  ),
   title: dict.homepage.head.title,
   manifest: '/manifest.json', //NOT WORKING
   description: dict.global.head.description,
