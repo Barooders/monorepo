@@ -8,6 +8,7 @@ export type ProductAttributeConfig = {
   informativeComponent?: React.ReactNode;
   sortAlphabetically?: boolean;
   capitalize?: boolean;
+  isB2BFilter?: boolean;
 };
 
 export enum ProductAttributes {
@@ -61,6 +62,7 @@ export const productAttributesConfiguration: {
 } = {
   [ProductAttributes.PRODUCT_TYPE]: {
     name: ProductAttributes.PRODUCT_TYPE,
+    isB2BFilter: true,
     attributeName: 'product_type',
     capitalize: false,
   },
@@ -74,6 +76,7 @@ export const productAttributesConfiguration: {
   },
   [ProductAttributes.CONDITION]: {
     name: ProductAttributes.CONDITION,
+    isB2BFilter: true,
     attributeName: 'condition',
   },
   [ProductAttributes.IS_REFURBISHED]: {
@@ -82,11 +85,13 @@ export const productAttributesConfiguration: {
   },
   [ProductAttributes.BRAND]: {
     name: ProductAttributes.BRAND,
+    isB2BFilter: true,
     attributeName: 'array_tags.marque',
     shopifyTagName: 'marque',
   },
   [ProductAttributes.MODEL]: {
     name: ProductAttributes.MODEL,
+    isB2BFilter: true,
     attributeName: 'array_tags.modele',
     shopifyTagName: 'modele',
     capitalize: false,
