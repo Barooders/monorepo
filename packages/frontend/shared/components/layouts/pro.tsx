@@ -1,4 +1,3 @@
-import Footer from '@/components/molecules/Footer';
 import { INNER_PAGE_BANNER_ANCHOR, MODAL_ROOT_ANCHOR } from '@/config';
 import { poppins } from '@/document/fonts';
 import { metadataConfig, viewportConfig } from '@/document/metadata/global';
@@ -47,7 +46,6 @@ const ProLayout: React.FC<PropsType> = ({ children }) => {
             }}
           />
         </NoSSR>
-        <Footer />
       </div>
     </>
   );
