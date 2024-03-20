@@ -1,5 +1,23 @@
-import ProPage from '@/components/pages/ProPage';
+'use client';
 
-export default function WebProPage() {
-  return <ProPage />;
-}
+import Filters from '@/components/pages/SearchPage/_components/Filters';
+import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
+import { InstantSearchSSRProvider } from 'react-instantsearch-hooks-web';
+
+const ProPage: React.FC = () => {
+  return (
+    <>
+      <InstantSearchSSRProvider>
+        <InstantSearchProvider
+          filters={[]}
+          query={''}
+          ruleContexts={['']}
+        >
+          <Filters />
+        </InstantSearchProvider>
+      </InstantSearchSSRProvider>
+    </>
+  );
+};
+
+export default ProPage;
