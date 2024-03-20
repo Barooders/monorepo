@@ -32,6 +32,7 @@ const MANUAL_PAYMENT_INTERNAL_NOTIFICATION = [
   'Paiement 3x - Floa Pay',
   'Paiement 4x - Floa Pay',
   'Paiement 10x - Floa Pay',
+  'Virement bancaire',
 ];
 
 const OMS_URL =
