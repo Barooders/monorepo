@@ -99,11 +99,11 @@ export const useAuth = () => {
   };
 
   const isAdmin = () => {
-    return hasuraToken?.user.roles.includes('admin');
+    return hasuraToken?.user.roles.includes('admin') || false;
   };
 
   const isB2BUser = () => {
-    return hasuraToken?.user.roles.includes('b2b_user');
+    return hasuraToken?.user.roles.includes('b2b_user') || false;
   };
 
   const getShopifyToken = async () => {
