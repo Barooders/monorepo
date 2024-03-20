@@ -5,13 +5,13 @@ import B2BSearchResults from '@/components/pages/SearchPage/_components/B2BSearc
 import { B2BDesktopFilters } from '@/components/pages/SearchPage/_components/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
-import { searchIndexes } from '@/config';
+import { searchCollections } from '@/config';
 
 const ProPage: React.FC = () => {
   return (
     <PageContainer>
       <InstantSearchProvider
-        indexName={searchIndexes.b2bProducts.main}
+        collectionName={searchCollections.b2bProducts.main}
         filters={[]}
         query={''}
         ruleContexts={[]}

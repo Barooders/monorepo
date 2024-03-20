@@ -13,7 +13,7 @@ import { render } from 'react-dom';
 
 import { searchTriggered } from '@/analytics';
 import Link from '@/components/atoms/Link';
-import { searchClient, searchIndexes } from '@/config';
+import { searchClient, searchCollections } from '@/config';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import type { ReactNode } from 'react';
 import { Fragment, createElement, useEffect, useMemo, useState } from 'react';
@@ -265,8 +265,8 @@ const SearchBar = () => {
   const sourcesConfig = [
     // Collections
     {
-      id: searchIndexes.collections,
-      indexName: searchIndexes.collections,
+      id: searchCollections.collections,
+      indexName: searchCollections.collections,
       hitsPerPage: Math.ceil(COLLECTIONS_HIT * 1.5),
       templates: {
         header: templates.default.header,
@@ -344,8 +344,8 @@ const SearchBar = () => {
     // We will retrieve their vendor attribute and put it in an array.
     // Then we will pick the max 2 firsts vendor and return them.
     {
-      id: searchIndexes.products.main,
-      indexName: searchIndexes.products.main,
+      id: searchCollections.products.main,
+      indexName: searchCollections.products.main,
       // These will not be the real hits number
       // They are only used for retrieving vendor attribute
       hitsPerPage: 10,
@@ -405,7 +405,7 @@ const SearchBar = () => {
                 // vendors from a vendor index
                 // Hence we have no index to track from
                 ...hit,
-                __autocomplete_indexName: searchIndexes.products.main,
+                __autocomplete_indexName: searchCollections.products.main,
                 objectID: hit.vendor,
                 objectIDs: [hit.vendor],
               });
@@ -443,8 +443,8 @@ const SearchBar = () => {
 
     // Suggestions
     {
-      id: searchIndexes.suggestions,
-      indexName: searchIndexes.suggestions,
+      id: searchCollections.suggestions,
+      indexName: searchCollections.suggestions,
       // These will not be the real hits number
       // They are only used for maximizing the chance to suggestions
       // hits with a nice amount of hits
@@ -538,9 +538,9 @@ const SearchBar = () => {
     // Make sure that the query suggestions source is at the end of the
     // array so that our total hits computing does not fail
     sources = sources.sort((a, b) => {
-      if (a.sourceId === searchIndexes.suggestions) return 1;
+      if (a.sourceId === searchCollections.suggestions) return 1;
 
-      if (b.sourceId === searchIndexes.suggestions) return -1;
+      if (b.sourceId === searchCollections.suggestions) return -1;
 
       return 0;
     });
@@ -551,7 +551,7 @@ const SearchBar = () => {
     sources.map((source) => {
       let items = source.getItems();
 
-      if (source.sourceId === searchIndexes.suggestions) {
+      if (source.sourceId === searchCollections.suggestions) {
         const suggestionsHitsToDisplay = Math.max(
           MAXIMUM_SUGGESTION_HITS - totalHits,
           MINIMUM_SUGGESTION_HITS,

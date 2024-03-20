@@ -1,16 +1,16 @@
+import { operations } from '@/__generated/rest-schema';
+import { sendLogin } from '@/analytics';
+import { fetchAuth } from '@/clients/auth';
 import { HasuraAuthJwtType, HasuraToken } from '@/types';
 import { decodeJWT } from '@/utils/decodeJWT';
 import { useRouter } from 'next/navigation';
 import useUser from './state/useUser';
+import useBackend from './useBackend';
 import useFavoriteProducts from './useFavoriteProducts';
 import { useHasuraToken } from './useHasuraToken';
-import { sendLogin } from '@/analytics';
-import { fetchAuth } from '@/clients/auth';
-import { operations } from '@/__generated/rest-schema';
 import useStorefront, {
   GET_STOREFRONT_TOKEN_FROM_MULTIPASS,
 } from './useStorefront';
-import useBackend from './useBackend';
 
 type LoginResponseType = {
   status: number;

@@ -1,13 +1,14 @@
 'use client';
 
+import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
 import { fetchHasura } from '@/clients/hasura';
 import { getMenuData } from '@/components/molecules/MegaMenu';
 import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
+import { searchCollections } from '@/config';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
 import useSearchPage from '@/hooks/state/useSearchPage';
 import useInitDiscounts from '@/hooks/useInitDiscounts';
 import { getDictionary } from '@/i18n/translate';
-import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
@@ -17,20 +18,14 @@ import { getData as getProductData } from '../../molecules/ProductCard/container
 import { ProductMultiVariants as ProductCardPropsType } from '../../molecules/ProductCard/types';
 import Reviews from '../../molecules/Reviews';
 import {
-  mapReviewsFromFragment,
   REVIEWS_FRAGMENT,
   REVIEW_BLOCK_ANCHOR,
+  mapReviewsFromFragment,
 } from '../../molecules/Reviews/container';
 import SearchAlertButton from '../../molecules/SearchAlertButton/index.mobile';
 import CollectionHeader from './CollectionPage/CollectionHeader';
 import RelatedCollections from './CollectionPage/RelatedCollections';
 import SearchHeader from './GlobalSearch/SearchHeader';
-import {
-  ChildCollectionType,
-  CollectionData,
-  ParentCollectionType,
-  RelatedCollectionType,
-} from './types';
 import VendorHeader, {
   PropsType as VendorHeaderPropsType,
 } from './VendorPage/VendorHeader';
@@ -38,7 +33,12 @@ import { DesktopFilters, MobileFilters } from './_components/Filters';
 import InstantSearchProvider from './_components/InstantSearchProvider';
 import Pagination from './_components/Pagination';
 import SearchResults from './_components/SearchResults';
-import { searchIndexes } from '@/config';
+import {
+  ChildCollectionType,
+  CollectionData,
+  ParentCollectionType,
+  RelatedCollectionType,
+} from './types';
 
 const dict = getDictionary('fr');
 
@@ -285,7 +285,7 @@ const SearchPage: React.FC<PropsType> = ({
 
   return (
     <InstantSearchProvider
-      indexName={searchIndexes.products.main}
+      collectionName={searchCollections.products.main}
       serverUrl={serverUrl}
       filters={filters}
       query={query}

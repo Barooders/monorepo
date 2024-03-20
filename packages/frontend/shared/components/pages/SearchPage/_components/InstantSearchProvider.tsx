@@ -5,7 +5,7 @@ import { createInstantSearchRouterNext } from 'react-instantsearch-hooks-router-
 import { Configure, InstantSearch } from 'react-instantsearch-hooks-web';
 
 type PropsType = {
-  indexName: string;
+  collectionName: string;
   filters: string[];
   query: string;
   serverUrl?: string;
@@ -14,7 +14,7 @@ type PropsType = {
 };
 
 const InstantSearchProvider: React.FC<PropsType> = ({
-  indexName,
+  collectionName,
   filters,
   query,
   serverUrl,
@@ -47,7 +47,7 @@ const InstantSearchProvider: React.FC<PropsType> = ({
   return (
     <InstantSearch
       searchClient={searchClient}
-      indexName={indexName}
+      indexName={collectionName}
       routing={
         serverUrl
           ? {

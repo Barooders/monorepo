@@ -17,7 +17,7 @@ export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';
 
 export const publicVariantsCollection = config.search.publicVariantsCollection;
 
-export const searchIndexes = {
+export const searchCollections = {
   products: {
     main: `${publicVariantsCollection}/sort/computed_scoring:desc`,
     priceAsc: `${publicVariantsCollection}/sort/price:asc`,
@@ -62,10 +62,10 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
       group_by: 'product_internal_id',
       group_limit: 50,
     },
-    [searchIndexes.collections]: {
+    [searchCollections.collections]: {
       query_by: 'title,handle',
     },
-    [searchIndexes.suggestions]: {
+    [searchCollections.suggestions]: {
       query_by: 'q',
     },
   },
