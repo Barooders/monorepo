@@ -1,7 +1,7 @@
 import PageContainer from '@/components/atoms/PageContainer';
 
 const ProPage = () => (
-  <PageContainer size="small">
+  <PageContainer>
     <p>Hello</p>
   </PageContainer>
 );

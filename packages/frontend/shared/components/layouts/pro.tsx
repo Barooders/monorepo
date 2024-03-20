@@ -8,14 +8,13 @@ import HasuraApolloProvider from '@/providers/HasuraApolloProvider';
 import { Toaster } from 'react-hot-toast';
 import { MdCheckCircle } from 'react-icons/md';
 import NoSSR from '../atoms/NoSSR';
-import { MegaMenuChunk } from '../molecules/MegaMenu/shared/types/app/MegaMenu.types';
+import ProHeader from '../molecules/ProHeader';
 
 export const metadata = metadataConfig;
 export const viewport = viewportConfig;
 
 export type PropsType = {
   children?: React.ReactNode;
-  menu?: MegaMenuChunk;
 };
 
 const ProLayout: React.FC<PropsType> = ({ children }) => {
@@ -25,7 +24,7 @@ const ProLayout: React.FC<PropsType> = ({ children }) => {
         <div id={MODAL_ROOT_ANCHOR} />
         <FeatureFlagsProvider>
           <HasuraApolloProvider>
-            <div>WIP MENU</div>
+            <ProHeader />
             <div id={INNER_PAGE_BANNER_ANCHOR} />
             <AnalyticsProvider>{children}</AnalyticsProvider>
           </HasuraApolloProvider>
