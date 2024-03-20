@@ -1,3 +1,4 @@
+import { DiscountRange } from 'shared-types';
 import { UUID } from './value-objects';
 
 export const DISABLED_VARIANT_OPTION = 'Default Title';
@@ -92,14 +93,6 @@ export const getValidTags = (tags: string[]): string[] => {
   }
   return [...formattedTags, `genre:Mixte`];
 };
-
-export enum DiscountRange {
-  FROM_0_TO_20 = '0-20%',
-  FROM_20_TO_40 = '20-40%',
-  FROM_40_TO_60 = '40-60%',
-  FROM_60_TO_80 = '60-80%',
-  FROM_80_TO_100 = '80-100%',
-}
 
 const DISCOUNT_RANGE_DEFINITION = [
   { limit: 20, range: DiscountRange.FROM_0_TO_20 },

@@ -1,14 +1,14 @@
 'use client';
 
+import { FetchProductHitDataQuery } from '@/__generated/graphql';
 import { HASURA_ROLES } from '@/config';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { HitSearchType } from '@/types';
-import { FetchProductHitDataQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
+import { SearchPublicVariantDocument } from 'shared-types';
 
 const PRODUCT_HIT_QUERY = gql`
   query fetchProductHitData($productId: String) {
@@ -29,7 +29,7 @@ const PRODUCT_HIT_QUERY = gql`
 const AdminHitHelper = ({
   hit: { product_internal_id: productId, product_shopify_id: productShopifyId },
 }: {
-  hit: HitSearchType;
+  hit: SearchPublicVariantDocument;
 }) => {
   const { isAdmin } = useAuth();
   const fetchProductHitData = useHasura<FetchProductHitDataQuery>(

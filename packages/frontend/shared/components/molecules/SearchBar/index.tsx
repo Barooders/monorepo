@@ -2,21 +2,22 @@
 
 import type {
   AutocompleteReshapeSource,
-  BaseItem,
   AutocompleteState,
+  BaseItem,
 } from '@algolia/autocomplete-core';
 import type { AutocompleteComponents, Render } from '@algolia/autocomplete-js';
 import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 import type { Hit, SearchResponse } from '@algolia/client-search';
+// eslint-disable-next-line react/no-deprecated
 import { render } from 'react-dom';
 
+import { searchTriggered } from '@/analytics';
 import Link from '@/components/atoms/Link';
 import { searchClient, searchIndexes } from '@/config';
-import { HitSearchType } from '@/types';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import type { ReactNode } from 'react';
-import { createElement, Fragment, useEffect, useMemo, useState } from 'react';
-import { searchTriggered } from '@/analytics';
+import { Fragment, createElement, useEffect, useMemo, useState } from 'react';
+import { SearchPublicVariantDocument } from 'shared-types';
 
 type RenderItemType = (args: {
   item: BaseItem;
@@ -53,7 +54,7 @@ type VendorItem = {
   __autocomplete_indexName: string;
   objectID: string;
   objectIDs: string[];
-} & HitSearchType;
+} & SearchPublicVariantDocument;
 
 type CollectionHit = {
   title: string;
@@ -364,8 +365,8 @@ const SearchBar = () => {
         results,
         hits,
       }: {
-        results: SearchResponse<HitSearchType>;
-        hits: Hit<HitSearchType>[][];
+        results: SearchResponse<SearchPublicVariantDocument>;
+        hits: Hit<SearchPublicVariantDocument>[][];
       }) => {
         let vendors: VendorItem[] = [];
 
@@ -641,7 +642,7 @@ const SearchBar = () => {
       <div className="Algolia-Autocomplete-Form-Container relative">
         {!isLoaded && (
           <div
-            className="aa-Autocomplete top-0 right-0 w-full"
+            className="aa-Autocomplete right-0 top-0 w-full"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby="autocomplete-0-label"

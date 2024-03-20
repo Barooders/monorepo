@@ -3,14 +3,15 @@ import {
   ProductMultiVariants,
 } from '@/components/molecules/ProductCard/types';
 import { ProductCardProps } from '@/components/pages/ProductPage';
+import { Condition } from '@/components/pages/SellingForm/types';
 import {
   SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
   publicVariantsCollection,
   typesenseInstantsearchAdapter,
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
-import { HitSearchType } from '@/types';
 import { mapValues } from 'lodash';
+import { SearchPublicVariantDocument } from 'shared-types';
 
 const TAG_VALUES_JOINER = ' / ';
 const RECOMMENDED_PRODUCT_PRICE_PERCENTAGE_RANGE = 30;
@@ -47,7 +48,7 @@ export const enrichTags = (tags: Record<string, string>) => {
 };
 
 export const fromSearchToProductCard = (
-  hit: HitSearchType,
+  hit: SearchPublicVariantDocument,
 ): ProductMultiVariants => {
   const dict = getDictionary('fr');
 
@@ -85,7 +86,7 @@ export const fromSearchToProductCard = (
 
   return {
     tags: productTags,
-    variantCondition: hit.condition,
+    variantCondition: hit.condition as Condition,
     hasRefurbishedVariant: isRefurbished,
     numberOfViews: 0,
     images:
@@ -142,7 +143,7 @@ const getProductsFromFilterQuery = async (
   maxResults = 20,
 ) => {
   const { grouped_hits } = await typesenseInstantsearchAdapter.typesenseClient
-    .collections<HitSearchType>(publicVariantsCollection)
+    .collections<SearchPublicVariantDocument>(publicVariantsCollection)
     .documents()
     .search(
       {
@@ -162,7 +163,9 @@ const getProductsFromFilterQuery = async (
       .map(({ hits }) => hits[0])
       // We need to force the type because Typesense lib is typing the document as object
       // See: typesense/lib/Typesense/SearchClient.d.ts
-      .map(({ document }) => fromSearchToProductCard(document as HitSearchType))
+      .map(({ document }) =>
+        fromSearchToProductCard(document as SearchPublicVariantDocument),
+      )
   );
 };
 

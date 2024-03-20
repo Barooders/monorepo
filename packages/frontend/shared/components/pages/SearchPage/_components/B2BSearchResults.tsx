@@ -1,6 +1,6 @@
 import { getDictionary } from '@/i18n/translate';
-import { HitSearchType } from '@/types';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
+import { SearchPublicVariantDocument } from 'shared-types';
 
 const dict = getDictionary('fr');
 
@@ -43,7 +43,8 @@ const B2BSearchResults: React.FC = () => {
         classNames={{
           list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
         }}
-        hitComponent={({ hit }: { hit: HitSearchType }) => {
+        hitComponent={({ hit }: { hit: SearchPublicVariantDocument }) => {
+          console.log(hit);
           //const productCardProps = fromSearchToProductCard(hit);
 
           return <div>hello</div>;

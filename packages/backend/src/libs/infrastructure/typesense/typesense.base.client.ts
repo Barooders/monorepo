@@ -1,9 +1,9 @@
+import envConfig from '@config/env/env.config';
 import {
   CollectionDocument,
   SearchB2BVariantDocument,
   SearchPublicVariantDocument,
-} from './types';
-import envConfig from '@config/env/env.config';
+} from 'shared-types';
 import { Client } from 'typesense';
 
 const sharedConfig = {
