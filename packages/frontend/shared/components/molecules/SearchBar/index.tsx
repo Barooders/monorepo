@@ -17,7 +17,10 @@ import { searchClient, searchCollections } from '@/config';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import type { ReactNode } from 'react';
 import { Fragment, createElement, useEffect, useMemo, useState } from 'react';
-import { SearchPublicVariantDocument } from 'shared-types';
+import {
+  SearchCollectionDocument,
+  SearchPublicVariantDocument,
+} from 'shared-types';
 
 type RenderItemType = (args: {
   item: BaseItem;
@@ -56,18 +59,7 @@ type VendorItem = {
   objectIDs: string[];
 } & SearchPublicVariantDocument;
 
-type CollectionHit = {
-  title: string;
-  _tags: string[];
-  handle: string;
-  template_suffix: string;
-  body_html: string;
-  image: string;
-  products_count: number;
-  meta: Record<string, unknown>;
-};
-
-type CollectionItem = CollectionHit & { priority: number };
+type CollectionItem = SearchCollectionDocument & { priority: number };
 
 const SearchBar = () => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -281,7 +273,7 @@ const SearchBar = () => {
       transformResponse: ({
         hits,
       }: {
-        hits: Hit<CollectionHit>[][];
+        hits: Hit<SearchCollectionDocument>[][];
       }): CollectionItem[] => {
         let collections: CollectionItem[] = [];
 
@@ -325,9 +317,9 @@ const SearchBar = () => {
 
         // Sort by products counts
         collections = collections.sort((a, b) => {
-          if (a.products_count > b.products_count) return -1;
+          if (a.product_count > b.product_count) return -1;
 
-          if (a.products_count < b.products_count) return 1;
+          if (a.product_count < b.product_count) return 1;
 
           return 0;
         });

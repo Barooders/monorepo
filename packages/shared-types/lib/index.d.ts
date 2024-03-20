@@ -45,7 +45,7 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
   collection_handles: string[];
 };
 export type SearchB2BVariantDocument = SearchBaseVariantDocument;
-export type CollectionDocument = {
+export type SearchCollectionDocument = {
   collectionId: string;
   title: string;
   handle: string;
