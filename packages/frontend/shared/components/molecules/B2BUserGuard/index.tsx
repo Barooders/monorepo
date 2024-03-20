@@ -21,15 +21,15 @@ const B2BUserGuard = ({ children }: { children?: React.ReactNode }) => {
     }
   }, [isLoggedIn, redirectToLogin]);
 
-  if (!isB2BUser()) {
-    return <>{dict.b2b.unauthorizedUser}</>;
-  }
-
   return (
     <>
       {loading ? (
         <PageContainer>
           <Loader className="h-6 w-6 self-center" />
+        </PageContainer>
+      ) : !isB2BUser() ? (
+        <PageContainer>
+          <p>{dict.b2b.unauthorizedUser}</p>
         </PageContainer>
       ) : (
         children

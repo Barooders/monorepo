@@ -1,4 +1,4 @@
-import B2BUserGuard from '@/components/molecules/AuthenticationGuard';
+import B2BUserGuard from '@/components/molecules/B2BUserGuard';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
