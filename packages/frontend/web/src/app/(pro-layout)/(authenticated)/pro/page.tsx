@@ -1,11 +1,11 @@
 'use client';
 
 import PageContainer from '@/components/atoms/PageContainer';
+import B2BSearchResults from '@/components/pages/SearchPage/_components/B2BSearchResults';
 import { B2BDesktopFilters } from '@/components/pages/SearchPage/_components/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
-import B2BSearchResults from '@/components/pages/SearchPage/_components/B2BSearchResults';
+import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchIndexes } from '@/config';
-import { Pagination } from 'react-instantsearch-hooks-web';
 
 const ProPage: React.FC = () => {
   return (
