@@ -11,11 +11,11 @@ import {
 } from '@shopify/ui-extensions-react/checkout';
 import { PaymentStatus } from './constants';
 
-import useRedirectToPaymentLink from './hooks/useRedirectToPaymentLink';
-import useSelectedStatePayment from './hooks/useSelectedStatePayment';
-import useCheckPaymentStatus from './hooks/useCheckPaymentStatus';
 import EligibilityForm from './components/EligibilityForm';
 import RedirectToPayment from './components/RedirectToPayment';
+import useCheckPaymentStatus from './hooks/useCheckPaymentStatus';
+import useRedirectToPaymentLink from './hooks/useRedirectToPaymentLink';
+import useSelectedStatePayment from './hooks/useSelectedStatePayment';
 
 export default reactExtension('purchase.checkout.block.render', () => (
   <Extension />
@@ -29,9 +29,7 @@ function Extension() {
   useCheckPaymentStatus(5000);
 
   useBuyerJourneyIntercept(({ canBlockProgress }) =>
-    canBlockProgress &&
-    selectedPaymentState !== null &&
-    !isSelectedPaymentValidated()
+    canBlockProgress && !!selectedPaymentState && !isSelectedPaymentValidated()
       ? {
           behavior: 'block',
           reason: 'Waiting for payment processing',
@@ -49,7 +47,7 @@ function Extension() {
   if (!selectedPaymentState) return <></>;
 
   const isSelectedPaymentValidated = () =>
-    selectedPaymentState.status === PaymentStatus.VALIDATED;
+    selectedPaymentState?.status === PaymentStatus.VALIDATED;
 
   const renderStep = () => {
     switch (selectedPaymentState.status) {
