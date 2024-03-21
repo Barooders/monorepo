@@ -1,13 +1,13 @@
 'use client';
 
 import HorizontalScroller from '@/components/atoms/HorizontalScroller';
+import { ProductCardProps } from '@/components/pages/ProductPage';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { fetchRecommendedProducts } from '@/mappers/fromSearchToProductCard';
+import { fetchRecommendedProducts } from '@/mappers/search';
 import { ErrorBoundary } from '@sentry/nextjs';
 import { useEffect } from 'react';
 import ProductCard from '..';
-import { ProductCardProps } from '@/components/pages/ProductPage';
 
 const dict = getDictionary('fr');
 

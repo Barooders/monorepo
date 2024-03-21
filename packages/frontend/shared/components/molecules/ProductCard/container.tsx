@@ -1,17 +1,17 @@
-import { fetchCommission } from '@/clients/commission';
-import { fetchHasura } from '@/clients/hasura';
-import { Condition } from '@/components/pages/SellingForm/types';
-import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
-import { getDictionary } from '@/i18n/translate';
-import { enrichTags } from '@/mappers/fromSearchToProductCard';
-import { ImageType } from '@/types';
-import { roundCurrency } from '@/utils/currency';
-import { calculateAverageRatings } from '@/utils/rating';
 import {
   FetchProductsQuery,
   ProductCardFieldsFragment,
   VendorDetailsFragment,
 } from '@/__generated/graphql';
+import { fetchCommission } from '@/clients/commission';
+import { fetchHasura } from '@/clients/hasura';
+import { Condition } from '@/components/pages/SellingForm/types';
+import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
+import { getDictionary } from '@/i18n/translate';
+import { enrichTags } from '@/mappers/search';
+import { ImageType } from '@/types';
+import { roundCurrency } from '@/utils/currency';
+import { calculateAverageRatings } from '@/utils/rating';
 import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import compact from 'lodash/compact';
@@ -20,7 +20,7 @@ import flow from 'lodash/flow';
 import groupBy from 'lodash/groupBy';
 import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
-import { mapReviewsFromFragment, REVIEWS_FRAGMENT } from '../Reviews/container';
+import { REVIEWS_FRAGMENT, mapReviewsFromFragment } from '../Reviews/container';
 import { CardLabel, ProductMultiVariants } from './types';
 
 const dict = getDictionary('fr');

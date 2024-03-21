@@ -2,7 +2,7 @@ import NoSSR from '@/components/atoms/NoSSR';
 import ProductCard from '@/components/molecules/ProductCard';
 import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.desktop';
 import { getDictionary } from '@/i18n/translate';
-import { fromSearchToProductCard } from '@/mappers/fromSearchToProductCard';
+import { fromSearchToProductCard } from '@/mappers/search';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchPublicVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';

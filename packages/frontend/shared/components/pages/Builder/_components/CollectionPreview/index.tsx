@@ -3,7 +3,7 @@
 import HorizontalScroller from '@/components/atoms/HorizontalScroller';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { fetchProductsInSearchFromCollectionHandle } from '@/mappers/fromSearchToProductCard';
+import { fetchProductsInSearchFromCollectionHandle } from '@/mappers/search';
 import compact from 'lodash/compact';
 import { useEffect } from 'react';
 import ProductCard from '../../../../molecules/ProductCard';
