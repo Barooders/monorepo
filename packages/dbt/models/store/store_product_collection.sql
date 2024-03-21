@@ -45,7 +45,7 @@ expanded_collections AS (
 ),
 products AS (
 	SELECT
-		id,
+		ep.id,
 		LOWER(TRIM(ep.brand)) AS brand,
 		LOWER(TRIM(ep.gender)) AS gender,
 		LOWER(TRIM(ep.vendor)) AS vendor,
@@ -58,8 +58,8 @@ products AS (
 	FROM
 		{{ref('store_exposed_product')}} ep
 	LEFT JOIN variant_data vd ON ep.id = vd.product_id
-	LEFT JOIN {{ref('store_exposed_product_tags')}} ept ON pt.tag = 'discount' AND pt.product_id
-	GROUP BY id
+	LEFT JOIN {{ref('store_exposed_product_tags')}} ept ON pt.tag = 'discount' AND pt.product_id = ep.id
+	GROUP BY ep.id
 )
 
 SELECT
