@@ -62,7 +62,7 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
         SavedSearch: {
           data: {
             name,
-            source: 'DESKTOP__COLLECTION_PAGE',
+            type: 'PUBLIC_COLLECTION_PAGE',
             collectionId: collection?.id,
             query,
             resultsUrl: window.location.href,

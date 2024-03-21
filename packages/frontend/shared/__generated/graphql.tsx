@@ -37,6 +37,7 @@ export type Scalars = {
   ProductNotation: any;
   ProductStatus: any;
   ReturnStatus: any;
+  SavedSearchType: any;
   ShipmentTimeframe: any;
   ShippingSolution: any;
   ShippingType: any;
@@ -766,7 +767,6 @@ export type Customer = {
   paymentAccounts: Array<PaymentAccounts>;
   /** An aggregate relationship */
   paymentAccounts_aggregate: PaymentAccounts_Aggregate;
-  phoneNumber: Maybe<Scalars['String']>;
   preferredPaymentProvider: Scalars['PaymentProvider'];
   products: Shopify_ProductConnection;
   profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
@@ -1022,7 +1022,6 @@ export type Customer_Bool_Exp = {
   overridesProductNotation: InputMaybe<Boolean_Comparison_Exp>;
   paymentAccounts: InputMaybe<PaymentAccounts_Bool_Exp>;
   paymentAccounts_aggregate: InputMaybe<PaymentAccounts_Aggregate_Bool_Exp>;
-  phoneNumber: InputMaybe<String_Comparison_Exp>;
   preferredPaymentProvider: InputMaybe<PaymentProvider_Comparison_Exp>;
   profilePictureShopifyCdnUrl: InputMaybe<String_Comparison_Exp>;
   purchasedOrders: InputMaybe<Order_Bool_Exp>;
@@ -1075,7 +1074,6 @@ export type Customer_Insert_Input = {
   onlineProducts: InputMaybe<Product_Arr_Rel_Insert_Input>;
   overridesProductNotation: InputMaybe<Scalars['Boolean']>;
   paymentAccounts: InputMaybe<PaymentAccounts_Arr_Rel_Insert_Input>;
-  phoneNumber: InputMaybe<Scalars['String']>;
   preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
   profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   purchasedOrders: InputMaybe<Order_Arr_Rel_Insert_Input>;
@@ -1100,7 +1098,6 @@ export type Customer_Max_Fields = {
   firstName: Maybe<Scalars['String']>;
   forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   lastName: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
   preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
   profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
   scoring: Maybe<Scalars['CustomerScoring']>;
@@ -1124,7 +1121,6 @@ export type Customer_Min_Fields = {
   firstName: Maybe<Scalars['String']>;
   forcedShippingPriceInCents: Maybe<Scalars['float8']>;
   lastName: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
   preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
   profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
   scoring: Maybe<Scalars['CustomerScoring']>;
@@ -1179,7 +1175,6 @@ export type Customer_Order_By = {
   onlineProducts_aggregate: InputMaybe<Product_Aggregate_Order_By>;
   overridesProductNotation: InputMaybe<Order_By>;
   paymentAccounts_aggregate: InputMaybe<PaymentAccounts_Aggregate_Order_By>;
-  phoneNumber: InputMaybe<Order_By>;
   preferredPaymentProvider: InputMaybe<Order_By>;
   profilePictureShopifyCdnUrl: InputMaybe<Order_By>;
   purchasedOrders_aggregate: InputMaybe<Order_Aggregate_Order_By>;
@@ -1224,8 +1219,6 @@ export enum Customer_Select_Column {
   /** column name */
   OverridesProductNotation = 'overridesProductNotation',
   /** column name */
-  PhoneNumber = 'phoneNumber',
-  /** column name */
   PreferredPaymentProvider = 'preferredPaymentProvider',
   /** column name */
   ProfilePictureShopifyCdnUrl = 'profilePictureShopifyCdnUrl',
@@ -1256,7 +1249,6 @@ export type Customer_Set_Input = {
   isRefurbisher: InputMaybe<Scalars['Boolean']>;
   lastName: InputMaybe<Scalars['String']>;
   overridesProductNotation: InputMaybe<Scalars['Boolean']>;
-  phoneNumber: InputMaybe<Scalars['String']>;
   preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
   profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   scoring: InputMaybe<Scalars['CustomerScoring']>;
@@ -1312,7 +1304,6 @@ export type Customer_Stream_Cursor_Value_Input = {
   isRefurbisher: InputMaybe<Scalars['Boolean']>;
   lastName: InputMaybe<Scalars['String']>;
   overridesProductNotation: InputMaybe<Scalars['Boolean']>;
-  phoneNumber: InputMaybe<Scalars['String']>;
   preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
   profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   scoring: InputMaybe<Scalars['CustomerScoring']>;
@@ -1355,8 +1346,6 @@ export enum Customer_Update_Column {
   LastName = 'lastName',
   /** column name */
   OverridesProductNotation = 'overridesProductNotation',
-  /** column name */
-  PhoneNumber = 'phoneNumber',
   /** column name */
   PreferredPaymentProvider = 'preferredPaymentProvider',
   /** column name */
@@ -9514,7 +9503,7 @@ export type SavedSearch = {
   name: Scalars['String'];
   query: Maybe<Scalars['String']>;
   resultsUrl: Maybe<Scalars['String']>;
-  source: Scalars['String'];
+  type: Scalars['SavedSearchType'];
   updatedAt: Maybe<Scalars['timestamp']>;
 };
 
@@ -9572,6 +9561,19 @@ export type SavedSearchSearchAlerts_AggregateArgs = {
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
+/** Boolean expression to compare columns of type "SavedSearchType". All fields are combined with logical 'AND'. */
+export type SavedSearchType_Comparison_Exp = {
+  _eq: InputMaybe<Scalars['SavedSearchType']>;
+  _gt: InputMaybe<Scalars['SavedSearchType']>;
+  _gte: InputMaybe<Scalars['SavedSearchType']>;
+  _in: InputMaybe<Array<Scalars['SavedSearchType']>>;
+  _is_null: InputMaybe<Scalars['Boolean']>;
+  _lt: InputMaybe<Scalars['SavedSearchType']>;
+  _lte: InputMaybe<Scalars['SavedSearchType']>;
+  _neq: InputMaybe<Scalars['SavedSearchType']>;
+  _nin: InputMaybe<Array<Scalars['SavedSearchType']>>;
+};
+
 /** aggregated selection of "SavedSearch" */
 export type SavedSearch_Aggregate = {
   __typename?: 'SavedSearch_aggregate';
@@ -9613,7 +9615,7 @@ export type SavedSearch_Bool_Exp = {
   name: InputMaybe<String_Comparison_Exp>;
   query: InputMaybe<String_Comparison_Exp>;
   resultsUrl: InputMaybe<String_Comparison_Exp>;
-  source: InputMaybe<String_Comparison_Exp>;
+  type: InputMaybe<SavedSearchType_Comparison_Exp>;
   updatedAt: InputMaybe<Timestamp_Comparison_Exp>;
 };
 
@@ -9637,7 +9639,7 @@ export type SavedSearch_Insert_Input = {
   name: InputMaybe<Scalars['String']>;
   query: InputMaybe<Scalars['String']>;
   resultsUrl: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
+  type: InputMaybe<Scalars['SavedSearchType']>;
   updatedAt: InputMaybe<Scalars['timestamp']>;
 };
 
@@ -9651,7 +9653,7 @@ export type SavedSearch_Max_Fields = {
   name: Maybe<Scalars['String']>;
   query: Maybe<Scalars['String']>;
   resultsUrl: Maybe<Scalars['String']>;
-  source: Maybe<Scalars['String']>;
+  type: Maybe<Scalars['SavedSearchType']>;
   updatedAt: Maybe<Scalars['timestamp']>;
 };
 
@@ -9665,7 +9667,7 @@ export type SavedSearch_Min_Fields = {
   name: Maybe<Scalars['String']>;
   query: Maybe<Scalars['String']>;
   resultsUrl: Maybe<Scalars['String']>;
-  source: Maybe<Scalars['String']>;
+  type: Maybe<Scalars['SavedSearchType']>;
   updatedAt: Maybe<Scalars['timestamp']>;
 };
 
@@ -9706,7 +9708,7 @@ export type SavedSearch_Order_By = {
   name: InputMaybe<Order_By>;
   query: InputMaybe<Order_By>;
   resultsUrl: InputMaybe<Order_By>;
-  source: InputMaybe<Order_By>;
+  type: InputMaybe<Order_By>;
   updatedAt: InputMaybe<Order_By>;
 };
 
@@ -9732,7 +9734,7 @@ export enum SavedSearch_Select_Column {
   /** column name */
   ResultsUrl = 'resultsUrl',
   /** column name */
-  Source = 'source',
+  Type = 'type',
   /** column name */
   UpdatedAt = 'updatedAt',
 }
@@ -9746,7 +9748,7 @@ export type SavedSearch_Set_Input = {
   name: InputMaybe<Scalars['String']>;
   query: InputMaybe<Scalars['String']>;
   resultsUrl: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
+  type: InputMaybe<Scalars['SavedSearchType']>;
   updatedAt: InputMaybe<Scalars['timestamp']>;
 };
 
@@ -9767,7 +9769,7 @@ export type SavedSearch_Stream_Cursor_Value_Input = {
   name: InputMaybe<Scalars['String']>;
   query: InputMaybe<Scalars['String']>;
   resultsUrl: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
+  type: InputMaybe<Scalars['SavedSearchType']>;
   updatedAt: InputMaybe<Scalars['timestamp']>;
 };
 
@@ -9788,7 +9790,7 @@ export enum SavedSearch_Update_Column {
   /** column name */
   ResultsUrl = 'resultsUrl',
   /** column name */
-  Source = 'source',
+  Type = 'type',
   /** column name */
   UpdatedAt = 'updatedAt',
 }
