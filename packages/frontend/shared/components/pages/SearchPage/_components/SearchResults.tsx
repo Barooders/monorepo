@@ -3,8 +3,8 @@ import ProductCard from '@/components/molecules/ProductCard';
 import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.desktop';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToProductCard } from '@/mappers/fromSearchToProductCard';
-import { HitSearchType } from '@/types';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
+import { SearchPublicVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');
@@ -48,7 +48,7 @@ const SearchResults: React.FC = () => {
         classNames={{
           list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
         }}
-        hitComponent={({ hit }: { hit: HitSearchType }) => {
+        hitComponent={({ hit }: { hit: SearchPublicVariantDocument }) => {
           const productCardProps = fromSearchToProductCard(hit);
 
           return (

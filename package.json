@@ -7,17 +7,19 @@
     "packages/*"
   ],
   "scripts": {
-    "format": "prettier \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
-    "format:fix": "prettier --write \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
+    "format": "prettier \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
+    "format:fix": "prettier --write \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
     "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
     "build-for-render": "./build-for-render.sh",
     "console": "yarn workspace backend console",
+    "postinstall": "yarn workspace shared-types build",
     "prepare": "husky"
   },
   "cacheDirectories": [
     "node_modules",
     "packages/backend/node_modules",
     "packages/cypress/node_modules",
+    "packages/shared-types/node_modules",
     "packages/frontend/node_modules"
   ],
   "dependencies": {

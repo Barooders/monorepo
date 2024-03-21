@@ -1,6 +1,10 @@
 const developmentEnv = {
   search: {
-    mainSearchIndexPrefix: 'staging_backend',
+    publicVariantsCollection: 'staging_backend_products',
+    publicVariantSuggestionsCollection:
+      'staging_backend_products_query_suggestions',
+    b2bVariantsCollection: 'staging_backend_b2b_products',
+    collectionsCollection: 'staging_backend_collections',
     cacheSearchResultsForSeconds: 0,
     maxValuesPerFacet: 9999,
   },

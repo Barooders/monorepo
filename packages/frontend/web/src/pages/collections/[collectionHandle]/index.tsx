@@ -6,9 +6,11 @@ import SearchPage, {
 } from '@/components/pages/SearchPage';
 import Filters from '@/components/pages/SearchPage/_components/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
+import { searchCollections } from '@/config';
 import config from '@/config/env/index';
 import { metadataConfig } from '@/document/metadata/global';
 import useSentry from '@/hooks/useSentry';
+import { getDictionary } from '@/i18n/translate';
 import { extractQueryParam } from '@/utils/extractQueryParam';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -18,7 +20,6 @@ import {
   InstantSearchServerState,
   InstantSearchSSRProvider,
 } from 'react-instantsearch-hooks-web';
-import { getDictionary } from '@/i18n/translate';
 
 type PropsType = {
   serverUrl: string;
@@ -206,6 +207,7 @@ const CollectionPage: React.FC<PropsType> = ({
       <InstantSearchSSRProvider {...serverState}>
         {serverState === null ? (
           <InstantSearchProvider
+            collectionName={searchCollections.products.main}
             serverUrl={serverUrl}
             filters={searchPageProps.filters}
             query={searchPageProps.query}

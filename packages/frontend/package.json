@@ -87,6 +87,7 @@
     "sass": "1.58.3",
     "search-insights": "2.3.0",
     "server-only": "0.0.1",
+    "shared-types": "0.1.1",
     "storybook": "7.6.17",
     "talkjs": "0.15.9",
     "talkr": "3.3.9",

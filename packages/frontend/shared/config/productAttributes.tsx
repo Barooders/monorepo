@@ -3,12 +3,12 @@ import compact from 'lodash/compact';
 
 export type ProductAttributeConfig = {
   name: ProductAttributes;
-  isFilter: boolean;
   attributeName: string;
   shopifyTagName?: string;
   informativeComponent?: React.ReactNode;
   sortAlphabetically?: boolean;
   capitalize?: boolean;
+  isB2BFilter?: boolean;
 };
 
 export enum ProductAttributes {
@@ -62,246 +62,209 @@ export const productAttributesConfiguration: {
 } = {
   [ProductAttributes.PRODUCT_TYPE]: {
     name: ProductAttributes.PRODUCT_TYPE,
-    isFilter: true,
+    isB2BFilter: true,
     attributeName: 'product_type',
     capitalize: false,
   },
   [ProductAttributes.OWNER]: {
     name: ProductAttributes.OWNER,
-    isFilter: true,
     attributeName: 'meta.barooders.owner',
   },
   [ProductAttributes.PRODUCT_DISCOUNT_RANGE]: {
     name: ProductAttributes.PRODUCT_DISCOUNT_RANGE,
-    isFilter: true,
     attributeName: 'meta.barooders.product_discount_range',
   },
   [ProductAttributes.CONDITION]: {
     name: ProductAttributes.CONDITION,
-    isFilter: true,
+    isB2BFilter: true,
     attributeName: 'condition',
   },
   [ProductAttributes.IS_REFURBISHED]: {
     name: ProductAttributes.IS_REFURBISHED,
-    isFilter: true,
     attributeName: 'is_refurbished',
   },
   [ProductAttributes.BRAND]: {
     name: ProductAttributes.BRAND,
-    isFilter: true,
+    isB2BFilter: true,
     attributeName: 'array_tags.marque',
     shopifyTagName: 'marque',
   },
   [ProductAttributes.MODEL]: {
     name: ProductAttributes.MODEL,
-    isFilter: true,
+    isB2BFilter: true,
     attributeName: 'array_tags.modele',
     shopifyTagName: 'modele',
     capitalize: false,
   },
   [ProductAttributes.FORMATTED_SIZE_BIKE]: {
     name: ProductAttributes.FORMATTED_SIZE_BIKE,
-    isFilter: true,
     attributeName: 'array_tags.formatted-bike-size',
     shopifyTagName: 'formatted-bike-size',
   },
   [ProductAttributes.TRANSMISSION_GROUP]: {
     name: ProductAttributes.TRANSMISSION_GROUP,
-    isFilter: true,
     attributeName: 'array_tags.groupe-transmission-velos',
     shopifyTagName: 'groupe-transmission-velos',
     capitalize: false,
   },
   [ProductAttributes.FREE_RANDO]: {
     name: ProductAttributes.FREE_RANDO,
-    isFilter: true,
     attributeName: 'array_tags.free rando',
     shopifyTagName: 'free rando',
   },
   [ProductAttributes.GORE_TEX]: {
     name: ProductAttributes.GORE_TEX,
-    isFilter: true,
     attributeName: 'array_tags.gore-tex',
     shopifyTagName: 'gore-tex',
   },
   [ProductAttributes.GPS_INTEGRATED]: {
     name: ProductAttributes.GPS_INTEGRATED,
-    isFilter: true,
     attributeName: 'array_tags.gps intégré',
     shopifyTagName: 'gps intégré',
   },
   [ProductAttributes.FLYING_HOURS]: {
     name: ProductAttributes.FLYING_HOURS,
-    isFilter: true,
     attributeName: 'array_tags.heures de vol',
     shopifyTagName: 'heures de vol',
   },
   [ProductAttributes.MATTER]: {
     name: ProductAttributes.MATTER,
-    isFilter: true,
     attributeName: 'array_tags.matière',
     shopifyTagName: 'matière',
   },
   [ProductAttributes.MATTER_STICK]: {
     name: ProductAttributes.MATTER_STICK,
-    isFilter: true,
     attributeName: 'array_tags.matériau bâtons',
     shopifyTagName: 'matériau bâtons',
   },
   [ProductAttributes.MATTER_FRAME]: {
     name: ProductAttributes.MATTER_FRAME,
-    isFilter: true,
     attributeName: 'array_tags.matériau du cadre',
     shopifyTagName: 'matériau du cadre',
   },
   [ProductAttributes.LEVEL]: {
     name: ProductAttributes.LEVEL,
-    isFilter: true,
     attributeName: 'array_tags.niveau',
     shopifyTagName: 'niveau',
   },
   [ProductAttributes.OUTINGS_NUMBER]: {
     name: ProductAttributes.OUTINGS_NUMBER,
-    isFilter: true,
     attributeName: 'array_tags.nombre de sorties',
     shopifyTagName: 'nombre de sorties',
   },
   [ProductAttributes.CROSS_SKIING_STANDARD]: {
     name: ProductAttributes.CROSS_SKIING_STANDARD,
-    isFilter: true,
     attributeName: 'array_tags.norme ski de fond',
     shopifyTagName: 'norme ski de fond',
   },
   [ProductAttributes.TOTAL_FLYING_WEIGHT]: {
     name: ProductAttributes.TOTAL_FLYING_WEIGHT,
-    isFilter: true,
     attributeName: 'array_tags.ptv',
     shopifyTagName: 'ptv',
   },
   [ProductAttributes.SIZE]: {
     name: ProductAttributes.SIZE,
-    isFilter: true,
     attributeName: 'array_tags.taille',
     shopifyTagName: 'taille',
   },
   [ProductAttributes.SIZE_WING]: {
     name: ProductAttributes.SIZE_WING,
-    isFilter: true,
     attributeName: 'array_tags.taille aile',
     shopifyTagName: 'taille aile',
   },
   [ProductAttributes.SIZE_CYCLIST]: {
     name: ProductAttributes.SIZE_CYCLIST,
-    isFilter: true,
     attributeName: 'array_tags.taille parapente',
     shopifyTagName: 'taille parapente',
   },
   [ProductAttributes.SIZE_PARAGLIDER]: {
     name: ProductAttributes.SIZE_PARAGLIDER,
-    isFilter: true,
     attributeName: 'array_tags.taille-baudrier',
     shopifyTagName: 'taille-baudrier',
   },
   [ProductAttributes.SIZE_HARNESS]: {
     name: ProductAttributes.SIZE_HARNESS,
-    isFilter: true,
     attributeName: 'array_tags.taille-crampon',
     shopifyTagName: 'taille-crampon',
   },
   [ProductAttributes.SIZE_CRAMPON]: {
     name: ProductAttributes.SIZE_CRAMPON,
-    isFilter: true,
     attributeName: 'array_tags.taille-cycliste',
     shopifyTagName: 'taille-cycliste',
   },
   [ProductAttributes.SIZE_GEAR]: {
     name: ProductAttributes.SIZE_GEAR,
-    isFilter: true,
     attributeName: 'array_tags.taille-gear',
     shopifyTagName: 'taille-gear',
   },
   [ProductAttributes.SIZE_HELMET]: {
     name: ProductAttributes.SIZE_HELMET,
-    isFilter: true,
     attributeName: 'array_tags.taille-helmet',
     shopifyTagName: 'taille-helmet',
   },
   [ProductAttributes.SIZE_WATCH]: {
     name: ProductAttributes.SIZE_WATCH,
-    isFilter: true,
     attributeName: 'array_tags.taille-montre',
     shopifyTagName: 'taille-montre',
   },
   [ProductAttributes.SIZE_MONDOPOINT]: {
     name: ProductAttributes.SIZE_MONDOPOINT,
-    isFilter: true,
     attributeName: 'array_tags.taille-mp',
     shopifyTagName: 'taille-mp',
     informativeComponent: <MondopointTable />,
   },
   [ProductAttributes.SIZE_BOARD_FEET]: {
     name: ProductAttributes.SIZE_BOARD_FEET,
-    isFilter: true,
     attributeName: 'array_tags.taille-planche-feet',
     shopifyTagName: 'taille-planche-feet',
   },
   [ProductAttributes.SIZE_SHOES]: {
     name: ProductAttributes.SIZE_SHOES,
-    isFilter: true,
     attributeName: 'array_tags.taille-pointure',
     shopifyTagName: 'taille-pointure',
   },
   [ProductAttributes.SIZE_ROLLER]: {
     name: ProductAttributes.SIZE_ROLLER,
-    isFilter: true,
     attributeName: 'array_tags.taille-roller',
     shopifyTagName: 'taille-roller',
   },
   [ProductAttributes.SIZE_SADDLE]: {
     name: ProductAttributes.SIZE_SADDLE,
-    isFilter: true,
     attributeName: 'array_tags.taille-sellette',
     shopifyTagName: 'taille-sellette',
   },
   [ProductAttributes.SIZE_SKI]: {
     name: ProductAttributes.SIZE_SKI,
-    isFilter: true,
     attributeName: 'array_tags.taille-ski',
     shopifyTagName: 'taille-ski',
   },
   [ProductAttributes.SIZE_TENT]: {
     name: ProductAttributes.SIZE_TENT,
-    isFilter: true,
     attributeName: 'array_tags.taille-tentes',
     shopifyTagName: 'taille-tentes',
   },
   [ProductAttributes.SIZE_TEXTILE]: {
     name: ProductAttributes.SIZE_TEXTILE,
-    isFilter: true,
     attributeName: 'array_tags.taille-textile',
     shopifyTagName: 'taille-textile',
   },
   [ProductAttributes.GENDER]: {
     name: ProductAttributes.GENDER,
-    isFilter: true,
     attributeName: 'array_tags.genre',
     shopifyTagName: 'genre',
   },
   [ProductAttributes.YEAR]: {
     name: ProductAttributes.YEAR,
-    isFilter: true,
     attributeName: 'array_tags.année',
     shopifyTagName: 'année',
   },
   [ProductAttributes.COLOR]: {
     name: ProductAttributes.COLOR,
-    isFilter: true,
     attributeName: 'array_tags.couleur',
     shopifyTagName: 'couleur',
   },
   [ProductAttributes.SIZE_VOLUME]: {
     name: ProductAttributes.SIZE_VOLUME,
-    isFilter: true,
     attributeName: 'array_tags.taille-volume',
     shopifyTagName: 'taille-volume',
   },

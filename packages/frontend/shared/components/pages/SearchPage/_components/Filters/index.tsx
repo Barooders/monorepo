@@ -147,8 +147,22 @@ export const Filters = () => {
   return (
     <>
       <PriceRange attribute="price" />
+      {Object.values(productAttributesConfiguration).map((attribute) => (
+        <FallbackComponent
+          key={attribute.name}
+          attribute={attribute}
+        />
+      ))}
+    </>
+  );
+};
+
+export const B2BFilters = () => {
+  return (
+    <>
+      <PriceRange attribute="price" />
       {Object.values(productAttributesConfiguration)
-        .filter(({ isFilter }) => isFilter)
+        .filter(({ isB2BFilter }) => isB2BFilter)
         .map((attribute) => (
           <FallbackComponent
             key={attribute.name}
@@ -167,6 +181,18 @@ export const DesktopFilters = () => (
     <ActiveFilters buttonSize="small" />
     <div>
       <Filters />
+    </div>
+  </div>
+);
+
+export const B2BDesktopFilters = () => (
+  <div className="flex flex-col gap-3">
+    <p className="hidden text-xl font-bold lg:flex">
+      {dict.search.filtersTitle}
+    </p>
+    <ActiveFilters buttonSize="small" />
+    <div>
+      <B2BFilters />
     </div>
   </div>
 );

@@ -64,3 +64,16 @@ export type ProductSingleVariant = ProductMultiVariants & {
   productLink: Url;
   setSelectedVariant: (variantId: string) => void;
 };
+
+export type B2BProductCardProps = {
+  tags: Record<string, string>;
+  variantCondition: Condition;
+  image?: ImageType;
+  title: string;
+  price: number;
+  stock: number;
+  productType: string;
+  handle: string;
+  shopifyId: string;
+  id: string;
+};

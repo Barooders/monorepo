@@ -12,15 +12,15 @@ const PageContainer: React.FC<Props> = ({
   <div
     className={`mx-auto ${
       includeVerticalPadding ? 'my-4 mb-8 lg:my-8' : ''
-    } flex max-w-page-content px-4`}
+    } flex max-w-page-content px-4 xl:px-0`}
   >
     <div
       className={`mx-auto flex w-full flex-col gap-3 ${
         size === 'small'
           ? 'max-w-[500px]'
           : size === 'medium'
-          ? 'max-w-[900px]'
-          : ''
+            ? 'max-w-[900px]'
+            : ''
       }`}
     >
       {children}

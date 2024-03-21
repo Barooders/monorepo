@@ -1,5 +1,4 @@
 import { CLAIMS_KEY } from '../shared/config';
-import { Condition } from './components/pages/SellingForm/types';
 
 export type HasuraToken = {
   accessToken: string;
@@ -60,7 +59,8 @@ export type HasuraUserRole =
   | 'me'
   | 'admin'
   | 'me_as_customer'
-  | 'me_as_vendor';
+  | 'me_as_vendor'
+  | 'b2b_user';
 
 export type ProductAPI = {
   availableForSale: boolean;
@@ -123,40 +123,6 @@ export type VendorAPI = {
 type Price = {
   amount: string;
   currencyCode: CurrencyCode;
-};
-
-export type HitSearchType = {
-  variant_shopify_id: number;
-  variant_internal_id: string | null;
-  title: string;
-  vendor: string;
-  vendor_informations?: {
-    reviews: {
-      count?: number;
-      average_rating?: number;
-    };
-  };
-  meta: {
-    barooders: {
-      owner: 'b2c' | 'c2c';
-      product_discount_range: string;
-    };
-  };
-  product_type: string;
-  is_refurbished?: string;
-  condition: Condition;
-  variant_title: string;
-  handle: string;
-  inventory_quantity: number;
-  array_tags: Record<string, string[]>;
-  computed_scoring: number;
-  price: number;
-  product_shopify_id: number;
-  product_internal_id: string;
-  product_image?: string;
-  compare_at_price: number;
-  collection_internal_ids: string[];
-  collection_handles: string[];
 };
 
 export type FreeShippingDiscount = {

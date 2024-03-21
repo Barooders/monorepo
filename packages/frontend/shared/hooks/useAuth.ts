@@ -1,16 +1,16 @@
+import { operations } from '@/__generated/rest-schema';
+import { sendLogin } from '@/analytics';
+import { fetchAuth } from '@/clients/auth';
 import { HasuraAuthJwtType, HasuraToken } from '@/types';
 import { decodeJWT } from '@/utils/decodeJWT';
 import { useRouter } from 'next/navigation';
 import useUser from './state/useUser';
+import useBackend from './useBackend';
 import useFavoriteProducts from './useFavoriteProducts';
 import { useHasuraToken } from './useHasuraToken';
-import { sendLogin } from '@/analytics';
-import { fetchAuth } from '@/clients/auth';
-import { operations } from '@/__generated/rest-schema';
 import useStorefront, {
   GET_STOREFRONT_TOKEN_FROM_MULTIPASS,
 } from './useStorefront';
-import useBackend from './useBackend';
 
 type LoginResponseType = {
   status: number;
@@ -99,7 +99,11 @@ export const useAuth = () => {
   };
 
   const isAdmin = () => {
-    return hasuraToken?.user.roles.includes('admin');
+    return hasuraToken?.user.roles.includes('admin') || false;
+  };
+
+  const isB2BUser = () => {
+    return hasuraToken?.user.roles.includes('b2b_user') || false;
   };
 
   const getShopifyToken = async () => {
@@ -120,6 +124,7 @@ export const useAuth = () => {
     loginWithToken,
     logout,
     isAdmin,
+    isB2BUser,
     getShopifyToken,
   };
 };

@@ -1,6 +1,9 @@
 const productionEnv = {
   search: {
-    mainSearchIndexPrefix: 'backend',
+    publicVariantsCollection: 'backend_products',
+    publicVariantSuggestionsCollection: 'backend_products_query_suggestions',
+    b2bVariantsCollection: 'backend_b2b_products',
+    collectionsCollection: 'backend_collections',
     cacheSearchResultsForSeconds: 2 * 60,
     maxValuesPerFacet: 9999,
   },

@@ -1,16 +1,21 @@
 import { getDictionary } from '@/i18n/translate';
 import mapValues from 'lodash/mapValues';
+import { Viewport } from 'next';
 import Head from 'next/head';
 import React from 'react';
 
 const dict = getDictionary('fr');
 
+export const viewportConfig: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadataConfig = {
+  metadataBase: new URL(
+    `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN ?? 'https://barooders.com'}`,
+  ),
   title: dict.homepage.head.title,
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
   manifest: '/manifest.json', //NOT WORKING
   description: dict.global.head.description,
   openGraph: {

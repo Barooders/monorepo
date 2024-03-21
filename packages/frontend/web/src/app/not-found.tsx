@@ -1,4 +1,4 @@
-import { metadataConfig } from '@/document/metadata/global';
+import { metadataConfig, viewportConfig } from '@/document/metadata/global';
 import { getMenuData } from '@/components/molecules/MegaMenu';
 import '@/document/styles/globals.scss';
 import MainLayout from '@/components/layouts/main';
@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 
 const dict = getDictionary('fr');
 
+export const viewport = viewportConfig;
 export const metadata: Metadata = {
   ...metadataConfig,
   title: dict.global.errors.title,

@@ -1,9 +1,9 @@
+import envConfig from '@config/env/env.config';
 import {
-  CollectionDocument,
+  SearchCollectionDocument,
   SearchB2BVariantDocument,
   SearchPublicVariantDocument,
-} from './types';
-import envConfig from '@config/env/env.config';
+} from 'shared-types';
 import { Client } from 'typesense';
 
 const sharedConfig = {
@@ -24,7 +24,7 @@ export type TypesensePublicVariantDocument = SearchPublicVariantDocument & {
 export type TypesenseB2BVariantDocument = SearchB2BVariantDocument & {
   id: string;
 };
-export type TypesenseCollectionDocument = CollectionDocument & {
+export type TypesenseCollectionDocument = SearchCollectionDocument & {
   id: string;
 };
 

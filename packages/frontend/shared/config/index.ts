@@ -15,9 +15,9 @@ export const SNOWFALL_OVERLAY_ANCHOR = 'snowfall-overlay';
 export const MODAL_ROOT_ANCHOR = 'modal-root';
 export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';
 
-export const publicVariantsCollection = `${config.search.mainSearchIndexPrefix}_products`;
+export const publicVariantsCollection = config.search.publicVariantsCollection;
 
-export const searchIndexes = {
+export const searchCollections = {
   products: {
     main: `${publicVariantsCollection}/sort/computed_scoring:desc`,
     priceAsc: `${publicVariantsCollection}/sort/price:asc`,
@@ -25,8 +25,11 @@ export const searchIndexes = {
     discountDesc: `${publicVariantsCollection}/sort/discount:desc`,
     dateDesc: `${publicVariantsCollection}/sort/createdat_timestamp:desc`,
   },
-  collections: `${config.search.mainSearchIndexPrefix}_collections`,
-  suggestions: `${publicVariantsCollection}_query_suggestions`,
+  b2bProducts: {
+    main: `${config.search.b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+  },
+  collections: config.search.collectionsCollection,
+  suggestions: config.search.publicVariantSuggestionsCollection,
 };
 
 export const SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET =
@@ -59,10 +62,10 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
       group_by: 'product_internal_id',
       group_limit: 50,
     },
-    [searchIndexes.collections]: {
+    [searchCollections.collections]: {
       query_by: 'title,handle',
     },
-    [searchIndexes.suggestions]: {
+    [searchCollections.suggestions]: {
       query_by: 'q',
     },
   },

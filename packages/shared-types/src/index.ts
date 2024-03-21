@@ -1,4 +1,10 @@
-import { DiscountRange } from '@libs/domain/types';
+export enum DiscountRange {
+  FROM_0_TO_20 = '0-20%',
+  FROM_20_TO_40 = '20-40%',
+  FROM_40_TO_60 = '40-60%',
+  FROM_60_TO_80 = '60-80%',
+  FROM_80_TO_100 = '80-100%',
+}
 
 type SearchBaseVariantDocument = {
   variant_shopify_id: number;
@@ -41,9 +47,11 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
   collection_handles: string[];
 };
 
-export type SearchB2BVariantDocument = SearchBaseVariantDocument;
+export type SearchB2BVariantDocument = SearchBaseVariantDocument & {
+  vendor_id: string;
+};
 
-export type CollectionDocument = {
+export type SearchCollectionDocument = {
   collectionId: string;
   title: string;
   handle: string;

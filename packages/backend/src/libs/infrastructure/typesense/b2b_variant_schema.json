@@ -2,6 +2,10 @@
   "name": "backend_b2b_products",
   "fields": [
     {
+      "name": "vendor_id",
+      "type": "string"
+    },
+    {
       "name": "title",
       "type": "string",
       "facet": true

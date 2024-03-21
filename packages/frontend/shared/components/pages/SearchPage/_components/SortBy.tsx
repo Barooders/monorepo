@@ -1,5 +1,5 @@
 import Dropdown from '@/components/atoms/Dropdown';
-import { searchIndexes } from '@/config';
+import { searchCollections } from '@/config';
 import { getDictionary } from '@/i18n/translate';
 import { useState } from 'react';
 import { useSortBy } from 'react-instantsearch-hooks-web';
@@ -18,23 +18,23 @@ const SortBy: React.FC<PropsType> = ({ side = 'left' }) => {
     items: [
       {
         label: dict.search.sortBy.options.relevance,
-        value: searchIndexes.products.main,
+        value: searchCollections.products.main,
       },
       {
         label: dict.search.sortBy.options.priceAsc,
-        value: searchIndexes.products.priceAsc,
+        value: searchCollections.products.priceAsc,
       },
       {
         label: dict.search.sortBy.options.priceDesc,
-        value: searchIndexes.products.priceDesc,
+        value: searchCollections.products.priceDesc,
       },
       {
         label: dict.search.sortBy.options.dateDesc,
-        value: searchIndexes.products.dateDesc,
+        value: searchCollections.products.dateDesc,
       },
       {
         label: dict.search.sortBy.options.discountDesc,
-        value: searchIndexes.products.discountDesc,
+        value: searchCollections.products.discountDesc,
       },
     ],
   });
