@@ -28,7 +28,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
             />
           )}
         </div>
-        <div className="relative col-span-2 my-auto flex flex-grow flex-col">
+        <div className="relative col-span-2 my-auto flex min-h-[210px] flex-grow flex-col justify-between">
           <Characteristics
             tags={tags}
             title={title}
@@ -36,24 +36,26 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
             variantCondition={variantCondition}
             componentSize="medium"
           />
-          <p className="mt-2 text-xs text-gray-600 lg:text-sm">
-            Quantité disponible: {stock}
-          </p>
-          <div className="my-1">
-            <ProductPrice
-              productId={id}
-              discounts={[]}
-              compareAtPrice={price}
-              price={price}
-            />
+          <div className="flex flex-col">
+            <p className="mt-2 text-xs text-gray-600 lg:text-sm">
+              Quantité disponible: {stock}
+            </p>
+            <div className="my-1">
+              <ProductPrice
+                productId={id}
+                discounts={[]}
+                compareAtPrice={price}
+                price={price}
+              />
+            </div>
+            <Button
+              intent="primary"
+              href="/"
+              className="mt-2"
+            >
+              Faire une offre
+            </Button>
           </div>
-          <Button
-            intent="primary"
-            href="/"
-            className="mt-2"
-          >
-            Faire une offre
-          </Button>
         </div>
       </div>
     </Link>
