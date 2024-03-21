@@ -1,63 +1,16 @@
 import {
   AggregateName,
-  Condition,
-  Currency,
   EventName,
   OrderStatus,
   PrismaMainClient,
-  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
+import { OrderMapper } from '../infrastructure/store/order.mapper';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
-
-export type OrderLineToStore = {
-  shopifyId: string;
-  name: string;
-  vendorId: string | undefined;
-  priceInCents: number;
-  discountInCents: number;
-  shippingSolution: ShippingSolution;
-  priceCurrency: Currency;
-  productType: string;
-  productHandle: string;
-  productImage: string | null;
-  variantCondition?: Condition | null;
-  productModelYear?: string | null;
-  productGender?: string | null;
-  productBrand?: string | null;
-  productSize?: string | null;
-  quantity: number;
-  productVariantId: string | undefined;
-  fulfillmentOrderShopifyId: number | undefined;
-};
-
-export type FulfillmentOrderToStore = {
-  shopifyId: number;
-};
-
-export type OrderToStore = {
-  shopifyId: string;
-  name: string;
-  status: OrderStatus;
-  customerEmail: string;
-  customerId: string | null;
-  orderLines: OrderLineToStore[];
-  fulfillmentOrders: FulfillmentOrderToStore[];
-  totalPriceInCents: number;
-  totalPriceCurrency: Currency;
-  shippingAddressAddress1: string;
-  shippingAddressAddress2: string | null;
-  shippingAddressCompany: string | null;
-  shippingAddressCity: string;
-  shippingAddressPhone: string | null;
-  shippingAddressCountry: string;
-  shippingAddressFirstName: string;
-  shippingAddressLastName: string;
-  shippingAddressZip: string;
-};
+import { Order } from './ports/types';
 
 @Injectable()
 export class OrderCreationService {
@@ -65,40 +18,33 @@ export class OrderCreationService {
 
   constructor(
     private prisma: PrismaMainClient,
+    private orderMapper: OrderMapper,
     private orderStatusHandler: OrderStatusHandlerService,
     private internalNotificationClient: IInternalNotificationClient,
   ) {}
 
-  async storeOrder(
-    {
-      orderLines,
-      fulfillmentOrders,
-      shippingAddressPhone,
-      ...order
-    }: OrderToStore,
-    author: Author,
-  ): Promise<string> {
+  async createOrder(order: Order, author: Author): Promise<string> {
     try {
       this.logger.debug(
-        `Storing order ${order.shopifyId} for customer ${order.customerId}`,
+        `Storing order ${order.storeId.id} for customer ${order.customer!.id?.uuid}`,
       );
 
       const existingOrder = await this.prisma.order.findUnique({
         where: {
-          shopifyId: order.shopifyId,
+          shopifyId: order.storeId.id.toString(),
         },
       });
 
       if (existingOrder) {
         this.logger.warn(
-          `Order ${order.shopifyId} already exists in database. Skipping...`,
+          `Order ${order.storeId.id} already exists in database. Skipping...`,
         );
         return existingOrder.id;
       }
 
-      if (!shippingAddressPhone) {
+      if (!order.shippingAddress?.phone) {
         throw new Error(
-          `Can't create an order without a phone number: ${order.shopifyId}`,
+          `Can't create an order without a phone number: ${order.storeId.id}`,
         );
       }
 
@@ -106,17 +52,16 @@ export class OrderCreationService {
         async (wrappedPrisma) => {
           this.logger.warn(
             `Will create order ${
-              order.shopifyId
-            } with fulfillment orders: ${jsonStringify(fulfillmentOrders)}`,
+              order.storeId.id
+            } with fulfillment orders: ${jsonStringify(order.fulfillmentOrders)}`,
           );
           const { id, fulfillmentOrders: createdFulfillmentOrders } =
             await wrappedPrisma.order.create({
               data: {
-                ...order,
-                shippingAddressPhone,
+                ...this.orderMapper.toPersistence(order),
                 fulfillmentOrders: {
                   createMany: {
-                    data: fulfillmentOrders,
+                    data: order.fulfillmentOrders ?? [],
                   },
                 },
               },
@@ -126,17 +71,19 @@ export class OrderCreationService {
             });
 
           await Promise.all(
-            orderLines.map(({ fulfillmentOrderShopifyId, ...orderLine }) => {
-              return wrappedPrisma.orderLines.create({
-                data: {
-                  ...orderLine,
-                  orderId: id,
-                  fulfillmentOrderId: createdFulfillmentOrders.find(
-                    (fo) => Number(fo.shopifyId) === fulfillmentOrderShopifyId,
-                  )?.id,
-                },
-              });
-            }),
+            order.orderLines.map(
+              ({ fulfillmentOrderShopifyId, ...orderLine }) => {
+                return wrappedPrisma.orderLines.create({
+                  data: {
+                    orderId: id,
+                    fulfillmentOrderId: createdFulfillmentOrders.find(
+                      (fo) =>
+                        Number(fo.shopifyId) === fulfillmentOrderShopifyId,
+                    )?.id,
+                  },
+                });
+              },
+            ),
           );
 
           await wrappedPrisma.event.create({

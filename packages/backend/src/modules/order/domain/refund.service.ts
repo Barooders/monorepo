@@ -1,7 +1,6 @@
 import envConfig from '@config/env/env.config';
 import {
   Customer,
-  Order,
   OrderLines,
   OrderStatus,
   PaymentProvider,
@@ -19,7 +18,7 @@ import { OrderUpdateService } from './order-update.service';
 import { UserNotOrderLineVendorException } from './ports/exceptions';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IStoreClient } from './ports/store.client';
-import { OrderRefundedData } from './ports/types';
+import { Order } from './ports/types';
 
 const MANUAL_REFUND_PAYMENT_PROVIDERS = [PaymentProvider.FLOA];
 
@@ -29,7 +28,7 @@ const mapOrderToRefund = (
   vendor: (Customer & { user: users }) | null,
 ) => ({
   customer: {
-    email: order.customerEmail,
+    email: order.customer.email.address,
     firstName: order.customer?.firstName ?? '',
     fullName: order.customer
       ? `${order.customer.firstName} ${order.customer.lastName}`
@@ -47,7 +46,7 @@ const mapOrderToRefund = (
 });
 
 const getOrderLinkMrkdwn = (order: Order) => {
-  const orderAdminUrl = `https://${envConfig.externalServices.shopify.shopDns}/admin/orders/${order.shopifyId}`;
+  const orderAdminUrl = `https://${envConfig.externalServices.shopify.shopDns}/admin/orders/${order.storeId.id}`;
   return `<${orderAdminUrl}|${order.name}>`;
 };
 
@@ -265,40 +264,36 @@ export class RefundService {
     });
   }
 
-  private async processRefund(
-    orderRefundedData: OrderRefundedData,
-    author: Author,
-  ) {
-    const {
-      order: { id, shopifyId, name, totalPriceCurrency, totalPriceInCents },
-      customer: { email },
-    } = orderRefundedData;
+  private async processRefund(order: Order, author: Author) {
+    const orderId = order.id!.uuid;
     //TODO: This update should not be handled at order level but at order line level
     // For now we refund the full order to refund commission + shipping
     await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
-      id,
+      orderId,
       OrderStatus.CANCELED,
       author,
       new Date(),
       async () => {
         await this.storeClient.refundOrder(
           {
-            id,
-            storeId: shopifyId,
+            id: orderId,
+            storeId: order.storeId.id.toString(),
           },
           {
-            amountInCents: totalPriceInCents,
-            currency: totalPriceCurrency,
+            amountInCents: order.totalPrice.amountInCents,
+            currency: order.totalPrice.currency as 'EUR',
           },
         );
 
-        this.logger.warn(`Refunded order ${id}`);
+        this.logger.warn(`Refunded order ${orderId}`);
 
-        await this.orderNotificationService.sendRefundedOrderEmails(
-          orderRefundedData,
+        await this.orderNotificationService.sendRefundedOrderEmails(order);
+
+        await this.sendInternalNotificationIfManualPayment(
+          orderId,
+          order.name,
+          order.customer?.email.address ?? '',
         );
-
-        await this.sendInternalNotificationIfManualPayment(id, name, email);
       },
     );
   }
@@ -309,8 +304,8 @@ export class RefundService {
   ) {
     return `
 	⚓️ Order: ${getOrderLinkMrkdwn(order)}
-	💰 Price: ${order.totalPriceInCents / 100} €
-	📅 Date: ${order.paidAt?.toLocaleDateString('fr-FR')}
+	💰 Price: ${order.totalPrice.amountInCents / 100} €
+	📅 Date: ${order.paidAt?.readableDate}
 	🙋 Vendor: ${vendor.sellerName} (${vendor.isPro ? 'pro' : 'particulier'})
 		`;
   }

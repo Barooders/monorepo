@@ -22,6 +22,10 @@ export class ValueDate extends ValueObject<DateProps> {
     return this.props.date.getTime();
   }
 
+  get readableDate(): string {
+    return this.props.date?.toLocaleDateString('fr-FR');
+  }
+
   protected validate(props: DateProps): void {
     if (!isDate(props.date)) {
       throw new InvalidDate(props.date);

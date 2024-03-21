@@ -6,6 +6,7 @@ import {
   Currency,
   Customer,
   OrderStatus,
+  Order as PersistedOrder,
   PrismaMainClient,
   Product,
   ShippingSolution,
@@ -14,6 +15,15 @@ import {
 } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
+import {
+  Amount,
+  Email,
+  ShopifyID,
+  Stock,
+  URL,
+  UUID,
+  ValueDate,
+} from '@libs/domain/value-objects';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
   findMetafield,
@@ -22,15 +32,18 @@ import {
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
+import { PRODUCT_TYPE } from '@modules/order/domain/constants/commission-product.constants';
 import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
-import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import {
-  OrderCreatedData,
+  Order,
+  OrderLine,
   OrderPaidData,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
-import { get, head, isMatch } from 'lodash';
-import { IOrder } from 'shopify-api-node';
+import get from 'lodash/get';
+import head from 'lodash/head';
+import isMatch from 'lodash/isMatch';
+import Shopify, { IOrder } from 'shopify-api-node';
 
 @Injectable()
 export class OrderMapper {
@@ -43,7 +56,7 @@ export class OrderMapper {
     private handDeliveryService: HandDeliveryService,
   ) {}
 
-  async mapOrderToStore(orderData: IOrder): Promise<OrderToStore> {
+  async mapOrder(orderData: IOrder): Promise<Order> {
     const { id } = orderData;
 
     if (!orderData.customer?.email) {
@@ -60,6 +73,8 @@ export class OrderMapper {
       throw new Error(`No shippable product found in order ${id}`);
     }
 
+    const paymentMethodName = orderData.payment_gateway_names[0];
+
     const fulfillmentOrders =
       await shopifyApiByToken.order.fulfillmentOrders(id);
 
@@ -67,119 +82,59 @@ export class OrderMapper {
       throw new Error(`No fulfillment order found yet for order ${id}`);
     }
 
+    const soldProduct = getSingleProductInOrder(orderData);
+
+    if (!soldProduct?.product_id) {
+      throw new Error(`No shippable product found in order ${orderData.id}`);
+    }
+
+    if (!orderData.customer) {
+      throw new Error(
+        `Cannot map order because no customer found for order ${orderData.id}`,
+      );
+    }
+
+    if (!paymentMethodName) {
+      throw new Error(
+        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
+      );
+    }
+
     const orderLines = await Promise.all(
-      shippableOrderLines.map(async (soldProduct) => {
-        if (!soldProduct?.product_id) {
-          throw new Error(`No shippable product found in order ${id}`);
-        }
-
-        const { vendor } = await this.getVendorFromProductShopifyId(
-          soldProduct.product_id,
-        );
-
-        const product = await shopifyApiByToken.product.get(
-          soldProduct.product_id,
-        );
-
-        const { tags, product_type, handle, images } = product;
-        const tagsObject = getTagsObject(tags);
-        const sizeArray = await getPimDynamicAttribute('size', tagsObject);
-
-        const getDisplayedSize = (sizeArray: string[] | null) => {
-          if (!sizeArray) return null;
-
-          if (sizeArray.length === 1) return head(sizeArray);
-
-          return sizeArray.find((size) =>
-            (soldProduct.variant_title ?? soldProduct.name).includes(size),
-          );
-        };
-
-        const productVariant = soldProduct.variant_id
-          ? await this.mainPrisma.productVariant.findUnique({
-              where: { shopifyId: soldProduct.variant_id },
-            })
-          : null;
-
-        const orderLineDiscountInCents =
-          soldProduct.discount_allocations.reduce(
-            (
-              totalDiscount: number,
-              {
-                amount_set: {
-                  shop_money: { amount },
-                },
-                discount_application_index,
-              },
-            ) => {
-              const appliedDiscount =
-                orderData.discount_applications[discount_application_index];
-
-              if (
-                isMatch(appliedDiscount, {
-                  target_type: 'line_item',
-                  target_selection: 'entitled',
-                })
-              )
-                return totalDiscount + Number(amount) * 100;
-
-              return totalDiscount;
-            },
-            0,
-          );
-
-        return {
-          shopifyId: String(soldProduct.id),
-          vendorId: vendor?.user.id,
-          shippingSolution: await this.getOrderShippingSolution(
-            orderData,
-            vendor?.usedShipping,
-          ),
-          name: soldProduct.name,
-          priceInCents: Math.round(Number(soldProduct.price) * 100),
-          discountInCents: Math.round(orderLineDiscountInCents),
-          priceCurrency: Currency.EUR,
-          productType: product_type,
-          variantCondition: productVariant?.condition,
-          productHandle: handle,
-          productImage:
-            get(
-              images.sort((a, b) => a.position - b.position),
-              '[0].src',
-            ) ?? null,
-          productModelYear: head(tagsObject['année']),
-          productGender: head(tagsObject['genre']),
-          productBrand: head(tagsObject['marque']),
-          productSize: getDisplayedSize(sizeArray),
-          quantity: soldProduct.quantity,
-          productVariantId: productVariant?.id,
-          fulfillmentOrderShopifyId: fulfillmentOrders.find(
-            (fulfillmentOrder) =>
-              fulfillmentOrder.line_items.find(
-                (lineItem) => lineItem.variant_id === soldProduct.variant_id,
-              ),
-          )?.id,
-        };
-      }),
+      shippableOrderLines.map((orderLine) =>
+        this.mapOrderLine(orderLine, orderData, fulfillmentOrders),
+      ),
     );
 
     return {
-      shopifyId: String(id),
+      storeId: new ShopifyID({ id }),
       name: orderData.name,
       status: OrderStatus.CREATED,
-      customerEmail: orderData.customer?.email,
-      customerId,
-      totalPriceInCents: Math.round(Number(orderData.total_price) * 100),
-      totalPriceCurrency: Currency.EUR,
-      shippingAddressAddress1: orderData.shipping_address.address1,
-      shippingAddressAddress2: orderData.shipping_address.address2 ?? null,
-      shippingAddressCompany: orderData.shipping_address.company ?? null,
-      shippingAddressCity: orderData.shipping_address.city,
-      shippingAddressCountry: orderData.shipping_address.country,
-      shippingAddressFirstName: orderData.shipping_address.first_name,
-      shippingAddressLastName: orderData.shipping_address.last_name,
-      shippingAddressPhone: orderData.shipping_address.phone,
-      shippingAddressZip: orderData.shipping_address.zip,
+      customer: {
+        email: new Email({
+          email: orderData.customer?.email,
+        }),
+        id: customerId ? new UUID({ uuid: customerId }) : null,
+        firstName: orderData.customer.first_name,
+        fullName: `${orderData.customer.first_name} ${orderData.customer.last_name}`,
+      },
+      totalPrice: new Amount({
+        amountInCents: Math.round(Number(orderData.total_price) * 100),
+        currency: Currency.EUR,
+      }),
+      shippingAddress: {
+        address1: orderData.shipping_address.address1,
+        address2: orderData.shipping_address.address2 ?? null,
+        company: orderData.shipping_address.company ?? null,
+        city: orderData.shipping_address.city,
+        country: orderData.shipping_address.country,
+        firstName: orderData.shipping_address.first_name,
+        lastName: orderData.shipping_address.last_name,
+        phone: orderData.shipping_address.phone,
+        zip: orderData.shipping_address.zip,
+      },
+      adminUrl: new URL({ url: this.getOrderAdminUrl(orderData.id) }),
+      paymentCheckoutLabel: paymentMethodName,
       orderLines,
       fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrderShopifyId }) =>
         fulfillmentOrderShopifyId
@@ -333,53 +288,157 @@ export class OrderMapper {
     };
   }
 
-  async mapOrderCreated(orderData: IOrder): Promise<OrderCreatedData> {
-    const soldProduct = getSingleProductInOrder(orderData);
-
+  private async mapOrderLine(
+    soldProduct: Shopify.IOrderLineItem,
+    orderData: IOrder,
+    fulfillmentOrders: Shopify.IFulfillmentOrder[],
+  ): Promise<OrderLine> {
     if (!soldProduct?.product_id) {
       throw new Error(`No shippable product found in order ${orderData.id}`);
     }
 
-    if (!orderData.customer) {
-      throw new Error(
-        `Cannot map order because no customer found for order ${orderData.id}`,
-      );
-    }
+    const { vendor, sourceUrl } = await this.getVendorFromProductShopifyId(
+      soldProduct.product_id,
+    );
 
-    const { sourceUrl, createdAt } =
-      await this.mainPrisma.product.findUniqueOrThrow({
-        where: {
-          shopifyId: soldProduct.product_id,
+    const product = await shopifyApiByToken.product.get(soldProduct.product_id);
+
+    const { tags, product_type, handle, images } = product;
+    const tagsObject = getTagsObject(tags);
+    const sizeArray = await getPimDynamicAttribute('size', tagsObject);
+
+    const getDisplayedSize = (sizeArray: string[] | null) => {
+      if (!sizeArray) return null;
+
+      if (sizeArray.length === 1) return head(sizeArray);
+
+      return sizeArray.find((size) =>
+        (soldProduct.variant_title ?? soldProduct.name).includes(size),
+      );
+    };
+
+    const productVariant = soldProduct.variant_id
+      ? await this.mainPrisma.productVariant.findUnique({
+          where: { shopifyId: soldProduct.variant_id },
+        })
+      : null;
+
+    const orderLineDiscountInCents = soldProduct.discount_allocations.reduce(
+      (
+        totalDiscount: number,
+        {
+          amount_set: {
+            shop_money: { amount },
+          },
+          discount_application_index,
         },
-      });
+      ) => {
+        const appliedDiscount =
+          orderData.discount_applications[discount_application_index];
 
-    const paymentMethodName = orderData.payment_gateway_names[0];
+        if (
+          isMatch(appliedDiscount, {
+            target_type: 'line_item',
+            target_selection: 'entitled',
+          })
+        )
+          return totalDiscount + Number(amount) * 100;
 
-    if (!paymentMethodName) {
-      throw new Error(
-        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
-      );
-    }
+        return totalDiscount;
+      },
+      0,
+    );
 
     return {
-      order: {
-        name: orderData.name,
-        adminUrl: this.getOrderAdminUrl(orderData.id),
-        paymentMethod: paymentMethodName,
-        totalPrice: orderData.total_price,
-      },
+      storeId: new ShopifyID({ id: soldProduct.id }),
+      shippingSolution: await this.getOrderShippingSolution(
+        orderData,
+        vendor?.usedShipping,
+      ),
+      price: new Amount({
+        amountInCents: Math.round(Number(soldProduct.price) * 100),
+        currency: Currency.EUR,
+      }),
+      isPhysicalProduct: product_type !== PRODUCT_TYPE,
+      discountInCents: Math.round(orderLineDiscountInCents),
       product: {
+        referenceUrl: sourceUrl ? new URL({ url: sourceUrl }) : undefined,
+        createdAt: new ValueDate({ date: new Date(product.created_at) }),
         name: soldProduct.name,
-        referenceUrl: sourceUrl ?? '',
-        createdAt,
+        vendorId: vendor?.user.id,
+        handle: handle,
+        image:
+          get(
+            images.sort((a, b) => a.position - b.position),
+            '[0].src',
+          ) ?? null,
+        modelYear: head(tagsObject['année']),
+        gender: head(tagsObject['genre']),
+        brand: head(tagsObject['marque']),
+        size: getDisplayedSize(sizeArray),
+        variantId: productVariant?.id,
+        productType: product_type,
+        variantCondition: productVariant?.condition,
       },
-      customer: {
-        email: orderData.customer.email,
-        firstName: orderData.customer.first_name,
-        fullName: [orderData.customer.first_name, orderData.customer.last_name]
-          .filter(Boolean)
-          .join(' '),
-      },
+      quantity: new Stock({ stock: soldProduct.quantity }),
+      fulfillmentOrderShopifyId: fulfillmentOrders.find((fulfillmentOrder) =>
+        fulfillmentOrder.line_items.find(
+          (lineItem) => lineItem.variant_id === soldProduct.variant_id,
+        ),
+      )?.id,
+    };
+  }
+
+  toPersistence(order: Order): Partial<PersistedOrder> {
+    const shippingAddress = order.shippingAddress
+      ? {
+          shippingAddressAddress1: order.shippingAddress.address1,
+          shippingAddressAddress2: order.shippingAddress.address2,
+          shippingAddressCity: order.shippingAddress.city,
+          shippingAddressCountry: order.shippingAddress.country,
+          shippingAddressLastName: order.shippingAddress.lastName,
+          shippingAddressZip: order.shippingAddress.zip,
+          shippingAddressCompany: order.shippingAddress.company,
+          shippingAddressFirstName: order.shippingAddress.firstName,
+          shippingAddressPhone: order.shippingAddress.phone ?? '',
+        }
+      : {};
+
+    const customer = order.customer
+      ? {
+          customerEmail: order.customer.email.address,
+          customerId: order.customer.id?.uuid,
+        }
+      : {};
+
+    return {
+      ...shippingAddress,
+      ...customer,
+      id: order.id?.uuid ?? '',
+      createdAt: order.createdAt?.date ?? new Date(),
+      name: order.name,
+      shopifyId: order.storeId.id.toString(),
+      status: order.status,
+      totalPriceCurrency: order.totalPrice.currency as 'EUR',
+      totalPriceInCents: order.totalPrice.amountInCents,
+      paidAt: order?.paidAt?.date ?? null,
+      checkoutId: null,
+    };
+  }
+
+  fromPersistence(order: PersistedOrder): Order {
+    const shopifyId = parseInt(order.shopifyId);
+    return {
+      adminUrl: new URL({
+        url: this.getOrderAdminUrl(shopifyId),
+      }),
+      name: order.name,
+      status: order.status,
+      storeId: new ShopifyID({ id: shopifyId }),
+      totalPrice: new Amount({
+        amountInCents: order.totalPriceInCents,
+        currency: order.totalPriceCurrency,
+      }),
     };
   }
 

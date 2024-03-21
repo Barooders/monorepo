@@ -1,9 +1,18 @@
 import {
   CommissionRuleType,
-  Order,
+  Condition,
   OrderStatus,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
+import {
+  Amount as AmountValueObject,
+  Email,
+  ShopifyID,
+  Stock,
+  URL,
+  UUID,
+  ValueDate,
+} from '@libs/domain/value-objects';
 import { CurrencyCode } from '@libs/types/common/money.types';
 
 export type OrderPaidData = {
@@ -34,7 +43,79 @@ export type OrderPaidData = {
   };
   vendor: {
     shopifyId: string;
+    firstName: string;
+    sellerName: string;
+    fullName: string;
     email: string;
+    isPro: boolean;
+    previousOrderLines: {
+      shippingSolution: string;
+      productType: string;
+    }[];
+  };
+};
+
+export type OrderLine = {
+  storeId: ShopifyID;
+  price: AmountValueObject;
+  discountInCents: number;
+  shippingSolution: ShippingSolution;
+  isPhysicalProduct: boolean;
+  quantity: Stock;
+  fulfillmentOrderShopifyId: number | undefined;
+  product: {
+    vendorId: string | undefined;
+    name: string;
+    productType: string;
+    handle: string;
+    image: URL | null;
+    variantCondition?: Condition | null;
+    modelYear?: string | null;
+    gender?: string | null;
+    brand?: string | null;
+    size?: string | null;
+    variantId: string | undefined;
+    referenceUrl?: URL;
+    createdAt: ValueDate;
+  };
+};
+
+export type FulfillmentOrderToStore = {
+  shopifyId: number;
+};
+
+export type Order = {
+  id?: UUID;
+  storeId: ShopifyID;
+  status: OrderStatus;
+  createdAt?: ValueDate;
+  name: string;
+  adminUrl: URL;
+  paymentCheckoutLabel?: string;
+  totalPrice: AmountValueObject;
+  orderLines?: OrderLine[];
+  fulfillmentOrders?: FulfillmentOrderToStore[];
+  paidAt?: ValueDate;
+  shippingAddress?: {
+    address1: string;
+    address2: string | null;
+    company: string | null;
+    city: string;
+    phone: string | null;
+    country: string;
+    firstName: string;
+    lastName: string;
+    zip: string;
+  };
+  customer?: {
+    id: UUID | null;
+    email: Email;
+    firstName: string;
+    fullName: string;
+  };
+  vendor?: {
+    storeId: ShopifyID;
+    email: Email;
     sellerName: string;
     firstName: string;
     fullName: string;
@@ -44,49 +125,6 @@ export type OrderPaidData = {
       productType: string;
     }[];
   };
-};
-
-export type OrderCreatedData = {
-  order: {
-    name: string;
-    adminUrl: string;
-    paymentMethod: string;
-    totalPrice: string;
-  };
-  product: {
-    name: string;
-    referenceUrl: string;
-    createdAt: Date;
-  };
-  customer: {
-    email: string;
-    firstName: string;
-    fullName: string;
-  };
-};
-
-export type OrderRefundedData = {
-  customer: { email: string; fullName: string; firstName: string };
-  vendor: { email: string; fullName: string; firstName: string } | null;
-  productName: string;
-  order: Order;
-};
-
-export type OrderHandDeliveredData = {
-  customer: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  vendor: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  orderName: string;
-  productName: string;
 };
 
 export type FeedBackRequest = {
@@ -159,3 +197,8 @@ export interface DiscountApplication {
     target_selection: string;
   };
 }
+
+export type MetadataType = Record<
+  string,
+  string | number | boolean | undefined | null
+>;

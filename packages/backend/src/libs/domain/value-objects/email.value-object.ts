@@ -14,7 +14,7 @@ export interface EmailProps {
 }
 
 export class Email extends ValueObject<EmailProps> {
-  get email(): string {
+  get address(): string {
     return this.props.email;
   }
 

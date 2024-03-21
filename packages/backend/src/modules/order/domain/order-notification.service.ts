@@ -15,10 +15,9 @@ import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import {
   FeedBackRequest,
-  OrderCreatedData,
-  OrderHandDeliveredData,
+  Order,
+  OrderLine,
   OrderPaidData,
-  OrderRefundedData,
 } from './ports/types';
 
 const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
@@ -73,10 +72,22 @@ export class OrderNotificationService {
     );
   }
 
-  async notifyOrderCreated({ order, product, customer }: OrderCreatedData) {
-    if (MANUAL_PAYMENT_CLIENT_NOTIFICATION.includes(order.paymentMethod)) {
+  async notifyOrderCreated(order: Order) {
+    if (!order.customer) {
+      throw new Error('Need customer in order to send notifications');
+    }
+
+    const orderLine = order.orderLines?.find(
+      (ol) => ol.isPhysicalProduct,
+    ) as OrderLine;
+    const customer = order.customer;
+
+    if (
+      order.paymentCheckoutLabel &&
+      MANUAL_PAYMENT_CLIENT_NOTIFICATION.includes(order.paymentCheckoutLabel)
+    ) {
       const metadata = {
-        email: customer.email,
+        email: customer.email.address ?? '',
         orderName: order.name,
       };
       await this.sendNotificationIfNotAlreadySent(
@@ -90,36 +101,37 @@ export class OrderNotificationService {
             `Order ${order.name} was created, will send manual payment procedure to customer`,
           );
           await this.emailClient.sendEmailWithManualPaymentProcedure(
-            customer.email,
+            customer.email.address ?? '',
             customer.fullName,
             {
               firstName: customer.firstName,
-              productName: product.name,
-              paymentMethod: order.paymentMethod,
+              productName: orderLine.product.name,
+              paymentMethod: order.paymentCheckoutLabel,
             },
           );
         },
       );
     }
 
-    if (MANUAL_PAYMENT_INTERNAL_NOTIFICATION.includes(order.paymentMethod)) {
+    if (
+      order.paymentCheckoutLabel &&
+      MANUAL_PAYMENT_INTERNAL_NOTIFICATION.includes(order.paymentCheckoutLabel)
+    ) {
       this.logger.warn(
         `Order ${order.name} was created, will send manual payment notification to internal team`,
       );
       await this.internalNotificationClient
         .sendOrderCreatedWithBaroodersSplitPaymentNotification(`
-          📦 *Nouvelle commande créée avec paiement ${order.paymentMethod}! (${
-            order.name
-          })*
-          🛒 Lien admin: ${order.adminUrl}
+          📦 *Nouvelle commande créée avec paiement ${order.paymentCheckoutLabel}! (${order.name})*
+          🛒 Lien admin: ${order.adminUrl.url}
 
-          🚲 Produit: ${product.name}
-          💶 Prix : ${order.totalPrice}
+          🚲 Produit: ${orderLine.product.name}
+          💶 Prix : ${order.totalPrice.formattedAmount}
 
           📬 Email client : ${customer.email}
 
-          🔗 Reference URL : ${product.referenceUrl}
-          📆 Date d'ajout: ${product.createdAt.toLocaleDateString('fr-FR')}
+          🔗 Reference URL : ${orderLine.product.referenceUrl?.url}
+          📆 Date d'ajout: ${orderLine.product.createdAt.readableDate}
         `);
     }
   }
@@ -236,19 +248,14 @@ export class OrderNotificationService {
     );
   }
 
-  async sendHandDeliveryEmails(orderData: OrderHandDeliveredData) {
+  async sendHandDeliveryEmails(orderData: Order) {
     await this.sendHandDeliveryEmailToCustomer(orderData);
     await this.sendHandDeliveryEmailToVendor(orderData);
   }
 
-  async sendRefundedOrderEmails({
-    customer,
-    order,
-    vendor,
-    productName,
-  }: OrderRefundedData) {
+  async sendRefundedOrderEmails(order: Order) {
     const customerMetadata = {
-      email: customer.email,
+      email: order.customer!.email.address,
       orderName: order.name,
     };
 
@@ -262,24 +269,25 @@ export class OrderNotificationService {
       },
       async () => {
         await this.emailClient.sendRefundedOrderCustomerEmail(
-          customer.email,
-          customer.fullName,
+          order.customer!.email.address,
+          order.customer!.fullName,
           {
-            firstName: customer.firstName,
-            orderAmountInCents: order.totalPriceInCents,
+            firstName: order.customer!.firstName,
+            orderAmountInCents: order.totalPrice.amountInCents,
             orderName: order.name,
           },
         );
       },
     );
 
-    if (!vendor) {
+    if (!order.vendor) {
       this.logger.warn(`Not sending email to vendor because it was not found`);
       return;
     }
 
+    const vendor = order.vendor;
     const vendorMetadata = {
-      email: vendor.email,
+      email: vendor.email.address,
       orderName: order.name,
     };
 
@@ -293,36 +301,36 @@ export class OrderNotificationService {
       },
       async () => {
         await this.emailClient.sendRefundedOrderVendorEmail(
-          vendor.email,
+          vendor.email.address,
           vendor.fullName,
           {
             firstName: vendor.firstName,
-            productName,
+            productName:
+              order.orderLines?.find((ol) => ol.isPhysicalProduct)?.product
+                .name ?? '',
             orderName: order.name,
-            paidAt: order.paidAt?.toLocaleDateString('fr-FR') ?? '',
+            paidAt: order.paidAt?.readableDate ?? '',
           },
         );
       },
     );
   }
 
-  private async sendHandDeliveryEmailToCustomer({
-    customer,
-    orderName,
-    productName,
-  }: OrderHandDeliveredData) {
-    const customerEmail = customer.email;
+  private async sendHandDeliveryEmailToCustomer(order: Order) {
+    const customerEmail = order.customer?.email.address;
 
-    if (!customerEmail) {
+    if (!order.customer || !customerEmail) {
       this.logger.warn(
-        `Customer ${customer.id} has no email, skipping hand delivery email`,
+        `Customer ${order.customer?.id?.uuid} has no email, skipping hand delivery email`,
       );
       return;
     }
 
+    const customer = order.customer;
+
     const customerMetadata = {
       email: customerEmail,
-      orderName,
+      orderName: order.name,
     };
 
     await this.sendNotificationIfNotAlreadySent(
@@ -339,31 +347,31 @@ export class OrderNotificationService {
           customer.fullName,
           {
             firstName: customer.firstName,
-            productName: productName,
+            productName:
+              order.orderLines?.find((ol) => ol.isPhysicalProduct)?.product
+                .name ?? '',
           },
         );
       },
-      customer.id,
+      customer.id?.uuid,
     );
   }
 
-  private async sendHandDeliveryEmailToVendor({
-    vendor,
-    orderName,
-    productName,
-  }: OrderHandDeliveredData) {
-    const vendorEmail = vendor.email;
+  private async sendHandDeliveryEmailToVendor(order: Order) {
+    const vendorEmail = order.vendor?.email;
 
     if (!vendorEmail) {
       this.logger.warn(
-        `Vendor ${vendor.id} has no email, skipping hand delivery email`,
+        `Vendor ${order.vendor?.storeId.id} has no email, skipping hand delivery email`,
       );
       return;
     }
 
+    const vendor = order.vendor!;
+
     const vendorMetadata = {
-      email: vendorEmail,
-      orderName,
+      email: vendorEmail.address,
+      orderName: order.name,
     };
 
     await this.sendNotificationIfNotAlreadySent(
@@ -376,15 +384,17 @@ export class OrderNotificationService {
       },
       async () => {
         await this.emailClient.sendValidatedHandDeliveryVendorEmail(
-          vendorEmail,
-          vendor.fullName,
+          vendorEmail.address,
+          vendor.fullName ?? '',
           {
             firstName: vendor.firstName,
-            productName: productName,
+            productName:
+              order.orderLines?.find((ol) => ol.isPhysicalProduct)?.product
+                .name ?? '',
           },
         );
       },
-      vendor.id,
+      vendor.storeId.id.toString(),
     );
   }
 

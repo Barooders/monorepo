@@ -26,8 +26,8 @@ export class CreatedOrderWebhookShopifyController {
   @Post(routesV1.order.onCreatedEvent)
   @UseGuards(ShopifyBackofficeWebhookGuard)
   async handleCreatedOrderEvent(@Body() orderData: IOrder): Promise<void> {
-    const order = await this.orderMapper.mapOrderToStore(orderData);
-    const orderId = await this.orderCreationService.storeOrder(order, {
+    const order = await this.orderMapper.mapOrder(orderData);
+    const orderId = await this.orderCreationService.createOrder(order, {
       type: 'shopify',
     });
     const orderUuid = new UUID({ uuid: orderId });
@@ -39,8 +39,6 @@ export class CreatedOrderWebhookShopifyController {
     );
 
     await this.paymentService.linkCheckoutToOrder(orderUuid, checkoutUuid);
-
-    const orderToNotify = await this.orderMapper.mapOrderCreated(orderData);
-    await this.orderNotificationService.notifyOrderCreated(orderToNotify);
+    await this.orderNotificationService.notifyOrderCreated(order);
   }
 }
