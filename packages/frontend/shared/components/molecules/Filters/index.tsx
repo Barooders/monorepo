@@ -14,7 +14,7 @@ import {
 import { useHasura } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
 import { gql } from '@apollo/client';
-import { groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
+import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
 import { useEffect, useState } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
@@ -201,11 +201,12 @@ export const B2BFilters = () => {
 
       if (SavedSearch.length === 0) return;
 
-      const { query, FacetFilters } = SavedSearch[0];
+      const { query, FacetFilters, NumericFilters } = SavedSearch[0];
 
       setQuery(query ?? '');
 
       const facetFilters = groupBy(FacetFilters, 'facetName');
+      const numericFilters = groupBy(NumericFilters, 'facetName');
 
       setIndexUiState((prevIndexUiState) => ({
         ...prevIndexUiState,
@@ -214,6 +215,14 @@ export const B2BFilters = () => {
           ...mapValues(facetFilters, (value) =>
             value.map(({ value }) => value),
           ),
+        },
+        range: {
+          ...prevIndexUiState.range,
+          ...mapValues(numericFilters, (value) => {
+            const minValue = find(value, { operator: '>=' })?.value ?? '';
+            const maxValue = find(value, { operator: '<=' })?.value ?? '';
+            return `${minValue}:${maxValue}`;
+          }),
         },
         ...(query && { query }),
       }));
