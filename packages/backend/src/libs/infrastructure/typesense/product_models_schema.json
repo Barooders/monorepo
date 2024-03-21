@@ -1,0 +1,22 @@
+{
+  "name": "product_models",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "brand",
+      "type": "string"
+    },
+    {
+      "name": "family",
+      "type": "string"
+    },
+    {
+      "name": "imageUrl",
+      "type": "string"
+    }
+  ],
+  "enable_nested_fields": true
+}
