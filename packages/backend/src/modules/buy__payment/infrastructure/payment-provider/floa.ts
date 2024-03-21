@@ -1,4 +1,5 @@
 import envConfig, { envConfigs } from '@config/env/env.config';
+import { PaymentSolutionCode } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { ConfigStoreService } from '@libs/infrastructure/config-store/config-store.service';
 import {
@@ -6,9 +7,9 @@ import {
   FloaConfig,
 } from '@libs/infrastructure/config-store/types';
 import {
-  getPaymentConfig,
   PaymentProvider,
   PaymentSolution,
+  getPaymentConfig,
 } from '@modules/buy__payment/domain/config';
 import { IPaymentProvider } from '@modules/buy__payment/domain/ports/payment-provider.repository';
 import {
@@ -169,12 +170,11 @@ export class FloaPaymentProvider implements IPaymentProvider {
       },
     };
 
+    const merchantSiteId = this.getMerchantSiteId(payment.paymentSolutionCode);
+
     const queryParams = new URLSearchParams({
       merchantId: this.getFloaConfig().merchantId.toString(),
-      merchantSiteIds:
-        this.getFloaConfig().merchantSiteIds[
-          payment.paymentSolutionCode
-        ].toString(),
+      merchantSiteIds: merchantSiteId.toString(),
     });
 
     const response = await this.fetchEligibilityApi<RawEligibilityResponse>(
@@ -243,10 +243,11 @@ export class FloaPaymentProvider implements IPaymentProvider {
       orderShippingCost: cartDetails?.shippingAmount?.amountInCents ?? 0,
     };
 
+    const merchantSiteId = this.getMerchantSiteId(paymentSolutionCode);
+
     const queryParams = new URLSearchParams({
       merchantId: this.getFloaConfig().merchantId.toString(),
-      merchantSiteId:
-        this.getFloaConfig().merchantSiteIds[paymentSolutionCode].toString(),
+      merchantSiteId: merchantSiteId.toString(),
       sendingTypes: 'Web',
     });
 
@@ -361,5 +362,19 @@ export class FloaPaymentProvider implements IPaymentProvider {
         [PaymentSolution.FLOA_3X]: 76684,
       },
     };
+  }
+
+  private getMerchantSiteId(paymentSolutionCode: PaymentSolutionCode): number {
+    const floaConfig = this.getFloaConfig().merchantSiteIds as {
+      [key: string]: number;
+    };
+
+    const merchantSiteId = floaConfig[paymentSolutionCode] ?? null;
+
+    if (!merchantSiteId) {
+      throw new Error(`Could not find a merchantId for ${paymentSolutionCode}`);
+    }
+
+    return merchantSiteId;
   }
 }

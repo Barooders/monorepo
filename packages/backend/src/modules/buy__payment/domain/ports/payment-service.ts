@@ -1,4 +1,6 @@
+import { PaymentSolutionCode } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
+import { PaymentSolutionConfigType } from '../config';
 
 export abstract class IPaymentService {
   abstract updatePaymentStatusFromOrder(
@@ -10,4 +12,12 @@ export abstract class IPaymentService {
     orderId: UUID,
     checkoutId: string | null,
   ): Promise<void>;
+
+  abstract getPaymentConfig({
+    code,
+    checkoutLabel,
+  }: {
+    code?: PaymentSolutionCode;
+    checkoutLabel?: string;
+  }): PaymentSolutionConfigType | null;
 }

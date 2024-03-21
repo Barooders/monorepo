@@ -5,6 +5,7 @@ import {
   EventName,
   PaymentAccountType,
   PaymentProvider,
+  PaymentSolutionCode,
   PaymentStatusType,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
@@ -14,7 +15,11 @@ import { jsonStringify } from '@libs/helpers/json';
 import safeId from '@libs/helpers/safe-id';
 import { Injectable, Logger } from '@nestjs/common';
 import { first, last } from 'lodash';
-import { PaymentSolution } from './config';
+import {
+  PaymentSolution,
+  PaymentSolutionConfigType,
+  paymentSolutionConfig,
+} from './config';
 import { IInternalNotificationProvider } from './ports/internal-notification.repository';
 import { IPaymentProvider } from './ports/payment-provider.repository';
 import { IPaymentService } from './ports/payment-service';
@@ -365,6 +370,24 @@ export class PaymentService implements IPaymentService {
     }
 
     return checkoutUrl;
+  }
+
+  getPaymentConfig({
+    code,
+    checkoutLabel,
+  }: {
+    code?: PaymentSolutionCode;
+    checkoutLabel?: string;
+  }): PaymentSolutionConfigType | null {
+    if (code) return paymentSolutionConfig[code];
+    if (checkoutLabel)
+      return (
+        Object.values(paymentSolutionConfig).find(
+          (config) => config.checkoutLabel === checkoutLabel,
+        ) ?? null
+      );
+
+    return null;
   }
 
   private async createPaymentLink(paymentId: string) {

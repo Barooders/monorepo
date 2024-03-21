@@ -1057,6 +1057,15 @@ enum PaymentSolutionCode {
   FLOA_10X
   FLOA_4X
   FLOA_3X
+  YOUNITED_24x
+  YOUNITED_10x
+  YOUNITED_36x
+  BANK_WIRE
+  PAYPAL
+  CREDIT_CARD
+  ALMA_2X
+  ALMA_3X
+  ALMA_4X
 
   @@schema("public")
 }
