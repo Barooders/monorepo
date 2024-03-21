@@ -630,7 +630,7 @@ model SavedSearch {
   id             String          @id @default(dbgenerated("(gen_random_uuid())::text"))
   customerId     String          @db.Uuid
   name           String
-  source         String
+  type           SavedSearchType
   collectionId   String?
   query          String?
   createdAt      DateTime        @default(now())
@@ -930,6 +930,13 @@ enum NotificationName {
   IS_PRODUCT_STILL_AVAILABLE
   NEW_ORDER_PAID
   FEEDBACK_ASKED
+
+  @@schema("public")
+}
+
+enum SavedSearchType {
+  B2B_MAIN_PAGE
+  PUBLIC_COLLECTION_PAGE
 
   @@schema("public")
 }
