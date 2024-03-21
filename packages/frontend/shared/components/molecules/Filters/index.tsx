@@ -1,3 +1,4 @@
+import { FetchB2BSavedSearchQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
@@ -5,13 +6,17 @@ import PortalDrawer from '@/components/atoms/Drawer/portal';
 import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
+import { HASURA_ROLES } from '@/config';
 import {
   ProductAttributeConfig,
   productAttributesConfiguration,
 } from '@/config/productAttributes';
+import { useHasura } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
-import { groupBy, map, sortBy, sumBy } from 'lodash';
+import { gql } from '@apollo/client';
+import { groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
+import { useEffect, useState } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
@@ -27,6 +32,27 @@ const dict = getDictionary('fr');
 
 const HIDDEN_FILTER_THRESHOLD = 0.5;
 const REMOVED_FILTER_THRESHOLD = 0.2;
+
+const FETCH_B2B_SAVED_SEARCH = gql`
+  query FetchB2BSavedSearch {
+    SavedSearch(
+      limit: 1
+      order_by: { createdAt: desc }
+      where: { type: { _eq: "B2B_MAIN_PAGE" } }
+    ) {
+      FacetFilters {
+        value
+        facetName
+      }
+      NumericFilters {
+        facetName
+        operator
+        value
+      }
+      query
+    }
+  }
+`;
 
 const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
   attribute,
@@ -161,6 +187,38 @@ export const Filters = () => {
 
 export const B2BFilters = () => {
   const { refine } = useSearchBox({});
+  const { setIndexUiState } = useInstantSearch();
+  const [query, setQuery] = useState<string>('');
+
+  const fetchB2BSavedSearch = useHasura<FetchB2BSavedSearchQuery>(
+    FETCH_B2B_SAVED_SEARCH,
+    HASURA_ROLES.REGISTERED_USER,
+  );
+
+  useEffect(() => {
+    (async () => {
+      const { SavedSearch } = await fetchB2BSavedSearch();
+
+      if (SavedSearch.length === 0) return;
+
+      const { query, FacetFilters } = SavedSearch[0];
+
+      setQuery(query ?? '');
+
+      const facetFilters = groupBy(FacetFilters, 'facetName');
+
+      setIndexUiState((prevIndexUiState) => ({
+        ...prevIndexUiState,
+        refinementList: {
+          ...prevIndexUiState.refinementList,
+          ...mapValues(facetFilters, (value) =>
+            value.map(({ value }) => value),
+          ),
+        },
+        ...(query && { query }),
+      }));
+    })();
+  }, []);
 
   return (
     <>
@@ -172,6 +230,7 @@ export const B2BFilters = () => {
           autoCapitalize: 'off',
           autoCorrect: 'off',
           autoComplete: 'off',
+          defaultValue: query,
         }}
         name={'query_b2b'}
         placeholder={dict.search.filters.search}

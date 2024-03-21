@@ -29699,6 +29699,15 @@ export type SubscribeToOpenedPriceOfferSubscription = {
   }>;
 };
 
+export type StoreSavedSearchMutationVariables = Exact<{
+  savedSearchInput: SavedSearch_Insert_Input;
+}>;
+
+export type StoreSavedSearchMutation = {
+  __typename?: 'mutation_root';
+  insert_SavedSearch_one: { __typename?: 'SavedSearch'; id: string } | null;
+};
+
 export type HandDeliveryOrderLineFragmentFragment = {
   __typename?: 'OrderLines';
   shippingSolution: any;
@@ -29769,6 +29778,27 @@ export type FetchConversationProductDetailsQuery = {
         productType: string | null;
       }>;
     };
+  }>;
+};
+
+export type FetchB2BSavedSearchQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchB2BSavedSearchQuery = {
+  __typename?: 'query_root';
+  SavedSearch: Array<{
+    __typename?: 'SavedSearch';
+    query: string | null;
+    FacetFilters: Array<{
+      __typename?: 'FacetFilter';
+      value: string;
+      facetName: string;
+    }>;
+    NumericFilters: Array<{
+      __typename?: 'NumericFilter';
+      facetName: string;
+      operator: string;
+      value: string;
+    }>;
   }>;
 };
 

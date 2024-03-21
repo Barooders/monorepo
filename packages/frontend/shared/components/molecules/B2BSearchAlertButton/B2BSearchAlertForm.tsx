@@ -1,4 +1,3 @@
-import { SaveNewSearchAlertMutation } from '@/__generated/graphql';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
@@ -25,7 +24,7 @@ const B2BSearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const { query } = useSearchBox();
   const refinements = items.flatMap((item) => item.refinements);
 
-  const storeSavedSearch = useHasura<SaveNewSearchAlertMutation>(gql`
+  const storeSavedSearch = useHasura(gql`
     mutation storeSavedSearch($savedSearchInput: SavedSearch_insert_input!) {
       insert_SavedSearch_one(object: $savedSearchInput) {
         id
