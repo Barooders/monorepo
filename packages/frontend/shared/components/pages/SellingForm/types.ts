@@ -1,6 +1,6 @@
 import { ProductStatus } from '@/types';
 
-export type BrandType = { name: string; models: string[] };
+export type BrandType = { name: string };
 
 export type FieldDefinitionType = BaseFieldType &
   (IntegerFieldType | BooleanFieldType | SelecFieldType | ColorFieldType);
@@ -98,7 +98,19 @@ export type ProductInfoValueType =
 
 export type BrandsConfigType = StrapiEntityList<{
   name: string;
-  productModels: StrapiEntityList<{ name: string }>;
+}>;
+
+export type BrandsWithModelConfigType = StrapiEntityList<{
+  name: string;
+  productModels: StrapiEntityList<{
+    name: string;
+  }>;
+  pim_product_families: StrapiEntityList<{
+    name: string;
+    pim_product_models: StrapiEntityList<{
+      name: string;
+    }>;
+  }>;
 }>;
 
 export type ProductTypeConfigType = StrapiEntityList<{
