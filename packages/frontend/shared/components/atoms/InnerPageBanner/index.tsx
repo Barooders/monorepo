@@ -21,9 +21,9 @@ const bannerMessages: BannerMessage[] = [
     link: '/collections/specialized-bikes',
   },
   {
-    label: '️Vendeur de la semaine - Tubike - jusqu’à -60%',
+    label: '️Vendeur de la semaine - Cycles Aveyron - jusqu’à -40%',
     icon: '⭐️',
-    link: '/collections/promo-tubike',
+    link: '/collections/cyclesaveyron',
   },
 ];
 
