@@ -16,6 +16,7 @@ export const MODAL_ROOT_ANCHOR = 'modal-root';
 export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';
 
 export const publicVariantsCollection = config.search.publicVariantsCollection;
+export const b2bVariantsCollection = config.search.b2bVariantsCollection;
 
 export const searchCollections = {
   products: {
@@ -26,7 +27,7 @@ export const searchCollections = {
     dateDesc: `${publicVariantsCollection}/sort/createdat_timestamp:desc`,
   },
   b2bProducts: {
-    main: `${config.search.b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+    main: `${b2bVariantsCollection}/sort/createdat_timestamp:desc`,
   },
   collections: config.search.collectionsCollection,
   suggestions: config.search.publicVariantSuggestionsCollection,
@@ -34,6 +35,8 @@ export const searchCollections = {
 
 export const SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET =
   'searchable_product_attributes';
+export const SEARCHABLE_B2B_PRODUCT_ATTRIBUTES_PRESET =
+  'searchable_b2b_product_attributes';
 
 export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
@@ -64,6 +67,11 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     },
     [searchCollections.collections]: {
       query_by: 'title,handle',
+    },
+    [b2bVariantsCollection]: {
+      preset: SEARCHABLE_B2B_PRODUCT_ATTRIBUTES_PRESET,
+      group_by: 'product_internal_id',
+      group_limit: 50,
     },
     [searchCollections.suggestions]: {
       query_by: 'q',

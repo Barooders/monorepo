@@ -2,6 +2,7 @@ import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
+import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
 import {
@@ -15,11 +16,12 @@ import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
   useRefinementList,
+  useSearchBox,
 } from 'react-instantsearch-hooks-web';
-import { getFacetLabel, getFacetValueLabel } from './utils/getFacetLabel';
-import SortBy from './SortBy';
 import ActiveFilters from './ActiveFilters';
 import PriceRange from './PriceRange';
+import SortBy from './SortBy';
+import { getFacetLabel, getFacetValueLabel } from './utils/getFacetLabel';
 
 const dict = getDictionary('fr');
 
@@ -158,8 +160,24 @@ export const Filters = () => {
 };
 
 export const B2BFilters = () => {
+  const { refine } = useSearchBox({});
+
   return (
     <>
+      <Input
+        inputAdditionalProps={{
+          onChange: (event) => refine(event.currentTarget.value),
+          maxLength: 512,
+          spellCheck: false,
+          autoCapitalize: 'off',
+          autoCorrect: 'off',
+          autoComplete: 'off',
+        }}
+        name={'query_b2b'}
+        placeholder={dict.search.filters.search}
+        type={'search'}
+        className="mb-5"
+      />
       <PriceRange attribute="price" />
       {Object.values(productAttributesConfiguration)
         .filter(({ isB2BFilter }) => isB2BFilter)
