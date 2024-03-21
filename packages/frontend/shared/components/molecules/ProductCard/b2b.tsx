@@ -14,9 +14,10 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   price,
   image,
   stock,
+  handle,
 }) => {
   return (
-    <Link href={'/'}>
+    <Link href={`/products/${handle}`}>
       <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
         <div className="relative col-span-2 h-52 w-full flex-grow sm:h-64">
           {image && (
