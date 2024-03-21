@@ -1152,6 +1152,16 @@ const fr = {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
       title: 'Vos résultats',
+      saveSearch: {
+        buttonLabel: 'Enregistrer',
+        successToaster: 'Recherche enregistrée',
+        title: 'Enregistrer mes préférences',
+        subTitle: 'Mes critères',
+        description:
+          'Sauvegardez vos critères de recherche pour les retrouver plus tard',
+        modify: 'Modifier',
+        validate: 'Valider',
+      },
     },
     productCard: {
       makeAnOffer: 'Faire une offre',

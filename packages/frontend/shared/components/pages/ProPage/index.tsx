@@ -1,13 +1,14 @@
 'use client';
 
 import PageContainer from '@/components/atoms/PageContainer';
-import B2BSearchResults from './_components/B2BSearchResults';
-import B2BCollectionHeader from './_components/B2BCollectionHeader';
+import B2BSearchAlertButton from '@/components/molecules/B2BSearchAlertButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
+import B2BCollectionHeader from './_components/B2BCollectionHeader';
+import B2BSearchResults from './_components/B2BSearchResults';
 
 const ProPage: React.FC = () => {
   const { user } = useHasuraToken();
@@ -27,6 +28,9 @@ const ProPage: React.FC = () => {
         <div className="mt-1">
           <div className="grid grid-cols-5 gap-10">
             <div className="col-span-1 col-start-1 hidden lg:block">
+              <div className="mb-4">
+                <B2BSearchAlertButton />
+              </div>
               <B2BDesktopFilters />
             </div>
             <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
