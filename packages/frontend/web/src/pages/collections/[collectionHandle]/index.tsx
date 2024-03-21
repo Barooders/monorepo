@@ -4,7 +4,7 @@ import SearchPage, {
   getData as getSearchPageData,
   GetDataType as SearchPagePropsType,
 } from '@/components/pages/SearchPage';
-import Filters from '@/components/pages/SearchPage/_components/Filters';
+import Filters from '@/components/molecules/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import { searchCollections } from '@/config';
 import config from '@/config/env/index';

@@ -47,9 +47,6 @@ const B2BSearchResults: React.FC = () => {
           return <B2BProductCard {...productCardPropds} />;
         }}
       />
-      {/* <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
-        <SearchAlertButton />
-      </div> */}
     </NoResultsBoundary>
   );
 };

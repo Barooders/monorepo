@@ -1,7 +1,7 @@
 import { TrackedElements } from '@/config/e2e';
 import { getDictionary } from '@/i18n/translate';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
-import SortBy from '../_components/SortBy';
+import SortBy from '@/components/molecules/Filters/SortBy';
 
 const dict = getDictionary('fr');
 

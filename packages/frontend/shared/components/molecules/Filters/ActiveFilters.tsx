@@ -4,7 +4,7 @@ import {
   useClearRefinements,
   useCurrentRefinements,
 } from 'react-instantsearch-hooks-web';
-import { getFacetValueLabel } from '../../utils/getFacetLabel';
+import { getFacetValueLabel } from './utils/getFacetLabel';
 
 const ActiveFilters = (props: {
   includedAttributes?: string[];

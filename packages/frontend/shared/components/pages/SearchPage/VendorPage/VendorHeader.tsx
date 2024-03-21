@@ -5,7 +5,7 @@ import { getDictionary } from '@/i18n/translate';
 import { calculateAverageRatings } from '@/utils/rating';
 import { useEffect, useState } from 'react';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
-import SortBy from '../_components/SortBy';
+import SortBy from '@/components/molecules/Filters/SortBy';
 
 const dict = getDictionary('fr');
 
@@ -58,7 +58,7 @@ const VendorHeader: React.FC<PropsType> = ({
             />
           </div>
           {profilePictureUrl && (
-            <div className="absolute left-4 bottom-[-16px] h-20 w-20 overflow-hidden rounded-full border-2 border-white bg-white lg:h-28 lg:w-28">
+            <div className="absolute bottom-[-16px] left-4 h-20 w-20 overflow-hidden rounded-full border-2 border-white bg-white lg:h-28 lg:w-28">
               <img
                 className="h-full w-full object-cover"
                 src={profilePictureUrl}
@@ -87,7 +87,7 @@ const VendorHeader: React.FC<PropsType> = ({
           className="mt-2"
         />
       )}
-      <div className="mt-3 mb-1 flex items-start gap-2 lg:my-5">
+      <div className="mb-1 mt-3 flex items-start gap-2 lg:my-5">
         {isHTMLDescription ? (
           <div dangerouslySetInnerHTML={{ __html: description ?? '' }} />
         ) : (

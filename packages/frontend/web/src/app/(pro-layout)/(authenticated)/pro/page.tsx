@@ -1,8 +1,8 @@
 'use client';
 
 import PageContainer from '@/components/atoms/PageContainer';
-import B2BSearchResults from '@/components/pages/SearchPage/_components/B2BSearchResults';
-import { B2BDesktopFilters } from '@/components/pages/SearchPage/_components/Filters';
+import B2BSearchResults from '@/components/pages/ProPage/_components/B2BSearchResults';
+import { B2BDesktopFilters } from '@/components/molecules/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';

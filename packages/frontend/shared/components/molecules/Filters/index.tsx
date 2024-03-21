@@ -16,8 +16,8 @@ import {
   useInstantSearch,
   useRefinementList,
 } from 'react-instantsearch-hooks-web';
-import { getFacetLabel, getFacetValueLabel } from '../../utils/getFacetLabel';
-import SortBy from '../SortBy';
+import { getFacetLabel, getFacetValueLabel } from './utils/getFacetLabel';
+import SortBy from './SortBy';
 import ActiveFilters from './ActiveFilters';
 import PriceRange from './PriceRange';
 
