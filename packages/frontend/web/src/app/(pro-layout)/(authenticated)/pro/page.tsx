@@ -12,7 +12,7 @@ const ProPage: React.FC = () => {
     <PageContainer>
       <InstantSearchProvider
         collectionName={searchCollections.b2bProducts.main}
-        filters={[]}
+        filters={['inventory_quantity:>1']}
         query={''}
         ruleContexts={[]}
       >
