@@ -6,13 +6,20 @@ import { B2BDesktopFilters } from '@/components/pages/SearchPage/_components/Fil
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
+import { useHasuraToken } from '@/hooks/useHasuraToken';
 
 const ProPage: React.FC = () => {
+  const { user } = useHasuraToken();
+
+  if (!user) return <></>;
+
+  const filters = [`inventory_quantity:>1`, `vendor_id:!=${user.id}`];
+
   return (
     <PageContainer>
       <InstantSearchProvider
         collectionName={searchCollections.b2bProducts.main}
-        filters={['inventory_quantity:>1']}
+        filters={filters}
         query={''}
         ruleContexts={[]}
       >
