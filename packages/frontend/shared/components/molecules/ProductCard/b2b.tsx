@@ -4,6 +4,9 @@ import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
 import ProductPrice from './_components/ProductPrice';
 import { B2BProductCardProps } from './types';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 const B2BProductCard: React.FC<B2BProductCardProps> = ({
   shopifyId: id,
@@ -38,7 +41,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           />
           <div className="flex flex-col">
             <p className="mt-2 text-xs text-gray-600 lg:text-sm">
-              Quantité disponible: {stock}
+              {dict.b2b.productCard.availableQuantity}: {stock}
             </p>
             <div className="my-1">
               <ProductPrice
@@ -53,7 +56,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               href="/"
               className="mt-2"
             >
-              Faire une offre
+              {dict.b2b.productCard.makeAnOffer}
             </Button>
           </div>
         </div>

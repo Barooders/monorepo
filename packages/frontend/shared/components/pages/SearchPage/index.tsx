@@ -2,6 +2,7 @@
 
 import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
 import { fetchHasura } from '@/clients/hasura';
+import { DesktopFilters, MobileFilters } from '@/components/molecules/Filters';
 import { getMenuData } from '@/components/molecules/MegaMenu';
 import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
 import { searchCollections } from '@/config';
@@ -29,7 +30,6 @@ import SearchHeader from './GlobalSearch/SearchHeader';
 import VendorHeader, {
   PropsType as VendorHeaderPropsType,
 } from './VendorPage/VendorHeader';
-import { DesktopFilters, MobileFilters } from './_components/Filters';
 import InstantSearchProvider from './_components/InstantSearchProvider';
 import Pagination from './_components/Pagination';
 import SearchResults from './_components/SearchResults';

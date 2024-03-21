@@ -1,10 +1,10 @@
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
+import SortBy from '@/components/molecules/Filters/SortBy';
 import ProductCard from '@/components/molecules/ProductCard';
 import { TrackedElements } from '@/config/e2e';
 import { getDictionary } from '@/i18n/translate';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 import { GetDataType as SearchPageProps } from '../index';
-import SortBy from '../_components/SortBy';
 import ChildCollections from './ChildCollections';
 
 const dict = getDictionary('fr');

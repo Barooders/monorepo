@@ -1,6 +1,6 @@
 import B2BProductCard from '@/components/molecules/ProductCard/b2b';
 import { getDictionary } from '@/i18n/translate';
-import { fromSearchToB2BProductCard } from '@/mappers/fromSearchToProductCard';
+import { fromSearchToB2BProductCard } from '@/mappers/search';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchB2BVariantDocument } from 'shared-types';
 
@@ -47,9 +47,6 @@ const B2BSearchResults: React.FC = () => {
           return <B2BProductCard {...productCardPropds} />;
         }}
       />
-      {/* <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
-        <SearchAlertButton />
-      </div> */}
     </NoResultsBoundary>
   );
 };

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { RxDragHandleVertical } from 'react-icons/rx';
 import { useRange, useRefinementList } from 'react-instantsearch-hooks-web';
 import ReactSlider from 'react-slider';
-import { getFacetLabel } from '../../utils/getFacetLabel';
+import { getFacetLabel } from './utils/getFacetLabel';
 
 const SPREAD_POINTS = 25;
 
@@ -25,14 +25,14 @@ const PriceRange = ({ attribute }: { attribute: string }) => {
       range.min === undefined
         ? -Infinity
         : start[0] === undefined || start[0] === -Infinity
-        ? range.min
-        : start[0];
+          ? range.min
+          : start[0];
     const defaultMaxValue =
       range.max === undefined
         ? Infinity
         : start[1] === undefined || start[1] === Infinity
-        ? range.max
-        : start[1];
+          ? range.max
+          : start[1];
 
     return getLargeRange([defaultMinValue, defaultMaxValue]);
   }, [range.max, range.min, start]);
@@ -58,9 +58,8 @@ const PriceRange = ({ attribute }: { attribute: string }) => {
     );
   }, [items, range.max]);
 
-  const [priceState, setPriceState] = useState<[number, number]>(
-    getDefaultValues(),
-  );
+  const [priceState, setPriceState] =
+    useState<[number, number]>(getDefaultValues());
 
   const [priceSpreading, setPriceSpreading] = useState<number[]>([]);
 
