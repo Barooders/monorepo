@@ -52,11 +52,14 @@ products AS (
 		LOWER(TRIM(ep.title)) AS title,
 		LOWER(TRIM(ep.model)) AS model,
 		LOWER(TRIM(ep."productType")) AS product_type,
+		STRING_AGG(ept.value, ',') AS discounts,
 		vd.cheapest_variant_price::float AS cheapest_variant_price,
 		vd.most_expensive_variant_price::float AS most_expensive_variant_price
 	FROM
 		{{ref('store_exposed_product')}} ep
 	LEFT JOIN variant_data vd ON ep.id = vd.product_id
+	LEFT JOIN {{ref('store_exposed_product_tags')}} ept ON pt.tag = 'discount' AND pt.product_id
+	GROUP BY id
 )
 
 SELECT
@@ -102,6 +105,10 @@ FROM
 			OR(ec.rule_field = 'id'
 				AND ec.rule_operator = 'in'
 				AND p.id = any(string_to_array(ec.rule_value, ',')))
+			OR(ec.rule_field = 'discount_tag'
+				ec.rule_operator = 'contains'
+				AND p.discounts LIKE '%' || ec.rule_value || '%'
+			)
 		)
 	GROUP BY
 		ec.collection_id,
