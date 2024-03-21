@@ -1150,6 +1150,13 @@ const fr = {
   },
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
+    proPage: {
+      title: 'Vos résultats',
+    },
+    productCard: {
+      makeAnOffer: 'Faire une offre',
+      availableQuantity: 'Quantité disponible',
+    },
   },
 };
 
