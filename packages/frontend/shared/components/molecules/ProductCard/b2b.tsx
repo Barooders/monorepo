@@ -52,7 +52,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               />
             </div>
             <Button
-              intent="primary"
+              intent="tertiary"
               href="/"
               className="mt-2"
             >

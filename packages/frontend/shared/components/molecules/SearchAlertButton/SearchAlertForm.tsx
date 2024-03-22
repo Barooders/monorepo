@@ -6,8 +6,11 @@ import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import {
+  mapCurrentSearchToString,
+  mapRefinementsToFilters,
+} from '@/mappers/search';
 import { gql } from '@apollo/client';
-import capitalize from 'lodash/capitalize';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
@@ -66,24 +69,7 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
             collectionId: collection?.id,
             query,
             resultsUrl: window.location.href,
-            FacetFilters: {
-              data: refinements
-                .filter((refinement) => refinement.type === 'disjunctive')
-                .map((refinement) => ({
-                  facetName: refinement.attribute,
-                  value: String(refinement.value),
-                  label: String(refinement.label),
-                })),
-            },
-            NumericFilters: {
-              data: refinements
-                .filter((refinement) => refinement.type === 'numeric')
-                .map((refinement) => ({
-                  facetName: refinement.attribute,
-                  value: String(refinement.value),
-                  operator: String(refinement.operator),
-                })),
-            },
+            ...mapRefinementsToFilters(refinements),
           },
         },
       },
@@ -131,15 +117,7 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
               {dict.searchAlerts.form.alertLabel}
             </p>
             <p className="mt-1 text-sm text-slate-500">
-              {refinements
-                .map((refinement) =>
-                  refinement.operator
-                    ? `${refinement.operator} ${refinement.value}`
-                    : refinement.label,
-                )
-                .map(String)
-                .map(capitalize)
-                .join('・')}
+              {mapCurrentSearchToString(refinements)}
             </p>
           </div>
         </div>
