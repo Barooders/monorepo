@@ -1,8 +1,11 @@
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import {
+  mapCurrentSearchToString,
+  mapRefinementsToFilters,
+} from '@/mappers/search';
 import { gql } from '@apollo/client';
-import capitalize from 'lodash/capitalize';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
@@ -40,24 +43,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
         name: 'B2B search',
         type: 'B2B_MAIN_PAGE',
         query,
-        FacetFilters: {
-          data: refinements
-            .filter((refinement) => refinement.type === 'disjunctive')
-            .map((refinement) => ({
-              facetName: refinement.attribute,
-              value: String(refinement.value),
-              label: String(refinement.label),
-            })),
-        },
-        NumericFilters: {
-          data: refinements
-            .filter((refinement) => refinement.type === 'numeric')
-            .map((refinement) => ({
-              facetName: refinement.attribute,
-              value: String(refinement.value),
-              operator: String(refinement.operator),
-            })),
-        },
+        ...mapRefinementsToFilters(refinements),
       },
     });
 
@@ -85,18 +71,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
               {dict.b2b.proPage.saveSearch.subTitle}
             </p>
             <p className="mt-1 text-sm text-slate-500">
-              {[
-                ...(query ? [query] : []),
-                ...refinements
-                  .map((refinement) =>
-                    refinement.operator
-                      ? `${refinement.operator} ${refinement.value}`
-                      : refinement.label,
-                  )
-                  .map(String),
-              ]
-                .map(capitalize)
-                .join('・')}
+              {mapCurrentSearchToString(refinements, query)}
             </p>
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
 import { mapValues } from 'lodash';
+import capitalize from 'lodash/capitalize';
 import {
   SearchB2BVariantDocument,
   SearchPublicVariantDocument,
@@ -248,4 +249,53 @@ export const fetchRecommendedProducts = async ({
       .filter(Boolean)
       .join(' && '),
   );
+};
+
+export const mapCurrentSearchToString = (
+  refinements: { operator?: string; label: string; value: string | number }[],
+  query?: string,
+): string => {
+  return [
+    ...(query ? [query] : []),
+    ...refinements
+      .map((refinement) =>
+        refinement.operator
+          ? `${refinement.operator} ${refinement.value}`
+          : refinement.label,
+      )
+      .map(String),
+  ]
+    .map(capitalize)
+    .join('・');
+};
+
+export const mapRefinementsToFilters = (
+  refinements: {
+    attribute: string;
+    type: string;
+    operator?: string;
+    label: string;
+    value: string | number;
+  }[],
+) => {
+  return {
+    FacetFilters: {
+      data: refinements
+        .filter((refinement) => refinement.type === 'disjunctive')
+        .map((refinement) => ({
+          facetName: refinement.attribute,
+          value: String(refinement.value),
+          label: String(refinement.label),
+        })),
+    },
+    NumericFilters: {
+      data: refinements
+        .filter((refinement) => refinement.type === 'numeric')
+        .map((refinement) => ({
+          facetName: refinement.attribute,
+          value: String(refinement.value),
+          operator: String(refinement.operator),
+        })),
+    },
+  };
 };
