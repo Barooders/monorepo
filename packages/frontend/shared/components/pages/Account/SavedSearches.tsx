@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 
 const FETCH_SAVED_SEARCHES = gql`
   query fetchSavedSearches {
-    SavedSearch(where: {SearchAlerts: {id: {_is_null: false}}}) {
+    SavedSearch(where: { type: { _eq: "PUBLIC_COLLECTION_PAGE" } }) {
       id
       name
       resultsUrl
