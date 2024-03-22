@@ -1,18 +1,18 @@
 'use client';
 
-import { Session, Inbox as TalkJSInbox, HtmlPanel } from '@talkjs/react';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
+import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
+import ChatPanel from '@/components/molecules/ChatPanel/container';
 import useStartChatConversation from '@/hooks/useStartChatConversation';
 import { getDictionary } from '@/i18n/translate';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import Talk from 'talkjs';
-import ChatPanel from '@/components/molecules/ChatPanel/container';
 import { ConversationType } from '@/types';
-import { useTimeoutFn } from 'react-use';
-import Button from '@/components/atoms/Button';
+import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdRefresh } from 'react-icons/md';
+import { useTimeoutFn } from 'react-use';
+import Talk from 'talkjs';
 
 type Props = {
   customerId: string;
@@ -78,13 +78,11 @@ const Inbox: React.FC<Props> = ({
 
     if (productId) {
       try {
-        const newConversation = await startChatConversation(
-          productId,
-          customerId,
-        );
+        const { conversationId, isNewConversation } =
+          await startChatConversation(productId, customerId);
 
-        setSelectedConversationId(newConversation.conversationId);
-        sendOpenNewConversation(productId, customerId);
+        setSelectedConversationId(conversationId);
+        if (isNewConversation) sendOpenNewConversation(productId, customerId);
         return;
       } catch (e) {}
     }

@@ -5,12 +5,12 @@ import {
   EventName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { chatConfig } from '../chat.config';
 import { UserRole } from '../types';
 import { IChatService } from './ports/chat-service';
-import { UUID } from '@libs/domain/value-objects';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const BAROODERS_SUPPORT_ACCOUNT_ID = new UUID({
@@ -78,7 +78,7 @@ export class ChatService implements IChatService {
   async getOrCreateConversationFromAuthUserId(
     authUserId: UUID,
     productId: string,
-  ): Promise<{ conversationId: string }> {
+  ): Promise<{ conversationId: string; isNewConversation: boolean }> {
     const { participantId: customerParticipantId } =
       await this.createParticipant(authUserId, UserRole.BUYER);
 
@@ -166,7 +166,9 @@ export class ChatService implements IChatService {
       },
     );
 
-    if (await this.isNewConversation(conversationId)) {
+    const isNewConversation = await this.isNewConversation(conversationId);
+
+    if (isNewConversation) {
       const numberOfNewConversations = await this.countCustomerNewConversation(
         customerParticipantId,
       );
@@ -193,7 +195,7 @@ export class ChatService implements IChatService {
       });
     }
 
-    return { conversationId };
+    return { conversationId, isNewConversation };
   }
 
   private async getSupportParticipantId(): Promise<string> {

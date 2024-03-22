@@ -9,6 +9,7 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
+import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { IsNotEmpty, IsString } from 'class-validator';
@@ -17,7 +18,6 @@ import {
   NewConversationLimitExceededException,
 } from '../domain/chat.service';
 import { TalkJSConversation, TalkJSMessage, TalkJSUser } from '../types';
-import { UUID } from '@libs/domain/value-objects';
 
 class ConversationInputDto {
   @IsNotEmpty()
@@ -50,13 +50,13 @@ export class ChatController {
     const { productId } = conversationInputDto;
 
     try {
-      const { conversationId } =
+      const { conversationId, isNewConversation } =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: tokenInfo.userId }),
           productId,
         );
 
-      return { conversationId };
+      return { conversationId, isNewConversation };
     } catch (e) {
       if (e instanceof NewConversationLimitExceededException) {
         throw new HttpException(

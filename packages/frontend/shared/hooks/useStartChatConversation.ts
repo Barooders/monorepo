@@ -9,6 +9,7 @@ const useStartChatConversation = () => {
       customerId = null,
     ): Promise<{
       conversationId: string;
+      isNewConversation: boolean;
     }> =>
       fetchAPI('/v1/chat/conversation', {
         method: 'POST',
