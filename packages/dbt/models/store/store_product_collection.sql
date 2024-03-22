@@ -52,7 +52,7 @@ products AS (
 		LOWER(TRIM(ep.title)) AS title,
 		LOWER(TRIM(ep.model)) AS model,
 		LOWER(TRIM(ep."productType")) AS product_type,
-		STRING_AGG(ept.value, ',') AS discounts,
+		STRING_AGG(LOWER(TRIM(ept.value)), ',') AS discounts,
 		min(vd.cheapest_variant_price)::float AS cheapest_variant_price,
 		max(vd.most_expensive_variant_price)::float AS most_expensive_variant_price
 	FROM
