@@ -3,7 +3,7 @@ import { FaRegBell } from 'react-icons/fa';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
-import B2BSearchAlertForm from './B2BSearchAlertForm';
+import B2BSavedSearchForm from './B2BSavedSearchForm';
 
 const dict = getDictionary('fr');
 
@@ -24,7 +24,7 @@ const B2BSearchAlertButton: React.FC = () => {
           </Button>
         )}
         ContentComponent={({ closeModal }) => (
-          <B2BSearchAlertForm
+          <B2BSavedSearchForm
             onSave={closeModal}
             onClose={closeModal}
           />

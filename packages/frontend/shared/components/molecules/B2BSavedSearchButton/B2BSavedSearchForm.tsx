@@ -19,7 +19,7 @@ type PropsType = {
   onClose: () => void;
 };
 
-const B2BSearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
+const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const { items } = useCurrentRefinements();
   const { query } = useSearchBox();
   const refinements = items.flatMap((item) => item.refinements);
@@ -127,4 +127,4 @@ const B2BSearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   );
 };
 
-export default B2BSearchAlertForm;
+export default B2BSavedSearchForm;
