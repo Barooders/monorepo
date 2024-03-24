@@ -16,6 +16,11 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
+    label: 'Barooders Days : +4000 vélos en réductions jusqu’au 01 avril',
+    icon: '🔥',
+    link: '/collections/barooders-days',
+  },
+  {
     label: 'Marque de la semaine - Specialized - jusqu’à -50%',
     icon: '🚴‍♀️',
     link: '/collections/specialized-bikes',
