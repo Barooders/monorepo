@@ -40,7 +40,6 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'static',
     collections: ['4a786b87-caed-4a53-bfed-16fae90f2521'],
     valueType: 'free_shipping',
-    description: "Vélo disponible jusqu'au 18/03",
     startsAt: dayjs('2024-03-24T07:00:00').toDate(),
     endsAt: dayjs('2024-04-01T23:00:00').toDate(),
     value: null,
