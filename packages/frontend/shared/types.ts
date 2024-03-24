@@ -153,6 +153,7 @@ export type Discount = {
   label: string;
   description?: string;
   minAmount?: number;
+  groupKey?: string;
 } & (CustomDiscount | FreeShippingDiscount | PriceDiscount);
 
 export type ListArticle = {

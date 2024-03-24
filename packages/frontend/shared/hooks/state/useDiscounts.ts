@@ -2,6 +2,10 @@
 
 import { calculateDiscountedPrice } from '@/components/molecules/ProductCard/_components/ProductPrice/lib';
 import { Discount } from '@/types';
+import compact from 'lodash/compact';
+import groupBy from 'lodash/groupBy';
+import last from 'lodash/last';
+import orderBy from 'lodash/orderBy';
 import { createPersistedStore } from './createPersistedStore';
 
 interface DiscountsState {
@@ -46,13 +50,21 @@ const useDiscounts = createPersistedStore<DiscountsState>(
         );
       },
       getDiscountsByCollectionList: (collections) => {
+        const ungroupedDiscounts = get().discounts.filter(
+          (discount) =>
+            isDiscountAvailable(discount) &&
+            discount.collections.some((collection) =>
+              collections.includes(collection),
+            ),
+        );
         return (
-          get().discounts.filter(
-            (discount) =>
-              isDiscountAvailable(discount) &&
-              discount.collections.some((collection) =>
-                collections.includes(collection),
+          compact(
+            Object.values(
+              groupBy(
+                orderBy(ungroupedDiscounts, 'value'),
+                (discount) => discount.groupKey ?? discount.title,
               ),
+            ).map((group) => last(group)),
           ) ?? []
         );
       },

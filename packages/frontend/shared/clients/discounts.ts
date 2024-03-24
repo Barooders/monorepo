@@ -1,7 +1,7 @@
+import { GetAvailableDiscountsQuery } from '@/__generated/graphql';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { Discount } from '@/types';
-import { GetAvailableDiscountsQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import compact from 'lodash/compact';
 
@@ -53,6 +53,7 @@ const mapDiscount = (
     hideReduction: !!discountConfig?.hideReduction,
     minAmount:
       typeof discount.min_amount === 'number' ? discount.min_amount : undefined,
+    groupKey: discountConfig?.groupKey,
   };
 };
 
