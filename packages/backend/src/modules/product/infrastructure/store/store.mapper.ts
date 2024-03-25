@@ -247,6 +247,14 @@ export class StoreMapper {
       tags: new Tags({
         tags: getTagsObject(exposedProductTags.map(({ fullTag }) => fullTag)),
       }),
+      totalQuantity: new Stock({
+        stock: Number(storeB2BProduct.totalQuantity),
+      }),
+      largestBundlePrice: storeB2BProduct.largestBundlePriceInCents
+        ? new Amount({
+            amountInCents: Number(storeB2BProduct.largestBundlePriceInCents),
+          })
+        : undefined,
     };
 
     return variants.map((variant) => ({
@@ -352,11 +360,6 @@ export class StoreMapper {
               ),
             }),
             condition: variant.condition ?? Condition.GOOD,
-            largestBundlePrice: variant.largestBundlePriceInCents
-              ? new Amount({
-                  amountInCents: Number(variant.largestBundlePriceInCents),
-                })
-              : undefined,
           };
         } catch (error: any) {
           this.logger.error(

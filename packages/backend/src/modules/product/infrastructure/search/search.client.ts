@@ -99,6 +99,7 @@ const DOCUMENT_CONFIG = {
       product_type: product.productType.productType,
       condition: variant.condition.toString(),
       handle: product.handle,
+      total_quantity: product.totalQuantity.stock,
       inventory_quantity: variant.quantityAvailable?.stock ?? 0,
       array_tags: product.tags.tagsObjectWithArrays,
       price: variant.price.amount,
