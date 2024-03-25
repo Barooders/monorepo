@@ -61,6 +61,8 @@ export interface B2BVariantToIndex {
     quantityAvailable?: Stock;
     condition: Condition;
     price: Amount;
+    compareAtPrice: Amount;
+    largestBundlePrice?: Amount;
   };
   product: {
     shopifyId: ShopifyID;
