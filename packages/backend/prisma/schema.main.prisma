@@ -375,32 +375,32 @@ model Product {
   variants             ProductVariant[]
   priceOffers          PriceOffer[]
   productSalesChannels ProductSalesChannel[]
-  bundlePrices         BundlePrice[]
 
   @@schema("public")
 }
 
 model ProductVariant {
-  id           String       @id @default(dbgenerated("(gen_random_uuid())::text"))
-  createdAt    DateTime     @default(now())
-  shopifyId    BigInt       @unique
+  id           String        @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt    DateTime      @default(now())
+  shopifyId    BigInt        @unique
   quantity     Int
   productId    String
   priceInCents BigInt?
   condition    Condition?
-  product      Product      @relation(fields: [productId], references: [id])
+  product      Product       @relation(fields: [productId], references: [id])
   priceOffers  PriceOffer[]
+  bundlePrices BundlePrice[]
 
   @@schema("public")
 }
 
 model BundlePrice {
-  id               String   @id @default(dbgenerated("(gen_random_uuid())::text"))
-  createdAt        DateTime @default(now())
+  id               String         @id @default(dbgenerated("(gen_random_uuid())::text"))
+  createdAt        DateTime       @default(now())
   minQuantity      Int
   unitPriceInCents BigInt
-  productId        String
-  product          Product  @relation(fields: [productId], references: [id])
+  productVariantId String
+  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
 
   @@schema("public")
 }
