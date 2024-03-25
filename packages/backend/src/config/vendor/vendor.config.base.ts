@@ -432,6 +432,18 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
+  used_elite_bikes: {
+    slug: 'used_elite_bikes',
+    mappingKey: 'used_elite_bikes',
+    type: VendorType.PRESTASHOP,
+    apiKey: vendorSecrets.usedEliteBikesApiKey,
+    apiUrl: 'https://www.used-elitebikes.com/api/',
+    catalog: {
+      common: {
+        commissionPercentToAdd: 8,
+      },
+    },
+  },
   tribici_presta: {
     slug: 'tribici_presta',
     mappingKey: 'tribici_presta',
