@@ -41,6 +41,8 @@ export const getProductStatus = ({ isVisibleInStore }: SyncLightProduct) => {
   return isVisibleInStore ? ProductStatus.ACTIVE : ProductStatus.DRAFT;
 };
 
+const TAGS_WHITELIST = ['discount'];
+
 @Injectable()
 export class ProductService {
   private readonly logger = new Logger(ProductService.name);
@@ -186,9 +188,13 @@ export class ProductService {
         mappedValue: MappedType,
         storeValue: StoreType,
       ) => boolean,
+      mergeFunction: (
+        mappedValue: MappedType,
+        storeValue: StoreType,
+      ) => MappedType = (v) => v,
     ): unknown | null =>
       mappedValue && compareFunction(mappedValue, storeValue)
-        ? mappedValue
+        ? mergeFunction(mappedValue, storeValue)
         : null;
 
     const compareString = (a: string | null, b: string | null) => a !== b;
@@ -225,6 +231,15 @@ export class ProductService {
             this.sortTagsInAlphabeticalOrder(tagsOld) !==
             this.sortTagsInAlphabeticalOrder(tagsNew)
           );
+        },
+        (tagsNew: string[], tagsOld: string[]) => {
+          const tagsToKeep = tagsOld.filter((tag) =>
+            TAGS_WHITELIST.some((whitelistedKey) =>
+              tag.startsWith(`${whitelistedKey}:`),
+            ),
+          );
+
+          return [...tagsToKeep, ...tagsNew];
         },
       ),
       images: addUpdate(
