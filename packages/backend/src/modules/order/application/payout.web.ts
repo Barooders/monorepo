@@ -25,7 +25,11 @@ import {
 } from '../domain/order-validation.service';
 import { PayoutService } from '../domain/payout.service';
 import { IStoreClient } from '../domain/ports/store.client';
-import { DiscountApplication } from '../domain/ports/types';
+import {
+  Amount,
+  BuyerPriceLines,
+  DiscountApplication,
+} from '../domain/ports/types';
 
 class PayoutInputQuery {
   @IsNotEmpty()
@@ -65,6 +69,10 @@ export class PayoutController {
     commission: Commission;
     validation: OrderValidation;
     appliedDiscounts: DiscountApplication[];
+    orderPriceLines: {
+      type: BuyerPriceLines;
+      amount: Amount;
+    }[];
   }> {
     try {
       const { id, order } = await this.prisma.orderLines.findUniqueOrThrow({
@@ -83,11 +91,15 @@ export class PayoutController {
       const appliedDiscounts = await this.storeClient.getAppliedDiscounts(
         order.shopifyId,
       );
+      const orderPriceLines = await this.storeClient.getOrderPriceItems(
+        order.shopifyId,
+      );
 
       return {
         commission,
         validation,
         appliedDiscounts,
+        orderPriceLines: orderPriceLines.lines,
       };
     } catch (error: any) {
       if (error instanceof NotFoundException) {
