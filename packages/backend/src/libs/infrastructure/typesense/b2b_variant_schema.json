@@ -29,6 +29,10 @@
       "type": "int32"
     },
     {
+      "name": "total_quantity",
+      "type": "int32"
+    },
+    {
       "name": "array_tags.*",
       "type": "string[]",
       "facet": true

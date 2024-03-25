@@ -50,6 +50,7 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
 export type SearchB2BVariantDocument = SearchBaseVariantDocument & {
   vendor_id: string;
   largest_bundle_price?: number;
+  total_quantity: number;
 };
 
 export type SearchCollectionDocument = {

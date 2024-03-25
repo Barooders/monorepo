@@ -62,7 +62,6 @@ export interface B2BVariantToIndex {
     condition: Condition;
     price: Amount;
     compareAtPrice: Amount;
-    largestBundlePrice?: Amount;
   };
   product: {
     shopifyId: ShopifyID;
@@ -75,6 +74,8 @@ export interface B2BVariantToIndex {
     publishedAt: ValueDate;
     productType: ProductType;
     tags: Tags;
+    totalQuantity: Stock;
+    largestBundlePrice?: Amount;
   };
 }
 

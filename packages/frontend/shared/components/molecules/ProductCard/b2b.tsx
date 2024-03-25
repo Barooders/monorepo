@@ -15,6 +15,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   productType,
   variantCondition,
   price,
+  compareAtPrice,
   image,
   stock,
   handle,
@@ -47,7 +48,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               <ProductPrice
                 productId={id}
                 discounts={[]}
-                compareAtPrice={price}
+                compareAtPrice={compareAtPrice}
                 price={price}
               />
             </div>
