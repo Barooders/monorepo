@@ -71,6 +71,7 @@ export type B2BProductCardProps = {
   image?: ImageType;
   title: string;
   price: number;
+  largestBundlePrice?: number;
   compareAtPrice: number;
   stock: number;
   productType: string;

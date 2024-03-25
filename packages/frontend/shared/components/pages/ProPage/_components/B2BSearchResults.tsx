@@ -1,10 +1,25 @@
+import { FetchB2BGlobalCommissionQuery } from '@/__generated/graphql';
 import B2BProductCard from '@/components/molecules/ProductCard/b2b';
+import { HASURA_ROLES } from '@/config';
+import { useHasura } from '@/hooks/useHasura';
+import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
+import { gql } from '@apollo/client';
+import { head } from 'lodash';
+import { useEffect } from 'react';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchB2BVariantDocument } from 'shared-types';
 
 const dict = getDictionary('fr');
+
+const FETCH_B2B_GLOBAL_COMMISSION = gql`
+  query fetchB2BGlobalCommission {
+    CommissionRule(where: { type: { _eq: "GLOBAL_B2B_BUYER_COMMISSION" } }) {
+      rules
+    }
+  }
+`;
 
 const NoResultsBoundary: React.FC<{
   children: React.ReactNode;
@@ -36,6 +51,20 @@ function NoResults() {
 }
 
 const B2BSearchResults: React.FC = () => {
+  const fetchB2BGlobalCommission = useHasura<FetchB2BGlobalCommissionQuery>(
+    FETCH_B2B_GLOBAL_COMMISSION,
+    HASURA_ROLES.B2B_USER,
+  );
+  const [state, doFetch] = useWrappedAsyncFn(fetchB2BGlobalCommission);
+
+  useEffect(() => {
+    doFetch();
+  }, [doFetch]);
+
+  const stateValue = state.value;
+
+  if (!stateValue) return <NoResults />;
+
   return (
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
@@ -43,8 +72,11 @@ const B2BSearchResults: React.FC = () => {
           list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
         }}
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
-          const productCardPropds = fromSearchToB2BProductCard(hit);
-          return <B2BProductCard {...productCardPropds} />;
+          const productCardProps = fromSearchToB2BProductCard(
+            hit,
+            head(stateValue.CommissionRule)?.rules,
+          );
+          return <B2BProductCard {...productCardProps} />;
         }}
       />
     </NoResultsBoundary>
