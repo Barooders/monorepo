@@ -155,15 +155,17 @@ model StoreExposedProduct {
 }
 
 model StoreB2BProduct {
-  id          String           @id
-  publishedAt DateTime?        @map("published_at") @db.Timestamptz(6)
-  productType String           @map("product_type") @db.VarChar(256)
-  status      ProductStatus
-  title       String           @db.VarChar(256)
-  handle      String           @db.VarChar(256)
-  syncDate    DateTime         @map("sync_date") @db.Date
-  firstImage  String?          @map("first_image") @db.VarChar(512)
-  product     StoreBaseProduct @relation(fields: [id], references: [id])
+  id                        String           @id
+  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6)
+  productType               String           @map("product_type") @db.VarChar(256)
+  status                    ProductStatus
+  inventoryQuantity         BigInt           @map("inventory_quantity")
+  largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
+  title                     String           @db.VarChar(256)
+  handle                    String           @db.VarChar(256)
+  syncDate                  DateTime         @map("sync_date") @db.Date
+  firstImage                String?          @map("first_image") @db.VarChar(512)
+  product                   StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([id])
   @@map("store_b2b_product")
@@ -238,15 +240,14 @@ model StoreExposedProductVariant {
 }
 
 model StoreB2BProductVariant {
-  shopifyId                 BigInt                  @id @map("shopify_id")
-  inventoryQuantity         BigInt                  @map("inventory_quantity")
-  syncDate                  DateTime                @map("sync_date") @db.Date
-  price                     Float
-  compareAtPrice            Float?                  @map("compare_at_price")
-  largestBundlePriceInCents BigInt?                 @map("largest_bundle_price_in_cents")
-  condition                 Condition?
-  updatedAt                 DateTime                @map("updated_at") @db.Timestamptz(6)
-  variant                   StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
+  shopifyId         BigInt                  @id @map("shopify_id")
+  inventoryQuantity BigInt                  @map("inventory_quantity")
+  syncDate          DateTime                @map("sync_date") @db.Date
+  price             Float
+  compareAtPrice    Float?                  @map("compare_at_price")
+  condition         Condition?
+  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6)
+  variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_b2b_product_variant")
