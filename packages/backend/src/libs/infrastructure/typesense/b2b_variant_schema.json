@@ -39,6 +39,15 @@
       "facet": true
     },
     {
+      "name": "compare_at_price",
+      "type": "float"
+    },
+    {
+      "name": "largest_bundle_price",
+      "type": "float",
+      "optional": true
+    },
+    {
       "name": "product_shopify_id",
       "type": "int64"
     },

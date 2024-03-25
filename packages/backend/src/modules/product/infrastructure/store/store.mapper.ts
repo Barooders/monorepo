@@ -346,7 +346,17 @@ export class StoreMapper {
             price: new Amount({
               amountInCents: Math.floor(variant.price * 100),
             }),
+            compareAtPrice: new Amount({
+              amountInCents: Math.floor(
+                (variant.compareAtPrice ?? variant.price) * 100,
+              ),
+            }),
             condition: variant.condition ?? Condition.GOOD,
+            largestBundlePrice: variant.largestBundlePriceInCents
+              ? new Amount({
+                  amountInCents: Number(variant.largestBundlePriceInCents),
+                })
+              : undefined,
           };
         } catch (error: any) {
           this.logger.error(

@@ -16,6 +16,7 @@ type SearchBaseVariantDocument = {
   inventory_quantity: number;
   array_tags: Record<string, string[]>;
   price: number;
+  compare_at_price: number;
   product_shopify_id: number;
   product_internal_id: string;
   product_image?: string;
@@ -42,13 +43,13 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
   computed_scoring: number;
   is_refurbished?: string;
   discount: number;
-  compare_at_price: number;
   collection_internal_ids: string[];
   collection_handles: string[];
 };
 
 export type SearchB2BVariantDocument = SearchBaseVariantDocument & {
   vendor_id: string;
+  largest_bundle_price?: number;
 };
 
 export type SearchCollectionDocument = {
