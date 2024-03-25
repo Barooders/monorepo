@@ -97,7 +97,7 @@ const getOrCreateBrand = async (name) => {
 
 const getOrCreateFamily = async ({ brand, brandId, family }) => {
   const response = await fetch(
-    `${STRAPI_URL}/api/pim-product-families?fields%5B0%5D=name&pagination%5Blimit%5D=1&filters%5Bname%5D%5B%24eq%5D=${family}&filters%5Bpim_brand%5D%5Bid%5D%5B%24eq%5D=${brandId}`,
+    `${STRAPI_URL}/api/pim-product-families?fields%5B0%5D=name&pagination%5Blimit%5D=1&filters%5Bname%5D%5B%24eq%5D=${family}&filters%5Bbrand%5D%5Bid%5D%5B%24eq%5D=${brandId}`,
     {
       headers: {
         Authorization: `Bearer ${STRAPI_TOKEN}`,
@@ -123,11 +123,11 @@ const createFamily = async ({ brandId, family }) => {
     },
     body: JSON.stringify({
       data: {
-        pim_product_models: {
+        productModels: {
           disconnect: [],
           connect: [],
         },
-        pim_brand: {
+        brand: {
           disconnect: [],
           connect: [
             {
@@ -207,12 +207,15 @@ const createProductModel = async ({
     body: JSON.stringify({
       data: {
         name: getModelName(model, year, brand),
-        pim_brand: {
-          connect: {
-            id: brandId,
-          },
+        brand: {
+          disconnect: [],
+          connect: [
+            {
+              id: brandId,
+            },
+          ],
         },
-        pim_product_family: {
+        productFamily: {
           disconnect: [],
           connect: [
             {
