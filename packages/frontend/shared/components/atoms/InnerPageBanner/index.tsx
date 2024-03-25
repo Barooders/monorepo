@@ -21,11 +21,6 @@ const bannerMessages: BannerMessage[] = [
     link: '/collections/barooders-days',
   },
   {
-    label: 'Marque de la semaine - Specialized - jusqu’à -50%',
-    icon: '🚴‍♀️',
-    link: '/collections/specialized-bikes',
-  },
-  {
     label: '️Vendeur de la semaine - Cycles Aveyron - jusqu’à -40%',
     icon: '⭐️',
     link: '/collections/cyclesaveyron',
