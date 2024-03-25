@@ -30,6 +30,7 @@ import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
 import { jsonStringify } from '@libs/helpers/json';
+import { IPIMClient } from './ports/pim.client';
 import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
 
@@ -86,6 +87,7 @@ export class ProductCreationService {
   private readonly logger = new Logger(ProductCreationService.name);
 
   constructor(
+    private pimClient: IPIMClient,
     private customerRepository: CustomerRepository,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
@@ -100,7 +102,9 @@ export class ProductCreationService {
   ): Promise<StoredProduct> {
     if (!vendorId) throw new Error('Cannot create product without sellerId');
 
-    const { product_type, variants, metafields } = product;
+    const { product_type: productType, variants, metafields } = product;
+
+    await this.pimClient.checkIfProductTypeExists(productType);
 
     const productStatus = this.isProductReadyToPublish(
       product,
@@ -108,6 +112,8 @@ export class ProductCreationService {
     )
       ? product.status
       : ProductStatus.DRAFT;
+
+    const isB2BProduct = await this.isB2BProduct({ product, vendorId });
 
     const seoMetafields = await getSEOMetafields(product);
 
@@ -133,7 +139,7 @@ export class ProductCreationService {
         shopifyId: createdProduct.id,
         status: productStatus,
         handle: createdProduct.handle,
-        productType: product_type,
+        productType,
         EANCode: product.EANCode,
         source: product.source,
         sourceUrl: product.sourceUrl,
@@ -151,8 +157,19 @@ export class ProductCreationService {
           },
         },
         productSalesChannels: {
-          create: {
-            salesChannelName: SalesChannelName.PUBLIC,
+          createMany: {
+            data: [
+              {
+                salesChannelName: SalesChannelName.PUBLIC,
+              },
+              ...(isB2BProduct
+                ? [
+                    {
+                      salesChannelName: SalesChannelName.B2B,
+                    },
+                  ]
+                : []),
+            ],
           },
         },
       },
@@ -351,6 +368,49 @@ export class ProductCreationService {
       (bypassImageCheck || product.images.length > 0) &&
       product.product_type
     );
+  }
+
+  private async isB2BProduct({
+    product: { title, product_type: productType, variants },
+    vendorId,
+  }: {
+    product: Product;
+    vendorId: string;
+  }) {
+    if (
+      variants.every(
+        ({ inventory_quantity }) =>
+          !inventory_quantity || inventory_quantity <= 1,
+      )
+    ) {
+      this.logger.debug(
+        `Product ${title} from vendor (${vendorId}) has no stock > 1, not a B2B product`,
+      );
+      return false;
+    }
+
+    const vendor = await this.prisma.customer.findUniqueOrThrow({
+      where: {
+        authUserId: vendorId,
+      },
+      select: {
+        isPro: true,
+      },
+    });
+
+    if (!vendor.isPro) {
+      this.logger.debug(`Vendor ${vendorId} is not a pro, not a B2B product`);
+      return false;
+    }
+
+    const isBike = await this.pimClient.isBike(productType);
+
+    if (!isBike) {
+      this.logger.debug(`Product ${title} is not a bike, not a B2B product`);
+      return false;
+    }
+
+    return true;
   }
 
   private async notifyEvent({
