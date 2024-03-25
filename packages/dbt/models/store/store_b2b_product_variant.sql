@@ -6,9 +6,9 @@
 
 SELECT
     bpv."shopify_id" AS "shopify_id",
-    pv.inventory_quantity AS "inventory_quantity",
+    ppv.quantity AS "inventory_quantity",
     CURRENT_DATE AS "sync_date",
-    pv.price,
+    ppv."priceInCents" / 100 AS "price",
     pv.compare_at_price AS "compare_at_price",
     CAST(ppv.condition::TEXT AS dbt."Condition") as "condition",
     pv.updated_at AS "updated_at"

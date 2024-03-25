@@ -13,9 +13,9 @@ WITH bikes AS (
 
 SELECT
     bpv."shopify_id" AS "shopify_id",
-    pv.inventory_quantity AS "inventoryQuantity",
+    ppv.quantity AS "inventoryQuantity",
     CURRENT_DATE AS "syncDate",
-    pv.price,
+    ppv."priceInCents" / 100 AS "price",
     pv.compare_at_price AS "compareAtPrice",
     po1.name AS "option1Name",
     pv.option_1 AS "option1",
