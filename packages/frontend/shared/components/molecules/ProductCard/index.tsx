@@ -3,6 +3,7 @@
 import { sendProductViewed } from '@/analytics';
 import config from '@/config/env';
 import useDiscounts from '@/hooks/state/useDiscounts';
+import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import MediumProductCard from './card';
 import FullProductCard from './full';
@@ -22,6 +23,7 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
     defaultVariant.shopifyId,
   );
   const { getDiscountsByCollectionList, getDiscountByPrice } = useDiscounts();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     setSelectedVariant(getVariantToSelect(props.variantShopifyId).shopifyId);
@@ -34,8 +36,10 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   if (selectedVariantId)
     productLink.searchParams.append('variant', selectedVariantId);
 
-  const discounts = [...getDiscountsByCollectionList(props.collections)];
-  const discountByPrice = getDiscountByPrice(price);
+  const discounts = [
+    ...getDiscountsByCollectionList(props.collections, isAdmin()),
+  ];
+  const discountByPrice = getDiscountByPrice(price, isAdmin());
   if (discountByPrice) discounts.push(discountByPrice);
 
   const productSingleVariant: ProductSingleVariant = {

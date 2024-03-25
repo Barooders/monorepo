@@ -12,16 +12,20 @@ interface DiscountsState {
   discounts: Discount[];
   latestUpdate: number;
   isOutdated: () => boolean;
-  getDiscountsByCollectionList: (collections: string[]) => Discount[];
-  getDiscountByPrice: (price: number) => Discount | null;
+  getDiscountsByCollectionList: (
+    collections: string[],
+    isAdmin: boolean,
+  ) => Discount[];
+  getDiscountByPrice: (price: number, isAdmin: boolean) => Discount | null;
   setDiscounts: (discounts: Discount[]) => void;
 }
 
 const TEN_MIN = 1000 * 60 * 10;
 
-export const isDiscountAvailable = (discount: Discount) => {
+export const isDiscountAvailable = (discount: Discount, isAdmin = false) => {
   const today = new Date();
-  const hasStarted = !discount.startsAt || new Date(discount.startsAt) < today;
+  const hasStarted =
+    isAdmin || !discount.startsAt || new Date(discount.startsAt) < today;
   const hasNotFinished = !discount.endsAt || new Date(discount.endsAt) > today;
 
   return hasStarted && hasNotFinished;
@@ -33,7 +37,7 @@ const useDiscounts = createPersistedStore<DiscountsState>(
       discounts: [],
       latestUpdate: 0,
       isOutdated: () => Date.now() - get().latestUpdate > TEN_MIN,
-      getDiscountByPrice: (price) => {
+      getDiscountByPrice: (price, isAdmin) => {
         return (
           get()
             .discounts.sort(
@@ -43,16 +47,16 @@ const useDiscounts = createPersistedStore<DiscountsState>(
             )
             .find(
               (discount) =>
-                isDiscountAvailable(discount) &&
+                isDiscountAvailable(discount, isAdmin) &&
                 discount.collections.length === 0 &&
                 (!discount.minAmount || discount.minAmount < price),
             ) ?? null
         );
       },
-      getDiscountsByCollectionList: (collections) => {
+      getDiscountsByCollectionList: (collections, isAdmin) => {
         const ungroupedDiscounts = get().discounts.filter(
           (discount) =>
-            isDiscountAvailable(discount) &&
+            isDiscountAvailable(discount, isAdmin) &&
             discount.collections.some((collection) =>
               collections.includes(collection),
             ),
