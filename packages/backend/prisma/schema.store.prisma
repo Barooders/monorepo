@@ -159,7 +159,7 @@ model StoreB2BProduct {
   publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6)
   productType               String           @map("product_type") @db.VarChar(256)
   status                    ProductStatus
-  totalQuantity             BigInt           @map("total_quantity")
+  totalQuantity             BigInt?          @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
   title                     String           @db.VarChar(256)
   handle                    String           @db.VarChar(256)

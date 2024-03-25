@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "dbt"."store_b2b_product" ADD COLUMN     "inventory_quantity" BIGINT NOT NULL;
+ALTER TABLE "dbt"."store_b2b_product" ADD COLUMN     "inventory_quantity" BIGINT;
