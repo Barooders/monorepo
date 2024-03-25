@@ -29,12 +29,14 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           {image && (
             <ProductImage
               image={image}
-              labels={[]}
+              labels={[
+                { content: <>x {stock}</>, position: 'right', color: 'purple' },
+              ]}
               discounts={[]}
             />
           )}
         </div>
-        <div className="relative col-span-2 my-auto flex min-h-[240px] flex-grow flex-col justify-between">
+        <div className="relative col-span-2 my-auto flex min-h-[200px] flex-grow flex-col justify-between">
           <Characteristics
             tags={tags}
             title={title}
@@ -43,24 +45,21 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
             componentSize="medium"
           />
           <div className="flex flex-col">
-            <p className="mt-2 text-xs text-gray-600 lg:text-sm">
-              {dict.b2b.productCard.availableQuantity}: {stock}
-            </p>
-            <div className="mb-1 mt-2">
+            <div className="my-1">
+              {largestBundlePrice && (
+                <p className="text-xs text-gray-600 lg:text-sm">
+                  <span>{dict.b2b.productCard.largestBundlePrice}:</span>
+                  <span className="ml-1 font-bold">
+                    {formatCurrency(largestBundlePrice, { round: true })}€
+                  </span>
+                </p>
+              )}
               <ProductPrice
                 productId={id}
                 discounts={[]}
                 compareAtPrice={compareAtPrice}
                 price={price}
               />
-              <div className="min-h-[20px]">
-                {largestBundlePrice && (
-                  <p className="text-xs text-gray-600 lg:text-sm">
-                    <span>{dict.b2b.productCard.largestBundlePrice}:</span>
-                    <span className='font-bold ml-1'>{formatCurrency(largestBundlePrice, { round: true })}€</span>
-                  </p>
-                )}
-              </div>
             </div>
             <Button
               intent="tertiary"
