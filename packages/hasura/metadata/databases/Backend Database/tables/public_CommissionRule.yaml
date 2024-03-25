@@ -1,0 +1,16 @@
+table:
+  name: CommissionRule
+  schema: public
+select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - criteria
+        - id
+        - priority
+        - rules
+        - type
+      filter:
+        type:
+          _eq: GLOBAL_B2B_BUYER_COMMISSION
+    comment: ""
