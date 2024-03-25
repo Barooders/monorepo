@@ -102,6 +102,8 @@ const DOCUMENT_CONFIG = {
       inventory_quantity: variant.quantityAvailable?.stock ?? 0,
       array_tags: product.tags.tagsObjectWithArrays,
       price: variant.price.amount,
+      compare_at_price: variant.compareAtPrice.amount,
+      largest_bundle_price: variant.largestBundlePrice?.amount,
       product_internal_id: product.id.uuid,
       product_shopify_id: product.shopifyId.id,
       product_image: product.imageSrc?.url,
