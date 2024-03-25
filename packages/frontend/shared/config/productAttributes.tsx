@@ -70,14 +70,19 @@ export const productAttributesConfiguration: {
     name: ProductAttributes.OWNER,
     attributeName: 'meta.barooders.owner',
   },
-  [ProductAttributes.PRODUCT_DISCOUNT_RANGE]: {
-    name: ProductAttributes.PRODUCT_DISCOUNT_RANGE,
-    attributeName: 'meta.barooders.product_discount_range',
+  [ProductAttributes.FORMATTED_SIZE_BIKE]: {
+    name: ProductAttributes.FORMATTED_SIZE_BIKE,
+    attributeName: 'array_tags.formatted-bike-size',
+    shopifyTagName: 'formatted-bike-size',
   },
   [ProductAttributes.CONDITION]: {
     name: ProductAttributes.CONDITION,
     isB2BFilter: true,
     attributeName: 'condition',
+  },
+  [ProductAttributes.PRODUCT_DISCOUNT_RANGE]: {
+    name: ProductAttributes.PRODUCT_DISCOUNT_RANGE,
+    attributeName: 'meta.barooders.product_discount_range',
   },
   [ProductAttributes.IS_REFURBISHED]: {
     name: ProductAttributes.IS_REFURBISHED,
@@ -95,11 +100,6 @@ export const productAttributesConfiguration: {
     attributeName: 'array_tags.modele',
     shopifyTagName: 'modele',
     capitalize: false,
-  },
-  [ProductAttributes.FORMATTED_SIZE_BIKE]: {
-    name: ProductAttributes.FORMATTED_SIZE_BIKE,
-    attributeName: 'array_tags.formatted-bike-size',
-    shopifyTagName: 'formatted-bike-size',
   },
   [ProductAttributes.TRANSMISSION_GROUP]: {
     name: ProductAttributes.TRANSMISSION_GROUP,
