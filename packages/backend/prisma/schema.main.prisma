@@ -527,12 +527,12 @@ model ShopifySession {
 
 model CommissionRule {
   id         String             @id @default(dbgenerated("(gen_random_uuid())::text"))
-  customerId String             @db.Uuid
+  customerId String?            @db.Uuid
   type       CommissionRuleType
   criteria   Json?
   rules      Json
   priority   Int                @default(1)
-  Customer   Customer           @relation(fields: [customerId], references: [authUserId])
+  Customer   Customer?          @relation(fields: [customerId], references: [authUserId])
 
   @@schema("public")
 }
@@ -966,6 +966,7 @@ enum CommissionRuleType {
   VENDOR_SHIPPING
   VENDOR_COMMISSION
   BUYER_COMMISSION
+  GLOBAL_B2B_BUYER_COMMISSION
 
   @@schema("public")
 }
