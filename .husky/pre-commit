@@ -3,6 +3,7 @@
 
 git diff --cached --name-only | grep 'packages/frontend' && yarn workspace frontend lint-staged
 git diff --cached --name-only | grep 'packages/backend' && yarn workspace backend lint-staged
+git diff --cached --name-only | grep 'packages/shared-types' && yarn workspace shared-types lint-staged
 git diff --cached --name-only | grep 'package.json' && node ./scripts/ci/enforceFixedNodeDependencies.js
 
 

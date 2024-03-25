@@ -2,5 +2,9 @@
   "name": "shared-types",
   "version": "0.1.1",
   "private": true,
-  "main": "src/index.ts"
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  }
 }
