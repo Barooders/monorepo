@@ -11,4 +11,4 @@ SELECT
 FROM {{ref('store_discount_collection')}} dc
 JOIN {{ref('store_discount')}} d ON dc.discount_id = d.id
 JOIN {{ref('store_product_collection')}} pc on pc.collection_id = dc.collection_internal_id
-WHERE d.title IN ('WEEK_VENDOR') AND d.ends_at > CURRENT_DATE AND d.starts_at < CURRENT_DATE
+WHERE d.title IN ('WEEK_VENDOR', 'BDAYS5', 'BDAYS10', 'BDAYS15', 'BDAYS_SHIPPING') AND d.ends_at > CURRENT_DATE AND d.starts_at < CURRENT_DATE
