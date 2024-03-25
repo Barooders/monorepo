@@ -12,7 +12,6 @@
     "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
     "build-for-render": "./build-for-render.sh",
     "console": "yarn workspace backend console",
-    "postinstall": "yarn workspace shared-types build",
     "prepare": "husky"
   },
   "cacheDirectories": [
