@@ -168,6 +168,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
         : undefined,
     title: hit.title,
     price: hit.price,
+    compareAtPrice: hit.compare_at_price,
     stock: hit.inventory_quantity,
     productType: hit.product_type,
     handle: hit.handle,
