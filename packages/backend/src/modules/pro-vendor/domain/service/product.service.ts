@@ -41,7 +41,7 @@ export const getProductStatus = ({ isVisibleInStore }: SyncLightProduct) => {
   return isVisibleInStore ? ProductStatus.ACTIVE : ProductStatus.DRAFT;
 };
 
-const TAGS_WHITELIST = ['discount'];
+const TAG_TO_KEEP_KEYS = ['discount'];
 
 @Injectable()
 export class ProductService {
@@ -234,8 +234,8 @@ export class ProductService {
         },
         (tagsNew: string[], tagsOld: string[]) => {
           const tagsToKeep = tagsOld.filter((tag) =>
-            TAGS_WHITELIST.some((whitelistedKey) =>
-              tag.startsWith(`${whitelistedKey}:`),
+            TAG_TO_KEEP_KEYS.some((tagToKeepKey) =>
+              tag.startsWith(`${tagToKeepKey}:`),
             ),
           );
 
