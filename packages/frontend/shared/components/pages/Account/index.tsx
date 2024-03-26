@@ -8,16 +8,16 @@ import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
-import { HASURA_ROLES } from '@/config';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { AccountSections } from '@/types';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
+import { HASURA_ROLES } from 'shared-types';
 import AccountMenu from './_components/AccountMenu';
 import { mapProductFromGraphQl } from './_helpers/map-product';
 import { MAX_PRODUCTS_PER_BLOCK, PRODUCTS_BY_SECTION } from './config';
-import { AccountSections } from '@/types';
 import { OrderStatus } from './types';
 
 const getDisplayedStatus = (status: string | null) => {
@@ -332,7 +332,7 @@ const Account = () => {
                     href={`https://barooders.com/collections/vendors?q=${encodeURIComponent(
                       value.customer.sellerName,
                     )}`}
-                    className="rounded-lg bg-gray-100 py-2.5 px-3 text-sm font-semibold uppercase"
+                    className="rounded-lg bg-gray-100 px-3 py-2.5 text-sm font-semibold uppercase"
                   >
                     {dict.account.seeMyShop}
                   </Link>
@@ -385,7 +385,7 @@ const Account = () => {
                         </div>
                         <Link
                           href={dict.account.sections[section.slug].action.link}
-                          className="mt-5 w-full rounded-lg bg-gray-100 py-2.5 px-3 text-center text-sm font-semibold uppercase"
+                          className="mt-5 w-full rounded-lg bg-gray-100 px-3 py-2.5 text-center text-sm font-semibold uppercase"
                         >
                           {dict.account.sections[section.slug].action.label}
                         </Link>

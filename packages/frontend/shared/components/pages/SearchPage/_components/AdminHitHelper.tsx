@@ -1,14 +1,13 @@
 'use client';
 
 import { FetchProductHitDataQuery } from '@/__generated/graphql';
-import { HASURA_ROLES } from '@/config';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
-import { SearchPublicVariantDocument } from 'shared-types';
+import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
 const PRODUCT_HIT_QUERY = gql`
   query fetchProductHitData($productId: String) {

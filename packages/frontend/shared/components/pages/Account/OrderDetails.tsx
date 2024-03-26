@@ -1,14 +1,13 @@
 'use client';
+import { FetchOrderDataQuery } from '@/__generated/graphql';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import ContactCard from '@/components/atoms/ContactCard';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
-import { FetchOrderDataQuery } from '@/__generated/graphql';
 /* eslint-disable @next/next/no-img-element */
 import Button from '@/components/atoms/Button';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
-import { HASURA_ROLES } from '@/config';
 import useBackend from '@/hooks/useBackend';
 import useFlag from '@/hooks/useFlag';
 import { useHasura } from '@/hooks/useHasura';
@@ -19,6 +18,10 @@ import { getTimeAgoSentence } from '@/utils/date';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { FaCheck, FaSearch } from 'react-icons/fa';
+import { HASURA_ROLES } from 'shared-types';
+import CancelOrderForm from './_components/CancelOrderForm';
+import ShippingLabelButton from './_components/ShippingLabelButton';
+import TrackingURLForm from './_components/TrackingURLForm';
 import { ORDER_STATUS_COLORS } from './config';
 import {
   FulfillmentOrderStatus,
@@ -26,9 +29,6 @@ import {
   ShippingSolution,
   ShippingType,
 } from './types';
-import CancelOrderForm from './_components/CancelOrderForm';
-import ShippingLabelButton from './_components/ShippingLabelButton';
-import TrackingURLForm from './_components/TrackingURLForm';
 
 const dict = getDictionary('fr');
 const roundedCard = 'mt-4 rounded-lg border border-zinc-200';
@@ -323,7 +323,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
                   <span>
                     {dict.account.order.orderedOn} {hasuraValue.order.createdAt}
                   </span>
-                  <span className="mt-2 ml-0 lg:mt-0 lg:ml-4">
+                  <span className="ml-0 mt-2 lg:ml-4 lg:mt-0">
                     {dict.account.order.orderNumber}: {hasuraValue.order.name}
                   </span>
                 </p>
@@ -394,7 +394,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
                 </div>
                 <Link
                   href={hasuraValue.product.link}
-                  className="mt-3 w-fit rounded-lg bg-gray-100 py-2.5 px-3 text-center font-semibold uppercase lg:mx-4 lg:mt-0"
+                  className="mt-3 w-fit rounded-lg bg-gray-100 px-3 py-2.5 text-center font-semibold uppercase lg:mx-4 lg:mt-0"
                 >
                   {dict.account.seeProduct}
                 </Link>
@@ -417,8 +417,8 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
                         isNextStepCompleted
                           ? 'border-l-2 border-gray-600'
                           : isLastStep
-                          ? ''
-                          : 'border-l-2 border-gray-200'
+                            ? ''
+                            : 'border-l-2 border-gray-200'
                       } pb-10 pl-8`}
                     >
                       {historyItem.isCompleted ? (
@@ -489,7 +489,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
                 {backendValue.chatLink && (
                   <Link
                     href={backendValue.chatLink}
-                    className="mt-2 w-full rounded-lg bg-gray-100 py-2.5 px-3 text-center font-semibold uppercase sm:mt-6"
+                    className="mt-2 w-full rounded-lg bg-gray-100 px-3 py-2.5 text-center font-semibold uppercase sm:mt-6"
                   >
                     {getContactLabels(backendValue.viewer).linkLabel}
                   </Link>

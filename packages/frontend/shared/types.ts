@@ -1,3 +1,4 @@
+import { HASURA_ROLES } from 'shared-types';
 import { CLAIMS_KEY } from '../shared/config';
 
 export type HasuraToken = {
@@ -43,24 +44,15 @@ export type User = {
   avatarUrl: Url | null;
   locale: Locale;
   isAnonymous: boolean;
-  defaultRole: HasuraUserRole;
+  defaultRole: HASURA_ROLES;
   emailVerified: boolean;
   phoneNumber: PhoneNumber | null;
   phoneNumberVerified: boolean;
   activeMfaType: null;
-  roles: HasuraUserRole[];
+  roles: HASURA_ROLES[];
   metadata: Record<string, unknown>;
   email: string;
 };
-
-export type HasuraUserRole =
-  | 'public'
-  | 'registered_user'
-  | 'me'
-  | 'admin'
-  | 'me_as_customer'
-  | 'me_as_vendor'
-  | 'b2b_user';
 
 export type ProductAPI = {
   availableForSale: boolean;

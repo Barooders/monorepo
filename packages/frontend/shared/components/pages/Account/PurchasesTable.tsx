@@ -1,19 +1,19 @@
 'use client';
 
+import { FetchPurchasesQuery } from '@/__generated/graphql';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
-import { HASURA_ROLES } from '@/config';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { FetchPurchasesQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
+import { HASURA_ROLES } from 'shared-types';
+import { mapProductFromGraphQl } from './_helpers/map-product';
 import { ORDER_STATUS_COLORS } from './config';
 import { OrderStatus } from './types';
-import { mapProductFromGraphQl } from './_helpers/map-product';
 
 const dict = getDictionary('fr');
 
