@@ -119,6 +119,7 @@ interface CommonCatalogConfig {
 interface PrestashopCatalogConfig {
   categoriesToFilterInFetch?: number[];
   externalLanguageId?: string;
+  fetchRecursiveCategories?: boolean;
 }
 
 interface WooCommerceCatalogConfig {

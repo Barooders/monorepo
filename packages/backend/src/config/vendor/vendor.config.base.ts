@@ -442,6 +442,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       common: {
         commissionPercentToAdd: 8,
       },
+      prestashop: {
+        fetchRecursiveCategories: true,
+      },
     },
   },
   tribici_presta: {
