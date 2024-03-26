@@ -307,7 +307,7 @@ export interface components {
       vendorId?: components['schemas']['UUID'];
     };
     ModerateProductInputDto: Record<string, never>;
-    NewPriceOfferDTO: {
+    NewPublicPriceOfferDTO: {
       buyerId: string;
       newPriceInCents: number;
       productId: string;
@@ -325,6 +325,11 @@ export interface components {
       initiatedBy: string;
       status: string;
       discountCode: string;
+    };
+    NewB2BPriceOfferDTO: {
+      newPriceInCents: number;
+      productId: string;
+      description: string;
     };
     UpdatePriceOfferDTO: {
       status: string;
@@ -373,7 +378,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-03-26T15:12:58.038Z
+       * @example 2024-03-26T16:40:46.160Z
        */
       birthDate: string;
       /**
@@ -870,7 +875,7 @@ export interface operations {
   PriceOfferController_createPublicPriceOffer: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewPriceOfferDTO'];
+        'application/json': components['schemas']['NewPublicPriceOfferDTO'];
       };
     };
     responses: {
@@ -884,7 +889,7 @@ export interface operations {
   PriceOfferController_createB2BPriceOffer: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewPriceOfferDTO'];
+        'application/json': components['schemas']['NewB2BPriceOfferDTO'];
       };
     };
     responses: {
