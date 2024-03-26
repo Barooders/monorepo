@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import useSellForm from '../_state/useSellForm';
-import Fuse from 'fuse.js';
-import SellingFormPageContainer from '../_components/SellingFormPageContainer';
-import { getDictionary } from '@/i18n/translate';
 import Input from '@/components/atoms/Input';
-import SellingFormLine from '../_components/SellingFormLine';
+import { getDictionary } from '@/i18n/translate';
+import Fuse from 'fuse.js';
 import capitalize from 'lodash/capitalize';
+import React, { useState } from 'react';
+import SellingFormLine from '../_components/SellingFormLine';
+import SellingFormPageContainer from '../_components/SellingFormPageContainer';
+import useGetModelsForSelectedBrand from '../_hooks/useGetModelsForSelectedBrand';
+import useSellForm from '../_state/useSellForm';
 
 const dict = getDictionary('fr');
 
@@ -17,11 +18,9 @@ type PropsType = {
 };
 
 const SelectModel: React.FC<PropsType> = ({ onSelect, onGoBack }) => {
-  const { addProductInfo, addProductTagsInfo, getSelectedBrand } =
-    useSellForm();
+  const { addProductInfo, addProductTagsInfo } = useSellForm();
+  const availableModels = useGetModelsForSelectedBrand();
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
-
-  const selectedBrand = getSelectedBrand();
 
   const onSelectModel = (model: string) => {
     addProductInfo('model', model);
@@ -29,14 +28,14 @@ const SelectModel: React.FC<PropsType> = ({ onSelect, onGoBack }) => {
     onSelect();
   };
 
-  const index = new Fuse(selectedBrand?.models ?? []);
+  const index = new Fuse(availableModels);
 
   const displayedItems: string[] = searchTerm
     ? index
         .search(searchTerm)
         .map(({ item }) => item)
         .slice(0, 5)
-    : selectedBrand?.models ?? [];
+    : availableModels;
 
   return (
     <SellingFormPageContainer
@@ -46,7 +45,7 @@ const SelectModel: React.FC<PropsType> = ({ onSelect, onGoBack }) => {
       <div className="mx-auto my-3 flex w-80 items-center">
         <Input
           name="searchTerm"
-          placeholder={`${selectedBrand?.models.slice(0, 2).join(', ')}...`}
+          placeholder={`${availableModels.slice(0, 2).join(', ')}...`}
           inputAdditionalProps={{
             onChange: (e) => setSearchTerm(e.target.value),
           }}

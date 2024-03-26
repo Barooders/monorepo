@@ -1,7 +1,9 @@
-import qs from 'qs';
 import { fetchStrapi } from '@/clients/strapi';
-import keyBy from 'lodash/keyBy';
 import useAsyncFn from '@/hooks/useWrappedAsyncFn';
+import keyBy from 'lodash/keyBy';
+import uniqBy from 'lodash/uniqBy';
+import qs from 'qs';
+import useSellForm from '../_state/useSellForm';
 import {
   BrandsConfigType,
   CategoriesConfigType,
@@ -10,13 +12,10 @@ import {
   TaxonomyItem,
   UniversesConfigType,
 } from '../types';
-import useSellForm from '../_state/useSellForm';
-import uniqBy from 'lodash/uniqBy';
 
 const mapBrands = (brands: BrandsConfigType) =>
-  brands.data.map(({ attributes: { name, productModels } }) => ({
+  brands.data.map(({ attributes: { name } }) => ({
     name,
-    models: productModels.data.map((model) => model.attributes.name),
   }));
 
 const mapSellFormConfig = (
@@ -83,11 +82,6 @@ const fetchSellFormInformation = async (): Promise<SellFormConfig> => {
       productAttributes: '*',
       brands: {
         fields: ['name'],
-        populate: {
-          productModels: {
-            fields: ['name'],
-          },
-        },
       },
     },
     pagination: { limit: 500 },
