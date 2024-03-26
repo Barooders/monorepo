@@ -408,13 +408,13 @@ export class PriceOfferService implements IPriceOfferService {
       },
       select: {
         buyerId: true,
-        ProductVariant: { select: { product: { select: { vendorId: true } } } },
+        productVariant: { select: { product: { select: { vendorId: true } } } },
       },
     });
 
     return [
       priceOffer.buyerId,
-      priceOffer.ProductVariant?.product.vendorId,
+      priceOffer.productVariant?.product.vendorId,
     ].includes(userId.uuid);
   }
 
@@ -436,14 +436,14 @@ export class PriceOfferService implements IPriceOfferService {
   }
 
   private async getAssociatedConversationId(priceOfferId: UUID) {
-    const { Product: priceOfferProduct, buyerId } =
+    const { product: priceOfferProduct, buyerId } =
       await this.prisma.priceOffer.findUniqueOrThrow({
         where: {
           id: priceOfferId.uuid,
         },
         select: {
           buyerId: true,
-          Product: { select: { shopifyId: true } },
+          product: { select: { shopifyId: true } },
         },
       });
 

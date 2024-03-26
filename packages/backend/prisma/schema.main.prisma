@@ -327,6 +327,8 @@ model Notification {
 
 model PriceOffer {
   id               String           @id @default(dbgenerated("(gen_random_uuid())::text"))
+  salesChannelName SalesChannelName @default(PUBLIC)
+  salesChannel     SalesChannel     @relation(fields: [salesChannelName], references: [name])
   createdAt        DateTime         @default(now())
   initiatedBy      String           @db.Uuid
   buyerId          String           @db.Uuid
@@ -335,10 +337,10 @@ model PriceOffer {
   discountCode     String?
   buyer            Customer         @relation(name: "buyerOffers", fields: [buyerId], references: [authUserId])
   initiator        Customer         @relation(name: "initiatedOffers", fields: [initiatedBy], references: [authUserId])
-  Product          Product          @relation(fields: [productId], references: [id])
   productId        String
-  ProductVariant   ProductVariant?  @relation(fields: [productVariantId], references: [id])
+  product          Product          @relation(fields: [productId], references: [id])
   productVariantId String?
+  productVariant   ProductVariant?  @relation(fields: [productVariantId], references: [id])
 
   @@schema("public")
 }
@@ -564,6 +566,7 @@ model Collection {
 model SalesChannel {
   name                 SalesChannelName      @id
   productSalesChannels ProductSalesChannel[]
+  priceOffers          PriceOffer[]
 
   @@schema("public")
 }
