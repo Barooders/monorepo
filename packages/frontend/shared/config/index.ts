@@ -10,6 +10,7 @@ export enum HASURA_ROLES {
   PUBLIC = 'public',
   ME_AS_CUSTOMER = 'me_as_customer',
   ME_AS_VENDOR = 'me_as_vendor',
+  B2B_USER = 'b2b_user',
 }
 export const SNOWFALL_OVERLAY_ANCHOR = 'snowfall-overlay';
 export const MODAL_ROOT_ANCHOR = 'modal-root';

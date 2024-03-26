@@ -1,10 +1,11 @@
 import Button from '@/components/atoms/Button';
+import { getDictionary } from '@/i18n/translate';
+import { formatCurrency } from '@/utils/currency';
 import Link from '../../atoms/Link';
 import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
 import ProductPrice from './_components/ProductPrice';
 import { B2BProductCardProps } from './types';
-import { getDictionary } from '@/i18n/translate';
 
 const dict = getDictionary('fr');
 
@@ -16,6 +17,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   variantCondition,
   price,
   compareAtPrice,
+  largestBundlePrice,
   image,
   stock,
   handle,
@@ -27,12 +29,14 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           {image && (
             <ProductImage
               image={image}
-              labels={[]}
+              labels={[
+                { content: <>x {stock}</>, position: 'right', color: 'purple' },
+              ]}
               discounts={[]}
             />
           )}
         </div>
-        <div className="relative col-span-2 my-auto flex min-h-[210px] flex-grow flex-col justify-between">
+        <div className="relative col-span-2 my-auto flex min-h-[200px] flex-grow flex-col justify-between">
           <Characteristics
             tags={tags}
             title={title}
@@ -41,10 +45,15 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
             componentSize="medium"
           />
           <div className="flex flex-col">
-            <p className="mt-2 text-xs text-gray-600 lg:text-sm">
-              {dict.b2b.productCard.availableQuantity}: {stock}
-            </p>
             <div className="my-1">
+              {largestBundlePrice && (
+                <p className="text-xs text-gray-600 lg:text-sm">
+                  <span>{dict.b2b.productCard.largestBundlePrice}:</span>
+                  <span className="ml-1 font-bold">
+                    {formatCurrency(largestBundlePrice, { round: true })}€
+                  </span>
+                </p>
+              )}
               <ProductPrice
                 productId={id}
                 discounts={[]}

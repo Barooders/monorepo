@@ -10,7 +10,7 @@ import {
   typesenseInstantsearchAdapter,
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
-import { mapValues } from 'lodash';
+import { get, mapValues } from 'lodash';
 import capitalize from 'lodash/capitalize';
 import {
   SearchB2BVariantDocument,
@@ -142,7 +142,19 @@ export const fromSearchToProductCard = (
   };
 };
 
-export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
+export const fromSearchToB2BProductCard = (
+  hit: SearchB2BVariantDocument,
+  b2bGlobalCommissionRules: unknown,
+) => {
+  const commissionType = get(b2bGlobalCommissionRules, '[0].type');
+  const commissionValue = get(b2bGlobalCommissionRules, '[0].value');
+
+  if (commissionType !== 'PERCENTAGE' || !commissionValue) {
+    throw new Error('Missing B2B global commission rules');
+  }
+
+  const commissionMultiplier = 1 + commissionValue / 100;
+
   let imageUrl = null;
   const image = hit.product_image ?? null;
   if (image) {
@@ -167,7 +179,10 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
           }
         : undefined,
     title: hit.title,
-    price: hit.price,
+    price: hit.price * commissionMultiplier,
+    largestBundlePrice: hit.largest_bundle_price
+      ? hit.largest_bundle_price * commissionMultiplier
+      : undefined,
     compareAtPrice: hit.compare_at_price,
     stock: hit.total_quantity,
     productType: hit.product_type,
@@ -212,7 +227,7 @@ export const fetchProductsInSearchFromCollectionHandle = async (
   collectionHandle: string,
 ): Promise<ProductMultiVariants[]> => {
   return getProductsFromFilterQuery(
-    ['inventory_quantity:> 0', `collection_handles:=${collectionHandle}`].join(
+    ['total_quantity:> 1', `collection_handles:=${collectionHandle}`].join(
       ' && ',
     ),
   );
