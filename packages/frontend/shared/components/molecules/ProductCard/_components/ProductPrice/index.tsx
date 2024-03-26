@@ -17,6 +17,7 @@ const ProductPrice: React.FC<{
   discounts: Discount[];
   commissionAmount?: ProductMultiVariants['commissionAmount'];
   componentSize?: 'large' | 'medium' | 'small';
+  showPriceRecap?: boolean;
 }> = ({
   productId,
   price,
@@ -24,6 +25,7 @@ const ProductPrice: React.FC<{
   compareAtPrice,
   commissionAmount,
   componentSize = 'medium',
+  showPriceRecap = true,
 }) => {
   const savingsAmount = Math.floor(compareAtPrice - price);
   const savingsPercent =
@@ -96,22 +98,24 @@ const ProductPrice: React.FC<{
             ) : null}
           </>
         )}
-        <InfoModal
-          contentComponent={
-            <div className="pt-3">
-              <PriceRecap
-                productId={productId}
-                commissionAmount={commissionAmount}
-                discounts={discounts}
-                mainPrice={price}
-                mainDiscountedPrice={discountedPrice}
-                compareAtPrice={compareAtPrice}
-                savingsAmount={savingsAmount}
-                savingsPercent={savingsPercent}
-              />
-            </div>
-          }
-        />
+        {showPriceRecap && (
+          <InfoModal
+            contentComponent={
+              <div className="pt-3">
+                <PriceRecap
+                  productId={productId}
+                  commissionAmount={commissionAmount}
+                  discounts={discounts}
+                  mainPrice={price}
+                  mainDiscountedPrice={discountedPrice}
+                  compareAtPrice={compareAtPrice}
+                  savingsAmount={savingsAmount}
+                  savingsPercent={savingsPercent}
+                />
+              </div>
+            }
+          />
+        )}
       </div>
 
       {(hasDiscount || discountDeadline) && (

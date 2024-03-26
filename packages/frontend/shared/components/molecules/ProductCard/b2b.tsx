@@ -56,6 +56,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               discounts={[]}
               compareAtPrice={compareAtPrice}
               price={price}
+              showPriceRecap={false}
             />
           </div>
           <Button
