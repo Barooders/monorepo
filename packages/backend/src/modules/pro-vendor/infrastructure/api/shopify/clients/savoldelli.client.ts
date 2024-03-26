@@ -12,7 +12,7 @@ export class SavoldelliClient {
     this.logger.debug('Will instanciate Shopify API node');
 
     if (!vendorConfig.savoldelli.accessToken) {
-      throw new Error('Missing access token for savoldelli');
+      throw new Error('Missing access token for Savoldelli');
     }
 
     this.shopifyApiNode = new Shopify({
