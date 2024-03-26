@@ -10,18 +10,68 @@ const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/buycycle';
 
 const priorityBrands = [
-  // 'ktm',
-  // 'fantic',
-  // 'moustache',
-  // 'kalkhoff',
-  // 'gitane',
-  // 'basso',
-  // 'mondraker',
-  'riese-muller',
-  'time',
-  'whistle',
-  'lee-cougan',
-  'gasgas',
+  'Cellini',
+  'Cipollini',
+  'Factor',
+  'Gitane',
+  'Kross',
+  'KTM',
+  'Megamo',
+  'Mercedes Benz',
+  'MMR',
+  'Mondraker',
+  'Moustache',
+  'Nukeproof',
+  'Rad Power Bikes',
+  'Raleigh RXS',
+  'Raleigh Stuntman',
+  'Riese & Müller',
+  'RIVERSIDE',
+  'Rose',
+  'Rossignol',
+  'Wilier',
+  'Willier',
+  'Argon',
+  'Argon 18',
+  'Bergamont',
+  'Bergstrom',
+  'Boardman',
+  'B’TWIN',
+  'Conway',
+  'Corratec',
+  'Diamant',
+  'Fantic',
+  'Pivot',
+  'Planet X',
+  'Rock Machine',
+  'ROCKRIDER',
+  'SE BIKES',
+  'Stevens',
+  'Superior',
+  'SUPERIOR BIKES',
+  'TRIBAN',
+  'Vaast',
+  'Van Nicholas',
+  'Van rysel',
+  'Vanmoof',
+  'Beacon',
+  'BMW',
+  'Canfield',
+  'Cheetah',
+  'CONTOURA',
+  'GO SPORT',
+  'Hercules',
+  'Parlee',
+  'Qark',
+  'Airstreeem',
+  'B Twin',
+  'Cairn',
+  'Genesis',
+  'Husqvarna',
+  'Kinesis',
+  'Knolly',
+  'Kraft',
+  'YT Industries',
 ];
 
 const uploadFile = (fileName, content) => {
@@ -202,26 +252,32 @@ const getAllFamilies = async () => {
 
 const scrapAll = async () => {
   const families = await getAllFamilies();
-
-  // const orderedFamilies = families.sort((a, b) => {
-  //   if (
-  //     priorityBrands.includes(a.brandSlug) &&
-  //     !priorityBrands.includes(b.brandSlug)
-  //   ) {
-  //     return -1;
-  //   }
-  //   if (
-  //     !priorityBrands.includes(a.brandSlug) &&
-  //     priorityBrands.includes(b.brandSlug)
-  //   ) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
-  const orderedFamilies = families.filter((f) =>
-    priorityBrands.includes(f.brandSlug),
+  const brandData = require('./brandData.json');
+  const priorityBrandsSlug = priorityBrands.map(
+    (b) => brandData.brands.find((brand) => brand.name === b).slug,
   );
+
+  const orderedFamilies = families.sort((a, b) => {
+    let aBrandIndex = priorityBrandsSlug.findIndex(
+      (slug) => slug === a.brandSlug,
+    );
+    let bBrandIndex = priorityBrandsSlug.findIndex(
+      (slug) => slug === b.brandSlug,
+    );
+
+    if (aBrandIndex === -1) aBrandIndex = 100000;
+    if (bBrandIndex === -1) bBrandIndex = 100000;
+
+    if (aBrandIndex < bBrandIndex) {
+      return -1;
+    }
+
+    if (aBrandIndex > bBrandIndex) {
+      return 1;
+    }
+
+    return 0;
+  });
 
   for (const family of orderedFamilies) {
     if (family.brandSlug == null) {
