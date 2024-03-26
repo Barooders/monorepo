@@ -2,10 +2,9 @@ const fetch = require('node-fetch');
 const AWS = require('aws-sdk');
 
 const BUCKET_NAME = 'barooders-s3-bucket';
-const PATH_PREFIX = 'private/bicyclebluebook';
+const PATH_PREFIX = 'private/buycycle';
 
-const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
-// const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 const s3 = new AWS.S3({
@@ -28,16 +27,6 @@ const getObjectContent = async (fileName) => {
   return JSON.parse(body.Body.toString('utf-8'));
 };
 
-const listFiles = async (bucket, prefix) => {
-  const params = {
-    Bucket: bucket,
-    Prefix: prefix,
-  };
-
-  const response = await s3.listObjectsV2(params).promise();
-  return response.Contents.map((file) => file.Key);
-};
-
 const paginatedListFiles = async (bucket, prefix) => {
   const files = [];
   let continuationToken = null;
@@ -57,23 +46,7 @@ const paginatedListFiles = async (bucket, prefix) => {
   return files;
 };
 
-const MAPPING = {
-  'Gazelle Bikes': 'Gazelle',
-  Moustache: 'Moustache Bikes',
-  'Frog Bikes': 'Frog',
-  'Cube bikes': 'Cube',
-  'BH Bikes': 'BH',
-  Cervelo: 'Cervélo',
-  'Yeti Cycles': 'Yeti',
-};
-
-const mappedName = (name) => {
-  return MAPPING[name] || name;
-};
-
 const createBrand = async (name) => {
-  // console.log('Creating brand', name);
-
   const url = `${STRAPI_URL}/api/pim-brands`;
   const options = {
     method: 'POST',
@@ -95,12 +68,13 @@ const createBrand = async (name) => {
 };
 
 const getOrCreateBrand = async (name) => {
+  console.log(`The brand ${name} is being searched`);
   const response = await fetch(
     `${STRAPI_URL}/api/pim-brands?fields%5B0%5D=name&pagination%5Blimit%5D=1&filters%5Bname%5D%5B%24eq%5D=${name}`,
   );
   const result = await response.json();
 
-  console.log(result);
+  console.log(JSON.stringify(result));
 
   if (result.data.length === 0) {
     return await createBrand(name);
@@ -269,10 +243,9 @@ const updateProductModel = async ({ id, imageUrl }) => {
 };
 
 const createProductForBrand = async (brand) => {
-  const files = await paginatedListFiles(
-    BUCKET_NAME,
-    `${PATH_PREFIX}/images/${brand}`,
-  );
+  const files = (
+    await paginatedListFiles(BUCKET_NAME, `${PATH_PREFIX}/data/bikes/${brand}`)
+  ).filter((file) => file.endsWith('.json'));
 
   console.log(`Found ${files.length} files for ${brand}`);
 
@@ -280,46 +253,69 @@ const createProductForBrand = async (brand) => {
     return;
   }
 
-  const { id: brandId } = await getOrCreateBrand(mappedName(brand));
+  const bikes = (
+    await Promise.all(files.map((file) => getObjectContent(file)))
+  ).flatMap((d) => d.data);
 
-  for (const file of files) {
-    const split = file.split('/');
-    const year = split[split.length - 2];
-    const brand = split[split.length - 4];
-    const family = split[split.length - 3];
-    const model = split[split.length - 1].split('.')[0];
+  const { id: brandId } = await getOrCreateBrand(
+    mappedName(bikes[0].brand.name),
+  );
+
+  for (const bike of bikes) {
+    const { year, brand, family, name, image } = bike;
 
     const { id: familyId } = await getOrCreateFamily({
       brand,
       brandId,
-      family,
+      family: family.name,
     });
 
     await getOrCreateProductModel({
-      model,
+      model: name,
       brand,
       brandId,
       familyId,
       year,
-      imageUrl: `https://${BUCKET_NAME}.s3.amazonaws.com/${urlEncode(file)}`,
+      imageUrl:
+        image != null
+          ? `https://${BUCKET_NAME}.s3.amazonaws.com/private/buycycle/images/${image.file_name}`
+          : undefined,
     });
   }
 };
 
-const urlEncode = (str) => {
-  return encodeURIComponent(str)
-    .replace(/%20/g, '+')
-    .replace(/%2F/g, '/')
-    .replace(/'/g, "''");
+const MAPPING = {
+  'Gazelle Bikes': 'Gazelle',
+  Moustache: 'Moustache Bikes',
+  'Frog Bikes': 'Frog',
+  'Cube bikes': 'Cube',
+  'BH Bikes': 'BH',
+  Cervelo: 'Cervélo',
+  'Yeti Cycles': 'Yeti',
+};
+
+const mappedName = (name) => {
+  return MAPPING[name] || name;
 };
 
 const run = async () => {
-  const brands = (await getObjectContent('data/brandData.json')).bicycleBrands;
-  const idx = brands.findIndex(({ name }) => name === 'Bianchi');
+  // const brands = (await getObjectContent('data/brandData.json')).bicycleBrands;
+  const brands = [
+    // 'ktm',
+    // 'fantic',
+    // 'moustache',
+    // 'kalkhoff',
+    // 'gitane',
+    // 'basso',
+    // 'mondraker',
+    'riese-muller',
+    // 'time',
+    // 'whistle',
+    // 'lee-cougan',
+    // 'gasgas',
+  ];
 
-  const filtered = brands.slice(idx);
-
-  for (const { name: brand } of filtered) {
+  for (const brand of brands) {
     await createProductForBrand(brand);
   }
 };
