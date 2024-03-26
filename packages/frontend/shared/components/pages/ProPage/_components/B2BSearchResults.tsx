@@ -1,6 +1,5 @@
 import { FetchB2BGlobalCommissionQuery } from '@/__generated/graphql';
 import B2BProductCard from '@/components/molecules/ProductCard/b2b';
-import { HASURA_ROLES } from '@/config';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
@@ -9,7 +8,7 @@ import { gql } from '@apollo/client';
 import { head } from 'lodash';
 import { useEffect } from 'react';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
-import { SearchB2BVariantDocument } from 'shared-types';
+import { HASURA_ROLES, SearchB2BVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');

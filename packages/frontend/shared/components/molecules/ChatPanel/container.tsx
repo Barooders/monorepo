@@ -5,7 +5,6 @@ import {
   SubscribeToOpenedPriceOfferSubscription,
 } from '@/__generated/graphql';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
-import { HASURA_ROLES } from '@/config';
 import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
@@ -18,6 +17,7 @@ import {
 import { gql, useSubscription } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
+import { HASURA_ROLES } from 'shared-types';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
 const ORDER_LINE_FRAGMENT = gql`

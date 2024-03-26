@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DiscountRange = void 0;
+var DiscountRange;
+(function (DiscountRange) {
+    DiscountRange["FROM_0_TO_20"] = "0-20%";
+    DiscountRange["FROM_20_TO_40"] = "20-40%";
+    DiscountRange["FROM_40_TO_60"] = "40-60%";
+    DiscountRange["FROM_60_TO_80"] = "60-80%";
+    DiscountRange["FROM_80_TO_100"] = "80-100%";
+})(DiscountRange || (exports.DiscountRange = DiscountRange = {}));
+//# sourceMappingURL=search.js.map

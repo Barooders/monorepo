@@ -6,7 +6,6 @@ import PortalDrawer from '@/components/atoms/Drawer/portal';
 import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
-import { HASURA_ROLES } from '@/config';
 import {
   ProductAttributeConfig,
   productAttributesConfiguration,
@@ -23,6 +22,7 @@ import {
   useRefinementList,
   useSearchBox,
 } from 'react-instantsearch-hooks-web';
+import { HASURA_ROLES } from 'shared-types';
 import ActiveFilters from './ActiveFilters';
 import PriceRange from './PriceRange';
 import SortBy from './SortBy';

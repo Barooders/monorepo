@@ -3,15 +3,6 @@ import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SEARCH_DOMAIN } from './e2e';
 
 export const CLAIMS_KEY = 'https://hasura.io/jwt/claims';
-export enum HASURA_ROLES {
-  ADMIN = 'admin',
-  REGISTERED_USER = 'registered_user',
-  REGISTERED_USER_SPECIFIC = 'registered_user_specific',
-  PUBLIC = 'public',
-  ME_AS_CUSTOMER = 'me_as_customer',
-  ME_AS_VENDOR = 'me_as_vendor',
-  B2B_USER = 'b2b_user',
-}
 export const SNOWFALL_OVERLAY_ANCHOR = 'snowfall-overlay';
 export const MODAL_ROOT_ANCHOR = 'modal-root';
 export const INNER_PAGE_BANNER_ANCHOR = 'inner-page-banner';

@@ -1,15 +1,15 @@
 'use client';
 
-import PersonalInfoForm from '.';
-import { HASURA_ROLES } from '@/config';
+import { FetchNegociationAgreementQuery } from '@/__generated/graphql';
+import Loader from '@/components/atoms/Loader';
 import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { FetchNegociationAgreementQuery } from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
-import Loader from '@/components/atoms/Loader';
+import { HASURA_ROLES } from 'shared-types';
+import PersonalInfoForm from '.';
 
 const GET_VENDOR_NEGOCIATION_AGREEMENT = gql`
   query fetchNegociationAgreement($vendorId: uuid) {

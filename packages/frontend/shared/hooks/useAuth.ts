@@ -11,6 +11,7 @@ import { useHasuraToken } from './useHasuraToken';
 import useStorefront, {
   GET_STOREFRONT_TOKEN_FROM_MULTIPASS,
 } from './useStorefront';
+import { HASURA_ROLES } from 'shared-types';
 
 type LoginResponseType = {
   status: number;
@@ -99,11 +100,11 @@ export const useAuth = () => {
   };
 
   const isAdmin = () => {
-    return hasuraToken?.user.roles.includes('admin') || false;
+    return hasuraToken?.user.roles.includes(HASURA_ROLES.ADMIN) || false;
   };
 
   const isB2BUser = () => {
-    return hasuraToken?.user.roles.includes('b2b_user') || false;
+    return hasuraToken?.user.roles.includes(HASURA_ROLES.B2B_USER) || false;
   };
 
   const getShopifyToken = async () => {

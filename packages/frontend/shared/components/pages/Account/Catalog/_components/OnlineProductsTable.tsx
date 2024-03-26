@@ -7,7 +7,6 @@ import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
-import { HASURA_ROLES } from '@/config';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
@@ -16,6 +15,7 @@ import { ProductStatus } from '@/types';
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { HASURA_ROLES } from 'shared-types';
 import { mapProductFromGraphQl } from '../../_helpers/map-product';
 
 const dict = getDictionary('fr');

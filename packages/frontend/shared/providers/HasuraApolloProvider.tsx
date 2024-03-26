@@ -1,26 +1,24 @@
 'use client';
 
+import { useHasuraToken } from '@/hooks/useHasuraToken';
 import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
-  InMemoryCache,
   HttpLink,
+  InMemoryCache,
   disableFragmentWarnings,
   split,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import React, { PropsWithChildren } from 'react';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { useHasuraToken } from '@/hooks/useHasuraToken';
+import { createClient } from 'graphql-ws';
+import React, { PropsWithChildren } from 'react';
+import { HASURA_ROLES } from 'shared-types';
 
 disableFragmentWarnings();
-const HASURA_ROLES = {
-  REGISTERED_USER: 'registered_user',
-};
 
 const HasuraApolloProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { getUpToDateHasuraToken } = useHasuraToken();

@@ -4,7 +4,6 @@ import { FetchProductNotationQuery } from '@/__generated/graphql';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
-import { HASURA_ROLES } from '@/config';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
@@ -12,6 +11,7 @@ import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
+import { HASURA_ROLES } from 'shared-types';
 
 const PRODUCT_NOTATION_QUERY = gql`
   query fetchProductNotation($productShopifyId: bigint) {
