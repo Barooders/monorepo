@@ -12,11 +12,11 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 
+import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
 import { User } from '@libs/application/decorators/user.decorator';
 import {
   PriceOfferStatus,
   PrismaMainClient,
-  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
@@ -30,7 +30,7 @@ class UpdatePriceOfferDTO {
   status!: PriceOfferStatus;
 }
 
-class NewPriceOfferDTO {
+class NewPublicPriceOfferDTO {
   @IsString()
   @ApiProperty()
   buyerId!: string;
@@ -54,7 +54,21 @@ class NewPriceOfferDTO {
   description?: string;
 }
 
-class PriceOfferDTO extends NewPriceOfferDTO {
+class NewB2BPriceOfferDTO {
+  @IsNumber()
+  @ApiProperty()
+  newPriceInCents!: number;
+
+  @IsString()
+  @ApiProperty()
+  productId!: string;
+
+  @IsString()
+  @ApiProperty({ required: true })
+  description!: string;
+}
+
+class PriceOfferDTO extends NewPublicPriceOfferDTO {
   @ApiProperty()
   id!: string;
 
@@ -85,15 +99,14 @@ export class PriceOfferController {
   })
   @Post(routesV1.priceOffer.root)
   @UseGuards(JwtAuthGuard)
-  async createPriceOffer(
+  async createPublicPriceOffer(
     @Body()
     {
       buyerId,
-      newPriceInCents,
-      description,
       productId,
       productVariantId,
-    }: NewPriceOfferDTO,
+      newPriceInCents,
+    }: NewPublicPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<PriceOfferDTO> {
     if (!userId) {
@@ -113,15 +126,14 @@ export class PriceOfferController {
           ).authUserId,
     });
 
-    const newPriceOffer = await this.priceOfferService.createNewPriceOffer(
-      new UUID({ uuid: userId }),
-      buyerUUID,
-      new Amount({ amountInCents: newPriceInCents }),
-      new UUID({ uuid: productId }),
-      SalesChannelName.PUBLIC,
-      productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
-      description,
-    );
+    const newPriceOffer =
+      await this.priceOfferService.createNewPublicPriceOffer(
+        new UUID({ uuid: userId }),
+        buyerUUID,
+        new Amount({ amountInCents: newPriceInCents }),
+        new UUID({ uuid: productId }),
+        productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
+      );
 
     return {
       buyerId: newPriceOffer.buyerId,
@@ -133,6 +145,30 @@ export class PriceOfferController {
       productVariantId: newPriceOffer.productVariantId ?? undefined,
       status: newPriceOffer.status,
     };
+  }
+
+  @ApiResponse({
+    type: PriceOfferDTO,
+  })
+  @Post(routesV1.priceOffer.b2b)
+  @UseGuards(B2BUserGuard)
+  async createB2BPriceOffer(
+    @Body()
+    { newPriceInCents, productId, description }: NewB2BPriceOfferDTO,
+    @User() { userId }: ExtractedUser,
+  ): Promise<void> {
+    if (!userId || isUUID(userId)) {
+      throw new UnauthorizedException(
+        `User UUID not found in token, user (${userId})`,
+      );
+    }
+
+    await this.priceOfferService.createNewB2BPriceOffer(
+      new UUID({ uuid: userId }),
+      new Amount({ amountInCents: newPriceInCents }),
+      new UUID({ uuid: productId }),
+      description,
+    );
   }
 
   @ApiResponse({

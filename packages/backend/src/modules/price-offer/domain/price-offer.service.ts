@@ -23,6 +23,7 @@ import {
   PriceOfferNotFound,
 } from './exceptions';
 import { IEmailClient } from './ports/email.client';
+import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPriceOfferService } from './ports/price-offer';
 import { IStoreClient } from './ports/store.client';
 
@@ -38,16 +39,15 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly chatService: IChatService,
     protected readonly storeClient: IStoreClient,
     protected readonly emailClient: IEmailClient,
+    protected readonly internalNotificationClient: IInternalNotificationClient,
   ) {}
 
-  async createNewPriceOffer(
+  async createNewPublicPriceOffer(
     userId: UUID,
     buyerId: UUID,
     newPrice: Amount,
     productId: UUID,
-    salesChannelName: SalesChannelName,
     productVariantId?: UUID,
-    description?: string,
   ): Promise<PriceOffer> {
     if (await this.isPriceOfferOngoing(buyerId, productId)) {
       throw new OngoingPriceOfferExisting(buyerId, productId);
@@ -64,14 +64,13 @@ export class PriceOfferService implements IPriceOfferService {
 
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
-        salesChannelName,
+        salesChannelName: SalesChannelName.PUBLIC,
         buyerId: buyerId.uuid,
         productId: productId.uuid,
         productVariantId: productVariantId?.uuid,
         newPriceInCents: newPrice.amountInCents,
         initiatedBy: userId.uuid,
         status: PriceOfferStatus.PROPOSED,
-        description,
       },
     });
 
@@ -106,6 +105,52 @@ export class PriceOfferService implements IPriceOfferService {
     );
 
     return newPriceOffer;
+  }
+
+  async createNewB2BPriceOffer(
+    userId: UUID,
+    newPrice: Amount,
+    productId: UUID,
+    description: string,
+  ): Promise<void> {
+    const { sellerName } = await this.prisma.customer.findUniqueOrThrow({
+      where: { authUserId: userId.uuid },
+      select: { sellerName: true, user: { select: { email: true } } },
+    });
+
+    const newPriceOffer = await this.prisma.priceOffer.create({
+      data: {
+        salesChannelName: SalesChannelName.B2B,
+        buyerId: userId.uuid,
+        productId: productId.uuid,
+        newPriceInCents: newPrice.amountInCents,
+        initiatedBy: userId.uuid,
+        status: PriceOfferStatus.PROPOSED,
+        description,
+      },
+    });
+
+    await this.prisma.event.create({
+      data: {
+        aggregateName: AggregateName.CUSTOMER,
+        aggregateId: userId.uuid,
+        name: EventName.PRICE_OFFER_CREATED,
+        payload: {
+          priceOfferId: newPriceOffer.id,
+        },
+      },
+    });
+
+    const { handle, productType } = await this.prisma.product.findFirstOrThrow({
+      where: { id: productId.uuid },
+    });
+    await this.internalNotificationClient.sendNewPriceOfferNotification(`
+      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le product ${productId}
+
+      🚲 Produit: ${productType} - ${handle}
+      💶 Prix proposé: ${newPrice.formattedAmount}
+      📄 Détail de l'offre: ${description}
+    `);
   }
 
   async updatePriceOfferStatus(

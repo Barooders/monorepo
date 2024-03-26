@@ -29,6 +29,7 @@ export type EnvConfigType = {
     };
     slack: {
       slackBotToken: string;
+      newPriceOfferSlackChannelId: string;
       orderPaidSlackChannelId: string;
       orderCreatedSlackChannelId: string;
       salesTeamSlackChannelId: string;

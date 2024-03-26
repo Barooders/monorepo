@@ -69,7 +69,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
     if (!newPrice) return;
 
-    const priceOfferBody: operations['PriceOfferController_createPriceOffer']['requestBody']['content']['application/json'] =
+    const priceOfferBody: operations['PriceOfferController_createPublicPriceOffer']['requestBody']['content']['application/json'] =
       {
         buyerId: buyerId ?? hasuraToken?.user.id ?? '',
         newPriceInCents: newPrice * 100,
@@ -89,7 +89,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);
 
   return (
-    <div className="flex flex-col gap-5 py-5 px-7">
+    <div className="flex flex-col gap-5 px-7 py-5">
       <p
         className={`text-2xl font-semibold ${
           status === Status.BEFORE_SEND
