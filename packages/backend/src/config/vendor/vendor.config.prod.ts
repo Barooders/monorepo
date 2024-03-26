@@ -29,6 +29,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
   fiets: { vendorId: '36fa1a49-2146-4484-bba1-6d883090b86c' },
   mbspro: { vendorId: 'a207c89c-e2e1-4e66-bef9-98f983f1446e' },
   used_elite_bikes: { vendorId: 'b12f0568-7487-44b8-b4c0-ad9ce9133919' },
+  gem_bikes: { vendorId: '91d89f86-da6c-4fcd-a22d-0abb7ad98e0c' },
   tribici_presta: { vendorId: 'd99c1c6d-98e9-4cca-a758-f1c3d06a8eec' },
   club_in_sport: { vendorId: '7e6b6a67-27e2-4438-8929-2b1815e20271' },
   bernaudeau_woo: { vendorId: '3cbb2030-a8ca-4bb4-a6c7-e883b2e13169' },

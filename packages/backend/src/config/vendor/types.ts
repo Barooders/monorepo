@@ -69,6 +69,7 @@ export type SynchronizedProVendor =
   | 'bike_xtreme'
   | 'mbspro'
   | 'used_elite_bikes'
+  | 'gem_bikes'
   | 'mint_bikes'
   | 'moulin_a_velos'
   | 'mvh_cycles'

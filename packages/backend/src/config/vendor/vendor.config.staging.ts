@@ -87,6 +87,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   funbike: DEFAULT_CONFIG,
   mbspro: DEFAULT_CONFIG,
   used_elite_bikes: DEFAULT_CONFIG,
+  gem_bikes: DEFAULT_CONFIG,
   cycling_store: DEFAULT_CONFIG,
   semotion: DEFAULT_CONFIG,
   willemd: DEFAULT_CONFIG,

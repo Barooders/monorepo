@@ -73,6 +73,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   funbike: DEFAULT_CONFIG,
   mbspro: DEFAULT_CONFIG,
   used_elite_bikes: DEFAULT_CONFIG,
+  gem_bikes: DEFAULT_CONFIG,
   freeglisse: DEFAULT_CONFIG_WITHOUT_ORDER,
   cyclink: DEFAULT_CONFIG,
   recocycle: DEFAULT_CONFIG,

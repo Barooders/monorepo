@@ -447,6 +447,14 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
+  gem_bikes: {
+    slug: 'gem_bikes',
+    mappingKey: 'gem_bikes',
+    type: VendorType.PRESTASHOP,
+    apiKey: vendorSecrets.usedEliteBikesApiKey,
+    apiUrl: 'https://www.used-elitebikes.com/api/',
+    catalog: {},
+  },
   tribici_presta: {
     slug: 'tribici_presta',
     mappingKey: 'tribici_presta',
