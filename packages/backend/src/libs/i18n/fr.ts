@@ -11,7 +11,7 @@ const fr = {
     acceptedPriceOffer: (priceOfferAmount: Amount, originalAmount: Amount) =>
       `La proposition est acceptée ! Nouveau prix : \n\n~${originalAmount.formattedAmount}~ *${priceOfferAmount.formattedAmount}*`,
     discountCode: (discountCode: string) =>
-      `Utilisez le code promotion *${discountCode}* dans votre panier au moment de votre commande pour en profiter.\n\nAttention, l’offre n’est valable que 7 jours.`,
+      `Utilisez le code promotion *${discountCode}* dans votre panier au moment de votre commande pour en profiter.\n\nAttention, l’offre n’est valable que 3 jours.`,
   },
 };
 
