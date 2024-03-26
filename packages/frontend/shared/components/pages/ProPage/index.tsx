@@ -15,7 +15,7 @@ const ProPage: React.FC = () => {
 
   if (!user) return <></>;
 
-  const filters = [`inventory_quantity:>0`, `vendor_id:!=${user.id}`];
+  const filters = [`total_quantity:> 1`, `vendor_id:!=${user.id}`];
 
   return (
     <PageContainer>

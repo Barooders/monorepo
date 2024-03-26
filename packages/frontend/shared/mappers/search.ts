@@ -227,7 +227,7 @@ export const fetchProductsInSearchFromCollectionHandle = async (
   collectionHandle: string,
 ): Promise<ProductMultiVariants[]> => {
   return getProductsFromFilterQuery(
-    ['total_quantity:> 1', `collection_handles:=${collectionHandle}`].join(
+    ['inventory_quantity:> 0', `collection_handles:=${collectionHandle}`].join(
       ' && ',
     ),
   );
