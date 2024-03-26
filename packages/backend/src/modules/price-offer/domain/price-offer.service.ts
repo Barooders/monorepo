@@ -4,6 +4,7 @@ import {
   PriceOffer,
   PriceOfferStatus,
   PrismaMainClient,
+  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
@@ -44,6 +45,7 @@ export class PriceOfferService implements IPriceOfferService {
     buyerId: UUID,
     newPrice: Amount,
     productId: UUID,
+    salesChannelName: SalesChannelName,
     productVariantId?: UUID,
   ): Promise<PriceOffer> {
     if (await this.isPriceOfferOngoing(buyerId, productId)) {
@@ -61,6 +63,7 @@ export class PriceOfferService implements IPriceOfferService {
 
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
+        salesChannelName,
         buyerId: buyerId.uuid,
         productId: productId.uuid,
         productVariantId: productVariantId?.uuid,
