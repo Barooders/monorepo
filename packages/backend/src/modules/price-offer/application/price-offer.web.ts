@@ -16,6 +16,7 @@ import { User } from '@libs/application/decorators/user.decorator';
 import {
   PriceOfferStatus,
   PrismaMainClient,
+  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
@@ -105,6 +106,7 @@ export class PriceOfferController {
       buyerId,
       new Amount({ amountInCents: body.newPriceInCents }),
       new UUID({ uuid: body.productId }),
+      SalesChannelName.PUBLIC,
       body.productVariantId
         ? new UUID({ uuid: body.productVariantId })
         : undefined,
