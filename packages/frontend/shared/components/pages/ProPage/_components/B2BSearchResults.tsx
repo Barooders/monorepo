@@ -55,15 +55,17 @@ const B2BSearchResults: React.FC = () => {
     FETCH_B2B_GLOBAL_COMMISSION,
     HASURA_ROLES.B2B_USER,
   );
-  const [state, doFetch] = useWrappedAsyncFn(fetchB2BGlobalCommission);
+  const [b2bGlobalCommission, doFetchB2BGlobalCommission] = useWrappedAsyncFn(
+    fetchB2BGlobalCommission,
+  );
 
   useEffect(() => {
-    doFetch();
-  }, [doFetch]);
+    doFetchB2BGlobalCommission();
+  }, [doFetchB2BGlobalCommission]);
 
-  const stateValue = state.value;
+  const b2bGlobalCommissionValue = b2bGlobalCommission.value;
 
-  if (!stateValue) return <NoResults />;
+  if (!b2bGlobalCommissionValue) return <NoResults />;
 
   return (
     <NoResultsBoundary fallback={<NoResults />}>
@@ -74,7 +76,7 @@ const B2BSearchResults: React.FC = () => {
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
           const productCardProps = fromSearchToB2BProductCard(
             hit,
-            head(stateValue.CommissionRule)?.rules,
+            head(b2bGlobalCommissionValue.CommissionRule)?.rules,
           );
           return <B2BProductCard {...productCardProps} />;
         }}
