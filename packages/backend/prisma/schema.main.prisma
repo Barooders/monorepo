@@ -341,6 +341,7 @@ model PriceOffer {
   product          Product          @relation(fields: [productId], references: [id])
   productVariantId String?
   productVariant   ProductVariant?  @relation(fields: [productVariantId], references: [id])
+  description      String?          @db.VarChar(2000)
 
   @@schema("public")
 }

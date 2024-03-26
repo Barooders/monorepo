@@ -47,6 +47,7 @@ export class PriceOfferService implements IPriceOfferService {
     productId: UUID,
     salesChannelName: SalesChannelName,
     productVariantId?: UUID,
+    description?: string,
   ): Promise<PriceOffer> {
     if (await this.isPriceOfferOngoing(buyerId, productId)) {
       throw new OngoingPriceOfferExisting(buyerId, productId);
@@ -70,6 +71,7 @@ export class PriceOfferService implements IPriceOfferService {
         newPriceInCents: newPrice.amountInCents,
         initiatedBy: userId.uuid,
         status: PriceOfferStatus.PROPOSED,
+        description,
       },
     });
 

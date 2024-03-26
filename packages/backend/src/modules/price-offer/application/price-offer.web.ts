@@ -47,6 +47,11 @@ class NewPriceOfferDTO {
   @IsOptional()
   @ApiProperty({ required: false })
   productVariantId?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  description?: string;
 }
 
 class PriceOfferDTO extends NewPriceOfferDTO {
@@ -81,7 +86,14 @@ export class PriceOfferController {
   @Post(routesV1.priceOffer.root)
   @UseGuards(JwtAuthGuard)
   async createPriceOffer(
-    @Body() body: NewPriceOfferDTO,
+    @Body()
+    {
+      buyerId,
+      newPriceInCents,
+      description,
+      productId,
+      productVariantId,
+    }: NewPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<PriceOfferDTO> {
     if (!userId) {
@@ -90,12 +102,12 @@ export class PriceOfferController {
       );
     }
 
-    const buyerId = new UUID({
-      uuid: isUUID(body.buyerId)
-        ? body.buyerId
+    const buyerUUID = new UUID({
+      uuid: isUUID(buyerId)
+        ? buyerId
         : (
             await this.prisma.customer.findUniqueOrThrow({
-              where: { shopifyId: parseInt(body.buyerId) },
+              where: { shopifyId: parseInt(buyerId) },
               select: { authUserId: true },
             })
           ).authUserId,
@@ -103,13 +115,12 @@ export class PriceOfferController {
 
     const newPriceOffer = await this.priceOfferService.createNewPriceOffer(
       new UUID({ uuid: userId }),
-      buyerId,
-      new Amount({ amountInCents: body.newPriceInCents }),
-      new UUID({ uuid: body.productId }),
+      buyerUUID,
+      new Amount({ amountInCents: newPriceInCents }),
+      new UUID({ uuid: productId }),
       SalesChannelName.PUBLIC,
-      body.productVariantId
-        ? new UUID({ uuid: body.productVariantId })
-        : undefined,
+      productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
+      description,
     );
 
     return {
