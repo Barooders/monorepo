@@ -9,7 +9,7 @@ import {
   User,
 } from '@/types';
 import { useEffect, useState } from 'react';
-import PriceOffferButton from '../ProductCard/_components/Actions/PriceOffferButton';
+import PriceOfferButton from '../ProductCard/_components/Actions/PriceOfferButton';
 import BuyButton from './_components/BuyButton';
 import HandDeliveryPanel from './_components/HandDeliveryPanel';
 import PriceOfferPanel from './_components/PriceOfferPanel';
@@ -69,7 +69,7 @@ const panelConfig: {
       productDetails && (
         <div className="flex h-full w-full items-center justify-center gap-3 px-5">
           {negociationAgreement && (
-            <PriceOffferButton
+            <PriceOfferButton
               productId={productDetails.id ?? ''}
               negociationMaxAmountPercent={
                 negociationAgreement.maxAmountPercent

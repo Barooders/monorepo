@@ -49,7 +49,7 @@ type PropsType = {
   shouldRedirectToChat?: boolean;
 };
 
-const PriceOffferButton: React.FC<PropsType> = ({
+const PriceOfferButton: React.FC<PropsType> = ({
   productId,
   variant,
   price,
@@ -127,4 +127,4 @@ const PriceOffferButton: React.FC<PropsType> = ({
   );
 };
 
-export default PriceOffferButton;
+export default PriceOfferButton;
