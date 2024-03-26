@@ -10,6 +10,7 @@ import { head } from 'lodash';
 import { useEffect } from 'react';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchB2BVariantDocument } from 'shared-types';
+import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');
 
@@ -78,7 +79,12 @@ const B2BSearchResults: React.FC = () => {
             hit,
             head(b2bGlobalCommissionValue.CommissionRule)?.rules,
           );
-          return <B2BProductCard {...productCardProps} />;
+          return (
+            <>
+              <AdminHitHelper hit={hit} />
+              <B2BProductCard {...productCardProps} />
+            </>
+          );
         }}
       />
     </NoResultsBoundary>
