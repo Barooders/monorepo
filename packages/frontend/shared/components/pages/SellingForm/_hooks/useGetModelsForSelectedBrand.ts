@@ -6,8 +6,8 @@ import { BrandsWithModelConfigType } from '../types';
 
 const mapProductModels = (data: BrandsWithModelConfigType): string[] => {
   const productFamilyModels = data.data.flatMap((brand) =>
-    brand.attributes.pim_product_families.data.flatMap((family) =>
-      family.attributes.pim_product_models.data.map(
+    brand.attributes.productFamilies.data.flatMap((family) =>
+      family.attributes.productModels.data.map(
         (model) => model.attributes.name,
       ),
     ),
@@ -31,10 +31,10 @@ const fetchProductModels = async (brandName: string): Promise<string[]> => {
       productModels: {
         fields: 'name',
       },
-      pim_product_families: {
+      productFamilies: {
         fields: 'name',
         populate: {
-          pim_product_models: { fields: 'name' },
+          productModels: { fields: 'name' },
         },
       },
     },

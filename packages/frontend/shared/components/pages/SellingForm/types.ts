@@ -105,9 +105,9 @@ export type BrandsWithModelConfigType = StrapiEntityList<{
   productModels: StrapiEntityList<{
     name: string;
   }>;
-  pim_product_families: StrapiEntityList<{
+  productFamilies: StrapiEntityList<{
     name: string;
-    pim_product_models: StrapiEntityList<{
+    productModels: StrapiEntityList<{
       name: string;
     }>;
   }>;
