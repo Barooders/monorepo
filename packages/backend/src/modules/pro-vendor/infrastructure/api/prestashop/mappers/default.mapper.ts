@@ -215,13 +215,10 @@ export class PrestashopDefaultMapper {
     const categoriesNames = [];
 
     for (const category of categoriesSorted) {
-      const categoryData = await this.prestashopClient.getCategory(
-        String(category),
-      );
-      if (categoryData) {
-        const { name } = categoryData;
-        categoriesNames.push(this.getSingleValue(name));
-      }
+      const categoryName = await this.extractCategoryName(category);
+      if (!categoryName) continue;
+
+      categoriesNames.push(categoryName);
     }
 
     await this.prisma.vendorProCategoryMapping.create({
@@ -234,6 +231,39 @@ export class PrestashopDefaultMapper {
     });
 
     return null;
+  }
+
+  private async extractCategoryName(
+    categoryId: number,
+  ): Promise<string | undefined> {
+    let categoryData = await this.prestashopClient.getCategory(
+      String(categoryId),
+    );
+    if (!categoryData) return;
+
+    if (
+      !this.vendorConfigService.getVendorConfig().catalog.prestashop
+        ?.fetchRecursiveCategories
+    ) {
+      return this.getSingleValue(categoryData.name);
+    }
+
+    const categoryNameParts: string[] = [];
+    let iterationCounter = 0;
+
+    while (
+      categoryData &&
+      categoryData?.is_root_category &&
+      iterationCounter < 10
+    ) {
+      categoryNameParts.unshift(this.getSingleValue(categoryData.name));
+      categoryData = await this.prestashopClient.getCategory(
+        String(categoryData.id_parent),
+      );
+      iterationCounter++;
+    }
+
+    return categoryNameParts.join('->');
   }
 
   private getSingleValue = (value: string | TranslatedValue[]) => {
