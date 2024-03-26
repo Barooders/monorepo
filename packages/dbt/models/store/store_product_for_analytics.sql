@@ -170,7 +170,7 @@ WITH variant_data AS (
 
 SELECT
     *,
-    0.34 * (
+    0.4 * (
         CASE
             WHEN notation::text='A' THEN 1000
             WHEN notation::text='B' THEN 800
@@ -178,18 +178,20 @@ SELECT
             ELSE 600
         END
     )
-    + 0.33 * (
+    + 0.2 * (
         CASE
             WHEN "views_last_30_days" > 100 THEN 1000
             WHEN "views_last_30_days" > 10 THEN 600
             ELSE 200
         END
     )
-    + 0.33 * (
+    + 0.4 * (
         CASE
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) > 30 THEN 200
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) > 7 THEN 600
-            ELSE 1000
+            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 1 THEN 1000
+            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 7 THEN 900
+            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 30 THEN 600
+            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 60 THEN 300
+            ELSE 100
         END
     ) AS "calculated_scoring"
 FROM product_with_notation
