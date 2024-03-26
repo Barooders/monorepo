@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 const AWS = require('aws-sdk');
 
-const baseUrl = 'https://api.bicyclebluebook.com/vg/api/brand/year/model';
-
 const s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -10,6 +8,21 @@ const s3 = new AWS.S3({
 });
 const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/buycycle';
+
+const priorityBrands = [
+  // 'ktm',
+  // 'fantic',
+  // 'moustache',
+  // 'kalkhoff',
+  // 'gitane',
+  // 'basso',
+  // 'mondraker',
+  'riese-muller',
+  'time',
+  'whistle',
+  'lee-cougan',
+  'gasgas',
+];
 
 const uploadFile = (fileName, content) => {
   const params = {
@@ -65,6 +78,10 @@ const downloadImageFromUrl = async (url, dest) => {
 
 const getImages = async (bikes) => {
   for (const bike of bikes) {
+    if (bike.image == null) {
+      console.log('No image for bike', JSON.stringify(bike));
+      continue;
+    }
     await downloadImageFromUrl(
       bike.image.file_url,
       `${PATH_PREFIX}/images/${bike.image.file_name}`,
@@ -186,10 +203,31 @@ const getAllFamilies = async () => {
 const scrapAll = async () => {
   const families = await getAllFamilies();
 
-  for (const family of families) {
+  // const orderedFamilies = families.sort((a, b) => {
+  //   if (
+  //     priorityBrands.includes(a.brandSlug) &&
+  //     !priorityBrands.includes(b.brandSlug)
+  //   ) {
+  //     return -1;
+  //   }
+  //   if (
+  //     !priorityBrands.includes(a.brandSlug) &&
+  //     priorityBrands.includes(b.brandSlug)
+  //   ) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+
+  const orderedFamilies = families.filter((f) =>
+    priorityBrands.includes(f.brandSlug),
+  );
+
+  for (const family of orderedFamilies) {
     if (family.brandSlug == null) {
       continue;
     }
+    console.log(`Scraping ${family.slug} for ${family.brandSlug}`);
     await scrapAllBikesForFamily({
       familyId: family.id,
       familySlug: family.slug,
