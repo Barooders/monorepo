@@ -93,6 +93,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   tch: DEFAULT_CONFIG,
   pastel: DEFAULT_CONFIG,
   loewi: DEFAULT_CONFIG,
+  savoldelli: DEFAULT_CONFIG,
   baroudeur_cycles: DEFAULT_CONFIG,
   bernaudeau_woo: DEFAULT_CONFIG,
   daz_bike: DEFAULT_CONFIG,

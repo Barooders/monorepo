@@ -65,6 +65,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
   milla_bikes: { vendorId: '3f50f794-44c2-4095-831a-f1f70f58a67a' },
   willemd: { vendorId: '7935d069-0a25-4d8e-926c-c1c8eeeb8ecd' },
   loewi: { vendorId: '59235b58-cc2a-4071-9e22-9702795e2a16' },
+  savoldelli: { vendorId: '844b5ff7-7871-4ac4-9499-be75ae9b3a54' },
   baroudeur_cycles: { vendorId: '80ab72f6-e655-449e-9594-e3d397071bd8' },
   tch: { vendorId: '7e5c2537-8fc2-400e-90b2-3c66a864ca7d' },
   velo_meldois: { vendorId: 'd33a829c-10c1-4ad3-a651-0859c69ad7d5' },

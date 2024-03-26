@@ -62,6 +62,7 @@ export type SynchronizedProVendor =
   | 'le_bon_coin'
   | 'le_hollandais'
   | 'loewi'
+  | 'savoldelli'
   | 'manufaktur'
   | 'matkite'
   | 'elite_bikes'

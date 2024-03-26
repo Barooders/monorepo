@@ -727,6 +727,14 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     accessToken: vendorSecrets.loewiAccessToken,
     catalog: {},
   },
+  savoldelli: {
+    slug: 'savoldelli',
+    mappingKey: 'savoldelli',
+    type: VendorType.SHOPIFY,
+    apiUrl: 'savoldelli.myshopify.com',
+    accessToken: vendorSecrets.savoldelliAccessToken,
+    catalog: {},
+  },
   tch: {
     slug: 'tch',
     mappingKey: 'tch',

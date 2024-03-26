@@ -40,6 +40,7 @@ export type VendorSecretsType = {
   pastelAccessToken: string;
   techniCyclesAccessToken: string;
   loewiAccessToken: string;
+  savoldelliAccessToken: string;
   baroudeurAccessToken: string;
   velomeldoisAccessToken: string;
   cyclinkAccessToken: string;

@@ -56,6 +56,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   mint_bikes: DEFAULT_CONFIG,
   willemd: DEFAULT_CONFIG,
   loewi: DEFAULT_CONFIG,
+  savoldelli: DEFAULT_CONFIG,
   milla_bikes: DEFAULT_CONFIG,
   baroudeur_cycles: DEFAULT_CONFIG,
   paname_bicis: DEFAULT_CONFIG,

@@ -67,6 +67,7 @@ import { BaroudeurClient } from './infrastructure/api/shopify/clients/baroudeur.
 import { HbeClient } from './infrastructure/api/shopify/clients/hbe.client';
 import { LoewiClient } from './infrastructure/api/shopify/clients/loewi.client';
 import { PilatClient } from './infrastructure/api/shopify/clients/pilat.client';
+import { SavoldelliClient } from './infrastructure/api/shopify/clients/savoldelli.client';
 import { TechniCyclesClient } from './infrastructure/api/shopify/clients/techni-cycles.client';
 import { WillemClient } from './infrastructure/api/shopify/clients/willem.client';
 import { AllCyclesMapper } from './infrastructure/api/shopify/mappers/all-cycles.mapper';
@@ -74,6 +75,7 @@ import { BaroudeurMapper } from './infrastructure/api/shopify/mappers/baroudeur.
 import { HbeMapper } from './infrastructure/api/shopify/mappers/hbe.mapper';
 import { LoewiMapper } from './infrastructure/api/shopify/mappers/loewi.mapper';
 import { PilatMapper } from './infrastructure/api/shopify/mappers/pilat.mapper';
+import { SavoldelliMapper } from './infrastructure/api/shopify/mappers/savoldelli.mapper';
 import { TechniCyclesMapper } from './infrastructure/api/shopify/mappers/techni-cycles.mapper';
 import { WillemMapper } from './infrastructure/api/shopify/mappers/willem.mapper';
 import { ShopifyOrderService } from './infrastructure/api/shopify/shopify-order.service';
@@ -103,6 +105,7 @@ export const proVendorSharedServices = [
   TechniCyclesClient,
   WillemClient,
   LoewiClient,
+  SavoldelliClient,
   BaroudeurClient,
   VeloMeldoisClient,
   ChrisBikesClient,
@@ -148,6 +151,7 @@ export const proVendorSharedServices = [
   HbeMapper,
   PastelMapper,
   LoewiMapper,
+  SavoldelliMapper,
   AllCyclesMapper,
   WillemMapper,
   CSVMapper,

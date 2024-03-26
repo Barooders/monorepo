@@ -21,6 +21,7 @@ import { MintMapper } from './mappers/mint.mapper';
 import { NordicsMapper } from './mappers/nordics.mapper';
 import { PastelMapper } from './mappers/pastel.mapper';
 import { PilatMapper } from './mappers/pilat.mapper';
+import { SavoldelliMapper } from './mappers/savoldelli.mapper';
 import { TechniCyclesMapper } from './mappers/techni-cycles.mapper';
 import { TNCMapper } from './mappers/tnc.mapper';
 import { VeloMeldoisMapper } from './mappers/velo-meldois.mapper';
@@ -43,6 +44,7 @@ export class ShopifyProductService implements ProVendorStrategy {
     private hbeMapper: HbeMapper,
     private pastelMapper: PastelMapper,
     private loewiMapper: LoewiMapper,
+    private savoldelliMapper: SavoldelliMapper,
     private baroudeurMapper: BaroudeurMapper,
     private allCyclesMapper: AllCyclesMapper,
     private willemMapper: WillemMapper,
@@ -147,6 +149,8 @@ export class ShopifyProductService implements ProVendorStrategy {
         return this.pastelMapper;
       case 'loewi':
         return this.loewiMapper;
+      case 'savoldelli':
+        return this.savoldelliMapper;
       case 'all_cycles':
         return this.allCyclesMapper;
       case 'baroudeur_cycles':

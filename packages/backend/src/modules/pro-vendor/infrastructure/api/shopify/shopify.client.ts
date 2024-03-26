@@ -15,6 +15,7 @@ import { NordicsValueClient } from './clients/nordics-value.client';
 import { PastelClient } from './clients/pastel.client';
 import { PilatClient } from './clients/pilat.client';
 import { ProjetBoussoleClient } from './clients/projet-boussole.client';
+import { SavoldelliClient } from './clients/savoldelli.client';
 import { TechniCyclesClient } from './clients/techni-cycles.client';
 import { TNCClient } from './clients/tnc.client';
 import { VeloMeldoisClient } from './clients/velo-meldois.client';
@@ -57,6 +58,7 @@ export class ShopifyClient {
     private techniCyclesClient: TechniCyclesClient,
     private willemClient: WillemClient,
     private loewiClient: LoewiClient,
+    private savoldelliClient: SavoldelliClient,
     private baroudeurClient: BaroudeurClient,
     private veloMeldoisClient: VeloMeldoisClient,
     private tncClient: TNCClient,
@@ -200,6 +202,8 @@ export class ShopifyClient {
         return this.willemClient.getClient();
       case 'loewi':
         return this.loewiClient.getClient();
+      case 'savoldelli':
+        return this.savoldelliClient.getClient();
       case 'baroudeur_cycles':
         return this.baroudeurClient.getClient();
       case 'all_cycles':
