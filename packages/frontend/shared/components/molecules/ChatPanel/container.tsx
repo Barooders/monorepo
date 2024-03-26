@@ -1,4 +1,12 @@
+import {
+  FetchConversationProductDetailsQuery,
+  FetchConversationUserDetailsQuery,
+  HandDeliveryOrderLineFragmentFragment,
+  SubscribeToOpenedPriceOfferSubscription,
+} from '@/__generated/graphql';
+import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import { HASURA_ROLES } from '@/config';
+import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
@@ -7,18 +15,10 @@ import {
   NegociationAgreementType,
   PriceOffer,
 } from '@/types';
-import {
-  FetchConversationProductDetailsQuery,
-  FetchConversationUserDetailsQuery,
-  SubscribeToOpenedPriceOfferSubscription,
-  HandDeliveryOrderLineFragmentFragment,
-} from '@/__generated/graphql';
 import { gql, useSubscription } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
-import useUser from '@/hooks/state/useUser';
-import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 
 const ORDER_LINE_FRAGMENT = gql`
   fragment HandDeliveryOrderLineFragment on OrderLines {
@@ -203,7 +203,10 @@ const WrappedChatPanel: React.FC<PropsType> = ({
     useSubscription<SubscribeToOpenedPriceOfferSubscription>(
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
-        variables: { productShopifyId: parseInt(conversation.productId) },
+        variables: {
+          productShopifyId: parseInt(conversation.productId),
+          buyerShopifyId: parseInt(conversation.customerId),
+        },
       },
     );
 
