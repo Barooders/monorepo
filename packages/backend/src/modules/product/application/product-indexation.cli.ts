@@ -126,13 +126,13 @@ export class ProductIndexationCLIConsole {
   }
 
   private async indexMultipleProducts(productIds: string[]) {
-    productIds.forEach(async (productId) => {
+    for (const productId of productIds) {
       this.logger.warn(`Sending product (${productId}) to queue`);
 
       await this.queueClient.planProductIndexation(
         new UUID({ uuid: productId }),
         { withoutDelay: true },
       );
-    });
+    }
   }
 }
