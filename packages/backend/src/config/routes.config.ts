@@ -38,6 +38,7 @@ export const routesV1 = {
   },
   priceOffer: {
     root: '/price-offer',
+    b2b: '/price-offer/b2b',
     getPriceOffer: 'price-offer/:priceOfferId',
   },
   order: {

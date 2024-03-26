@@ -12,6 +12,7 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 
+import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
 import { User } from '@libs/application/decorators/user.decorator';
 import {
   PriceOfferStatus,
@@ -85,54 +86,25 @@ export class PriceOfferController {
   })
   @Post(routesV1.priceOffer.root)
   @UseGuards(JwtAuthGuard)
-  async createPriceOffer(
+  async createPublicPriceOffer(
     @Body()
-    {
-      buyerId,
-      newPriceInCents,
-      description,
-      productId,
-      productVariantId,
-    }: NewPriceOfferDTO,
+    body: NewPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<PriceOfferDTO> {
-    if (!userId) {
-      throw new UnauthorizedException(
-        `User not found in token, user (${userId})`,
-      );
-    }
+    return this.createPriceOffer(body, SalesChannelName.PUBLIC, userId);
+  }
 
-    const buyerUUID = new UUID({
-      uuid: isUUID(buyerId)
-        ? buyerId
-        : (
-            await this.prisma.customer.findUniqueOrThrow({
-              where: { shopifyId: parseInt(buyerId) },
-              select: { authUserId: true },
-            })
-          ).authUserId,
-    });
-
-    const newPriceOffer = await this.priceOfferService.createNewPriceOffer(
-      new UUID({ uuid: userId }),
-      buyerUUID,
-      new Amount({ amountInCents: newPriceInCents }),
-      new UUID({ uuid: productId }),
-      SalesChannelName.PUBLIC,
-      productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
-      description,
-    );
-
-    return {
-      buyerId: newPriceOffer.buyerId,
-      createdAt: newPriceOffer.createdAt.toISOString(),
-      id: newPriceOffer.id,
-      initiatedBy: newPriceOffer.initiatedBy,
-      newPriceInCents: parseInt(newPriceOffer.newPriceInCents.toString()),
-      productId: newPriceOffer.productId,
-      productVariantId: newPriceOffer.productVariantId ?? undefined,
-      status: newPriceOffer.status,
-    };
+  @ApiResponse({
+    type: PriceOfferDTO,
+  })
+  @Post(routesV1.priceOffer.b2b)
+  @UseGuards(B2BUserGuard)
+  async createB2BPriceOffer(
+    @Body()
+    body: NewPriceOfferDTO,
+    @User() { userId }: ExtractedUser,
+  ): Promise<PriceOfferDTO> {
+    return this.createPriceOffer(body, SalesChannelName.B2B, userId);
   }
 
   @ApiResponse({
@@ -175,5 +147,55 @@ export class PriceOfferController {
     throw new BadRequestException(
       `${body.status} is an incorrect price offer status`,
     );
+  }
+
+  private async createPriceOffer(
+    {
+      buyerId,
+      newPriceInCents,
+      description,
+      productId,
+      productVariantId,
+    }: NewPriceOfferDTO,
+    salesChannelName: SalesChannelName,
+    userId?: string,
+  ): Promise<PriceOfferDTO> {
+    if (!userId) {
+      throw new UnauthorizedException(
+        `User not found in token, user (${userId})`,
+      );
+    }
+
+    const buyerUUID = new UUID({
+      uuid: isUUID(buyerId)
+        ? buyerId
+        : (
+            await this.prisma.customer.findUniqueOrThrow({
+              where: { shopifyId: parseInt(buyerId) },
+              select: { authUserId: true },
+            })
+          ).authUserId,
+    });
+
+    const newPriceOffer = await this.priceOfferService.createNewPriceOffer(
+      new UUID({ uuid: userId }),
+      buyerUUID,
+      new Amount({ amountInCents: newPriceInCents }),
+      new UUID({ uuid: productId }),
+      salesChannelName,
+      productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
+      description,
+    );
+
+    return {
+      buyerId: newPriceOffer.buyerId,
+      createdAt: newPriceOffer.createdAt.toISOString(),
+      id: newPriceOffer.id,
+      initiatedBy: newPriceOffer.initiatedBy,
+      newPriceInCents: parseInt(newPriceOffer.newPriceInCents.toString()),
+      productId: newPriceOffer.productId,
+      productVariantId: newPriceOffer.productVariantId ?? undefined,
+      status: newPriceOffer.status,
+    };
   }
 }

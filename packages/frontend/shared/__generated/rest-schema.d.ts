@@ -20,17 +20,17 @@ export interface paths {
   '/v1/customers/webhook/signup': {
     post: operations['CustomerWebhooksHasuraController_handleSignupHasuraEvent'];
   };
-  '/v1/orders/webhook/created-event/notify': {
-    post: operations['NotifyOrderWebhooksShopifyController_notifyOnCreatedEvent'];
+  '/v1/orders/webhook/paid-event': {
+    post: operations['PaidOrderWebhookShopifyController_'];
   };
-  '/v1/orders/webhook/paid-event/notify': {
-    post: operations['NotifyOrderWebhooksShopifyController_notifyOnPaidEvent'];
+  '/v1/admin/orders/webhook/paid-event': {
+    post: operations['PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin'];
   };
-  '/v1/orders/webhook/created-event/store': {
-    post: operations['CreateOrderWebhooksShopifyController_handleCreatedOrderEvent'];
+  '/v1/orders/webhook/created-event': {
+    post: operations['CreatedOrderWebhookShopifyController_handleCreatedOrderEvent'];
   };
-  '/v1/orders/webhook/updated-event/update': {
-    post: operations['UpdateOrderWebhooksShopifyController_updateOnUpdatedEvent'];
+  '/v1/orders/webhook/update': {
+    post: operations['OrderWebhookSendCloudController_notifyOnParcelUpdate'];
   };
   '/v1/orders/hand-delivery': {
     get: operations['HandDeliveryOrderController_getPaidHandDeliveryOrders'];
@@ -83,10 +83,6 @@ export interface paths {
   '/v1/products/{productId}/image/{imageId}': {
     delete: operations['ProductController_deleteProductImage'];
   };
-  '/v1/products/{productId}': {
-    get: operations['ProductController_getProduct'];
-    patch: operations['ProductController_updateProduct'];
-  };
   '/v1/products/by-handle/{productHandle}': {
     get: operations['ProductController_getProductByHandle'];
   };
@@ -94,8 +90,14 @@ export interface paths {
     get: operations['ProductController_getProductByAdmin'];
     patch: operations['ProductController_updateProductByAdmin'];
   };
+  '/v1/products/{productId}': {
+    patch: operations['ProductController_updateProduct'];
+  };
   '/v1/products/{productId}/variants/{productVariantId}': {
     patch: operations['ProductController_updateProductVariant'];
+  };
+  '/v1/admin/vendors/{vendorId}/products': {
+    post: operations['ProductController_triggerVendorProductsUpdateByAdmin'];
   };
   '/v1/admin/products/{productId}/variants/{productVariantId}': {
     patch: operations['ProductController_updateProductVariantByAdmin'];
@@ -103,17 +105,11 @@ export interface paths {
   '/v1/admin/products/{productId}/moderate': {
     post: operations['ProductController_moderateProduct'];
   };
-  '/v1/collections/webhook/created-event': {
-    post: operations['CollectionWebhookController_notifyOnCreatedEvent'];
-  };
-  '/v1/collections/webhook/updated-event': {
-    post: operations['CollectionWebhookController_notifyOnUpdatedEvent'];
-  };
-  '/v1/collections/webhook/deleted-event': {
-    post: operations['CollectionWebhookController_notifyOnDeletedEvent'];
-  };
   '/v1/price-offer': {
-    post: operations['PriceOfferController_createPriceOffer'];
+    post: operations['PriceOfferController_createPublicPriceOffer'];
+  };
+  '/v1/price-offer/b2b': {
+    post: operations['PriceOfferController_createB2BPriceOffer'];
   };
   '/v1/price-offer/{priceOfferId}': {
     put: operations['PriceOfferController_updatePriceOffer'];
@@ -121,14 +117,8 @@ export interface paths {
   '/v1/chat/conversation': {
     post: operations['ChatController_getOrCreateConversation'];
   };
-  '/v1/chat/conversation/backend': {
-    post: operations['ChatController_getOrCreateConversationFromBackend'];
-  };
   '/v1/chat/message/webhook': {
     post: operations['ChatController_handleNewMessageWebhook'];
-  };
-  '/v1/chat/message/write-from-support': {
-    post: operations['ChatController_writeMessageFromSupport'];
   };
   '/v1/buy/payment/checkout': {
     post: operations['PaymentWebController_getOrCreateCheckout'];
@@ -322,12 +312,14 @@ export interface components {
       newPriceInCents: number;
       productId: string;
       productVariantId?: string;
+      description?: string;
     };
     PriceOfferDTO: {
       buyerId: string;
       newPriceInCents: number;
       productId: string;
       productVariantId?: string;
+      description?: string;
       id: string;
       createdAt: string;
       initiatedBy: string;
@@ -338,7 +330,6 @@ export interface components {
       status: string;
     };
     ConversationInputDto: Record<string, never>;
-    ConversationInputWithCustomerIdDto: Record<string, never>;
     ProductDTO: {
       amount: components['schemas']['AmountDTO'];
       shipping: string;
@@ -382,7 +373,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-01-29T15:36:13.534Z
+       * @example 2024-03-26T15:12:58.038Z
        */
       birthDate: string;
       /**
@@ -481,28 +472,28 @@ export interface operations {
       };
     };
   };
-  NotifyOrderWebhooksShopifyController_notifyOnCreatedEvent: {
+  PaidOrderWebhookShopifyController_: {
     responses: {
       201: {
         content: never;
       };
     };
   };
-  NotifyOrderWebhooksShopifyController_notifyOnPaidEvent: {
+  PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin: {
     responses: {
       201: {
         content: never;
       };
     };
   };
-  CreateOrderWebhooksShopifyController_handleCreatedOrderEvent: {
+  CreatedOrderWebhookShopifyController_handleCreatedOrderEvent: {
     responses: {
       201: {
         content: never;
       };
     };
   };
-  UpdateOrderWebhooksShopifyController_updateOnUpdatedEvent: {
+  OrderWebhookSendCloudController_notifyOnParcelUpdate: {
     responses: {
       201: {
         content: never;
@@ -751,35 +742,6 @@ export interface operations {
       };
     };
   };
-  ProductController_getProduct: {
-    parameters: {
-      path: {
-        productId: string;
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
-  ProductController_updateProduct: {
-    parameters: {
-      path: {
-        productId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ProductUpdateInputDto'];
-      };
-    };
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
   ProductController_getProductByHandle: {
     parameters: {
       path: {
@@ -823,6 +785,23 @@ export interface operations {
       };
     };
   };
+  ProductController_updateProduct: {
+    parameters: {
+      path: {
+        productId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProductUpdateInputDto'];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
   ProductController_updateProductVariant: {
     parameters: {
       path: {
@@ -837,6 +816,18 @@ export interface operations {
     };
     responses: {
       200: {
+        content: never;
+      };
+    };
+  };
+  ProductController_triggerVendorProductsUpdateByAdmin: {
+    parameters: {
+      path: {
+        vendorId: string;
+      };
+    };
+    responses: {
+      201: {
         content: never;
       };
     };
@@ -876,28 +867,21 @@ export interface operations {
       };
     };
   };
-  CollectionWebhookController_notifyOnCreatedEvent: {
+  PriceOfferController_createPublicPriceOffer: {
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['NewPriceOfferDTO'];
+      };
+    };
     responses: {
-      201: {
-        content: never;
+      default: {
+        content: {
+          'application/json': components['schemas']['PriceOfferDTO'];
+        };
       };
     };
   };
-  CollectionWebhookController_notifyOnUpdatedEvent: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  CollectionWebhookController_notifyOnDeletedEvent: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  PriceOfferController_createPriceOffer: {
+  PriceOfferController_createB2BPriceOffer: {
     requestBody: {
       content: {
         'application/json': components['schemas']['NewPriceOfferDTO'];
@@ -942,26 +926,7 @@ export interface operations {
       };
     };
   };
-  ChatController_getOrCreateConversationFromBackend: {
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ConversationInputWithCustomerIdDto'];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
   ChatController_handleNewMessageWebhook: {
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  ChatController_writeMessageFromSupport: {
     responses: {
       201: {
         content: never;
