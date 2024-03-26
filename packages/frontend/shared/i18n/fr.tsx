@@ -392,6 +392,7 @@ const fr = {
     },
     icons: {
       favorites: 'Vos favoris',
+      b2bPage: 'Pro',
       messages: 'Vos messages',
       account: 'Votre compte',
     },
