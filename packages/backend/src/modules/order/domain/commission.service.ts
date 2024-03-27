@@ -4,12 +4,12 @@ import {
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
+import { BuyerCommissionService } from '@modules/product/domain/buyer-commission.service';
 import {
   ICommissionRepository,
   ParsedCommissionRule,
 } from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
-import { BuyerCommissionService } from './buyer-commission.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IStoreClient, ProductVariant } from './ports/store.client';
 
@@ -137,8 +137,6 @@ export class CommissionService {
 
     return commission;
   }
-
-  cleanOldCommissions = this.storeClient.cleanOldCommissions;
 
   private async getVendorCommission(
     { productType, vendorId, price, discount }: ProductVariant,

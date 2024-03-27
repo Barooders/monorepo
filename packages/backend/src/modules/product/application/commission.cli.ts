@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { Command, Console } from 'nestjs-console';
-import { CommissionService } from '../domain/commission.service';
+import { IStoreClient } from '../domain/ports/store.client';
 
 @Console({
   command: 'commission',
@@ -9,13 +9,13 @@ import { CommissionService } from '../domain/commission.service';
 export class CommissionCLIConsole {
   private readonly logger: Logger = new Logger(CommissionCLIConsole.name);
 
-  constructor(private commissionService: CommissionService) {}
+  constructor(private storeClient: IStoreClient) {}
 
   @Command({
     command: 'cleanOldCommissions',
     description: 'Delete product commissions that are older than 7 days',
   })
   async createExternalOrders(): Promise<void> {
-    await this.commissionService.cleanOldCommissions();
+    await this.storeClient.cleanOldCommissions();
   }
 }

@@ -7,10 +7,8 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { PaymentModule } from '@modules/buy__payment/module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { CustomerModule } from '@modules/customer/customer.module';
-import { BuyerCommissionController } from '@modules/order/application/buyer-commission.web';
 import { HandDeliveryOrderController } from '@modules/order/application/hand-delivery-order.web';
 import { PayoutController } from '@modules/order/application/payout.web';
-import { BuyerCommissionService } from '@modules/order/domain/buyer-commission.service';
 import { CommissionService } from '@modules/order/domain/commission.service';
 import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
 import { OrderCreationService } from '@modules/order/domain/order-creation.service';
@@ -32,7 +30,6 @@ import { PriceOfferModule } from '@modules/price-offer/price-offer.module';
 import { ProVendorConsoleModule } from '@modules/pro-vendor/console.module';
 import { ProductModule } from '@modules/product/product.module';
 import { Module } from '@nestjs/common';
-import { CommissionCLIConsole } from './application/commission.cli';
 import { CreatedOrderWebhookShopifyController } from './application/created-order.webhook.shopify';
 import { OrderCLIConsole } from './application/order.cli';
 import { OrderController } from './application/order.web';
@@ -83,7 +80,6 @@ const commonProviders = [
     provide: IPaymentProvider,
     useClass: StripeClient,
   },
-  BuyerCommissionService,
   PayoutService,
   CommissionService,
   OrderValidationService,
@@ -111,7 +107,6 @@ const commonImports = [
     OrderWebhookSendCloudController,
     HandDeliveryOrderController,
     OrderController,
-    BuyerCommissionController,
     PayoutController,
   ],
   providers: commonProviders,
@@ -121,6 +116,6 @@ export class OrderModule {}
 @Module({
   imports: commonImports,
   controllers: [],
-  providers: [...commonProviders, OrderCLIConsole, CommissionCLIConsole],
+  providers: [...commonProviders, OrderCLIConsole],
 })
 export class OrderConsoleModule {}

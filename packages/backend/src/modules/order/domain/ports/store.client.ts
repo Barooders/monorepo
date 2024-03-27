@@ -1,6 +1,5 @@
 import { Currency } from '@libs/domain/prisma.main.client';
 import { EntityId } from '@libs/domain/product.interface';
-import { Amount as AmountObject, URL } from '@libs/domain/value-objects';
 import {
   Amount,
   BuyerPriceLines,
@@ -20,15 +19,6 @@ export type StoreFulfilledFulfillmentOrder = {
     productVariantId: string;
   }[];
 };
-
-export interface ProductCreationInput {
-  title: string;
-  description: string;
-  vendor: string;
-  productType: string;
-  featuredImgSrc: URL;
-  variants: { price: AmountObject }[];
-}
 
 export interface ProductVariant {
   price: number;
@@ -53,11 +43,6 @@ export abstract class IStoreClient {
     total: Amount;
   }>;
 
-  abstract createProduct(
-    product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }>;
-  abstract publishProduct(productId: string): Promise<void>;
-
   abstract fulfillFulfillmentOrder(
     fulfillmentOrderId: string,
     trackingInfo: TrackingInfo,
@@ -76,8 +61,6 @@ export abstract class IStoreClient {
   abstract filterBikesVariantIdsFromVariantIdList(
     variantIds: string[],
   ): Promise<string[]>;
-
-  abstract cleanOldCommissions(): Promise<void>;
 
   abstract getAppliedDiscounts(
     orderStoreId: string,

@@ -76,11 +76,11 @@ export const routesV1 = {
     productUpdatedEvent: '/products/webhook/updated-event',
     productDeletedEvent: '/products/webhook/deleted-event',
     testProductIndexation: '/products/index',
-  },
-  invoice: {
     createCommission: '/commission/create',
     computeLineItemCommission: '/commission/compute-line-item',
     computeProductCommission: '/commission/product',
+  },
+  invoice: {
     previewPayout: '/invoice/preview-payout',
     executePayout: '/invoice/payout',
   },

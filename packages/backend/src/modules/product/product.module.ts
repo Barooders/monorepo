@@ -8,9 +8,12 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { BuyerCommissionController } from './application/buyer-commission.web';
+import { CommissionCLIConsole } from './application/commission.cli';
 import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
+import { BuyerCommissionService } from './domain/buyer-commission.service';
 import { CollectionIndexationService } from './domain/collection-indexation.service';
 import { CollectionService } from './domain/collection.service';
 import { NotificationService } from './domain/notification.service';
@@ -41,6 +44,7 @@ const commonImports = [
 
 const commonProviders = [
   ShopifyApiBySession,
+  BuyerCommissionService,
   SessionMapper,
   PostgreSQLSessionStorage,
   CustomerRepository,
@@ -81,11 +85,12 @@ const commonProviders = [
 
 @Module({
   imports: commonImports,
-  controllers: [ProductController],
+  controllers: [ProductController, BuyerCommissionController],
   providers: commonProviders,
   exports: [
     ProductCreationService,
     ProductUpdateService,
+    BuyerCommissionService,
     IPIMClient,
     ICommissionRepository,
   ],
@@ -95,6 +100,6 @@ export class ProductModule {}
 @Module({
   imports: commonImports,
   controllers: [],
-  providers: [...commonProviders, ProductCLIConsole],
+  providers: [...commonProviders, ProductCLIConsole, CommissionCLIConsole],
 })
 export class ProductConsoleModule {}

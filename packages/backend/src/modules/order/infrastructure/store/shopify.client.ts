@@ -1,4 +1,4 @@
-import { shopifyConfig } from '@config/shopify.config';
+import { PRODUCT_NAME as COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
 import { NotFoundException } from '@libs/domain/exceptions';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
@@ -11,19 +11,10 @@ import {
   parseShopifyError,
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
-import {
-  fromStorefrontId,
-  toStorefrontId,
-} from '@libs/infrastructure/shopify/shopify-id';
 import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { CurrencyCode } from '@libs/types/common/money.types';
 import {
-  PRODUCT_NAME as COMMISSION_NAME,
-  PRODUCT_TYPE as COMMISSION_TYPE,
-} from '@modules/order/domain/constants/commission-product.constants';
-import {
   IStoreClient,
-  ProductCreationInput,
   RefundOptions,
   StoreFulfilledFulfillmentOrder,
 } from '@modules/order/domain/ports/store.client';
@@ -32,16 +23,6 @@ import {
   TrackingInfo,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
-import { MutationProductCreateArgs } from '@quasarwork/shopify-api-types/api/admin/2023-01';
-import {
-  MediaContentType,
-  Mutation,
-  MutationPublishablePublishArgs,
-  ProductStatus,
-  ProductVariantInventoryPolicy,
-} from '@quasarwork/shopify-api-types/api/admin/2023-04';
-import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
-import dayjs from 'dayjs';
 import Shopify from 'shopify-api-node';
 
 @Injectable()
@@ -273,153 +254,6 @@ export class ShopifyClient implements IStoreClient {
       throw new Error(
         `Cannot refund order: ${error.message} because ${errorMessage}`,
       );
-    }
-  }
-
-  async cleanOldCommissions(): Promise<void> {
-    const [firstProduct, ...commissionProducts] =
-      await shopifyApiByToken.product.list({
-        created_at_max: dayjs().subtract(7, 'days').toISOString(),
-        product_type: COMMISSION_TYPE,
-        limit: 250,
-      });
-
-    this.logger.debug(dayjs().subtract(7, 'days').toISOString());
-
-    if (!firstProduct) {
-      this.logger.debug(`No commission products to delete`);
-      return;
-    }
-
-    this.logger.debug(
-      `Starting to delete ${commissionProducts.length + 1} commission products`,
-    );
-
-    // Wait for one to see an eventual error, then do the rest without waiting response
-    await shopifyApiByToken.product.delete(firstProduct.id);
-
-    commissionProducts.forEach(
-      (product) => void shopifyApiByToken.product.delete(product.id),
-    );
-  }
-
-  async createProduct(
-    product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }> {
-    const variables: MutationProductCreateArgs = {
-      input: {
-        title: product.title,
-        descriptionHtml: product.description,
-        vendor: product.vendor,
-        productType: product.productType,
-        status: ProductStatus.Active,
-        variants: product.variants.map((variant) => ({
-          inventoryItem: {
-            tracked: true,
-          },
-          inventoryPolicy: ProductVariantInventoryPolicy.Continue,
-          price: variant.price.amount,
-          requiresShipping: false,
-          taxable: true,
-        })),
-      },
-      media: [
-        {
-          alt: product.title,
-          mediaContentType: MediaContentType.Image,
-          originalSource: product.featuredImgSrc.url,
-        },
-      ],
-    };
-
-    const response: RequestReturn<Pick<Mutation, 'productCreate'>> = await (
-      await this.shopifyApiBySession.getGraphqlClient()
-    ).query({
-      data: {
-        query: `
-						mutation productCreate($input: ProductInput!, $media: [CreateMediaInput!]) {
-							productCreate(input: $input, media: $media) {
-								product {
-									id
-									legacyResourceId
-									variants(first: 1) {
-										nodes {
-											id
-										}
-									}
-								}
-								userErrors {
-									field
-									message
-								}
-							}
-						}
-					`,
-        variables,
-      },
-    });
-
-    const createdProduct = response.body.data.productCreate;
-
-    if (!createdProduct || !createdProduct.product)
-      throw new Error('Product not created');
-
-    this.logger.log(
-      `Created product { legacyResourceId: "${createdProduct?.product?.legacyResourceId}" }`,
-    );
-
-    return {
-      id: fromStorefrontId(createdProduct.product.id, 'Product'),
-      variants: createdProduct.product.variants.nodes.map((variant) => ({
-        id: fromStorefrontId(variant.id, 'ProductVariant'),
-      })),
-    };
-  }
-
-  async publishProduct(productId: string): Promise<void> {
-    const { shopOnlineStorePublicationId, mobileAppPublicationId } =
-      shopifyConfig;
-
-    try {
-      const variables: MutationPublishablePublishArgs = {
-        id: toStorefrontId(productId, 'Product'),
-        input: [
-          {
-            publicationId: shopOnlineStorePublicationId,
-          },
-          {
-            publicationId: mobileAppPublicationId,
-          },
-        ],
-      };
-
-      await (
-        await this.shopifyApiBySession.getGraphqlClient()
-      ).query({
-        data: {
-          query: `
-							mutation publishablePublish($id: ID!, $input: [PublicationInput!]!) {
-								publishablePublish(id: $id, input: $input) {
-									publishable {
-										availablePublicationCount
-										publicationCount
-									}
-									userErrors {
-										field
-										message
-									}
-								}
-							}
-						`,
-          variables,
-        },
-      });
-
-      this.logger.log(
-        `Published product { id: "${productId}" } to Online Store.`,
-      );
-    } catch (err) {
-      this.logger.error((err as Error)?.message, err);
     }
   }
 }

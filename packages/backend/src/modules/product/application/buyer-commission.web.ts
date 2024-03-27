@@ -21,8 +21,8 @@ import {
   IsOptional,
 } from 'class-validator';
 import { BuyerCommissionService } from '../domain/buyer-commission.service';
-import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 import { Commission } from '../domain/ports/commission.entity';
+import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 
 class CommissionInputDto {
   @IsNotEmpty()
@@ -74,7 +74,7 @@ export class BuyerCommissionController {
   constructor(private buyerCommissionService: BuyerCommissionService) {}
 
   @ApiResponse({ type: Commission })
-  @Post(routesV1.invoice.createCommission)
+  @Post(routesV1.product.createCommission)
   async createAndPublishCommissionProduct(
     @Body()
     commissionInputDto: CommissionInputDto,
@@ -86,7 +86,7 @@ export class BuyerCommissionController {
     );
   }
 
-  @Get(routesV1.invoice.computeLineItemCommission)
+  @Get(routesV1.product.computeLineItemCommission)
   /**
    * It computes a line item (single amount) commission cost and returns it.
    * @returns {Promise<number>} - It returns the commission cost.
@@ -107,7 +107,7 @@ export class BuyerCommissionController {
     return commissionCost;
   }
 
-  @Get(routesV1.invoice.computeProductCommission)
+  @Get(routesV1.product.computeProductCommission)
   /**
    * It computes a line item (single amount) commission cost and returns it.
    * @returns {Promise<number>} - It returns the commission cost.
