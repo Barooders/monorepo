@@ -1,6 +1,5 @@
 import {
   AggregateName,
-  CommissionRuleType,
   EventName,
   PriceOffer,
   PriceOfferStatus,
@@ -13,7 +12,7 @@ import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
-import { first, get } from 'lodash';
+import { first } from 'lodash';
 import { IOrder } from 'shopify-api-node';
 import { ParticipantEmailSender, Participants } from './config';
 import {
@@ -23,6 +22,7 @@ import {
   PriceOfferIsNotAcceptable,
   PriceOfferNotFound,
 } from './exceptions';
+import { ICommissionRepository } from './ports/commission.repository';
 import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPriceOfferService } from './ports/price-offer';
@@ -41,6 +41,7 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly storeClient: IStoreClient,
     protected readonly emailClient: IEmailClient,
     protected readonly internalNotificationClient: IInternalNotificationClient,
+    protected readonly commissionRepository: ICommissionRepository,
   ) {}
 
   async createNewPublicPriceOffer(
@@ -120,7 +121,9 @@ export class PriceOfferService implements IPriceOfferService {
     });
 
     const priceWithoutCommission =
-      await this.getPriceWithoutB2BCommission(newPrice);
+      await this.commissionRepository.getPriceWithoutB2BGlobalBuyerCommission(
+        newPrice,
+      );
 
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
@@ -568,40 +571,5 @@ export class PriceOfferService implements IPriceOfferService {
       },
       conversationId,
     );
-  }
-
-  private async getPriceWithoutB2BCommission(
-    newPrice: Amount,
-  ): Promise<Amount> {
-    const commissions = await this.prisma.commissionRule.findMany({
-      where: {
-        type: CommissionRuleType.GLOBAL_B2B_BUYER_COMMISSION,
-      },
-    });
-
-    if (commissions.length > 1) {
-      throw new Error(
-        `Global B2B buyer commission found ${commissions.length} times, expected 1`,
-      );
-    }
-
-    const commissionRules = first(commissions)?.rules;
-
-    if (!commissionRules) {
-      throw new Error('Global B2B buyer commission rules not found');
-    }
-
-    const ruleType = get(commissionRules, '[0].type');
-    const ruleValue = get(commissionRules, '[0].value');
-
-    if (!ruleType || !ruleValue) {
-      throw new Error('Global B2B buyer commission rules are not coherent');
-    }
-
-    const commissionMultiplier = 1 + ruleValue / 100;
-
-    return new Amount({
-      amountInCents: Math.floor(newPrice.amountInCents / commissionMultiplier),
-    });
   }
 }
