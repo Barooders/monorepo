@@ -1,4 +1,4 @@
-{% macro create_f_get_global_b2b_buyer_commission_multiplier() %}
+{% macro create_f_get_global_b2b_buyer_commission() %}
     CREATE OR REPLACE FUNCTION GET_GLOBAL_B2B_BUYER_COMMISSION ()
         RETURNS numeric
         AS $$
