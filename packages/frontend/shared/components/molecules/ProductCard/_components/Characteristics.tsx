@@ -39,7 +39,6 @@ const Characteristics: React.FC<{
   const year = tags.année;
   if (year)
     characteristics.push({
-      label: dict.components.productCard.yearLabel,
       value: year,
     });
 

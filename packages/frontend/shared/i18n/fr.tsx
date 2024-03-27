@@ -270,7 +270,6 @@ const fr = {
       },
       free: 'Gratuit',
       commissionIncluded: 'Protection acheteur incluse',
-      yearLabel: 'Année',
       sizeLabel: 'Taille',
       sizeGuide: 'Guide des tailles',
       favoriteButtonTitle: 'Ajouter aux favoris',
