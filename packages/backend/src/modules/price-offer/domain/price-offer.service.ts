@@ -1,5 +1,6 @@
 import {
   AggregateName,
+  CommissionRuleType,
   EventName,
   PriceOffer,
   PriceOfferStatus,
@@ -12,7 +13,7 @@ import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
-import { first } from 'lodash';
+import { first, get } from 'lodash';
 import { IOrder } from 'shopify-api-node';
 import { ParticipantEmailSender, Participants } from './config';
 import {
@@ -118,12 +119,15 @@ export class PriceOfferService implements IPriceOfferService {
       select: { sellerName: true, user: { select: { email: true } } },
     });
 
+    const priceWithoutCommission =
+      await this.getPriceWithoutB2BCommission(newPrice);
+
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
         salesChannelName: SalesChannelName.B2B,
         buyerId: userId.uuid,
         productId: productId.uuid,
-        newPriceInCents: newPrice.amountInCents,
+        newPriceInCents: priceWithoutCommission.amountInCents,
         initiatedBy: userId.uuid,
         status: PriceOfferStatus.PROPOSED,
         description,
@@ -564,5 +568,40 @@ export class PriceOfferService implements IPriceOfferService {
       },
       conversationId,
     );
+  }
+
+  private async getPriceWithoutB2BCommission(
+    newPrice: Amount,
+  ): Promise<Amount> {
+    const commissions = await this.prisma.commissionRule.findMany({
+      where: {
+        type: CommissionRuleType.GLOBAL_B2B_BUYER_COMMISSION,
+      },
+    });
+
+    if (commissions.length > 1) {
+      throw new Error(
+        `Global B2B buyer commission found ${commissions.length} times, expected 1`,
+      );
+    }
+
+    const commissionRules = first(commissions)?.rules;
+
+    if (!commissionRules) {
+      throw new Error('Global B2B buyer commission rules not found');
+    }
+
+    const ruleType = get(commissionRules, '[0].type');
+    const ruleValue = get(commissionRules, '[0].value');
+
+    if (!ruleType || !ruleValue) {
+      throw new Error('Global B2B buyer commission rules are not coherent');
+    }
+
+    const commissionMultiplier = 1 + ruleValue / 100;
+
+    return new Amount({
+      amountInCents: Math.floor(newPrice.amountInCents / commissionMultiplier),
+    });
   }
 }
