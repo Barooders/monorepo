@@ -152,7 +152,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
             <p>
               {dict.b2b.productCard.makeAnOffer.bundlePrice(
                 totalQuantity,
-                Math.floor((largestBundlePriceInCents * totalQuantity) / 100),
+                Math.round((largestBundlePriceInCents * totalQuantity) / 100),
               )}
             </p>
             <div className="mt-4">
@@ -189,11 +189,11 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
                   </p>
                   <p>
                     {watchQuantity} x{' '}
-                    {getBundleUnitPriceFromQuantity(watchQuantity)}€
+                    {Math.round(getBundleUnitPriceFromQuantity(watchQuantity))}€
                   </p>
                   <p>
                     {dict.b2b.productCard.makeAnOffer.total}:{' '}
-                    {Math.floor(
+                    {Math.round(
                       watchQuantity *
                         getBundleUnitPriceFromQuantity(watchQuantity),
                     )}{' '}
@@ -211,7 +211,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
                   </p>
                   <p>
                     {dict.b2b.productCard.makeAnOffer.total}:{' '}
-                    {Math.floor(watchQuantity * watchNewPrice)} €
+                    {Math.round(watchQuantity * watchNewPrice)} €
                   </p>
                 </div>
               )}

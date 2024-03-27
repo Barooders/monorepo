@@ -31826,6 +31826,13 @@ export type FetchNegociationAgreementQueryVariables = Exact<{
 
 export type FetchNegociationAgreementQuery = { __typename?: 'query_root', NegociationAgreement: Array<{ __typename?: 'NegociationAgreement', id: string, maxAmountPercent: number }>, Customer: Array<{ __typename?: 'Customer', user: { __typename?: 'users', phoneNumber: string | null } | null }> };
 
+export type FetchProductForNewOfferQueryVariables = Exact<{
+  productId: Scalars['String'];
+}>;
+
+
+export type FetchProductForNewOfferQuery = { __typename?: 'query_root', dbt_store_b2b_product: Array<{ __typename?: 'dbt_store_b2b_product', largest_bundle_price_in_cents: any | null, total_quantity: any, title: string, product: { __typename?: 'dbt_store_base_product', variants: Array<{ __typename?: 'dbt_store_base_product_variant', b2bVariant: { __typename?: 'dbt_store_b2b_product_variant', inventory_quantity: any, price: any, title: string } | null }> } | null }>, BundlePrice: Array<{ __typename?: 'BundlePrice', minQuantity: number, unitPriceInCents: any }> };
+
 export type OpenedPriceOfferProductPageSubscriptionVariables = Exact<{
   productId: Scalars['String'];
 }>;
