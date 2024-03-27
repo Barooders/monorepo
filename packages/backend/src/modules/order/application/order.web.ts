@@ -1,9 +1,9 @@
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
 import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
-import { Response } from 'express';
 import {
   BadRequestException,
   Body,
@@ -24,6 +24,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Response } from 'express';
+import { PassThrough } from 'stream';
 import { FulfillmentService } from '../domain/fulfillment.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderService } from '../domain/order.service';
@@ -34,8 +36,6 @@ import {
 } from '../domain/ports/exceptions';
 import { AccountPageOrder } from '../domain/ports/types';
 import { RefundService } from '../domain/refund.service';
-import { UUID } from '@libs/domain/value-objects';
-import { PassThrough } from 'stream';
 
 class OrderLineFulfillmentDTO {
   @IsNotEmpty()
@@ -165,9 +165,28 @@ export class OrderController {
     );
   }
 
+  /**
+   * @deprecated Use cancel endpoint instead
+   */
   @Post(routesV1.order.refundOrderAsAdmin)
   @UseGuards(AuthGuard('header-api-key'))
   async refundOrderAsAdmin(
+    @Param('orderId')
+    orderId: string,
+    @Query()
+    { authorId }: { authorId?: string },
+  ): Promise<string> {
+    await this.refundService.cancelOrder(orderId, {
+      type: 'admin',
+      id: authorId,
+    });
+
+    return `Order ${orderId} has been refunded.`;
+  }
+
+  @Post(routesV1.order.cancelOrderAsAdmin)
+  @UseGuards(AuthGuard('header-api-key'))
+  async cancelOrderAsAdmin(
     @Param('orderId')
     orderId: string,
     @Query()
