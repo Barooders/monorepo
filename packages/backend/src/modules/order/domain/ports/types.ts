@@ -65,7 +65,7 @@ export type OrderCreatedData = {
   };
 };
 
-export type OrderRefundedData = {
+export type OrderCancelledData = {
   customer: { email: string; fullName: string; firstName: string };
   vendor: { email: string; fullName: string; firstName: string } | null;
   productName: string;
