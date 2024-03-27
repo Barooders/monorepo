@@ -1165,6 +1165,7 @@ const fr = {
     },
     productCard: {
       makeAnOffer: 'Faire une offre',
+      existingOffer: 'Vous avez une offre en cours',
       largestBundlePrice: 'P.U. pour le lot complet',
     },
   },

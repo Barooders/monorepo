@@ -19,6 +19,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   largestBundlePrice,
   image,
   stock,
+  hasOpenedPriceOffer,
 }) => {
   return (
     <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
@@ -59,13 +60,23 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               showPriceRecap={false}
             />
           </div>
-          <Button
-            intent="tertiary"
-            href="/"
-            className="mt-2"
-          >
-            {dict.b2b.productCard.makeAnOffer}
-          </Button>
+          {hasOpenedPriceOffer ? (
+            <Button
+              disabled={true}
+              intent="secondary"
+              className="mt-2"
+            >
+              {dict.b2b.productCard.existingOffer}
+            </Button>
+          ) : (
+            <Button
+              intent="tertiary"
+              href="/"
+              className="mt-2"
+            >
+              {dict.b2b.productCard.makeAnOffer}
+            </Button>
+          )}
         </div>
       </div>
     </div>

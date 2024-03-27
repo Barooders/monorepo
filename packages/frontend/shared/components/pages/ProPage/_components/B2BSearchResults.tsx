@@ -1,11 +1,31 @@
+import { SubscribeToOpenedB2BPriceOffersSubscription } from '@/__generated/graphql';
 import B2BProductCard from '@/components/molecules/ProductCard/b2b';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
+import { gql, useSubscription } from '@apollo/client';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchB2BVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');
+
+const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql`
+  subscription subscribeToOpenedB2BPriceOffers {
+    PriceOffer(
+      where: {
+        _and: {
+          salesChannelName: { _eq: "B2B" }
+          _or: [
+            { status: { _eq: "PROPOSED" } }
+            { status: { _eq: "ACCEPTED" } }
+          ]
+        }
+      }
+    ) {
+      productId
+    }
+  }
+`;
 
 const NoResultsBoundary: React.FC<{
   children: React.ReactNode;
@@ -37,6 +57,11 @@ function NoResults() {
 }
 
 const B2BSearchResults: React.FC = () => {
+  const { data: priceOffersResult } =
+    useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
+      SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
+    );
+
   return (
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
@@ -48,7 +73,14 @@ const B2BSearchResults: React.FC = () => {
           return (
             <>
               <AdminHitHelper hit={hit} />
-              <B2BProductCard {...productCardProps} />
+              <B2BProductCard
+                {...productCardProps}
+                hasOpenedPriceOffer={
+                  !!priceOffersResult?.PriceOffer.find(
+                    ({ productId }) => productId === hit.product_internal_id,
+                  )
+                }
+              />
             </>
           );
         }}
