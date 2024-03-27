@@ -24,7 +24,7 @@ export abstract class IStoreClient {
     productId: string,
     data: ProductToUpdate,
   ): Promise<void>;
-  abstract publishProductInMobileChannel(productId: string): Promise<void>;
+  abstract publishProduct(productId: string): Promise<void>;
   abstract createProductVariant(
     productId: number,
     data: Variant,
@@ -51,6 +51,5 @@ export abstract class IStoreClient {
   abstract createCommissionProduct(
     product: ProductCreationInput,
   ): Promise<{ id: string; variants: { id: string }[] }>;
-  abstract publishCommissionProduct(productId: string): Promise<void>;
   abstract cleanOldCommissions(): Promise<void>;
 }

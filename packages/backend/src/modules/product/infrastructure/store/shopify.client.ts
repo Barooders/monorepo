@@ -303,43 +303,6 @@ export class ShopifyClient implements IStoreClient {
     }
   }
 
-  async publishProductInMobileChannel(productId: string): Promise<void> {
-    const variables: MutationPublishablePublishArgs = {
-      id: `gid://shopify/Product/${productId}`,
-      input: [
-        {
-          publicationId: shopifyConfig.mobileAppPublicationId,
-        },
-      ],
-    };
-
-    await (
-      await this.shopifyApiBySession.getGraphqlClient()
-    ).query({
-      data: {
-        query: `
-          mutation publishablePublish($id: ID!, $input: [PublicationInput!]!) {
-            publishablePublish(id: $id, input: $input) {
-              publishable {
-                availablePublicationCount
-                publicationCount
-              }
-              userErrors {
-                field
-                message
-              }
-            }
-          }
-        `,
-        variables,
-      },
-    });
-
-    this.logger.debug(
-      `Published product (${productId}) to Mobile/App sales channel.`,
-    );
-  }
-
   async approveProduct(productId: string): Promise<void> {
     await this.updateProductStatus(productId, 'approved');
   }
@@ -448,7 +411,7 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  async publishCommissionProduct(productId: string): Promise<void> {
+  async publishProduct(productId: string): Promise<void> {
     const { shopOnlineStorePublicationId, mobileAppPublicationId } =
       shopifyConfig;
 

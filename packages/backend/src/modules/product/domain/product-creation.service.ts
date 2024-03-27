@@ -126,9 +126,7 @@ export class ProductCreationService {
       metafields: [...metafields, ...seoMetafields],
     });
 
-    await this.storeClient.publishProductInMobileChannel(
-      String(createdProduct.id),
-    );
+    await this.storeClient.publishProduct(String(createdProduct.id));
 
     await this.updateProductsInDBWithSameHandle(createdProduct);
 
