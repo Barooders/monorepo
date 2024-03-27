@@ -148,7 +148,7 @@ export class PriceOfferService implements IPriceOfferService {
     const { handle, productType } = await this.prisma.product.findFirstOrThrow({
       where: { id: productId.uuid },
     });
-    await this.internalNotificationClient.sendNewPriceOfferNotification(`
+    await this.internalNotificationClient.sendB2BNotification(`
       💰 *${sellerName}* a déposé une nouvelle offre B2B pour le product ${productId}
 
       🚲 Produit: ${productType} - ${handle}
