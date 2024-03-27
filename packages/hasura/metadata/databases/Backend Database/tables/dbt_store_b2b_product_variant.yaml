@@ -19,6 +19,7 @@ select_permissions:
         - condition
         - inventory_quantity
         - price
+        - shopify_id
         - title
       filter: {}
     comment: ""

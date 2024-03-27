@@ -16,6 +16,7 @@ select_permissions:
     permission:
       columns:
         - first_image
+        - id
         - largest_bundle_price_in_cents
         - product_type
         - status
