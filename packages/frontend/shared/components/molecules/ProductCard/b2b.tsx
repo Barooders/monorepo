@@ -1,6 +1,6 @@
-import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
+import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
 import ProductPrice from './_components/ProductPrice';
@@ -60,23 +60,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               showPriceRecap={false}
             />
           </div>
-          {hasOpenedPriceOffer ? (
-            <Button
-              disabled={true}
-              intent="secondary"
-              className="mt-2"
-            >
-              {dict.b2b.productCard.existingOffer}
-            </Button>
-          ) : (
-            <Button
-              intent="tertiary"
-              href="/"
-              className="mt-2"
-            >
-              {dict.b2b.productCard.makeAnOffer}
-            </Button>
-          )}
+          <B2BPriceOfferButton hasOpenedPriceOffer={hasOpenedPriceOffer} />
         </div>
       </div>
     </div>
