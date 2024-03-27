@@ -58,6 +58,7 @@ import { CSVMapper } from './infrastructure/api/csv/csv.mapper';
 import { BikeXtremeMapper } from './infrastructure/api/prestashop/mappers/bike-xtreme.mapper';
 import { FreeglisseMapper } from './infrastructure/api/prestashop/mappers/freeglisse.mapper';
 import { FunbikeMapper } from './infrastructure/api/prestashop/mappers/funbike.mapper';
+import { GemBikesMapper } from './infrastructure/api/prestashop/mappers/gem-bikes.mapper';
 import { TribiciMapper } from './infrastructure/api/prestashop/mappers/tribici.mapper';
 import { Velosport34Mapper } from './infrastructure/api/prestashop/mappers/velosport34.mapper';
 import { PrestashopOrderService } from './infrastructure/api/prestashop/prestashop-order.service';
@@ -135,6 +136,7 @@ export const proVendorSharedServices = [
   FreeglisseMapper,
   SEMotionMapper,
   FunbikeMapper,
+  GemBikesMapper,
   BikeXtremeMapper,
   TribiciMapper,
   MatbikeMapper,
