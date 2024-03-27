@@ -184,7 +184,7 @@ const scrapAllBikesForFamily = async ({ familyId, familySlug, brandSlug }) => {
     await getImages(data.data);
 
     const lastPage = data.last_page;
-    isLastPage = page === lastPage;
+    isLastPage = page >= lastPage;
     page++;
   }
 
@@ -279,7 +279,12 @@ const scrapAll = async () => {
     return 0;
   });
 
-  for (const family of orderedFamilies) {
+  const attackIdx = orderedFamilies.findIndex(
+    (family) => family.slug === 'attack',
+  );
+  const filteredFamilies = orderedFamilies.slice(attackIdx);
+
+  for (const family of filteredFamilies) {
     if (family.brandSlug == null) {
       continue;
     }
