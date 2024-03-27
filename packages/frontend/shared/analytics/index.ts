@@ -5,7 +5,11 @@ import {
   sendNewPriceOfferConversion,
 } from './google';
 import { trackEvent } from './klaviyo';
-import { init as initMixpanel, sendEvent } from './mixpanel';
+import {
+  identifyToAnalytics,
+  init as initMixpanel,
+  sendEvent,
+} from './mixpanel';
 
 export const initAnalytics = () => {
   initMixpanel();
@@ -45,6 +49,7 @@ export const sendAddToWishlist = (productId: string, customerId: string) => {
 export const sendLogin = (customerId: string) => {
   gtag('event', 'userLogin', { customerId });
   sendEvent('userLogin', { customerId });
+  identifyToAnalytics(customerId);
 };
 
 export const sendProductViewed = (product: {
