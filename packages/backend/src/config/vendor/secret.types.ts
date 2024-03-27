@@ -31,6 +31,7 @@ export type VendorSecretsType = {
   fietsApiUrl: string;
   mbsProApiKey: string;
   usedEliteBikesApiKey: string;
+  gemBikesApiKey: string;
   funbikeApiKey: string;
   tribiciApiKey: string;
   clubInSportApiKey: string;

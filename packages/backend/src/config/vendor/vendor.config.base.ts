@@ -412,7 +412,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'funbike',
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.funbikeApiKey,
-    apiUrl: 'https://www.funwayvelos.fr/api',
+    apiUrl: 'https://www.funwayvelos.fr/api/',
     catalog: {
       common: {
         commissionPercentToAdd: 8,
@@ -451,8 +451,8 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     slug: 'gem_bikes',
     mappingKey: 'gem_bikes',
     type: VendorType.PRESTASHOP,
-    apiKey: vendorSecrets.usedEliteBikesApiKey,
-    apiUrl: 'https://www.used-elitebikes.com/api/',
+    apiKey: vendorSecrets.gemBikesApiKey,
+    apiUrl: 'https://shop.gem-bikes.com/api/',
     catalog: {},
   },
   tribici_presta: {
