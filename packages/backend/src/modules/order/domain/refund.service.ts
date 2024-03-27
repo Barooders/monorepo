@@ -19,7 +19,7 @@ import { OrderUpdateService } from './order-update.service';
 import { UserNotOrderLineVendorException } from './ports/exceptions';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IStoreClient } from './ports/store.client';
-import { OrderRefundedData } from './ports/types';
+import { OrderCancelledData } from './ports/types';
 
 const MANUAL_REFUND_PAYMENT_PROVIDERS = [PaymentProvider.FLOA];
 
@@ -103,7 +103,7 @@ export class RefundService {
       );
     }
 
-    await this.processRefund(mapOrderToRefund(name, order, vendor), author);
+    await this.processCancel(mapOrderToRefund(name, order, vendor), author);
 
     await this.internalNotificationClient.sendOrderCanceledNotification(`
     🚨 La commande ${getOrderLinkMrkdwn(
@@ -125,7 +125,7 @@ export class RefundService {
         const orderLink = getOrderLinkMrkdwn(order);
         try {
           const firstOrderLine = order.orderLines[0];
-          await this.processRefund(
+          await this.processCancel(
             mapOrderToRefund(firstOrderLine.name, order, firstOrderLine.vendor),
             {
               type: 'backend',
@@ -150,7 +150,7 @@ export class RefundService {
     );
   }
 
-  async refundOrder(orderId: string, author: Author): Promise<void> {
+  async cancelOrder(orderId: string, author: Author): Promise<void> {
     const { order, disputes, vendor, name } =
       await this.mainPrisma.orderLines.findFirstOrThrow({
         where: {
@@ -173,20 +173,22 @@ export class RefundService {
         },
       });
 
-    const isPaidOrLabeled =
-      order.status === OrderStatus.PAID || order.status === OrderStatus.LABELED;
+    const isCancellable =
+      order.status === OrderStatus.CREATED ||
+      order.status === OrderStatus.PAID ||
+      order.status === OrderStatus.LABELED;
     const hasDispute = disputes.length > 0;
 
-    if (!isPaidOrLabeled && !hasDispute) {
+    if (!isCancellable && !hasDispute) {
       throw new Error(
-        `Cannot refund order ${orderId}: ${jsonStringify({
-          isPaidOrLabeled,
+        `Cannot cancel order ${orderId}: ${jsonStringify({
+          isCancellable,
           hasDispute,
         })}`,
       );
     }
 
-    await this.processRefund(mapOrderToRefund(name, order, vendor), author);
+    await this.processCancel(mapOrderToRefund(name, order, vendor), author);
   }
 
   private async getOrderToRefund(): Promise<
@@ -265,42 +267,47 @@ export class RefundService {
     });
   }
 
-  private async processRefund(
-    orderRefundedData: OrderRefundedData,
+  private async processCancel(
+    orderCancelledData: OrderCancelledData,
     author: Author,
   ) {
-    const {
-      order: { id, shopifyId, name, totalPriceCurrency, totalPriceInCents },
-      customer: { email },
-    } = orderRefundedData;
     //TODO: This update should not be handled at order level but at order line level
     // For now we refund the full order to refund commission + shipping
     await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
-      id,
+      orderCancelledData.order.id,
       OrderStatus.CANCELED,
       author,
       new Date(),
-      async () => {
-        await this.storeClient.refundOrder(
-          {
-            id,
-            storeId: shopifyId,
-          },
-          {
-            amountInCents: totalPriceInCents,
-            currency: totalPriceCurrency,
-          },
-        );
+      orderCancelledData.order.status !== OrderStatus.CREATED
+        ? async () => this.refundOrder(orderCancelledData)
+        : undefined,
+    );
+  }
 
-        this.logger.warn(`Refunded order ${id}`);
+  private async refundOrder(orderCancelledData: OrderCancelledData) {
+    const { id, name, shopifyId, totalPriceCurrency, totalPriceInCents } =
+      orderCancelledData.order;
 
-        await this.orderNotificationService.sendRefundedOrderEmails(
-          orderRefundedData,
-        );
+    const { email } = orderCancelledData.customer;
 
-        await this.sendInternalNotificationIfManualPayment(id, name, email);
+    await this.storeClient.refundOrder(
+      {
+        id,
+        storeId: shopifyId,
+      },
+      {
+        amountInCents: totalPriceInCents,
+        currency: totalPriceCurrency,
       },
     );
+
+    this.logger.warn(`Refunded order ${id}`);
+
+    await this.orderNotificationService.sendRefundedOrderEmails(
+      orderCancelledData,
+    );
+
+    await this.sendInternalNotificationIfManualPayment(id, name, email);
   }
 
   private getNotificationDetails(

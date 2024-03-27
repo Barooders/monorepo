@@ -173,7 +173,7 @@ export class OrderController {
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<string> {
-    await this.refundService.refundOrder(orderId, {
+    await this.refundService.cancelOrder(orderId, {
       type: 'admin',
       id: authorId,
     });

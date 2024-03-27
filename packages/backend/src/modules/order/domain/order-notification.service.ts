@@ -15,10 +15,10 @@ import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import {
   FeedBackRequest,
+  OrderCancelledData,
   OrderCreatedData,
   OrderHandDeliveredData,
   OrderPaidData,
-  OrderRefundedData,
 } from './ports/types';
 
 const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
@@ -246,7 +246,7 @@ export class OrderNotificationService {
     order,
     vendor,
     productName,
-  }: OrderRefundedData) {
+  }: OrderCancelledData) {
     const customerMetadata = {
       email: customer.email,
       orderName: order.name,
