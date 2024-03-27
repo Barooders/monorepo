@@ -113,8 +113,6 @@ export class ProductCreationService {
       ? product.status
       : ProductStatus.DRAFT;
 
-    const isB2BProduct = await this.isB2BProduct({ product, vendorId });
-
     const seoMetafields = await getSEOMetafields(product);
 
     const createdProduct = await this.storeClient.createProduct({
@@ -160,13 +158,6 @@ export class ProductCreationService {
               {
                 salesChannelName: SalesChannelName.PUBLIC,
               },
-              ...(isB2BProduct
-                ? [
-                    {
-                      salesChannelName: SalesChannelName.B2B,
-                    },
-                  ]
-                : []),
             ],
           },
         },
@@ -366,49 +357,6 @@ export class ProductCreationService {
       (bypassImageCheck || product.images.length > 0) &&
       product.product_type
     );
-  }
-
-  private async isB2BProduct({
-    product: { title, product_type: productType, variants },
-    vendorId,
-  }: {
-    product: Product;
-    vendorId: string;
-  }) {
-    if (
-      variants.every(
-        ({ inventory_quantity }) =>
-          !inventory_quantity || inventory_quantity <= 1,
-      )
-    ) {
-      this.logger.debug(
-        `Product ${title} from vendor (${vendorId}) has no stock > 1, not a B2B product`,
-      );
-      return false;
-    }
-
-    const vendor = await this.prisma.customer.findUniqueOrThrow({
-      where: {
-        authUserId: vendorId,
-      },
-      select: {
-        isPro: true,
-      },
-    });
-
-    if (!vendor.isPro) {
-      this.logger.debug(`Vendor ${vendorId} is not a pro, not a B2B product`);
-      return false;
-    }
-
-    const isBike = await this.pimClient.isBike(productType);
-
-    if (!isBike) {
-      this.logger.debug(`Product ${title} is not a bike, not a B2B product`);
-      return false;
-    }
-
-    return true;
   }
 
   private async notifyEvent({
