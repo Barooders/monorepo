@@ -2,6 +2,7 @@
 
 import { sendAddToWishlist } from '@/analytics';
 import { identify } from '@/analytics/klaviyo';
+import { identifyToAnalytics } from '@/analytics/mixpanel';
 import { HasuraToken } from '@/types';
 import { createPersistedStore } from './createPersistedStore';
 
@@ -60,7 +61,7 @@ const useUser = createPersistedStore<UserState>(
       },
 
       logoutUser: async () => {
-        //identifyToAnalytics();
+        identifyToAnalytics();
         set(() => ({
           hasuraToken: null,
           favoriteProducts: [],
@@ -88,9 +89,10 @@ const useUser = createPersistedStore<UserState>(
       }
       if (!!state?.hasuraToken) {
         const {
-          user: { email },
+          user: { email, id },
         } = state.hasuraToken;
         identify(email);
+        identifyToAnalytics(id);
       }
     },
   },
