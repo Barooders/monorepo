@@ -1,12 +1,12 @@
-{% macro create_f_get_global_b2b_buyer_commission() %}
-    CREATE OR REPLACE FUNCTION GET_GLOBAL_B2B_BUYER_COMMISSION ()
+{% macro create_f_get_global_b2b_buyer_commission_multiplier() %}
+    CREATE OR REPLACE FUNCTION GET_GLOBAL_B2B_BUYER_COMMISSION_MULTIPLIER ()
         RETURNS numeric
         AS $$
     DECLARE
         commission_value numeric;
     BEGIN
         SELECT
-            ((rules ->> 0)::jsonb ->> 'value')::numeric INTO commission_value
+            (1 + ((rules ->> 0)::jsonb ->> 'value')::numeric /100) INTO commission_value
         FROM
             public. "CommissionRule"
         WHERE
