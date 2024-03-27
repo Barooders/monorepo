@@ -109,30 +109,29 @@ export class PriceOfferService implements IPriceOfferService {
     return newPriceOffer;
   }
 
-  async createNewB2BPriceOffer(
-    userId: UUID,
+  async createNewB2BPriceOfferByBuyer(
+    buyerId: UUID,
     newPrice: Amount,
     productId: UUID,
     description: string,
   ): Promise<void> {
     const { sellerName } = await this.prisma.customer.findUniqueOrThrow({
-      where: { authUserId: userId.uuid },
+      where: { authUserId: buyerId.uuid },
       select: { sellerName: true, user: { select: { email: true } } },
     });
 
-    const priceWithoutCommission =
-      await this.commissionRepository.getPriceWithoutB2BGlobalBuyerCommission(
-        newPrice,
-      );
+    const commission =
+      await this.commissionRepository.getGlobalB2BBuyerCommission();
 
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
         salesChannelName: SalesChannelName.B2B,
-        buyerId: userId.uuid,
+        buyerId: buyerId.uuid,
         productId: productId.uuid,
-        newPriceInCents: priceWithoutCommission.amountInCents,
-        initiatedBy: userId.uuid,
+        newPriceInCents: newPrice.amountInCents,
+        initiatedBy: buyerId.uuid,
         status: PriceOfferStatus.PROPOSED,
+        includedBuyerCommissionPercentage: commission.percentage,
         description,
       },
     });
@@ -140,7 +139,7 @@ export class PriceOfferService implements IPriceOfferService {
     await this.prisma.event.create({
       data: {
         aggregateName: AggregateName.CUSTOMER,
-        aggregateId: userId.uuid,
+        aggregateId: buyerId.uuid,
         name: EventName.PRICE_OFFER_CREATED,
         payload: {
           priceOfferId: newPriceOffer.id,
