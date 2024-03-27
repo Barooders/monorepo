@@ -1,30 +1,32 @@
-import { sendPriceOffer } from '@/analytics';
+import { operations } from '@/__generated/rest-schema';
 import Button from '@/components/atoms/Button';
-import Input from '@/components/molecules/FormInput';
 import Loader from '@/components/atoms/Loader';
-import useUser from '@/hooks/state/useUser';
+import Input from '@/components/molecules/FormInput';
+import TextArea from '@/components/molecules/FormTextArea';
+import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { operations } from '@/__generated/rest-schema';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
-import useBackend from '@/hooks/useBackend';
+import ProductLabel from './ProductLabel';
 
 const dict = getDictionary('fr');
 
 type Inputs = {
+  quantity: number;
   newPrice: number | null;
+  description: string;
 };
 
 type PropsType = {
-  variantId?: string;
   productId: string;
-  originalPrice: number;
-  buyerId?: string;
-  negociationMaxAmountPercent: number;
+  productName: string;
+  totalQuantity: number;
+  largestBundlePriceInCents: number;
+  getBundleUnitPriceFromQuantity: (quantity: number) => number;
+  variants: { title: string; quantity: number }[];
   closeModal?: () => void;
-  shouldRedirectToChat?: boolean;
 };
 
 export enum Status {
@@ -33,56 +35,57 @@ export enum Status {
 }
 
 const MakeB2BOfferModal: React.FC<PropsType> = ({
-  variantId,
   productId,
-  buyerId,
-  originalPrice,
+  productName,
+  totalQuantity,
+  largestBundlePriceInCents,
+  getBundleUnitPriceFromQuantity,
+  variants,
   closeModal,
-  negociationMaxAmountPercent,
-  shouldRedirectToChat = false,
 }) => {
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
-  const { hasuraToken } = useUser.getState();
   const { fetchAPI } = useBackend();
 
   const formMethods = useForm<Inputs>({
+    mode: 'onBlur',
     defaultValues: {
+      quantity: 1,
       newPrice: null,
+      description: '',
     },
   });
+
+  const watchQuantity = formMethods.watch('quantity');
+  const watchNewPrice = formMethods.watch('newPrice');
 
   const rules: Record<Status, { label: string }[]> = {
     [Status.BEFORE_SEND]: [
       {
-        label: dict.makeOffer.rulePriceExplanation(negociationMaxAmountPercent),
+        label: dict.b2b.productCard.makeAnOffer.addManyDetails,
       },
-      { label: dict.makeOffer.rulePriceCancel },
-      { label: dict.makeOffer.emergency },
+      { label: dict.b2b.productCard.makeAnOffer.changeQuantityToUpdatePrice },
     ],
     [Status.AFTER_SEND]: [
       { label: dict.makeOffer.offerHasBeenSent },
       { label: dict.makeOffer.quickResponse },
-      { label: dict.makeOffer.emergency },
     ],
   };
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ newPrice, description }) => {
     if (!newPrice) return;
 
-    const priceOfferBody: operations['PriceOfferController_createPublicPriceOffer']['requestBody']['content']['application/json'] =
+    const priceOfferBody: operations['PriceOfferController_createB2BPriceOfferByBuyer']['requestBody']['content']['application/json'] =
       {
-        buyerId: buyerId ?? hasuraToken?.user.id ?? '',
         newPriceInCents: newPrice * 100,
         productId,
-        productVariantId: variantId,
+        description,
       };
 
-    await fetchAPI('/v1/price-offer', {
+    await fetchAPI('/v1/price-offer/b2b', {
       method: 'POST',
       body: JSON.stringify(priceOfferBody),
     });
 
-    sendPriceOffer(hasuraToken?.user.id ?? '', productId, variantId);
     setStatus(Status.AFTER_SEND);
   };
 
@@ -122,30 +125,103 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
         <FormProvider {...formMethods}>
           <form
             onSubmit={formMethods.handleSubmit(doSubmit)}
-            className="p-3"
+            className="p-2"
           >
-            <p className="mb-6">
-              {dict.makeOffer.originalPrice(originalPrice)}
+            <div className="mb-3">
+              <p className="text-center">
+                🚲 <strong>{productName}</strong> 🚲
+              </p>
+              {variants.length > 1 && (
+                <div className="mt-2 flex flex-wrap justify-center gap-2">
+                  {variants.map(({ title, quantity }) => (
+                    <ProductLabel
+                      key={title}
+                      label={{
+                        content: (
+                          <>
+                            {title} (x {quantity})
+                          </>
+                        ),
+                        color: 'purple',
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <p>
+              {dict.b2b.productCard.makeAnOffer.bundlePrice(
+                totalQuantity,
+                Math.floor((largestBundlePriceInCents * totalQuantity) / 100),
+              )}
             </p>
-            <Input
-              label={dict.makeOffer.newPriceLabel}
-              name="newPrice"
-              type="number"
+            <div className="mt-4">
+              <Input
+                className="mt-4"
+                label={dict.b2b.productCard.makeAnOffer.inputQuantity}
+                name="quantity"
+                type="number"
+                options={{
+                  required: dict.global.forms.required,
+                  max: {
+                    value: totalQuantity,
+                    message:
+                      dict.b2b.productCard.makeAnOffer.maxQuantityError(
+                        totalQuantity,
+                      ),
+                  },
+                  min: 0,
+                }}
+              />
+              <Input
+                label={dict.b2b.productCard.makeAnOffer.inputUnitPrice}
+                name="newPrice"
+                type="number"
+                options={{ required: dict.global.forms.required }}
+                placeholder={dict.makeOffer.newPricePlaceholder}
+              />
+            </div>
+            <div className="mb-2 grid grid-cols-2 gap-2">
+              {!!watchQuantity && (
+                <div className="flex flex-col items-center justify-center gap-2 rounded-md border bg-slate-100 p-2">
+                  <p className="font-bold">
+                    {dict.b2b.productCard.makeAnOffer.sellerOffer}
+                  </p>
+                  <p>
+                    {watchQuantity} x{' '}
+                    {getBundleUnitPriceFromQuantity(watchQuantity)}€
+                  </p>
+                  <p>
+                    {dict.b2b.productCard.makeAnOffer.total}:{' '}
+                    {Math.floor(
+                      watchQuantity *
+                        getBundleUnitPriceFromQuantity(watchQuantity),
+                    )}{' '}
+                    €
+                  </p>
+                </div>
+              )}
+              {!!watchQuantity && !!watchNewPrice && (
+                <div className="flex flex-col items-center justify-center gap-2 rounded-md border bg-green-100 p-2">
+                  <p className="font-bold">
+                    {dict.b2b.productCard.makeAnOffer.yourOffer}
+                  </p>
+                  <p>
+                    {watchQuantity} x {watchNewPrice}€
+                  </p>
+                  <p>
+                    {dict.b2b.productCard.makeAnOffer.total}:{' '}
+                    {Math.floor(watchQuantity * watchNewPrice)} €
+                  </p>
+                </div>
+              )}
+            </div>
+            <TextArea
+              name="description"
               options={{
                 required: dict.global.forms.required,
-                max: {
-                  value: originalPrice,
-                  message: dict.makeOffer.maxPriceError,
-                },
-                min: {
-                  value:
-                    originalPrice * (1 - negociationMaxAmountPercent / 100),
-                  message: dict.makeOffer.minPriceError(
-                    negociationMaxAmountPercent,
-                  ),
-                },
               }}
-              placeholder={dict.makeOffer.newPricePlaceholder}
+              placeholder={dict.b2b.productCard.makeAnOffer.addMoreDetails}
             />
             {submitState.error && (
               <p className="text-red-600">{submitState.error.message}</p>
@@ -162,17 +238,9 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
         </FormProvider>
       ) : (
         <div className="flex justify-center gap-2">
-          {shouldRedirectToChat && (
-            <Button
-              href="/pages/chat"
-              intent="secondary"
-            >
-              {dict.makeOffer.goToChat}
-            </Button>
-          )}
           <Button
             onClick={closeModal}
-            intent={shouldRedirectToChat ? 'tertiary' : 'secondary'}
+            intent={'secondary'}
           >
             {dict.makeOffer.backToSite}
           </Button>

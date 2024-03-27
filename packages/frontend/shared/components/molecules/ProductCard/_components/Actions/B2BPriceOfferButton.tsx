@@ -9,10 +9,14 @@ import MakeB2BOfferModal from '../MakeB2BOfferModal';
 const dict = getDictionary('fr');
 
 type PropsType = {
+  productId: string;
   hasOpenedPriceOffer: boolean;
 };
 
-const B2BPriceOfferButton: React.FC<PropsType> = ({ hasOpenedPriceOffer }) => {
+const B2BPriceOfferButton: React.FC<PropsType> = ({
+  hasOpenedPriceOffer,
+  productId,
+}) => {
   const MakeOfferButton: React.FC<{
     openModal: () => void;
   }> = ({ openModal }) => {
@@ -22,7 +26,7 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({ hasOpenedPriceOffer }) => {
         onClick={openModal}
         className="mt-2"
       >
-        {dict.b2b.productCard.makeAnOffer}
+        {dict.b2b.productCard.makeAnOffer.openModal}
       </Button>
     );
   };
@@ -46,13 +50,16 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({ hasOpenedPriceOffer }) => {
       }
       ContentComponent={({ closeModal }) => (
         <MakeB2BOfferModal
-          originalPrice={12}
-          variantId={'variant'}
-          productId={'productId'}
           closeModal={closeModal}
-          negociationMaxAmountPercent={0}
-          shouldRedirectToChat={false}
-          buyerId={'buyerId'}
+          productId={productId}
+          productName="BMC Alpenchallenge AL Four 2022"
+          variants={[
+            { title: 'Taille XL / Rouge / 2023', quantity: 2 },
+            { title: 'Taille M / Bleu / 2023', quantity: 10 },
+          ]}
+          totalQuantity={12}
+          largestBundlePriceInCents={12000}
+          getBundleUnitPriceFromQuantity={(quantity) => quantity * 11000}
         />
       )}
     />

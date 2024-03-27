@@ -9,7 +9,8 @@ import { B2BProductCardProps } from './types';
 const dict = getDictionary('fr');
 
 const B2BProductCard: React.FC<B2BProductCardProps> = ({
-  shopifyId: id,
+  id,
+  shopifyId,
   title,
   tags,
   productType,
@@ -53,14 +54,17 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               </p>
             )}
             <ProductPrice
-              productId={id}
+              productId={shopifyId}
               discounts={[]}
               compareAtPrice={compareAtPrice}
               price={price}
               showPriceRecap={false}
             />
           </div>
-          <B2BPriceOfferButton hasOpenedPriceOffer={hasOpenedPriceOffer} />
+          <B2BPriceOfferButton
+            hasOpenedPriceOffer={hasOpenedPriceOffer}
+            productId={id}
+          />
         </div>
       </div>
     </div>

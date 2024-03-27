@@ -1164,7 +1164,24 @@ const fr = {
       },
     },
     productCard: {
-      makeAnOffer: 'Faire une offre',
+      makeAnOffer: {
+        openModal: 'Faire une offre',
+        addManyDetails:
+          'Ajoutez un maximum de détails à propos de votre demande dans le champs textuel.',
+        changeQuantityToUpdatePrice:
+          'Changez la quantité pour mettre à jour le prix demandé par le vendeur.',
+        maxQuantityError: (totalQuantity: number) =>
+          `L'offre ne peut pas contenir plus de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''}`,
+        bundlePrice: (totalQuantity: number, bundlePrice: number) =>
+          `Ce vendeur propose un lot de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''} pour ${bundlePrice}€`,
+        addMoreDetails:
+          'Ajoutez plus de détails à propos de votre demande: quantités par tailles, livraison, mode de paiement, etc.',
+        inputQuantity: 'Quantité souhaitée',
+        inputUnitPrice: 'Prix unitaire souhaité',
+        yourOffer: 'Votre offre',
+        sellerOffer: 'Proposition vendeur',
+        total: 'Total',
+      },
       existingOffer: 'Vous avez une offre en cours',
       largestBundlePrice: 'P.U. pour le lot complet',
     },
