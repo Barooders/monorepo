@@ -5,10 +5,10 @@ import { ShopifyDefaultMapper } from './default.mapper';
 @Injectable()
 export class SavoldelliMapper extends ShopifyDefaultMapper {
   async getExternalCategory(
-    { product_type }: IProduct,
+    { product_type, tags }: IProduct,
     _productMetafields: IMetafield[],
   ): Promise<string> {
-    return product_type;
+    return `${product_type}/${tags}`;
   }
 
   async getTags(
