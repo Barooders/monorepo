@@ -1,0 +1,12 @@
+table:
+  name: BundlePrice
+  schema: public
+select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - minQuantity
+        - productId
+        - unitPriceInCents
+      filter: {}
+    comment: ""
