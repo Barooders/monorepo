@@ -21,6 +21,15 @@ object_relationships:
           name: store_exposed_product
           schema: dbt
 array_relationships:
+  - name: bundlePrices
+    using:
+      manual_configuration:
+        column_mapping:
+          id: product_id
+        insertion_order: null
+        remote_table:
+          name: store_bundle_price
+          schema: dbt
   - name: collections
     using:
       manual_configuration:

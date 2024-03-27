@@ -10,6 +10,7 @@
 - "!include dbt_store_b2b_product_variant.yaml"
 - "!include dbt_store_base_product.yaml"
 - "!include dbt_store_base_product_variant.yaml"
+- "!include dbt_store_bundle_price.yaml"
 - "!include dbt_store_discount.yaml"
 - "!include dbt_store_discount_collection.yaml"
 - "!include dbt_store_exposed_product.yaml"
