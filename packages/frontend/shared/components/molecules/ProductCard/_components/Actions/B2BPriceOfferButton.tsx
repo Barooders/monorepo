@@ -26,7 +26,6 @@ const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
           }
         }
       }
-      largest_bundle_price_in_cents
       total_quantity
       title
     }
@@ -92,7 +91,7 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
       ? Number(product.product.variants[0].b2bVariant.price)
       : 0;
 
-    if (!bundlePrices) return firstVariantPrice;
+    if (!bundlePrices || bundlePrices.length === 0) return firstVariantPrice;
 
     const bundlePrice = bundlePrices
       .sort((a, b) => b.minQuantity - a.minQuantity)
@@ -121,7 +120,6 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
               })) ?? []
             }
             totalQuantity={product.total_quantity}
-            largestBundlePriceInCents={product.largest_bundle_price_in_cents}
             getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
           />
         ) : (

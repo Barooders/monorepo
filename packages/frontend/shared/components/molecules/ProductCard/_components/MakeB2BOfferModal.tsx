@@ -23,7 +23,6 @@ type PropsType = {
   productId: string;
   productName: string;
   totalQuantity: number;
-  largestBundlePriceInCents: number;
   getBundleUnitPriceFromQuantity: (quantity: number) => number;
   variants: { title: string; quantity: number }[];
   closeModal?: () => void;
@@ -38,7 +37,6 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
   productId,
   productName,
   totalQuantity,
-  largestBundlePriceInCents,
   getBundleUnitPriceFromQuantity,
   variants,
   closeModal,
@@ -152,7 +150,9 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
             <p>
               {dict.b2b.productCard.makeAnOffer.bundlePrice(
                 totalQuantity,
-                Math.round((largestBundlePriceInCents * totalQuantity) / 100),
+                Math.round(
+                  getBundleUnitPriceFromQuantity(totalQuantity) * totalQuantity,
+                ),
               )}
             </p>
             <div className="mt-4">
