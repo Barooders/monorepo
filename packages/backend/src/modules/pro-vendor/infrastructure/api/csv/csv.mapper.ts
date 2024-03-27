@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { mapCondition } from '@libs/domain/product.interface';
 import {
   SyncLightProduct,
@@ -65,6 +66,10 @@ export class CSVMapper {
       images: product.images.map(({ url: src }) => ({
         src,
       })),
+      salesChannels: [
+        ...(product.isB2BProduct ? [SalesChannelName.PUBLIC] : []),
+        ...(product.isB2CProduct ? [SalesChannelName.B2B] : []),
+      ],
     };
   }
 

@@ -179,6 +179,8 @@ interface CSVCatalogConfig {
     option2?: number;
     option3?: number;
     productEANCode?: number;
+    isB2BProduct?: number;
+    isB2CProduct?: number;
   };
 }
 

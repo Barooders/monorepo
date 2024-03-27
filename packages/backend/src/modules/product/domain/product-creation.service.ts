@@ -76,6 +76,9 @@ export class DraftProductInputDto {
   @IsString()
   @IsOptional()
   sourceUrl?: string;
+
+  @IsOptional()
+  salesChannels?: SalesChannelName[];
 }
 
 export interface ProductCreationOptions {
@@ -128,6 +131,10 @@ export class ProductCreationService {
 
     await this.updateProductsInDBWithSameHandle(createdProduct);
 
+    const salesChannels = product.salesChannels
+      ? product.salesChannels.map((salesChannelName) => ({ salesChannelName }))
+      : [{ salesChannelName: SalesChannelName.PUBLIC }];
+
     const productInDB = await this.prisma.product.create({
       data: {
         createdAt: new Date(),
@@ -154,11 +161,7 @@ export class ProductCreationService {
         },
         productSalesChannels: {
           createMany: {
-            data: [
-              {
-                salesChannelName: SalesChannelName.PUBLIC,
-              },
-            ],
+            data: salesChannels,
           },
         },
       },
@@ -239,6 +242,7 @@ export class ProductCreationService {
       handDeliveryPostalCode,
       condition,
       sourceUrl,
+      salesChannels,
     } = draftProductInputDto;
 
     const source = String(
@@ -290,6 +294,7 @@ export class ProductCreationService {
             ]
           : []),
       ],
+      salesChannels,
     };
 
     return await this.createProduct(
