@@ -69,14 +69,18 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
     ],
   };
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ newPrice, description }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({
+    newPrice,
+    quantity,
+    description,
+  }) => {
     if (!newPrice) return;
 
     const priceOfferBody: operations['PriceOfferController_createB2BPriceOfferByBuyer']['requestBody']['content']['application/json'] =
       {
         newPriceInCents: newPrice * 100,
         productId,
-        description,
+        description: `[${quantity}x${newPrice}€] ${description}`,
       };
 
     await fetchAPI('/v1/price-offer/b2b', {
