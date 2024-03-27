@@ -24,6 +24,7 @@ select_permissions:
         - id
         - initiatedBy
         - newPriceInCents
+        - type
         - productId
         - productVariantId
         - status
@@ -35,6 +36,7 @@ select_permissions:
       columns:
         - status
         - newPriceInCents
+        - type
         - discountCode
         - id
         - productId
@@ -51,6 +53,7 @@ select_permissions:
       columns:
         - status
         - newPriceInCents
+        - type
         - discountCode
         - id
         - productId
