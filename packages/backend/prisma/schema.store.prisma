@@ -245,6 +245,7 @@ model StoreB2BProductVariant {
   syncDate          DateTime                @map("sync_date") @db.Date
   price             Float
   compareAtPrice    Float?                  @map("compare_at_price")
+  title             String                  @db.VarChar(256)
   condition         Condition?
   updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6)
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
