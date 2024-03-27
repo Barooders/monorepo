@@ -1,12 +1,28 @@
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Amount } from '@libs/domain/value-objects';
 import { ICommissionRepository } from '@modules/price-offer/domain/ports/commission.repository';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CommissionRepository implements ICommissionRepository {
+  constructor(protected readonly prisma: PrismaMainClient) {}
+
   async getPriceWithoutB2BGlobalBuyerCommission(
-    _price: Amount,
+    price: Amount,
   ): Promise<Amount> {
-    throw new Error('Method not implemented.');
+    const commission: { get_global_b2b_buyer_commission_multiplier: number }[] =
+      await this.prisma
+        .$queryRaw`SELECT * FROM GET_GLOBAL_B2B_BUYER_COMMISSION_MULTIPLIER()`;
+
+    if (commission.length !== 1) {
+      throw new Error('B2B global buyer commission configuration is invalid');
+    }
+
+    return new Amount({
+      amountInCents: Math.floor(
+        price.amountInCents /
+          commission[0].get_global_b2b_buyer_commission_multiplier,
+      ),
+    });
   }
 }
