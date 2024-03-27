@@ -38,7 +38,7 @@ SELECT
     COALESCE(p."productType", sp.product_type) AS "product_type",
     CAST(p.status::TEXT AS dbt."ProductStatus") AS status,
     tq."totalQuantity" AS "total_quantity",
-    lbp."unitPriceInCents" AS "largest_bundle_price_in_cents",
+    (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * lbp."unitPriceInCents" AS "largest_bundle_price_in_cents",
     sp.title,
     sp.handle,
     CURRENT_DATE AS "sync_date",

@@ -6,10 +6,12 @@ import {
   NotFoundException,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
 
+import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -21,8 +23,9 @@ import {
   IsOptional,
 } from 'class-validator';
 import { BuyerCommissionService } from '../domain/buyer-commission.service';
-import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 import { Commission } from '../domain/ports/commission.entity';
+import { ICommissionRepository } from '../domain/ports/commission.repository';
+import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 
 class CommissionInputDto {
   @IsNotEmpty()
@@ -71,10 +74,13 @@ class ProductInputDto {
 export class BuyerCommissionController {
   private readonly logger = new Logger(BuyerCommissionController.name);
 
-  constructor(private buyerCommissionService: BuyerCommissionService) {}
+  constructor(
+    private buyerCommissionService: BuyerCommissionService,
+    private commissionRepository: ICommissionRepository,
+  ) {}
 
   @ApiResponse({ type: Commission })
-  @Post(routesV1.invoice.createCommission)
+  @Post(routesV1.product.createCommission)
   async createAndPublishCommissionProduct(
     @Body()
     commissionInputDto: CommissionInputDto,
@@ -86,7 +92,7 @@ export class BuyerCommissionController {
     );
   }
 
-  @Get(routesV1.invoice.computeLineItemCommission)
+  @Get(routesV1.product.computeLineItemCommission)
   /**
    * It computes a line item (single amount) commission cost and returns it.
    * @returns {Promise<number>} - It returns the commission cost.
@@ -107,7 +113,7 @@ export class BuyerCommissionController {
     return commissionCost;
   }
 
-  @Get(routesV1.invoice.computeProductCommission)
+  @Get(routesV1.product.computeProductCommission)
   /**
    * It computes a line item (single amount) commission cost and returns it.
    * @returns {Promise<number>} - It returns the commission cost.
@@ -133,5 +139,12 @@ export class BuyerCommissionController {
       }
       throw e;
     }
+  }
+
+  @Get(routesV1.product.getB2BCommission)
+  @UseGuards(B2BUserGuard)
+  async getB2BCommission(): Promise<number> {
+    return (await this.commissionRepository.getGlobalB2BBuyerCommission())
+      .percentage;
   }
 }

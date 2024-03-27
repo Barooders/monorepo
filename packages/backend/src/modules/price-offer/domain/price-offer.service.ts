@@ -10,10 +10,10 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
+import { ICommissionRepository } from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { first } from 'lodash';
-import { IOrder } from 'shopify-api-node';
 import { ParticipantEmailSender, Participants } from './config';
 import {
   ForbiddenParticipation,
@@ -40,6 +40,7 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly storeClient: IStoreClient,
     protected readonly emailClient: IEmailClient,
     protected readonly internalNotificationClient: IInternalNotificationClient,
+    protected readonly commissionRepository: ICommissionRepository,
   ) {}
 
   async createNewPublicPriceOffer(
@@ -107,25 +108,29 @@ export class PriceOfferService implements IPriceOfferService {
     return newPriceOffer;
   }
 
-  async createNewB2BPriceOffer(
-    userId: UUID,
+  async createNewB2BPriceOfferByBuyer(
+    buyerId: UUID,
     newPrice: Amount,
     productId: UUID,
     description: string,
   ): Promise<void> {
     const { sellerName } = await this.prisma.customer.findUniqueOrThrow({
-      where: { authUserId: userId.uuid },
+      where: { authUserId: buyerId.uuid },
       select: { sellerName: true, user: { select: { email: true } } },
     });
+
+    const commission =
+      await this.commissionRepository.getGlobalB2BBuyerCommission();
 
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
         salesChannelName: SalesChannelName.B2B,
-        buyerId: userId.uuid,
+        buyerId: buyerId.uuid,
         productId: productId.uuid,
         newPriceInCents: newPrice.amountInCents,
-        initiatedBy: userId.uuid,
+        initiatedBy: buyerId.uuid,
         status: PriceOfferStatus.PROPOSED,
+        includedBuyerCommissionPercentage: commission.percentage,
         description,
       },
     });
@@ -133,7 +138,7 @@ export class PriceOfferService implements IPriceOfferService {
     await this.prisma.event.create({
       data: {
         aggregateName: AggregateName.CUSTOMER,
-        aggregateId: userId.uuid,
+        aggregateId: buyerId.uuid,
         name: EventName.PRICE_OFFER_CREATED,
         payload: {
           priceOfferId: newPriceOffer.id,
@@ -144,7 +149,7 @@ export class PriceOfferService implements IPriceOfferService {
     const { handle, productType } = await this.prisma.product.findFirstOrThrow({
       where: { id: productId.uuid },
     });
-    await this.internalNotificationClient.sendNewPriceOfferNotification(`
+    await this.internalNotificationClient.sendB2BNotification(`
       💰 *${sellerName}* a déposé une nouvelle offre B2B pour le product ${productId}
 
       🚲 Produit: ${productType} - ${handle}
@@ -262,10 +267,9 @@ export class PriceOfferService implements IPriceOfferService {
     );
   }
 
-  async updatePriceOfferStatusFromOrder(order: IOrder): Promise<void> {
-    const usedDiscountCodes = order.discount_applications.map(
-      (discount) => discount.code,
-    );
+  async updatePriceOfferStatusFromOrder(
+    usedDiscountCodes: string[],
+  ): Promise<void> {
     if (!usedDiscountCodes || usedDiscountCodes.length === 0) return;
 
     const relatedPriceOffers = await this.prisma.priceOffer.findMany({

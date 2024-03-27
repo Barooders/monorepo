@@ -1,25 +1,11 @@
-import { FetchB2BGlobalCommissionQuery } from '@/__generated/graphql';
 import B2BProductCard from '@/components/molecules/ProductCard/b2b';
-import { useHasura } from '@/hooks/useHasura';
-import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
-import { gql } from '@apollo/client';
-import { head } from 'lodash';
-import { useEffect } from 'react';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
-import { HASURA_ROLES, SearchB2BVariantDocument } from 'shared-types';
+import { SearchB2BVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');
-
-const FETCH_B2B_GLOBAL_COMMISSION = gql`
-  query fetchB2BGlobalCommission {
-    CommissionRule(where: { type: { _eq: "GLOBAL_B2B_BUYER_COMMISSION" } }) {
-      rules
-    }
-  }
-`;
 
 const NoResultsBoundary: React.FC<{
   children: React.ReactNode;
@@ -51,22 +37,6 @@ function NoResults() {
 }
 
 const B2BSearchResults: React.FC = () => {
-  const fetchB2BGlobalCommission = useHasura<FetchB2BGlobalCommissionQuery>(
-    FETCH_B2B_GLOBAL_COMMISSION,
-    HASURA_ROLES.B2B_USER,
-  );
-  const [b2bGlobalCommission, doFetchB2BGlobalCommission] = useWrappedAsyncFn(
-    fetchB2BGlobalCommission,
-  );
-
-  useEffect(() => {
-    doFetchB2BGlobalCommission();
-  }, [doFetchB2BGlobalCommission]);
-
-  const b2bGlobalCommissionValue = b2bGlobalCommission.value;
-
-  if (!b2bGlobalCommissionValue) return <NoResults />;
-
   return (
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
@@ -74,10 +44,7 @@ const B2BSearchResults: React.FC = () => {
           list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
         }}
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
-          const productCardProps = fromSearchToB2BProductCard(
-            hit,
-            head(b2bGlobalCommissionValue.CommissionRule)?.rules,
-          );
+          const productCardProps = fromSearchToB2BProductCard(hit);
           return (
             <>
               <AdminHitHelper hit={hit} />

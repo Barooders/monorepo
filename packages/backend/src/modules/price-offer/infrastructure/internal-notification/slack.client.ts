@@ -5,9 +5,9 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SlackClient implements IInternalNotificationClient {
-  async sendNewPriceOfferNotification(message: string): Promise<void> {
+  async sendB2BNotification(message: string): Promise<void> {
     await sendSlackMessage(
-      envConfig.externalServices.slack.newPriceOfferSlackChannelId,
+      envConfig.externalServices.slack.b2bSlackChannelId,
       message,
     );
   }

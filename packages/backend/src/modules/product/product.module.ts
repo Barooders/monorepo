@@ -8,12 +8,16 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { BuyerCommissionController } from './application/buyer-commission.web';
+import { CommissionCLIConsole } from './application/commission.cli';
 import { ProductCLIConsole } from './application/product.cli';
 import { ProductController } from './application/product.web';
 import { QueueNames } from './config';
+import { BuyerCommissionService } from './domain/buyer-commission.service';
 import { CollectionIndexationService } from './domain/collection-indexation.service';
 import { CollectionService } from './domain/collection.service';
 import { NotificationService } from './domain/notification.service';
+import { ICommissionRepository } from './domain/ports/commission.repository';
 import { IEmailClient } from './domain/ports/email.client';
 import { IPIMClient } from './domain/ports/pim.client';
 import { IQueueClient } from './domain/ports/queue-client';
@@ -22,6 +26,7 @@ import { IStoreClient } from './domain/ports/store.client';
 import { ProductCreationService } from './domain/product-creation.service';
 import { ProductUpdateService } from './domain/product-update.service';
 import { VariantIndexationService } from './domain/variant-indexation.service';
+import { CommissionRepository } from './infrastructure/config/commission.repository';
 import { SendGridClient } from './infrastructure/email/sendgrid.client';
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
@@ -39,6 +44,7 @@ const commonImports = [
 
 const commonProviders = [
   ShopifyApiBySession,
+  BuyerCommissionService,
   SessionMapper,
   PostgreSQLSessionStorage,
   CustomerRepository,
@@ -48,6 +54,10 @@ const commonProviders = [
   {
     provide: ISearchClient,
     useClass: SearchClient,
+  },
+  {
+    provide: ICommissionRepository,
+    useClass: CommissionRepository,
   },
   {
     provide: IQueueClient,
@@ -75,15 +85,21 @@ const commonProviders = [
 
 @Module({
   imports: commonImports,
-  controllers: [ProductController],
+  controllers: [ProductController, BuyerCommissionController],
   providers: commonProviders,
-  exports: [ProductCreationService, ProductUpdateService, IPIMClient],
+  exports: [
+    ProductCreationService,
+    ProductUpdateService,
+    BuyerCommissionService,
+    IPIMClient,
+    ICommissionRepository,
+  ],
 })
 export class ProductModule {}
 
 @Module({
   imports: commonImports,
   controllers: [],
-  providers: [...commonProviders, ProductCLIConsole],
+  providers: [...commonProviders, ProductCLIConsole, CommissionCLIConsole],
 })
 export class ProductConsoleModule {}

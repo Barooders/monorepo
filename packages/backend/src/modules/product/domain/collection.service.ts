@@ -2,7 +2,7 @@ import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Injectable } from '@nestjs/common';
 import { MAX_BREADCRUMBS_LENGTH } from '../constants';
-import { TooLongBreadcrumbsException } from './exceptions/collection.exceptions';
+import { TooLongBreadcrumbsException } from './ports/exceptions';
 
 @Injectable()
 export class CollectionService {

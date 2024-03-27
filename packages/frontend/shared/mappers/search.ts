@@ -10,7 +10,7 @@ import {
   typesenseInstantsearchAdapter,
 } from '@/config';
 import { getDictionary } from '@/i18n/translate';
-import { get, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import capitalize from 'lodash/capitalize';
 import {
   SearchB2BVariantDocument,
@@ -142,19 +142,7 @@ export const fromSearchToProductCard = (
   };
 };
 
-export const fromSearchToB2BProductCard = (
-  hit: SearchB2BVariantDocument,
-  b2bGlobalCommissionRules: unknown,
-) => {
-  const commissionType = get(b2bGlobalCommissionRules, '[0].type');
-  const commissionValue = get(b2bGlobalCommissionRules, '[0].value');
-
-  if (commissionType !== 'PERCENTAGE' || !commissionValue) {
-    throw new Error('Missing B2B global commission rules');
-  }
-
-  const commissionMultiplier = 1 + commissionValue / 100;
-
+export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
   let imageUrl = null;
   const image = hit.product_image ?? null;
   if (image) {
@@ -179,9 +167,9 @@ export const fromSearchToB2BProductCard = (
           }
         : undefined,
     title: hit.title,
-    price: hit.price * commissionMultiplier,
+    price: hit.price,
     largestBundlePrice: hit.largest_bundle_price
-      ? hit.largest_bundle_price * commissionMultiplier
+      ? hit.largest_bundle_price
       : undefined,
     compareAtPrice: hit.compare_at_price,
     stock: hit.total_quantity,

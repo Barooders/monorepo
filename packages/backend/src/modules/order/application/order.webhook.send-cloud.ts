@@ -4,12 +4,12 @@ import { InternalServerErrorException } from '@libs/domain/exceptions';
 import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { first } from 'lodash';
-import { PRODUCT_TYPE } from '../domain/constants/commission-product.constants';
 import { FulfillmentService } from '../domain/fulfillment.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderStatusUpdateNotAllowed } from '../domain/ports/exceptions';
 import { mapOrderStatus } from '../infrastructure/shipping/config';
 import { SendCloudWebhookEvent } from '../infrastructure/shipping/types';
+import { PRODUCT_TYPE } from '@libs/domain/constants/commission-product.constants';
 
 @Controller(routesV1.version)
 export class OrderWebhookSendCloudController {

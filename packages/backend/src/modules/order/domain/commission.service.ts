@@ -1,42 +1,17 @@
 import { MINIMAL_COMMISSION_RATE } from '@config/app.config';
 import {
-  CommissionRule,
   CommissionRuleType,
-  Prisma,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
+import { BuyerCommissionService } from '@modules/product/domain/buyer-commission.service';
+import {
+  ICommissionRepository,
+  ParsedCommissionRule,
+} from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
-import { BuyerCommissionService } from './buyer-commission.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IStoreClient, ProductVariant } from './ports/store.client';
-
-const mapJsonConditionToTypeAndValue = (
-  jsonCondition: Prisma.JsonValue,
-  name: string,
-): { type: Prisma.JsonValue; value: Prisma.JsonValue } => {
-  if (
-    !jsonCondition ||
-    typeof jsonCondition !== 'object' ||
-    Array.isArray(jsonCondition)
-  )
-    throw new Error(`${name} is not valid: ${jsonStringify(jsonCondition)}`);
-
-  const { type, value } = jsonCondition;
-
-  if (!type || !value)
-    throw new Error(
-      `${name} does not have type and value: ${jsonStringify(jsonCondition)}`,
-    );
-  return { type, value };
-};
-
-const mapCriteriaToTypeAndValue = (criteria: Prisma.JsonValue) => {
-  return mapJsonConditionToTypeAndValue(criteria, 'Criteria item');
-};
-const mapRuleToTypeAndValue = (criteria: Prisma.JsonValue) => {
-  return mapJsonConditionToTypeAndValue(criteria, 'Commission rule');
-};
 
 export interface Commission {
   variantPrice: number;
@@ -57,12 +32,6 @@ export enum RuleType {
   MAX_AMOUNT = 'MAX_AMOUNT',
 }
 
-export interface VendorForCommission {
-  buyerCommissionRate: number;
-  hasOwnShipping: boolean;
-  sellerName: string;
-}
-
 export interface SaveCommissionInput {
   orderLineId: string;
   productType: string;
@@ -70,11 +39,6 @@ export interface SaveCommissionInput {
   priceInCents: number;
   discountInCents: number;
   orderStoreId: string;
-}
-
-export interface ParsedCommissionRule extends CommissionRule {
-  criteria: { type: Prisma.JsonValue; value: Prisma.JsonValue }[];
-  rules: { type: Prisma.JsonValue; value: Prisma.JsonValue }[];
 }
 
 @Injectable()
@@ -86,6 +50,7 @@ export class CommissionService {
     private prisma: PrismaMainClient,
     private buyerCommissionService: BuyerCommissionService,
     private internalNotificationClient: IInternalNotificationClient,
+    private commissionRepository: ICommissionRepository,
   ) {}
 
   async getCommissionByOrderLine(orderLineId: string): Promise<Commission> {
@@ -173,17 +138,16 @@ export class CommissionService {
     return commission;
   }
 
-  cleanOldCommissions = this.storeClient.cleanOldCommissions;
-
   private async getVendorCommission(
     { productType, vendorId, price, discount }: ProductVariant,
     options: { isFreeShipping?: boolean } = {},
   ): Promise<Commission> {
     const discountedPrice = price - discount;
     const { buyerCommissionRate, hasOwnShipping, sellerName } =
-      await this.getVendorCommissionConfigFromId(vendorId);
+      await this.commissionRepository.getVendorCommissionConfigFromId(vendorId);
 
-    const commissionRules = await this.findRulesByVendorId(vendorId);
+    const commissionRules =
+      await this.commissionRepository.findRulesByVendorId(vendorId);
     const hasCommissionRules = commissionRules.some(
       ({ type }) => type === CommissionRuleType.VENDOR_COMMISSION,
     );
@@ -299,47 +263,5 @@ export class CommissionService {
           }
         });
       });
-  }
-
-  private async findRulesByVendorId(
-    vendorId: string,
-  ): Promise<ParsedCommissionRule[]> {
-    const rules = await this.prisma.commissionRule.findMany({
-      where: { customerId: vendorId },
-    });
-
-    return rules.map((rule) => {
-      if (!rule.rules || !Array.isArray(rule.rules))
-        throw new Error('Commission rules are not an array');
-
-      if (!Array.isArray(rule.criteria))
-        throw new Error('Commission criteria are not an array');
-
-      return {
-        ...rule,
-        criteria: rule.criteria.map(mapCriteriaToTypeAndValue),
-        rules: rule.rules.map(mapRuleToTypeAndValue),
-      };
-    });
-  }
-
-  private async getVendorCommissionConfigFromId(
-    vendorId: string,
-  ): Promise<VendorForCommission> {
-    const { buyerCommissionRate, usedShipping, sellerName } =
-      await this.prisma.customer.findUniqueOrThrow({
-        where: { authUserId: vendorId },
-        select: {
-          buyerCommissionRate: true,
-          usedShipping: true,
-          sellerName: true,
-        },
-      });
-
-    return {
-      buyerCommissionRate,
-      hasOwnShipping: usedShipping === 'vendor',
-      sellerName: sellerName ?? '',
-    };
   }
 }

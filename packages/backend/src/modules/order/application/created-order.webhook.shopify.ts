@@ -32,7 +32,9 @@ export class CreatedOrderWebhookShopifyController {
     });
     const orderUuid = new UUID({ uuid: orderId });
 
-    await this.priceOfferService.updatePriceOfferStatusFromOrder(orderData);
+    await this.priceOfferService.updatePriceOfferStatusFromOrder(
+      orderData.discount_applications.map((discount) => discount.code),
+    );
     const checkoutUuid = await this.paymentService.updatePaymentStatusFromOrder(
       orderUuid,
       orderData.checkout_token,

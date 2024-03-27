@@ -5,7 +5,17 @@ import {
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
+import { Amount, URL } from '@libs/domain/value-objects';
 import { ImageToUpload, ProductImage } from '../types';
+
+export interface ProductCreationInput {
+  title: string;
+  description: string;
+  vendor: string;
+  productType: string;
+  featuredImgSrc: URL;
+  variants: { price: Amount }[];
+}
 
 export abstract class IStoreClient {
   abstract getProductDetails(productId: string): Promise<StoredProduct>;
@@ -14,7 +24,7 @@ export abstract class IStoreClient {
     productId: string,
     data: ProductToUpdate,
   ): Promise<void>;
-  abstract publishProductInMobileChannel(productId: string): Promise<void>;
+  abstract publishProduct(productId: string): Promise<void>;
   abstract createProductVariant(
     productId: number,
     data: Variant,
@@ -37,4 +47,9 @@ export abstract class IStoreClient {
     productId: string,
     imageId: string,
   ): Promise<void>;
+
+  abstract createCommissionProduct(
+    product: ProductCreationInput,
+  ): Promise<{ id: string; variants: { id: string }[] }>;
+  abstract cleanOldCommissions(): Promise<void>;
 }

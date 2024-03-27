@@ -1,16 +1,16 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
-import { Amount, URL } from '@libs/domain/value-objects';
-import { toCents } from '@libs/helpers/currency';
-import { jsonStringify } from '@libs/helpers/json';
-import { Injectable, Logger } from '@nestjs/common';
-import { first } from 'lodash';
 import {
   PRODUCT_DESCRIPTION,
   PRODUCT_FEATURED_IMAGE_URL,
   PRODUCT_NAME,
   PRODUCT_TYPE,
   PRODUCT_VENDOR,
-} from './constants/commission-product.constants';
+} from '@libs/domain/constants/commission-product.constants';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { Amount, URL } from '@libs/domain/value-objects';
+import { toCents } from '@libs/helpers/currency';
+import { jsonStringify } from '@libs/helpers/json';
+import { Injectable, Logger } from '@nestjs/common';
+import { first } from 'lodash';
 import { Commission } from './ports/commission.entity';
 import { ProductNotFound, VariantNotFound } from './ports/exceptions';
 import { IStoreClient } from './ports/store.client';
@@ -123,7 +123,7 @@ export class BuyerCommissionService {
     });
 
     try {
-      const commissionProduct = await this.storeClient.createProduct({
+      const commissionProduct = await this.storeClient.createCommissionProduct({
         title: PRODUCT_NAME,
         description: PRODUCT_DESCRIPTION,
         vendor: PRODUCT_VENDOR,

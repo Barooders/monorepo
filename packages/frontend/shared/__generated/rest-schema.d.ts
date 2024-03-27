@@ -53,6 +53,9 @@ export interface paths {
   '/v1/admin/order/{orderId}/refund': {
     post: operations['OrderController_refundOrderAsAdmin'];
   };
+  '/v1/admin/order/{orderId}/cancel': {
+    post: operations['OrderController_cancelOrderAsAdmin'];
+  };
   '/v1/order-lines/{orderLineId}/cancel': {
     post: operations['OrderController_cancelOrder'];
   };
@@ -109,7 +112,7 @@ export interface paths {
     post: operations['PriceOfferController_createPublicPriceOffer'];
   };
   '/v1/price-offer/b2b': {
-    post: operations['PriceOfferController_createB2BPriceOffer'];
+    post: operations['PriceOfferController_createB2BPriceOfferByBuyer'];
   };
   '/v1/price-offer/{priceOfferId}': {
     put: operations['PriceOfferController_updatePriceOffer'];
@@ -378,7 +381,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-03-26T16:40:46.160Z
+       * @example 2024-03-27T15:02:04.081Z
        */
       birthDate: string;
       /**
@@ -583,6 +586,18 @@ export interface operations {
     };
   };
   OrderController_refundOrderAsAdmin: {
+    parameters: {
+      path: {
+        orderId: string;
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  OrderController_cancelOrderAsAdmin: {
     parameters: {
       path: {
         orderId: string;
@@ -886,7 +901,7 @@ export interface operations {
       };
     };
   };
-  PriceOfferController_createB2BPriceOffer: {
+  PriceOfferController_createB2BPriceOfferByBuyer: {
     requestBody: {
       content: {
         'application/json': components['schemas']['NewB2BPriceOfferDTO'];

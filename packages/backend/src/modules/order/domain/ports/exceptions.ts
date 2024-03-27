@@ -1,6 +1,5 @@
-import { ExceptionBase, NotFoundException } from '@libs/domain/exceptions';
+import { ExceptionBase } from '@libs/domain/exceptions';
 import { OrderStatus } from '@libs/domain/prisma.main.client';
-import { jsonStringify } from '@libs/helpers/json';
 import { BadRequestException } from '@nestjs/common';
 
 export class VendorNotFoundException extends ExceptionBase {
@@ -43,24 +42,6 @@ export class UserIsNotOrderCustomerException extends ExceptionBase {
   }
 
   readonly code = 'HAND_DELIVERY.USER_NOT_ALLOWED';
-}
-
-export class ProductNotFound extends NotFoundException {
-  constructor(productWhereClause: string) {
-    super(
-      `Could not find product in public.Product table with where clause: ${jsonStringify(
-        productWhereClause,
-      )}`,
-    );
-  }
-}
-
-export class VariantNotFound extends NotFoundException {
-  constructor(productId: string, variantId: string) {
-    super(
-      `No variant price found for product ${productId} and variant ${variantId}`,
-    );
-  }
 }
 
 export class IncorrectStateOrder extends BadRequestException {

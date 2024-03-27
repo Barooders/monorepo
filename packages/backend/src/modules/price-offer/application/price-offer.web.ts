@@ -152,7 +152,7 @@ export class PriceOfferController {
   })
   @Post(routesV1.priceOffer.b2b)
   @UseGuards(B2BUserGuard)
-  async createB2BPriceOffer(
+  async createB2BPriceOfferByBuyer(
     @Body()
     { newPriceInCents, productId, description }: NewB2BPriceOfferDTO,
     @User() { userId }: ExtractedUser,
@@ -163,7 +163,7 @@ export class PriceOfferController {
       );
     }
 
-    await this.priceOfferService.createNewB2BPriceOffer(
+    await this.priceOfferService.createNewB2BPriceOfferByBuyer(
       new UUID({ uuid: userId }),
       new Amount({ amountInCents: newPriceInCents }),
       new UUID({ uuid: productId }),
