@@ -10,6 +10,7 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
+import { ICommissionRepository } from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { first } from 'lodash';
@@ -21,7 +22,6 @@ import {
   PriceOfferIsNotAcceptable,
   PriceOfferNotFound,
 } from './exceptions';
-import { ICommissionRepository } from './ports/commission.repository';
 import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPriceOfferService } from './ports/price-offer';

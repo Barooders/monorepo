@@ -5,6 +5,7 @@ import { PostgreSQLSessionStorage } from '@libs/infrastructure/shopify/session-s
 import { SessionMapper } from '@libs/infrastructure/shopify/session-storage/postgresql-session-storage/session.mapper';
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import { PaymentModule } from '@modules/buy__payment/module';
+import { ChatModule } from '@modules/chat/chat.module';
 import { CustomerModule } from '@modules/customer/customer.module';
 import { BuyerCommissionController } from '@modules/order/application/buyer-commission.web';
 import { HandDeliveryOrderController } from '@modules/order/application/hand-delivery-order.web';
@@ -45,7 +46,6 @@ import { OrderService } from './domain/order.service';
 import { IShippingClient } from './domain/ports/shipping.client';
 import { RefundService } from './domain/refund.service';
 import { SendCloudClient } from './infrastructure/shipping/send-cloud.client';
-import { ChatModule } from '@modules/chat/chat.module';
 
 const commonProviders = [
   CustomerRepository,
