@@ -10,18 +10,18 @@ export class CommissionRepository implements ICommissionRepository {
   async getPriceWithoutB2BGlobalBuyerCommission(
     price: Amount,
   ): Promise<Amount> {
-    const commission: { get_global_b2b_buyer_commission_multiplier: number }[] =
-      await this.prisma
-        .$queryRaw`SELECT * FROM GET_GLOBAL_B2B_BUYER_COMMISSION_MULTIPLIER()`;
+    const commission: { get_global_b2b_buyer_commission: number }[] = await this
+      .prisma.$queryRaw`SELECT * FROM GET_GLOBAL_B2B_BUYER_COMMISSION()`;
 
     if (commission.length !== 1) {
       throw new Error('B2B global buyer commission configuration is invalid');
     }
 
+    const commissionValue = commission[0].get_global_b2b_buyer_commission;
+
     return new Amount({
       amountInCents: Math.floor(
-        price.amountInCents /
-          commission[0].get_global_b2b_buyer_commission_multiplier,
+        price.amountInCents / (1 + commissionValue / 100),
       ),
     });
   }
