@@ -11,16 +11,17 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import * as Sentry from '@sentry/node';
 import { ProductDTO } from './dto/prestashop-product.dto';
+import { BikeXtremeMapper } from './mappers/bike-xtreme.mapper';
 import { PrestashopDefaultMapper } from './mappers/default.mapper';
 import { FietsMapper } from './mappers/fiets.mapper';
+import { FreeglisseMapper } from './mappers/freeglisse.mapper';
 import { FunbikeMapper } from './mappers/funbike.mapper';
+import { GemBikesMapper } from './mappers/gem-bikes.mapper';
 import { MatbikeMapper } from './mappers/matbike.mapper';
 import { SEMotionMapper } from './mappers/semotion.mapper';
 import { TribiciMapper } from './mappers/tribici.mapper';
 import { Velosport34Mapper } from './mappers/velosport34.mapper';
 import { PrestashopClient } from './prestashop.client';
-import { BikeXtremeMapper } from './mappers/bike-xtreme.mapper';
-import { FreeglisseMapper } from './mappers/freeglisse.mapper';
 
 @Injectable()
 export class PrestashopProductService implements ProVendorStrategy {
@@ -36,6 +37,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     private bikeXtremeMapper: BikeXtremeMapper,
     private tribiciMapper: TribiciMapper,
     private matbikeMapper: MatbikeMapper,
+    private gemBikesMapper: GemBikesMapper,
     private velosport34Mapper: Velosport34Mapper,
     private productService: ProductService,
     private readonly vendorConfigService: IVendorConfigService,
@@ -91,6 +93,8 @@ export class PrestashopProductService implements ProVendorStrategy {
         return this.bikeXtremeMapper;
       case 'tribici_presta':
         return this.tribiciMapper;
+      case 'gem_bikes':
+        return this.gemBikesMapper;
       default:
         return this.prestashopDefaultMapper;
     }
