@@ -11,6 +11,7 @@ SELECT
     (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * ppv."priceInCents" / 100 AS "price",
     pv.compare_at_price AS "compare_at_price",
     CAST(ppv.condition::TEXT AS dbt."Condition") as "condition",
+    pv.title,
     pv.updated_at AS "updated_at"
 
 FROM {{ref('store_base_product_variant')}} bpv

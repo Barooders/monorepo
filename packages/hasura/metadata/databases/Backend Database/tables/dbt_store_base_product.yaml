@@ -2,6 +2,15 @@ table:
   name: store_base_product
   schema: dbt
 object_relationships:
+  - name: b2bProduct
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: store_b2b_product
+          schema: dbt
   - name: product
     using:
       manual_configuration:
@@ -49,6 +58,15 @@ array_relationships:
           name: store_base_product_variant
           schema: dbt
 select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - shopifyId
+        - id
+        - createdAt
+        - vendorId
+      filter: {}
+    comment: ""
   - role: me_as_customer
     permission:
       columns:

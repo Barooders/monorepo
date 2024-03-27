@@ -1,0 +1,25 @@
+table:
+  name: store_b2b_product
+  schema: dbt
+object_relationships:
+  - name: product
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: store_base_product
+          schema: dbt
+select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - first_image
+        - largest_bundle_price_in_cents
+        - product_type
+        - status
+        - title
+        - total_quantity
+      filter: {}
+    comment: ""
