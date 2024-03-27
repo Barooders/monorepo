@@ -13,7 +13,6 @@ import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { first } from 'lodash';
-import { IOrder } from 'shopify-api-node';
 import { ParticipantEmailSender, Participants } from './config';
 import {
   ForbiddenParticipation,
@@ -268,10 +267,9 @@ export class PriceOfferService implements IPriceOfferService {
     );
   }
 
-  async updatePriceOfferStatusFromOrder(order: IOrder): Promise<void> {
-    const usedDiscountCodes = order.discount_applications.map(
-      (discount) => discount.code,
-    );
+  async updatePriceOfferStatusFromOrder(
+    usedDiscountCodes: string[],
+  ): Promise<void> {
     if (!usedDiscountCodes || usedDiscountCodes.length === 0) return;
 
     const relatedPriceOffers = await this.prisma.priceOffer.findMany({
