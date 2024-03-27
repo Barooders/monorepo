@@ -9,7 +9,7 @@ import { IInternalNotificationClient } from './domain/ports/internal-notificatio
 import { IPriceOfferService } from './domain/ports/price-offer';
 import { IStoreClient } from './domain/ports/store.client';
 import { PriceOfferService } from './domain/price-offer.service';
-import { CommissionRepository } from './infrastructure/database/commission.repository';
+import { CommissionRepository } from './infrastructure/config/commission.repository';
 import { SendGridClient } from './infrastructure/email/sendgrid';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { ShopifyClient } from './infrastructure/store/shopify';
