@@ -150,7 +150,7 @@ export class PriceOfferService implements IPriceOfferService {
       where: { id: productId.uuid },
     });
     await this.internalNotificationClient.sendB2BNotification(`
-      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le product ${productId}
+      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
 
       🚲 Produit: ${productType} - ${handle}
       💶 Prix proposé: ${newPrice.formattedAmount}
