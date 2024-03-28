@@ -2,7 +2,6 @@ import Link from '@/components/atoms/Link';
 import { OrderStatus } from '@/components/pages/Account/types';
 import { ShipmentTimeframe } from '@/config';
 import { AccountSections, ProductStatus } from '@/types';
-import { formatCurrency } from '@/utils/currency';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 
 const fr = {
@@ -1205,14 +1204,6 @@ const fr = {
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',
-      largestBundlePrice: (largestBundlePrice: number) => (
-        <>
-          Prix unitaire: à partir de{' '}
-          <strong>
-            {formatCurrency(largestBundlePrice, { round: true })}€ TTC
-          </strong>
-        </>
-      ),
     },
   },
 };
