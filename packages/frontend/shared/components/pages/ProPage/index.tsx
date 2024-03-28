@@ -3,6 +3,7 @@
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BSearchAlertButton from '@/components/molecules/B2BSavedSearchButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
+import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
@@ -35,6 +36,7 @@ const ProPage: React.FC = () => {
             </div>
             <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
               <B2BCollectionHeader />
+              <B2BGuarantees />
               <B2BSearchResults />
               <Pagination />
             </div>

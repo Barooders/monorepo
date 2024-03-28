@@ -1162,6 +1162,26 @@ const fr = {
         modify: 'Modifier',
         validate: 'Valider',
       },
+      guarantees: {
+        includedShipping: () => (
+          <>
+            <span>Frais de livraison</span>{' '}
+            <span className="font-medium">inclus</span>
+          </>
+        ),
+        verifiedSellers: () => (
+          <>
+            <span>Vendeurs professionnels</span>{' '}
+            <span className="font-medium">100% vérifiées</span>
+          </>
+        ),
+        securedPayment: () => (
+          <>
+            <span>Transaction garantie</span>{' '}
+            <span className="font-medium">par Barooders</span>
+          </>
+        ),
+      },
     },
     productCard: {
       makeAnOffer: {
