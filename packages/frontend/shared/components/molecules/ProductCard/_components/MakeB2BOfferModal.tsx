@@ -243,7 +243,13 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
               type="submit"
               className="mt-2 flex w-full items-center justify-center"
             >
-              {submitState.loading ? <Loader /> : dict.makeOffer.send}
+              {submitState.loading ? (
+                <Loader />
+              ) : userCanNegociate ? (
+                dict.makeOffer.send
+              ) : (
+                dict.b2b.productCard.makeAnOffer.buy
+              )}
             </Button>
           </form>
         </FormProvider>
