@@ -612,6 +612,7 @@ model Cart {
 model Checkout {
   id                String             @id @default(dbgenerated("(gen_random_uuid())::text"))
   cartId            String
+  storeId           String?
   status            CheckoutStatus
   createdAt         DateTime           @default(now())
   cart              Cart               @relation(fields: [cartId], references: [id])
