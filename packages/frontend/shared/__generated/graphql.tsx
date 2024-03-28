@@ -13613,6 +13613,10 @@ export type Dbt_Store_Base_Product = {
   /** An object relationship */
   b2bProduct: Maybe<Dbt_Store_B2b_Product>;
   /** An array relationship */
+  bundlePrices: Array<Dbt_Store_Bundle_Price>;
+  /** An aggregate relationship */
+  bundlePrices_aggregate: Dbt_Store_Bundle_Price_Aggregate;
+  /** An array relationship */
   collections: Array<Dbt_Store_Product_Collection>;
   /** An aggregate relationship */
   collections_aggregate: Dbt_Store_Product_Collection_Aggregate;
@@ -13634,6 +13638,24 @@ export type Dbt_Store_Base_Product = {
   /** An aggregate relationship */
   variants_aggregate: Dbt_Store_Base_Product_Variant_Aggregate;
   vendorId: Scalars['uuid'];
+};
+
+/** columns and relationships of "dbt.store_base_product" */
+export type Dbt_Store_Base_ProductBundlePricesArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+/** columns and relationships of "dbt.store_base_product" */
+export type Dbt_Store_Base_ProductBundlePrices_AggregateArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 /** columns and relationships of "dbt.store_base_product" */
@@ -13749,6 +13771,8 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
   _not: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_Base_Product_Bool_Exp>>;
   b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
+  bundlePrices: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+  bundlePrices_aggregate: InputMaybe<Dbt_Store_Bundle_Price_Aggregate_Bool_Exp>;
   collections: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
   collections_aggregate: InputMaybe<Dbt_Store_Product_Collection_Aggregate_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -13780,6 +13804,7 @@ export type Dbt_Store_Base_Product_Inc_Input = {
 /** input type for inserting data into table "dbt.store_base_product" */
 export type Dbt_Store_Base_Product_Insert_Input = {
   b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Obj_Rel_Insert_Input>;
+  bundlePrices: InputMaybe<Dbt_Store_Bundle_Price_Arr_Rel_Insert_Input>;
   collections: InputMaybe<Dbt_Store_Product_Collection_Arr_Rel_Insert_Input>;
   createdAt: InputMaybe<Scalars['timestamptz']>;
   id: InputMaybe<Scalars['String']>;
@@ -13835,6 +13860,7 @@ export type Dbt_Store_Base_Product_On_Conflict = {
 /** Ordering options when selecting data from "dbt.store_base_product". */
 export type Dbt_Store_Base_Product_Order_By = {
   b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Order_By>;
+  bundlePrices_aggregate: InputMaybe<Dbt_Store_Bundle_Price_Aggregate_Order_By>;
   collections_aggregate: InputMaybe<Dbt_Store_Product_Collection_Aggregate_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
@@ -14279,6 +14305,337 @@ export type Dbt_Store_Base_Product_Variant_Variance_Fields = {
 /** order by variance() on columns of table "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Variance_Order_By = {
   shopify_id: InputMaybe<Order_By>;
+};
+
+/** columns and relationships of "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price = {
+  __typename?: 'dbt_store_bundle_price';
+  id: Scalars['String'];
+  min_quantity: Scalars['Int'];
+  /** An object relationship */
+  product: Maybe<Dbt_Store_Base_Product>;
+  product_id: Scalars['String'];
+  unit_price_in_cents: Scalars['bigint'];
+};
+
+/** aggregated selection of "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Aggregate = {
+  __typename?: 'dbt_store_bundle_price_aggregate';
+  aggregate: Maybe<Dbt_Store_Bundle_Price_Aggregate_Fields>;
+  nodes: Array<Dbt_Store_Bundle_Price>;
+};
+
+export type Dbt_Store_Bundle_Price_Aggregate_Bool_Exp = {
+  count: InputMaybe<Dbt_Store_Bundle_Price_Aggregate_Bool_Exp_Count>;
+};
+
+export type Dbt_Store_Bundle_Price_Aggregate_Bool_Exp_Count = {
+  arguments: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  distinct: InputMaybe<Scalars['Boolean']>;
+  filter: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Aggregate_Fields = {
+  __typename?: 'dbt_store_bundle_price_aggregate_fields';
+  avg: Maybe<Dbt_Store_Bundle_Price_Avg_Fields>;
+  count: Scalars['Int'];
+  max: Maybe<Dbt_Store_Bundle_Price_Max_Fields>;
+  min: Maybe<Dbt_Store_Bundle_Price_Min_Fields>;
+  stddev: Maybe<Dbt_Store_Bundle_Price_Stddev_Fields>;
+  stddev_pop: Maybe<Dbt_Store_Bundle_Price_Stddev_Pop_Fields>;
+  stddev_samp: Maybe<Dbt_Store_Bundle_Price_Stddev_Samp_Fields>;
+  sum: Maybe<Dbt_Store_Bundle_Price_Sum_Fields>;
+  var_pop: Maybe<Dbt_Store_Bundle_Price_Var_Pop_Fields>;
+  var_samp: Maybe<Dbt_Store_Bundle_Price_Var_Samp_Fields>;
+  variance: Maybe<Dbt_Store_Bundle_Price_Variance_Fields>;
+};
+
+/** aggregate fields of "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Aggregate_FieldsCountArgs = {
+  columns: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  distinct: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Aggregate_Order_By = {
+  avg: InputMaybe<Dbt_Store_Bundle_Price_Avg_Order_By>;
+  count: InputMaybe<Order_By>;
+  max: InputMaybe<Dbt_Store_Bundle_Price_Max_Order_By>;
+  min: InputMaybe<Dbt_Store_Bundle_Price_Min_Order_By>;
+  stddev: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Order_By>;
+  stddev_pop: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Pop_Order_By>;
+  stddev_samp: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Samp_Order_By>;
+  sum: InputMaybe<Dbt_Store_Bundle_Price_Sum_Order_By>;
+  var_pop: InputMaybe<Dbt_Store_Bundle_Price_Var_Pop_Order_By>;
+  var_samp: InputMaybe<Dbt_Store_Bundle_Price_Var_Samp_Order_By>;
+  variance: InputMaybe<Dbt_Store_Bundle_Price_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Arr_Rel_Insert_Input = {
+  data: Array<Dbt_Store_Bundle_Price_Insert_Input>;
+  /** upsert condition */
+  on_conflict: InputMaybe<Dbt_Store_Bundle_Price_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Dbt_Store_Bundle_Price_Avg_Fields = {
+  __typename?: 'dbt_store_bundle_price_avg_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Avg_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "dbt.store_bundle_price". All fields are combined with a logical 'AND'. */
+export type Dbt_Store_Bundle_Price_Bool_Exp = {
+  _and: InputMaybe<Array<Dbt_Store_Bundle_Price_Bool_Exp>>;
+  _not: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+  _or: InputMaybe<Array<Dbt_Store_Bundle_Price_Bool_Exp>>;
+  id: InputMaybe<String_Comparison_Exp>;
+  min_quantity: InputMaybe<Int_Comparison_Exp>;
+  product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
+  product_id: InputMaybe<String_Comparison_Exp>;
+  unit_price_in_cents: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "dbt.store_bundle_price" */
+export enum Dbt_Store_Bundle_Price_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  StoreBundlePricePkey = 'store_bundle_price_pkey',
+}
+
+/** input type for incrementing numeric columns in table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Inc_Input = {
+  min_quantity: InputMaybe<Scalars['Int']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+};
+
+/** input type for inserting data into table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Insert_Input = {
+  id: InputMaybe<Scalars['String']>;
+  min_quantity: InputMaybe<Scalars['Int']>;
+  product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
+  product_id: InputMaybe<Scalars['String']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+};
+
+/** aggregate max on columns */
+export type Dbt_Store_Bundle_Price_Max_Fields = {
+  __typename?: 'dbt_store_bundle_price_max_fields';
+  id: Maybe<Scalars['String']>;
+  min_quantity: Maybe<Scalars['Int']>;
+  product_id: Maybe<Scalars['String']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']>;
+};
+
+/** order by max() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Max_Order_By = {
+  id: InputMaybe<Order_By>;
+  min_quantity: InputMaybe<Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Dbt_Store_Bundle_Price_Min_Fields = {
+  __typename?: 'dbt_store_bundle_price_min_fields';
+  id: Maybe<Scalars['String']>;
+  min_quantity: Maybe<Scalars['Int']>;
+  product_id: Maybe<Scalars['String']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']>;
+};
+
+/** order by min() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Min_Order_By = {
+  id: InputMaybe<Order_By>;
+  min_quantity: InputMaybe<Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Mutation_Response = {
+  __typename?: 'dbt_store_bundle_price_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Dbt_Store_Bundle_Price>;
+};
+
+/** on_conflict condition type for table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_On_Conflict = {
+  constraint: Dbt_Store_Bundle_Price_Constraint;
+  update_columns: Array<Dbt_Store_Bundle_Price_Update_Column>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "dbt.store_bundle_price". */
+export type Dbt_Store_Bundle_Price_Order_By = {
+  id: InputMaybe<Order_By>;
+  min_quantity: InputMaybe<Order_By>;
+  product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: dbt.store_bundle_price */
+export type Dbt_Store_Bundle_Price_Pk_Columns_Input = {
+  id: Scalars['String'];
+};
+
+/** select columns of table "dbt.store_bundle_price" */
+export enum Dbt_Store_Bundle_Price_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MinQuantity = 'min_quantity',
+  /** column name */
+  ProductId = 'product_id',
+  /** column name */
+  UnitPriceInCents = 'unit_price_in_cents',
+}
+
+/** input type for updating data in table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Set_Input = {
+  id: InputMaybe<Scalars['String']>;
+  min_quantity: InputMaybe<Scalars['Int']>;
+  product_id: InputMaybe<Scalars['String']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+};
+
+/** aggregate stddev on columns */
+export type Dbt_Store_Bundle_Price_Stddev_Fields = {
+  __typename?: 'dbt_store_bundle_price_stddev_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Dbt_Store_Bundle_Price_Stddev_Pop_Fields = {
+  __typename?: 'dbt_store_bundle_price_stddev_pop_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Pop_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Dbt_Store_Bundle_Price_Stddev_Samp_Fields = {
+  __typename?: 'dbt_store_bundle_price_stddev_samp_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Samp_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "dbt_store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Dbt_Store_Bundle_Price_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Dbt_Store_Bundle_Price_Stream_Cursor_Value_Input = {
+  id: InputMaybe<Scalars['String']>;
+  min_quantity: InputMaybe<Scalars['Int']>;
+  product_id: InputMaybe<Scalars['String']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+};
+
+/** aggregate sum on columns */
+export type Dbt_Store_Bundle_Price_Sum_Fields = {
+  __typename?: 'dbt_store_bundle_price_sum_fields';
+  min_quantity: Maybe<Scalars['Int']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']>;
+};
+
+/** order by sum() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Sum_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** update columns of table "dbt.store_bundle_price" */
+export enum Dbt_Store_Bundle_Price_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MinQuantity = 'min_quantity',
+  /** column name */
+  ProductId = 'product_id',
+  /** column name */
+  UnitPriceInCents = 'unit_price_in_cents',
+}
+
+export type Dbt_Store_Bundle_Price_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc: InputMaybe<Dbt_Store_Bundle_Price_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set: InputMaybe<Dbt_Store_Bundle_Price_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Dbt_Store_Bundle_Price_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Dbt_Store_Bundle_Price_Var_Pop_Fields = {
+  __typename?: 'dbt_store_bundle_price_var_pop_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Var_Pop_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Dbt_Store_Bundle_Price_Var_Samp_Fields = {
+  __typename?: 'dbt_store_bundle_price_var_samp_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Var_Samp_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Dbt_Store_Bundle_Price_Variance_Fields = {
+  __typename?: 'dbt_store_bundle_price_variance_fields';
+  min_quantity: Maybe<Scalars['Float']>;
+  unit_price_in_cents: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Variance_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "dbt.store_discount" */
@@ -17201,6 +17558,10 @@ export type Mutation_Root = {
   delete_dbt_store_base_product_variant: Maybe<Dbt_Store_Base_Product_Variant_Mutation_Response>;
   /** delete single row from the table: "dbt.store_base_product_variant" */
   delete_dbt_store_base_product_variant_by_pk: Maybe<Dbt_Store_Base_Product_Variant>;
+  /** delete data from the table: "dbt.store_bundle_price" */
+  delete_dbt_store_bundle_price: Maybe<Dbt_Store_Bundle_Price_Mutation_Response>;
+  /** delete single row from the table: "dbt.store_bundle_price" */
+  delete_dbt_store_bundle_price_by_pk: Maybe<Dbt_Store_Bundle_Price>;
   /** delete data from the table: "dbt.store_discount" */
   delete_dbt_store_discount: Maybe<Dbt_Store_Discount_Mutation_Response>;
   /** delete data from the table: "dbt.store_discount_collection" */
@@ -17401,6 +17762,10 @@ export type Mutation_Root = {
   insert_dbt_store_base_product_variant: Maybe<Dbt_Store_Base_Product_Variant_Mutation_Response>;
   /** insert a single row into the table: "dbt.store_base_product_variant" */
   insert_dbt_store_base_product_variant_one: Maybe<Dbt_Store_Base_Product_Variant>;
+  /** insert data into the table: "dbt.store_bundle_price" */
+  insert_dbt_store_bundle_price: Maybe<Dbt_Store_Bundle_Price_Mutation_Response>;
+  /** insert a single row into the table: "dbt.store_bundle_price" */
+  insert_dbt_store_bundle_price_one: Maybe<Dbt_Store_Bundle_Price>;
   /** insert data into the table: "dbt.store_discount" */
   insert_dbt_store_discount: Maybe<Dbt_Store_Discount_Mutation_Response>;
   /** insert data into the table: "dbt.store_discount_collection" */
@@ -17731,6 +18096,14 @@ export type Mutation_Root = {
   /** update multiples rows of table: "dbt.store_base_product_variant" */
   update_dbt_store_base_product_variant_many: Maybe<
     Array<Maybe<Dbt_Store_Base_Product_Variant_Mutation_Response>>
+  >;
+  /** update data of the table: "dbt.store_bundle_price" */
+  update_dbt_store_bundle_price: Maybe<Dbt_Store_Bundle_Price_Mutation_Response>;
+  /** update single row of the table: "dbt.store_bundle_price" */
+  update_dbt_store_bundle_price_by_pk: Maybe<Dbt_Store_Bundle_Price>;
+  /** update multiples rows of table: "dbt.store_bundle_price" */
+  update_dbt_store_bundle_price_many: Maybe<
+    Array<Maybe<Dbt_Store_Bundle_Price_Mutation_Response>>
   >;
   /** update data of the table: "dbt.store_discount" */
   update_dbt_store_discount: Maybe<Dbt_Store_Discount_Mutation_Response>;
@@ -18224,6 +18597,16 @@ export type Mutation_RootDelete_Dbt_Store_Base_Product_VariantArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Base_Product_Variant_By_PkArgs = {
   shopify_id: Scalars['bigint'];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Dbt_Store_Bundle_PriceArgs = {
+  where: Dbt_Store_Bundle_Price_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Dbt_Store_Bundle_Price_By_PkArgs = {
+  id: Scalars['String'];
 };
 
 /** mutation root */
@@ -18812,6 +19195,18 @@ export type Mutation_RootInsert_Dbt_Store_Base_Product_VariantArgs = {
 export type Mutation_RootInsert_Dbt_Store_Base_Product_Variant_OneArgs = {
   object: Dbt_Store_Base_Product_Variant_Insert_Input;
   on_conflict: InputMaybe<Dbt_Store_Base_Product_Variant_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Dbt_Store_Bundle_PriceArgs = {
+  objects: Array<Dbt_Store_Bundle_Price_Insert_Input>;
+  on_conflict: InputMaybe<Dbt_Store_Bundle_Price_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Dbt_Store_Bundle_Price_OneArgs = {
+  object: Dbt_Store_Bundle_Price_Insert_Input;
+  on_conflict: InputMaybe<Dbt_Store_Bundle_Price_On_Conflict>;
 };
 
 /** mutation root */
@@ -19741,6 +20136,25 @@ export type Mutation_RootUpdate_Dbt_Store_Base_Product_Variant_ManyArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_Dbt_Store_Bundle_PriceArgs = {
+  _inc: InputMaybe<Dbt_Store_Bundle_Price_Inc_Input>;
+  _set: InputMaybe<Dbt_Store_Bundle_Price_Set_Input>;
+  where: Dbt_Store_Bundle_Price_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Dbt_Store_Bundle_Price_By_PkArgs = {
+  _inc: InputMaybe<Dbt_Store_Bundle_Price_Inc_Input>;
+  _set: InputMaybe<Dbt_Store_Bundle_Price_Set_Input>;
+  pk_columns: Dbt_Store_Bundle_Price_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Dbt_Store_Bundle_Price_ManyArgs = {
+  updates: Array<Dbt_Store_Bundle_Price_Updates>;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_Dbt_Store_DiscountArgs = {
   _inc: InputMaybe<Dbt_Store_Discount_Inc_Input>;
   _set: InputMaybe<Dbt_Store_Discount_Set_Input>;
@@ -20150,6 +20564,12 @@ export type Query_Root = {
   dbt_store_base_product_variant_aggregate: Dbt_Store_Base_Product_Variant_Aggregate;
   /** fetch data from the table: "dbt.store_base_product_variant" using primary key columns */
   dbt_store_base_product_variant_by_pk: Maybe<Dbt_Store_Base_Product_Variant>;
+  /** fetch data from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price: Array<Dbt_Store_Bundle_Price>;
+  /** fetch aggregated fields from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price_aggregate: Dbt_Store_Bundle_Price_Aggregate;
+  /** fetch data from the table: "dbt.store_bundle_price" using primary key columns */
+  dbt_store_bundle_price_by_pk: Maybe<Dbt_Store_Bundle_Price>;
   /** fetch data from the table: "dbt.store_discount" */
   dbt_store_discount: Array<Dbt_Store_Discount>;
   /** fetch aggregated fields from the table: "dbt.store_discount" */
@@ -21041,6 +21461,26 @@ export type Query_RootDbt_Store_Base_Product_Variant_AggregateArgs = {
 
 export type Query_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
   shopify_id: Scalars['bigint'];
+};
+
+export type Query_RootDbt_Store_Bundle_PriceArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+export type Query_RootDbt_Store_Bundle_Price_AggregateArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+export type Query_RootDbt_Store_Bundle_Price_By_PkArgs = {
+  id: Scalars['String'];
 };
 
 export type Query_RootDbt_Store_DiscountArgs = {
@@ -28938,6 +29378,14 @@ export type Subscription_Root = {
   dbt_store_base_product_variant_by_pk: Maybe<Dbt_Store_Base_Product_Variant>;
   /** fetch data from the table in a streaming manner: "dbt.store_base_product_variant" */
   dbt_store_base_product_variant_stream: Array<Dbt_Store_Base_Product_Variant>;
+  /** fetch data from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price: Array<Dbt_Store_Bundle_Price>;
+  /** fetch aggregated fields from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price_aggregate: Dbt_Store_Bundle_Price_Aggregate;
+  /** fetch data from the table: "dbt.store_bundle_price" using primary key columns */
+  dbt_store_bundle_price_by_pk: Maybe<Dbt_Store_Bundle_Price>;
+  /** fetch data from the table in a streaming manner: "dbt.store_bundle_price" */
+  dbt_store_bundle_price_stream: Array<Dbt_Store_Bundle_Price>;
   /** fetch data from the table: "dbt.store_discount" */
   dbt_store_discount: Array<Dbt_Store_Discount>;
   /** fetch aggregated fields from the table: "dbt.store_discount" */
@@ -30100,6 +30548,32 @@ export type Subscription_RootDbt_Store_Base_Product_Variant_StreamArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
+export type Subscription_RootDbt_Store_Bundle_PriceArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+export type Subscription_RootDbt_Store_Bundle_Price_AggregateArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']>;
+  offset: InputMaybe<Scalars['Int']>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
+export type Subscription_RootDbt_Store_Bundle_Price_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+export type Subscription_RootDbt_Store_Bundle_Price_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<Dbt_Store_Bundle_Price_Stream_Cursor_Input>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+};
+
 export type Subscription_RootDbt_Store_DiscountArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
   limit: InputMaybe<Scalars['Int']>;
@@ -31120,12 +31594,12 @@ export type FetchProductForNewOfferQuery = {
           title: string;
         } | null;
       }>;
+      bundlePrices: Array<{
+        __typename?: 'dbt_store_bundle_price';
+        unit_price_in_cents: any;
+        min_quantity: number;
+      }>;
     } | null;
-  }>;
-  BundlePrice: Array<{
-    __typename?: 'BundlePrice';
-    minQuantity: number;
-    unitPriceInCents: any;
   }>;
 };
 
