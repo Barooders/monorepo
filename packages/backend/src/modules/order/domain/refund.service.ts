@@ -4,7 +4,6 @@ import {
   Order,
   OrderLines,
   OrderStatus,
-  PaymentProvider,
   PaymentStatusType,
   PrismaMainClient,
   ShippingSolution,
@@ -12,6 +11,7 @@ import {
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
+import { paymentSolutionConfig } from '@modules/buy__payment/domain/config';
 import { Injectable, Logger } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { OrderNotificationService } from './order-notification.service';
@@ -21,7 +21,9 @@ import { IInternalNotificationClient } from './ports/internal-notification.clien
 import { IStoreClient } from './ports/store.client';
 import { OrderCancelledData } from './ports/types';
 
-const MANUAL_REFUND_PAYMENT_PROVIDERS = [PaymentProvider.FLOA];
+const MANUAL_PAYMENT_CODES = Object.values(paymentSolutionConfig)
+  .filter((paymentSolution) => paymentSolution.needManualRefund)
+  .map((paymentSolution) => paymentSolution.code);
 
 const mapOrderToRefund = (
   productName: string,
@@ -335,11 +337,7 @@ export class RefundService {
           },
           payments: {
             some: {
-              paymentAccount: {
-                provider: {
-                  in: MANUAL_REFUND_PAYMENT_PROVIDERS,
-                },
-              },
+              paymentSolutionCode: { in: MANUAL_PAYMENT_CODES },
               status: PaymentStatusType.ORDER_CREATED,
             },
           },
