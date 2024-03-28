@@ -7,7 +7,7 @@ import B2BSavedSearchForm from './B2BSavedSearchForm';
 
 const dict = getDictionary('fr');
 
-const B2BSearchAlertButton: React.FC = () => {
+const B2BSavedSearchButton: React.FC = () => {
   return (
     <NoSSR>
       <Modal
@@ -34,4 +34,4 @@ const B2BSearchAlertButton: React.FC = () => {
   );
 };
 
-export default B2BSearchAlertButton;
+export default B2BSavedSearchButton;

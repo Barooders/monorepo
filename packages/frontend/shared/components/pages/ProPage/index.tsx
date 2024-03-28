@@ -1,9 +1,8 @@
 'use client';
 
 import PageContainer from '@/components/atoms/PageContainer';
-import B2BSearchAlertButton from '@/components/molecules/B2BSavedSearchButton';
+import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
-import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
@@ -19,7 +18,7 @@ const ProPage: React.FC = () => {
   const filters = [`total_quantity:> 1`, `vendor_id:!=${user.id}`];
 
   return (
-    <PageContainer>
+    <PageContainer includeVerticalPadding={false}>
       <InstantSearchProvider
         collectionName={searchCollections.b2bProducts.main}
         filters={filters}
@@ -30,13 +29,12 @@ const ProPage: React.FC = () => {
           <div className="grid grid-cols-5 gap-10">
             <div className="col-span-1 col-start-1 hidden lg:block">
               <div className="mb-4">
-                <B2BSearchAlertButton />
+                <B2BSavedSearchButton />
               </div>
               <B2BDesktopFilters />
             </div>
             <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
               <B2BCollectionHeader />
-              <B2BGuarantees />
               <B2BSearchResults />
               <Pagination />
             </div>
