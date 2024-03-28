@@ -1,3 +1,4 @@
+import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
 import Characteristics from './_components/Characteristics';
@@ -6,6 +7,18 @@ import ProductPrice from './_components/ProductPrice';
 import { B2BProductCardProps } from './types';
 
 const dict = getDictionary('fr');
+
+const ExistingOfferComponent: React.FC = () => {
+  return (
+    <Button
+      disabled={true}
+      intent="secondary"
+      className="mt-2"
+    >
+      {dict.b2b.productCard.existingOffer}
+    </Button>
+  );
+};
 
 const B2BProductCard: React.FC<B2BProductCardProps> = ({
   id,
@@ -59,10 +72,20 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               showPriceRecap={false}
             />
           </div>
-          <B2BPriceOfferButton
-            hasOpenedPriceOffer={hasOpenedPriceOffer}
-            productId={id}
-          />
+          {hasOpenedPriceOffer ? (
+            <ExistingOfferComponent />
+          ) : (
+            <div className="flex gap-2">
+              <B2BPriceOfferButton
+                productId={id}
+                userCanNegociate={true}
+              />
+              <B2BPriceOfferButton
+                productId={id}
+                userCanNegociate={false}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

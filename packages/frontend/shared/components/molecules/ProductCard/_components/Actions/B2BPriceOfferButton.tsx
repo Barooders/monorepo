@@ -38,12 +38,12 @@ const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
 
 type PropsType = {
   productId: string;
-  hasOpenedPriceOffer: boolean;
+  userCanNegociate: boolean;
 };
 
 const B2BPriceOfferButton: React.FC<PropsType> = ({
-  hasOpenedPriceOffer,
   productId,
+  userCanNegociate,
 }) => {
   const fetchProductForNewOffer = useHasura<FetchProductForNewOfferQuery>(
     FETCH_PRODUCT_FOR_NEW_OFFER,
@@ -59,26 +59,16 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   }> = ({ openModal }) => {
     return (
       <Button
-        intent="tertiary"
+        intent={userCanNegociate ? 'tertiary' : 'secondary'}
         onClick={() => {
           openModal();
           doFetchProductHitData();
         }}
-        className="mt-2"
+        className="mt-2 w-full"
       >
-        {dict.b2b.productCard.makeAnOffer.openModal}
-      </Button>
-    );
-  };
-
-  const ExistingOfferComponent: React.FC = () => {
-    return (
-      <Button
-        disabled={true}
-        intent="secondary"
-        className="mt-2"
-      >
-        {dict.b2b.productCard.existingOffer}
+        {userCanNegociate
+          ? dict.b2b.productCard.makeAnOffer.openModal
+          : dict.b2b.productCard.makeAnOffer.buy}
       </Button>
     );
   };
@@ -105,14 +95,13 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
 
   return (
     <Modal
-      ButtonComponent={
-        hasOpenedPriceOffer ? ExistingOfferComponent : MakeOfferButton
-      }
+      ButtonComponent={MakeOfferButton}
       ContentComponent={({ closeModal }) =>
         loading ? (
           <Loader />
         ) : product ? (
           <MakeB2BOfferModal
+            userCanNegociate={userCanNegociate}
             closeModal={closeModal}
             productId={productId}
             productName={product.title}

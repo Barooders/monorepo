@@ -4,7 +4,6 @@ import Loader from '@/components/atoms/Loader';
 import Input from '@/components/molecules/FormInput';
 import TextArea from '@/components/molecules/FormTextArea';
 import useBackend from '@/hooks/useBackend';
-import useFlag from '@/hooks/useFlag';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { useState } from 'react';
@@ -21,6 +20,7 @@ type Inputs = {
 };
 
 type PropsType = {
+  userCanNegociate: boolean;
   productId: string;
   productName: string;
   totalQuantity: number;
@@ -35,6 +35,7 @@ export enum Status {
 }
 
 const MakeB2BOfferModal: React.FC<PropsType> = ({
+  userCanNegociate,
   productId,
   productName,
   totalQuantity,
@@ -42,7 +43,6 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
   variants,
   closeModal,
 }) => {
-  const userCanNegociate = useFlag('b2b.negociation');
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
   const { fetchAPI } = useBackend();
 
@@ -85,7 +85,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
       {
         newPriceInCents: price * 100,
         productId,
-        description: `[${quantity}x${price}€] ${description}`,
+        description: `[${userCanNegociate ? 'OFFRE' : 'ACHAT'}][${quantity}x${price}€] ${description}`,
       };
 
     await fetchAPI('/v1/price-offer/b2b', {
