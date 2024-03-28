@@ -10,15 +10,13 @@ import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import useBackend from '@/hooks/useBackend';
 import useFlag from '@/hooks/useFlag';
-import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { AccountSections, CurrencyCode } from '@/types';
 import { getTimeAgoSentence } from '@/utils/date';
-import { gql } from '@apollo/client';
+import { gql, useSubscription } from '@apollo/client';
 import { useEffect } from 'react';
 import { FaCheck, FaSearch } from 'react-icons/fa';
-import { HASURA_ROLES } from 'shared-types';
 import CancelOrderForm from './_components/CancelOrderForm';
 import ShippingLabelButton from './_components/ShippingLabelButton';
 import TrackingURLForm from './_components/TrackingURLForm';
@@ -93,7 +91,7 @@ const getContactLabels = (viewer: AccountPageOrder['viewer']) => {
 };
 
 const FETCH_ORDER_DATA = gql`
-  query fetchOrderData($orderId: String) {
+  subscription fetchOrderData($orderId: String) {
     Order(where: { id: { _eq: $orderId } }) {
       name
       createdAt
@@ -133,127 +131,120 @@ type PropsType = {
   orderId: string;
 };
 
+const mapOrderFromHasura = (data: FetchOrderDataQuery['Order']) => {
+  const order = data[0];
+
+  if (!order.orderLines || order.orderLines.length === 0) {
+    throw new Error(`Order lines not found in order: ${order.name}`);
+  }
+
+  const orderLine = order.orderLines[0];
+  const {
+    brand,
+    productType,
+    variantName,
+    size,
+    modelYear,
+    condition,
+    priceInCents,
+    handle,
+    productImage,
+    fulfillmentOrder,
+    id,
+    shippingSolution,
+  } = orderLine;
+
+  return {
+    product: {
+      brand: brand ? brand.toUpperCase() : '',
+      productType: productType ?? '',
+      description: [
+        ...(size
+          ? [`${dict.components.productCard.sizeLabel} ${size.toUpperCase()}`]
+          : []),
+        modelYear,
+        condition
+          ? dict.components.productCard.getConditionLabel(condition)
+          : undefined,
+      ]
+        .flatMap((s) => (s ? [s] : []))
+        .map((s) => s.trim())
+        .join(' · '),
+      price: priceInCents ? `${(Number(priceInCents) / 100).toFixed(2)} €` : '',
+      link: `/products/${handle}`,
+      imageSrc: productImage,
+      variantName,
+    },
+    order: {
+      name: order.name,
+      status: order.status as OrderStatus,
+      statusLabel: getDisplayedStatus(order.status),
+      title: brand
+        ? `${brand.toUpperCase()}, ${productType?.toLowerCase()}`
+        : productType ?? '',
+      createdAt: new Date(order.createdAt).toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+      trackingUrl:
+        fulfillmentOrder?.fulfillments.find(
+          (fulfillment) => fulfillment.trackingUrl !== '',
+        )?.trackingUrl ?? null,
+      hasToFillTrackingUrl:
+        shippingSolution === ShippingSolution.VENDOR &&
+        fulfillmentOrder?.fulfillments.length === 0 &&
+        fulfillmentOrder?.status === FulfillmentOrderStatus.OPEN,
+      canCancelOrderLine:
+        order.status === OrderStatus.LABELED ||
+        order.status === OrderStatus.PAID,
+      canShowShippingLabelDowloadButton:
+        (order.status === OrderStatus.LABELED ||
+          order.status === OrderStatus.PAID) &&
+        shippingSolution === ShippingSolution.SENDCLOUD,
+      firstOrderLineId: id,
+      shippingAddress:
+        order.shippingAddressAddress1 && order.shippingAddressCity
+          ? {
+              fullName: [
+                order.shippingAddressFirstName,
+                order.shippingAddressLastName,
+              ]
+                .filter(Boolean)
+                .join(' '),
+              address1: order.shippingAddressAddress1,
+              address2: order.shippingAddressAddress2,
+              zipAndCity: [order.shippingAddressZip, order.shippingAddressCity]
+                .filter(Boolean)
+                .join(' '),
+              country: order.shippingAddressCountry,
+              phoneNumber:
+                shippingSolution === ShippingSolution.VENDOR
+                  ? order.shippingAddressPhone
+                  : null,
+            }
+          : null,
+    },
+  };
+};
+
 const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
   const showTrackingFeature = useFlag('order-page.tracking-data');
 
-  const fetchOrderData = useHasura<FetchOrderDataQuery>(
-    FETCH_ORDER_DATA,
-    HASURA_ROLES.REGISTERED_USER,
-  );
+  const {
+    loading: hasuraLoading,
+    error: hasuraError,
+    data: rawHasuraValue,
+  } = useSubscription<FetchOrderDataQuery>(FETCH_ORDER_DATA, {
+    variables: {
+      orderId,
+    },
+  });
   const { fetchAPI } = useBackend();
 
-  const [
-    { loading: hasuraLoading, error: hasuraError, value: hasuraValue },
-    doFetchOrderData,
-  ] = useWrappedAsyncFn(async () => {
-    const { Order: data } = await fetchOrderData({
-      orderId,
-    });
-
-    if (!data || data.length === 0) {
-      throw new Error(`Order not found with id ${orderId}`);
-    }
-
-    const order = data[0];
-
-    if (!order.orderLines || order.orderLines.length === 0) {
-      throw new Error(`Order lines not found in order: ${orderId}`);
-    }
-
-    const orderLine = order.orderLines[0];
-    const {
-      brand,
-      productType,
-      variantName,
-      size,
-      modelYear,
-      condition,
-      priceInCents,
-      handle,
-      productImage,
-      fulfillmentOrder,
-      id,
-      shippingSolution,
-    } = orderLine;
-
-    return {
-      product: {
-        brand: brand ? brand.toUpperCase() : '',
-        productType: productType ?? '',
-        description: [
-          ...(size
-            ? [`${dict.components.productCard.sizeLabel} ${size.toUpperCase()}`]
-            : []),
-          modelYear,
-          condition
-            ? dict.components.productCard.getConditionLabel(condition)
-            : undefined,
-        ]
-          .flatMap((s) => (s ? [s] : []))
-          .map((s) => s.trim())
-          .join(' · '),
-        price: priceInCents
-          ? `${(Number(priceInCents) / 100).toFixed(2)} €`
-          : '',
-        link: `/products/${handle}`,
-        imageSrc: productImage,
-        variantName,
-      },
-      order: {
-        name: order.name,
-        status: order.status as OrderStatus,
-        statusLabel: getDisplayedStatus(order.status),
-        title: brand
-          ? `${brand.toUpperCase()}, ${productType?.toLowerCase()}`
-          : productType ?? '',
-        createdAt: new Date(order.createdAt).toLocaleDateString('fr-FR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }),
-        trackingUrl:
-          fulfillmentOrder?.fulfillments.find(
-            (fulfillment) => fulfillment.trackingUrl !== '',
-          )?.trackingUrl ?? null,
-        hasToFillTrackingUrl:
-          shippingSolution === ShippingSolution.VENDOR &&
-          fulfillmentOrder?.fulfillments.length === 0 &&
-          fulfillmentOrder?.status === FulfillmentOrderStatus.OPEN,
-        canCancelOrderLine:
-          order.status === OrderStatus.LABELED ||
-          order.status === OrderStatus.PAID,
-        canShowShippingLabelDowloadButton:
-          (order.status === OrderStatus.LABELED ||
-            order.status === OrderStatus.PAID) &&
-          shippingSolution === ShippingSolution.SENDCLOUD,
-        firstOrderLineId: id,
-        shippingAddress:
-          order.shippingAddressAddress1 && order.shippingAddressCity
-            ? {
-                fullName: [
-                  order.shippingAddressFirstName,
-                  order.shippingAddressLastName,
-                ]
-                  .filter(Boolean)
-                  .join(' '),
-                address1: order.shippingAddressAddress1,
-                address2: order.shippingAddressAddress2,
-                zipAndCity: [
-                  order.shippingAddressZip,
-                  order.shippingAddressCity,
-                ]
-                  .filter(Boolean)
-                  .join(' '),
-                country: order.shippingAddressCountry,
-                phoneNumber:
-                  shippingSolution === ShippingSolution.VENDOR
-                    ? order.shippingAddressPhone
-                    : null,
-              }
-            : null,
-      },
-    };
-  });
+  const hasuraValue = rawHasuraValue?.Order
+    ? mapOrderFromHasura(rawHasuraValue.Order)
+    : null;
 
   const [
     { loading: backendLoading, error: backendError, value: backendValue },
@@ -263,7 +254,6 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
   );
 
   useEffect(() => {
-    doFetchOrderData();
     fetchOrderComputedData();
   }, []);
 

@@ -59,7 +59,7 @@ const TrackingURLHelperForm: React.FC<HelperPropsType> = ({ callback }) => {
           />
           <Button
             type="submit"
-            className="mt-2 py-2.5 px-3 text-sm font-medium"
+            className="mt-2 px-3 py-2.5 text-sm font-medium"
             intent="secondary"
           >
             {dict.account.order.shipping.helper.actions.confirm}
@@ -105,7 +105,6 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
     trackingUrl,
   }) => {
     fulfillmentOrderLine(orderLineId, trackingUrl);
-    location.reload();
   };
 
   if (!showTrackingFeature) return <></>;
@@ -144,7 +143,7 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
           />
           <Button
             type="submit"
-            className="mt-2 w-[300px] py-2.5 px-3 text-sm font-medium"
+            className="mt-2 w-[300px] px-3 py-2.5 text-sm font-medium"
             intent="secondary"
           >
             {isFulfillingOrderLine ? (
@@ -159,7 +158,7 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
         ButtonComponent={({ openModal }) => (
           <Button
             intent="tertiary"
-            className="mt-2 w-[300px] py-2.5 px-3 text-sm font-medium"
+            className="mt-2 w-[300px] px-3 py-2.5 text-sm font-medium"
             onClick={openModal}
           >
             {dict.account.order.shipping.noTrackingUrl}

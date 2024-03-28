@@ -39,7 +39,6 @@ const CancelOrderForm: React.FC<PropsType> = ({ orderLineId, closeModal }) => {
             dict.account.order.cancel.form.cancelSuccess,
             toastOptions,
           );
-          location.reload();
         } catch (error) {
           toast.error(dict.account.order.cancel.form.cancelError, toastOptions);
         }
