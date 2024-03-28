@@ -18,7 +18,7 @@ import Characteristics from './_components/Characteristics';
 import CommissionDetails from './_components/CommissionDetails';
 import DeliveryInformation from './_components/Delivery';
 import FavoriteButton from './_components/FavoriteButton';
-import Guarantees from './_components/Guarantees';
+import { Guarantees } from './_components/Guarantees';
 import Offers from './_components/Offers';
 import PaymentIcons from './_components/PaymentIcons';
 import ProductDescription from './_components/ProductDescription';
@@ -106,7 +106,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             </div>
           )}
           <div className="mt-2 lg:mt-7">
-            <Guarantees vendor={vendor.name} />
+            <Guarantees />
           </div>
           <div className="mt-6 hidden lg:block">
             <ProductDescription

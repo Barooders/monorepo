@@ -26,7 +26,7 @@ const ProHeader: React.FC = () => {
       id="barooders-pro-header"
       className="sticky top-0 z-30 flex flex-col items-center"
     >
-      <HeaderContainer className="py-2 lg:py-4">
+      <HeaderContainer className="py-2">
         <div className="flex w-full flex-col items-center gap-2 lg:flex-row lg:gap-5">
           <div className="flex w-full flex-col items-center justify-between gap-2 lg:flex-row lg:gap-5">
             <div
