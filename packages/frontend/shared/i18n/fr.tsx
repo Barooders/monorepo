@@ -2,6 +2,7 @@ import Link from '@/components/atoms/Link';
 import { OrderStatus } from '@/components/pages/Account/types';
 import { ShipmentTimeframe } from '@/config';
 import { AccountSections, ProductStatus } from '@/types';
+import { formatCurrency } from '@/utils/currency';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 
 const fr = {
@@ -1185,7 +1186,7 @@ const fr = {
     },
     productCard: {
       makeAnOffer: {
-        openModal: 'Faire une offre',
+        openModal: 'Me positionner',
         addManyDetails:
           'Ajoutez un maximum de détails à propos de votre demande dans le champs textuel.',
         changeQuantityToUpdatePrice:
@@ -1193,7 +1194,7 @@ const fr = {
         maxQuantityError: (totalQuantity: number) =>
           `L'offre ne peut pas contenir plus de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''}`,
         bundlePrice: (totalQuantity: number, bundlePrice: number) =>
-          `Ce vendeur propose un lot de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''} pour ${bundlePrice}€`,
+          `Ce vendeur propose un lot de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''} pour ${bundlePrice}€ TTC`,
         addMoreDetails:
           'Ajoutez plus de détails à propos de votre demande: quantités par tailles, livraison, mode de paiement, etc.',
         inputQuantity: 'Quantité souhaitée',
@@ -1203,7 +1204,14 @@ const fr = {
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',
-      largestBundlePrice: 'P.U. pour le lot complet',
+      largestBundlePrice: (largestBundlePrice: number) => (
+        <>
+          Prix unitaire: à partir de{' '}
+          <strong>
+            {formatCurrency(largestBundlePrice, { round: true })}€ TTC
+          </strong>
+        </>
+      ),
     },
   },
 };

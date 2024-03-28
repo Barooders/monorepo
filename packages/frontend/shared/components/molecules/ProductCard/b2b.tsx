@@ -1,5 +1,4 @@
 import { getDictionary } from '@/i18n/translate';
-import { formatCurrency } from '@/utils/currency';
 import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
@@ -47,9 +46,8 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           <div className="my-1">
             {largestBundlePrice && (
               <p className="text-xs text-gray-600 lg:text-sm">
-                <span>{dict.b2b.productCard.largestBundlePrice}:</span>
-                <span className="ml-1 font-bold">
-                  {formatCurrency(largestBundlePrice, { round: true })}€
+                <span>
+                  {dict.b2b.productCard.largestBundlePrice(largestBundlePrice)}
                 </span>
               </p>
             )}
