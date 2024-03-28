@@ -29,7 +29,7 @@ import {
   OrderPaidData,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
-import { get, head, isMatch } from 'lodash';
+import { get, head, isMatch, last } from 'lodash';
 import { IOrder } from 'shopify-api-node';
 
 @Injectable()
@@ -353,7 +353,7 @@ export class OrderMapper {
         },
       });
 
-    const paymentMethodName = orderData.payment_gateway_names[0];
+    const paymentMethodName = last(orderData.payment_gateway_names);
 
     if (!paymentMethodName) {
       throw new Error(
