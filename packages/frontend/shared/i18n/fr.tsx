@@ -1200,7 +1200,7 @@ const fr = {
         inputQuantity: 'Quantité souhaitée',
         inputUnitPrice: 'Prix unitaire souhaité',
         yourOffer: 'Votre offre',
-        sellerOffer: 'Proposition vendeur',
+        sellerOffer: 'Prix vendeur',
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',

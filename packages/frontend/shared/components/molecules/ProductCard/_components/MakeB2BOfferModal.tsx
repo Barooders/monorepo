@@ -135,11 +135,9 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
             className="p-2"
           >
             <div className="mb-3">
-              <p className="text-center">
-                🚲 <strong>{productName}</strong> 🚲
-              </p>
+              <p className="font-bold">{productName}</p>
               {variants.length > 1 && (
-                <div className="mt-2 flex flex-wrap justify-center gap-2">
+                <div className="mt-2 flex flex-wrap gap-2">
                   {variants.map(({ title, quantity }) => (
                     <ProductLabel
                       key={title}
@@ -149,7 +147,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
                             {title} (x {quantity})
                           </>
                         ),
-                        color: 'purple',
+                        color: 'white',
                       }}
                     />
                   ))}
@@ -166,7 +164,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
             </p>
             <div className="mt-4">
               <Input
-                className="mt-4"
+                className="my-6"
                 label={dict.b2b.productCard.makeAnOffer.inputQuantity}
                 name="quantity"
                 type="number"
