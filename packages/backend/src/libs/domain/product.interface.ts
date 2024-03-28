@@ -1,4 +1,8 @@
-import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
+import {
+  Condition,
+  ProductStatus,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 
 export interface EntityId {
   id: string;
@@ -51,6 +55,7 @@ interface ProductBase {
   GTINCode?: string;
   source?: string;
   sourceUrl?: string;
+  salesChannels?: SalesChannelName[];
 }
 
 export interface FullProduct extends ProductBase {
