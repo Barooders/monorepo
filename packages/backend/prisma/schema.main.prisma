@@ -606,21 +606,11 @@ model Payment {
   @@schema("public")
 }
 
-model Cart {
-  id        String     @id @default(dbgenerated("(gen_random_uuid())::text"))
-  storeId   String?    @unique
-  checkouts Checkout[]
-
-  @@schema("public")
-}
-
 model Checkout {
   id                String             @id @default(dbgenerated("(gen_random_uuid())::text"))
-  cartId            String?
   storeId           String?
   status            CheckoutStatus
   createdAt         DateTime           @default(now())
-  cart              Cart?              @relation(fields: [cartId], references: [id])
   checkoutLineItems CheckoutLineItem[]
   payments          Payment[]
   order             Order?
