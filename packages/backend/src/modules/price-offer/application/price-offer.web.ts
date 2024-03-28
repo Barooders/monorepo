@@ -157,7 +157,7 @@ export class PriceOfferController {
     { newPriceInCents, productId, description }: NewB2BPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
-    if (!userId || isUUID(userId)) {
+    if (!userId || !isUUID(userId)) {
       throw new UnauthorizedException(
         `User UUID not found in token, user (${userId})`,
       );
