@@ -1,5 +1,4 @@
 'use client';
-import { FetchOrderDataQuery } from '@/__generated/graphql';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import ContactCard from '@/components/atoms/ContactCard';
 import Link from '@/components/atoms/Link';
@@ -22,6 +21,7 @@ import ShippingLabelButton from './_components/ShippingLabelButton';
 import TrackingURLForm from './_components/TrackingURLForm';
 import { ORDER_STATUS_COLORS } from './config';
 import { FulfillmentOrderStatus, OrderStatus, ShippingSolution } from './types';
+import { FetchOrderDataSubscription } from '@/__generated/graphql';
 
 const dict = getDictionary('fr');
 const roundedCard = 'mt-4 rounded-lg border border-zinc-200';
@@ -131,7 +131,7 @@ type PropsType = {
   orderId: string;
 };
 
-const mapOrderFromHasura = (data: FetchOrderDataQuery['Order']) => {
+const mapOrderFromHasura = (data: FetchOrderDataSubscription['Order']) => {
   const order = data[0];
 
   if (!order.orderLines || order.orderLines.length === 0) {
@@ -235,7 +235,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
     loading: hasuraLoading,
     error: hasuraError,
     data: rawHasuraValue,
-  } = useSubscription<FetchOrderDataQuery>(FETCH_ORDER_DATA, {
+  } = useSubscription<FetchOrderDataSubscription>(FETCH_ORDER_DATA, {
     variables: {
       orderId,
     },
