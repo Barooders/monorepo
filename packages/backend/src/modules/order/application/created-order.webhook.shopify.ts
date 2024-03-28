@@ -35,14 +35,16 @@ export class CreatedOrderWebhookShopifyController {
     await this.priceOfferService.updatePriceOfferStatusFromOrder(
       orderData.discount_applications.map((discount) => discount.code),
     );
+
+    const orderCreated = await this.orderMapper.mapOrderCreated(orderData);
     const checkoutUuid = await this.paymentService.updatePaymentStatusFromOrder(
-      orderUuid,
+      order,
       orderData.checkout_token,
+      orderCreated.order.paymentMethod,
     );
 
     await this.paymentService.linkCheckoutToOrder(orderUuid, checkoutUuid);
 
-    const orderToNotify = await this.orderMapper.mapOrderCreated(orderData);
-    await this.orderNotificationService.notifyOrderCreated(orderToNotify);
+    await this.orderNotificationService.notifyOrderCreated(orderCreated);
   }
 }

@@ -2,19 +2,25 @@ import envConfig from '@config/env/env.config';
 import {
   AggregateName,
   Checkout,
+  CheckoutStatus,
   EventName,
   PaymentAccountType,
   PaymentProvider,
+  PaymentSolutionCode,
   PaymentStatusType,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { isOlderThan } from '@libs/helpers/dates';
-import { jsonStringify } from '@libs/helpers/json';
 import safeId from '@libs/helpers/safe-id';
+import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { first, last } from 'lodash';
-import { PaymentSolution } from './config';
+import {
+  PaymentSolution,
+  PaymentSolutionConfigType,
+  paymentSolutionConfig,
+} from './config';
 import { IInternalNotificationProvider } from './ports/internal-notification.repository';
 import { IPaymentProvider } from './ports/payment-provider.repository';
 import { IPaymentService } from './ports/payment-service';
@@ -38,18 +44,10 @@ export class PaymentService implements IPaymentService {
   ) {}
 
   getOrCreateCheckout = async (cartInfo: CartInfoType): Promise<Checkout> => {
-    const cart = await this.prisma.cart.upsert({
-      where: { storeId: cartInfo.storeId },
-      create: {
-        storeId: cartInfo.storeId,
-      },
-      update: {},
-    });
-
     const existingCheckout = await this.prisma.checkout.findFirst({
       where: {
         AND: {
-          cartId: cart.id,
+          storeId: cartInfo.storeId,
           checkoutLineItems: {
             some: {
               productId: cartInfo.products.find(
@@ -63,13 +61,13 @@ export class PaymentService implements IPaymentService {
 
     if (existingCheckout) return existingCheckout;
 
-    if (!cart.storeId) throw new Error(`Missing store id for cart ${cart.id}`);
+    if (!cartInfo.storeId) throw new Error(`Missing store id for cart`);
 
     const checkout = await this.prisma.checkout.create({
       data: {
         id: safeId(),
-        cartId: cart.id,
-        status: 'ACTIVE',
+        storeId: cartInfo.storeId,
+        status: CheckoutStatus.ACTIVE,
       },
     });
 
@@ -195,7 +193,7 @@ export class PaymentService implements IPaymentService {
 
     await this.prisma.event.create({
       data: {
-        aggregateName: AggregateName.CART,
+        aggregateName: AggregateName.CHECKOUT,
         aggregateId: payment.checkoutId,
         name: EventName.PAYMENT_STARTED,
         payload: {
@@ -214,26 +212,22 @@ export class PaymentService implements IPaymentService {
   }
 
   async updatePaymentStatusFromOrder(
-    orderId: UUID,
-    checkoutStoreToken: string | null,
+    order: OrderToStore,
+    checkoutStoreToken: string,
+    checkoutPaymentLabel: string,
   ): Promise<string | null> {
-    const dbCheckout = await this.prisma.checkout.findFirst({
-      where: {
-        cart: {
+    const dbCheckout =
+      (await this.prisma.checkout.findFirst({
+        where: {
           storeId: checkoutStoreToken,
         },
-      },
-    });
-
-    if (!dbCheckout) {
-      this.logger.debug(
-        `No checkout found for ${jsonStringify({
-          orderId,
-          checkoutStoreToken,
-        })}`,
-      );
-      return null;
-    }
+      })) ??
+      (await this.prisma.checkout.create({
+        data: {
+          status: CheckoutStatus.COMPLETED,
+          storeId: checkoutStoreToken,
+        },
+      }));
 
     const { id: checkoutId } = dbCheckout;
 
@@ -246,11 +240,34 @@ export class PaymentService implements IPaymentService {
       },
     });
 
-    await Promise.all(
-      relatedPayments.map((payment) =>
-        this.updatePaymentStatus(payment.id, PaymentStatusType.ORDER_CREATED),
-      ),
-    );
+    if (relatedPayments) {
+      await Promise.all(
+        relatedPayments.map((payment) =>
+          this.updatePaymentStatus(payment.id, PaymentStatusType.ORDER_CREATED),
+        ),
+      );
+
+      return checkoutId;
+    }
+
+    const paymentCode = this.getPaymentConfig({
+      checkoutLabel: checkoutPaymentLabel,
+    })?.code;
+
+    if (!paymentCode)
+      throw new Error(
+        `Unknown payment ${checkoutPaymentLabel} for order ${order.name}`,
+      );
+
+    await this.prisma.payment.create({
+      data: {
+        amountInCents: order.totalPriceInCents,
+        paymentSolutionCode: paymentCode,
+        currency: order.totalPriceCurrency,
+        status: PaymentStatusType.ORDER_CREATED,
+        checkoutId: dbCheckout.id,
+      },
+    });
 
     return checkoutId;
   }
@@ -334,7 +351,7 @@ export class PaymentService implements IPaymentService {
 
     await this.prisma.event.create({
       data: {
-        aggregateName: AggregateName.CART,
+        aggregateName: AggregateName.CHECKOUT,
         aggregateId: payment.checkoutId,
         name: EventName.PAYMENT_STATUS_UPDATED,
         payload: {
@@ -352,7 +369,7 @@ export class PaymentService implements IPaymentService {
     let checkoutUrl;
     try {
       checkoutUrl = await this.storeRepository.getCheckoutUrl(
-        checkout?.cart.storeId ?? '',
+        checkout?.storeId ?? '',
       );
       if (newStatus === PaymentStatusType.VALIDATED) {
         await this.storeRepository.validateCart(payment.checkoutId);
@@ -367,6 +384,24 @@ export class PaymentService implements IPaymentService {
     return checkoutUrl;
   }
 
+  getPaymentConfig({
+    code,
+    checkoutLabel,
+  }: {
+    code?: PaymentSolutionCode;
+    checkoutLabel?: string;
+  }): PaymentSolutionConfigType | null {
+    if (code) return paymentSolutionConfig[code];
+    if (checkoutLabel)
+      return (
+        Object.values(paymentSolutionConfig).find(
+          (config) => config.checkoutLabel === checkoutLabel,
+        ) ?? null
+      );
+
+    return null;
+  }
+
   private async createPaymentLink(paymentId: string) {
     const { notifyUrl, returnUrl } = this.getReturnUrls();
     const payment = await this.prisma.payment.findUniqueOrThrow({
@@ -378,10 +413,10 @@ export class PaymentService implements IPaymentService {
 
     let checkoutDetails: CheckoutDetailsType | null = null;
     try {
-      if (!payment.checkout.cart.storeId)
+      if (!payment.checkout.storeId)
         throw new Error('No store id for this cart');
       checkoutDetails = await this.storeRepository.getCheckoutDetails(
-        payment.checkout.cart.storeId,
+        payment.checkout.storeId,
       );
     } catch (e) {
       this.logger.warn(

@@ -616,10 +616,11 @@ model Cart {
 
 model Checkout {
   id                String             @id @default(dbgenerated("(gen_random_uuid())::text"))
-  cartId            String
+  cartId            String?
+  storeId           String?
   status            CheckoutStatus
   createdAt         DateTime           @default(now())
-  cart              Cart               @relation(fields: [cartId], references: [id])
+  cart              Cart?              @relation(fields: [cartId], references: [id])
   checkoutLineItems CheckoutLineItem[]
   payments          Payment[]
   order             Order?
@@ -866,6 +867,7 @@ enum AggregateName {
   DISCOUNT
   CUSTOMER
   ORDER
+  CHECKOUT
   CART
   PAYOUT
 
@@ -1070,6 +1072,15 @@ enum PaymentSolutionCode {
   FLOA_10X
   FLOA_4X
   FLOA_3X
+  YOUNITED_24x
+  YOUNITED_10x
+  YOUNITED_36x
+  BANK_WIRE
+  PAYPAL
+  CREDIT_CARD
+  ALMA_2X
+  ALMA_3X
+  ALMA_4X
 
   @@schema("public")
 }
