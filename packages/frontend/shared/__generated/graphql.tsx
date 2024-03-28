@@ -31924,7 +31924,6 @@ export type FetchOrderDataQuery = {
           trackingUrl: string;
         }>;
       } | null;
-      vendorCustomer: { __typename?: 'Customer'; usedShipping: any } | null;
     }>;
   }>;
 };
