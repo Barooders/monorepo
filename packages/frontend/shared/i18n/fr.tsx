@@ -184,7 +184,7 @@ const fr = {
         ),
         securedPayment: () => (
           <>
-            Paiements sécurisées
+            Paiements sécurisés
             <br />
             <span className="font-medium">en plusieurs fois</span>
           </>
