@@ -27,6 +27,8 @@ const PRODUCT_NOTATION_QUERY = gql`
       vendor_notation
       calculated_notation
       calculated_notation_beta
+      orders_count
+      favorites_count
     }
   }
 `;
@@ -67,78 +69,95 @@ const AdminProductBanner = ({
   );
   return (
     <AdminBanner>
-      <div>
-        <p>
-          ID: {productShopifyId} (created at:{' '}
-          {new Date(
-            value?.dbt_store_product_for_analytics[0].created_at,
-          ).toLocaleDateString('fr-FR')}
-          )
-        </p>
-        <p className="text-xs">
-          source: {value?.Product[0]?.source ?? '-'} -{' '}
-          <a
-            className="font-semibold text-gray-500 underline"
-            href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
-          >
-            Perf
-          </a>
-        </p>
-        {value?.Product[0]?.sourceUrl && (
-          <a
-            className="text-xs underline"
-            target="_blank"
-            href={value?.Product[0]?.sourceUrl}
-            rel="noreferrer"
-          >
-            source product
-          </a>
-        )}
-      </div>
-      <Button href={`/admin/products/${productShopifyId}`}>See</Button>
-      <Button
-        onClick={() => doUpdateProduct({ status: ProductStatus.ARCHIVED })}
-      >
-        Archive
-      </Button>
-      <Select
-        className="w-[140px]"
-        onSelect={(manualNotation) => doUpdateProduct({ manualNotation })}
-        selectedOptionValue={value?.Product[0]?.manualNotation ?? '-'}
-        options={['-', 'A', 'B', 'C'].map((notation) => ({
-          label: `Notation: ${notation}`,
-          value: notation,
-        }))}
-      />
-      <div className="flex">
-        <div className="flex flex-col">
-          <p className="text-xs">
-            manual_notation: {value?.Product[0]?.manualNotation ?? '-'}
+      <div className="flex items-center justify-center gap-2 text-xs">
+        <div>
+          <p>
+            ID: {productShopifyId} (created at:{' '}
+            {new Date(
+              value?.dbt_store_product_for_analytics[0].created_at,
+            ).toLocaleDateString('fr-FR')}
+            )
           </p>
-          <p className="text-xs">
-            vendor_notation:{' '}
-            {value?.dbt_store_product_for_analytics[0].vendor_notation ?? '-'}
+          <p>
+            source: {value?.Product[0]?.source ?? '-'} -{' '}
+            <a
+              className="font-semibold text-gray-500 underline"
+              href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
+            >
+              Perf
+            </a>
           </p>
+          {value?.Product[0]?.sourceUrl && (
+            <a
+              className="underline"
+              target="_blank"
+              href={value?.Product[0]?.sourceUrl}
+              rel="noreferrer"
+            >
+              source product
+            </a>
+          )}
         </div>
-        <div className="ml-5 flex flex-col">
-          <p className="text-xs">
-            calculated_notation:{' '}
-            {value?.dbt_store_product_for_analytics[0].calculated_notation ??
-              '-'}
-          </p>
-          <p className="text-xs">
-            calculated_notation_beta:{' '}
-            {value?.dbt_store_product_for_analytics[0]
-              .calculated_notation_beta ?? '-'}
-          </p>
+        <Button
+          className="text-xs"
+          href={`/admin/products/${productShopifyId}`}
+        >
+          See
+        </Button>
+        <Button
+          className="text-xs"
+          onClick={() => doUpdateProduct({ status: ProductStatus.ARCHIVED })}
+        >
+          Archive
+        </Button>
+        <Select
+          className="h-[33px] w-[140px]"
+          buttonClassName="text-xs py-0 h-full"
+          onSelect={(manualNotation) => doUpdateProduct({ manualNotation })}
+          selectedOptionValue={value?.Product[0]?.manualNotation ?? '-'}
+          options={['-', 'A', 'B', 'C'].map((notation) => ({
+            label: `Notation: ${notation}`,
+            value: notation,
+          }))}
+        />
+        <div className="flex">
+          <div className="flex flex-col">
+            <p>manual_notation: {value?.Product[0]?.manualNotation ?? '-'}</p>
+            <p>
+              vendor_notation:{' '}
+              {value?.dbt_store_product_for_analytics[0].vendor_notation ?? '-'}
+            </p>
+          </div>
+          <div className="ml-5 flex flex-col">
+            <p>
+              calculated_notation:{' '}
+              {value?.dbt_store_product_for_analytics[0].calculated_notation ??
+                '-'}
+            </p>
+            <p>
+              calculated_notation_beta:{' '}
+              {value?.dbt_store_product_for_analytics[0]
+                .calculated_notation_beta ?? '-'}
+            </p>
+          </div>
+          <div className="ml-5 flex flex-col">
+            <p>
+              orders_count:{' '}
+              {value?.dbt_store_product_for_analytics[0].orders_count ?? '-'}
+            </p>
+            <p>
+              favorites_count:{' '}
+              {value?.dbt_store_product_for_analytics[0].favorites_count ?? '-'}
+            </p>
+          </div>
         </div>
+        <Button
+          className="ml-10 text-xs"
+          href="https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management"
+        >
+          Retool Product
+        </Button>
       </div>
-      <Button
-        className="ml-10"
-        href="https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management"
-      >
-        Retool: Product Management
-      </Button>
     </AdminBanner>
   );
 };

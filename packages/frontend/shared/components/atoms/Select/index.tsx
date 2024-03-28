@@ -12,6 +12,7 @@ type PropsType = {
   onSelect: (value: string) => void;
   selectedOptionValue: string | null;
   className?: string;
+  buttonClassName?: string;
   wrapLabels?: boolean;
 };
 
@@ -20,6 +21,7 @@ const Select: React.FC<PropsType> = ({
   onSelect,
   selectedOptionValue,
   className,
+  buttonClassName,
   wrapLabels = false,
 }) => {
   if (options.length === 0) return <></>;
@@ -34,7 +36,9 @@ const Select: React.FC<PropsType> = ({
       onChange={onSelect}
     >
       <div className={`${className ?? ''} relative`}>
-        <Listbox.Button className="relative w-full cursor-default rounded-lg border border-slate-300 bg-white py-3 pl-3 pr-10 text-left focus:outline-none sm:text-sm">
+        <Listbox.Button
+          className={`${buttonClassName ?? ''} relative w-full cursor-default rounded-lg border border-slate-300 bg-white py-3 pl-3 pr-10 text-left focus:outline-none sm:text-sm`}
+        >
           <span className="block truncate">{selectedOption.label}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <HiChevronDown
