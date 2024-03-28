@@ -4,6 +4,7 @@ import Loader from '@/components/atoms/Loader';
 import Input from '@/components/molecules/FormInput';
 import TextArea from '@/components/molecules/FormTextArea';
 import useBackend from '@/hooks/useBackend';
+import useFlag from '@/hooks/useFlag';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { useState } from 'react';
@@ -41,6 +42,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
   variants,
   closeModal,
 }) => {
+  const userCanNegociate = useFlag('b2b.negociation');
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
   const { fetchAPI } = useBackend();
 
@@ -55,6 +57,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
 
   const watchQuantity = formMethods.watch('quantity');
   const watchNewPrice = formMethods.watch('newPrice');
+  const vendorUnitPrice = getBundleUnitPriceFromQuantity(watchQuantity);
 
   const rules: Record<Status, { label: string }[]> = {
     [Status.BEFORE_SEND]: [
@@ -74,13 +77,15 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
     quantity,
     description,
   }) => {
-    if (!newPrice) return;
+    const price = userCanNegociate ? newPrice : vendorUnitPrice;
+
+    if (!price) return;
 
     const priceOfferBody: operations['PriceOfferController_createB2BPriceOfferByBuyer']['requestBody']['content']['application/json'] =
       {
-        newPriceInCents: newPrice * 100,
+        newPriceInCents: price * 100,
         productId,
-        description: `[${quantity}x${newPrice}€] ${description}`,
+        description: `[${quantity}x${price}€] ${description}`,
       };
 
     await fetchAPI('/v1/price-offer/b2b', {
@@ -177,35 +182,39 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
                   min: 0,
                 }}
               />
-              <Input
-                label={dict.b2b.productCard.makeAnOffer.inputUnitPrice}
-                name="newPrice"
-                type="number"
-                options={{ required: dict.global.forms.required }}
-                placeholder={dict.makeOffer.newPricePlaceholder}
-              />
+              {userCanNegociate && (
+                <Input
+                  label={dict.b2b.productCard.makeAnOffer.inputUnitPrice}
+                  name="newPrice"
+                  type="number"
+                  options={{
+                    required: {
+                      value: userCanNegociate,
+                      message: dict.global.forms.required,
+                    },
+                  }}
+                  placeholder={dict.makeOffer.newPricePlaceholder}
+                />
+              )}
             </div>
-            <div className="mb-2 grid grid-cols-2 gap-2">
+            <div
+              className={`mb-2 grid ${userCanNegociate ? 'grid-cols-2' : 'grid-cols-1'} gap-2`}
+            >
               {!!watchQuantity && (
                 <div className="flex flex-col items-center justify-center gap-2 rounded-md border bg-slate-100 p-2">
                   <p className="font-bold">
                     {dict.b2b.productCard.makeAnOffer.sellerOffer}
                   </p>
                   <p>
-                    {watchQuantity} x{' '}
-                    {Math.round(getBundleUnitPriceFromQuantity(watchQuantity))}€
+                    {watchQuantity} x {Math.round(vendorUnitPrice)}€
                   </p>
                   <p>
                     {dict.b2b.productCard.makeAnOffer.total}:{' '}
-                    {Math.round(
-                      watchQuantity *
-                        getBundleUnitPriceFromQuantity(watchQuantity),
-                    )}{' '}
-                    €
+                    {Math.round(watchQuantity * vendorUnitPrice)} €
                   </p>
                 </div>
               )}
-              {!!watchQuantity && !!watchNewPrice && (
+              {userCanNegociate && !!watchQuantity && !!watchNewPrice && (
                 <div className="flex flex-col items-center justify-center gap-2 rounded-md border bg-green-100 p-2">
                   <p className="font-bold">
                     {dict.b2b.productCard.makeAnOffer.yourOffer}
