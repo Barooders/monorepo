@@ -219,9 +219,7 @@ export class PaymentService implements IPaymentService {
     const dbCheckout =
       (await this.prisma.checkout.findFirst({
         where: {
-          cart: {
-            storeId: checkoutStoreToken,
-          },
+          storeId: checkoutStoreToken,
         },
       })) ??
       (await this.prisma.checkout.create({
