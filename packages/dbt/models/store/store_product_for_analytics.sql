@@ -31,11 +31,11 @@ WITH variant_data AS (
     WHERE c.handle='velos'
 ), favorites AS (
     SELECT
-        count(distinct id) AS favorites_count,
-        "productId"
-    FROM public."FavoriteProducts"
-    group by "productId"
-    order by favorites_count desc
+        count(distinct fp.id) AS favorites_count,
+        bp.id
+    FROM public."FavoriteProducts" fp
+    LEFT JOIN {{ref('store_base_product')}} bp ON bp."shopifyId" = fp."productId"
+    GROUP BY bp.id
 ), orders AS (
     SELECT
         count(distinct ol.id) AS orders_count,
@@ -102,7 +102,7 @@ WITH variant_data AS (
     LEFT JOIN variant_data ON variant_data."productId" = bp.id
     LEFT JOIN image_data ON image_data."productId" = bp.id
     LEFT JOIN biquery_analytics_dbt.products_ranking pr ON pr.id = bp.id AND pr._fivetran_deleted=FALSE
-    LEFT JOIN favorites on favorites."productId" = bp.id
+    LEFT JOIN favorites on favorites.id = bp.id
     LEFT JOIN orders on orders."productId" = bp.id
 ), product_with_sub_notations AS (
     SELECT
