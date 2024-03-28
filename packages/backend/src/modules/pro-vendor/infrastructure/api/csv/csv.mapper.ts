@@ -67,8 +67,8 @@ export class CSVMapper {
         src,
       })),
       salesChannels: [
-        ...(product.isB2BProduct ? [SalesChannelName.PUBLIC] : []),
-        ...(product.isB2CProduct ? [SalesChannelName.B2B] : []),
+        ...(product.isB2BProduct ? [SalesChannelName.B2B] : []),
+        ...(product.isB2CProduct ? [SalesChannelName.PUBLIC] : []),
       ],
     };
   }
