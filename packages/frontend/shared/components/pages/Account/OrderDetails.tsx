@@ -23,12 +23,7 @@ import CancelOrderForm from './_components/CancelOrderForm';
 import ShippingLabelButton from './_components/ShippingLabelButton';
 import TrackingURLForm from './_components/TrackingURLForm';
 import { ORDER_STATUS_COLORS } from './config';
-import {
-  FulfillmentOrderStatus,
-  OrderStatus,
-  ShippingSolution,
-  ShippingType,
-} from './types';
+import { FulfillmentOrderStatus, OrderStatus, ShippingSolution } from './types';
 
 const dict = getDictionary('fr');
 const roundedCard = 'mt-4 rounded-lg border border-zinc-200';
@@ -129,9 +124,6 @@ const FETCH_ORDER_DATA = gql`
           }
           status
         }
-        vendorCustomer {
-          usedShipping
-        }
       }
     }
   }
@@ -180,7 +172,6 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
       handle,
       productImage,
       fulfillmentOrder,
-      vendorCustomer,
       id,
       shippingSolution,
     } = orderLine;
@@ -225,7 +216,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
             (fulfillment) => fulfillment.trackingUrl !== '',
           )?.trackingUrl ?? null,
         hasToFillTrackingUrl:
-          vendorCustomer?.usedShipping === ShippingType.VENDOR &&
+          shippingSolution === ShippingSolution.VENDOR &&
           fulfillmentOrder?.fulfillments.length === 0 &&
           fulfillmentOrder?.status === FulfillmentOrderStatus.OPEN,
         canCancelOrderLine:
@@ -255,7 +246,7 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
                   .join(' '),
                 country: order.shippingAddressCountry,
                 phoneNumber:
-                  vendorCustomer?.usedShipping === ShippingType.VENDOR
+                  shippingSolution === ShippingSolution.VENDOR
                     ? order.shippingAddressPhone
                     : null,
               }

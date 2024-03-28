@@ -36,11 +36,6 @@ export const enum ShippingSolution {
   SENDCLOUD = 'SENDCLOUD',
 }
 
-export const enum ShippingType {
-  BAROODERS = 'barooders',
-  VENDOR = 'vendor',
-}
-
 export const enum FulfillmentOrderStatus {
   CANCELED = 'CANCELED',
   CLOSED = 'CLOSED',
