@@ -15,7 +15,7 @@ SELECT
     bpv."shopify_id" AS "shopify_id",
     ppv.quantity AS "inventoryQuantity",
     CURRENT_DATE AS "syncDate",
-    ppv."priceInCents" / 100 AS "price",
+    ppv."priceInCents"::float / 100 AS "price",
     pv.compare_at_price AS "compareAtPrice",
     po1.name AS "option1Name",
     pv.option_1 AS "option1",
