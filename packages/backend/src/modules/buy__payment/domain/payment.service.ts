@@ -313,7 +313,7 @@ export class PaymentService implements IPaymentService {
 
     const checkout = await this.prisma.checkout.findUnique({
       where: { id: payment.checkoutId },
-      include: { cart: true, checkoutLineItems: true },
+      include: { checkoutLineItems: true },
     });
 
     if (payment.updatedAt && isOlderThan(payment.updatedAt, 2)) {
@@ -407,7 +407,7 @@ export class PaymentService implements IPaymentService {
     const payment = await this.prisma.payment.findUniqueOrThrow({
       where: { id: paymentId },
       include: {
-        checkout: { include: { cart: true } },
+        checkout: true,
       },
     });
 
