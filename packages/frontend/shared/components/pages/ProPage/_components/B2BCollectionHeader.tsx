@@ -1,5 +1,5 @@
 import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
-import useUser from '@/hooks/state/useUser';
+import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { getDictionary } from '@/i18n/translate';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 
@@ -7,14 +7,15 @@ const dict = getDictionary('fr');
 
 const B2BCollectionHeader: React.FC = () => {
   const { results } = useInstantSearch();
-  const { hasuraToken } = useUser();
+  const { extractTokenInfo } = useHasuraToken();
+  const { sellerName } = extractTokenInfo();
 
   return (
     <div className="mb-1 flex flex-col justify-between">
       <div className="flex flex-col gap-2">
         <div className="mb-2 rounded-lg border border-slate-200 bg-slate-100 p-4">
-          Bienvenue <strong>{hasuraToken?.user.displayName}</strong>, voici
-          votre sélection personnalisée 🚴
+          Bienvenue <strong>{sellerName}</strong>, voici votre sélection
+          personnalisée 🚴
         </div>
       </div>
       <B2BGuarantees />
