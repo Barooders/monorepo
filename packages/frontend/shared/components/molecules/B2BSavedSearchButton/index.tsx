@@ -1,5 +1,5 @@
 import { getDictionary } from '@/i18n/translate';
-import { FaRegBell } from 'react-icons/fa';
+import { FiSave } from 'react-icons/fi';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
@@ -18,7 +18,7 @@ const B2BSavedSearchButton: React.FC = () => {
             className="text-md w-full shadow-md"
           >
             <div className="flex items-center justify-center gap-2">
-              <FaRegBell className="text-white" />
+              <FiSave className="text-white" />
               {dict.b2b.proPage.saveSearch.buttonLabel}
             </div>
           </Button>

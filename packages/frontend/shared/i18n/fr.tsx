@@ -1153,7 +1153,7 @@ const fr = {
     proPage: {
       title: 'Vos résultats',
       saveSearch: {
-        buttonLabel: 'Enregistrer',
+        buttonLabel: 'Sauvegarder',
         successToaster: 'Recherche enregistrée',
         title: 'Enregistrer mes préférences',
         subTitle: 'Mes critères',
