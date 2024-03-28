@@ -214,6 +214,8 @@ model StoreProductForAnalytics {
   EANCode                        String?          @map("ean_code")
   isBike                         Boolean          @default(false) @map("is_bike")
   imageCount                     Int              @default(0) @map("image_count")
+  ordersCount                    Int              @default(0) @map("orders_count")
+  favoritesCount                 Int              @default(0) @map("favorites_count")
   highestDiscount                Float            @default(0) @map("highest_discount")
   brand                          String?
   brandRating                    BrandRating?     @map("brand_rating")

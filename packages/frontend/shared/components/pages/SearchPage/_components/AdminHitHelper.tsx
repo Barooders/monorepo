@@ -15,11 +15,8 @@ const PRODUCT_HIT_QUERY = gql`
       manualNotation
     }
     dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {
-      vendor_notation
+      notation
       calculated_notation
-      calculated_notation_beta
-      views_last_30_days
-      created_at
       calculated_scoring
     }
   }
@@ -62,38 +59,16 @@ const AdminHitHelper = ({
 
   if (!isAdmin() || !value) return <></>;
 
+  const dbtProduct = value?.dbt_store_product_for_analytics[0];
+
   return (
     <div
       className="absolute z-10 bg-slate-200 bg-opacity-75 p-1 text-xs"
       data-ref="admin-hit-helper"
     >
       <p>
-        (ranking scoring:{' '}
-        {value?.dbt_store_product_for_analytics[0].calculated_scoring})
-      </p>
-      <p>- 1. manual_notation: {value?.Product[0]?.manualNotation ?? '-'}</p>
-      <p>
-        - 2. vendor_notation:{' '}
-        {value?.dbt_store_product_for_analytics[0].vendor_notation ?? '-'}
-      </p>
-      <p>
-        - 3. calculated_notation:{' '}
-        {value?.dbt_store_product_for_analytics[0].calculated_notation ?? '-'}
-      </p>
-      <p>
-        - 4. calculated_notation_beta:{' '}
-        {value?.dbt_store_product_for_analytics[0].calculated_notation_beta ??
-          '-'}
-      </p>
-      <p>
-        - views_30_days:{' '}
-        {value?.dbt_store_product_for_analytics[0].views_last_30_days}
-      </p>
-      <p>
-        - created_at:{' '}
-        {new Date(
-          value?.dbt_store_product_for_analytics[0].created_at,
-        ).toLocaleDateString('fr-FR')}
+        {dbtProduct.calculated_scoring}/{dbtProduct.notation}/
+        {dbtProduct.calculated_notation}
       </p>
       <select
         className="text-xs"

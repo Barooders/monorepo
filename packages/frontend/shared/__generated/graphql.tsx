@@ -31884,12 +31884,12 @@ export type FetchSoldOrderLinesQuery = {
   }>;
 };
 
-export type FetchOrderDataQueryVariables = Exact<{
+export type FetchOrderDataSubscriptionVariables = Exact<{
   orderId: InputMaybe<Scalars['String']>;
 }>;
 
-export type FetchOrderDataQuery = {
-  __typename?: 'query_root';
+export type FetchOrderDataSubscription = {
+  __typename?: 'subscription_root';
   Order: Array<{
     __typename?: 'Order';
     name: string;
@@ -32150,11 +32150,8 @@ export type FetchProductHitDataQuery = {
   Product: Array<{ __typename?: 'Product'; manualNotation: any | null }>;
   dbt_store_product_for_analytics: Array<{
     __typename?: 'dbt_store_product_for_analytics';
-    vendor_notation: any | null;
+    notation: any | null;
     calculated_notation: any | null;
-    calculated_notation_beta: any | null;
-    views_last_30_days: any;
-    created_at: any;
     calculated_scoring: any;
   }>;
 };

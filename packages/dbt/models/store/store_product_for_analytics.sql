@@ -29,6 +29,21 @@ WITH variant_data AS (
     FROM {{ref('store_product_collection')}} pc
     LEFT JOIN {{ref('store_collection')}} c ON pc.collection_id=c.id
     WHERE c.handle='velos'
+), favorites AS (
+    SELECT
+        count(distinct id) AS favorites_count,
+        "productId"
+    FROM public."FavoriteProducts"
+    group by "productId"
+    order by favorites_count desc
+), orders AS (
+    SELECT
+        count(distinct ol.id) AS orders_count,
+        pv."productId"
+    FROM public."OrderLines" ol
+    JOIN public."ProductVariant" pv on ol."productVariantId" = pv.id
+    group by pv."productId"
+    order by orders_count desc
 ), top_brands_list AS (
     SELECT name FROM fivetran_strapi_public.pim_brands WHERE rating = 'TOP'
 ), mid_brands_list AS (
@@ -76,8 +91,10 @@ WITH variant_data AS (
         END AS model_year_with_override,
         CAST(ep.brand_rating AS dbt."BrandRating") AS "brand_rating",
         COALESCE(pr.traffic30,0) AS "views_last_30_days",
-        bpp."EANCode" AS "ean_code"
-
+        bpp."EANCode" AS "ean_code",
+        COALESCE(favorites.favorites_count, 0) AS favorites_count,
+        COALESCE(orders.orders_count, 0) AS orders_count
+    
     FROM {{ref('store_base_product')}} bp
     LEFT JOIN exposed_product ep ON ep.id = bp.id
     LEFT JOIN public."Product" bpp ON bpp.id = bp.id
@@ -85,6 +102,8 @@ WITH variant_data AS (
     LEFT JOIN variant_data ON variant_data."productId" = bp.id
     LEFT JOIN image_data ON image_data."productId" = bp.id
     LEFT JOIN biquery_analytics_dbt.products_ranking pr ON pr.id = bp.id AND pr._fivetran_deleted=FALSE
+    LEFT JOIN favorites on favorites."productId" = bp.id
+    LEFT JOIN orders on orders."productId" = bp.id
 ), product_with_sub_notations AS (
     SELECT
         p.*,
@@ -178,14 +197,15 @@ SELECT
             ELSE 600
         END
     )
-    + 0.2 * (
+    + 0.3 * (
         CASE
-            WHEN "views_last_30_days" > 100 THEN 1000
-            WHEN "views_last_30_days" > 10 THEN 600
+            WHEN orders_count + favorites_count > 50 THEN 1000
+            WHEN orders_count + favorites_count > 10 THEN 800
+            WHEN orders_count + favorites_count > 1 THEN 600
             ELSE 200
         END
     )
-    + 0.4 * (
+    + 0.3 * (
         CASE
             WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 1 THEN 1000
             WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 7 THEN 900
