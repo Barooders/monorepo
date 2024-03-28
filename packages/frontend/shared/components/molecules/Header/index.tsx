@@ -12,6 +12,7 @@ import {
 import { MegaMenuChunk } from '../MegaMenu/shared/types/app/MegaMenu.types';
 import SearchBar from '../SearchBar';
 import AnnouncementBar from './_components/AnnouncementBar';
+import B2BProPageButton from './_components/B2BProPageButton';
 import HeaderButton from './_components/HeaderButton';
 
 type PropsType = {
@@ -72,6 +73,7 @@ const Header: React.FC<PropsType> = ({ megaMenu }) => {
               <SearchBar />
             </div>
             <div className="hidden gap-1 lg:flex">
+              <B2BProPageButton />
               <HeaderButton
                 href="/pages/favoris"
                 title={dictionnary.header.icons.favorites}

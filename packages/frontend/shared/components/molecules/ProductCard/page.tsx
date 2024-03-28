@@ -13,7 +13,7 @@ import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import Modal from '../../atoms/Modal';
 import BuyButton from './_components/Actions/BuyButton';
 import ConversationButton from './_components/Actions/ConversationButton';
-import PriceOffferButton from './_components/Actions/PriceOffferButton';
+import PriceOfferButton from './_components/Actions/PriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import CommissionDetails from './_components/CommissionDetails';
 import DeliveryInformation from './_components/Delivery';
@@ -216,7 +216,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                       className="col-span-2"
                       variant={variantShopifyId}
                     />
-                    <PriceOffferButton
+                    <PriceOfferButton
                       className="col-span-1 uppercase"
                       price={price}
                       productId={id}

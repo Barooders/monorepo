@@ -1,6 +1,6 @@
-import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
+import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
 import ProductPrice from './_components/ProductPrice';
@@ -9,7 +9,8 @@ import { B2BProductCardProps } from './types';
 const dict = getDictionary('fr');
 
 const B2BProductCard: React.FC<B2BProductCardProps> = ({
-  shopifyId: id,
+  id,
+  shopifyId,
   title,
   tags,
   productType,
@@ -19,6 +20,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   largestBundlePrice,
   image,
   stock,
+  hasOpenedPriceOffer,
 }) => {
   return (
     <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
@@ -52,20 +54,17 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               </p>
             )}
             <ProductPrice
-              productId={id}
+              productId={shopifyId}
               discounts={[]}
               compareAtPrice={compareAtPrice}
               price={price}
               showPriceRecap={false}
             />
           </div>
-          <Button
-            intent="tertiary"
-            href="/"
-            className="mt-2"
-          >
-            {dict.b2b.productCard.makeAnOffer}
-          </Button>
+          <B2BPriceOfferButton
+            hasOpenedPriceOffer={hasOpenedPriceOffer}
+            productId={id}
+          />
         </div>
       </div>
     </div>

@@ -6,12 +6,10 @@ import {
   NotFoundException,
   Post,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
 
-import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -24,7 +22,6 @@ import {
 } from 'class-validator';
 import { BuyerCommissionService } from '../domain/buyer-commission.service';
 import { Commission } from '../domain/ports/commission.entity';
-import { ICommissionRepository } from '../domain/ports/commission.repository';
 import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 
 class CommissionInputDto {
@@ -74,10 +71,7 @@ class ProductInputDto {
 export class BuyerCommissionController {
   private readonly logger = new Logger(BuyerCommissionController.name);
 
-  constructor(
-    private buyerCommissionService: BuyerCommissionService,
-    private commissionRepository: ICommissionRepository,
-  ) {}
+  constructor(private buyerCommissionService: BuyerCommissionService) {}
 
   @ApiResponse({ type: Commission })
   @Post(routesV1.product.createCommission)
@@ -139,12 +133,5 @@ export class BuyerCommissionController {
       }
       throw e;
     }
-  }
-
-  @Get(routesV1.product.getB2BCommission)
-  @UseGuards(B2BUserGuard)
-  async getB2BCommission(): Promise<number> {
-    return (await this.commissionRepository.getGlobalB2BBuyerCommission())
-      .percentage;
   }
 }

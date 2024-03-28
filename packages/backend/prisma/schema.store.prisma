@@ -103,6 +103,7 @@ model StoreBaseProduct {
   storeProductForAnalytics StoreProductForAnalytics?
   storeProductForAdmin     StoreProductForAdmin?
   storeB2BProduct          StoreB2BProduct?
+  storeBundlePrices        StoreBundlePrice[]
 
   @@map("store_base_product")
   @@schema("dbt")
@@ -169,6 +170,19 @@ model StoreB2BProduct {
 
   @@index([id])
   @@map("store_b2b_product")
+  @@schema("dbt")
+}
+
+model StoreBundlePrice {
+  id               String           @id
+  minQuantity      Int              @map("min_quantity")
+  unitPriceInCents BigInt           @map("unit_price_in_cents")
+  productId        String           @map("product_id")
+  product          StoreBaseProduct @relation(fields: [productId], references: [id])
+
+  @@index([id])
+  @@index([productId])
+  @@map("store_bundle_price")
   @@schema("dbt")
 }
 
