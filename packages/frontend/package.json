@@ -33,7 +33,7 @@
     "@algolia/autocomplete-js": "1.17.0",
     "@algolia/autocomplete-plugin-algolia-insights": "1.17.0",
     "@algolia/autocomplete-plugin-recent-searches": "1.17.0",
-    "@apollo/client": "3.7.9",
+    "@apollo/client": "3.10.0-alpha.1",
     "@builder.io/react": "3.0.12",
     "@capacitor/android": "5.6.0",
     "@capacitor/app": "5.0.6",
