@@ -53,7 +53,7 @@ const Support = () => {
         <SupportIcon />
         {dict.components.productCard.support.catchphrase}
       </p>
-      <div className="mt-2 flex gap-3 text-sm">
+      <div className="mt-2 flex items-center gap-3 text-sm">
         <SupportPicture />
         {dict.components.productCard.support.content()}
       </div>
