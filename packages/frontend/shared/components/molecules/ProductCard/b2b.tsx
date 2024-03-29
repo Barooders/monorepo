@@ -4,7 +4,6 @@ import { formatCurrency } from '@/utils/currency';
 import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import ProductImage from './_components/ProductImage';
-import ProductLabel from './_components/ProductLabel';
 import ProductPrice from './_components/ProductPrice';
 import { B2BProductCardProps } from './types';
 
@@ -42,12 +41,14 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
         {image && (
           <ProductImage
             image={image}
-            labels={[]}
+            labels={[
+              { content: <>x {stock}</>, position: 'right', color: 'purple' },
+            ]}
             discounts={[]}
           />
         )}
       </div>
-      <div className="relative col-span-2 my-auto flex min-h-[240px] flex-grow flex-col justify-between">
+      <div className="relative col-span-2 my-auto flex min-h-[200px] flex-grow flex-col justify-between">
         <Characteristics
           tags={tags}
           title={title}
@@ -57,17 +58,9 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
         />
         <div className="flex flex-col">
           <div className="my-1">
-            <div className="flex gap-1">
-              <p>Unités par lot:</p>
-              <div className="w-fit">
-                <ProductLabel
-                  label={{ content: stock.toString(), color: 'purple' }}
-                />
-              </div>
-            </div>
             <p>P.U.: {formatCurrency(price, { round: true })}€</p>
             <div className="flex items-center gap-1">
-              <span className="font-bold">P.U. Lot:</span>
+              <span className="font-bold">P.U. en lot:</span>
               <ProductPrice
                 productId={shopifyId}
                 discounts={[]}
