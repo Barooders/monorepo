@@ -1,0 +1,24 @@
+meta {
+  name: Make transfer
+  type: http
+  seq: 9
+}
+
+post {
+  url: https://api.stripe.com/v1/transfers
+  body: none
+  auth: basic
+}
+
+query {
+  currency: eur
+  amount: 1000
+  destination: acct_1JdLebRTp9IdLF28
+  description: Vente Barooders (#1234) du 20/23/23 à 14h34
+  ~destination: acct_1JEbuiREmsKz2PSH
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}

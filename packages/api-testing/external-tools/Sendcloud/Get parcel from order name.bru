@@ -1,0 +1,15 @@
+meta {
+  name: Get parcel from order name
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://panel.sendcloud.sc/api/v2/parcels?order_number=%2313161
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Basic {{sendCloudBasicToken}}
+}

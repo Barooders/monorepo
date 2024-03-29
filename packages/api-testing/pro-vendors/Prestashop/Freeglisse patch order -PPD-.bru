@@ -1,0 +1,22 @@
+meta {
+  name: Freeglisse patch order -PPD-
+  type: http
+  seq: 149
+}
+
+put {
+  url: https://preprod.freeglisse.com/api/orders
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  Content-Type: application/xml
+}

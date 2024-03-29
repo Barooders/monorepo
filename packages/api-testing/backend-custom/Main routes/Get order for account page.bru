@@ -1,0 +1,16 @@
+meta {
+  name: Get order for account page
+  type: http
+  seq: 36
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/orders/9a61e5c4-fc32-4329-9f41-ddc9ce6a5c55
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
+}

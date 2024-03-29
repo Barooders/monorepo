@@ -1,0 +1,22 @@
+meta {
+  name: Freeglisse create customer -PPD-
+  type: http
+  seq: 142
+}
+
+post {
+  url: https://preprod.freeglisse.com/api/customers
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  ~display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  Content-Type: application/xml
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Fetch gorgias user
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://barooders.gorgias.com/api/customers
+  body: none
+  auth: none
+}
+
+query {
+  email: visagokalm+barooders@gmail.com
+}
+
+headers {
+  accept: application/json
+  authorization: Basic {{gorgiasBasicToken}}
+}

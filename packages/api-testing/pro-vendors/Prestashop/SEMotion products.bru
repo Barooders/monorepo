@@ -1,0 +1,21 @@
+meta {
+  name: SEMotion products
+  type: http
+  seq: 126
+}
+
+get {
+  url: https://www.sportemotion.fr/api/products
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{semotionApiKey}}
+  limit: 0,1
+}
+
+headers {
+  ~Authorization: Basic VlZJVlRMVldaUUQ5TTJMN0taQThSMzhVSkhIODZJVVE=
+}

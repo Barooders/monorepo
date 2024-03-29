@@ -1,0 +1,16 @@
+meta {
+  name: EBS products
+  type: http
+  seq: 128
+}
+
+get {
+  url: https://www.ebike-occasions.com/api/products
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{ebikeApiKey}}
+  output_format: JSON
+}

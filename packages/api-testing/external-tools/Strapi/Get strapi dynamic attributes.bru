@@ -1,0 +1,17 @@
+meta {
+  name: Get strapi dynamic attributes
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-dynamic-attributes
+  body: none
+  auth: none
+}
+
+query {
+  filters[name][$eq]: size
+  pagination[limit]: 1
+  populate: pim_product_attributes
+}

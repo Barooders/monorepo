@@ -1,0 +1,25 @@
+meta {
+  name: JoostBikes products
+  type: http
+  seq: 47
+}
+
+get {
+  url: https://joostracefietsen.nl/wp-json/wc/v3/products/5817
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{joostBikesApiKey}}
+  consumer_secret: {{joostBikesApiSecret}}
+  per_page: 2
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

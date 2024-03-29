@@ -1,0 +1,18 @@
+meta {
+  name: Skiav get product
+  type: http
+  seq: 120
+}
+
+get {
+  url: https://ski-aventure.com/api/products/3419
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: DNVQBEKXEHGT55BQ5GIMEVQP1YSB8RHS
+  ~display: full
+  ~filter[firstname]: 
+}

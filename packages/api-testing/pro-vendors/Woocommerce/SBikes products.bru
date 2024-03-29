@@ -1,0 +1,25 @@
+meta {
+  name: SBikes products
+  type: http
+  seq: 44
+}
+
+get {
+  url: https://cheapassbikes.nl/wp-json/wc/v3/products/545651590
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{sbikesApiKey}}
+  consumer_secret: {{sbikesApiSecret}}
+  per_page: 2
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

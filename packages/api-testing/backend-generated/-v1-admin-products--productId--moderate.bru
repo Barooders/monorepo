@@ -1,0 +1,19 @@
+meta {
+  name: -v1-admin-products--productId--moderate
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{base_url}}/v1/admin/products/{{productId}}/moderate
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {}
+}

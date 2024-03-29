@@ -1,0 +1,15 @@
+meta {
+  name: Get product
+  type: http
+  seq: 22
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/products/8660097368397
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}

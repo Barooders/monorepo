@@ -1,0 +1,26 @@
+meta {
+  name: JBikes product variation 
+  type: http
+  seq: 48
+}
+
+get {
+  url: https://jbikes.fr/wp-json/wc/v3/products/11490/variations/11492
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{jbikesApiKey}}
+  consumer_secret: {{jbikesApiSecret}}
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~per_page: 100
+  ~page: 1
+  ~status: publish
+  ~on_sale: 1
+}
+
+headers {
+  : 
+}

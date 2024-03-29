@@ -1,0 +1,30 @@
+meta {
+  name: -v1-products--productId--variants--productVariantId-
+  type: http
+  seq: 23
+}
+
+patch {
+  url: {{base_url}}/v1/products/{{productId}}/variants/{{productVariantId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "quantity": 0,
+    "price": {
+      "amountInCents": 124999,
+      "currency": "EUR"
+    },
+    "compareAtPrice": {
+      "amountInCents": 124999,
+      "currency": "EUR"
+    },
+    "condition": "string"
+  }
+}

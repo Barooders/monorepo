@@ -1,0 +1,22 @@
+meta {
+  name: Freeglisse create order history
+  type: http
+  seq: 151
+}
+
+post {
+  url: https://freeglisse.com/api/order_histories
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  ~display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  Content-Type: application/xml
+}

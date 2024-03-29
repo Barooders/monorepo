@@ -1,0 +1,22 @@
+meta {
+  name: Freeglisse create cart
+  type: http
+  seq: 145
+}
+
+post {
+  url: https://freeglisse.com/api/carts
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  Content-Type: application/xml
+}

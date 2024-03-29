@@ -1,0 +1,58 @@
+meta {
+  name: Send template email
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.sendgrid.com/v3/mail/send
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{sendGridBearerToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"from": {
+  		"email": "notifications@barooders.com",
+  		"name": "Barooders"
+  	},
+  	"reply_to": {
+  		"email": "zoe+testordercreated@barooders.com",
+  		"name": "de ded"
+  	},
+  	"personalizations": [
+  		{
+  			"to": [
+  				{
+  					"email": "zoe+testordercreated@barooders.com",
+  					"name": "de ded"
+  				}
+  			],
+  			"cc": [
+  				{
+  					"email": "zoe+testordercreated@barooders.com",
+  					"name": "de ded (operations)"
+  				}
+  			],
+  			"dynamic_template_data": {
+  				"product_name": "Berria Bravo 8 (2021) - Taille L",
+  				"product_price": "1930.00",
+  				"variant_title": "Berria Bravo 8 (2021) - Taille L",
+  				"product_reference": "b9f1bbae-f525-4842-825b-178aa71c7864",
+  				"product_handle": "berria-bravo-8-2021",
+  				"customer_address": "54 Rue des Plantes Paris 75014 France",
+  				"client_phone": "",
+  				"customer_name": "zoe lemaistre",
+  				"order_name": "#1033",
+  				"shipment_email": "notifications+5602249638223@barooders.com"
+  			}
+  		}
+  	],
+  	"template_id": "d-881d8500c68a4210871da5b9ec954c04"
+  }
+}

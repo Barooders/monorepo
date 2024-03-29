@@ -1,0 +1,17 @@
+meta {
+  name: Skidoc product by id
+  type: http
+  seq: 108
+}
+
+get {
+  url: https://www.skidoccasion.com/fr/api/products/3344
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  ~display: full
+}

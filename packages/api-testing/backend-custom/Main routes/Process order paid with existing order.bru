@@ -1,0 +1,437 @@
+meta {
+  name: Process order paid with existing order
+  type: http
+  seq: 28
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/orders/webhook/paid-event/notify
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"id": 5593809322319,
+  	"admin_graphql_api_id": "gid:\/\/shopify\/Order\/5593809322319",
+  	"app_id": 29620568065,
+  	"browser_ip": "213.41.102.186",
+  	"buyer_accepts_marketing": false,
+  	"cancel_reason": null,
+  	"cancelled_at": null,
+  	"cart_token": null,
+  	"checkout_id": 41572104044879,
+  	"checkout_token": "affbcedca24c7ae080f267bf5319423d",
+  	"client_details": {
+  		"accept_language": "fr",
+  		"browser_height": null,
+  		"browser_ip": "213.41.102.186",
+  		"browser_width": null,
+  		"session_hash": null,
+  		"user_agent": "barooders-application"
+  	},
+  	"closed_at": null,
+  	"company": null,
+  	"confirmed": true,
+  	"contact_email": "nicolas.ngomai@gmail.com",
+  	"created_at": "2023-05-17T11:10:27+02:00",
+  	"currency": "EUR",
+  	"current_subtotal_price": "150.29",
+  	"current_subtotal_price_set": {
+  		"shop_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_discounts": "0.00",
+  	"current_total_discounts_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_duties_set": null,
+  	"current_total_price": "150.29",
+  	"current_total_price_set": {
+  		"shop_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_tax": "0.00",
+  	"current_total_tax_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"customer_locale": "fr",
+  	"device_id": null,
+  	"discount_codes": [],
+  	"email": "nicolas.ngomai@gmail.com",
+  	"estimated_taxes": false,
+  	"financial_status": "paid",
+  	"fulfillment_status": null,
+  	"gateway": "stripe",
+  	"landing_site": "\/checkouts\/co\/9cb165eb069c446a6374ac1f0122ca97",
+  	"landing_site_ref": null,
+  	"location_id": null,
+  	"merchant_of_record_app_id": null,
+  	"name": "#1029",
+  	"note": null,
+  	"note_attributes": [
+  		{
+  			"name": "",
+  			"value": ""
+  		},
+  		{
+  			"name": "commissionCreationOngoing",
+  			"value": "false"
+  		}
+  	],
+  	"number": 29,
+  	"order_number": 1029,
+  	"order_status_url": "https:\/\/barooders-stagging.myshopify.com\/63747719409\/orders\/608adb02b1783914817aa456ce9d6ed4\/authenticate?key=9ba6977733d7bdbdf9eef8c8751db8ff",
+  	"original_total_duties_set": null,
+  	"payment_gateway_names": [
+  		"stripe"
+  	],
+  	"phone": null,
+  	"presentment_currency": "EUR",
+  	"processed_at": "2023-05-17T11:10:23+02:00",
+  	"processing_method": "direct",
+  	"reference": "8a5c086283ad73dc46c8ef45eaecc953",
+  	"referring_site": "",
+  	"source_identifier": "8a5c086283ad73dc46c8ef45eaecc953",
+  	"source_name": "29620568065",
+  	"source_url": null,
+  	"subtotal_price": "150.29",
+  	"subtotal_price_set": {
+  		"shop_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"tags": "",
+  	"tax_lines": [],
+  	"taxes_included": true,
+  	"test": true,
+  	"token": "608adb02b1783914817aa456ce9d6ed4",
+  	"total_discounts": "0.00",
+  	"total_discounts_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_line_items_price": "150.29",
+  	"total_line_items_price_set": {
+  		"shop_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_outstanding": "0.00",
+  	"total_price": "150.29",
+  	"total_price_set": {
+  		"shop_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "150.29",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_shipping_price_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_tax": "0.00",
+  	"total_tax_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_tip_received": "0.00",
+  	"total_weight": 8000,
+  	"updated_at": "2023-05-17T11:10:29+02:00",
+  	"user_id": null,
+  	"billing_address": {
+  		"first_name": "Nicolas",
+  		"address1": "1 Rue Paul Dijon",
+  		"phone": null,
+  		"city": "Grenoble",
+  		"zip": "38000",
+  		"province": null,
+  		"country": "France",
+  		"last_name": "Ngomai",
+  		"address2": null,
+  		"company": null,
+  		"latitude": null,
+  		"longitude": null,
+  		"name": "Nicolas Ngomai",
+  		"country_code": "FR",
+  		"province_code": null
+  	},
+  	"customer": {
+  		"id": 7013493670223,
+  		"email": "nicolas.ngomai@gmail.com",
+  		"accepts_marketing": false,
+  		"created_at": "2023-03-23T14:18:23+01:00",
+  		"updated_at": "2023-05-17T11:10:28+02:00",
+  		"first_name": "Nicolas",
+  		"last_name": "Ngomai",
+  		"state": "enabled",
+  		"note": null,
+  		"verified_email": true,
+  		"multipass_identifier": null,
+  		"tax_exempt": false,
+  		"phone": null,
+  		"email_marketing_consent": {
+  			"state": "not_subscribed",
+  			"opt_in_level": "single_opt_in",
+  			"consent_updated_at": null
+  		},
+  		"sms_marketing_consent": null,
+  		"tags": "",
+  		"currency": "EUR",
+  		"accepts_marketing_updated_at": "2023-03-23T14:18:23+01:00",
+  		"marketing_opt_in_level": null,
+  		"tax_exemptions": [],
+  		"admin_graphql_api_id": "gid:\/\/shopify\/Customer\/7013493670223",
+  		"default_address": {
+  			"id": 9560573804879,
+  			"customer_id": 7013493670223,
+  			"first_name": "Nicolas",
+  			"last_name": "Ngomai",
+  			"company": null,
+  			"address1": "1 Rue Paul Dijon",
+  			"address2": null,
+  			"city": "Grenoble",
+  			"province": null,
+  			"country": "France",
+  			"zip": "38000",
+  			"phone": null,
+  			"name": "Nicolas Ngomai",
+  			"province_code": null,
+  			"country_code": "FR",
+  			"country_name": "France",
+  			"default": true
+  		}
+  	},
+  	"discount_applications": [],
+  	"fulfillments": [],
+  	"line_items": [
+  		{
+  			"id": 14541821706575,
+  			"admin_graphql_api_id": "gid:\/\/shopify\/LineItem\/14541821706575",
+  			"fulfillable_quantity": 1,
+  			"fulfillment_service": "manual",
+  			"fulfillment_status": null,
+  			"gift_card": false,
+  			"grams": 8000,
+  			"name": "Ski Occasion Salomon Constellation Astra + Fix - 147",
+  			"price": "139.90",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "139.90",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "139.90",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"product_exists": true,
+  			"product_id": 8496477241679,
+  			"properties": [
+  				{
+  					"name": "",
+  					"value": ""
+  				}
+  			],
+  			"quantity": 1,
+  			"requires_shipping": true,
+  			"sku": "",
+  			"taxable": true,
+  			"title": "Ski Occasion Salomon Constellation Astra + Fix",
+  			"total_discount": "0.00",
+  			"total_discount_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"variant_id": 46659792634191,
+  			"variant_inventory_management": "shopify",
+  			"variant_title": "147",
+  			"vendor": "skiaventure",
+  			"tax_lines": [],
+  			"duties": [],
+  			"discount_allocations": []
+  		},
+  		{
+  			"id": 14541821739343,
+  			"admin_graphql_api_id": "gid:\/\/shopify\/LineItem\/14541821739343",
+  			"fulfillable_quantity": 1,
+  			"fulfillment_service": "manual",
+  			"fulfillment_status": null,
+  			"gift_card": false,
+  			"grams": 0,
+  			"name": "Garantie Barooders",
+  			"price": "10.39",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "10.39",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "10.39",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"product_exists": true,
+  			"product_id": 8506278936911,
+  			"properties": [],
+  			"quantity": 1,
+  			"requires_shipping": false,
+  			"sku": "",
+  			"taxable": true,
+  			"title": "Garantie Barooders",
+  			"total_discount": "0.00",
+  			"total_discount_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"variant_id": 46661131665743,
+  			"variant_inventory_management": "shopify",
+  			"variant_title": null,
+  			"vendor": "Commission",
+  			"tax_lines": [],
+  			"duties": [],
+  			"discount_allocations": []
+  		}
+  	],
+  	"payment_details": {
+  		"credit_card_bin": "400000",
+  		"avs_result_code": "Y",
+  		"cvv_result_code": "M",
+  		"credit_card_number": "•••• •••• •••• 0446",
+  		"credit_card_company": "Visa",
+  		"buyer_action_info": null,
+  		"credit_card_name": null,
+  		"credit_card_wallet": null,
+  		"credit_card_expiration_month": 12,
+  		"credit_card_expiration_year": 2034
+  	},
+  	"payment_terms": null,
+  	"refunds": [],
+  	"shipping_address": {
+  		"first_name": "Nicolas",
+  		"address1": "1 Rue Paul Dijon",
+  		"phone": null,
+  		"city": "Grenoble",
+  		"zip": "38000",
+  		"province": null,
+  		"country": "France",
+  		"last_name": "Ngomai",
+  		"address2": null,
+  		"company": null,
+  		"latitude": 45.1849922,
+  		"longitude": 5.7208983,
+  		"name": "Nicolas Ngomai",
+  		"country_code": "FR",
+  		"province_code": null
+  	},
+  	"shipping_lines": [
+  		{
+  			"id": 4719859401039,
+  			"carrier_identifier": "751e23c3f94748fa8e3ede055a50ae05",
+  			"code": "Remise en main propre",
+  			"delivery_category": null,
+  			"discounted_price": "0.00",
+  			"discounted_price_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"phone": null,
+  			"price": "0.00",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"requested_fulfillment_service_id": null,
+  			"source": "shopify",
+  			"title": "Standard",
+  			"tax_lines": [],
+  			"discount_allocations": []
+  		}
+  	]
+  }
+}

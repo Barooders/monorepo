@@ -1,0 +1,16 @@
+meta {
+  name: Get strapi product type
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-product-types
+  body: none
+  auth: none
+}
+
+query {
+  filters[name][$eq]: VTT
+  pagination[limit]: 1
+}

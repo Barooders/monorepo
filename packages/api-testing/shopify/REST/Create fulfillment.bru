@@ -1,0 +1,31 @@
+meta {
+  name: Create fulfillment
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/fulfillments.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}
+
+body:json {
+  {
+  	"fulfillment": {
+  		"line_items_by_fulfillment_order": [
+  			{
+  				"fulfillment_order_id": 6715060584783
+  			}
+  		],
+  		"tracking_info": {
+  			"url": "https://www.my-shipping-company.com?tracking_number=MS1562678"
+  		}
+  	}
+  }
+}

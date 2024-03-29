@@ -1,0 +1,22 @@
+meta {
+  name: -v1-admin-order-lines--orderLineId--update-status
+  type: http
+  seq: 37
+}
+
+post {
+  url: {{base_url}}/v1/admin/order-lines/{{orderLineId}}/update-status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "updatedAt": "2023-01-14 16:54:08",
+    "status": "string"
+  }
+}

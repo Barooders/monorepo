@@ -1,0 +1,21 @@
+meta {
+  name: Bewak carriers
+  type: http
+  seq: 100
+}
+
+get {
+  url: https://www.be-wak.fr/api/carriers
+  body: none
+  auth: none
+}
+
+query {
+  display: full
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  filter[active]: 1
+  filter[name]: GLS Chez vous +
+  limit: 1
+  filter[deleted]: 0
+}

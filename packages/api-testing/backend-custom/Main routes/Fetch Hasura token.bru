@@ -1,0 +1,15 @@
+meta {
+  name: Fetch Hasura token
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{authBaseUrl}}/signin/email-password
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: Application/json;charset=UTF-8
+}

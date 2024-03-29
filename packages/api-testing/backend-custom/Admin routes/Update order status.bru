@@ -1,0 +1,24 @@
+meta {
+  name: Update order status
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/admin/order-lines/688a18f1-ab76-4995-a08b-44853b6453fa/update-status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+  ~Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
+}
+
+body:json {
+  {
+  	"updatedAt": "2024-01-19 08:12:12",
+  	"status": "DELIVERED"
+  }
+}

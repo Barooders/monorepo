@@ -1,0 +1,25 @@
+meta {
+  name: Bernaudeau products
+  type: http
+  seq: 41
+}
+
+get {
+  url: https://www.bernaudeaucycloccasions.fr/wp-json/wc/v3/products/357781
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{bernaudeauApiKey}}
+  consumer_secret: {{bernaudeauApiSecret}}
+  per_page: 20
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

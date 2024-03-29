@@ -1,0 +1,21 @@
+meta {
+  name: Bewak create cart
+  type: http
+  seq: 93
+}
+
+post {
+  url: https://www.be-wak.fr/api/carts
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}
+
+headers {
+  Content-Type: application/xml
+}

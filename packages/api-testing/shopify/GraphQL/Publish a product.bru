@@ -1,0 +1,46 @@
+meta {
+  name: Publish a product
+  type: graphql
+  seq: 7
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/graphql.json
+  body: graphql
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}
+
+body:graphql {
+  mutation publishablePublish($id: ID!, $input: [PublicationInput!]!) {
+    publishablePublish(id: $id, input: $input) {
+      publishable {
+        availablePublicationCount
+        publicationCount
+      }
+      shop {
+        publicationCount
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "id": "gid://shopify/Product/8501650587983",
+    "input": [
+      {
+        "publicationId": "gid://shopify/Publication/94244602097"
+      }
+    ]
+  }
+}

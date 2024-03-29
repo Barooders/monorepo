@@ -1,0 +1,15 @@
+meta {
+  name: Get delivery profiles
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/delivery-profile/product-variant/47182135361869
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}

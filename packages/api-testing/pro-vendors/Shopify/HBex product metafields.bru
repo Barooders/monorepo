@@ -1,0 +1,19 @@
+meta {
+  name: HBex product metafields
+  type: http
+  seq: 49
+}
+
+get {
+  url: https://velvet-3240.myshopify.com/admin/api/2023-01/products/8472110956812/metafields.json
+  body: none
+  auth: none
+}
+
+query {
+  ~limit: 250
+}
+
+headers {
+  X-Shopify-Access-Token: {{hbeShopifyAccessToken}}
+}

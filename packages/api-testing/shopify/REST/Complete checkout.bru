@@ -1,0 +1,15 @@
+meta {
+  name: Complete checkout
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/checkouts/42006860071245/complete.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

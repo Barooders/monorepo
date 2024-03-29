@@ -1,0 +1,25 @@
+meta {
+  name: Update ticket
+  type: http
+  seq: 6
+}
+
+put {
+  url: https://barooders.gorgias.com/api/tickets/101161896
+  body: json
+  auth: none
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+  authorization: Basic {{gorgiasBasicToken}}
+}
+
+body:json {
+  {
+  	"meta": {
+  		"test": "toto"
+  	}
+  }
+}

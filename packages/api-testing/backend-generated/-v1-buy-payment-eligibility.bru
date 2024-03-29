@@ -1,0 +1,56 @@
+meta {
+  name: -v1-buy-payment-eligibility
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}/v1/buy/payment/eligibility
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "customerInfo": {
+      "firstName": "Mike",
+      "lastName": "Horn",
+      "email": "tech@barooders.com",
+      "birthDate": "2024-01-08T21:11:53.458Z",
+      "birthZipCode": "38000",
+      "civility": "Mr",
+      "address": {
+        "line1": "1 rue Paul Dijon",
+        "zipCode": "38000",
+        "city": "Grenoble",
+        "countryCode": "FR"
+      },
+      "phoneNumber": "+33612345678"
+    },
+    "cartInfo": {
+      "storeId": "string",
+      "totalAmount": {
+        "amountInCents": 124999,
+        "currency": "EUR"
+      },
+      "productsCount": 0,
+      "products": [
+        {
+          "amount": {
+            "amountInCents": 124999,
+            "currency": "EUR"
+          },
+          "shipping": "string",
+          "productType": "string",
+          "id": "string"
+        }
+      ]
+    },
+    "checkoutId": "string",
+    "paymentSolutionCode": "string"
+  }
+}

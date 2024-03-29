@@ -1,0 +1,55 @@
+meta {
+  name: Get orders
+  type: graphql
+  seq: 11
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/graphql.json
+  body: graphql
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAdminGqlAcessToken}}
+}
+
+body:graphql {
+  query {
+  	order1: order(id: { in: "gid://shopify/Order/5499509604685" }) {
+  		id
+  		name
+  		createdAt
+  		metafield1: metafield(namespace: "barooders", key: "status") {
+  			value
+  		}
+  		metafield2: metafield(namespace: "barooders", key: "shipping_label") {
+  			value
+  		}
+  		lineItems(first: 1) {
+  			nodes {
+  				id
+  				title
+  				product {
+  					priceRangeV2 {
+  						maxVariantPrice {
+  							amount
+  						}
+  					}
+  				}
+  				image {
+  					id
+  					altText
+  					url
+  				}
+  			}
+  		}
+  	}
+  }
+  
+}
+
+body:graphql:vars {
+  {}
+}

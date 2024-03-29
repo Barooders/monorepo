@@ -1,0 +1,21 @@
+meta {
+  name: -v1-invoice-payout
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{base_url}}/v1/invoice/payout
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "orderLineShopifyId": "string"
+  }
+}

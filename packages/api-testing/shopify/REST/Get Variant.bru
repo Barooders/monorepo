@@ -1,0 +1,15 @@
+meta {
+  name: Get Variant
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{shopifyShop}}/admin/api/2023-01/variants/47347959234893.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

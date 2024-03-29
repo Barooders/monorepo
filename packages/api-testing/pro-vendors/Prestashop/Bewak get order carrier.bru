@@ -1,0 +1,17 @@
+meta {
+  name: Bewak get order carrier
+  type: http
+  seq: 96
+}
+
+get {
+  url: https://www.be-wak.fr/api/order_carriers?filter[id_order]=38649
+  body: none
+  auth: none
+}
+
+query {
+  display: full
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+}

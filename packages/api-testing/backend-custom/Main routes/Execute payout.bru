@@ -1,0 +1,27 @@
+meta {
+  name: Execute payout
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/invoice/order-line/commission
+  body: json
+  auth: none
+}
+
+query {
+  orderLineShopifyId: 14992108978509
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}
+
+body:json {
+  {
+  	"vendorShopifyId": 7025759551823,
+  	"amountInCents": 300000
+  }
+}

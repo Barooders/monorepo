@@ -1,0 +1,28 @@
+meta {
+  name: Clean Nordics descriptions
+  type: http
+  seq: 7
+}
+
+post {
+  url: https://api.openai.com/v1/chat/completions
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{chatGPTBearerToken}}
+}
+
+body:json {
+  {
+  	"model": "gpt-3.5-turbo",
+  	"messages": [
+  		{
+  			"role": "user",
+  			"content": "décris ce produit en français:Inspired by the boardtracker cruisers of the past, the Hot Rod is a special bike made in Italy on Kustom Bikes frame"
+  		}
+  	]
+  }
+}

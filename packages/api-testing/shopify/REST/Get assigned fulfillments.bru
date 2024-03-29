@@ -1,0 +1,15 @@
+meta {
+  name: Get assigned fulfillments
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{shopifyShop}}/admin/assigned_fulfillment_orders.json?fulfillment_order%5Border_id%5D=7006523425101&limit=20
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

@@ -1,0 +1,16 @@
+meta {
+  name: AllBikes GET products
+  type: http
+  seq: 32
+}
+
+get {
+  url: https://allcycles-dev.myshopify.com/admin/api/2023-01/products/7618870575291.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{allCyclesToken}}
+  Content-Type: application/json
+}

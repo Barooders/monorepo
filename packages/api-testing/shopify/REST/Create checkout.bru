@@ -1,0 +1,29 @@
+meta {
+  name: Create checkout
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/checkouts.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"checkout": {
+  		"line_items": [
+  			{
+  				"variant_id": 46593416626511,
+  				"quantity": 1
+  			}
+  		]
+  	}
+  }
+}

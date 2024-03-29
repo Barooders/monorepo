@@ -1,0 +1,18 @@
+meta {
+  name: Skiav get stock
+  type: http
+  seq: 121
+}
+
+get {
+  url: https://ski-aventure.com/api/stock_availables/15979
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: DNVQBEKXEHGT55BQ5GIMEVQP1YSB8RHS
+  ~display: full
+  ~filter[firstname]: 
+}

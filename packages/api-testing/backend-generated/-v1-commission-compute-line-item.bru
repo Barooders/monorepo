@@ -1,0 +1,16 @@
+meta {
+  name: -v1-commission-compute-line-item
+  type: http
+  seq: 34
+}
+
+get {
+  url: {{base_url}}/v1/commission/compute-line-item
+  body: none
+  auth: none
+}
+
+query {
+  amount: 0
+  vendor: string
+}

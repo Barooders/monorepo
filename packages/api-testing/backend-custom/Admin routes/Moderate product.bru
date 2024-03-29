@@ -1,0 +1,23 @@
+meta {
+  name: Moderate product
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/admin/products/8675986080077/moderate
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+  ~Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
+}
+
+body:json {
+  {
+  	"action": "REJECT"
+  }
+}

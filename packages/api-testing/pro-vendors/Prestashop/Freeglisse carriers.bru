@@ -1,0 +1,21 @@
+meta {
+  name: Freeglisse carriers
+  type: http
+  seq: 137
+}
+
+get {
+  url: https://freeglisse.com/api/carriers/186
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  display: full
+  limit: 1
+  filter[name]: DPDPredict
+  filter[active]: 1
+  filter[deleted]: 0
+}

@@ -1,0 +1,37 @@
+meta {
+  name: Trocsport product by id
+  type: http
+  seq: 153
+}
+
+get {
+  url: https://trocsport.fr/api/products/8078
+  body: none
+  auth: none
+}
+
+query {
+  price[price_on_sale][use_tax]: 1
+  price[price_on_sale][use_reduction]: 1
+  price[price_old][use_tax]: 1
+  price[price_old][use_reduction]: 0
+  output_format: JSON
+  ws_key: {{trocsportApiKey}}
+}
+
+headers {
+  ~authority: trocsport.fr
+  ~accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+  ~accept-language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7
+  ~cache-control: max-age=0
+  ~cookie: PHPSESSID=02fdb2a1864031027ca37a750ae10eb3; PrestaShop-29af7af5665630932f49c654c7591958=def502003d3b2734abc000491948aee47ea6d28b3c79ebd74947f84d2560b5e9a512a97e8776aec9d1f4ba8c66d9a7a5c360d158e749b9c1bdfbdc5ccd81e8ef9858c702ed93c804b4c7ef1757b0a95c3f224265b01efc0233acc87474501ad55b862c28e959c6962afc4219756cf9effc364c704719d988ecf2d13bd3ba18274f7384f9e839723d3bdeefbc093556e9e0187af8bec4f7703572da698de1ae60f0b4426c; PrestaShop-cc4a9f5cd54c17db3f9847034f0ff36e=def50200bba1b3a0856235b2a6241e3666f91912ca91c33e92a226749eb4951e90cff6323c8cc079d2e415777e323eee8ae7e18a966dcd7b471dcadd7236d413041a94c492e6d3bfa9e203a7b9498623e374cfeb2be956307cf3646029e64dc13e50e3f968e41ce1c91d37a8e345d794f2899f309e1b3118804337777427e40664ce3b11311f8a11b5a39f7d8e3d082521bf2f1ed358ef7316905ecbbcc8e290db3456ec97b9bd2e3743fe27e9afcaade50f44c008074747754bcf296357e9b0aa8351f4a50f8cdfcd8f03a1a70cc197431e8922952b967f55dd613536e60abfc4971cff7e7aca3823a39bfa5efa06de69776a
+  ~sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"
+  ~sec-ch-ua-mobile: ?0
+  ~sec-ch-ua-platform: "macOS"
+  ~sec-fetch-dest: document
+  ~sec-fetch-mode: navigate
+  ~sec-fetch-site: none
+  ~sec-fetch-user: ?1
+  ~upgrade-insecure-requests: 1
+  ~user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+}

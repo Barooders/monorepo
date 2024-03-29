@@ -1,0 +1,28 @@
+meta {
+  name: Create account
+  type: http
+  seq: 14
+}
+
+post {
+  url: https://api.stripe.com/v1/accounts
+  body: formUrlEncoded
+  auth: basic
+}
+
+headers {
+  Content-Type: application/x-www-form-urlencoded
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}
+
+body:form-urlencoded {
+  type: express
+  country: FR
+  business_type: individual
+  business_profile[url]: https://barooders.com
+  email: factures@be-wak.com
+}

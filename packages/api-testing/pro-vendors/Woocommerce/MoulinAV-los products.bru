@@ -1,0 +1,25 @@
+meta {
+  name: MoulinAV-los products
+  type: http
+  seq: 51
+}
+
+get {
+  url: https://www.lemoulinavelos.com/wp-json/wc/v3/products/12802
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{moulinApiKey}}
+  consumer_secret: {{moulinApiSecret}}
+  per_page: 100
+  page: 1
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~status: publish
+}
+
+headers {
+  : 
+}

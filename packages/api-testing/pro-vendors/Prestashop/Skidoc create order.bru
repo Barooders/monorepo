@@ -1,0 +1,22 @@
+meta {
+  name: Skidoc create order
+  type: http
+  seq: 117
+}
+
+post {
+  url: https://www.skidoccasion.com/fr/api/carts
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  ~display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  Content-Type: application/xml
+}

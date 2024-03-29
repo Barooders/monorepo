@@ -1,0 +1,19 @@
+meta {
+  name: -v1-products-create
+  type: http
+  seq: 31
+}
+
+post {
+  url: {{base_url}}/v1/products/create
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {}
+}

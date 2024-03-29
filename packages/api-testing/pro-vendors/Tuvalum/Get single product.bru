@@ -1,0 +1,24 @@
+meta {
+  name: Get single product
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://tuvalum.fr/api/integration/products/4e48c727-9852-4c85-8273-841b412b46bb
+  body: none
+  auth: basic
+}
+
+query {
+  ~: 99405
+}
+
+headers {
+  x-api-key: {{tuvalumApiKey}}
+}
+
+auth:basic {
+  username: {{tuvalumUsername}}
+  password: {{tuvalumPassword}}
+}

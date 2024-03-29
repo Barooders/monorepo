@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Pro Vendors",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

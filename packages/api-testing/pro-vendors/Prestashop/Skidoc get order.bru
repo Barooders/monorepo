@@ -1,0 +1,18 @@
+meta {
+  name: Skidoc get order
+  type: http
+  seq: 118
+}
+
+get {
+  url: https://www.skidoccasion.com/fr/api/orders/16800
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  ~display: full
+  ~filter[firstname]: 
+}

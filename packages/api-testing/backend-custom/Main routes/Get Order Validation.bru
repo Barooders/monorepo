@@ -1,0 +1,21 @@
+meta {
+  name: Get Order Validation
+  type: http
+  seq: 26
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/invoice/order/validation
+  body: json
+  auth: none
+}
+
+query {
+  orderShopifyId: 5709444612429
+  ~variantShopifyId: 123
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}

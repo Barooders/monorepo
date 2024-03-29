@@ -1,0 +1,18 @@
+meta {
+  name: Freeride products
+  type: http
+  seq: 125
+}
+
+get {
+  url: https://www.freeride-attitude.com/api/products
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freerideApiKey}}
+  display: full
+  limit: 20
+}

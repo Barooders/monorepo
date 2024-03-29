@@ -1,0 +1,16 @@
+meta {
+  name: Get checkout
+  type: http
+  seq: 32
+}
+
+get {
+  url: {{shopifyShop}}/api/2023-01/checkouts/9344f89578b925d740987b31d9080d59.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Storefront-Access-Token: {{shopifyStoreFrontToken}}
+  Content-Type: application/json
+}

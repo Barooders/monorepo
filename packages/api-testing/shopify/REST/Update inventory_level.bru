@@ -1,0 +1,24 @@
+meta {
+  name: Update inventory_level
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/inventory_levels/set.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}
+
+body:json {
+  {
+  	"location_id":{{locationId}},
+  	"inventory_item_id": 49448976875853,
+  	"available": 2
+  }
+}
