@@ -12,7 +12,10 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 import { NotFoundException } from '@libs/domain/exceptions';
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  PrismaMainClient,
+  ShippingSolution,
+} from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { Amount as AmountObject } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
@@ -81,6 +84,9 @@ export class PayoutController {
     @Query()
     { orderLineShopifyId }: PreviewPayoutInputQuery,
   ): Promise<{
+    orderLine: {
+      shippingSolution: ShippingSolution;
+    };
     commission: Commission;
     validation: OrderValidation;
     appliedDiscounts: DiscountApplication[];
@@ -90,14 +96,15 @@ export class PayoutController {
     }[];
   }> {
     try {
-      const { id, order } = await this.prisma.orderLines.findUniqueOrThrow({
-        where: {
-          shopifyId: orderLineShopifyId,
-        },
-        include: {
-          order: true,
-        },
-      });
+      const { id, order, shippingSolution } =
+        await this.prisma.orderLines.findUniqueOrThrow({
+          where: {
+            shopifyId: orderLineShopifyId,
+          },
+          include: {
+            order: true,
+          },
+        });
       const commission =
         await this.commissionService.getCommissionByOrderLine(id);
       const validation = await this.orderValidationService.isOrderValid(
@@ -111,6 +118,9 @@ export class PayoutController {
       );
 
       return {
+        orderLine: {
+          shippingSolution,
+        },
         commission,
         validation,
         appliedDiscounts,
