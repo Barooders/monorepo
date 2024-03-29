@@ -17,6 +17,7 @@ const PRODUCT_HIT_QUERY = gql`
     dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {
       notation
       calculated_notation
+      created_at
       calculated_scoring
     }
   }
@@ -70,6 +71,7 @@ const AdminHitHelper = ({
         {dbtProduct.calculated_scoring}/{dbtProduct.notation}/
         {dbtProduct.calculated_notation}
       </p>
+      <p>{new Date(dbtProduct.created_at).toLocaleDateString('fr-FR')}</p>
       <select
         className="text-xs"
         onChange={(value) => {

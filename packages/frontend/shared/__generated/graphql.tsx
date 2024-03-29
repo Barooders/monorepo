@@ -32196,6 +32196,7 @@ export type FetchProductHitDataQuery = {
     __typename?: 'dbt_store_product_for_analytics';
     notation: any | null;
     calculated_notation: any | null;
+    created_at: any;
     calculated_scoring: any;
   }>;
 };
