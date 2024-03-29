@@ -13,6 +13,8 @@ import { SynchroEvent } from '../domain/product-sync.service';
 import { StockUpdateService } from '../domain/stock-update.service';
 
 const MAX_CONCURRENCY = envName === Environments.PRODUCTION ? 10 : 1;
+const ONE_HOUR = 1000 * 60 * 60;
+const TEN_SECONDS = 1000 * 10;
 
 @Processor(QueueNames.UPDATE_STOCK)
 export class StockUpdateConsumer {
@@ -33,9 +35,17 @@ export class StockUpdateConsumer {
       eventName: SynchroEvent.PRODUCT_STATUS_UPDATED,
     });
 
-    this.logger.warn(
-      `Handling job ${job.id} for product ${product.internalProductId}`,
+    this.logger.log(
+      `Handling job ${job.id} for product ${product.internalProductId} emitted at ${job.timestamp}`,
     );
+
+    const startExecutionTime = Date.now();
+    const waitingTime = startExecutionTime - job.timestamp;
+    if (waitingTime > ONE_HOUR) {
+      this.logger.warn(
+        `Job ${job.id} for updating stock of product ${product.internalProductId} was waiting for ${waitingTime}ms`,
+      );
+    }
 
     try {
       await this.vendorConfigService.setVendorConfigFromSlug(vendorSlug);
@@ -58,6 +68,13 @@ export class StockUpdateConsumer {
           vendorSlug,
         },
       });
+    } finally {
+      const executionTime = Date.now() - startExecutionTime;
+      if (executionTime > TEN_SECONDS) {
+        this.logger.warn(
+          `Job ${job.id} for product ${product.internalProductId} took ${executionTime}ms`,
+        );
+      }
     }
   }
 }

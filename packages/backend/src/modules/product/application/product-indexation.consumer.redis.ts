@@ -10,6 +10,7 @@ import { VariantIndexationService } from '../domain/variant-indexation.service';
 import { StoreMapper } from '../infrastructure/store/store.mapper';
 
 const MAX_CONCURRENCY = envName === Environments.LOCAL ? 1 : 6;
+const ONE_HOUR = 1000 * 60 * 60;
 
 @Processor(QueueNames.PRODUCTS_TO_INDEX)
 export class ProductIndexationConsumer {
@@ -26,7 +27,15 @@ export class ProductIndexationConsumer {
     const { productId } = job.data;
     this.loggerService.setSharedContext({});
 
-    this.logger.warn(`Indexing product ${productId}`);
+    this.logger.log(`Indexing product ${productId}`);
+
+    const startExecutionTime = Date.now();
+    const waitingTime = startExecutionTime - job.timestamp;
+    if (waitingTime > ONE_HOUR) {
+      this.logger.warn(
+        `Job ${job.id} for indexing product ${productId} was waiting for ${waitingTime}ms`,
+      );
+    }
 
     const productUuid = new UUID({ uuid: productId });
     const variantsToIndex =
