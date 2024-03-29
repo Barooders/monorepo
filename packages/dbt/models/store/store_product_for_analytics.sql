@@ -189,29 +189,41 @@ WITH variant_data AS (
 
 SELECT
     *,
-    0.4 * (
-        CASE
-            WHEN notation::text='A' THEN 1000
-            WHEN notation::text='B' THEN 800
-            WHEN notation::text='C' THEN 400
-            ELSE 600
-        END
+    0.3 * (
+    CASE
+        WHEN notation='A' THEN 1000
+        WHEN notation='B' THEN 800
+        WHEN notation='C' THEN 400
+        ELSE 0
+    END
     )
     + 0.3 * (
         CASE
-            WHEN orders_count + favorites_count > 50 THEN 1000
-            WHEN orders_count + favorites_count > 10 THEN 800
-            WHEN orders_count + favorites_count > 1 THEN 600
-            ELSE 200
+            WHEN orders_count*10 + favorites_count > 50 THEN 1000
+            WHEN orders_count*10 + favorites_count > 10 THEN 800
+            WHEN orders_count*10 + favorites_count > 5 THEN 700
+            WHEN orders_count*10 + favorites_count > 1 THEN 400
+            ELSE 0
         END
     )
-    + 0.3 * (
+    + 0.25 * (
         CASE
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 1 THEN 1000
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 7 THEN 900
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 30 THEN 600
-            WHEN (CURRENT_DATE::DATE - "created_at"::DATE) <= 60 THEN 300
+            
+            WHEN date_diff(cast(CURRENT_DATE() as date), cast(created_at as date), day) <= 7 THEN 1000
+            WHEN date_diff(cast(CURRENT_DATE() as date), cast(created_at as date), day) <= 30 THEN 600
+            WHEN date_diff(cast(CURRENT_DATE() as date), cast(created_at as date), day) <= 60 THEN 300
             ELSE 100
+        END
+    )
+    + 0.15 * (
+        CASE
+            WHEN views_last_30_days > 200 then 1000
+            WHEN views_last_30_days > 100 then 800
+            WHEN views_last_30_days > 50 then 600
+            WHEN views_last_30_days > 10 then 500
+            WHEN views_last_30_days > 5 then 400
+            WHEN views_last_30_days > 1 then 200
+            ELSE 0
         END
     ) AS "calculated_scoring"
 FROM product_with_notation
