@@ -208,10 +208,9 @@ SELECT
     )
     + 0.25 * (
         CASE
-            
-            WHEN date_diff(cast(CURRENT_DATE as date), cast(created_at as date), day) <= 7 THEN 1000
-            WHEN date_diff(cast(CURRENT_DATE as date), cast(created_at as date), day) <= 30 THEN 600
-            WHEN date_diff(cast(CURRENT_DATE as date), cast(created_at as date), day) <= 60 THEN 300
+            WHEN CAST(CURRENT_DATE AS DATE) - CAST(created_at AS DATE) <= 7 THEN 1000
+            WHEN CAST(CURRENT_DATE AS DATE) - CAST(created_at AS DATE) <= 30 THEN 600
+            WHEN CAST(CURRENT_DATE AS DATE) - CAST(created_at AS DATE) <= 60 THEN 300
             ELSE 100
         END
     )
