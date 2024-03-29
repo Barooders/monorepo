@@ -2,6 +2,7 @@ import Link from '@/components/atoms/Link';
 import { OrderStatus } from '@/components/pages/Account/types';
 import { ShipmentTimeframe } from '@/config';
 import { AccountSections, ProductStatus } from '@/types';
+import { formatCurrency } from '@/utils/currency';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 
 const fr = {
@@ -1196,8 +1197,13 @@ const fr = {
           'Changez la quantité pour mettre à jour le prix demandé par le vendeur.',
         maxQuantityError: (totalQuantity: number) =>
           `L'offre ne peut pas contenir plus de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''}`,
-        bundlePrice: (totalQuantity: number, bundlePrice: number) =>
-          `Ce vendeur propose un lot de ${totalQuantity} unité${totalQuantity > 1 ? 's' : ''} pour ${bundlePrice}€ TTC`,
+        bundlePrice: (totalQuantity: number, bundlePrice: number) => (
+          <>
+            Ce vendeur propose un lot de {totalQuantity} unité
+            {totalQuantity > 1 ? 's' : ''} pour{' '}
+            <strong>{formatCurrency(bundlePrice, { round: true })}€ TTC</strong>
+          </>
+        ),
         addMoreDetails:
           'Ajoutez plus de détails à propos de votre demande: quantités par tailles, livraison, mode de paiement, etc.',
         inputQuantity: 'Quantité souhaitée',
