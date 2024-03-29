@@ -70,6 +70,7 @@ const HasuraApolloProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         return { headers: authorizationHeaders };
       },
+      shouldRetry: () => true,
     }),
   );
 
