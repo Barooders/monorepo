@@ -177,7 +177,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
                         totalQuantity,
                       ),
                   },
-                  min: 0,
+                  min: 3,
                 }}
               />
               {userCanNegociate && (
