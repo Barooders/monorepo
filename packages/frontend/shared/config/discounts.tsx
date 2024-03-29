@@ -66,10 +66,4 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
     groupKey: 'BDAYS',
   },
-  {
-    // Until 28/03
-    title: 'CYCLESAV40',
-    label: 'CyclesAveyron',
-    type: 'dynamic',
-  },
 ];
