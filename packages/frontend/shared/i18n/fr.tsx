@@ -1175,7 +1175,7 @@ const fr = {
         verifiedSellers: () => (
           <>
             <span>Vendeurs professionnels</span>{' '}
-            <span className="font-medium">100% vérifiées</span>
+            <span className="font-medium">100% vérifiés</span>
           </>
         ),
         securedPayment: () => (
