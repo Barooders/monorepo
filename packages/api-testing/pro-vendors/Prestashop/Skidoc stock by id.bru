@@ -1,0 +1,17 @@
+meta {
+  name: Skidoc stock by id
+  type: http
+  seq: 112
+}
+
+get {
+  url: https://www.skidoccasion.com/fr/api/stock_availables/20273
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  ~display: full
+}

@@ -1,0 +1,53 @@
+meta {
+  name: TNC Create order
+  type: http
+  seq: 28
+}
+
+post {
+  url: https://topnsport.myshopify.com/admin/api/2023-01/orders.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{tncAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"order": {
+  		"line_items": [
+  			{
+  				"variant_id": 41223991623844,
+  				"quantity": 1
+  			}
+  		],
+  		"billing_address": {
+  			"first_name": "Aurélien",
+  			"last_name": "VERGNAUD",
+  			"address1": "1380 route du Mas",
+  			"address2": "",
+  			"phone": "06 73 93 23 30",
+  			"city": "LANS EN VERCORS",
+  			"country": "France",
+  			"zip": "38250"
+  		},
+  		"shipping_address": {
+  			"first_name": "Aurélien",
+  			"last_name": "VERGNAUD",
+  			"address1": "1380 route du Mas",
+  			"address2": "",
+  			"phone": "06 73 93 23 30",
+  			"city": "LANS EN VERCORS",
+  			"country": "France",
+  			"zip": "38250"
+  		},
+  		"email": "notification-commande+f3e329cc-2776-4099-861a-b2a35a0417e9@barooders.com",
+  		"financial_status": "paid",
+  		"tags": "barooders",
+  		"inventory_behaviour": "decrement_obeying_policy"
+  	}
+  }
+}

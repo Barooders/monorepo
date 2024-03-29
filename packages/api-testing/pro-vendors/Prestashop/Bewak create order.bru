@@ -1,0 +1,21 @@
+meta {
+  name: Bewak create order
+  type: http
+  seq: 95
+}
+
+post {
+  url: https://www.be-wak.fr/api/orders
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}
+
+headers {
+  Content-Type: application/xml
+}

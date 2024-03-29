@@ -1,0 +1,20 @@
+meta {
+  name: Get accounts
+  type: http
+  seq: 11
+}
+
+get {
+  url: https://api.stripe.com/v1/accounts/acct_1JdLfFRGeIkC6CkT
+  body: none
+  auth: basic
+}
+
+query {
+  ~limit: 100
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}

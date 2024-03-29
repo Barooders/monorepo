@@ -1,0 +1,19 @@
+meta {
+  name: -v1-admin-order-lines--orderLineId--fulfill
+  type: http
+  seq: 40
+}
+
+post {
+  url: {{base_url}}/v1/admin/order-lines/{{orderLineId}}/fulfill
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {}
+}

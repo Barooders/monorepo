@@ -1,0 +1,17 @@
+meta {
+  name: Bewak order history
+  type: http
+  seq: 102
+}
+
+get {
+  url: https://www.be-wak.fr/api/order_histories/38615
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Paraphrase description
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://api.openai.com/v1/chat/completions
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{chatGPTBearerToken}}
+}
+
+body:json {
+  {
+  	"model": "gpt-3.5-turbo",
+  	"messages": [
+  		{
+  			"role": "user",
+  			"content": "Est-ce que tu peux paraphraser cette description:Description du Armada ARV 84 : Avec ses 84mm au patin et son shape bispatulé, l'ARV 84 Ora de la marque Armada est un ski Freestyle facile à prendre en main. Son cambre sous le pied assure l'accroche nécessaire pour aborder tous les kickers du park en toute confiance. Sa largeur lui permet également d'être à l'aise dans une grande variété de conditions, tout en assurant des réceptions propres et équilibrées. Léger et doté de carres en acier de 2.5mm, ce ski est robuste et enchainera les tricks des saisons durant. Son rayon de 17m, dans la moyenne pour sa catégorie en fait un ski idéal pour dévaler les pentes et tailler tout type de courbes. Un modèle de choix pour développer vos compétences dans le park et vous faire plaisir un peu partout. Note : certaines paires comportent des accrocs sur le dessus (sérigraphie) n'ayant aucune conséquence sur les qualités techniques et la durée de vie des skis \nCaractéristiques:Année: 2018 \nGenre: Adulte Mixte\nNiveau : Intermédiaire - Avancé\nUsage : Freestyle"
+  		}
+  	]
+  }
+}

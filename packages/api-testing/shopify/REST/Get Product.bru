@@ -1,0 +1,15 @@
+meta {
+  name: Get Product
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{shopifyShop}}/admin/api/2023-01/products/8563114213709.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

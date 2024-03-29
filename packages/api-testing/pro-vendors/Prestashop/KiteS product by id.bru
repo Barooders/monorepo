@@ -1,0 +1,17 @@
+meta {
+  name: KiteS product by id
+  type: http
+  seq: 129
+}
+
+get {
+  url: https://www.kite-spirit.com/api/products/10859
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{kitespiritApiKey}}
+  ~language: 1
+}

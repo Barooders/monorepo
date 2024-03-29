@@ -1,0 +1,40 @@
+meta {
+  name: query
+  type: graphql
+  seq: 2
+}
+
+post {
+  url: {{hasuraUrl}}/v1/graphql
+  body: graphql
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Hasura-user-id: 9c334d25-c0d0-43ef-b903-b9dd1967e58b
+  ~x-hasura-admin-secret: {{hasuraSecret}}
+  ~x-hasura-role: me
+}
+
+body:graphql {
+  query fetchProduct($maxItems: Int) {
+  	shopify {
+  		productByHandle(handle: "blizzard-a-light-7-4-162") {
+  			id
+  			collections(first: $maxItems) {
+  				nodes {
+  					id
+  				}
+  			}
+  		}
+  	}
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "maxItems": 3
+  }
+}

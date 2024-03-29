@@ -1,0 +1,21 @@
+meta {
+  name: Fetch gorgias tickets for user
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://barooders.gorgias.com/api/tickets
+  body: none
+  auth: none
+}
+
+query {
+  customer_id: 177104477
+  status: open
+}
+
+headers {
+  accept: application/json
+  authorization: Basic {{gorgiasBasicToken}}
+}

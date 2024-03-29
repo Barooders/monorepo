@@ -1,0 +1,16 @@
+meta {
+  name: TNC GET products
+  type: http
+  seq: 30
+}
+
+get {
+  url: https://topnsport.myshopify.com/admin/api/2023-01/products/7037742842020.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{tncAccessToken}}
+  Content-Type: application/json
+}

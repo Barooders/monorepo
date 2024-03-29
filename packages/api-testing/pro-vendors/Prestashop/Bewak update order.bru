@@ -1,0 +1,21 @@
+meta {
+  name: Bewak update order
+  type: http
+  seq: 101
+}
+
+put {
+  url: https://www.be-wak.fr/api/orders/38646
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}
+
+headers {
+  Content-Type: application/xml
+}

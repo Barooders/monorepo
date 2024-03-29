@@ -1,0 +1,21 @@
+meta {
+  name: Bewak delete order carrier
+  type: http
+  seq: 98
+}
+
+delete {
+  url: https://www.be-wak.fr/api/order_carriers/38659
+  body: none
+  auth: none
+}
+
+query {
+  display: full
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+}
+
+headers {
+  Content-Type: application/xml
+}

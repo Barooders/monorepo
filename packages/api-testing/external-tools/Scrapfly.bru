@@ -1,0 +1,21 @@
+meta {
+  name: Scrapfly
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://api.scrapfly.io/scrape
+  body: none
+  auth: none
+}
+
+query {
+  url: https://www.everide.app/api/v2/products/64425b7f94c2d
+  asp: true
+  key: {{scrapflyApiKey}}
+}
+
+headers {
+  User-Agent: insomnia/8.6.0
+}

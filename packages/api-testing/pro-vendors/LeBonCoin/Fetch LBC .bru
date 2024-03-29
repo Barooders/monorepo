@@ -1,0 +1,17 @@
+meta {
+  name: Fetch LBC 
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.scrapfly.io/scrape
+  body: none
+  auth: none
+}
+
+query {
+  key: {{scrapflyApiKey}}
+  url: https://www.leboncoin.fr/sports_hobbies/2322703064.htm
+  asp: true
+}

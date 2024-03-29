@@ -1,0 +1,421 @@
+meta {
+  name: Process order created
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/orders/webhook/paid
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+      "id": 5715049972045,
+      "admin_graphql_api_id": "gid://shopify/Order/5715049972045",
+      "app_id": 580111,
+      "browser_ip": "3.77.192.90",
+      "buyer_accepts_marketing": true,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "cart_token": "c1-523b2162aa8396b17a0af182ad0bb205",
+      "checkout_id": 41646598848845,
+      "checkout_token": "f3f591ef514726d9cf58f2ae876f4a3a",
+      "client_details": {
+          "accept_language": "fr-FR",
+          "browser_height": null,
+          "browser_ip": "3.77.192.90",
+          "browser_width": null,
+          "session_hash": null,
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+      },
+      "closed_at": null,
+      "company": null,
+      "confirmed": true,
+      "contact_email": "jphilippe.ds@gmail.com",
+      "created_at": "2023-07-18T01:17:38+02:00",
+      "currency": "EUR",
+      "current_subtotal_price": "441.76",
+      "current_subtotal_price_set": {
+          "shop_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          }
+      },
+      "current_total_additional_fees_set": null,
+      "current_total_discounts": "0.00",
+      "current_total_discounts_set": {
+          "shop_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          }
+      },
+      "current_total_duties_set": null,
+      "current_total_price": "444.66",
+      "current_total_price_set": {
+          "shop_money": {
+              "amount": "444.66",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "444.66",
+              "currency_code": "EUR"
+          }
+      },
+      "current_total_tax": "0.00",
+      "current_total_tax_set": {
+          "shop_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          }
+      },
+      "customer_locale": "fr-FR",
+      "device_id": null,
+      "discount_codes": [],
+      "email": "jphilippe.ds@gmail.com",
+      "estimated_taxes": false,
+      "financial_status": "paid",
+      "fulfillment_status": null,
+      "landing_site": "/products/bh-ultimate-evo-8-5-2022-large",
+      "landing_site_ref": null,
+      "location_id": null,
+      "merchant_of_record_app_id": null,
+      "name": "#8429",
+      "note": null,
+      "note_attributes": [
+          {
+              "name": "commissionCreationOngoing",
+              "value": "false"
+          }
+      ],
+      "number": 7429,
+      "order_number": 8429,
+      "order_status_url": "https://barooders.com/57643401365/orders/962afa14e2953173497cdf2e9b5b5986/authenticate?key=b9307d3a5d5630e98ca56382a3853316",
+      "original_total_additional_fees_set": null,
+      "original_total_duties_set": null,
+      "payment_gateway_names": [
+          "stripe"
+      ],
+      "phone": null,
+      "presentment_currency": "EUR",
+      "processed_at": "2023-07-18T01:17:34+02:00",
+      "reference": "b474cd6f7eaa6e4673bfc92fe29296f1",
+      "referring_site": "https://barooders.com/collections/vendors?q=TCHVelo",
+      "source_identifier": "b474cd6f7eaa6e4673bfc92fe29296f1",
+      "source_name": "web",
+      "source_url": null,
+      "subtotal_price": "441.76",
+      "subtotal_price_set": {
+          "shop_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          }
+      },
+      "tags": "",
+      "tax_lines": [],
+      "taxes_included": true,
+      "test": false,
+      "token": "962afa14e2953173497cdf2e9b5b5986",
+      "total_discounts": "0.00",
+      "total_discounts_set": {
+          "shop_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          }
+      },
+      "total_line_items_price": "441.76",
+      "total_line_items_price_set": {
+          "shop_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "441.76",
+              "currency_code": "EUR"
+          }
+      },
+      "total_outstanding": "0.00",
+      "total_price": "444.66",
+      "total_price_set": {
+          "shop_money": {
+              "amount": "444.66",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "444.66",
+              "currency_code": "EUR"
+          }
+      },
+      "total_shipping_price_set": {
+          "shop_money": {
+              "amount": "2.90",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "2.90",
+              "currency_code": "EUR"
+          }
+      },
+      "total_tax": "0.00",
+      "total_tax_set": {
+          "shop_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          },
+          "presentment_money": {
+              "amount": "0.00",
+              "currency_code": "EUR"
+          }
+      },
+      "total_tip_received": "0.00",
+      "total_weight": 500,
+      "updated_at": "2023-07-18T01:17:41+02:00",
+      "user_id": null,
+      "billing_address": {
+          "first_name": "Jean-Philippe",
+          "address1": "27 Rue André Rivoire",
+          "phone": "06 86 35 92 72",
+          "city": "Grenoble",
+          "zip": "38100",
+          "province": null,
+          "country": "France",
+          "last_name": "Dos Santos",
+          "address2": null,
+          "company": "Barooders :)",
+          "latitude": null,
+          "longitude": null,
+          "name": "Jean-Philippe Dos Santos",
+          "country_code": "FR",
+          "province_code": null
+      },
+      "customer": {
+          "id": 6607078359267,
+          "email": "jphilippe.ds@gmail.com",
+          "accepts_marketing": true,
+          "created_at": "2023-02-02T16:40:44+01:00",
+          "updated_at": "2023-07-18T01:17:39+02:00",
+          "first_name": "Jean-Philippe",
+          "last_name": "Dos Santos",
+          "state": "enabled",
+          "note": "Username: jpaaax",
+          "verified_email": false,
+          "multipass_identifier": null,
+          "tax_exempt": false,
+          "phone": "+33686359272",
+          "email_marketing_consent": {
+              "state": "subscribed",
+              "opt_in_level": "single_opt_in",
+              "consent_updated_at": "2023-06-28T10:11:10+02:00"
+          },
+          "sms_marketing_consent": {
+              "state": "not_subscribed",
+              "opt_in_level": "single_opt_in",
+              "consent_updated_at": null,
+              "consent_collected_from": "OTHER"
+          },
+          "tags": "Refund",
+          "currency": "EUR",
+          "accepts_marketing_updated_at": "2023-06-28T10:11:10+02:00",
+          "marketing_opt_in_level": "single_opt_in",
+          "tax_exemptions": [],
+          "admin_graphql_api_id": "gid://shopify/Customer/6607078359267",
+          "default_address": {
+              "id": 9688131797325,
+              "customer_id": 6607078359267,
+              "first_name": "Jean-Philippe",
+              "last_name": "Dos Santos",
+              "company": "Barooders :)",
+              "address1": "27 Rue André Rivoire",
+              "address2": null,
+              "city": "Grenoble",
+              "province": null,
+              "country": "France",
+              "zip": "38100",
+              "phone": "06 86 35 92 72",
+              "name": "Jean-Philippe Dos Santos",
+              "province_code": null,
+              "country_code": "FR",
+              "country_name": "France",
+              "default": true
+          }
+      },
+      "discount_applications": [],
+      "fulfillments": [],
+      "line_items": [
+          {
+              "id": 14820378476877,
+              "admin_graphql_api_id": "gid://shopify/LineItem/14820378476877",
+              "fulfillable_quantity": 1,
+              "fulfillment_service": "manual",
+              "fulfillment_status": null,
+              "gift_card": false,
+              "grams": 500,
+              "name": "Garmin FĒNIX 6X PRO SOLAR",
+              "price": "419.00",
+              "price_set": {
+                  "shop_money": {
+                      "amount": "419.00",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "419.00",
+                      "currency_code": "EUR"
+                  }
+              },
+              "product_exists": true,
+              "product_id": 7711471927523,
+              "properties": [],
+              "quantity": 1,
+              "requires_shipping": true,
+              "sku": "020-00314-00",
+              "taxable": true,
+              "title": "Garmin FĒNIX 6X PRO SOLAR",
+              "total_discount": "0.00",
+              "total_discount_set": {
+                  "shop_money": {
+                      "amount": "0.00",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "0.00",
+                      "currency_code": "EUR"
+                  }
+              },
+              "variant_id": 42944316539107,
+              "variant_inventory_management": "shopify",
+              "variant_title": null,
+              "vendor": "Occaz Pro",
+              "tax_lines": [],
+              "duties": [],
+              "discount_allocations": []
+          },
+          {
+              "id": 14820378509645,
+              "admin_graphql_api_id": "gid://shopify/LineItem/14820378509645",
+              "fulfillable_quantity": 1,
+              "fulfillment_service": "manual",
+              "fulfillment_status": null,
+              "gift_card": false,
+              "grams": 0,
+              "name": "Garantie Barooders",
+              "price": "22.76",
+              "price_set": {
+                  "shop_money": {
+                      "amount": "22.76",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "22.76",
+                      "currency_code": "EUR"
+                  }
+              },
+              "product_exists": true,
+              "product_id": 8609114358093,
+              "properties": [],
+              "quantity": 1,
+              "requires_shipping": false,
+              "sku": "",
+              "taxable": true,
+              "title": "Garantie Barooders",
+              "total_discount": "0.00",
+              "total_discount_set": {
+                  "shop_money": {
+                      "amount": "0.00",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "0.00",
+                      "currency_code": "EUR"
+                  }
+              },
+              "variant_id": 46967359045965,
+              "variant_inventory_management": "shopify",
+              "variant_title": null,
+              "vendor": "Commission",
+              "tax_lines": [],
+              "duties": [],
+              "discount_allocations": []
+          }
+      ],
+      "payment_terms": null,
+      "refunds": [],
+      "shipping_address": {
+          "first_name": "Jean-Philippe",
+          "address1": "27 Rue André Rivoire",
+          "phone": "06 86 35 92 72",
+          "city": "Grenoble",
+          "zip": "38100",
+          "province": null,
+          "country": "France",
+          "last_name": "Dos Santos",
+          "address2": null,
+          "company": "Barooders :)",
+          "latitude": 45.1772795,
+          "longitude": 5.713459400000001,
+          "name": "Jean-Philippe Dos Santos",
+          "country_code": "FR",
+          "province_code": null
+      },
+      "shipping_lines": [
+          {
+              "id": 4817663000909,
+              "carrier_identifier": "650f1a14fa979ec5c74d063e968411d4",
+              "code": "Livraison en point relais Mondial Relay",
+              "delivery_category": null,
+              "discounted_price": "2.90",
+              "discounted_price_set": {
+                  "shop_money": {
+                      "amount": "2.90",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "2.90",
+                      "currency_code": "EUR"
+                  }
+              },
+              "phone": null,
+              "price": "2.90",
+              "price_set": {
+                  "shop_money": {
+                      "amount": "2.90",
+                      "currency_code": "EUR"
+                  },
+                  "presentment_money": {
+                      "amount": "2.90",
+                      "currency_code": "EUR"
+                  }
+              },
+              "requested_fulfillment_service_id": null,
+              "source": "shopify",
+              "title": "Livraison en point relais Mondial Relay",
+              "tax_lines": [],
+              "discount_allocations": []
+          }
+      ]
+  }
+}

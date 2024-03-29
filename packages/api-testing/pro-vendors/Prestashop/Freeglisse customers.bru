@@ -1,0 +1,21 @@
+meta {
+  name: Freeglisse customers
+  type: http
+  seq: 136
+}
+
+get {
+  url: https://freeglisse.com/api/customers/124814
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  display: full
+  limit: 10
+  filter[id_default_group]: 3
+  filter[lastname]: dos santos
+  ~filter[firstname]: 
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Bewak order
+  type: http
+  seq: 99
+}
+
+get {
+  url: https://www.be-wak.fr/api/orders/39039
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}

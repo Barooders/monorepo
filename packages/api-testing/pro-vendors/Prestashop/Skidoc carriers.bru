@@ -1,0 +1,21 @@
+meta {
+  name: Skidoc carriers
+  type: http
+  seq: 139
+}
+
+get {
+  url: https://www.skidoccasion.com/fr/api/carriers
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  display: full
+  limit: 1
+  filter[name]: Livraison à domicile Predict sur rendez-vous
+  filter[active]: 1
+  filter[deleted]: 0
+}

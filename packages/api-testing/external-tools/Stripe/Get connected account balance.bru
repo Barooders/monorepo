@@ -1,0 +1,25 @@
+meta {
+  name: Get connected account balance
+  type: http
+  seq: 16
+}
+
+get {
+  url: https://api.stripe.com/v1/balance
+  body: none
+  auth: basic
+}
+
+query {
+  ~query: alain@michel.com
+}
+
+headers {
+  Stripe-account: acct_1NeoBYIi2Ml6JGwz
+  ~Stripe-account: acct_1Nei10Ie8I4R9ZDB
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}

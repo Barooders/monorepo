@@ -1,0 +1,22 @@
+meta {
+  name: Fulfill order line manually
+  type: http
+  seq: 33
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/order-lines/14805446754639/fulfill
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  ~Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
+}
+
+body:json {
+  {
+  	"trackingUrl": "https://trace.dpd.fr/ZRFCEZC-ZRC?test=v12"
+  }
+}

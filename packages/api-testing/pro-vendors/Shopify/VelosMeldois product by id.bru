@@ -1,0 +1,19 @@
+meta {
+  name: VelosMeldois product by id
+  type: http
+  seq: 54
+}
+
+get {
+  url: https://lesvelosmeldois.myshopify.com/admin/api/2023-01/products/7328159498394.json
+  body: none
+  auth: none
+}
+
+query {
+  ~limit: 250
+}
+
+headers {
+  X-Shopify-Access-Token: {{velomeldoisAccessToken}}
+}

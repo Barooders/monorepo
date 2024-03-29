@@ -1,0 +1,16 @@
+meta {
+  name: TechniCycles GET products
+  type: http
+  seq: 35
+}
+
+get {
+  url: https://technicycles-3768.myshopify.com/admin/api/2023-01/products/8364416663818/metafields.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{techniCyclesAccessToken}}
+  Content-Type: application/json
+}

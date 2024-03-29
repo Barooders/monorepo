@@ -1,0 +1,23 @@
+meta {
+  name: Freeglisse get order -PPD-
+  type: http
+  seq: 150
+}
+
+get {
+  url: https://preprod.freeglisse.com/api/orders/96256
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{freeglisseApiKey}}
+  display: full
+  ~filter[firstname]: 
+}
+
+headers {
+  ~Content-Type: application/xml
+  ~: 
+}

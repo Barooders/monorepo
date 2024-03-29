@@ -1,0 +1,21 @@
+meta {
+  name: Get vendor commission on order
+  type: http
+  seq: 25
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/invoice/order-line/commission
+  body: json
+  auth: none
+}
+
+query {
+  orderLineShopifyId: 15007967052109
+  ~variantShopifyId: 123
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}

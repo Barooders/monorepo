@@ -1,0 +1,24 @@
+meta {
+  name: Update variant
+  type: http
+  seq: 25
+}
+
+put {
+  url: {{shopifyShop}}/admin/api/2023-01/variants/47347959234893.json
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}
+
+body:json {
+  {
+  	"variant": {
+  		"inventory_quantity": 2
+  	}
+  }
+}

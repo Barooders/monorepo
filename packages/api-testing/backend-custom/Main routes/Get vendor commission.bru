@@ -1,0 +1,21 @@
+meta {
+  name: Get vendor commission
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/commission/vendor
+  body: json
+  auth: none
+}
+
+query {
+  variantShopifyId: 46944383664463
+  ~variantShopifyId: 123
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}

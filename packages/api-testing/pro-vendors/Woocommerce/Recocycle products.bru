@@ -1,0 +1,25 @@
+meta {
+  name: Recocycle products
+  type: http
+  seq: 49
+}
+
+get {
+  url: https://recocycle.fr/wp-json/wc/v3/products/7825
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{recoApiKey}}
+  consumer_secret: {{recoApiSecret}}
+  per_page: 40
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

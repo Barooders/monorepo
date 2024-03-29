@@ -1,0 +1,36 @@
+meta {
+  name: Create product from backend
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/products/create?sellerId=7073025917263
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"price": 2,
+  	"compare_at_price": 3,
+  	"title": "Hello",
+  	"body_html": "New product refacto dd",
+  	"product_type": "VTT",
+  	"metafields": [],
+  	"variants": [],
+  	"tags": [
+  		"état:bon état",
+  		"couleur:vert",
+  		"genre: homme"
+  	],
+  	"images": [],
+  	"handDelivery": true,
+  	"handDeliveryPostalCode": "75017"
+  }
+}

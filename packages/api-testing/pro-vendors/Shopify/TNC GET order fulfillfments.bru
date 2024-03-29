@@ -1,0 +1,16 @@
+meta {
+  name: TNC GET order fulfillfments
+  type: http
+  seq: 34
+}
+
+get {
+  url: https://topnsport.myshopify.com/admin/api/2023-01/orders/5855838208349/fulfillments.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{tncAccessToken}}
+  Content-Type: application/json
+}

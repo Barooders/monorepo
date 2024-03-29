@@ -1,0 +1,27 @@
+meta {
+  name: Create Shopify Product
+  type: http
+  seq: 31
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/products.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"product": {
+  		"title": "Hello",
+  		"body_html": "New product refacto dd",
+  		"published_scope": "web",
+  		"product_type": "VTT"
+  	}
+  }
+}

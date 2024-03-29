@@ -1,0 +1,17 @@
+meta {
+  name: MatKiteP stock
+  type: http
+  seq: 124
+}
+
+get {
+  url: https://www.mckiteshop.com/api/stock_availables/7083
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{matkiteApiKey}}
+  ~display: full
+}

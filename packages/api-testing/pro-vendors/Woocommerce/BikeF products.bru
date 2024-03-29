@@ -1,0 +1,25 @@
+meta {
+  name: BikeF products
+  type: http
+  seq: 45
+}
+
+get {
+  url: https://www.worldbikeformia.it/wp-json/wc/v3/products
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{worldBikeFormiaApiKey}}
+  consumer_secret: {{worldBikeFormiaApiSecret}}
+  per_page: 2
+  page: 1
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~status: publish
+}
+
+headers {
+  : 
+}

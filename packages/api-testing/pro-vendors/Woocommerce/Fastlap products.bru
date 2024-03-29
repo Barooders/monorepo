@@ -1,0 +1,25 @@
+meta {
+  name: Fastlap products
+  type: http
+  seq: 33
+}
+
+get {
+  url: https://fastlap.shop/wp-json/wc/v3/products
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{fastlapApiKey}}
+  consumer_secret: {{fastlapApiSecret}}
+  per_page: 30
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

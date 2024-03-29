@@ -1,0 +1,28 @@
+meta {
+  name: Extract tags
+  type: http
+  seq: 6
+}
+
+post {
+  url: https://api.openai.com/v1/chat/completions
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{chatGPTBearerToken}}
+}
+
+body:json {
+  {
+  	"model": "gpt-3.5-turbo",
+  	"messages": [
+  		{
+  			"role": "user",
+  			"content": "Renvoie un json avec les clefs (model, year, type, brakes, gear, transmission, size, weight) du produit décrit comme ceci: Giant 980 C\r\nCarbone\r\nTaille 51 cm (1.60 - 1.67 m)\r\nPoids 9 kg\r\nDérailleur Shimano RX100\r\n21 (3x7) vitesses\r\nTriple plateau\r\nPoignées de frein neuves\r\nGuidoline neuve\r\nCâbles, gaines, embouts de frein et dérailleur neufs\r\nPédales neuves"
+  		}
+  	]
+  }
+}

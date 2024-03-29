@@ -1,0 +1,17 @@
+meta {
+  name: Bewak stock by id
+  type: http
+  seq: 107
+}
+
+get {
+  url: https://www.be-wak.fr/api/stock_availables/70957
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{bewakApiKey}}
+  ~display: full
+}

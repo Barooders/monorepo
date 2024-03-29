@@ -1,0 +1,17 @@
+meta {
+  name: -v1-commission-product
+  type: http
+  seq: 32
+}
+
+get {
+  url: {{base_url}}/v1/commission/product
+  body: none
+  auth: none
+}
+
+query {
+  productHandle: string
+  productId: string
+  variantId: 0
+}

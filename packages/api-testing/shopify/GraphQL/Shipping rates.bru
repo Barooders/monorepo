@@ -1,0 +1,86 @@
+meta {
+  name: Shipping rates
+  type: graphql
+  seq: 12
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/graphql.json
+  body: graphql
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Access-Token: {{shopifyAdminGqlAcessToken}}
+}
+
+body:graphql {
+  query productVariant($id: ID!) {
+  	productVariant(id: $id) {
+  		weight
+  		product {
+  			acceptsHandDelivery: metafield(
+  				key: "hand_delivery"
+  				namespace: "barooders"
+  			) {
+  				value
+  			}
+  			handDeliveryPostalCode: metafield(
+  				key: "hand_delivery_postal_code"
+  				namespace: "barooders"
+  			) {
+  				value
+  			}
+  		}
+  		deliveryProfile {
+  			profileLocationGroups {
+  				locationGroupZones(first: 5, after: null) {
+  					pageInfo {
+  						hasNextPage
+  						startCursor
+  					}
+  					nodes {
+  						zone {
+  							name
+  						}
+  						methodDefinitions(first: 200, eligible: true) {
+  							nodes {
+  								id
+  								rateProvider {
+  									... on DeliveryRateDefinition {
+  										id
+  										price {
+  											amount
+  										}
+  									}
+  									__typename
+  								}
+  								name
+  								methodConditions {
+  									field
+  									id
+  									operator
+  									conditionCriteria {
+  										... on Weight {
+  											value
+  										}
+  										__typename
+  									}
+  								}
+  								description
+  								active
+  							}
+  						}
+  					}
+  				}
+  			}
+  		}
+  	}
+  }
+  
+}
+
+body:graphql:vars {
+  "{\n\t\"id\": \"gid://shopify/ProductVariant/47895417028941\"\n}"
+}

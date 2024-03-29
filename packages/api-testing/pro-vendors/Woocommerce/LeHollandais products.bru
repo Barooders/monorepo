@@ -1,0 +1,21 @@
+meta {
+  name: LeHollandais products
+  type: http
+  seq: 42
+}
+
+get {
+  url: https://lehollandaisvelo.fr/wp-json/wc/v3/products/7657
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{lehollandaisApiKey}}
+  consumer_secret: {{lehollandaisApiSecret}}
+  per_page: 2
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}

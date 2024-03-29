@@ -1,0 +1,15 @@
+meta {
+  name: Freeride
+  type: http
+  seq: 78
+}
+
+get {
+  url: https://www.freeride-attitude.com/api/products?output_format=JSON&ws_key={{freerideApiKey}}&price%5Bprice_on_sale%5D%5Buse_tax%5D=1&price%5Bprice_old%5D%5Buse_tax%5D=1&price%5Bprice_on_sale%5D%5Buse_reduction%5D=1&price%5Bprice_old%5D%5Buse_reduction%5D=0&filter%5Bactive%5D=1&display=full&limit=0%2C1
+  body: none
+  auth: none
+}
+
+headers {
+  User-Agent: insomnia/8.4.5
+}

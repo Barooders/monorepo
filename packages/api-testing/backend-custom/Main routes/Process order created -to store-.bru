@@ -1,0 +1,475 @@
+meta {
+  name: Process order created -to store-
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/orders/webhook/created-event/store
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"id": 5782617489741,
+  	"admin_graphql_api_id": "gid:\/\/shopify\/Order\/5782617489741",
+  	"app_id": 580111,
+  	"browser_ip": "54.93.54.48",
+  	"buyer_accepts_marketing": true,
+  	"cancel_reason": null,
+  	"cancelled_at": null,
+  	"cart_token": "c1-850c64fb36dedc2538f9c0f5810c6232",
+  	"checkout_id": 42038597845325,
+  	"checkout_token": "630e384aa957b92120ad99a022a2b331",
+  	"client_details": {
+  		"accept_language": "fr-FR",
+  		"browser_height": null,
+  		"browser_ip": "54.93.54.48",
+  		"browser_width": null,
+  		"session_hash": null,
+  		"user_agent": "Mozilla\/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit\/605.1.15 (KHTML, like Gecko) FxiOS\/117.3  Mobile\/15E148 Safari\/605.1.15"
+  	},
+  	"closed_at": null,
+  	"company": null,
+  	"confirmed": true,
+  	"contact_email": "jcmcx@free.fr",
+  	"created_at": "2023-09-25T17:07:02+02:00",
+  	"currency": "EUR",
+  	"current_subtotal_price": "4051.99",
+  	"current_subtotal_price_set": {
+  		"shop_money": {
+  			"amount": "4051.99",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "4051.99",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_discounts": "10.00",
+  	"current_total_discounts_set": {
+  		"shop_money": {
+  			"amount": "10.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "10.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_duties_set": null,
+  	"current_total_price": "4161.99",
+  	"current_total_price_set": {
+  		"shop_money": {
+  			"amount": "4161.99",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "4161.99",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"current_total_tax": "0.00",
+  	"current_total_tax_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"customer_locale": "fr-FR",
+  	"device_id": null,
+  	"discount_codes": [
+  		{
+  			"code": "WELCOME10",
+  			"amount": "10.00",
+  			"type": "fixed_amount"
+  		}
+  	],
+  	"email": "jcmcx@free.fr",
+  	"estimated_taxes": false,
+  	"financial_status": "paid",
+  	"fulfillment_status": null,
+  	"gateway": "stripe",
+  	"landing_site": "\/checkouts\/cn\/c1-850c64fb36dedc2538f9c0f5810c6232",
+  	"landing_site_ref": null,
+  	"location_id": null,
+  	"merchant_of_record_app_id": null,
+  	"name": "#9222",
+  	"note": null,
+  	"note_attributes": [
+  		{
+  			"name": "commissionCreationOngoing",
+  			"value": "false"
+  		}
+  	],
+  	"number": 8222,
+  	"order_number": 9222,
+  	"order_status_url": "https:\/\/barooders.com\/57643401365\/orders\/5ace5d602aebe1269da7428d17be98ff\/authenticate?key=629e55fe60e8d26a06f1301e2ce6d947",
+  	"original_total_duties_set": null,
+  	"payment_gateway_names": [
+  		"paypal",
+  		"stripe"
+  	],
+  	"phone": null,
+  	"presentment_currency": "EUR",
+  	"processed_at": "2023-09-25T17:06:55+02:00",
+  	"processing_method": "direct",
+  	"reference": "bff92e58c8d1916a173477c53b1102a6",
+  	"referring_site": "https:\/\/barooders.com\/products\/orbea-oiz-m-ltd-2019",
+  	"source_identifier": "bff92e58c8d1916a173477c53b1102a6",
+  	"source_name": "web",
+  	"source_url": null,
+  	"subtotal_price": "4051.99",
+  	"subtotal_price_set": {
+  		"shop_money": {
+  			"amount": "4051.99",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "4051.99",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"tags": "third party seller",
+  	"tax_lines": [],
+  	"taxes_included": true,
+  	"test": false,
+  	"token": "5ace5d602aebe1269da7428d17be98ff",
+  	"total_discounts": "10.00",
+  	"total_discounts_set": {
+  		"shop_money": {
+  			"amount": "10.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "10.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_line_items_price": "4061.99",
+  	"total_line_items_price_set": {
+  		"shop_money": {
+  			"amount": "4061.99",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "4061.99",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_outstanding": "0.00",
+  	"total_price": "4161.99",
+  	"total_price_set": {
+  		"shop_money": {
+  			"amount": "4161.99",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "4161.99",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_shipping_price_set": {
+  		"shop_money": {
+  			"amount": "110.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "110.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_tax": "0.00",
+  	"total_tax_set": {
+  		"shop_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		},
+  		"presentment_money": {
+  			"amount": "0.00",
+  			"currency_code": "EUR"
+  		}
+  	},
+  	"total_tip_received": "0.00",
+  	"total_weight": 9000,
+  	"updated_at": "2023-09-25T17:07:23+02:00",
+  	"user_id": null,
+  	"billing_address": {
+  		"first_name": "Jean-Claude",
+  		"address1": "10 Rue des Bleuets",
+  		"phone": "+33 6 17 94 14 83",
+  		"city": "Champcueil",
+  		"zip": "91750",
+  		"province": null,
+  		"country": "France",
+  		"last_name": "Mouchoux",
+  		"address2": null,
+  		"company": null,
+  		"latitude": 48.5073763,
+  		"longitude": 2.4655985,
+  		"name": "Jean-Claude Mouchoux",
+  		"country_code": "FR",
+  		"province_code": null
+  	},
+  	"customer": {
+  		"id": 7302110019917,
+  		"email": "jcmcx@free.fr",
+  		"accepts_marketing": true,
+  		"created_at": "2023-09-21T09:48:39+02:00",
+  		"updated_at": "2023-09-25T17:12:22+02:00",
+  		"first_name": "Jean-Claude",
+  		"last_name": "Mouchoux",
+  		"state": "enabled",
+  		"note": null,
+  		"verified_email": true,
+  		"multipass_identifier": null,
+  		"tax_exempt": false,
+  		"phone": null,
+  		"email_marketing_consent": {
+  			"state": "subscribed",
+  			"opt_in_level": "single_opt_in",
+  			"consent_updated_at": "2023-09-21T09:48:39+02:00"
+  		},
+  		"sms_marketing_consent": null,
+  		"tags": "Gold VIP",
+  		"currency": "EUR",
+  		"accepts_marketing_updated_at": "2023-09-21T09:48:39+02:00",
+  		"marketing_opt_in_level": "single_opt_in",
+  		"tax_exemptions": [],
+  		"admin_graphql_api_id": "gid:\/\/shopify\/Customer\/7302110019917",
+  		"default_address": {
+  			"id": 9770272751949,
+  			"customer_id": 7302110019917,
+  			"first_name": "Jean-Claude",
+  			"last_name": "Mouchoux",
+  			"company": null,
+  			"address1": "10 Rue des Bleuets",
+  			"address2": null,
+  			"city": "Champcueil",
+  			"province": null,
+  			"country": "France",
+  			"zip": "91750",
+  			"phone": "+33 6 17 94 14 83",
+  			"name": "Jean-Claude Mouchoux",
+  			"province_code": null,
+  			"country_code": "FR",
+  			"country_name": "France",
+  			"default": true
+  		}
+  	},
+  	"discount_applications": [
+  		{
+  			"target_type": "line_item",
+  			"type": "discount_code",
+  			"value": "10.0",
+  			"value_type": "fixed_amount",
+  			"allocation_method": "across",
+  			"target_selection": "all",
+  			"code": "WELCOME10"
+  		}
+  	],
+  	"fulfillments": [],
+  	"line_items": [
+  		{
+  			"id": 14950127829325,
+  			"admin_graphql_api_id": "gid:\/\/shopify\/LineItem\/14950127829325",
+  			"fulfillable_quantity": 1,
+  			"fulfillment_service": "manual",
+  			"fulfillment_status": null,
+  			"gift_card": false,
+  			"grams": 9000,
+  			"name": "Orbea Oiz M-LTD - KASHIMA - Taille L",
+  			"price": "4060.00",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "4060.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "4060.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"product_exists": true,
+  			"product_id": 8595999031629,
+  			"properties": [],
+  			"quantity": 1,
+  			"requires_shipping": true,
+  			"sku": "ee2ca633-2f27-45b3-970c-607affe7c746",
+  			"taxable": true,
+  			"title": "Orbea Oiz M-LTD - KASHIMA",
+  			"total_discount": "0.00",
+  			"total_discount_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"variant_id": 46911595708749,
+  			"variant_inventory_management": "shopify",
+  			"variant_title": "Taille L",
+  			"vendor": "Tubike",
+  			"tax_lines": [],
+  			"duties": [],
+  			"discount_allocations": [
+  				{
+  					"amount": "10.00",
+  					"amount_set": {
+  						"shop_money": {
+  							"amount": "10.00",
+  							"currency_code": "EUR"
+  						},
+  						"presentment_money": {
+  							"amount": "10.00",
+  							"currency_code": "EUR"
+  						}
+  					},
+  					"discount_application_index": 0
+  				}
+  			]
+  		},
+  		{
+  			"id": 14950127862093,
+  			"admin_graphql_api_id": "gid:\/\/shopify\/LineItem\/14950127862093",
+  			"fulfillable_quantity": 1,
+  			"fulfillment_service": "manual",
+  			"fulfillment_status": null,
+  			"gift_card": false,
+  			"grams": 0,
+  			"name": "Garantie Barooders",
+  			"price": "1.99",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "1.99",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "1.99",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"product_exists": true,
+  			"product_id": 8667832942925,
+  			"properties": [],
+  			"quantity": 1,
+  			"requires_shipping": false,
+  			"sku": "",
+  			"taxable": true,
+  			"title": "Garantie Barooders",
+  			"total_discount": "0.00",
+  			"total_discount_set": {
+  				"shop_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "0.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"variant_id": 47328723992909,
+  			"variant_inventory_management": "shopify",
+  			"variant_title": null,
+  			"vendor": "Commission",
+  			"tax_lines": [],
+  			"duties": [],
+  			"discount_allocations": [
+  				{
+  					"amount": "0.00",
+  					"amount_set": {
+  						"shop_money": {
+  							"amount": "0.00",
+  							"currency_code": "EUR"
+  						},
+  						"presentment_money": {
+  							"amount": "0.00",
+  							"currency_code": "EUR"
+  						}
+  					},
+  					"discount_application_index": 0
+  				}
+  			]
+  		}
+  	],
+  	"payment_details": {
+  		"credit_card_bin": "497301",
+  		"avs_result_code": null,
+  		"cvv_result_code": null,
+  		"credit_card_number": "•••• •••• •••• 3784",
+  		"credit_card_company": "unknown",
+  		"buyer_action_info": null,
+  		"credit_card_name": null,
+  		"credit_card_wallet": null,
+  		"credit_card_expiration_month": 11,
+  		"credit_card_expiration_year": 2024
+  	},
+  	"payment_terms": null,
+  	"refunds": [],
+  	"shipping_address": {
+  		"first_name": "Jean-Claude",
+  		"address1": "10 Rue des Bleuets",
+  		"phone": "+33 6 17 94 14 83",
+  		"city": "Champcueil",
+  		"zip": "91750",
+  		"province": null,
+  		"country": "France",
+  		"last_name": "Mouchoux",
+  		"address2": null,
+  		"company": null,
+  		"latitude": null,
+  		"longitude": null,
+  		"name": "Jean-Claude Mouchoux",
+  		"country_code": "FR",
+  		"province_code": null
+  	},
+  	"shipping_lines": [
+  		{
+  			"id": 4870474432845,
+  			"carrier_identifier": "650f1a14fa979ec5c74d063e968411d4",
+  			"code": "Livraison de vélos - transporteur dédié",
+  			"delivery_category": null,
+  			"discounted_price": "110.00",
+  			"discounted_price_set": {
+  				"shop_money": {
+  					"amount": "110.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "110.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"phone": null,
+  			"price": "110.00",
+  			"price_set": {
+  				"shop_money": {
+  					"amount": "110.00",
+  					"currency_code": "EUR"
+  				},
+  				"presentment_money": {
+  					"amount": "110.00",
+  					"currency_code": "EUR"
+  				}
+  			},
+  			"requested_fulfillment_service_id": null,
+  			"source": "shopify",
+  			"title": "Livraison de vélos - transporteur dédié",
+  			"tax_lines": [],
+  			"discount_allocations": []
+  		}
+  	]
+  }
+}

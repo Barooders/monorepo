@@ -1,0 +1,25 @@
+meta {
+  name: Montanini variations
+  type: http
+  seq: 39
+}
+
+get {
+  url: https://www.ciclimontanini.com/wp-json/wc/v3/products/16017/variations/16070
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{montaniniApiKey}}
+  consumer_secret: {{montaniniApiSecret}}
+  per_page: 10
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

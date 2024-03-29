@@ -1,0 +1,15 @@
+meta {
+  name: Get Product metafields
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{shopifyShop}}/admin/api/2023-01/products/8605906174287/metafields.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

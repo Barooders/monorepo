@@ -1,0 +1,15 @@
+meta {
+  name: health
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://56bmiavw9gt0qkf3p.a1.typesense.net/stats.json
+  body: json
+  auth: none
+}
+
+headers {
+  x-typesense-api-key: {{typesenseKey}}
+}

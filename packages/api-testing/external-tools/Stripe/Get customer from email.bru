@@ -1,0 +1,20 @@
+meta {
+  name: Get customer from email
+  type: http
+  seq: 10
+}
+
+get {
+  url: https://api.stripe.com/v1/customers
+  body: none
+  auth: basic
+}
+
+query {
+  email: jp@barooders.com
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get Collection
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{shopifyShop}}/admin/api/2023-01/collections/612326113613.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

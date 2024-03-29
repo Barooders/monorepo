@@ -1,0 +1,19 @@
+meta {
+  name: -v1-orders-hand-delivery-status
+  type: http
+  seq: 43
+}
+
+post {
+  url: {{base_url}}/v1/orders/hand-delivery/status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {}
+}

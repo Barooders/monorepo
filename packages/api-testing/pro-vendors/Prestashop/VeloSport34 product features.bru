@@ -1,0 +1,18 @@
+meta {
+  name: VeloSport34 product features
+  type: http
+  seq: 92
+}
+
+get {
+  url: https://www.velo-sport34.fr/api/product_feature_values/9408
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{velosport34ApiKey}}
+  output_format: JSON
+  ~display: full
+  ~filter[id_category_default]: [1445|1456|1464|1501|1511|1513|1514|1525|1526|1527|1528|1531|1564|1665|1673|1675|1676|1679|1698|1700|1714|1719|1742|1847|1870|1871|1880|1881|1883|1896|1902]
+}

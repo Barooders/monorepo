@@ -1,0 +1,16 @@
+meta {
+  name: Get strapi product attributes
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-product-attributes
+  body: none
+  auth: none
+}
+
+query {
+  pagination[limit]: 1
+  ~filters[name][$eq]: size
+}

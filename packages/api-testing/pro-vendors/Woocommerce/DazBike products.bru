@@ -1,0 +1,25 @@
+meta {
+  name: DazBike products
+  type: http
+  seq: 35
+}
+
+get {
+  url: https://ciclidalzilio.com/wp-json/wc/v3/products/8179
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{dazBikeApiKey}}
+  consumer_secret: {{dazBikeApiSecret}}
+  per_page: 10
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

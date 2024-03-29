@@ -1,0 +1,17 @@
+meta {
+  name: Bewak product by id
+  type: http
+  seq: 103
+}
+
+get {
+  url: https://www.be-wak.fr/api/products/37882
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{bewakApiKey}}
+  ~display: full
+}

@@ -1,0 +1,55 @@
+meta {
+  name: Create order
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{shopifyShop}}/admin/api/2023-01/orders.json
+  body: json
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"order": {
+  		"discount_applications": [
+  			{
+  				"target_type": "line_item",
+  				"type": "discount_code",
+  				"value": "123.0",
+  				"value_type": "fixed_amount",
+  				"allocation_method": "across",
+  				"target_selection": "entitled",
+  				"code": "JPTESTS"
+  			}],
+  		"line_items": [
+  			{
+  				"variant_id": 47899798077775,
+  				"quantity": 1,
+  				"discount_allocations": [
+  					{
+  						"amount": "123.00",
+  						"amount_set": {
+  							"shop_money": {
+  								"amount": "123.00",
+  								"currency_code": "EUR"
+  							},
+  							"presentment_money": {
+  								"amount": "123.00",
+  								"currency_code": "EUR"
+  							}
+  						},
+  						"discount_application_index": 0
+  					}
+  				]
+  			}
+  		]
+  	}
+  }
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Dayak brands
+  type: http
+  seq: 37
+}
+
+get {
+  url: https://velo-dayak.fr/wp-json/wc/v2/products/brands
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{dayakApiKey}}
+  consumer_secret: {{dayakApiSecret}}
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~per_page: 10
+  ~page: 1
+  ~status: publish
+}
+
+headers {
+  : 
+}

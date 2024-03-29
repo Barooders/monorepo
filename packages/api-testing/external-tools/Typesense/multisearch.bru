@@ -1,0 +1,37 @@
+meta {
+  name: multisearch
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://56bmiavw9gt0qkf3p.a1.typesense.net/multi_search
+  body: json
+  auth: none
+}
+
+query {
+  x-typesense-api-key: {{typesenseKey}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"searches": [
+  		{
+  			"typo_tokens_threshold": 2,
+  			"min_len_1typo": 4,
+  			"min_len_2typo": 12,
+  			"filter_by":"inventory_quantity:>1 && vendor_id:!=938e2c7b-e692-4443-a87c-00fb874c9d5f",
+  			"collection": "backend_b2b_products",
+  			"q": "*",
+  			"max_facet_values": 9999,
+  			"page": 1,
+  			"per_page": 2
+  		}
+  	]
+  }
+}

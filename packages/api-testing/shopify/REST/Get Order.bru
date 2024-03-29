@@ -1,0 +1,15 @@
+meta {
+  name: Get Order
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{shopifyShop}}/admin/api/2023-01/fulfillment_orders/7006523425101.json
+  body: none
+  auth: none
+}
+
+headers {
+  X-Shopify-Access-Token: {{shopifyAccessToken}}
+}

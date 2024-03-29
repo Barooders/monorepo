@@ -1,0 +1,23 @@
+meta {
+  name: -v1-commission-create
+  type: http
+  seq: 35
+}
+
+post {
+  url: {{base_url}}/v1/commission/create
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cartLines": [
+      null
+    ]
+  }
+}

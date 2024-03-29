@@ -1,0 +1,16 @@
+meta {
+  name: MBSPro stock
+  type: http
+  seq: 132
+}
+
+get {
+  url: https://www.monbikeshop.com/api/stock_availables/1704
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{mbsProApiKey}}
+}

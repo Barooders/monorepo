@@ -1,0 +1,22 @@
+meta {
+  name: Cicklet products
+  type: http
+  seq: 27
+}
+
+get {
+  url: https://api.ciklet.cc/wp-json/wc/v3/products/11896
+  body: none
+  auth: none
+}
+
+query {
+  modified_after: 2023-03-03T15:00:00
+  category: 793
+  consumer_key: {{cikletApiKey}}
+  consumer_secret: {{cikletApiSecret}}
+}
+
+headers {
+  ~Authorization: Basic XX
+}

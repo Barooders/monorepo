@@ -1,0 +1,17 @@
+meta {
+  name: MBSpro products
+  type: http
+  seq: 131
+}
+
+get {
+  url: https://www.monbikeshop.com/api/products
+  body: none
+  auth: none
+}
+
+query {
+  display: full
+  ws_key: {{mbsProApiKey}}
+  output_format: JSON
+}

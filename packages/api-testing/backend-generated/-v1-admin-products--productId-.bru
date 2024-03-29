@@ -1,0 +1,32 @@
+meta {
+  name: -v1-admin-products--productId-
+  type: http
+  seq: 22
+}
+
+patch {
+  url: {{base_url}}/v1/admin/products/{{productId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "string",
+    "bodyHtml": "string",
+    "title": "string",
+    "scoring": "string",
+    "tags": [
+      "string"
+    ],
+    "product_type": "string",
+    "handDeliveryPostalCode": "string",
+    "metafields": [
+      null
+    ]
+  }
+}

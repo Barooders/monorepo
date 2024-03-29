@@ -1,0 +1,38 @@
+meta {
+  name: Get products -storefront-
+  type: graphql
+  seq: 9
+}
+
+post {
+  url: {{shopifyShop}}/api/2023-01/graphql.json
+  body: graphql
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Shopify-Storefront-Access-Token: {{shopifyStoreFrontToken}}
+}
+
+body:graphql {
+  {
+    products(first: 100) {
+      edges {
+        node {
+          id
+          createdAt
+  				handle
+  				productType
+  				metafield(key: "source", namespace: "barooders") {
+            value
+          }
+        }
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {}
+}

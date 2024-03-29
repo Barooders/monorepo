@@ -1,0 +1,17 @@
+meta {
+  name: Bewak cart
+  type: http
+  seq: 94
+}
+
+get {
+  url: https://www.be-wak.fr/api/carts/54291644
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bewakApiKey}}
+  output_format: JSON
+  ~display: full
+}

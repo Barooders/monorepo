@@ -1,0 +1,22 @@
+meta {
+  name: Skidoc create customer
+  type: http
+  seq: 114
+}
+
+post {
+  url: https://www.skidoccasion.com/fr/api/customers/15164
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{skidocApiKey}}
+  ~display: [id]
+  ~limit: 10
+}
+
+headers {
+  Content-Type: application/xml
+}

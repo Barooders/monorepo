@@ -1,0 +1,30 @@
+meta {
+  name: Send notification
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.batch.com/1.1/63E3AE9BE113916C74BF0098BC3333/transactional/send
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  	"group_id": "test",
+  	"recipients": {
+  		"custom_ids": [
+  			"6631060078819"
+  		]
+  	},
+  	"message": {
+  		"title": "Bravo pour votre annonce JP",
+  		"body": " Votre annonce a bien été déposée! RDV dans l'onglet 'mes annonces' pour la consulter ou la modifier. "
+  	}
+  }
+}

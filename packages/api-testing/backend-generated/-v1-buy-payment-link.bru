@@ -1,0 +1,21 @@
+meta {
+  name: -v1-buy-payment-link
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/v1/buy/payment/link
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "paymentId": "string"
+  }
+}

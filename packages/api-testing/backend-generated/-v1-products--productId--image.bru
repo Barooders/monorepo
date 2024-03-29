@@ -1,0 +1,23 @@
+meta {
+  name: -v1-products--productId--image
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{base_url}}/v1/products/{{productId}}/image
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "attachment": "string",
+    "position": 0,
+    "filename": "string"
+  }
+}

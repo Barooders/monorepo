@@ -1,0 +1,25 @@
+meta {
+  name: JBikes products
+  type: http
+  seq: 29
+}
+
+get {
+  url: https://jbikes.fr/wp-json/wc/v3/products/11490
+  body: none
+  auth: none
+}
+
+query {
+  consumer_key: {{jbikesApiKey}}
+  consumer_secret: {{jbikesApiSecret}}
+  per_page: 1
+  page: 1
+  ~modified_after: 2023-06-03T15:00:00
+  ~category: 793
+  ~status: publish
+}
+
+headers {
+  : 
+}

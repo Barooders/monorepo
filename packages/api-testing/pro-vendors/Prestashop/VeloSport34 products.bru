@@ -1,0 +1,22 @@
+meta {
+  name: Velosport34 products
+  type: http
+  seq: 110
+}
+
+get {
+  url: https://www.velo-sport34.fr/api/stock_availables/12917
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{velosport34ApiKey}}
+  price[price_on_sale][use_tax]: 1
+  price[price_old][use_tax]: 1
+  price[price_on_sale][use_reduction]: 1
+  price[price_old][use_reduction]: 0
+  filter[active]: 1
+  ~display: full
+}

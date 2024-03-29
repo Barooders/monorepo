@@ -1,0 +1,27 @@
+meta {
+  name: Generate account link
+  type: http
+  seq: 13
+}
+
+post {
+  url: https://api.stripe.com/v1/account_links
+  body: formUrlEncoded
+  auth: basic
+}
+
+headers {
+  Content-Type: application/x-www-form-urlencoded
+}
+
+auth:basic {
+  username: {{stripeApiKey}}
+  password: 
+}
+
+body:form-urlencoded {
+  type: account_onboarding
+  account: acct_1OMzE4IzI5dH3QD3
+  return_url: https://barooders.com/
+  refresh_url: https://barooders.com/
+}

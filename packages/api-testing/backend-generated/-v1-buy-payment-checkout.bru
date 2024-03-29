@@ -1,0 +1,37 @@
+meta {
+  name: -v1-buy-payment-checkout
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/v1/buy/payment/checkout
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "storeId": "string",
+    "totalAmount": {
+      "amountInCents": 124999,
+      "currency": "EUR"
+    },
+    "productsCount": 0,
+    "products": [
+      {
+        "amount": {
+          "amountInCents": 124999,
+          "currency": "EUR"
+        },
+        "shipping": "string",
+        "productType": "string",
+        "id": "string"
+      }
+    ]
+  }
+}
