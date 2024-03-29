@@ -1,5 +1,6 @@
 import envConfig from '@config/env/env.config';
 import { PaymentProvider } from '@libs/domain/prisma.main.client';
+import { Amount } from '@libs/domain/value-objects';
 import { base64_encode } from '@libs/helpers/base64';
 import { IPaymentProvider } from '@modules/order/domain/ports/payment-provider';
 import { Injectable, Logger } from '@nestjs/common';
@@ -23,12 +24,12 @@ export class StripeClient implements IPaymentProvider {
 
   async executePayment(
     vendorPaymentProviderId: string,
-    amountInCents: number,
+    amount: Amount,
     description: string,
   ): Promise<void> {
     const endpoint = new URL(`${STRIPE_BASE_URL}/transfers`);
     endpoint.search = new URLSearchParams({
-      amount: String(Math.round(amountInCents)),
+      amount: amount.amount.toString(),
       currency: 'eur',
       destination: vendorPaymentProviderId,
       description,
@@ -42,11 +43,7 @@ export class StripeClient implements IPaymentProvider {
     if (!response.ok) {
       const { error } = await response.json();
       throw new Error(
-        `Cannot send ${
-          Number(amountInCents) / 100
-        }€ to ${vendorPaymentProviderId} because of: [${error.code}] ${
-          error.message
-        }`,
+        `Cannot send ${amount.formattedAmount}€ to ${vendorPaymentProviderId} because of: [${error.code}] ${error.message}`,
       );
     }
   }

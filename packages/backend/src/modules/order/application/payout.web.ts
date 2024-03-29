@@ -14,10 +14,11 @@ import { routesV1 } from '@config/routes.config';
 import { NotFoundException } from '@libs/domain/exceptions';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
+import { Amount as AmountObject } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { Commission, CommissionService } from '../domain/commission.service';
 import {
   OrderValidation,
@@ -38,6 +39,20 @@ class PayoutInputQuery {
     description: 'The Shopify id of the order line',
   })
   orderLineShopifyId!: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'A comment to store a reason for a price change for example',
+    required: false,
+  })
+  comment?: string;
+
+  @IsInt()
+  @ApiProperty({
+    description: 'An amount to replace the calculated one',
+    required: false,
+  })
+  amountInCents?: number;
 }
 
 class PreviewPayoutInputQuery {
@@ -114,7 +129,7 @@ export class PayoutController {
   @UseGuards(AuthGuard('header-api-key'))
   async executePayout(
     @Body()
-    { orderLineShopifyId }: PayoutInputQuery,
+    { orderLineShopifyId, amountInCents, comment }: PayoutInputQuery,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
@@ -136,7 +151,17 @@ export class PayoutController {
         id: authorId,
       };
 
-      await this.payoutService.executePayoutForOrderLine(id, vendorId, author);
+      const manualAmount = amountInCents
+        ? new AmountObject({ amountInCents })
+        : null;
+
+      await this.payoutService.executePayoutForOrderLine(
+        id,
+        vendorId,
+        author,
+        manualAmount,
+        comment,
+      );
     } catch (error: any) {
       if (
         error instanceof NotFoundException ||

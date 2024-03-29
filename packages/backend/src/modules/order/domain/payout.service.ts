@@ -7,6 +7,7 @@ import {
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
+import { Amount, UUID } from '@libs/domain/value-objects';
 import { PaymentAccountProviderService } from '@modules/customer/domain/payment-account-provider.service';
 import { OrderUpdateService } from '@modules/order/domain/order-update.service';
 import { Injectable, Logger } from '@nestjs/common';
@@ -35,6 +36,8 @@ export class PayoutService {
     orderLineId: string,
     vendorId: string,
     author: Author,
+    manualAmount: Amount | null = null,
+    comment = '',
   ): Promise<void> {
     const {
       order: { id: orderId, name: orderName, createdAt: orderCreatedAt },
@@ -52,12 +55,9 @@ export class PayoutService {
     this.throwIfOrderLineHaveOpenDisputes(disputes);
     await this.throwIfOrderLineHasAlreadyBeenPaidOut(orderLineId);
 
-    const { variantPrice, variantDiscount, vendorCommission, vendorShipping } =
-      await this.commissionService.getCommissionByOrderLine(orderLineId);
-    const amountInCents = Math.round(
-      (vendorCommission + vendorShipping + variantPrice - variantDiscount) *
-        100,
-    );
+    const payoutAmount =
+      manualAmount ??
+      (await this.calculatePayoutAmount(new UUID({ uuid: orderLineId })));
 
     const vendorPaymentAccount =
       await this.paymentAccountProvider.getPaymentAccount(vendorId);
@@ -70,22 +70,23 @@ export class PayoutService {
       async () => {
         await this.paymentProvider.executePayment(
           vendorPaymentAccount.accountId,
-          amountInCents,
+          payoutAmount,
           `Vente Barooders (${orderName}) du ${orderCreatedAt.toLocaleString()}`,
         );
 
         const payout = {
           vendorId,
           vendorPaymentProviderId: vendorPaymentAccount.accountId,
-          amountInCents,
+          amountInCents: payoutAmount.amountInCents,
           orderLineId,
         };
 
         await this.prisma.payout.create({
           data: {
-            amountInCents,
+            amountInCents: payoutAmount.amountInCents,
             orderLineId,
             destinationAccountId: vendorPaymentAccount.id,
+            comment,
           },
         });
 
@@ -97,11 +98,23 @@ export class PayoutService {
             payload: payout,
             metadata: {
               author,
+              comment,
             },
           },
         });
       },
     );
+  }
+
+  private async calculatePayoutAmount(orderLineId: UUID): Promise<Amount> {
+    const { variantPrice, variantDiscount, vendorCommission, vendorShipping } =
+      await this.commissionService.getCommissionByOrderLine(orderLineId.uuid);
+    return new Amount({
+      amountInCents: Math.round(
+        (vendorCommission + vendorShipping + variantPrice - variantDiscount) *
+          100,
+      ),
+    });
   }
 
   private throwIfOrderLineHaveOpenDisputes(disputes: Dispute[]) {

@@ -114,6 +114,7 @@ model Payout {
   createdAt            DateTime        @default(now())
   orderLineId          String
   amountInCents        Int
+  comment              String?
   currency             Currency        @default(EUR)
   destinationAccountId String
   destinationAccount   PaymentAccounts @relation(fields: [destinationAccountId], references: [id])
