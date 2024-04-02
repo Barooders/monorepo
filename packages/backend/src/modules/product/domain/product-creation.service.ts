@@ -28,6 +28,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { IStoreClient } from './ports/store.client';
 
@@ -35,10 +36,19 @@ import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
 import { jsonStringify } from '@libs/helpers/json';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IPIMClient } from './ports/pim.client';
 import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
 
+class BundlePriceDTO {
+  @IsInt()
+  unitPriceInCents!: number;
+
+  @IsInt()
+  minQuantity!: number;
+}
 export class DraftProductInputDto {
   @IsOptional()
   tags: string[] = [];
@@ -88,6 +98,12 @@ export class DraftProductInputDto {
   @IsOptional()
   @IsInt()
   quantity?: number;
+
+  @IsOptional()
+  @ApiProperty({ isArray: true, type: BundlePriceDTO })
+  @ValidateNested({ each: true })
+  @Type(() => BundlePriceDTO)
+  bundlePrices?: BundlePriceDTO[];
 }
 
 export interface ProductCreationOptions {
@@ -155,6 +171,17 @@ export class ProductCreationService {
         source: product.source,
         sourceUrl: product.sourceUrl,
         GTINCode: product.GTINCode,
+        bundlePrices: {
+          createMany: {
+            data:
+              product.bundlePrices?.map(
+                ({ minQuantity, unitPriceInCents }) => ({
+                  unitPriceInCents,
+                  minQuantity,
+                }),
+              ) ?? [],
+          },
+        },
         variants: {
           createMany: {
             data: createdProduct.variants.map((variant) => ({

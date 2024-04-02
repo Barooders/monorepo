@@ -67,6 +67,7 @@ export interface Product extends FullProduct {
   metafields: Metafield[];
   status: ProductStatus;
   handDeliveryPostalCode?: string | null;
+  bundlePrices?: { minQuantity: number; unitPriceInCents: number }[];
 }
 
 export interface ProductToStore extends Product {
