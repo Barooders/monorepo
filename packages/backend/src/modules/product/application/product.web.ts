@@ -206,12 +206,11 @@ export class ProductController {
   ) {}
 
   @Post(routesV1.product.createDraftProduct)
-  @UseGuards(OrGuard([AuthGuard('header-api-key'), JwtAuthGuard]))
+  @UseGuards(JwtAuthGuard)
   async createDraftProduct(
+    @User() { userId }: ExtractedUser,
     @Body()
     draftProductInputDto: DraftProductInputDto,
-    @Query()
-    { sellerId, isAdminMode }: { sellerId: string; isAdminMode?: string },
   ): Promise<{ body: { product: StoredProduct } }> {
     const author: Author = {
       type: 'user',
@@ -219,8 +218,31 @@ export class ProductController {
 
     const product = await this.productCreationService.createDraftProduct(
       draftProductInputDto,
+      userId,
+      author,
+    );
+    return {
+      body: {
+        product,
+      },
+    };
+  }
+
+  @Post(routesV1.product.createProductByAdmin)
+  @UseGuards(AuthGuard('header-api-key'))
+  async createProduct(
+    @Body()
+    draftProductInputDto: DraftProductInputDto,
+    @Query()
+    { sellerId }: { sellerId: string; isAdminMode?: string },
+  ): Promise<{ body: { product: StoredProduct } }> {
+    const author: Author = {
+      type: 'user',
+    };
+
+    const product = await this.productCreationService.createProductByAdmin(
+      draftProductInputDto,
       sellerId,
-      isAdminMode !== 'true',
       author,
     );
     return {

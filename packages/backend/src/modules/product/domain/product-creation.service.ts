@@ -103,7 +103,7 @@ export class ProductCreationService {
     options: ProductCreationOptions,
     author: Author,
   ): Promise<StoredProduct> {
-    if (!vendorId) throw new Error('Cannot create product without sellerId');
+    if (!vendorId) throw new Error('Cannot create product without vendorId');
 
     const { product_type: productType, variants, metafields } = product;
 
@@ -225,8 +225,84 @@ export class ProductCreationService {
 
   async createDraftProduct(
     draftProductInputDto: DraftProductInputDto,
-    sellerId: string,
-    isCreatedByVendor: boolean,
+    vendorId: string,
+    author: Author,
+  ): Promise<StoredProduct> {
+    const {
+      tags,
+      images,
+      price,
+      compare_at_price = price,
+      title,
+      body_html,
+      product_type,
+      metafields,
+      handDelivery,
+      handDeliveryPostalCode,
+      condition,
+      sourceUrl,
+      salesChannels,
+    } = draftProductInputDto;
+
+    const source = String(
+      metafields?.find((metafield: Metafield) => metafield.key === 'source')
+        ?.value ?? 'vendor-page',
+    );
+
+    const productWithoutStatus = {
+      title,
+      body_html,
+      product_type,
+      variants: [
+        {
+          price: price?.toString(),
+          external_id: 'product-added-from-web',
+          compare_at_price: compare_at_price?.toString(),
+          inventory_quantity: 1,
+          condition,
+          optionProperties: [
+            {
+              key: 'Title',
+              value: DISABLED_VARIANT_OPTION,
+            },
+          ],
+        },
+      ],
+      images,
+      tags,
+      source,
+      sourceUrl,
+      metafields: [
+        ...getHandDeliveryMetafields(!!handDelivery, handDeliveryPostalCode),
+        ...metafields.filter(({ key }) => key !== 'source'),
+        {
+          key: 'status',
+          value: 'pending',
+          type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
+          namespace: BAROODERS_NAMESPACE,
+        },
+      ],
+      salesChannels,
+    };
+
+    return await this.createProduct(
+      {
+        ...productWithoutStatus,
+        status: this.isProductReadyToPublish(productWithoutStatus, true)
+          ? ProductStatus.ACTIVE
+          : ProductStatus.DRAFT,
+      },
+      vendorId,
+      {
+        bypassImageCheck: !!price && Number(price) > 0,
+      },
+      author,
+    );
+  }
+
+  async createProductByAdmin(
+    draftProductInputDto: DraftProductInputDto,
+    vendorStoreId: string,
     author: Author,
   ): Promise<StoredProduct> {
     const {
@@ -251,11 +327,13 @@ export class ProductCreationService {
     );
 
     const vendorId = (
-      await this.customerRepository.getCustomerFromShopifyId(Number(sellerId))
+      await this.customerRepository.getCustomerFromShopifyId(
+        Number(vendorStoreId),
+      )
     )?.authUserId;
 
     if (!vendorId)
-      throw new Error(`Cannot find vendor with shopifyId: ${sellerId}`);
+      throw new Error(`Cannot find vendor with storeId: ${vendorStoreId}`);
 
     const productWithoutStatus = {
       title,
@@ -264,7 +342,7 @@ export class ProductCreationService {
       variants: [
         {
           price: price?.toString(),
-          external_id: 'product-added-in-app',
+          external_id: 'product-added-from-web',
           compare_at_price: compare_at_price?.toString(),
           inventory_quantity: 1,
           condition,
@@ -283,16 +361,6 @@ export class ProductCreationService {
       metafields: [
         ...getHandDeliveryMetafields(!!handDelivery, handDeliveryPostalCode),
         ...metafields.filter(({ key }) => key !== 'source'),
-        ...(isCreatedByVendor
-          ? [
-              {
-                key: 'status',
-                value: 'pending',
-                type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
-                namespace: BAROODERS_NAMESPACE,
-              },
-            ]
-          : []),
       ],
       salesChannels,
     };
@@ -305,9 +373,7 @@ export class ProductCreationService {
           : ProductStatus.DRAFT,
       },
       vendorId,
-      {
-        bypassImageCheck: !!price && Number(price) > 0,
-      },
+      {},
       author,
     );
   }

@@ -60,6 +60,7 @@ export const routesV1 = {
   },
   product: {
     createDraftProduct: '/products/create',
+    createProductByAdmin: '/admin/products/create',
     getProduct: '/products/:productId',
     addProductImage: '/products/:productId/image',
     deleteProductImage: '/products/:productId/image/:imageId',
