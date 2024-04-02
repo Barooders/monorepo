@@ -20,6 +20,10 @@
       "type": "string"
     },
     {
+      "name": "vendor",
+      "type": "string"
+    },
+    {
       "name": "condition",
       "type": "string",
       "facet": true

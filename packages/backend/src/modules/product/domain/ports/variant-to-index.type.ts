@@ -66,6 +66,7 @@ export interface B2BVariantToIndex {
   product: {
     shopifyId: ShopifyID;
     id: UUID;
+    vendor: string;
     vendorId: UUID;
     isActive: boolean;
     imageSrc?: URL;

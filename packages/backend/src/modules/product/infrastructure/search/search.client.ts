@@ -96,6 +96,7 @@ const DOCUMENT_CONFIG = {
       vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
       title: product.title,
+      vendor: product.vendor,
       product_type: product.productType.productType,
       condition: variant.condition.toString(),
       handle: product.handle,

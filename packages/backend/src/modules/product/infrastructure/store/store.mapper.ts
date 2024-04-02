@@ -224,6 +224,13 @@ export class StoreMapper {
       return [];
     }
 
+    const { sellerName } =
+      await this.prismaMainClient.customer.findUniqueOrThrow({
+        where: {
+          authUserId: vendorId,
+        },
+      });
+
     const variants = this.mapB2BVariants(baseProductVariants);
 
     const product = {
@@ -237,6 +244,7 @@ export class StoreMapper {
         ? new URL({ url: storeB2BProduct.firstImage })
         : undefined,
       title: storeB2BProduct.title,
+      vendor: sellerName ?? '',
       handle: storeB2BProduct.handle,
       publishedAt: new ValueDate({
         date: storeB2BProduct.publishedAt ?? new Date(),

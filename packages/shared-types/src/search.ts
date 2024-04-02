@@ -10,6 +10,7 @@ type SearchBaseVariantDocument = {
   variant_shopify_id: number;
   variant_internal_id?: string;
   title: string;
+  vendor: string;
   product_type: string;
   condition: string;
   handle: string;
@@ -26,7 +27,6 @@ type SearchBaseVariantDocument = {
 };
 
 export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
-  vendor: string;
   vendor_informations: {
     reviews: {
       count: number;
