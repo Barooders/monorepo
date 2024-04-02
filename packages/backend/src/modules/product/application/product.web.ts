@@ -12,6 +12,7 @@ import { StoredProduct } from '@libs/domain/product.interface';
 import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 
+import { CustomerRepository } from '@libs/domain/customer.repository';
 import { Author, BAROODERS_NAMESPACE, MetafieldType } from '@libs/domain/types';
 import { Amount, AmountDTO, UUID } from '@libs/domain/value-objects';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
@@ -200,6 +201,7 @@ export class ProductController {
   constructor(
     private productCreationService: ProductCreationService,
     private productUpdateService: ProductUpdateService,
+    private customerRepository: CustomerRepository,
     private collectionService: CollectionService,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
@@ -240,9 +242,16 @@ export class ProductController {
       type: 'user',
     };
 
+    const vendorId = (
+      await this.customerRepository.getCustomerFromShopifyId(Number(sellerId))
+    )?.authUserId;
+
+    if (!vendorId)
+      throw new Error(`Cannot find vendor with sellerId: ${sellerId}`);
+
     const product = await this.productCreationService.createProductByAdmin(
       draftProductInputDto,
-      sellerId,
+      vendorId,
       author,
     );
     return {

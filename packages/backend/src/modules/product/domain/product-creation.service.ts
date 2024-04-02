@@ -1,4 +1,3 @@
-import { CustomerRepository } from '@libs/domain/customer.repository';
 import {
   AggregateName,
   Condition,
@@ -91,7 +90,6 @@ export class ProductCreationService {
 
   constructor(
     private pimClient: IPIMClient,
-    private customerRepository: CustomerRepository,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private queueClient: IQueueClient,
@@ -228,82 +226,47 @@ export class ProductCreationService {
     vendorId: string,
     author: Author,
   ): Promise<StoredProduct> {
-    const {
-      tags,
-      images,
-      price,
-      compare_at_price = price,
-      title,
-      body_html,
-      product_type,
-      metafields,
-      handDelivery,
-      handDeliveryPostalCode,
-      condition,
-      sourceUrl,
-      salesChannels,
-    } = draftProductInputDto;
+    const { price } = draftProductInputDto;
 
-    const source = String(
-      metafields?.find((metafield: Metafield) => metafield.key === 'source')
-        ?.value ?? 'vendor-page',
-    );
-
-    const productWithoutStatus = {
-      title,
-      body_html,
-      product_type,
-      variants: [
-        {
-          price: price?.toString(),
-          external_id: 'product-added-from-web',
-          compare_at_price: compare_at_price?.toString(),
-          inventory_quantity: 1,
-          condition,
-          optionProperties: [
-            {
-              key: 'Title',
-              value: DISABLED_VARIANT_OPTION,
-            },
-          ],
-        },
-      ],
-      images,
-      tags,
-      source,
-      sourceUrl,
-      metafields: [
-        ...getHandDeliveryMetafields(!!handDelivery, handDeliveryPostalCode),
-        ...metafields.filter(({ key }) => key !== 'source'),
-        {
-          key: 'status',
-          value: 'pending',
-          type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
-          namespace: BAROODERS_NAMESPACE,
-        },
-      ],
-      salesChannels,
-    };
-
-    return await this.createProduct(
+    return await this.createProductFromWeb(
       {
-        ...productWithoutStatus,
-        status: this.isProductReadyToPublish(productWithoutStatus, true)
-          ? ProductStatus.ACTIVE
-          : ProductStatus.DRAFT,
+        ...draftProductInputDto,
+        metafields: [
+          ...draftProductInputDto.metafields,
+          {
+            key: 'status',
+            value: 'pending',
+            type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
+            namespace: BAROODERS_NAMESPACE,
+          },
+        ],
       },
       vendorId,
+      author,
       {
         bypassImageCheck: !!price && Number(price) > 0,
       },
-      author,
     );
   }
 
   async createProductByAdmin(
     draftProductInputDto: DraftProductInputDto,
-    vendorStoreId: string,
+    vendorId: string,
     author: Author,
+  ): Promise<StoredProduct> {
+    return await this.createProductFromWeb(
+      draftProductInputDto,
+      vendorId,
+      author,
+      {},
+    );
+  }
+
+  private async createProductFromWeb(
+    draftProductInputDto: DraftProductInputDto,
+    vendorId: string,
+    author: Author,
+    options: ProductCreationOptions,
   ): Promise<StoredProduct> {
     const {
       tags,
@@ -326,15 +289,6 @@ export class ProductCreationService {
         ?.value ?? 'vendor-page',
     );
 
-    const vendorId = (
-      await this.customerRepository.getCustomerFromShopifyId(
-        Number(vendorStoreId),
-      )
-    )?.authUserId;
-
-    if (!vendorId)
-      throw new Error(`Cannot find vendor with storeId: ${vendorStoreId}`);
-
     const productWithoutStatus = {
       title,
       body_html,
@@ -373,7 +327,7 @@ export class ProductCreationService {
           : ProductStatus.DRAFT,
       },
       vendorId,
-      {},
+      options,
       author,
     );
   }
