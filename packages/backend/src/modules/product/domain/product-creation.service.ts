@@ -196,12 +196,16 @@ export class ProductCreationService {
       data,
     );
 
+    if (!data.price) {
+      throw new Error('Cannot create variant without price');
+    }
+
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
         createdAt: new Date(),
         shopifyId: createdVariant.id,
         quantity: data.inventory_quantity ?? 0,
-        priceInCents: Math.round(Number(data.price) * 100),
+        priceInCents: toCents(data.price),
         condition: data.condition,
         product: {
           connect: {
