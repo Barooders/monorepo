@@ -21,7 +21,7 @@ import { Amount as AmountObject } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Commission, CommissionService } from '../domain/commission.service';
 import {
   OrderValidation,
@@ -55,6 +55,7 @@ class PayoutInputQuery {
     description: 'An amount to replace the calculated one',
     required: false,
   })
+  @IsOptional()
   amountInCents?: number;
 }
 
