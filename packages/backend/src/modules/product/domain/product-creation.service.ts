@@ -22,7 +22,13 @@ import {
 import { getSEOMetafields } from '@libs/helpers/seo.helper';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { IStoreClient } from './ports/store.client';
 
 import { UUID } from '@libs/domain/value-objects';
@@ -78,6 +84,10 @@ export class DraftProductInputDto {
 
   @IsOptional()
   salesChannels?: SalesChannelName[];
+
+  @IsOptional()
+  @IsInt()
+  quantity?: number;
 }
 
 export interface ProductCreationOptions {
@@ -282,6 +292,7 @@ export class ProductCreationService {
       condition,
       sourceUrl,
       salesChannels,
+      quantity,
     } = draftProductInputDto;
 
     const source = String(
@@ -298,7 +309,7 @@ export class ProductCreationService {
           price: price?.toString(),
           external_id: 'product-added-from-web',
           compare_at_price: compare_at_price?.toString(),
-          inventory_quantity: 1,
+          inventory_quantity: Number.isInteger(quantity) ? quantity : 1,
           condition,
           optionProperties: [
             {
