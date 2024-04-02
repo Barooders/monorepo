@@ -97,13 +97,62 @@ const Footer = () => {
         },
       ],
     },
+    {
+      title: footerLabels.topSales.title,
+      links: [
+        {
+          label: footerLabels.topSales.links.bike,
+          url: 'https://barooders.com/collections/velo',
+        },
+
+        {
+          label: footerLabels.topSales.links.eBike,
+          url: 'https://barooders.com/collections/velos-electriques',
+        },
+
+        {
+          label: footerLabels.topSales.links.roadBike,
+          url: 'https://barooders.com/collections/velos-de-route',
+        },
+
+        {
+          label: footerLabels.topSales.links.eMTB,
+          url: 'https://barooders.com/collections/vtt-electriques',
+        },
+
+        {
+          label: footerLabels.topSales.links.cityEBike,
+          url: 'https://barooders.com/collections/vtc-electriques',
+        },
+
+        {
+          label: footerLabels.topSales.links.MTB,
+          url: 'https://barooders.com/collections/vtt',
+        },
+
+        {
+          label: footerLabels.topSales.links.gravel,
+          url: 'https://barooders.com/collections/gravel',
+        },
+
+        {
+          label: footerLabels.topSales.links.cargo,
+          url: 'https://barooders.com/collections/velos-cargo',
+        },
+
+        {
+          label: footerLabels.topSales.links.foldableBike,
+          url: 'https://barooders.com/collections/velos-pliants',
+        },
+      ],
+    },
   ];
   return (
     <div
       className="bg-secondary-200"
       id="barooders-main-footer"
     >
-      <div className="border border-y-black py-12 px-8">
+      <div className="border border-y-black px-8 py-12">
         <div className="mx-auto flex max-w-page-content flex-wrap justify-between px-4">
           {footerSections.map((footerSection) => (
             <FooterSection

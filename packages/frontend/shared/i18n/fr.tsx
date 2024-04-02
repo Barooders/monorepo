@@ -601,6 +601,20 @@ const fr = {
         android: 'Android',
       },
     },
+    topSales: {
+      title: 'Top produits',
+      links: {
+        bike: 'Vélo',
+        eBike: 'Vélos électriques',
+        roadBike: 'Vélos de route',
+        eMTB: 'VTT électriques',
+        cityEBike: 'VTC électriques',
+        MTB: 'VTT',
+        gravel: 'Gravel',
+        cargo: 'Vélo cargo',
+        foldableBike: 'Vélo pliant',
+      },
+    },
   },
   blog: {
     blogBreadcrumb: 'Blog',
