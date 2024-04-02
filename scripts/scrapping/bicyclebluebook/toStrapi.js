@@ -271,8 +271,8 @@ const updateProductModel = async ({ id, imageUrl }) => {
 const createProductForBrand = async (brand) => {
   const files = await paginatedListFiles(
     BUCKET_NAME,
-    `${PATH_PREFIX}/images/${brand}`,
-  );
+    `${PATH_PREFIX}/data/${brand}`,
+  ).filter((file) => file.endsWith('.jpg'));
 
   console.log(`Found ${files.length} files for ${brand}`);
 
@@ -315,11 +315,11 @@ const urlEncode = (str) => {
 
 const run = async () => {
   const brands = (await getObjectContent('data/brandData.json')).bicycleBrands;
-  const idx = brands.findIndex(({ name }) => name === 'Bianchi');
+  // const idx = brands.findIndex(({ name }) => name === 'Bianchi');
 
-  const filtered = brands.slice(idx);
+  // const filtered = brands.slice(idx);
 
-  for (const { name: brand } of filtered) {
+  for (const { name: brand } of brands) {
     await createProductForBrand(brand);
   }
 };
