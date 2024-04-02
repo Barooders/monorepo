@@ -324,6 +324,7 @@ export class ProductCreationService {
       sourceUrl,
       salesChannels,
       quantity,
+      bundlePrices,
     } = draftProductInputDto;
 
     const source = String(
@@ -359,6 +360,7 @@ export class ProductCreationService {
         ...metafields.filter(({ key }) => key !== 'source'),
       ],
       salesChannels,
+      bundlePrices,
     };
 
     return await this.createProduct(
