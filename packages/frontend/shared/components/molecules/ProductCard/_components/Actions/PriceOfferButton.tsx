@@ -73,22 +73,12 @@ const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
   props,
 ) => {
   useTraceUpdate(props);
-  console.log('Re-render Button component');
   const { productId, className, size } = props;
   const { loading, data } =
     useSubscription<OpenedPriceOfferProductPageSubscription>(
       OPENED_PRICE_OFFERS_PRODUCT_PAGE,
       {
         variables: { productId },
-        onComplete() {
-          console.log('Completing websocket');
-        },
-        onData() {
-          console.log('Received data');
-        },
-        onError(e) {
-          console.error('Received error on websocket', e);
-        },
       },
     );
 
