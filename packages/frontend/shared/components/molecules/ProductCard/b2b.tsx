@@ -71,7 +71,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               <ProductPrice
                 productId={shopifyId}
                 discounts={[]}
-                compareAtPrice={compareAtPrice}
+                compareAtPrice={Math.max(compareAtPrice, price)}
                 price={largestBundlePrice ?? price}
                 showPriceRecap={false}
               />
