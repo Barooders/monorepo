@@ -114,7 +114,7 @@ const Inbox: React.FC<Props> = ({
         sessionRef={session}
       >
         <TalkJSInbox
-          className="h-[600px] w-full max-w-lg"
+          className="h-[600px] w-full"
           inboxRef={inboxEl}
           conversationId={selectedConversationId}
           onConversationSelected={onConversationSelected}
