@@ -36,6 +36,9 @@ export type EnvConfigType = {
       orderCanceledSlackChannelId: string;
       errorSlackChannelId: string;
     };
+    metabase: {
+      secretKey: string;
+    };
     floa: {
       apiKey: string;
       eligilityBaseUrl: string;

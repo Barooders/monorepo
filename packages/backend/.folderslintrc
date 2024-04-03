@@ -15,6 +15,7 @@
     "modules/*/infrastructure/email",
     "modules/*/infrastructure/notification",
     "modules/*/infrastructure/internal-notification",
+    "modules/*/infrastructure/analytics",
     "modules/*/infrastructure/store",
     "modules/*/infrastructure/queue",
     "modules/*/infrastructure/payment-provider",
