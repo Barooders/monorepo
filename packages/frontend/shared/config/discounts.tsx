@@ -33,37 +33,4 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     value: null,
     hideReduction: true,
   },
-  {
-    // tag to filter on: discount:BDAYS_SHIPPING
-    title: 'BDAYS_SHIPPING',
-    label: 'Livraison gratuite',
-    type: 'static',
-    collections: ['4a786b87-caed-4a53-bfed-16fae90f2521'],
-    valueType: 'custom',
-    startsAt: dayjs('2024-03-24T07:00:00').toDate(),
-    endsAt: dayjs('2024-04-02T23:00:00').toDate(),
-    value: null,
-    hideReduction: true,
-  },
-  {
-    // Until 01/04
-    title: 'BDAYS5',
-    label: 'Barooders Days',
-    type: 'dynamic',
-    groupKey: 'BDAYS',
-  },
-  {
-    // Until 01/04
-    title: 'BDAYS10',
-    label: 'Barooders Days',
-    type: 'dynamic',
-    groupKey: 'BDAYS',
-  },
-  {
-    // Until 01/04
-    title: 'BDAYS15',
-    label: 'Barooders Days',
-    type: 'dynamic',
-    groupKey: 'BDAYS',
-  },
 ];

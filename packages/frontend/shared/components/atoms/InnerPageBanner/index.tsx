@@ -16,11 +16,6 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: 'Barooders Days : +4000 vélos en réductions jusqu’au 01 avril',
-    icon: '🔥',
-    link: '/collections/barooders-days',
-  },
-  {
     label: '️Vendeur de la semaine - Cycles Aveyron - jusqu’à -40%',
     icon: '⭐️',
     link: '/collections/cyclesaveyron',
