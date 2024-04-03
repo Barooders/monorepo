@@ -58,6 +58,7 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql`
       lastName
       firstName
       sellerName
+      isPro
       profilePictureShopifyCdnUrl
       createdAt
       favorites(
@@ -138,6 +139,7 @@ interface SectionCardProps {
 
 interface CustomerProps {
   firstName: string | null;
+  isPro: boolean;
   lastName: string | null;
   sellerName: string | null;
   profilePictureShopifyCdnUrl: string | null;
@@ -170,6 +172,7 @@ const Account = () => {
           {
             firstName,
             lastName,
+            isPro,
             sellerName,
             profilePictureShopifyCdnUrl,
             createdAt,
@@ -194,6 +197,7 @@ const Account = () => {
       customer: {
         firstName,
         lastName,
+        isPro,
         sellerName,
         profilePictureShopifyCdnUrl,
         createdAt,
@@ -414,7 +418,9 @@ const Account = () => {
             </div>
           </div>
           <div className="col-start-1 col-end-13 lg:col-start-10">
-            <AccountMenu />
+            <AccountMenu
+              vendorIsPro={value?.customer.isPro ?? false}
+            />
           </div>
         </div>
       )}

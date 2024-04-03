@@ -4,6 +4,7 @@ import { BsFillTagFill } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { HiBadgeCheck, HiBell, HiKey, HiMail } from 'react-icons/hi';
+import { IoMdAnalytics } from 'react-icons/io';
 import { RiAccountCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { OrderStatus } from './types';
 
@@ -20,7 +21,14 @@ export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
 
 const ICON_COLOR = '#828E96';
 
-export const MENU_BLOCKS_CONFIG = [
+type MenuBlockConfig = {
+  slug: string;
+  link?: string;
+  showToProVendorsOnly?: boolean;
+  icon: React.ReactNode;
+};
+
+export const MENU_BLOCKS_CONFIG: MenuBlockConfig[][] = [
   [
     {
       slug: 'chat',
@@ -39,6 +47,17 @@ export const MENU_BLOCKS_CONFIG = [
       link: '/account/info',
       icon: (
         <RiAccountCircleFill
+          size={20}
+          color={ICON_COLOR}
+        />
+      ),
+    },
+    {
+      slug: 'vendorData',
+      link: '/account/vendor-data',
+      showToProVendorsOnly: true,
+      icon: (
+        <IoMdAnalytics
           size={20}
           color={ICON_COLOR}
         />

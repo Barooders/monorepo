@@ -25,7 +25,11 @@ interface Wallet {
   };
 }
 
-const AccountMenu = () => {
+type PropsType = {
+  vendorIsPro: boolean;
+};
+
+const AccountMenu: React.FC<PropsType> = ({ vendorIsPro }) => {
   const { logout } = useAuth();
   const { fetchAPI } = useBackend();
   const dict = getDictionary('fr');
@@ -92,7 +96,7 @@ const AccountMenu = () => {
           className="mt-5"
           key={index}
         >
-          {block.map(({ link, slug, icon }) =>
+          {block.map(({ link, slug, icon, showToProVendorsOnly }) =>
             slug === 'logout' ? (
               <button
                 className="mt-2 flex w-full flex-row items-center rounded-lg border border-zinc-200 p-4"
@@ -104,7 +108,7 @@ const AccountMenu = () => {
                   {dict.account.menuBlocks.logout.title}
                 </p>
               </button>
-            ) : (
+            ) : !showToProVendorsOnly || vendorIsPro ? (
               <Link
                 className="mt-2 flex w-full flex-row items-center rounded-lg border border-zinc-200 p-4"
                 key={slug}
@@ -117,6 +121,8 @@ const AccountMenu = () => {
                   ]?.title ?? ''}
                 </p>
               </Link>
+            ) : (
+              <></>
             ),
           )}
         </div>
@@ -129,13 +135,13 @@ const AccountMenu = () => {
       >
         <Link
           href="mailto:support@barooders.com"
-          className="mt-2 w-full rounded-lg bg-gray-100 py-2.5 px-3 text-center font-semibold uppercase sm:mt-6"
+          className="mt-2 w-full rounded-lg bg-gray-100 px-3 py-2.5 text-center font-semibold uppercase sm:mt-6"
         >
           {dict.account.sendMessageToSupport}
         </Link>
         <Link
           href={`tel:${SUPPORT_INTERNATIONAL_PHONE_NUMBER}`}
-          className="mt-1 flex w-full flex-row justify-center rounded-lg bg-black py-2.5 px-3 font-semibold uppercase text-white sm:mt-2"
+          className="mt-1 flex w-full flex-row justify-center rounded-lg bg-black px-3 py-2.5 font-semibold uppercase text-white sm:mt-2"
         >
           <ImPhone
             size={20}
