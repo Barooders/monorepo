@@ -1,0 +1,14 @@
+{
+  "name": "app-scripts",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "login": "clasp login",
+    "open": "clasp -P ./refresh-channable-items open",
+    "push": "clasp -P ./refresh-channable-items push"
+  },
+  "dependencies": {
+    "@google/clasp": "2.4.2",
+    "@types/google-apps-script": "1.0.82"
+  }
+}

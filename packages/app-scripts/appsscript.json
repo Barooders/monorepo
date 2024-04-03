@@ -1,0 +1,23 @@
+{
+  "timeZone": "Europe/Paris",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "BigQuery",
+        "version": "v2",
+        "serviceId": "bigquery"
+      },
+      {
+        "userSymbol": "Sheets",
+        "version": "v4",
+        "serviceId": "sheets"
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "MYSELF"
+  }
+}
