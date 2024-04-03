@@ -15,6 +15,15 @@ object_relationships:
           name: store_exposed_product
           schema: dbt
 array_relationships:
+  - name: salesChannels
+    using:
+      manual_configuration:
+        column_mapping:
+          id: productId
+        insertion_order: null
+        remote_table:
+          name: ProductSalesChannel
+          schema: public
   - name: variants
     using:
       manual_configuration:

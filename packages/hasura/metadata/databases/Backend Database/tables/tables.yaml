@@ -40,6 +40,7 @@
 - "!include public_Payout.yaml"
 - "!include public_PriceOffer.yaml"
 - "!include public_Product.yaml"
+- "!include public_ProductSalesChannel.yaml"
 - "!include public_ProductVariant.yaml"
 - "!include public_Return.yaml"
 - "!include public_ReturnItem.yaml"
