@@ -5,6 +5,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { get } from 'lodash';
 import fetch from 'node-fetch';
 import { create } from 'xmlbuilder2';
+import { DefaultPrestashopClient } from './clients/default.client';
 import { CarrierDTO } from './dto/prestashop-carrier.dto';
 import { CategoryDTO } from './dto/prestashop-category.dto';
 import { CombinaisonDTO } from './dto/prestashop-combinaison.dto';
@@ -29,17 +30,16 @@ const FETCH_OPTIONS = {
 export class PrestashopClient {
   private readonly logger = new Logger(PrestashopClient.name);
 
-  constructor(private readonly vendorConfigService: IVendorConfigService) {}
+  constructor(
+    private readonly vendorConfigService: IVendorConfigService,
+    private readonly defaultClient: DefaultPrestashopClient,
+  ) {}
 
   async getProductImage(id: string): Promise<string | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `images/products/${id}?ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { arrayBuffer: () => any }) => res.arrayBuffer());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`images/products/${id}`, FETCH_OPTIONS)
+        .then((res: { arrayBuffer: () => any }) => res.arrayBuffer());
 
       return Buffer.from(res, 'binary').toString('base64');
     } catch (error) {
@@ -51,13 +51,9 @@ export class PrestashopClient {
 
   async getProductOptions(id: string): Promise<ProductOptionDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `product_options/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`product_options/${id}`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
       if (res.product_option) {
         return res.product_option;
       }
@@ -73,13 +69,9 @@ export class PrestashopClient {
     id: string,
   ): Promise<ProductOptionValuesDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `product_option_values/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`product_option_values/${id}`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
 
       if (res.product_option_value) {
         return res.product_option_value;
@@ -95,13 +87,9 @@ export class PrestashopClient {
 
   async getProductFeatures(id: string): Promise<ProductFeatureDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `product_features/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`product_features/${id}`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
 
       if (res.product_feature) {
         return res.product_feature;
@@ -118,13 +106,9 @@ export class PrestashopClient {
     id: string,
   ): Promise<ProductFeatureValueDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `product_feature_values/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`product_feature_values/${id}`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
 
       if (res.product_feature_value) {
         return res.product_feature_value;
@@ -141,13 +125,12 @@ export class PrestashopClient {
     try {
       if (!id) throw new Error('id is required');
 
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `products/${id}?&price[price_on_sale][use_tax]=1&price[price_on_sale][use_reduction]=1&price[price_old][use_tax]=1&price[price_old][use_reduction]=0&output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(
+          `products/${id}?&price[price_on_sale][use_tax]=1&price[price_on_sale][use_reduction]=1&price[price_old][use_tax]=1&price[price_old][use_reduction]=0`,
+          FETCH_OPTIONS,
+        )
+        .then((res: { json: () => any }) => res.json());
 
       if (res.product) {
         return res.product;
@@ -164,11 +147,8 @@ export class PrestashopClient {
     try {
       if (!id) throw new Error('id is required');
 
-      const response = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `stock_availables/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
+      const response = await this.getOrCreatePrestashopClient().fetchPrestashop(
+        `stock_availables/${id}`,
         FETCH_OPTIONS,
       );
 
@@ -198,13 +178,12 @@ export class PrestashopClient {
 
   async getCombination(id: string): Promise<CombinaisonDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `combinations/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }&price[price_on_sale][use_tax]=1&price[price_on_sale][use_reduction]=1&price[price_old][use_tax]=1&price[price_old][use_reduction]=0`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(
+          `combinations/${id}?price[price_on_sale][use_tax]=1&price[price_on_sale][use_reduction]=1&price[price_old][use_tax]=1&price[price_old][use_reduction]=0`,
+          FETCH_OPTIONS,
+        )
+        .then((res: { json: () => any }) => res.json());
 
       if (res.combination) {
         return res.combination;
@@ -219,13 +198,12 @@ export class PrestashopClient {
 
   async getCarriers(name: string): Promise<CarrierDTO[] | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `carriers?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }&display=full&limit=1&filter[active]=1&filter[deleted]=0&filter[name]=${name}`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(
+          `carriers?display=full&limit=1&filter[active]=1&filter[deleted]=0&filter[name]=${name}`,
+          FETCH_OPTIONS,
+        )
+        .then((res: { json: () => any }) => res.json());
 
       if (res.carriers) {
         return res.carriers;
@@ -240,13 +218,9 @@ export class PrestashopClient {
 
   async getCategory(id: string): Promise<CategoryDTO | null> {
     try {
-      const res = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `categories/${id}?output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const res = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`categories/${id}`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
       if (res.category) {
         return res.category;
       }
@@ -286,8 +260,6 @@ export class PrestashopClient {
       this.vendorConfigService.getVendorConfig().catalog.prestashop
         ?.categoriesToFilterInFetch;
     const queryParams = {
-      output_format: 'JSON',
-      ws_key: this.vendorConfigService.getVendorConfig().apiKey ?? 'NO_API_KEY',
       'price[price_on_sale][use_tax]': '1',
       'price[price_old][use_tax]': '1',
       'price[price_on_sale][use_reduction]': '1',
@@ -303,14 +275,12 @@ export class PrestashopClient {
       limit: `${offset},${itemsPerPage}`,
     };
 
-    const endpoint = new URL(
-      this.vendorConfigService.getVendorConfig().apiUrl + 'products',
-    );
-
-    endpoint.search = new URLSearchParams(queryParams).toString();
-    const res = await fetch(endpoint.href, FETCH_OPTIONS).then(
-      (res: { json: () => any }) => res.json(),
-    );
+    const res = await this.getOrCreatePrestashopClient()
+      .fetchPrestashop(
+        `/products?${new URLSearchParams(queryParams).toString()}`,
+        FETCH_OPTIONS,
+      )
+      .then((res: { json: () => any }) => res.json());
     if (res.products) {
       return res.products;
     }
@@ -324,13 +294,9 @@ export class PrestashopClient {
 
   async getOrder(id: string): Promise<OrderDTO | null> {
     try {
-      const response = await fetch(
-        this.vendorConfigService.getVendorConfig().apiUrl +
-          `orders/${id}?limit=1&output_format=JSON&ws_key=${
-            this.vendorConfigService.getVendorConfig().apiKey
-          }`,
-        FETCH_OPTIONS,
-      ).then((res: { json: () => any }) => res.json());
+      const response = await this.getOrCreatePrestashopClient()
+        .fetchPrestashop(`orders/${id}?limit=1`, FETCH_OPTIONS)
+        .then((res: { json: () => any }) => res.json());
 
       const order = get(response, 'order');
 
@@ -673,5 +639,12 @@ export class PrestashopClient {
         productType,
       })
     );
+  }
+
+  private getOrCreatePrestashopClient() {
+    switch (this.vendorConfigService.getVendorConfig().slug) {
+      default:
+        return this.defaultClient;
+    }
   }
 }
