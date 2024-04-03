@@ -582,6 +582,8 @@ model ProductSalesChannel {
   createdAt        DateTime         @default(now())
 
   @@id([salesChannelName, productId])
+  @@index([productId])
+  @@index([salesChannelName])
   @@schema("public")
 }
 
