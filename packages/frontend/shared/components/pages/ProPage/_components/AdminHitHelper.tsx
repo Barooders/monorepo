@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { SearchB2BVariantDocument } from 'shared-types';
 
 const AdminHitHelper = ({
-  hit: { handle },
+  hit: { handle, vendor },
 }: {
   hit: SearchB2BVariantDocument;
 }) => {
@@ -18,6 +18,7 @@ const AdminHitHelper = ({
       data-ref="admin-hit-helper"
     >
       <a href={`/products/${handle}`}>Voir produit</a>
+      <p>{vendor}</p>
     </div>
   );
 };

@@ -14,6 +14,8 @@ import {
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
+import { toCents } from '@libs/helpers/currency';
+import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import { pick } from 'lodash';
 import { NotificationService } from './notification.service';
@@ -23,7 +25,6 @@ import { IQueueClient } from './ports/queue-client';
 import { IStoreClient } from './ports/store.client';
 import { getHandDeliveryMetafields } from './product.methods';
 import { ImageToUpload, ProductImage } from './types';
-import { jsonStringify } from '@libs/helpers/json';
 
 export enum ModerationAction {
   APPROVE = 'APPROVE',
@@ -322,7 +323,7 @@ export class ProductUpdateService {
     const concreteUpdates: Prisma.ProductVariantUpdateInput = {
       ...(inventory_quantity !== undefined && { quantity: inventory_quantity }),
       ...(condition !== undefined && { condition }),
-      ...(price && { priceInCents: Math.round(Number(price) * 100) }),
+      ...(price && { priceInCents: toCents(price) }),
     };
 
     if (Object.keys(concreteUpdates).length === 0) return;

@@ -1,15 +1,33 @@
 meta {
   name: Fetch Hasura token
   type: http
-  seq: 19
+  seq: 1
 }
 
 post {
   url: {{authBaseUrl}}/signin/email-password
-  body: none
+  body: json
   auth: none
 }
 
 headers {
-  Content-Type: Application/json;charset=UTF-8
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "jean-philippe@barooders.com",
+    "password": "12345678"
+  }
+}
+
+body:text {
+  {
+    "email": "jean-philippe@barooders.com",
+    "password": "12345678"
+  }
+}
+
+vars:post-response {
+  accessToken: res.body.session.accessToken
 }

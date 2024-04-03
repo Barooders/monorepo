@@ -32,7 +32,7 @@ const useCreateProduct = () => {
       handDeliveryPostalCode,
     } = useSellForm.getState().productInfos;
 
-    const uri = `/v1/products/create?sellerId=${shopifyId}`;
+    const uri = `/v1/products/create`;
     const body = JSON.stringify(
       omitNullValues({
         tags,

@@ -1,7 +1,7 @@
 meta {
   name: Refund order
   type: http
-  seq: 9
+  seq: 4
 }
 
 post {
@@ -13,7 +13,6 @@ post {
 headers {
   Content-Type: application/json
   x-api-key: Api-Key {{xApiKey}}
-  ~Authorization: Bearer {% response 'body', 'req_a088c8cb5fb14b749f9cc18e04acf370', 'b64::JC5zZXNzaW9uLmFjY2Vzc1Rva2Vu::46b', 'always', 60 %}
 }
 
 body:json {

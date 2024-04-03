@@ -1,4 +1,3 @@
-import { CustomerRepository } from '@libs/domain/customer.repository';
 import {
   AggregateName,
   Condition,
@@ -23,17 +22,33 @@ import {
 import { getSEOMetafields } from '@libs/helpers/seo.helper';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { IStoreClient } from './ports/store.client';
 
 import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
 import { jsonStringify } from '@libs/helpers/json';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IPIMClient } from './ports/pim.client';
 import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
 
+class BundlePriceDTO {
+  @IsInt()
+  unitPriceInCents!: number;
+
+  @IsInt()
+  minQuantity!: number;
+}
 export class DraftProductInputDto {
   @IsOptional()
   tags: string[] = [];
@@ -79,6 +94,16 @@ export class DraftProductInputDto {
 
   @IsOptional()
   salesChannels?: SalesChannelName[];
+
+  @IsOptional()
+  @IsInt()
+  quantity?: number;
+
+  @IsOptional()
+  @ApiProperty({ isArray: true, type: BundlePriceDTO })
+  @ValidateNested({ each: true })
+  @Type(() => BundlePriceDTO)
+  bundlePrices?: BundlePriceDTO[];
 }
 
 export interface ProductCreationOptions {
@@ -91,7 +116,6 @@ export class ProductCreationService {
 
   constructor(
     private pimClient: IPIMClient,
-    private customerRepository: CustomerRepository,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private queueClient: IQueueClient,
@@ -103,7 +127,7 @@ export class ProductCreationService {
     options: ProductCreationOptions,
     author: Author,
   ): Promise<StoredProduct> {
-    if (!vendorId) throw new Error('Cannot create product without sellerId');
+    if (!vendorId) throw new Error('Cannot create product without vendorId');
 
     const { product_type: productType, variants, metafields } = product;
 
@@ -147,6 +171,17 @@ export class ProductCreationService {
         source: product.source,
         sourceUrl: product.sourceUrl,
         GTINCode: product.GTINCode,
+        bundlePrices: {
+          createMany: {
+            data:
+              product.bundlePrices?.map(
+                ({ minQuantity, unitPriceInCents }) => ({
+                  unitPriceInCents,
+                  minQuantity,
+                }),
+              ) ?? [],
+          },
+        },
         variants: {
           createMany: {
             data: createdProduct.variants.map((variant) => ({
@@ -188,12 +223,16 @@ export class ProductCreationService {
       data,
     );
 
+    if (!data.price) {
+      throw new Error('Cannot create variant without price');
+    }
+
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
         createdAt: new Date(),
         shopifyId: createdVariant.id,
         quantity: data.inventory_quantity ?? 0,
-        priceInCents: Math.round(Number(data.price) * 100),
+        priceInCents: toCents(data.price),
         condition: data.condition,
         product: {
           connect: {
@@ -225,9 +264,50 @@ export class ProductCreationService {
 
   async createDraftProduct(
     draftProductInputDto: DraftProductInputDto,
-    sellerId: string,
-    isCreatedByVendor: boolean,
+    vendorId: string,
     author: Author,
+  ): Promise<StoredProduct> {
+    const { price } = draftProductInputDto;
+
+    return await this.createProductFromWeb(
+      {
+        ...draftProductInputDto,
+        metafields: [
+          ...draftProductInputDto.metafields,
+          {
+            key: 'status',
+            value: 'pending',
+            type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
+            namespace: BAROODERS_NAMESPACE,
+          },
+        ],
+      },
+      vendorId,
+      author,
+      {
+        bypassImageCheck: !!price && Number(price) > 0,
+      },
+    );
+  }
+
+  async createProductByAdmin(
+    draftProductInputDto: DraftProductInputDto,
+    vendorId: string,
+    author: Author,
+  ): Promise<StoredProduct> {
+    return await this.createProductFromWeb(
+      draftProductInputDto,
+      vendorId,
+      author,
+      {},
+    );
+  }
+
+  private async createProductFromWeb(
+    draftProductInputDto: DraftProductInputDto,
+    vendorId: string,
+    author: Author,
+    options: ProductCreationOptions,
   ): Promise<StoredProduct> {
     const {
       tags,
@@ -243,19 +323,14 @@ export class ProductCreationService {
       condition,
       sourceUrl,
       salesChannels,
+      quantity,
+      bundlePrices,
     } = draftProductInputDto;
 
     const source = String(
       metafields?.find((metafield: Metafield) => metafield.key === 'source')
         ?.value ?? 'vendor-page',
     );
-
-    const vendorId = (
-      await this.customerRepository.getCustomerFromShopifyId(Number(sellerId))
-    )?.authUserId;
-
-    if (!vendorId)
-      throw new Error(`Cannot find vendor with shopifyId: ${sellerId}`);
 
     const productWithoutStatus = {
       title,
@@ -264,9 +339,9 @@ export class ProductCreationService {
       variants: [
         {
           price: price?.toString(),
-          external_id: 'product-added-in-app',
+          external_id: 'product-added-from-web',
           compare_at_price: compare_at_price?.toString(),
-          inventory_quantity: 1,
+          inventory_quantity: Number.isInteger(quantity) ? quantity : 1,
           condition,
           optionProperties: [
             {
@@ -283,18 +358,9 @@ export class ProductCreationService {
       metafields: [
         ...getHandDeliveryMetafields(!!handDelivery, handDeliveryPostalCode),
         ...metafields.filter(({ key }) => key !== 'source'),
-        ...(isCreatedByVendor
-          ? [
-              {
-                key: 'status',
-                value: 'pending',
-                type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
-                namespace: BAROODERS_NAMESPACE,
-              },
-            ]
-          : []),
       ],
       salesChannels,
+      bundlePrices,
     };
 
     return await this.createProduct(
@@ -305,9 +371,7 @@ export class ProductCreationService {
           : ProductStatus.DRAFT,
       },
       vendorId,
-      {
-        bypassImageCheck: !!price && Number(price) > 0,
-      },
+      options,
       author,
     );
   }

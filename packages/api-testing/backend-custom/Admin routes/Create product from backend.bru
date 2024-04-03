@@ -1,17 +1,21 @@
 meta {
   name: Create product from backend
   type: http
-  seq: 2
+  seq: 3
 }
 
 post {
-  url: {{backendBaseUrl}}/v1/products/create
+  url: {{backendBaseUrl}}/v1/admin/products/create?sellerId=6732033884401
   body: json
   auth: none
 }
 
+query {
+  sellerId: 6732033884401
+}
+
 headers {
-  Authorization: Bearer {{accessToken}}
+  x-api-key: Api-Key {{xApiKey}}
   Content-Type: application/json
 }
 
@@ -30,7 +34,13 @@ body:json {
       "genre: homme"
     ],
     "images": [],
-    "handDelivery": true,
-    "handDeliveryPostalCode": "75017"
+    "handDelivery": false,
+    "quantity": 9,
+    "bundlePrices": [
+      {
+        "unitPriceInCents": 100,
+        "minQuantity": 9
+      }
+    ]
   }
 }

@@ -1,17 +1,17 @@
 meta {
-  name: Get vendor commission on order
+  name: Get Order Validation
   type: http
-  seq: 25
+  seq: 9
 }
 
 get {
-  url: {{backendBaseUrl}}/v1/invoice/order-line/commission
+  url: {{backendBaseUrl}}/v1/invoice/order/validation
   body: json
   auth: none
 }
 
 query {
-  orderLineShopifyId: 15007967052109
+  orderShopifyId: 5709444612429
   ~variantShopifyId: 123
 }
 

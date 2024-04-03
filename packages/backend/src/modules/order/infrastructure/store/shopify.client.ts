@@ -4,6 +4,7 @@ import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { EntityId } from '@libs/domain/product.interface';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
+import { toCents } from '@libs/helpers/currency';
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import {
   getSingleProductInOrder,
@@ -95,7 +96,7 @@ export class ShopifyClient implements IStoreClient {
           : []),
       ].filter((line) => !isNaN(line.amount.amountInCents)),
       total: {
-        amountInCents: Math.round(Number(order.total_price) * 100),
+        amountInCents: toCents(order.total_price),
         currency: CurrencyCode.EUR,
       },
     };

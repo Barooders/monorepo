@@ -1,7 +1,7 @@
 meta {
-  name: Execute payout
+  name: Get vendor commission on order
   type: http
-  seq: 27
+  seq: 10
 }
 
 get {
@@ -11,17 +11,11 @@ get {
 }
 
 query {
-  orderLineShopifyId: 14992108978509
+  orderLineShopifyId: 15007967052109
+  ~variantShopifyId: 123
 }
 
 headers {
   Content-Type: application/json
   x-api-key: Api-Key {{xApiKey}}
-}
-
-body:json {
-  {
-  	"vendorShopifyId": 7025759551823,
-  	"amountInCents": 300000
-  }
 }

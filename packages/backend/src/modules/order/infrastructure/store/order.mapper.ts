@@ -14,6 +14,7 @@ import {
 } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
+import { toCents } from '@libs/helpers/currency';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
   findMetafield,
@@ -136,7 +137,7 @@ export class OrderMapper {
             vendor?.usedShipping,
           ),
           name: soldProduct.name,
-          priceInCents: Math.round(Number(soldProduct.price) * 100),
+          priceInCents: toCents(soldProduct.price),
           discountInCents: Math.round(orderLineDiscountInCents),
           priceCurrency: Currency.EUR,
           productType: product_type,
@@ -169,7 +170,7 @@ export class OrderMapper {
       status: OrderStatus.CREATED,
       customerEmail: orderData.customer?.email,
       customerId,
-      totalPriceInCents: Math.round(Number(orderData.total_price) * 100),
+      totalPriceInCents: toCents(orderData.total_price),
       totalPriceCurrency: Currency.EUR,
       shippingAddressAddress1: orderData.shipping_address.address1,
       shippingAddressAddress2: orderData.shipping_address.address2 ?? null,

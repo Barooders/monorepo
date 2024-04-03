@@ -1,18 +1,18 @@
 meta {
   name: Commission
   type: http
-  seq: 30
+  seq: 8
 }
 
 get {
-  url: {{backendBaseUrl}}/v1/commission/product
+  url: {{backendBaseUrl}}/v1/commission/product?productHandle=cadres-transition-bikes
   body: json
   auth: none
 }
 
 query {
   productHandle: cadres-transition-bikes
-  variantId: 47032478662989
+  ~variantId: 47032478662989
 }
 
 headers {
