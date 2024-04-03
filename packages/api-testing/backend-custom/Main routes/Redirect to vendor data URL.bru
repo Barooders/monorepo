@@ -1,0 +1,16 @@
+meta {
+  name: Redirect to vendor data URL
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{backendBaseUrl}}/v1/customers/vendor-data
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+  Content-Type: application/json
+}

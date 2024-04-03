@@ -1,27 +1,29 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
-  Post,
   Logger,
+  Post,
+  Put,
+  Redirect,
   UnauthorizedException,
   UseGuards,
-  Body,
-  Delete,
-  Put,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
+import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { IsInt, IsPhoneNumber, IsString } from 'class-validator';
+import { CustomerService } from '../domain/customer.service';
 import {
   PaymentAccountProviderService,
   Wallet,
 } from '../domain/payment-account-provider.service';
-import { CustomerService } from '../domain/customer.service';
-import { UUID } from '@libs/domain/value-objects';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { IAnalyticsProvider } from '../domain/ports/analytics.provider';
 
 class NegociationAgreementInputDto {
   @ApiProperty()
@@ -48,6 +50,7 @@ export class CustomerController {
   constructor(
     private customerService: CustomerService,
     private paymentAccountProvider: PaymentAccountProviderService,
+    private analyticsProvider: IAnalyticsProvider,
   ) {}
 
   @Get(routesV1.customer.wallet)
@@ -104,5 +107,16 @@ export class CustomerController {
     return this.customerService.deleteNegociationAgreement(
       new UUID({ uuid: userId }),
     );
+  }
+
+  @Get(routesV1.customer.vendorData)
+  @UseGuards(JwtAuthGuard)
+  @Redirect('#', 302)
+  async fetchVendorData(@User() { userId }: ExtractedUser) {
+    return {
+      url: await this.analyticsProvider.getVendorDataURL(
+        new UUID({ uuid: userId }),
+      ),
+    };
   }
 }
