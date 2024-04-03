@@ -6,7 +6,6 @@ import {
   Logger,
   Post,
   Put,
-  Redirect,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
@@ -111,8 +110,9 @@ export class CustomerController {
 
   @Get(routesV1.customer.vendorData)
   @UseGuards(JwtAuthGuard)
-  @Redirect('#', 302)
-  async fetchVendorData(@User() { userId }: ExtractedUser) {
+  async fetchVendorData(
+    @User() { userId }: ExtractedUser,
+  ): Promise<{ url: string }> {
     return {
       url: await this.analyticsProvider.getVendorDataURL(
         new UUID({ uuid: userId }),
