@@ -48,7 +48,6 @@ const Inbox: React.FC<Props> = ({
   const [cacheBuster, setCacheBuster] = useState(0);
 
   useEffect(() => {
-    console.log('Effect on readyForPanel', readyForPanel);
     if (!readyForPanel) {
       window.setTimeout(() => setReadyForPanel(true), PANEL_INSERT_DELAY);
     }
