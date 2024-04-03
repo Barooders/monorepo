@@ -21,7 +21,7 @@ function exportBigQueryToExistingSheet() {
   }
 
   const projectId = 'direct-tribute-354315';
-  const tableId = 'direct-tribute-354315.dbt.feed_gmc';
+  const tableId = 'direct-tribute-354315.dbt.feed_gmc_api';
   const existingSheetId = '1ZzOJItFmx_-VcCrfBKDsdpO7oZL2A81oiQsChrE_m2k';
   const sheetTabName = 'feed';
   const query = '#standardSQL\nSELECT * FROM ' + tableId;
