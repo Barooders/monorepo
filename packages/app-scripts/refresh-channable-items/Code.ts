@@ -41,7 +41,7 @@ function exportBigQueryToExistingSheet() {
   const jobId = queryResults.jobReference?.jobId;
 
   if (!jobId) {
-    throw new Error('Cannot');
+    throw new Error(`Cannot access jobId`);
   }
 
   while (!queryResults.jobComplete) {
