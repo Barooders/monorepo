@@ -3,7 +3,7 @@ import { PaymentProvider } from '@libs/domain/prisma.main.client';
 import { Amount } from '@libs/domain/value-objects';
 import { base64_encode } from '@libs/helpers/base64';
 import { IPaymentProvider } from '@modules/order/domain/ports/payment-provider';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 const STRIPE_BASE_URL = 'https://api.stripe.com/v1';
 const BASE_64_TOKEN = base64_encode(
@@ -20,8 +20,6 @@ const DEFAULT_OPTIONS = {
 export class StripeClient implements IPaymentProvider {
   public readonly type = PaymentProvider.STRIPE;
 
-  private readonly logger: Logger = new Logger(StripeClient.name);
-
   async executePayment(
     vendorPaymentProviderId: string,
     amount: Amount,
@@ -29,7 +27,7 @@ export class StripeClient implements IPaymentProvider {
   ): Promise<void> {
     const endpoint = new URL(`${STRIPE_BASE_URL}/transfers`);
     endpoint.search = new URLSearchParams({
-      amount: amount.amount.toString(),
+      amount: amount.amountInCents.toString(),
       currency: 'eur',
       destination: vendorPaymentProviderId,
       description,
