@@ -2,7 +2,7 @@ import envConfig from '@config/env/env.config';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { IAnalyticsProvider } from '@modules/customer/domain/ports/analytics.provider';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { sign } from 'jsonwebtoken';
 
@@ -17,8 +17,6 @@ type MetabasePayload = {
 
 @Injectable()
 export class MetabaseClient implements IAnalyticsProvider {
-  private readonly logger: Logger = new Logger(MetabaseClient.name);
-
   constructor(private prisma: PrismaMainClient) {}
 
   async getVendorDataURL(vendorId: UUID): Promise<string> {
@@ -39,8 +37,6 @@ export class MetabaseClient implements IAnalyticsProvider {
       },
       exp: dayjs().add(10, 'minute').unix(),
     };
-
-    this.logger.warn('Metabase payload', payload);
 
     const token = sign(payload, envConfig.externalServices.metabase.secretKey);
 
