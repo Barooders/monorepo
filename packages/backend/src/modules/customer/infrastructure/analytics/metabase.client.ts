@@ -29,7 +29,7 @@ export class MetabaseClient implements IAnalyticsProvider {
       params: {
         vendor: vendorSellerName,
       },
-      exp: dayjs().add(10, 'minute').unix,
+      exp: dayjs().add(10, 'minute').unix(),
     };
     const token = sign(payload, envConfig.externalServices.metabase.secretKey);
 
