@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-src https://barooders.com https://*.barooders.com https://*.talkjs.com https://*.trustpilot.com https://*.google.com https://airtable.com https://*.typeform.com https://contact.gorgias.help;"
+          "value": "frame-src https://barooders.com https://*.barooders.com https://barooders-metabase.herokuapp.com https://*.talkjs.com https://*.trustpilot.com https://*.google.com https://airtable.com https://*.typeform.com https://contact.gorgias.help;"
         }
       ]
     }
