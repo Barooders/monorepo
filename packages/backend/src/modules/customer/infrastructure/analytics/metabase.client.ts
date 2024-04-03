@@ -9,6 +9,12 @@ import { sign } from 'jsonwebtoken';
 const METABASE_SITE_URL = 'https://barooders-metabase.herokuapp.com';
 const VENDOR_DASHBOARD_ID = 68;
 
+type MetabasePayload = {
+  resource: { dashboard: number };
+  params: { vendor: string };
+  exp: number;
+};
+
 @Injectable()
 export class MetabaseClient implements IAnalyticsProvider {
   private readonly logger: Logger = new Logger(MetabaseClient.name);
@@ -16,20 +22,20 @@ export class MetabaseClient implements IAnalyticsProvider {
   constructor(private prisma: PrismaMainClient) {}
 
   async getVendorDataURL(vendorId: UUID): Promise<string> {
-    const vendorSellerName = await this.prisma.customer.findUniqueOrThrow({
+    const { sellerName } = await this.prisma.customer.findUniqueOrThrow({
       where: {
         authUserId: vendorId.uuid,
       },
     });
 
-    if (!vendorSellerName) {
+    if (!sellerName) {
       throw new Error('Vendor seller name not found');
     }
 
-    const payload = {
+    const payload: MetabasePayload = {
       resource: { dashboard: VENDOR_DASHBOARD_ID },
       params: {
-        vendor: vendorSellerName,
+        vendor: sellerName,
       },
       exp: dayjs().add(10, 'minute').unix(),
     };

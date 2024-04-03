@@ -894,6 +894,9 @@ const fr = {
       personalInfos: {
         title: 'Mes préférences de vente',
       },
+      vendorData: {
+        title: 'Mes données',
+      },
       security: {
         title: 'Sécurité et connexion',
       },
