@@ -3,9 +3,9 @@ import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { IAnalyticsProvider } from '@modules/customer/domain/ports/analytics.provider';
 import { Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 import { sign } from 'jsonwebtoken';
 
-const URL_EXPIRATION_TIME = 10 * 60; // 10 minutes
 const METABASE_SITE_URL = 'http://barooders-metabase.herokuapp.com';
 const VENDOR_DASHBOARD_ID = 68;
 
@@ -29,7 +29,7 @@ export class MetabaseClient implements IAnalyticsProvider {
       params: {
         vendor: vendorSellerName,
       },
-      exp: Math.round(Date.now() / 1000) + URL_EXPIRATION_TIME,
+      exp: dayjs().add(10, 'minute').unix,
     };
     const token = sign(payload, envConfig.externalServices.metabase.secretKey);
 
