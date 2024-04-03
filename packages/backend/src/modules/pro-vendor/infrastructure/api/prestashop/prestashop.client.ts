@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import fetch from 'node-fetch';
 import { create } from 'xmlbuilder2';
 import { DefaultPrestashopClient } from './clients/default.client';
+import { MontaniniClient } from './clients/montanini.client';
 import { CarrierDTO } from './dto/prestashop-carrier.dto';
 import { CategoryDTO } from './dto/prestashop-category.dto';
 import { CombinaisonDTO } from './dto/prestashop-combinaison.dto';
@@ -33,6 +34,7 @@ export class PrestashopClient {
   constructor(
     private readonly vendorConfigService: IVendorConfigService,
     private readonly defaultClient: DefaultPrestashopClient,
+    private readonly montaniniClient: MontaniniClient,
   ) {}
 
   async getProductImage(id: string): Promise<string | null> {
@@ -643,6 +645,8 @@ export class PrestashopClient {
 
   private getOrCreatePrestashopClient() {
     switch (this.vendorConfigService.getVendorConfig().slug) {
+      case 'montanini':
+        return this.montaniniClient;
       default:
         return this.defaultClient;
     }
