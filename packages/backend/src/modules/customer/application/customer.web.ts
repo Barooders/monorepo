@@ -42,6 +42,12 @@ class NegociationAgreementResponseDto {
   id!: string;
 }
 
+class VendorDataUrlDto {
+  @ApiProperty()
+  @IsString()
+  url!: string;
+}
+
 @Controller(routesV1.version)
 export class CustomerController {
   private readonly logger = new Logger(CustomerController.name);
@@ -110,9 +116,10 @@ export class CustomerController {
 
   @Get(routesV1.customer.vendorData)
   @UseGuards(JwtAuthGuard)
-  async fetchVendorData(
+  @ApiResponse({ type: VendorDataUrlDto })
+  async fetchVendorDataUrl(
     @User() { userId }: ExtractedUser,
-  ): Promise<{ url: string }> {
+  ): Promise<VendorDataUrlDto> {
     return {
       url: await this.analyticsProvider.getVendorDataURL(
         new UUID({ uuid: userId }),
