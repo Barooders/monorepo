@@ -38,6 +38,11 @@ export class MetabaseClient implements IAnalyticsProvider {
 
     const token = sign(payload, envConfig.externalServices.metabase.secretKey);
 
-    return METABASE_SITE_URL + '/embed/dashboard/' + token + '#bordered=true';
+    return (
+      METABASE_SITE_URL +
+      '/embed/dashboard/' +
+      token +
+      '#bordered=true&titled=false'
+    );
   }
 }
