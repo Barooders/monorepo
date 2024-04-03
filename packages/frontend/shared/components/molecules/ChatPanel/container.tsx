@@ -16,7 +16,8 @@ import {
 } from '@/types';
 import { gql, useSubscription } from '@apollo/client';
 import first from 'lodash/first';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useInterval } from 'react-use';
 import { HASURA_ROLES } from 'shared-types';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
@@ -170,11 +171,13 @@ const extractPriceOffer = (
 type PropsType = {
   conversation: ConversationType;
   setPanelHeight: (height: number) => void;
+  onDetached: () => void;
 };
 
 const WrappedChatPanel: React.FC<PropsType> = ({
   conversation,
   setPanelHeight,
+  onDetached,
 }) => {
   const { extractTokenInfo } = useHasuraToken();
   const { hasuraToken } = useUser();
@@ -187,6 +190,14 @@ const WrappedChatPanel: React.FC<PropsType> = ({
     FETCH_CONVERSATION_PRODUCT_DETAILS,
     HASURA_ROLES.REGISTERED_USER,
   );
+
+  const siblingElRef = useRef<HTMLDivElement | null>(null);
+
+  useInterval(() => {
+    if (siblingElRef.current?.clientWidth === 0) {
+      onDetached();
+    }
+  }, 1000);
 
   const [productDetailsState, doFetchProduct] = useWrappedAsyncFn(
     async (productShopifyId: string) =>
@@ -241,21 +252,24 @@ const WrappedChatPanel: React.FC<PropsType> = ({
     : null;
 
   return (
-    <ChatPanel
-      loading={
-        userDetailsState.loading ||
-        productDetailsState.loading ||
-        priceOfferLoading
-      }
-      productDetails={productDetails}
-      negociationAgreement={negociationAgreement}
-      associatedOrderLine={associatedOrderLine}
-      productId={conversation.productId}
-      conversation={conversation}
-      setPanelHeight={setPanelHeight}
-      proposedPriceOffer={proposedPriceOffer}
-      user={hasuraToken?.user}
-    />
+    <>
+      <div ref={siblingElRef} />
+      <ChatPanel
+        loading={
+          userDetailsState.loading ||
+          productDetailsState.loading ||
+          priceOfferLoading
+        }
+        productDetails={productDetails}
+        negociationAgreement={negociationAgreement}
+        associatedOrderLine={associatedOrderLine}
+        productId={conversation.productId}
+        conversation={conversation}
+        setPanelHeight={setPanelHeight}
+        proposedPriceOffer={proposedPriceOffer}
+        user={hasuraToken?.user}
+      />
+    </>
   );
 };
 

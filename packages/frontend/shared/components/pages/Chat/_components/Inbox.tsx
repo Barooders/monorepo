@@ -11,7 +11,6 @@ import { ConversationType } from '@/types';
 import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdRefresh } from 'react-icons/md';
-import { useTimeoutFn } from 'react-use';
 import Talk from 'talkjs';
 
 type Props = {
@@ -27,6 +26,8 @@ type CustomDataType = {
   productId: string;
   productType: string;
 };
+
+const PANEL_INSERT_DELAY = 1000;
 
 const Inbox: React.FC<Props> = ({
   customerId,
@@ -46,7 +47,12 @@ const Inbox: React.FC<Props> = ({
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
 
-  useTimeoutFn(() => setReadyForPanel(true), 3000);
+  useEffect(() => {
+    console.log('Effect on readyForPanel', readyForPanel);
+    if (!readyForPanel) {
+      window.setTimeout(() => setReadyForPanel(true), PANEL_INSERT_DELAY);
+    }
+  }, [readyForPanel]);
 
   const onConversationSelected = (e: Talk.ConversationSelectedEvent) => {
     if (!e.conversation) return;
@@ -128,6 +134,7 @@ const Inbox: React.FC<Props> = ({
                 <ChatPanel
                   setPanelHeight={setPanelHeight}
                   conversation={conversationData}
+                  onDetached={() => setReadyForPanel(false)}
                 />
               ) : (
                 <></>
