@@ -45,6 +45,10 @@ export type EnvConfigType = {
       paymentgatewayBaseUrl: string;
       hmacSecret: string;
     };
+    airtable?: {
+      secretApiToken: string;
+      appId: string;
+    };
     stripe: {
       secretKey: string;
     };

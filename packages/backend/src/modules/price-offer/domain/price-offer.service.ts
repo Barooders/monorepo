@@ -26,6 +26,7 @@ import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPriceOfferService } from './ports/price-offer';
 import { IStoreClient } from './ports/store.client';
+import { IInternalTrackingClient } from './ports/internal-tracking.client';
 
 const dict = getDictionnary(Locales.FR);
 
@@ -40,6 +41,7 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly storeClient: IStoreClient,
     protected readonly emailClient: IEmailClient,
     protected readonly internalNotificationClient: IInternalNotificationClient,
+    protected readonly internalTrackingClient: IInternalTrackingClient,
     protected readonly commissionRepository: ICommissionRepository,
   ) {}
 
@@ -149,13 +151,20 @@ export class PriceOfferService implements IPriceOfferService {
     const { handle, productType } = await this.prisma.product.findFirstOrThrow({
       where: { id: productId.uuid },
     });
-    await this.internalNotificationClient.sendB2BNotification(`
-      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
 
+    const offerMessage = `
       🚲 Produit: ${productType} - ${handle}
       💶 Prix proposé: ${newPrice.formattedAmount}
       📄 Détail de l'offre: ${description}
+    `;
+
+    await this.internalNotificationClient.sendB2BNotification(`
+      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
+
+     ${offerMessage}
     `);
+
+    await this.internalTrackingClient.createB2BOffer(offerMessage);
   }
 
   async updatePriceOfferStatus(
