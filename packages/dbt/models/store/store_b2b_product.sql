@@ -40,6 +40,7 @@ SELECT
     tq."totalQuantity" AS "total_quantity",
     (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * lbp."unitPriceInCents" AS "largest_bundle_price_in_cents",
     sp.title,
+    t_brand.value AS brand,
     sp.handle,
     CURRENT_DATE AS "sync_date",
     ir."firstImage" AS "first_image"
@@ -47,6 +48,7 @@ SELECT
 FROM {{ref('store_base_product')}} bp
 LEFT JOIN public."Product" p ON p.id = bp.id
 LEFT JOIN fivetran_shopify.product sp ON sp.id = bp."shopifyId"
+LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_brand WHERE tag = 'marque' group by 1) t_brand ON t_brand.product_id = bp.id
 LEFT JOIN images_ranked ir ON ir."productId" = bp.id AND ir.row_number = 1
 LEFT JOIN public."ProductSalesChannel" psc ON bp.id = psc."productId"
 LEFT JOIN largest_bundle_prices lbp ON lbp."productId" = bp.id

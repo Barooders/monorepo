@@ -163,6 +163,7 @@ model StoreB2BProduct {
   totalQuantity             BigInt           @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
   title                     String           @db.VarChar(256)
+  brand                     String?
   handle                    String           @db.VarChar(256)
   syncDate                  DateTime         @map("sync_date") @db.Date
   firstImage                String?          @map("first_image") @db.VarChar(512)
