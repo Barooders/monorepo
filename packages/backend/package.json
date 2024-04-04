@@ -122,6 +122,7 @@
     "pino-http": "8.5.0",
     "pino-pretty": "10.3.0",
     "qs": "6.11.2",
+    "rate-limiter-flexible": "5.0.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "4.4.1",
     "rxjs": "7.8.1",
