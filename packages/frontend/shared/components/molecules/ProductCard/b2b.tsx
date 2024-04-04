@@ -37,7 +37,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   hasOpenedPriceOffer,
 }) => {
   return (
-    <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
+    <div className="grid w-full grid-cols-2 gap-1 overflow-hidden border border-slate-50">
       <div className="relative col-span-2 h-52 w-full flex-grow sm:h-64">
         {image && (
           <ProductImage
