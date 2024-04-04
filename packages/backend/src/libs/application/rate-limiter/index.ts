@@ -12,6 +12,7 @@ export type RateLimiter<Result> = {
 export const createRateLimiter = (
   options: IRateLimiterOptions & IRateLimiterQueueOpts = {
     points: 1,
+    duration: 0.6,
     maxQueueSize: MAX_ITEMS_IN_QUEUE,
   },
 ) => {

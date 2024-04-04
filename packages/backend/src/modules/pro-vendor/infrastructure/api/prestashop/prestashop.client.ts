@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import fetch from 'node-fetch';
 import { create } from 'xmlbuilder2';
 import { DefaultPrestashopClient } from './clients/default.client';
+import { FreeglisseClient } from './clients/freeglisse.client';
 import { MontaniniClient } from './clients/montanini.client';
 import { CarrierDTO } from './dto/prestashop-carrier.dto';
 import { CategoryDTO } from './dto/prestashop-category.dto';
@@ -35,6 +36,7 @@ export class PrestashopClient {
     private readonly vendorConfigService: IVendorConfigService,
     private readonly defaultClient: DefaultPrestashopClient,
     private readonly montaniniClient: MontaniniClient,
+    private readonly freeglisseClient: FreeglisseClient,
   ) {}
 
   async getProductImage(id: string): Promise<string | null> {
@@ -645,6 +647,8 @@ export class PrestashopClient {
 
   private getOrCreatePrestashopClient() {
     switch (this.vendorConfigService.getVendorConfig().slug) {
+      case 'freeglisse':
+        return this.freeglisseClient;
       case 'montanini':
         return this.montaniniClient;
       default:

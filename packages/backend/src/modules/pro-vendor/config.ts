@@ -55,6 +55,9 @@ import { IVendorProductServiceProvider } from './domain/ports/vendor-product-ser
 import { CSVProductService } from './infrastructure/api/csv/csv-product.service';
 import { CSVClient } from './infrastructure/api/csv/csv.client';
 import { CSVMapper } from './infrastructure/api/csv/csv.mapper';
+import { DefaultPrestashopClient } from './infrastructure/api/prestashop/clients/default.client';
+import { FreeglisseClient } from './infrastructure/api/prestashop/clients/freeglisse.client';
+import { MontaniniClient } from './infrastructure/api/prestashop/clients/montanini.client';
 import { BikeXtremeMapper } from './infrastructure/api/prestashop/mappers/bike-xtreme.mapper';
 import { FreeglisseMapper } from './infrastructure/api/prestashop/mappers/freeglisse.mapper';
 import { FunbikeMapper } from './infrastructure/api/prestashop/mappers/funbike.mapper';
@@ -98,6 +101,9 @@ export const proVendorSharedServices = [
   CustomerRepository,
   TuvalumMapper,
   PrestashopClient,
+  DefaultPrestashopClient,
+  FreeglisseClient,
+  MontaniniClient,
   TuvalumClient,
   WooCommerceClient,
   MintBikesClient,

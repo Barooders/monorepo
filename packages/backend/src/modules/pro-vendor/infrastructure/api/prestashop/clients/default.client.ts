@@ -1,5 +1,7 @@
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class DefaultPrestashopClient {
   constructor(private readonly vendorConfigService: IVendorConfigService) {}
 
