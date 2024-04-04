@@ -16,9 +16,9 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: '️Vendeur de la semaine - Cycles Aveyron - jusqu’à -40%',
-    icon: '⭐️',
-    link: '/collections/cyclesaveyron',
+    label: `Partenariat officiel - 300 Vélos Look - jusqu'à -45%`,
+    icon: '🔥',
+    link: '/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles',
   },
 ];
 
