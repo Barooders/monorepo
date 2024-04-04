@@ -5,6 +5,15 @@ object_relationships:
   - name: product
     using:
       foreign_key_constraint_on: productId
+  - name: storeB2BVariant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopifyId: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_b2b_product_variant
+          schema: dbt
   - name: storeExposedVariant
     using:
       manual_configuration:
