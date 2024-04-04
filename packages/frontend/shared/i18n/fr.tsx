@@ -275,6 +275,7 @@ const fr = {
       free: 'Gratuit',
       commissionIncluded: 'Protection acheteur incluse',
       sizeLabel: 'Taille',
+      colorLabel: 'Couleur',
       sizeGuide: 'Guide des tailles',
       favoriteButtonTitle: 'Ajouter aux favoris',
       recommendations: 'Produits recommandés',

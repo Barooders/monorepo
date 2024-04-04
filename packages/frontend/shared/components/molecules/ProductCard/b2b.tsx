@@ -55,6 +55,9 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           variantCondition={variantCondition}
           componentSize="medium"
           className="h-[95px]"
+          extraTagKeys={[
+            { key: 'couleur', label: dict.components.productCard.colorLabel },
+          ]}
         />
         <div className="flex flex-col">
           <div className="my-1">
