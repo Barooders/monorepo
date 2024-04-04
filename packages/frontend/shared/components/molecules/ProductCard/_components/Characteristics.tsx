@@ -8,6 +8,7 @@ const dict = getDictionary('fr');
 
 const Characteristics: React.FC<{
   tags: ProductMultiVariants['tags'];
+  extraTagKeys?: { key: string; label?: string }[];
   className?: string;
   title: string;
   productType: string;
@@ -16,6 +17,7 @@ const Characteristics: React.FC<{
   direction?: 'inline' | 'col';
 }> = ({
   tags,
+  extraTagKeys = [],
   productType,
   variantCondition,
   title,
@@ -29,18 +31,21 @@ const Characteristics: React.FC<{
   const model = tags.modele;
   characteristics.push({ value: model ?? title });
 
-  const size = tags.taille;
-  if (size)
-    characteristics.push({
-      label: dict.components.productCard.sizeLabel,
-      value: size.toUpperCase(),
-    });
+  const displayedTags = [
+    { key: 'taille', label: dict.components.productCard.sizeLabel },
+    { key: 'année' },
+    ...extraTagKeys,
+  ];
 
-  const year = tags.année;
-  if (year)
-    characteristics.push({
-      value: year,
-    });
+  displayedTags.forEach(({ key, label }) => {
+    const tag = tags[key];
+    if (tag) {
+      characteristics.push({
+        label,
+        value: tag?.length < 3 ? tag.toUpperCase() : tag,
+      });
+    }
+  });
 
   const Wrapper = componentSize === 'large' ? 'h1' : 'div';
 

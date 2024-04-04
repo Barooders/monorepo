@@ -24,7 +24,7 @@ import {
 } from 'react-instantsearch-hooks-web';
 import { HASURA_ROLES } from 'shared-types';
 import ActiveFilters from './ActiveFilters';
-import PriceRange from './PriceRange';
+import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
 import { getFacetLabel, getFacetValueLabel } from './utils/getFacetLabel';
 
@@ -174,7 +174,7 @@ const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
 export const Filters = () => {
   return (
     <>
-      <PriceRange attribute="price" />
+      <RangeFilter attribute="price" />
       {Object.values(productAttributesConfiguration).map((attribute) => (
         <FallbackComponent
           key={attribute.name}
@@ -246,7 +246,11 @@ export const B2BFilters = () => {
         type={'search'}
         className="mb-5"
       />
-      <PriceRange attribute="price" />
+      <RangeFilter attribute="price" />
+      <RangeFilter
+        attribute="total_quantity"
+        showSlider={false}
+      />
       {Object.values(productAttributesConfiguration)
         .filter(({ isB2BFilter }) => isB2BFilter)
         .map((attribute) => (
