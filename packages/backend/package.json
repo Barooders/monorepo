@@ -89,6 +89,7 @@
     "@types/newrelic": "9.14.3",
     "@types/node-fetch": "2.6.6",
     "@types/qs": "6.9.11",
+    "airtable": "0.12.2",
     "async-mutex": "0.4.1",
     "aws-sdk": "2.1579.0",
     "bull": "4.11.3",
