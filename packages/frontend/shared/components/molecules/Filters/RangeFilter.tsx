@@ -13,7 +13,7 @@ const getLargeRange = (range: [number, number]) =>
     number,
   ];
 
-const PriceRange = ({
+const RangeFilter = ({
   attribute,
   showSlider = true,
 }: {
@@ -43,12 +43,12 @@ const PriceRange = ({
     return getLargeRange([defaultMinValue, defaultMaxValue]);
   }, [range.max, range.min, start]);
 
-  const getPriceSpreading = useCallback(() => {
+  const getSpreading = useCallback(() => {
     if (!range.max) return [];
     const largeRange = getLargeRange([0, range.max]);
     const spreadStep = (largeRange[1] - largeRange[0] + 1) / SPREAD_POINTS;
 
-    const priceSpreading = items.reduce(
+    const spreading = items.reduce(
       (steps, item) => {
         const stepNumber = Math.floor(Number(item.value) / spreadStep);
         steps[stepNumber] += item.count;
@@ -57,32 +57,32 @@ const PriceRange = ({
       Array.from({ length: SPREAD_POINTS }, () => 0),
     );
 
-    const maxCountPrice = Math.max(...priceSpreading);
+    const maxSpreadingValue = Math.max(...spreading);
 
-    return priceSpreading.map(
-      (priceCount) => Math.round((priceCount / maxCountPrice) * 1000) / 1000,
+    return spreading.map(
+      (item) => Math.round((item / maxSpreadingValue) * 1000) / 1000,
     );
   }, [items, range.max]);
 
-  const [priceState, setPriceState] =
+  const [inputState, setInputState] =
     useState<[number, number]>(getDefaultValues());
 
-  const [priceSpreading, setPriceSpreading] = useState<number[]>([]);
+  const [spreading, setSpreading] = useState<number[]>([]);
 
   useEffect(() => {
     if (start[0] === -Infinity && start[1] === Infinity) {
-      setPriceState(getDefaultValues());
+      setInputState(getDefaultValues());
     }
   }, [start, getDefaultValues]);
 
   useEffect(() => {
-    setPriceSpreading(getPriceSpreading());
-  }, [range.max, items, getPriceSpreading]);
+    setSpreading(getSpreading());
+  }, [range.max, items, getSpreading]);
 
-  const updatePrice = () =>
+  const triggerUpdate = () =>
     refine([
-      Math.max(priceState[0], range.min ?? -Infinity),
-      Math.min(priceState[1], range.max ?? Infinity),
+      Math.max(inputState[0], range.min ?? -Infinity),
+      Math.min(inputState[1], range.max ?? Infinity),
     ]);
 
   return (
@@ -91,11 +91,11 @@ const PriceRange = ({
       {showSlider && (
         <div className="mt-3 w-full px-4 md:px-0">
           <div className="relative flex h-14 w-full items-end gap-[1px]">
-            {priceSpreading.map((pricePoint, i) => (
+            {spreading.map((spreadingItem, i) => (
               <div
                 key={i}
                 className="flex-grow bg-slate-800"
-                style={{ height: `${pricePoint * 100}%` }}
+                style={{ height: `${spreadingItem * 100}%` }}
               />
             ))}
           </div>
@@ -125,10 +125,10 @@ const PriceRange = ({
             )}
             onChange={(newValue) => {
               if (newValue[1] <= newValue[0]) return;
-              setPriceState(newValue);
+              setInputState(newValue);
             }}
-            onAfterChange={updatePrice}
-            value={priceState}
+            onAfterChange={triggerUpdate}
+            value={inputState}
             step={10}
           />
         </div>
@@ -137,19 +137,19 @@ const PriceRange = ({
         <input
           type="number"
           className="flex-shrink rounded border border-slate-300 px-2 py-1"
-          value={priceState[0]}
-          onBlur={updatePrice}
+          value={inputState[0]}
+          onBlur={triggerUpdate}
           onChange={(e) =>
-            setPriceState([Number(e.target.value), priceState[1]])
+            setInputState([Number(e.target.value), inputState[1]])
           }
         />
         <input
           type="number"
           className="flex-shrink rounded border border-slate-300 px-2 py-1"
-          value={priceState[1]}
-          onBlur={updatePrice}
+          value={inputState[1]}
+          onBlur={triggerUpdate}
           onChange={(e) =>
-            setPriceState([priceState[0], Number(e.target.value)])
+            setInputState([inputState[0], Number(e.target.value)])
           }
         />
       </div>
@@ -157,4 +157,4 @@ const PriceRange = ({
   );
 };
 
-export default PriceRange;
+export default RangeFilter;
