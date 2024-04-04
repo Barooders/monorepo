@@ -46,7 +46,7 @@ const Characteristics: React.FC<{
 
   return (
     <Wrapper
-      className={`${className} flex flex-col items-start ${
+      className={`${className ?? ''} flex flex-col items-start ${
         direction === 'inline' ? 'md:flex-row md:items-center md:gap-3' : ''
       }`}
     >

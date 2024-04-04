@@ -47,13 +47,14 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           />
         )}
       </div>
-      <div className="relative col-span-2 my-auto flex min-h-[230px] flex-grow flex-col justify-between">
+      <div className="relative col-span-2 my-auto flex flex-grow flex-col justify-between">
         <Characteristics
           tags={tags}
           title={title}
           productType={productType}
           variantCondition={variantCondition}
           componentSize="medium"
+          className="h-[95px]"
         />
         <div className="flex flex-col">
           <div className="my-1">
