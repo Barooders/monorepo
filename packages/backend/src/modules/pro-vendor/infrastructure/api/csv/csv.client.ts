@@ -164,12 +164,6 @@ export class CSVClient {
         value: getColumnValue(row, csvColumnsConfig.option3),
       },
       productEANCode: getColumnValue(row, csvColumnsConfig.productEANCode),
-      isB2BProduct: csvColumnsConfig.isB2BProduct
-        ? getColumnValue(row, csvColumnsConfig.isB2BProduct) === '1'
-        : undefined,
-      isB2CProduct: csvColumnsConfig.isB2CProduct
-        ? getColumnValue(row, csvColumnsConfig.isB2CProduct) === '1'
-        : undefined,
     }));
 
     return variants.reduce((acc, variant) => {
@@ -245,8 +239,6 @@ export class CSVClient {
           variants: [mappedVariant],
           tags: compact(variant.tags.map(mapValidKeyValuePair)),
           EANCode: variant.productEANCode,
-          isB2BProduct: variant.isB2BProduct,
-          isB2CProduct: variant.isB2CProduct,
         });
         return acc;
       }
