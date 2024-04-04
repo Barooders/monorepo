@@ -12,7 +12,7 @@ const B2BCollectionHeader: React.FC = () => {
 
   return (
     <div className="mb-1 flex flex-col justify-between">
-      <div className="flex flex-col gap-2">
+      <div className="mb-2 flex flex-col gap-2">
         <div className="mb-2 rounded-lg border border-slate-200 bg-slate-100 p-4">
           Bienvenue <strong>{sellerName}</strong>, voici votre sélection
           personnalisée 🚴
