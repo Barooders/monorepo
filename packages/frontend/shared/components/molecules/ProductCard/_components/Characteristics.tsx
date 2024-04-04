@@ -42,7 +42,7 @@ const Characteristics: React.FC<{
     if (tag) {
       characteristics.push({
         label,
-        value: tag?.length < 3 ? tag.toUpperCase() : tag,
+        value: tag.length < 3 ? tag.toUpperCase() : tag,
       });
     }
   });
