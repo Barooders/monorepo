@@ -700,6 +700,7 @@ const fr = {
     contact: 'Contacter',
     facets: {
       price: 'Prix',
+      total_quantity: 'Quantité',
       'array_tags.alimentation': 'Alimentation',
       condition: 'État',
       'array_tags.marque': 'Marque',

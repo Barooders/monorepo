@@ -247,6 +247,7 @@ export const B2BFilters = () => {
         className="mb-5"
       />
       <PriceRange attribute="price" />
+      <PriceRange attribute="total_quantity" />
       {Object.values(productAttributesConfiguration)
         .filter(({ isB2BFilter }) => isB2BFilter)
         .map((attribute) => (
