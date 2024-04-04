@@ -18,6 +18,4 @@ export type CSVProduct = {
   }[];
   tags: { key: string; value: string }[];
   EANCode?: string;
-  isB2BProduct?: boolean;
-  isB2CProduct?: boolean;
 };
