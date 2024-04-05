@@ -1,0 +1,50 @@
+name: Check if DBT can compile
+
+on:
+  push:
+    paths:
+      - packages/data-pipeline/**
+
+env:
+  DBT_GOOGLE_PROJECT_ID: ${{ vars.DBT_GOOGLE_PROJECT_ID }}
+  DBT_GOOGLE_KEYFILE: /tmp/google/google-service-account.json
+
+  # the contents of the keyfile pulled from GitHub Actions secrets
+  KEYFILE_CONTENTS: ${{secrets.DBT_GOOGLE_KEYFILE_CONTENTS}}
+
+# TODO:
+  # 1. Build dbt models depending on environment (no analytics in staging)
+  # 2. Replace `dbt compile` with `dbt build`?
+  # 3. Run compile over prod when target branch is prod
+
+jobs:
+  build:
+    name: install and build dbt
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: mkdir -p "$(dirname $DBT_GOOGLE_KEYFILE)"
+      - run: echo "$KEYFILE_CONTENTS" > $DBT_GOOGLE_KEYFILE
+
+      - name: Install Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.16
+
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Install dbt
+        run: |
+          pip install dbt-bigquery
+          dbt deps
+          dbt --version
+
+      - name: Run dbt
+        run: dbt compile --profiles-dir=config/local
+
+      - name: Upload DBT Logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: dbt-logs
+          path: ~/.dbt/runs

@@ -1,0 +1,9 @@
+barooders_dbt:
+    target: prod
+    outputs:
+        prod:
+            type: bigquery
+            method: service-account
+            project: "{{ env_var('DBT_GOOGLE_PROJECT_ID', 'direct-tribute-354315') }}"
+            dataset: dbt
+            keyfile: "{{ env_var('DBT_GOOGLE_KEYFILE', 'config/local/keys/prod.json') }}"

@@ -1,0 +1,4 @@
+target/*
+logs
+config/local/keys/*.json
+config/local/.user.yml
