@@ -161,7 +161,7 @@ function sanityCheck(
   const MAXIMUM_AUTHORIZED_ITEMS_VARIATION = 0.3;
   const hasCorrectNumberOfColumns = currentHeaders.length === newHeaders.length;
   const productNumberVariationsIsSmall =
-    currentValues.length - newValues.length / currentValues.length <
+    (currentValues.length - newValues.length) / currentValues.length <
     MAXIMUM_AUTHORIZED_ITEMS_VARIATION;
 
   if (!hasCorrectNumberOfColumns) {
