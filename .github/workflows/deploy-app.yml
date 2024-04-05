@@ -12,6 +12,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.2'
+      # Might not work as we should change root directory for all commands
       - name: Move to frontend package
         run: cd packages/frontend
       - name: Install Fastlane

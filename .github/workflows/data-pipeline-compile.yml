@@ -13,9 +13,9 @@ env:
   KEYFILE_CONTENTS: ${{secrets.DBT_GOOGLE_KEYFILE_CONTENTS}}
 
 # TODO:
-  # 1. Build dbt models depending on environment (no analytics in staging)
-  # 2. Replace `dbt compile` with `dbt build`?
-  # 3. Run compile over prod when target branch is prod
+# 1. Build dbt models depending on environment (no analytics in staging)
+# 2. Replace `dbt compile` with `dbt build`?
+# 3. Run compile over prod when target branch is prod
 
 jobs:
   build:
@@ -35,12 +35,14 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install dbt
+        working-directory: ./packages/data-pipeline
         run: |
           pip install dbt-bigquery
           dbt deps
           dbt --version
 
       - name: Run dbt
+        working-directory: ./packages/data-pipeline
         run: dbt compile --profiles-dir=config/local
 
       - name: Upload DBT Logs
