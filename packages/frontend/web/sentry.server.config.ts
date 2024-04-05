@@ -5,4 +5,7 @@
 import { getDefaultConfig } from '@/config/sentry';
 import * as Sentry from '@sentry/nextjs';
 
-Sentry.init(getDefaultConfig());
+if (process.env.NEXT_PUBLIC_DISABLE_APM !== 'disabled') {
+  console.log('Enabled Sentry for server.');
+  Sentry.init(getDefaultConfig());
+}
