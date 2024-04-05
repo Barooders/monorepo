@@ -4,7 +4,14 @@ const SLACK_BOT_TOKEN =
   'xoxb-1554389548630-5309647657106-EKsSnQ72AOn43WAqqtBltjHP';
 const ERROR_CHANNEL_ID = 'C05N03ZN9FD';
 
-function syncGoogle() {
+function syncGoogleWithoutCheck() {
+  syncGoogle(false);
+}
+function syncMetaWithoutCheck() {
+  syncMeta(false);
+}
+
+function syncGoogle(shouldCheck: boolean = true) {
   const projectId = 'direct-tribute-354315';
   const tableId = 'direct-tribute-354315.dbt.feed_gmc_api';
   const existingSheetId = '1ZzOJItFmx_-VcCrfBKDsdpO7oZL2A81oiQsChrE_m2k';
@@ -18,7 +25,7 @@ function syncGoogle() {
     const sheetRows = prepareQueryResults(rows);
     const sheetTab = getSheetTab(existingSheetId, sheetTabName);
 
-    sanityCheck(sheetTab, headers, sheetRows);
+    if (shouldCheck) sanityCheck(sheetTab, headers, sheetRows);
     insertDataInGoogleSheet(sheetTab, headers, sheetRows);
   } catch (err) {
     alert(`💣 Error generating CSV for feed google: ${err}`);
@@ -27,7 +34,7 @@ function syncGoogle() {
   }
 }
 
-function syncMeta() {
+function syncMeta(shouldCheck: boolean = true) {
   const projectId = 'direct-tribute-354315';
   const tableId = 'direct-tribute-354315.dbt.feed_meta';
   const existingSheetId = '1uOwLh9H677CiHS2yvSTDE2hAmFzFYEBztecOIuAA6jk';
@@ -41,7 +48,7 @@ function syncMeta() {
     const sheetRows = prepareQueryResults(rows);
     const sheetTab = getSheetTab(existingSheetId, sheetTabName);
 
-    sanityCheck(sheetTab, headers, sheetRows);
+    if (shouldCheck) sanityCheck(sheetTab, headers, sheetRows);
     insertDataInGoogleSheet(sheetTab, headers, sheetRows);
   } catch (err) {
     sendSlackAlert(`💣 Error generating CSV for feed meta: ${err}`);
