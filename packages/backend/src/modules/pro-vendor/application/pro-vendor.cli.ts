@@ -149,7 +149,19 @@ export class ProVendorCLIConsole {
       await this.vendorConfigService.setVendorConfigFromSlug(vendorSlug);
       this.vendorProductServiceProvider.setVendorConfigFromSlug(vendorSlug);
 
-      await this.stockUpdateService.updateStocks();
+      const { metadata } = await this.stockUpdateService.updateStocks();
+
+      const vendorId = this.vendorConfigService.getVendorConfig().vendorId;
+
+      await this.prisma.event.create({
+        data: {
+          name: EventName.VENDOR_PRODUCTS_STOCK_UPDATED,
+          aggregateId: vendorId,
+          aggregateName: AggregateName.VENDOR,
+          metadata,
+        },
+      });
+
       this.logger.debug(`Ended execution`);
     } catch (e: any) {
       this.logger.error(`Error: ${e.message}`, e);
