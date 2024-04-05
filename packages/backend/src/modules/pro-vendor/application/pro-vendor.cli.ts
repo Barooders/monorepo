@@ -155,7 +155,7 @@ export class ProVendorCLIConsole {
 
       await this.prisma.event.create({
         data: {
-          name: EventName.VENDOR_PRODUCTS_STOCK_UPDATED,
+          name: EventName.VENDOR_PRODUCTS_STOCK_UPDATE_STARTED,
           aggregateId: vendorId,
           aggregateName: AggregateName.VENDOR,
           metadata,
