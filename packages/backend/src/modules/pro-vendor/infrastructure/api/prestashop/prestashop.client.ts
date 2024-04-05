@@ -4,7 +4,7 @@ import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-co
 import { Injectable, Logger } from '@nestjs/common';
 import { get } from 'lodash';
 import fetch from 'node-fetch';
-import { create } from 'xmlbuilder2';
+import { create } from 'xmlbuilder2'; //TODO: replace with cheerios
 import { DefaultPrestashopClient } from './clients/default.client';
 import { FreeglisseClient } from './clients/freeglisse.client';
 import { MontaniniClient } from './clients/montanini.client';
