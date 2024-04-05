@@ -57,7 +57,11 @@ class NewPublicPriceOfferDTO {
 class NewB2BPriceOfferDTO {
   @IsNumber()
   @ApiProperty()
-  newPriceInCents!: number;
+  buyerUnitPriceInCents!: number;
+
+  @IsNumber()
+  @ApiProperty()
+  sellerUnitPriceInCents!: number;
 
   @IsString()
   @ApiProperty()
@@ -154,7 +158,12 @@ export class PriceOfferController {
   @UseGuards(B2BUserGuard)
   async createB2BPriceOfferByBuyer(
     @Body()
-    { newPriceInCents, productId, description }: NewB2BPriceOfferDTO,
+    {
+      buyerUnitPriceInCents,
+      sellerUnitPriceInCents,
+      productId,
+      description,
+    }: NewB2BPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
     if (!userId || !isUUID(userId)) {
@@ -165,7 +174,8 @@ export class PriceOfferController {
 
     await this.priceOfferService.createNewB2BPriceOfferByBuyer(
       new UUID({ uuid: userId }),
-      new Amount({ amountInCents: newPriceInCents }),
+      new Amount({ amountInCents: buyerUnitPriceInCents }),
+      new Amount({ amountInCents: sellerUnitPriceInCents }),
       new UUID({ uuid: productId }),
       description,
     );
