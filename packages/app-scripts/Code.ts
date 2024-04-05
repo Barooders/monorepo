@@ -17,6 +17,10 @@ function syncGoogle(shouldCheck: boolean = true) {
   const existingSheetId = '1ZzOJItFmx_-VcCrfBKDsdpO7oZL2A81oiQsChrE_m2k';
   const sheetTabName = 'feed';
 
+  Logger.log(
+    `Start syncing https://docs.google.com/spreadsheets/d/${existingSheetId}/edit`,
+  );
+
   try {
     const { headers, rows } = getBigqueryResults(
       projectId,
@@ -28,7 +32,7 @@ function syncGoogle(shouldCheck: boolean = true) {
     if (shouldCheck) sanityCheck(sheetTab, headers, sheetRows);
     insertDataInGoogleSheet(sheetTab, headers, sheetRows);
   } catch (err) {
-    alert(`💣 Error generating CSV for feed google: ${err}`);
+    sendSlackAlert(`💣 Error generating CSV for feed google: ${err}`);
 
     throw err;
   }
@@ -39,6 +43,10 @@ function syncMeta(shouldCheck: boolean = true) {
   const tableId = 'direct-tribute-354315.dbt.feed_meta';
   const existingSheetId = '1uOwLh9H677CiHS2yvSTDE2hAmFzFYEBztecOIuAA6jk';
   const sheetTabName = 'feed';
+
+  Logger.log(
+    `Start syncing https://docs.google.com/spreadsheets/d/${existingSheetId}/edit`,
+  );
 
   try {
     const { headers, rows } = getBigqueryResults(
