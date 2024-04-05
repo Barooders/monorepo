@@ -1,3 +1,17 @@
 table:
   name: ProductSalesChannel
   schema: public
+object_relationships:
+  - name: product
+    using:
+      foreign_key_constraint_on: productId
+select_permissions:
+  - role: me_as_vendor
+    permission:
+      columns:
+        - salesChannelName
+      filter:
+        product:
+          vendorId:
+            _eq: X-Hasura-User-Id
+    comment: ""
