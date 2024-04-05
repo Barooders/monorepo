@@ -1,0 +1,10 @@
+jobs:
+    - name: run all analytics models
+      schedule:
+          - 0 * * * *
+          - 15 * * * *
+          - 30 * * * *
+          - 45 * * * *
+      steps:
+          - name: run analytics models
+            command: dbt run --models +analytics
