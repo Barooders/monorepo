@@ -102,6 +102,7 @@ const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql`
         where: {
           variants: { quantity: { _gte: 1 } }
           status: { _neq: "ARCHIVED" }
+          salesChannels: { salesChannelName: { _eq: "PUBLIC" } }
         }
       ) {
         storeProduct: storeExposedProduct {
@@ -418,9 +419,7 @@ const Account = () => {
             </div>
           </div>
           <div className="col-start-1 col-end-13 lg:col-start-10">
-            <AccountMenu
-              vendorIsPro={value?.customer.isPro ?? false}
-            />
+            <AccountMenu vendorIsPro={value?.customer.isPro ?? false} />
           </div>
         </div>
       )}

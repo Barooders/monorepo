@@ -54,6 +54,7 @@ const FETCH_ONLINE_PRODUCTS = gql`
         where: {
           variants: { quantity: { _gte: 1 } }
           status: { _neq: "ARCHIVED" }
+          salesChannels: { salesChannelName: { _eq: "PUBLIC" } }
         }
       ) {
         status
