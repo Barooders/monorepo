@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "login": "clasp login",
-    "open": "clasp -P ./refresh-channable-items open",
-    "push": "clasp -P ./refresh-channable-items push"
+    "open": "clasp open",
+    "push": "clasp push"
   },
   "dependencies": {
     "@google/clasp": "2.4.2",
