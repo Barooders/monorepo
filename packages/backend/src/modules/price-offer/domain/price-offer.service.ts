@@ -183,6 +183,8 @@ export class PriceOfferService implements IPriceOfferService {
 
       📧 Contact acheteur:  ${buyerName} - ${buyerEmail} - ${buyerPhone}
       📧 Contact vendeur: ${sellerName} - ${sellerEmail} - ${sellerPhone}
+
+      (Note: Prix incluant la commission de ${commission.percentage}%)
     `;
 
     await this.internalNotificationClient.sendB2BNotification(`
