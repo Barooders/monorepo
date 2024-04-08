@@ -102,12 +102,23 @@ const panelConfig: {
   [PANELS.PRICE_OFFER]: {
     canDisplay: ({ proposedPriceOffer }) => !!proposedPriceOffer?.id,
     height: SMALL_PANEL_HEIGHT,
-    renderPanel: ({ proposedPriceOffer, productDetails, user }) =>
+    renderPanel: ({
+      proposedPriceOffer,
+      productDetails,
+      user,
+      negociationAgreement,
+      productId,
+      conversation,
+    }) =>
       proposedPriceOffer && (
         <PriceOfferPanel
+          negociationAgreement={negociationAgreement}
+          productId={productId}
           proposedPriceOffer={proposedPriceOffer}
           productHandle={productDetails?.handle ?? ''}
           isBuyer={productDetails?.vendorId !== user?.id}
+          buyerId={conversation.customerId}
+          originalPrice={productDetails?.originalPrice}
         />
       ),
   },

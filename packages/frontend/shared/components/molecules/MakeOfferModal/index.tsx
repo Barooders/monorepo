@@ -1,15 +1,15 @@
+import { operations } from '@/__generated/rest-schema';
 import { sendPriceOffer } from '@/analytics';
 import Button from '@/components/atoms/Button';
-import Input from '@/components/molecules/FormInput';
 import Loader from '@/components/atoms/Loader';
+import Input from '@/components/molecules/FormInput';
 import useUser from '@/hooks/state/useUser';
+import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { operations } from '@/__generated/rest-schema';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
-import useBackend from '@/hooks/useBackend';
 
 const dict = getDictionary('fr');
 
@@ -25,6 +25,8 @@ type PropsType = {
   negociationMaxAmountPercent: number;
   closeModal?: () => void;
   shouldRedirectToChat?: boolean;
+  previousOfferPrice?: number;
+  onSuccess?: () => void;
 };
 
 export enum Status {
@@ -40,6 +42,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
   closeModal,
   negociationMaxAmountPercent,
   shouldRedirectToChat = false,
+  onSuccess,
 }) => {
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
   const { hasuraToken } = useUser.getState();
@@ -82,6 +85,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
+    if (onSuccess) onSuccess();
     sendPriceOffer(hasuraToken?.user.id ?? '', productId, variantId);
     setStatus(Status.AFTER_SEND);
   };

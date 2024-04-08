@@ -1,10 +1,16 @@
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
+import Modal from '@/components/atoms/Modal';
+import MakeOfferModal from '@/components/molecules/MakeOfferModal';
 import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { PriceOffer, PriceOfferStatus } from '@/types';
+import {
+  NegociationAgreementType,
+  PriceOffer,
+  PriceOfferStatus,
+} from '@/types';
 import { FaCopy } from 'react-icons/fa6';
 import BuyButton from './BuyButton';
 
@@ -14,12 +20,20 @@ type PropsType = {
   proposedPriceOffer: PriceOffer;
   productHandle: string;
   isBuyer?: boolean;
+  negociationAgreement: NegociationAgreementType | null;
+  productId: string;
+  buyerId: string;
+  originalPrice?: number;
 };
 
 const PriceOfferPanel: React.FC<PropsType> = ({
   proposedPriceOffer,
   productHandle,
   isBuyer,
+  negociationAgreement,
+  productId,
+  buyerId,
+  originalPrice,
 }) => {
   const { fetchAPI } = useBackend();
   const { hasuraToken } = useUser();
@@ -91,6 +105,33 @@ const PriceOfferPanel: React.FC<PropsType> = ({
           >
             {dict.components.chatPanel.declinePriceOffer}
           </Button>
+          <Modal
+            ButtonComponent={({ openModal }) => (
+              <Button
+                intent="tertiary"
+                onClick={openModal}
+                size="small"
+              >
+                {dict.components.chatPanel.counterOffer}
+              </Button>
+            )}
+            ContentComponent={({ closeModal }) =>
+              originalPrice &&
+              negociationAgreement?.maxAmountPercent && (
+                <MakeOfferModal
+                  originalPrice={originalPrice}
+                  productId={productId}
+                  closeModal={closeModal}
+                  negociationMaxAmountPercent={
+                    negociationAgreement.maxAmountPercent
+                  }
+                  shouldRedirectToChat={false}
+                  buyerId={buyerId}
+                  onSuccess={() => doUpdateStatus(PriceOfferStatus.DECLINED)}
+                />
+              )
+            }
+          />
         </>
       )}
     </div>
