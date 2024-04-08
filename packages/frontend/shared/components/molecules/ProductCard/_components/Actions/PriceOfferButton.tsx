@@ -6,6 +6,7 @@ import Button, {
 } from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
+import MakeOfferModal from '@/components/molecules/MakeOfferModal';
 import useUser from '@/hooks/state/useUser';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
@@ -14,7 +15,6 @@ import { gql, useSubscription } from '@apollo/client';
 import { first } from 'lodash';
 import React from 'react';
 import { ProductSingleVariant } from '../../types';
-import MakeOfferModal from '../MakeOfferModal';
 
 const dict = getDictionary('fr');
 
