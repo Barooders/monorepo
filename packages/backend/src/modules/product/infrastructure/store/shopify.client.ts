@@ -38,10 +38,7 @@ import {
   fromStorefrontId,
   toStorefrontId,
 } from '@libs/infrastructure/shopify/shopify-id';
-import {
-  getValidShopifyId,
-  getValidVariantToUpdate,
-} from '@libs/infrastructure/shopify/validators';
+import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import {
   IStoreClient,
@@ -51,10 +48,10 @@ import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { MutationProductCreateArgs } from '@quasarwork/shopify-api-types/api/admin/2023-01';
 import {
+  ProductStatus as AdminAPIProductStatus,
   MediaContentType,
   Mutation,
   MutationPublishablePublishArgs,
-  ProductStatus as AdminAPIProductStatus,
   ProductVariantInventoryPolicy,
 } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
@@ -253,8 +250,7 @@ export class ShopifyClient implements IStoreClient {
 
   async updateProductVariant(variantId: string, data: Variant): Promise<void> {
     try {
-      const { inventory_quantity, ...validVariant } =
-        getValidVariantToUpdate(data);
+      const { inventory_quantity, ...validVariant } = data;
 
       if (Object.keys(validVariant).length > 0) {
         await shopifyApiByToken.productVariant.update(
