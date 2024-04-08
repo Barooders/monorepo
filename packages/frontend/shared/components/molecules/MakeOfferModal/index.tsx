@@ -1,3 +1,4 @@
+import { GetCustomerIdFromShopifyIdQuery } from '@/__generated/graphql';
 import { operations } from '@/__generated/rest-schema';
 import { sendPriceOffer } from '@/analytics';
 import Button from '@/components/atoms/Button';
@@ -5,8 +6,11 @@ import Loader from '@/components/atoms/Loader';
 import Input from '@/components/molecules/FormInput';
 import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { gql } from '@apollo/client';
+import first from 'lodash/first';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
@@ -21,13 +25,21 @@ type PropsType = {
   variantId?: string;
   productId: string;
   originalPrice: number;
-  buyerId?: string;
+  buyerShopifyId?: string;
   negociationMaxAmountPercent: number;
   closeModal?: () => void;
   shouldRedirectToChat?: boolean;
   previousOfferPrice?: number;
-  onSuccess?: () => void;
+  beforeSave?: () => Promise<void>;
 };
+
+const GET_CUSTOMER_ID = gql`
+  query getCustomerIdFromShopifyId($customerShopifyId: bigint) {
+    Customer(where: { shopifyId: { _eq: $customerShopifyId } }) {
+      authUserId
+    }
+  }
+`;
 
 export enum Status {
   BEFORE_SEND = 'BEFORE_SEND',
@@ -37,14 +49,21 @@ export enum Status {
 const MakeOfferModal: React.FC<PropsType> = ({
   variantId,
   productId,
-  buyerId,
+  buyerShopifyId,
   originalPrice,
   closeModal,
   negociationMaxAmountPercent,
   shouldRedirectToChat = false,
-  onSuccess,
+  beforeSave,
 }) => {
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
+  const fetchUserId =
+    useHasura<GetCustomerIdFromShopifyIdQuery>(GET_CUSTOMER_ID);
+  const getUserId = async (customerShopifyId: string) => {
+    const result = await fetchUserId({ customerShopifyId });
+    return first(result.Customer)?.authUserId;
+  };
+
   const { hasuraToken } = useUser.getState();
   const { fetchAPI } = useBackend();
 
@@ -72,9 +91,16 @@ const MakeOfferModal: React.FC<PropsType> = ({
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
     if (!newPrice) return;
 
+    if (beforeSave) await beforeSave();
+
+    const computedBuyerId =
+      (buyerShopifyId
+        ? await getUserId(buyerShopifyId)
+        : hasuraToken?.user.id) ?? '';
+
     const priceOfferBody: operations['PriceOfferController_createPublicPriceOffer']['requestBody']['content']['application/json'] =
       {
-        buyerId: buyerId ?? hasuraToken?.user.id ?? '',
+        buyerId: computedBuyerId,
         newPriceInCents: newPrice * 100,
         productId,
         productVariantId: variantId,
@@ -85,7 +111,6 @@ const MakeOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
-    if (onSuccess) onSuccess();
     sendPriceOffer(hasuraToken?.user.id ?? '', productId, variantId);
     setStatus(Status.AFTER_SEND);
   };

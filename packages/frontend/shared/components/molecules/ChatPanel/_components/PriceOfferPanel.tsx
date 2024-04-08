@@ -21,9 +21,9 @@ type PropsType = {
   productHandle: string;
   isBuyer?: boolean;
   negociationAgreement: NegociationAgreementType | null;
-  productId: string;
   buyerId: string;
   originalPrice?: number;
+  productId?: string;
 };
 
 const PriceOfferPanel: React.FC<PropsType> = ({
@@ -117,7 +117,8 @@ const PriceOfferPanel: React.FC<PropsType> = ({
             )}
             ContentComponent={({ closeModal }) =>
               originalPrice &&
-              negociationAgreement?.maxAmountPercent && (
+              negociationAgreement?.maxAmountPercent &&
+              productId && (
                 <MakeOfferModal
                   originalPrice={originalPrice}
                   productId={productId}
@@ -126,8 +127,8 @@ const PriceOfferPanel: React.FC<PropsType> = ({
                     negociationAgreement.maxAmountPercent
                   }
                   shouldRedirectToChat={false}
-                  buyerId={buyerId}
-                  onSuccess={() => doUpdateStatus(PriceOfferStatus.DECLINED)}
+                  buyerShopifyId={buyerId}
+                  beforeSave={() => doUpdateStatus(PriceOfferStatus.DECLINED)}
                 />
               )
             }

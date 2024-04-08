@@ -74,7 +74,7 @@ const panelConfig: {
               negociationMaxAmountPercent={
                 negociationAgreement.maxAmountPercent
               }
-              buyerId={conversation.customerId}
+              buyerShopifyId={conversation.customerId}
               price={productDetails.originalPrice}
               variant={undefined}
               size="small"
@@ -107,13 +107,12 @@ const panelConfig: {
       productDetails,
       user,
       negociationAgreement,
-      productId,
       conversation,
     }) =>
       proposedPriceOffer && (
         <PriceOfferPanel
           negociationAgreement={negociationAgreement}
-          productId={productId}
+          productId={productDetails?.id}
           proposedPriceOffer={proposedPriceOffer}
           productHandle={productDetails?.handle ?? ''}
           isBuyer={productDetails?.vendorId !== user?.id}

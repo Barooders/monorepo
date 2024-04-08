@@ -1,6 +1,6 @@
 'use client';
 
-import { OpenedPriceOfferProductPageSubscription } from '@/__generated/graphql';
+import { SubscribeToOpenedPriceOfferSubscription } from '@/__generated/graphql';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import Button, {
   PropsType as ButtonPropsType,
@@ -22,7 +22,7 @@ type PropsType = {
   variant: ProductSingleVariant['variantShopifyId'];
   productId: ProductSingleVariant['id'];
   price: ProductSingleVariant['price'];
-  buyerId?: string;
+  buyerShopifyId?: string;
   negociationMaxAmountPercent: number;
   className?: string;
   size?: ButtonPropsType['size'];
@@ -53,12 +53,12 @@ const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
 ) => {
   const { productId, className, size } = props;
   const { loading, data } =
-    useSubscription<OpenedPriceOfferProductPageSubscription>(
+    useSubscription<SubscribeToOpenedPriceOfferSubscription>(
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
         variables: {
           productShopifyId: productId,
-          buyerShopifyId: props.buyerId,
+          buyerShopifyId: props.buyerShopifyId,
         },
       },
     );
@@ -88,7 +88,7 @@ const PriceOfferButton: React.FC<PropsType> = (props) => {
     productId,
     variant,
     price,
-    buyerId,
+    buyerShopifyId,
     negociationMaxAmountPercent,
     shouldRedirectToChat,
   } = props;
@@ -119,7 +119,7 @@ const PriceOfferButton: React.FC<PropsType> = (props) => {
           closeModal={closeModal}
           negociationMaxAmountPercent={negociationMaxAmountPercent}
           shouldRedirectToChat={shouldRedirectToChat}
-          buyerId={buyerId}
+          buyerShopifyId={buyerShopifyId}
         />
       )}
     />
