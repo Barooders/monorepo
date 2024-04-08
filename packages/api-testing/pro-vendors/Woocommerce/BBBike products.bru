@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: https://www.bbbikeforli.it/wp-json/wc/v3/products/24388
+  url: https://www.bbbikeforli.it/wp-json/wc/v3/products/16716?consumer_key={{bbbikeApiKey}}&consumer_secret={{bbbikeApiSecret}}
   body: none
   auth: none
 }
@@ -13,13 +13,8 @@ get {
 query {
   consumer_key: {{bbbikeApiKey}}
   consumer_secret: {{bbbikeApiSecret}}
-  per_page: 1
   ~modified_after: 2023-06-03T15:00:00
   ~category: 793
   ~page: 1
   ~status: publish
-}
-
-headers {
-  : 
 }
