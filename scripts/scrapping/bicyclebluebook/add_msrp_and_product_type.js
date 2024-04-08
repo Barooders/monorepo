@@ -1,12 +1,11 @@
 const fetch = require('node-fetch');
 const AWS = require('aws-sdk');
-const { create } = require('lodash');
 
 const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/bicyclebluebook';
 
-// const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
+// const STRAPI_URL = 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 const bikeCategoryMapping = {
