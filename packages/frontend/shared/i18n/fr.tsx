@@ -16,7 +16,7 @@ const fr = {
       acceptPriceOffer: 'Accepter',
       cancelPriceOffer: 'Annuler votre offre',
       declinePriceOffer: 'Refuser',
-      counterOffer: 'Faire une contre offre',
+      counterOffer: 'Contre offre',
       acceptedPriceOffer: "L'offre est utilisable avec le code",
     },
     trustpilot: {
