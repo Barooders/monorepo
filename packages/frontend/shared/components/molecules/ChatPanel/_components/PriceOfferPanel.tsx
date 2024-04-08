@@ -128,7 +128,6 @@ const PriceOfferPanel: React.FC<PropsType> = ({
                   }
                   shouldRedirectToChat={false}
                   buyerShopifyId={buyerId}
-                  beforeSave={() => doUpdateStatus(PriceOfferStatus.DECLINED)}
                 />
               )
             }

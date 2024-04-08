@@ -30,7 +30,6 @@ type PropsType = {
   closeModal?: () => void;
   shouldRedirectToChat?: boolean;
   previousOfferPrice?: number;
-  beforeSave?: () => Promise<void>;
 };
 
 const GET_CUSTOMER_ID = gql`
@@ -54,7 +53,6 @@ const MakeOfferModal: React.FC<PropsType> = ({
   closeModal,
   negociationMaxAmountPercent,
   shouldRedirectToChat = false,
-  beforeSave,
 }) => {
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
   const fetchUserId =
@@ -90,8 +88,6 @@ const MakeOfferModal: React.FC<PropsType> = ({
 
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
     if (!newPrice) return;
-
-    if (beforeSave) await beforeSave();
 
     const computedBuyerId =
       (buyerShopifyId

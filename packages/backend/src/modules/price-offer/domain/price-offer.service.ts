@@ -18,7 +18,6 @@ import { ParticipantEmailSender, Participants } from './config';
 import {
   ForbiddenParticipation,
   IncoherentPriceOfferStatus,
-  OngoingPriceOfferExisting,
   PriceOfferIsNotAcceptable,
   PriceOfferNotFound,
 } from './exceptions';
@@ -52,8 +51,9 @@ export class PriceOfferService implements IPriceOfferService {
     productId: UUID,
     productVariantId?: UUID,
   ): Promise<PriceOffer> {
-    if (await this.isPriceOfferOngoing(buyerId, productId)) {
-      throw new OngoingPriceOfferExisting(buyerId, productId);
+    const ongoingOffer = await this.getOngoingPriceOffer(buyerId, productId);
+    if (ongoingOffer) {
+      await this.cancelPriceOffer(userId, new UUID({ uuid: ongoingOffer.id }));
     }
 
     if (!(await this.isPriceOfferAcceptable(newPrice, productId))) {
@@ -454,7 +454,7 @@ export class PriceOfferService implements IPriceOfferService {
     });
   }
 
-  private async isPriceOfferOngoing(buyerId: UUID, productId: UUID) {
+  private async getOngoingPriceOffer(buyerId: UUID, productId: UUID) {
     const ongoingOffer = await this.prisma.priceOffer.findFirst({
       where: {
         buyerId: buyerId.uuid,
@@ -463,7 +463,7 @@ export class PriceOfferService implements IPriceOfferService {
       },
     });
 
-    return !!ongoingOffer;
+    return ongoingOffer;
   }
 
   private async checkUpdatePriceOffer(
