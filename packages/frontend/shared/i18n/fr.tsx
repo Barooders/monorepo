@@ -1220,7 +1220,7 @@ const fr = {
           <>
             Ce vendeur propose un lot de {totalQuantity} unité
             {totalQuantity > 1 ? 's' : ''} pour{' '}
-            <strong>{formatCurrency(bundlePrice, { round: true })}€ TTC</strong>
+            <strong>{formatCurrency(bundlePrice, { round: true })}€ HT</strong>
           </>
         ),
         addMoreDetails:
