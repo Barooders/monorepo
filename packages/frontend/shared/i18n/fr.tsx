@@ -136,8 +136,7 @@ const fr = {
             </Link>
             <br />
             💬 Chat en bas de page <br />
-            9h-18h30 et le samedi de 11h à 16 h <br />
-            Ouvert lundi de Pâques
+            9h-18h30 et le samedi de 11h à 16 h
           </p>
         ),
       },
