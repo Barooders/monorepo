@@ -1,3 +1,5 @@
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { BullBoardModule } from '@bull-board/nestjs';
 import { PrismaModule } from '@libs/domain/prisma.module';
 import { SharedLoggerModule } from '@libs/infrastructure/logging/shared-logger.module';
 import { getRedisConfig } from '@libs/infrastructure/redis/redis.config';
@@ -16,6 +18,10 @@ import { QueueNames } from './domain/ports/types';
     BullModule.registerQueueAsync({
       name: QueueNames.UPDATE_STOCK,
       useFactory: getRedisConfig,
+    }),
+    BullBoardModule.forFeature({
+      name: QueueNames.UPDATE_STOCK,
+      adapter: BullMQAdapter,
     }),
   ],
   controllers: [],

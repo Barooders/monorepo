@@ -249,16 +249,20 @@ export class ProductController {
     if (!vendorId)
       throw new Error(`Cannot find vendor with sellerId: ${sellerId}`);
 
-    const product = await this.productCreationService.createProductByAdmin(
-      draftProductInputDto,
-      vendorId,
-      author,
-    );
-    return {
-      body: {
-        product,
-      },
-    };
+    try {
+      const product = await this.productCreationService.createProductByAdmin(
+        draftProductInputDto,
+        vendorId,
+        author,
+      );
+      return {
+        body: {
+          product,
+        },
+      };
+    } catch (error: any) {
+      throw new BadRequestException(error);
+    }
   }
 
   @ApiCreatedResponse({
