@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -371,8 +372,8 @@ class ProductPack {
 
 export class Categories {
   @IsNotEmpty()
-  @IsString()
-  id!: number;
+  @IsNumberString()
+  id!: string;
 }
 
 class Images {

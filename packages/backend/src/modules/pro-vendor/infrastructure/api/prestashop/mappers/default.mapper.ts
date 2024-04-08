@@ -208,7 +208,7 @@ export class PrestashopDefaultMapper {
   }
 
   private async createCategory(
-    categoriesSorted: number[],
+    categoriesSorted: string[],
     categoriesKey: string,
     mappingMetadata: FirstProductMapped,
   ): Promise<null> {
@@ -234,11 +234,9 @@ export class PrestashopDefaultMapper {
   }
 
   private async extractCategoryName(
-    categoryId: number,
+    categoryId: string,
   ): Promise<string | undefined> {
-    let categoryData = await this.prestashopClient.getCategory(
-      String(categoryId),
-    );
+    let categoryData = await this.prestashopClient.getCategory(categoryId);
     if (!categoryData) return;
 
     if (
@@ -284,7 +282,7 @@ export class PrestashopDefaultMapper {
   ): Promise<string | null> {
     const categoriesSorted = categories
       .map((category) => category.id)
-      .sort((a, b) => a - b);
+      .sort((a, b) => Number(a) - Number(b));
 
     const categoryKey = this.getCategoryKey(
       categoriesSorted,
@@ -310,7 +308,7 @@ export class PrestashopDefaultMapper {
     return this.createCategory(categoriesSorted, categoryKey, mappingMetadata);
   }
 
-  getCategoryKey(categoriesSorted: number[], _productTitle: string) {
+  getCategoryKey(categoriesSorted: string[], _productTitle: string) {
     return categoriesSorted.join('/');
   }
 

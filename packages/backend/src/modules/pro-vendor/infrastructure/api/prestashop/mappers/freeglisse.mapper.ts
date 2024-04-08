@@ -9,7 +9,7 @@ import { PrestashopDefaultMapper } from './default.mapper';
 
 @Injectable()
 export class FreeglisseMapper extends PrestashopDefaultMapper {
-  getCategoryKey(categoriesSorted: number[], productTitle: string) {
+  getCategoryKey(categoriesSorted: string[], productTitle: string) {
     const lowerTitle = productTitle.toLowerCase();
     const externalCategoryId = super.getCategoryKey(
       categoriesSorted,
