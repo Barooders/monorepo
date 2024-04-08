@@ -1,1 +1,1 @@
-consumer: yarn workspace backend start:consumer:prod
+web: yarn workspace backend start:consumer:prod
