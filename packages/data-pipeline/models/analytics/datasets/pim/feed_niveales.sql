@@ -2,7 +2,7 @@
 
 SELECT
     f.id,
-    f.product_type as type,
+    p.product_type,
     f.brand,
     p.year as year,
     f.gtin as ean,
