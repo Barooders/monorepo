@@ -1,3 +1,5 @@
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { BullBoardModule } from '@bull-board/nestjs';
 import { PrismaModule } from '@libs/domain/prisma.module';
 import { SharedLoggerModule } from '@libs/infrastructure/logging/shared-logger.module';
 import { getRedisConfig } from '@libs/infrastructure/redis/redis.config';
@@ -50,7 +52,13 @@ const commonProviders = [
 export class IndexationConsoleModule {}
 
 @Module({
-  imports: commonImports,
+  imports: [
+    ...commonImports,
+    BullBoardModule.forFeature({
+      name: QueueNames.PRODUCTS_TO_INDEX,
+      adapter: BullMQAdapter,
+    }),
+  ],
   controllers: [],
   providers: [...commonProviders, ProductIndexationConsumer],
 })
