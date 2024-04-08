@@ -1,0 +1,16 @@
+meta {
+  name: GEM Bikes products
+  type: http
+  seq: 77
+}
+
+get {
+  url: https://shop.gem-bikes.com/api/products/1879?ws_key={{gemBikesApiKey}}&output_format=JSON
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{gemBikesApiKey}}
+  output_format: JSON
+}

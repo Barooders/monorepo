@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 import { ProductDTO } from '../dto/prestashop-product.dto';
 import { PrestashopDefaultMapper } from './default.mapper';
 
-const OCCASION_CATEGORY = 297;
-const PROMO_CATEGORY = 292;
+const OCCASION_CATEGORY = '297';
+const PROMO_CATEGORY = '292';
 const WANTED_CATEGORIES = [PROMO_CATEGORY, OCCASION_CATEGORY];
 
 @Injectable()
