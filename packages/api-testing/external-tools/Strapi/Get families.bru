@@ -1,0 +1,15 @@
+meta {
+  name: Get families
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-product-families?populate=productType
+  body: none
+  auth: none
+}
+
+query {
+  populate: productType
+}
