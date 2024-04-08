@@ -4,7 +4,8 @@ const AWS = require('aws-sdk');
 const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/buycycle';
 
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
+// const STRAPI_URL = 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 const s3 = new AWS.S3({
@@ -443,9 +444,9 @@ const run = async () => {
 
   const brands = require('./brandData.json').brands;
 
-  const idx = brands.findIndex((n) => n.name === 'Riese & Müller');
+  // const idx = brands.findIndex((n) => n.name === 'Riese & Müller');
 
-  const filtered = brands.splice(idx);
+  // const filtered = brands.splice(idx);
   // const brands = [
   //   // 'ktm',
   //   // 'fantic',
@@ -462,7 +463,7 @@ const run = async () => {
   // ];
   // console.log(filtered.map((n) => n.name).join('\n'));
 
-  for (const { slug } of filtered) {
+  for (const { slug } of brands) {
     console.log(`Processing ${slug}`);
     await createProductForBrand(slug);
   }
