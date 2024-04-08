@@ -22,6 +22,9 @@ export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = gql`
       initiatedBy
       status
       discountCode
+      product {
+        shopifyId
+      }
     }
   }
 `;

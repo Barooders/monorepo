@@ -1,6 +1,7 @@
 'use client';
 
 import { OpenedPriceOfferProductPageSubscription } from '@/__generated/graphql';
+import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import Button, {
   PropsType as ButtonPropsType,
 } from '@/components/atoms/Button';
@@ -10,34 +11,12 @@ import MakeOfferModal from '@/components/molecules/MakeOfferModal';
 import useUser from '@/hooks/state/useUser';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
-import { useTraceUpdate } from '@/utils/useTraceUpdate';
-import { gql, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import { first } from 'lodash';
 import React from 'react';
 import { ProductSingleVariant } from '../../types';
 
 const dict = getDictionary('fr');
-
-const OPENED_PRICE_OFFERS_PRODUCT_PAGE = gql`
-  subscription openedPriceOfferProductPage($productId: String!) {
-    PriceOffer(
-      where: {
-        _and: {
-          productId: { _eq: $productId }
-          _or: [
-            { status: { _eq: "PROPOSED" } }
-            { status: { _eq: "ACCEPTED" } }
-          ]
-        }
-      }
-    ) {
-      id
-      product {
-        shopifyId
-      }
-    }
-  }
-`;
 
 type PropsType = {
   variant: ProductSingleVariant['variantShopifyId'];
@@ -72,13 +51,15 @@ const MakeOfferButton: React.FC<
 const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
   props,
 ) => {
-  useTraceUpdate(props);
   const { productId, className, size } = props;
   const { loading, data } =
     useSubscription<OpenedPriceOfferProductPageSubscription>(
-      OPENED_PRICE_OFFERS_PRODUCT_PAGE,
+      SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
-        variables: { productId },
+        variables: {
+          productShopifyId: productId,
+          buyerShopifyId: props.buyerId,
+        },
       },
     );
 
