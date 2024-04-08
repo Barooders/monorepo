@@ -4,7 +4,8 @@ const AWS = require('aws-sdk');
 const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/bicyclebluebook';
 
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
+// const STRAPI_URL = 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 const s3 = new AWS.S3({
@@ -54,6 +55,20 @@ const paginatedListFiles = async (bucket, prefix) => {
   } while (continuationToken);
 
   return files;
+};
+
+const MAPPING = {
+  'Gazelle Bikes': 'Gazelle',
+  Moustache: 'Moustache Bikes',
+  'Frog Bikes': 'Frog',
+  'Cube bikes': 'Cube',
+  'BH Bikes': 'BH',
+  Cervelo: 'Cervélo',
+  'Yeti Cycles': 'Yeti',
+};
+
+const mappedName = (name) => {
+  return MAPPING[name] || name;
 };
 
 const createBrand = async (name) => {
@@ -256,8 +271,8 @@ const updateProductModel = async ({ id, imageUrl }) => {
 const createProductForBrand = async (brand) => {
   const files = await paginatedListFiles(
     BUCKET_NAME,
-    `${PATH_PREFIX}/images/${brand}`,
-  );
+    `${PATH_PREFIX}/data/${brand}`,
+  ).filter((file) => file.endsWith('.jpg'));
 
   console.log(`Found ${files.length} files for ${brand}`);
 
@@ -265,7 +280,7 @@ const createProductForBrand = async (brand) => {
     return;
   }
 
-  const { id: brandId } = await getOrCreateBrand(brand);
+  const { id: brandId } = await getOrCreateBrand(mappedName(brand));
 
   for (const file of files) {
     const split = file.split('/');
@@ -300,6 +315,9 @@ const urlEncode = (str) => {
 
 const run = async () => {
   const brands = (await getObjectContent('data/brandData.json')).bicycleBrands;
+  // const idx = brands.findIndex(({ name }) => name === 'Bianchi');
+
+  // const filtered = brands.slice(idx);
 
   for (const { name: brand } of brands) {
     await createProductForBrand(brand);
