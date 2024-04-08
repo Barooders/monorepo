@@ -3,6 +3,7 @@ type RowContent = string | object;
 const SLACK_BOT_TOKEN =
   'xoxb-1554389548630-5309647657106-EKsSnQ72AOn43WAqqtBltjHP';
 const ERROR_CHANNEL_ID = 'C05N03ZN9FD';
+const GOOGLE_PROJECT_ID = 'direct-tribute-354315';
 
 function syncGoogleWithoutCheck() {
   syncGoogle(false);
@@ -10,9 +11,11 @@ function syncGoogleWithoutCheck() {
 function syncMetaWithoutCheck() {
   syncMeta(false);
 }
+function syncNivealesWithoutCheck() {
+  syncNiveales(false);
+}
 
 function syncGoogle(shouldCheck: boolean = true) {
-  const projectId = 'direct-tribute-354315';
   const tableId = 'direct-tribute-354315.dbt.feed_gmc_api';
   const existingSheetId = '1ZzOJItFmx_-VcCrfBKDsdpO7oZL2A81oiQsChrE_m2k';
   const sheetTabName = 'feed';
@@ -23,7 +26,7 @@ function syncGoogle(shouldCheck: boolean = true) {
 
   try {
     const { headers, rows } = getBigqueryResults(
-      projectId,
+      GOOGLE_PROJECT_ID,
       `SELECT * FROM ${tableId}`,
     );
     const sheetRows = prepareQueryResults(rows);
@@ -39,7 +42,6 @@ function syncGoogle(shouldCheck: boolean = true) {
 }
 
 function syncMeta(shouldCheck: boolean = true) {
-  const projectId = 'direct-tribute-354315';
   const tableId = 'direct-tribute-354315.dbt.feed_meta';
   const existingSheetId = '1uOwLh9H677CiHS2yvSTDE2hAmFzFYEBztecOIuAA6jk';
   const sheetTabName = 'feed';
@@ -50,7 +52,7 @@ function syncMeta(shouldCheck: boolean = true) {
 
   try {
     const { headers, rows } = getBigqueryResults(
-      projectId,
+      GOOGLE_PROJECT_ID,
       `SELECT * FROM ${tableId}`,
     );
     const sheetRows = prepareQueryResults(rows);
@@ -60,6 +62,32 @@ function syncMeta(shouldCheck: boolean = true) {
     insertDataInGoogleSheet(sheetTab, headers, sheetRows);
   } catch (err) {
     sendSlackAlert(`💣 Error generating CSV for feed meta: ${err}`);
+
+    throw err;
+  }
+}
+
+function syncNiveales(shouldCheck: boolean = true) {
+  const tableId = 'direct-tribute-354315.dbt.feed_niveales';
+  const existingSheetId = '1nJDlym3ne_q2Lvkb0sqtJcncXh5N8Vy1A03rMMwuJ34';
+  const sheetTabName = 'feed';
+
+  Logger.log(
+    `Start syncing https://docs.google.com/spreadsheets/d/${existingSheetId}/edit`,
+  );
+
+  try {
+    const { headers, rows } = getBigqueryResults(
+      GOOGLE_PROJECT_ID,
+      `SELECT * FROM ${tableId}`,
+    );
+    const sheetRows = prepareQueryResults(rows);
+    const sheetTab = getSheetTab(existingSheetId, sheetTabName);
+
+    if (shouldCheck) sanityCheck(sheetTab, headers, sheetRows);
+    insertDataInGoogleSheet(sheetTab, headers, sheetRows);
+  } catch (err) {
+    sendSlackAlert(`💣 Error generating CSV for feed niveales: ${err}`);
 
     throw err;
   }
