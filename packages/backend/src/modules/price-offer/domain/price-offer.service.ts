@@ -24,9 +24,9 @@ import {
 } from './exceptions';
 import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
+import { IInternalTrackingClient } from './ports/internal-tracking.client';
 import { IPriceOfferService } from './ports/price-offer';
 import { IStoreClient } from './ports/store.client';
-import { IInternalTrackingClient } from './ports/internal-tracking.client';
 
 const dict = getDictionnary(Locales.FR);
 
@@ -112,13 +112,40 @@ export class PriceOfferService implements IPriceOfferService {
 
   async createNewB2BPriceOfferByBuyer(
     buyerId: UUID,
-    newPrice: Amount,
+    buyerPrice: Amount,
+    sellerPrice: Amount,
     productId: UUID,
     description: string,
   ): Promise<void> {
-    const { sellerName } = await this.prisma.customer.findUniqueOrThrow({
+    const participantDataQuery = {
+      select: {
+        sellerName: true,
+        user: { select: { email: true, phone_number: true } },
+      },
+    };
+
+    const {
+      sellerName: buyerName,
+      user: { phone_number: buyerPhone, email: buyerEmail },
+    } = await this.prisma.customer.findUniqueOrThrow({
       where: { authUserId: buyerId.uuid },
-      select: { sellerName: true, user: { select: { email: true } } },
+      ...participantDataQuery,
+    });
+
+    const {
+      productType,
+      handle,
+      vendor: {
+        sellerName: sellerName,
+        user: { phone_number: sellerPhone, email: sellerEmail },
+      },
+    } = await this.prisma.product.findUniqueOrThrow({
+      where: { id: productId.uuid },
+      select: {
+        productType: true,
+        handle: true,
+        vendor: participantDataQuery,
+      },
     });
 
     const commission =
@@ -129,7 +156,7 @@ export class PriceOfferService implements IPriceOfferService {
         salesChannelName: SalesChannelName.B2B,
         buyerId: buyerId.uuid,
         productId: productId.uuid,
-        newPriceInCents: newPrice.amountInCents,
+        newPriceInCents: buyerPrice.amountInCents,
         initiatedBy: buyerId.uuid,
         status: PriceOfferStatus.PROPOSED,
         includedBuyerCommissionPercentage: commission.percentage,
@@ -148,18 +175,20 @@ export class PriceOfferService implements IPriceOfferService {
       },
     });
 
-    const { handle, productType } = await this.prisma.product.findFirstOrThrow({
-      where: { id: productId.uuid },
-    });
-
     const offerMessage = `
       🚲 Produit: ${productType} - ${handle}
-      💶 Prix proposé: ${newPrice.formattedAmount}
+      💶 Prix acheteur: ${buyerPrice.formattedAmount}
+      💶 Prix vendeur: ${sellerPrice.formattedAmount}
       📄 Détail de l'offre: ${description}
+
+      📧 Contact acheteur:  ${buyerName} - ${buyerEmail} - ${buyerPhone}
+      📧 Contact vendeur: ${sellerName} - ${sellerEmail} - ${sellerPhone}
+
+      (Note: Prix incluant la commission de ${commission.percentage}%)
     `;
 
     await this.internalNotificationClient.sendB2BNotification(`
-      💰 *${sellerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
+      💰 *${buyerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
 
      ${offerMessage}
     `);

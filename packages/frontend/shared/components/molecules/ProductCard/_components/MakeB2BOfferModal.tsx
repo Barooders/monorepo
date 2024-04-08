@@ -83,7 +83,8 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
 
     const priceOfferBody: operations['PriceOfferController_createB2BPriceOfferByBuyer']['requestBody']['content']['application/json'] =
       {
-        newPriceInCents: price * 100,
+        buyerUnitPriceInCents: Math.floor(price * 100),
+        sellerUnitPriceInCents: Math.floor(vendorUnitPrice * 100),
         productId,
         description: `[${userCanNegociate ? 'OFFRE' : 'ACHAT'}][${quantity}x${price}€] ${description}`,
       };
