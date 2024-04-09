@@ -3,7 +3,7 @@ import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-co
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { Queue } from 'bull';
-import { QueueNames, SyncedProductToUpdate, SyncOutput } from './ports/types';
+import { QueueNames, SyncOutput, SyncedProductToUpdate } from './ports/types';
 import { IVendorProductServiceProvider } from './ports/vendor-product-service.provider';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class StockUpdateService {
   }
 
   async updateProductStocks(product: SyncedProductToUpdate): Promise<void> {
-    await this.checkIfApiIsUp();
+    if (!(await this.isApiUp())) return;
 
     const internalVariants = await this.prisma.productVariant.findMany({
       where: {
@@ -87,9 +87,10 @@ export class StockUpdateService {
       .updateProductStocks(product, variantStocksToUpdate);
   }
 
-  private async checkIfApiIsUp(): Promise<void> {
+  private async isApiUp(): Promise<boolean> {
     try {
-      if (await this.vendorProductServiceProvider.getService().isUp()) return;
+      if (await this.vendorProductServiceProvider.getService().isUp())
+        return true;
 
       throw new Error(
         `${
@@ -97,11 +98,8 @@ export class StockUpdateService {
         } API returned no products!`,
       );
     } catch (error: any) {
-      throw new Error(
-        `[${
-          this.vendorConfigService.getVendorConfig().slug
-        }] Vendor API looks down because: ${error.message}`,
-      );
+      this.logger.error('Vendor API looks down', error);
+      return false;
     }
   }
 }
