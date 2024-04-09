@@ -10,7 +10,7 @@ SELECT
         when CHAR_LENGTH(f_api.description) >= 300 then SUBSTR(f_api.description, 1, 300) 
         else f_api.description 
         end as description,
-    p.modele as name,
+    COALESCE(p.modele, p.title) as name,
     f.title_proper as title,
     f.price,
     f_api.link,
