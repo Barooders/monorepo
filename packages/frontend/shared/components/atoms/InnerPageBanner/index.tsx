@@ -12,6 +12,7 @@ type BannerMessage = {
   label: string;
   icon?: React.ReactNode;
   link?: string;
+  onClick?: () => void;
 };
 
 const bannerMessages: BannerMessage[] = [
@@ -19,6 +20,14 @@ const bannerMessages: BannerMessage[] = [
     label: `Partenariat officiel Look - jusqu'à -45%`,
     icon: '🔥',
     link: '/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles',
+  },
+  {
+    label: `Tous nos vélos reconditionnés sont désormais éligible à la prime d’état : contactez-nous ! 💬`,
+    icon: '🎉',
+  },
+  {
+    label: `Nos experts sont là pour vous aider ! Appelez-nous au 01 89 71 32 90`,
+    icon: '👋',
   },
 ];
 
