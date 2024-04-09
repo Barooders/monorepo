@@ -18,7 +18,6 @@ import Characteristics from './_components/Characteristics';
 import DeliveryInformation from './_components/Delivery';
 import FavoriteButton from './_components/FavoriteButton';
 import { Guarantees } from './_components/Guarantees';
-import PaymentIcons from './_components/PaymentIcons';
 import ProductDescription from './_components/ProductDescription';
 import ProductGallery from './_components/ProductGallery';
 import ProductPrice from './_components/ProductPrice';
@@ -248,7 +247,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   </>
                 )}
               </div>
-              <PaymentIcons />
             </div>
           )}
           <div className="mt-6 block lg:hidden">
