@@ -74,7 +74,7 @@ const B2B_GUARANTEES = [
 
 const BaseGuarantees: React.FC<GuaranteePropsType> = ({ guarantees }) => {
   return (
-    <div className="hidden flex-wrap gap-2 lg:flex">
+    <div className="flex flex-wrap gap-2">
       {guarantees.map((guarantee) => {
         const isPrimary = guarantee.intent === 'primary';
         return (

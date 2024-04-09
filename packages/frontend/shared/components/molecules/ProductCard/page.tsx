@@ -74,6 +74,18 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     (productAttribute) => productAttribute.informativeComponent,
   )?.informativeComponent;
 
+  const renderDescription = () => (
+    <div className="flex flex-col gap-10">
+      <Guarantees availableOffers={availableOffers} />
+      <ProductDescription
+        tags={tags}
+        variantCondition={variantCondition}
+        description={description}
+        isTitle={false}
+      />
+    </div>
+  );
+
   return (
     <>
       <ProductJsonLd
@@ -91,29 +103,19 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
       />
 
       <div className="grid w-full grid-cols-5 items-start gap-5 overflow-hidden">
-        <div className="relative col-span-5 flex w-full flex-col gap-10 lg:col-span-3">
-          <div>
-            {images && (
-              <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
-                <ProductGallery
-                  images={compact(images)}
-                  labels={labels}
-                  isSoldOut={isSoldOut}
-                />
-              </div>
-            )}
-            <div className="mt-5">
-              <Guarantees availableOffers={availableOffers} />
+        <div className="relative col-span-5 flex w-full flex-col gap-5 lg:col-span-3">
+          {images && (
+            <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
+              <ProductGallery
+                images={compact(images)}
+                labels={labels}
+                isSoldOut={isSoldOut}
+              />
             </div>
-          </div>
-          <ProductDescription
-            tags={tags}
-            variantCondition={variantCondition}
-            description={description}
-            isTitle={false}
-          />
+          )}
+          <div className="hidden w-full lg:flex">{renderDescription()}</div>
         </div>
-        <div className="col-span-5 my-auto flex h-full flex-grow flex-col lg:col-span-2 lg:gap-6">
+        <div className="col-span-5 my-auto flex h-full flex-grow flex-col gap-6 lg:col-span-2">
           <div className="flex flex-col gap-2">
             <Characteristics
               tags={tags}
@@ -226,6 +228,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               (collection) => collection === config.collectionIds.bike,
             ) && <Support />}
           </div>
+          <div className="flex lg:hidden">{renderDescription()}</div>
         </div>
       </div>
       {pageBottomElementRef &&
