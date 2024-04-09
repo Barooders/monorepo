@@ -67,12 +67,12 @@ const B2B_GUARANTEES = [
 
 const BaseGuarantees: React.FC<GuaranteePropsType> = ({ guarantees }) => {
   return (
-    <div className="hidden gap-2 lg:flex">
+    <div className="hidden flex-wrap gap-2 lg:flex">
       {guarantees.map((guarantee) => {
         const isPrimary = guarantee.intent === 'primary';
         return (
           <div
-            className={`flex items-center gap-2 rounded-full ${isPrimary ? 'bg-primary-400' : 'bg-slate-100'} p-2 pr-4`}
+            className={`flex items-center gap-2 rounded-full ${isPrimary ? 'bg-primary-400' : 'bg-slate-100'} p-1 pr-3`}
             key={guarantee.name}
           >
             <div className="rounded-full bg-white p-2">
