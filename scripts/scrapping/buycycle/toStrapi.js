@@ -461,9 +461,9 @@ const run = async () => {
 
   const brands = require('./brandData.json').brands;
 
-  // const idx = brands.findIndex((n) => n.name === 'Riese & Müller');
+  const idx = brands.findIndex((n) => n.name === 'Boardman');
 
-  // const filtered = brands.splice(idx);
+  const filtered = brands.splice(idx);
   // const brands = [
   //   // 'ktm',
   //   // 'fantic',
@@ -479,7 +479,7 @@ const run = async () => {
   //   // 'gasgas',
   // ];
   // console.log(filtered.map((n) => n.name).join('\n'));
-  const filtered = brands;
+  // const filtered = brands;
 
   for (const { slug } of filtered) {
     console.log(`Processing ${slug}`);
@@ -591,7 +591,14 @@ const updateProductModelBrand = async ({
   );
 
   const productModelResult = await productModelResponse.json();
-  const productModelId = productModelResult.data[0].id;
+  const productModelId = productModelResult.data[0]?.id;
+
+  if (productModelId == null) {
+    console.log(
+      `Model ${getModelName(model, year, brand)} not found for ${brand.name}`,
+    );
+    return;
+  }
 
   const url = `${STRAPI_URL}/api/pim-product-models/${productModelId}`;
   const options = {
