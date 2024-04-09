@@ -13,7 +13,7 @@ export function CaptureBackgroundTransaction() {
       const executeMethod = async () => {
         result = await methodToInstrument.apply(this, args);
       };
-      await newrelic.startBackgroundTransaction(propertyKey, executeMethod());
+      await newrelic.startBackgroundTransaction(propertyKey, executeMethod);
       return result;
     };
     return descriptor;
