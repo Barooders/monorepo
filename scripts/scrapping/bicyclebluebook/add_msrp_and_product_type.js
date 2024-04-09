@@ -403,7 +403,7 @@ const run = async () => {
   const brands = (await getObjectContent('data/brandData.json')).bicycleBrands;
   const idx = brands.findIndex(({ name }) => name === 'Bacchetta');
 
-  const filtered = brands.slice(idx);
+  const filtered = brands.slice(0, idx);
 
   for (const { name: brand } of filtered) {
     await updateProductsFrom(brand);

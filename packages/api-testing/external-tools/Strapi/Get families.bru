@@ -5,11 +5,13 @@ meta {
 }
 
 get {
-  url: {{strapiBaseUrl}}/api/pim-product-families?populate=productType
+  url: {{strapiBaseUrl}}/api/pim-product-families?populate=productType&fields[0]=name&filters[name][$eq]=Racemax
   body: none
   auth: none
 }
 
 query {
   populate: productType
+  fields[0]: name
+  filters[name][$eq]: Racemax
 }
