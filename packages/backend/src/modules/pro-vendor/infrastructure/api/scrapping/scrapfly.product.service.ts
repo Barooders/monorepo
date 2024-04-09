@@ -98,10 +98,21 @@ export class ScrapflyProductService implements ProVendorStrategy {
 
     const mapReferenceUrl =
       this.vendorConfigService.getVendorConfig().catalog.scrapfly
-        ?.mapReferenceUrl || ((url: string) => url);
-    const scrappedUrl = mapReferenceUrl(referenceUrl);
+        ?.mapReferenceUrl;
+
+    const mappedUrl = mapReferenceUrl
+      ? mapReferenceUrl(referenceUrl)
+      : undefined;
+
+    if (mappedUrl?.status === 'error') {
+      this.logger.warn(
+        `[Product: ${internalProductId}] Error while mapping reference URL: ${mappedUrl.message}`,
+      );
+      return;
+    }
 
     const scrappingUrl = new URL('https://api.scrapfly.io/scrape');
+    const scrappedUrl = mappedUrl?.url ?? referenceUrl;
     scrappingUrl.searchParams.append('url', scrappedUrl);
     scrappingUrl.searchParams.append('asp', 'true');
     scrappingUrl.searchParams.append(

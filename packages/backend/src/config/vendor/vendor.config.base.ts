@@ -611,12 +611,16 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           const productId = productIdMatch?.[1];
 
           if (!productId) {
-            throw new Error(
-              `Could not find a valid Everide product id after comma in reference url ${url}`,
-            );
+            return {
+              status: 'error',
+              message: `Could not find a valid Everide product id after comma in reference url ${url}`,
+            };
           }
 
-          return `https://www.everide.app/api/v2/products/${productId}`;
+          return {
+            status: 'success',
+            url: `https://www.everide.app/api/v2/products/${productId}`,
+          };
         },
         isAvailable: (apiContent: string) => {
           try {

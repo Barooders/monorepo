@@ -1,4 +1,5 @@
-import { startBackgroundTransaction } from 'newrelic';
+/* eslint-disable import/no-named-as-default-member */
+import newrelic from 'newrelic';
 
 export function CaptureBackgroundTransaction() {
   return function (
@@ -12,7 +13,7 @@ export function CaptureBackgroundTransaction() {
       const executeMethod = async () => {
         result = await methodToInstrument.apply(this, args);
       };
-      await startBackgroundTransaction(propertyKey, executeMethod());
+      await newrelic.startBackgroundTransaction(propertyKey, executeMethod);
       return result;
     };
     return descriptor;

@@ -185,7 +185,15 @@ interface CSVCatalogConfig {
 interface ScrapflyCatalogConfig {
   productCollectionHandle?: string;
   isAvailable?: (apiContent: string) => boolean;
-  mapReferenceUrl?: (url: string) => string;
+  mapReferenceUrl?: (url: string) =>
+    | {
+        status: 'success';
+        url: string;
+      }
+    | {
+        status: 'error';
+        message: string;
+      };
 }
 
 interface CommonOrderConfig {
