@@ -200,6 +200,9 @@ const fr = {
             <span className="font-medium">7j/7</span>
           </>
         ),
+        financialOffer: (amount: number) => (
+          <>Jusqu&apos;à {amount}€ de prime à l&apos;achat</>
+        ),
       },
       splitPayment: {
         result: ({ amount }: { amount: number }) => (

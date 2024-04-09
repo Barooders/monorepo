@@ -19,7 +19,6 @@ import CommissionDetails from './_components/CommissionDetails';
 import DeliveryInformation from './_components/Delivery';
 import FavoriteButton from './_components/FavoriteButton';
 import { Guarantees } from './_components/Guarantees';
-import Offers from './_components/Offers';
 import PaymentIcons from './_components/PaymentIcons';
 import ProductDescription from './_components/ProductDescription';
 import ProductGallery from './_components/ProductGallery';
@@ -106,7 +105,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             </div>
           )}
           <div className="mt-2 lg:mt-7">
-            <Guarantees />
+            <Guarantees availableOffers={availableOffers} />
           </div>
           <div className="mt-6 hidden lg:block">
             <ProductDescription
@@ -271,12 +270,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               <Support />
             </div>
           )}
-          <div className="mt-2">
-            <Offers
-              product={product}
-              availableOffers={availableOffers ?? []}
-            />
-          </div>
         </div>
       </div>
       {pageBottomElementRef &&

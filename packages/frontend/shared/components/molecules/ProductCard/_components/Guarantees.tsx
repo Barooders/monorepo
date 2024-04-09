@@ -2,16 +2,25 @@ import { getDictionary } from '@/i18n/translate';
 import { BiSolidCheckShield } from 'react-icons/bi';
 import { FaHeadset, FaRegStar, FaWallet } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
+import { getSubventionAmount } from '../_utils/offers';
+import { AvailableOffers } from '../config';
 
 const dict = getDictionary('fr');
 
-type PropsType = {
+type PropsType = { availableOffers?: AvailableOffers[] };
+type GuaranteePropsType = PropsType & {
   guarantees: {
     name: string;
     content: () => React.ReactNode;
     renderIcon: () => React.ReactNode;
   }[];
 };
+
+const formatFinancialHelp = (amount: number) => ({
+  name: 'financialOffer',
+  content: () => dict.components.productCard.guarantees.financialOffer(amount),
+  renderIcon: () => <FaRegStar className="text-xl" />,
+});
 
 const GUARANTEES = [
   {
@@ -54,7 +63,7 @@ const B2B_GUARANTEES = [
   },
 ];
 
-const BaseGuarantees: React.FC<PropsType> = ({ guarantees }) => {
+const BaseGuarantees: React.FC<GuaranteePropsType> = ({ guarantees }) => {
   return (
     <div className="hidden gap-2 lg:flex">
       {guarantees.map((guarantee) => (
@@ -72,10 +81,15 @@ const BaseGuarantees: React.FC<PropsType> = ({ guarantees }) => {
   );
 };
 
-export const Guarantees: React.FC = () => {
-  return <BaseGuarantees guarantees={GUARANTEES} />;
+export const Guarantees: React.FC<PropsType> = ({ availableOffers }) => {
+  const subventionAmount = getSubventionAmount(availableOffers ?? []);
+  const guarantees = subventionAmount
+    ? [formatFinancialHelp(subventionAmount), ...GUARANTEES]
+    : GUARANTEES;
+
+  return <BaseGuarantees guarantees={guarantees} />;
 };
 
-export const B2BGuarantees: React.FC = () => {
+export const B2BGuarantees: React.FC<PropsType> = () => {
   return <BaseGuarantees guarantees={B2B_GUARANTEES} />;
 };
