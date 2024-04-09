@@ -1,4 +1,5 @@
 import { SynchronizedProVendor } from '@config/vendor/types';
+import { CaptureBackgroundTransaction } from '@libs/application/decorators/capture-background-transaction';
 import {
   AggregateName,
   EventName,
@@ -39,6 +40,7 @@ export class ProVendorCLIConsole {
     private readonly loggerService: LoggerService,
   ) {}
 
+  @CaptureBackgroundTransaction()
   @Command({
     command: 'syncProducts <vendorSlug>',
     description:
@@ -135,6 +137,7 @@ export class ProVendorCLIConsole {
     }
   }
 
+  @CaptureBackgroundTransaction()
   @Command({
     command: 'updateProductStatuses <vendorSlug>',
     description: 'Update products statuses and variant stocks from vendor',

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class TuvalumProductDto {
   @ApiProperty({
@@ -69,7 +69,8 @@ export class TuvalumProductDto {
     description: 'Previous product price',
   })
   @IsInt()
-  old_price!: number;
+  @IsOptional()
+  old_price?: number;
 
   @ApiProperty({
     description: 'Product size as string',

@@ -1,11 +1,11 @@
 meta {
-  name: Cicklet products
+  name: Ciklet products
   type: http
   seq: 27
 }
 
 get {
-  url: https://api.ciklet.cc/wp-json/wc/v3/products/11896
+  url: https://api.ciklet.cc/wp-json/wc/v3/products/12465?modified_after=2023-03-03T15:00:00&category=793&consumer_key={{cikletApiKey}}&consumer_secret={{cikletApiSecret}}
   body: none
   auth: none
 }
@@ -15,8 +15,4 @@ query {
   category: 793
   consumer_key: {{cikletApiKey}}
   consumer_secret: {{cikletApiSecret}}
-}
-
-headers {
-  ~Authorization: Basic XX
 }

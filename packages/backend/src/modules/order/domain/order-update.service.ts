@@ -79,12 +79,12 @@ export class OrderUpdateService {
       author,
       updatedAt,
       async (storedOrder: Order) => {
-        await this.checkIfOrderStatusCanBeUpdated(
+        const canUpdate = await this.orderStatusCanBeUpdated(
           storedOrder.id,
           newStatus,
           storedOrder.status,
         );
-        if (actionsCallback) {
+        if (actionsCallback && canUpdate) {
           await actionsCallback();
         }
       },
@@ -124,14 +124,21 @@ export class OrderUpdateService {
     });
   }
 
-  private async checkIfOrderStatusCanBeUpdated(
+  private async orderStatusCanBeUpdated(
     orderId: string,
     newStatus: OrderStatus,
     oldStatus: OrderStatus,
-  ) {
+  ): Promise<boolean> {
+    if (oldStatus === newStatus) {
+      this.logger.warn(
+        `Order ${orderId} is already in status ${newStatus}. Skipping status update.`,
+      );
+      return false;
+    }
+
     const allowedPreviousStatuses = ALLOWED_PREVIOUS_STATUSES[newStatus];
 
-    if (allowedPreviousStatuses?.includes(oldStatus)) return;
+    if (allowedPreviousStatuses?.includes(oldStatus)) return true;
 
     throw new OrderStatusUpdateNotAllowed(orderId, newStatus, oldStatus);
   }

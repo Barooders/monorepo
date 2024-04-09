@@ -118,7 +118,7 @@ const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
             <input
               className="mb-4 rounded border border-gray-300 px-1 py-1"
               placeholder={dict.search.filters.search}
-              onChange={debounce((e) => searchForItems(e.target.value))}
+              onChange={debounce((e) => searchForItems(e.target.value), 300)}
             />
           )}
           <ul>

@@ -237,7 +237,11 @@ export class ProductController {
     draftProductInputDto: DraftProductInputDto,
     @Query()
     { sellerId }: { sellerId: string; isAdminMode?: string },
-  ): Promise<{ body: { product: StoredProduct } }> {
+  ): Promise<{
+    body?: { product: StoredProduct };
+    status: 'success' | 'error';
+    reason?: string;
+  }> {
     const author: Author = {
       type: 'user',
     };
@@ -256,12 +260,16 @@ export class ProductController {
         author,
       );
       return {
+        status: 'success',
         body: {
           product,
         },
       };
     } catch (error: any) {
-      throw new BadRequestException(error);
+      return {
+        status: 'error',
+        reason: error.message,
+      };
     }
   }
 

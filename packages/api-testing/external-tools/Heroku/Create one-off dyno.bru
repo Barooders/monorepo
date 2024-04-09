@@ -1,0 +1,26 @@
+meta {
+  name: Create one-off dyno
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://api.heroku.com/apps/{{herokuAppName}}/dynos
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/vnd.heroku+json; version=3
+  Authorization: Bearer {{herokuToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "attach": false,
+    "command": "yarn console proVendor syncProducts -f tuvalum",
+    "force_no_tty": null,
+    "type": "run"
+  }
+}
