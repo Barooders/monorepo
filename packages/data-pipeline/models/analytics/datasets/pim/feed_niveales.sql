@@ -3,7 +3,7 @@
 SELECT
     f.variant_id id,
     m.slug as type,
-    f.brand,
+    COALESCE(f.brand, "Barooders") as brand,
     p.year as year,
     f.barcode as ean,
     f_api.description,
