@@ -1,6 +1,7 @@
 'use client';
 
 import ProductJsonLd from '@/components/atoms/JsonLd/ProductJsonLd';
+import ProductVendor from '@/components/molecules/ProductVendor';
 import config from '@/config/env';
 import { getProductConfigFromShopifyTags } from '@/config/productAttributes';
 import { getDictionary } from '@/i18n/translate';
@@ -12,7 +13,6 @@ import { FaEye } from 'react-icons/fa';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import Modal from '../../atoms/Modal';
 import BuyButton from './_components/Actions/BuyButton';
-import ConversationButton from './_components/Actions/ConversationButton';
 import PriceOfferButton from './_components/Actions/PriceOfferButton';
 import Characteristics from './_components/Characteristics';
 import DeliveryInformation from './_components/Delivery';
@@ -22,7 +22,6 @@ import ProductDescription from './_components/ProductDescription';
 import ProductGallery from './_components/ProductGallery';
 import ProductPrice from './_components/ProductPrice';
 import DiscountLabel from './_components/ProductPrice/DiscountLabel';
-import ProductVendor from './_components/ProductVendor';
 import SplittedPayments from './_components/SplittedPayments';
 import StickyBarPayment from './_components/StickyBarPayment';
 import Support from './_components/Support';
@@ -124,14 +123,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 variantCondition={variantCondition}
                 componentSize="large"
               />
-              {vendor.name && (
-                <ProductVendor
-                  vendor={vendor.name}
-                  withLink={true}
-                  rating={vendor.reviews.averageRating}
-                  reviewCount={vendor.reviews.count}
-                />
-              )}
             </div>
             <div className="flex w-10 shrink-0 flex-col items-center">
               {numberOfViews > 10 && (
@@ -142,6 +133,16 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               )}
             </div>
           </div>
+          {vendor.name && (
+            <ProductVendor
+              vendor={vendor.name}
+              withLink={true}
+              rating={vendor.reviews.averageRating}
+              reviewCount={vendor.reviews.count}
+              productShopifyId={id}
+              size="card"
+            />
+          )}
           {discounts && (
             <div className="my-2 flex gap-2">
               {discounts.map((discount) => (
@@ -200,52 +201,27 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
 
           {!isSoldOut && (
             <div className="mt-6 flex w-full flex-col gap-3">
-              <div className="grid w-full grid-cols-2 gap-2">
-                {vendor.negociationMaxAmountPercent ? (
-                  <>
-                    <div className="col-span-2 flex gap-2">
-                      <BuyButton
-                        className="flex-grow"
-                        variant={variantShopifyId}
-                      />
-                      <FavoriteButton
-                        intent="square"
-                        productId={shopifyId}
-                      />
-                    </div>
-                    <PriceOfferButton
-                      className="col-span-1 uppercase"
-                      price={price}
-                      productId={id}
-                      variant={variantId}
-                      negociationMaxAmountPercent={
-                        vendor.negociationMaxAmountPercent
-                      }
-                      shouldRedirectToChat={true}
-                    />
-                    <ConversationButton
-                      className="col-span-1"
-                      productId={shopifyId}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div className="col-span-2 flex gap-2">
-                      <BuyButton
-                        className="flex-grow"
-                        variant={variantShopifyId}
-                      />
-                      <FavoriteButton
-                        intent="square"
-                        productId={shopifyId}
-                      />
-                    </div>
-                    <ConversationButton
-                      className="col-span-2"
-                      productId={shopifyId}
-                    />
-                  </>
+              <div className="flex gap-2">
+                {vendor.negociationMaxAmountPercent && (
+                  <PriceOfferButton
+                    className="flex-grow uppercase"
+                    price={price}
+                    productId={id}
+                    variant={variantId}
+                    negociationMaxAmountPercent={
+                      vendor.negociationMaxAmountPercent
+                    }
+                    shouldRedirectToChat={true}
+                  />
                 )}
+                <BuyButton
+                  className="flex-grow"
+                  variant={variantShopifyId}
+                />
+                <FavoriteButton
+                  intent="square"
+                  productId={shopifyId}
+                />
               </div>
             </div>
           )}

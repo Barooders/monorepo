@@ -4,7 +4,7 @@ import Link from '@/components/atoms/Link';
 type PropsType = {
   children: React.ReactNode;
   shouldWrap: boolean;
-  href: Url;
+  href?: Url;
   className?: string;
   onClick?: () => void;
 };

@@ -48,7 +48,7 @@ const fr = {
       soldBy: 'Vendu par',
       seeDetails: 'Voir détails',
       buyNow: 'Acheter',
-      chatNow: 'Contacter le vendeur',
+      chatNow: 'Contact',
       labels: {
         pro: 'PRO',
         refurbished: 'RECONDITIONNÉ',
@@ -58,6 +58,9 @@ const fr = {
             Prime à l&apos;achat
           </>
         ),
+      },
+      vendor: {
+        proVendor: 'Vendeur pro',
       },
       conditionKey: 'État',
       getConditionLabel: (condition: string) => {
@@ -236,7 +239,7 @@ const fr = {
         vendorSince: ({ date }: { date: string }) => (
           <>Vendeur depuis le {date}</>
         ),
-        seeReviews: 'Voir les avis',
+        reviews: 'avis',
       },
       discount: {
         remaining: 'Plus que ',

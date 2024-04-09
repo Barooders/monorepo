@@ -4,7 +4,7 @@ export type PropsType = {
   children?: React.ReactNode;
   className?: string;
   type?: 'submit' | 'button';
-  intent?: 'primary' | 'secondary' | 'tertiary';
+  intent?: 'primary' | 'secondary' | 'tertiary' | 'discrete';
   onClick?: () => void;
   href?: string;
   disabled?: boolean;
@@ -21,16 +21,22 @@ const Button: React.FC<PropsType> = ({
   disabled,
   size = 'medium',
 }) => {
-  const intentStyle =
-    intent === 'primary'
-      ? `text-white ${
+  const getIntentStyle = (intent: string) => {
+    switch (intent) {
+      case 'primary':
+        return `text-white ${
           disabled ? 'bg-gray-200' : 'border-primary-600 bg-primary-600'
-        }`
-      : intent === 'secondary'
-      ? `text-white ${disabled ? 'bg-gray-200' : 'border-black bg-black'}`
-      : intent === 'tertiary'
-      ? `bg-white ${disabled ? 'text-gray-200' : 'border-black text-black'}`
-      : '';
+        }`;
+      case 'secondary':
+        return `text-white ${disabled ? 'bg-gray-200' : 'border-black bg-black'}`;
+      case 'tertiary':
+        return `bg-white ${disabled ? 'text-gray-200' : 'border-black text-black'}`;
+      case 'discrete':
+        return 'bg-gray-200 text-gray-500 font-semibold';
+      default:
+        return '';
+    }
+  };
 
   const sizeStyle =
     size === 'medium' ? 'py-2 px-4 text-base' : 'py-1 px-2 text-sm';
@@ -41,7 +47,7 @@ const Button: React.FC<PropsType> = ({
     <ButtonTag
       type={type}
       disabled={disabled}
-      className={`rounded-md border ${intentStyle} ${sizeStyle} text-center ${
+      className={`rounded-md border ${getIntentStyle(intent)} ${sizeStyle} text-center ${
         className ?? ''
       }`}
       onClick={onClick}
