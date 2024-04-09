@@ -4,6 +4,8 @@ import {
   PIMDynamicAttribute,
   PIMProductType,
 } from '@libs/domain/types';
+import { jsonStringify } from '@libs/helpers/json';
+import { NewBrand } from '@modules/product/domain/types';
 import { createRestClient } from '../http/clients';
 
 export const strapiClient = createRestClient(
@@ -63,4 +65,77 @@ export const getPimCategoryFromId = async (
   );
 
   return data;
+};
+
+export const createBrand = async ({
+  name,
+}: NewBrand): Promise<{ id: number }> => {
+  const response = await strapiClient<{ data: { id: number } }>(
+    `/api/pim-brands`,
+    {
+      method: 'POST',
+      body: jsonStringify({
+        data: {
+          name,
+        },
+      }),
+    },
+  );
+
+  return response.data;
+};
+
+export const createFamily = async (
+  name: string,
+  brandId: number,
+  productTypeId: number,
+): Promise<{ id: number }> => {
+  const response = await strapiClient<{ data: { id: number } }>(
+    `/api/pim-product-families`,
+    {
+      method: 'POST',
+      body: jsonStringify({
+        data: {
+          name,
+          brand: {
+            set: [brandId],
+          },
+          productType: {
+            set: [productTypeId],
+          },
+        },
+      }),
+    },
+  );
+
+  return response.data;
+};
+
+export const createModel = async ({
+  name,
+  manufacturer_suggested_retail_price,
+  imageUrl,
+  year,
+  familyId,
+}: {
+  name: string;
+  manufacturer_suggested_retail_price?: number;
+  imageUrl: string;
+  year: number;
+  familyId: number;
+}): Promise<void> => {
+  await strapiClient<{ data: { id: number } }>(`/api/pim-product-models`, {
+    method: 'POST',
+    body: jsonStringify({
+      data: {
+        name,
+        manufacturer_suggested_retail_price,
+        imageUrl,
+        year,
+        productFamily: {
+          set: [familyId],
+        },
+      },
+    }),
+  });
 };

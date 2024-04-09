@@ -5,7 +5,8 @@ import {
   StoredProduct,
   StoredVariant,
 } from '@libs/domain/product.interface';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 class SimpleImageDTO implements Image {
   @ApiProperty()
@@ -162,4 +163,58 @@ export class ProductAdminDTO implements StoredProduct {
 
   @ApiProperty()
   source?: string;
+}
+
+class ExistingFamily {
+  @ApiProperty()
+  id!: number;
+}
+
+class ExistingBrand {
+  @ApiProperty()
+  id!: number;
+}
+
+class NewBrand {
+  @ApiProperty()
+  name!: string;
+}
+
+class NewFamily {
+  @ApiProperty()
+  name!: string;
+
+  @ApiProperty()
+  productType!: number;
+
+  @ApiProperty({
+    oneOf: [
+      { $ref: getSchemaPath(ExistingBrand) },
+      { $ref: getSchemaPath(NewBrand) },
+    ],
+  })
+  brand!: ExistingBrand | NewBrand;
+}
+
+export class CreateProductModelDto {
+  @ApiProperty()
+  name!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  manufacturer_suggested_retail_price?: number;
+
+  @ApiProperty()
+  imageUrl!: string;
+
+  @ApiProperty()
+  year!: number;
+
+  @ApiProperty({
+    oneOf: [
+      { $ref: getSchemaPath(ExistingFamily) },
+      { $ref: getSchemaPath(NewFamily) },
+    ],
+  })
+  family!: ExistingFamily | NewFamily;
 }

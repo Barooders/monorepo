@@ -1,0 +1,23 @@
+meta {
+  name: Create Brand
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{strapiBaseUrl}}/api/pim-brands
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{strapiToken}}
+}
+
+body:json {
+  {
+    "data": {
+      "name": "test"
+    }
+  }
+}

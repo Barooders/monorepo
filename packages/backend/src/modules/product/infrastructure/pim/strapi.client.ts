@@ -1,5 +1,8 @@
 import { PIMCategory, PIMProductType } from '@libs/domain/types';
 import {
+  createBrand,
+  createFamily,
+  createModel,
   getPimCategoryFromId,
   getPimProductTypesFromName,
 } from '@libs/infrastructure/strapi/strapi.helper';
@@ -9,6 +12,12 @@ import {
   BIKE_CATEGORY_ID as STRAPI_BIKE_CATEGORY_ID,
 } from '@modules/product/constants';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
+import {
+  CreateProductModel,
+  NewFamily,
+  isNewBrand,
+  isNewFamily,
+} from '@modules/product/domain/types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
@@ -80,5 +89,40 @@ export class StrapiClient implements IPIMClient {
     );
 
     return firstMatch;
+  }
+
+  async createProductModel(model: CreateProductModel): Promise<void> {
+    let familyId: number;
+    if (isNewFamily(model.family)) {
+      const { id: newFamilyId } = await this.createFamily(model.family);
+      familyId = newFamilyId;
+    } else {
+      familyId = model.family.id;
+    }
+
+    await createModel({
+      name: model.name,
+      manufacturer_suggested_retail_price:
+        model.manufacturer_suggested_retail_price,
+      imageUrl: model.imageUrl,
+      year: model.year,
+      familyId,
+    });
+  }
+
+  private async createFamily({
+    brand,
+    name,
+    productType,
+  }: NewFamily): Promise<{ id: number }> {
+    let brandId: number;
+    if (isNewBrand(brand)) {
+      const { id: newBrandId } = await createBrand(brand);
+      brandId = newBrandId;
+    } else {
+      brandId = brand.id;
+    }
+
+    return await createFamily(name, brandId, productType);
   }
 }

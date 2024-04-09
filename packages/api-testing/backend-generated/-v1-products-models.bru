@@ -1,0 +1,27 @@
+meta {
+  name: -v1-products-models
+  type: http
+  seq: 54
+}
+
+post {
+  url: {{base_url}}/v1/products/models
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "another",
+    "manufacturer_suggested_retail_price": 1023,
+    "imageUrl": "lol",
+    "year": 2022,
+    "family": {
+      "id": 8940
+    }
+  }
+}
