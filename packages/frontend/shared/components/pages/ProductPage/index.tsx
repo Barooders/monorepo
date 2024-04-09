@@ -32,6 +32,7 @@ const ProductPage: React.FC<PropsType> = ({
 
   const availableOffers = getAvailableOffers(
     productCardProps.variantCondition,
+    productCardProps.hasRefurbishedVariant,
     breadcrumbs,
   );
 

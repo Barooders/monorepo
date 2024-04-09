@@ -8,10 +8,12 @@ import {
 
 export const getAvailableOffers = (
   productCondition: Condition,
+  isRefurbished: boolean,
   breadcrumbs: { shopifyId: string }[],
 ) => {
   const availableOffers: AvailableOffers[] = [];
-  if (productCondition !== Condition.AS_NEW) return availableOffers;
+  if (productCondition !== Condition.AS_NEW && !isRefurbished)
+    return availableOffers;
 
   const isElectricBike = breadcrumbs.some(({ shopifyId }) =>
     electricBikesCollectionIds.includes(shopifyId),
