@@ -59,10 +59,10 @@ const VirtualizedTable: React.FC<PropsType> = ({
               typeof value === 'string'
                 ? value
                 : typeof value?.props === 'object'
-                ? Object.values(value.props).filter(
-                    (value) => typeof value === 'string',
-                  )
-                : '',
+                  ? Object.values(value.props).filter(
+                      (value) => typeof value === 'string',
+                    )
+                  : '',
             );
             return JSON.stringify(values)
               .toLowerCase()
@@ -80,7 +80,7 @@ const VirtualizedTable: React.FC<PropsType> = ({
           placeholder={searchPlaceholder}
           type="text"
           className="ml-2 w-full bg-transparent focus:outline-none"
-          onChange={debounce((e) => setSearchedTerm(e.target.value))}
+          onChange={debounce((e) => setSearchedTerm(e.target.value), 300)}
         />
       </div>
       {displayDesktopTable ? (
@@ -167,7 +167,7 @@ const VirtualizedTable: React.FC<PropsType> = ({
               <>
                 <div className="m-0 h-full w-full overflow-hidden rounded-lg border border-zinc-200 text-sm text-gray-600">
                   <div className="flex h-full flex-col">
-                    <div className="flex flex-col gap-4 py-5 px-4">
+                    <div className="flex flex-col gap-4 px-4 py-5">
                       {columns.highlightedMobileColumns.map((key) => (
                         <div
                           className="w-fit"
