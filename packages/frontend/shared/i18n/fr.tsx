@@ -165,44 +165,13 @@ const fr = {
         ),
       },
       guarantees: {
-        christmasDelivery: () => (
-          <div className="flex gap-2">
-            <p>🎄 Livré chez vous avant Noël !</p>
-            <span>-</span>
-            <p className="font-semibold">Livraison 72h</p>
-          </div>
-        ),
-        verifiedOffers: () => (
-          <>
-            Annonces
-            <br />
-            <span className="font-medium">100% vérifiées</span>
-          </>
-        ),
-        ratings: () => (
-          <>
-            +100 000 avis
-            <br />
-            <span className="font-medium">Excellent 9/10</span>
-          </>
-        ),
-        securedPayment: () => (
-          <>
-            Paiements sécurisés
-            <br />
-            <span className="font-medium">en plusieurs fois</span>
-          </>
-        ),
-        clientService: () => (
-          <>
-            Conseils d&apos;expert
-            <br />
-            <span className="font-medium">7j/7</span>
-          </>
-        ),
         financialOffer: (amount: number) => (
           <>Jusqu&apos;à {amount}€ de prime à l&apos;achat</>
         ),
+        verifiedOffers: () => <>Annonces 100% vérifiées</>,
+        freeRefund: () => <>Retours gratuits sous 30 jours</>,
+        clientService: () => <>Conseils d&apos;expert vélo 7j/7</>,
+        sellYourBike: () => <>Revendez votre vélo avec Barooders</>,
       },
       splitPayment: {
         result: ({ amount }: { amount: number }) => (

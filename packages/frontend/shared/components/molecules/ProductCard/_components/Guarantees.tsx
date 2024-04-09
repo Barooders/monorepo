@@ -1,7 +1,14 @@
 import { getDictionary } from '@/i18n/translate';
 import { BiSolidCheckShield } from 'react-icons/bi';
-import { FaHeadset, FaRegStar, FaWallet } from 'react-icons/fa';
+import { FaWallet } from 'react-icons/fa';
+import {
+  HiMiniMagnifyingGlass,
+  HiOutlineArrowUturnLeft,
+  HiOutlineStar,
+  HiOutlineTag,
+} from 'react-icons/hi2';
 import { MdLocalShipping } from 'react-icons/md';
+import { PiHeadset } from 'react-icons/pi';
 import { getSubventionAmount } from '../_utils/offers';
 import { AvailableOffers } from '../config';
 
@@ -20,7 +27,7 @@ type GuaranteePropsType = PropsType & {
 const formatFinancialHelp = (amount: number) => ({
   name: 'financialOffer',
   content: () => dict.components.productCard.guarantees.financialOffer(amount),
-  renderIcon: () => <FaRegStar className="text-xl" />,
+  renderIcon: () => <HiOutlineStar className="text-xl" />,
   intent: 'primary',
 });
 
@@ -28,22 +35,22 @@ const GUARANTEES = [
   {
     name: 'verifiedOffers',
     content: dict.components.productCard.guarantees.verifiedOffers,
-    renderIcon: () => <BiSolidCheckShield className="text-xl" />,
+    renderIcon: () => <HiMiniMagnifyingGlass className="text-xl" />,
   },
   {
-    name: 'ratings',
-    content: dict.components.productCard.guarantees.ratings,
-    renderIcon: () => <FaRegStar className="text-xl" />,
-  },
-  {
-    name: 'securedPayment',
-    content: dict.components.productCard.guarantees.securedPayment,
-    renderIcon: () => <FaWallet className="text-xl" />,
+    name: 'freeRefund',
+    content: dict.components.productCard.guarantees.freeRefund,
+    renderIcon: () => <HiOutlineArrowUturnLeft className="text-xl" />,
   },
   {
     name: 'clientService',
     content: dict.components.productCard.guarantees.clientService,
-    renderIcon: () => <FaHeadset className="text-xl" />,
+    renderIcon: () => <PiHeadset className="text-xl" />,
+  },
+  {
+    name: 'sellYourBike',
+    content: dict.components.productCard.guarantees.sellYourBike,
+    renderIcon: () => <HiOutlineTag className="text-xl" />,
   },
 ];
 
