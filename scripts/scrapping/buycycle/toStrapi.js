@@ -479,7 +479,7 @@ const run = async () => {
   //   // 'gasgas',
   // ];
   // console.log(filtered.map((n) => n.name).join('\n'));
-  const filtered = brands.filter((n) => n.name === 'Trek');
+  const filtered = brands;
 
   for (const { slug } of filtered) {
     console.log(`Processing ${slug}`);
