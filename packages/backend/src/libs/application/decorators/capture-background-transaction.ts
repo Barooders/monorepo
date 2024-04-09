@@ -1,7 +1,18 @@
 /* eslint-disable import/no-named-as-default-member */
 import newrelic from 'newrelic';
 
-export function CaptureBackgroundTransaction() {
+export enum BackgroundTask {
+  CLI = 'cli',
+  CONSUMER = 'consumer',
+}
+
+export function CaptureBackgroundTransaction({
+  name,
+  type,
+}: {
+  name: string;
+  type: BackgroundTask;
+}) {
   return function (
     target: Record<string, any>,
     propertyKey: string,
@@ -13,7 +24,10 @@ export function CaptureBackgroundTransaction() {
       const executeMethod = async () => {
         result = await methodToInstrument.apply(this, args);
       };
-      await newrelic.startBackgroundTransaction(propertyKey, executeMethod);
+      await newrelic.startBackgroundTransaction(
+        `${type}:${name}`,
+        executeMethod,
+      );
       return result;
     };
     return descriptor;

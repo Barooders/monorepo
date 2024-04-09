@@ -1,5 +1,9 @@
 import { envName } from '@config/env/env.config';
 import { Environments } from '@config/env/types';
+import {
+  BackgroundTask,
+  CaptureBackgroundTransaction,
+} from '@libs/application/decorators/capture-background-transaction';
 import { UUID } from '@libs/domain/value-objects';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { Process, Processor } from '@nestjs/bull';
@@ -23,6 +27,10 @@ export class ProductIndexationConsumer {
   ) {}
 
   @Process({ concurrency: MAX_CONCURRENCY })
+  @CaptureBackgroundTransaction({
+    name: QueueNames.PRODUCTS_TO_INDEX,
+    type: BackgroundTask.CONSUMER,
+  })
   async transcode(job: Job<QueuePayload[QueueNames.PRODUCTS_TO_INDEX]>) {
     const { productId } = job.data;
     this.loggerService.setSharedContext({});

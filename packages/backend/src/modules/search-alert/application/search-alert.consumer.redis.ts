@@ -1,5 +1,9 @@
 import { envName } from '@config/env/env.config';
 import { Environments } from '@config/env/types';
+import {
+  BackgroundTask,
+  CaptureBackgroundTransaction,
+} from '@libs/application/decorators/capture-background-transaction';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
@@ -19,6 +23,10 @@ export class SearchAlertConsumer {
   ) {}
 
   @Process({ concurrency: MAX_CONCURRENCY })
+  @CaptureBackgroundTransaction({
+    name: QueueNames.SEARCH_ALERT_QUEUE_NAME,
+    type: BackgroundTask.CONSUMER,
+  })
   async transcode(job: Job<QueuePayload[QueueNames.SEARCH_ALERT_QUEUE_NAME]>) {
     const { alertId } = job.data;
     this.loggerService.setSharedContext({});

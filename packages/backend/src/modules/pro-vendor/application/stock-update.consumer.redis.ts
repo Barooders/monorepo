@@ -1,5 +1,9 @@
 import { envName } from '@config/env/env.config';
 import { Environments } from '@config/env/types';
+import {
+  BackgroundTask,
+  CaptureBackgroundTransaction,
+} from '@libs/application/decorators/capture-background-transaction';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
@@ -28,6 +32,10 @@ export class StockUpdateConsumer {
   ) {}
 
   @Process({ concurrency: MAX_CONCURRENCY })
+  @CaptureBackgroundTransaction({
+    name: QueueNames.UPDATE_STOCK,
+    type: BackgroundTask.CONSUMER,
+  })
   async transcode(job: Job<QueuePayload[QueueNames.UPDATE_STOCK]>) {
     const { vendorSlug, product } = job.data;
     this.loggerService.setSharedContext({
