@@ -8,10 +8,15 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 
 const dict = getDictionary('fr');
 
-const FavoriteButton: React.FC<{
+type PropsType = {
   productId: string;
-  intent?: 'secondary' | 'tertiary';
-}> = ({ productId, intent = 'tertiary' }) => {
+  intent?: 'secondary' | 'tertiary' | 'square';
+};
+
+const FavoriteButton: React.FC<PropsType> = ({
+  productId,
+  intent = 'tertiary',
+}) => {
   const { addFavoriteProducts, removeFavoriteProducts } = useFavoriteProducts();
   const { favoriteProducts } = useUser();
   const addFavorite: MouseEventHandler = async (e) => {
@@ -26,13 +31,21 @@ const FavoriteButton: React.FC<{
     await removeFavoriteProducts(productId);
   };
 
+  const getButtonStyle = (intent: PropsType['intent']) => {
+    if (intent === 'secondary') {
+      return 'rounded-full bg-slate-200 p-2 text-slate-800';
+    }
+
+    if (intent === 'square') {
+      return 'border rounded p-2 border-slate-300 hover:border-slate-800 text-slate-800 flex items-center justify-center';
+    }
+
+    return 'text-slate-400';
+  };
+
   return (
     <div
-      className={`flex flex-col items-center text-lg ${
-        intent === 'secondary'
-          ? 'rounded-full bg-slate-200 p-2 text-slate-800'
-          : 'text-slate-400'
-      }`}
+      className={`flex cursor-pointer flex-col items-center text-lg ${getButtonStyle(intent)}`}
       title={dict.components.productCard.favoriteButtonTitle}
     >
       {favoriteProducts && favoriteProducts.includes(productId) ? (

@@ -136,12 +136,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               )}
             </div>
             <div className="flex w-10 shrink-0 flex-col items-center">
-              <div className="w-full cursor-pointer">
-                <FavoriteButton
-                  intent="secondary"
-                  productId={shopifyId}
-                />
-              </div>
               {numberOfViews > 10 && (
                 <div className="mt-1 flex w-full flex-col items-center rounded-full bg-slate-100 p-2 text-lg text-slate-500">
                   <FaEye />
@@ -211,10 +205,16 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               <div className="grid w-full grid-cols-2 gap-2">
                 {vendor.negociationMaxAmountPercent ? (
                   <>
-                    <BuyButton
-                      className="col-span-2"
-                      variant={variantShopifyId}
-                    />
+                    <div className="col-span-2 flex gap-2">
+                      <BuyButton
+                        className="flex-grow"
+                        variant={variantShopifyId}
+                      />
+                      <FavoriteButton
+                        intent="square"
+                        productId={shopifyId}
+                      />
+                    </div>
                     <PriceOfferButton
                       className="col-span-1 uppercase"
                       price={price}
@@ -232,10 +232,16 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   </>
                 ) : (
                   <>
-                    <BuyButton
-                      className="col-span-2"
-                      variant={variantShopifyId}
-                    />
+                    <div className="col-span-2 flex gap-2">
+                      <BuyButton
+                        className="flex-grow"
+                        variant={variantShopifyId}
+                      />
+                      <FavoriteButton
+                        intent="square"
+                        productId={shopifyId}
+                      />
+                    </div>
                     <ConversationButton
                       className="col-span-2"
                       productId={shopifyId}
