@@ -38,8 +38,8 @@ const fr = {
       },
     },
     blockEllipsis: {
-      seeMore: 'Voir plus',
-      seeLess: 'Voir moins',
+      seeMore: 'Afficher plus',
+      seeLess: 'Afficher moins',
     },
     productCard: {
       description: 'Description',
@@ -48,7 +48,7 @@ const fr = {
       soldBy: 'Vendu par',
       seeDetails: 'Voir détails',
       buyNow: 'Acheter',
-      chatNow: 'Contact',
+      chatNow: 'Contacter',
       alreadySeenBy: (viewCount: number) => (
         <>
           Déjà <span className="text-primary-400">{viewCount} personnes</span>{' '}

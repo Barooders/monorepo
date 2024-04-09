@@ -91,29 +91,29 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
       />
 
       <div className="grid w-full grid-cols-5 items-start gap-5 overflow-hidden">
-        <div className="relative col-span-5 w-full lg:col-span-3">
-          {images && (
-            <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
-              <ProductGallery
-                images={compact(images)}
-                labels={labels}
-                isSoldOut={isSoldOut}
-              />
+        <div className="relative col-span-5 flex w-full flex-col gap-10 lg:col-span-3">
+          <div>
+            {images && (
+              <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
+                <ProductGallery
+                  images={compact(images)}
+                  labels={labels}
+                  isSoldOut={isSoldOut}
+                />
+              </div>
+            )}
+            <div className="mt-5">
+              <Guarantees availableOffers={availableOffers} />
             </div>
-          )}
-          <div className="mt-2 lg:mt-7">
-            <Guarantees availableOffers={availableOffers} />
           </div>
-          <div className="mt-6 hidden lg:block">
-            <ProductDescription
-              tags={tags}
-              variantCondition={variantCondition}
-              description={description}
-              isTitle={false}
-            />
-          </div>
+          <ProductDescription
+            tags={tags}
+            variantCondition={variantCondition}
+            description={description}
+            isTitle={false}
+          />
         </div>
-        <div className="col-span-5 my-auto flex h-full flex-grow flex-col lg:col-span-2 lg:gap-2">
+        <div className="col-span-5 my-auto flex h-full flex-grow flex-col lg:col-span-2 lg:gap-6">
           <div className="flex flex-col gap-2">
             <Characteristics
               tags={tags}
@@ -122,18 +122,19 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               variantCondition={variantCondition}
               componentSize="large"
             />
+            {vendor.name && (
+              <ProductVendor
+                vendor={vendor.name}
+                withLink={true}
+                rating={vendor.reviews.averageRating}
+                reviewCount={vendor.reviews.count}
+                productShopifyId={id}
+                size="card"
+              />
+            )}
           </div>
-          {vendor.name && (
-            <ProductVendor
-              vendor={vendor.name}
-              withLink={true}
-              rating={vendor.reviews.averageRating}
-              reviewCount={vendor.reviews.count}
-              productShopifyId={id}
-              size="card"
-            />
-          )}
-          {discounts && (
+
+          {discounts.length > 0 && (
             <div className="my-2 flex gap-2">
               {discounts.map((discount) => (
                 <DiscountLabel
@@ -145,104 +146,86 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               ))}
             </div>
           )}
-          <div className="my-1">
-            <ProductPrice
-              productId={shopifyId}
-              compareAtPrice={compareAtPrice}
-              price={price}
-              commissionAmount={commissionAmount}
-              componentSize="large"
-              discounts={discounts}
-            />
-          </div>
-          {price > 60 && (
-            <div className="mt-3">
-              <SplittedPayments price={price} />
-            </div>
-          )}
+          <ProductPrice
+            productId={shopifyId}
+            compareAtPrice={compareAtPrice}
+            price={price}
+            commissionAmount={commissionAmount}
+            componentSize="large"
+            discounts={discounts}
+          />
+          {price > 60 && <SplittedPayments price={price} />}
 
           {informativeComponent && (
-            <div className="mt-3">
-              <Modal
-                ButtonComponent={({ openModal }) => (
-                  <div
-                    className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 underline"
-                    onClick={openModal}
-                  >
-                    {dict.components.productCard.sizeGuide}{' '}
-                    <HiOutlineInformationCircle />
-                  </div>
-                )}
-                ContentComponent={() => <>{informativeComponent}</>}
-              />
-            </div>
+            <Modal
+              ButtonComponent={({ openModal }) => (
+                <div
+                  className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 underline"
+                  onClick={openModal}
+                >
+                  {dict.components.productCard.sizeGuide}{' '}
+                  <HiOutlineInformationCircle />
+                </div>
+              )}
+              ContentComponent={() => <>{informativeComponent}</>}
+            />
           )}
 
-          {numberOfViews > 10 && (
-            <div className="flex items-center gap-1 text-sm">
-              <FaFireFlameCurved className="text-primary-400" />{' '}
-              {dict.components.productCard.alreadySeenBy(numberOfViews)}
-            </div>
-          )}
+          <div className="flex flex-col gap-3">
+            {numberOfViews > 10 && (
+              <div className="flex items-center gap-1 text-sm">
+                <FaFireFlameCurved className="text-primary-400" />{' '}
+                {dict.components.productCard.alreadySeenBy(numberOfViews)}
+              </div>
+            )}
 
-          {(variants.length > 1 ||
-            !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (
-            <div>
-              <VariantSelector
-                variants={variants}
-                selectedVariantId={variantShopifyId ?? null}
-                onSelectVariant={(variantId) => setSelectedVariant(variantId)}
-              />
-            </div>
-          )}
-
-          {!isSoldOut && (
-            <div className="mt-6 flex w-full flex-col gap-3">
-              <div className="flex gap-2">
-                {vendor.negociationMaxAmountPercent && (
-                  <PriceOfferButton
-                    className="flex-1 uppercase"
-                    price={price}
-                    productId={id}
-                    variant={variantId}
-                    negociationMaxAmountPercent={
-                      vendor.negociationMaxAmountPercent
-                    }
-                    shouldRedirectToChat={true}
-                  />
-                )}
-                <BuyButton
-                  className="flex-1"
-                  variant={variantShopifyId}
-                />
-                <FavoriteButton
-                  intent="square"
-                  productId={shopifyId}
+            {(variants.length > 1 ||
+              !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (
+              <div>
+                <VariantSelector
+                  variants={variants}
+                  selectedVariantId={variantShopifyId ?? null}
+                  onSelectVariant={(variantId) => setSelectedVariant(variantId)}
                 />
               </div>
-            </div>
-          )}
-          <div className="mt-6 block lg:hidden">
-            <ProductDescription
-              tags={tags}
-              variantCondition={variantCondition}
-              description={description}
-              isTitle={true}
-            />
+            )}
+
+            {!isSoldOut && (
+              <div className="flex w-full flex-col gap-3">
+                <div className="flex gap-2">
+                  {vendor.negociationMaxAmountPercent && (
+                    <PriceOfferButton
+                      className="flex-1 uppercase"
+                      price={price}
+                      productId={id}
+                      variant={variantId}
+                      negociationMaxAmountPercent={
+                        vendor.negociationMaxAmountPercent
+                      }
+                      shouldRedirectToChat={true}
+                    />
+                  )}
+                  <BuyButton
+                    className="flex-1"
+                    variant={variantShopifyId}
+                  />
+                  <FavoriteButton
+                    intent="square"
+                    productId={shopifyId}
+                  />
+                </div>
+              </div>
+            )}
           </div>
-          <div className="mt-5">
+          <div className="flex flex-col gap-2">
             <DeliveryInformation
               variantId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
+            {collections.find(
+              (collection) => collection === config.collectionIds.bike,
+            ) && <Support />}
           </div>
-          {collections.find(
-            (collection) => collection === config.collectionIds.bike,
-          ) && (
-            <div className="mt-2">
-              <Support />
-            </div>
-          )}
         </div>
       </div>
       {pageBottomElementRef &&

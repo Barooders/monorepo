@@ -37,7 +37,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
           />
         )}
       </div>
-      <div className="col-span-2 my-auto flex flex-grow flex-col lg:col-span-1 lg:gap-2">
+      <div className="col-span-2 my-auto flex flex-grow flex-col gap-3 lg:col-span-1">
         <div className="flex w-full justify-between">
           <div className="flex flex-col gap-2">
             <Characteristics
@@ -57,23 +57,17 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             )}
           </div>
         </div>
-        <div className="my-1">
-          <ProductPrice
-            productId={id}
-            compareAtPrice={compareAtPrice}
-            price={price}
-            commissionAmount={commissionAmount}
-            discounts={discounts}
-          />
-        </div>
-        {price > 60 && (
-          <div className="mt-3">
-            <SplittedPayments price={price} />
-          </div>
-        )}
+        <ProductPrice
+          productId={id}
+          compareAtPrice={compareAtPrice}
+          price={price}
+          commissionAmount={commissionAmount}
+          discounts={discounts}
+        />
+        {price > 60 && <SplittedPayments price={price} />}
 
         {!isSoldOut && (
-          <div className="mt-6 flex gap-2">
+          <div className="flex gap-2">
             <DetailsButton
               className="flex-grow"
               handle={handle}

@@ -18,9 +18,11 @@ const ProductVendorCard: React.FC<ProductVendorProps> = ({
   const textStyle = 'leading-4 tracking-tight';
   return (
     <div className="flex justify-between gap-2 rounded border border-slate-300 px-2 py-2">
-      <div className={`flex flex-col gap-1 ${textStyle} text-sm`}>
-        <div className="flex items-center gap-1">
-          <span className="text-slate-600">
+      <div
+        className={`flex flex-col justify-center gap-1 ${textStyle} text-sm`}
+      >
+        <div className="flex items-center justify-center gap-1">
+          <span className="text-slate-500">
             {dict.components.productCard.soldBy}
           </span>{' '}
           <LinkWrapper
