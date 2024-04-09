@@ -201,7 +201,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               <div className="flex gap-2">
                 {vendor.negociationMaxAmountPercent && (
                   <PriceOfferButton
-                    className="flex-grow uppercase"
+                    className="flex-1 uppercase"
                     price={price}
                     productId={id}
                     variant={variantId}
@@ -212,7 +212,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   />
                 )}
                 <BuyButton
-                  className="flex-grow"
+                  className="flex-1"
                   variant={variantShopifyId}
                 />
                 <FavoriteButton
