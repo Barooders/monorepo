@@ -89,10 +89,15 @@ const MakeOfferModal: React.FC<PropsType> = ({
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
     if (!newPrice) return;
 
-    const computedBuyerId =
-      (buyerShopifyId
-        ? await getUserId(buyerShopifyId)
-        : hasuraToken?.user.id) ?? '';
+    const computedBuyerId = buyerShopifyId
+      ? await getUserId(buyerShopifyId)
+      : hasuraToken?.user.id;
+
+    if (!computedBuyerId) {
+      throw new Error(
+        `Could not determine buyer id when creating offer on ${productId}`,
+      );
+    }
 
     const priceOfferBody: operations['PriceOfferController_createPublicPriceOffer']['requestBody']['content']['application/json'] =
       {
