@@ -1,0 +1,16 @@
+meta {
+  name: Get brand
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-brands?fields[0]=name&filters[name][$eq]=Cinelli
+  body: none
+  auth: none
+}
+
+query {
+  fields[0]: name
+  filters[name][$eq]: Cinelli
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Get brand
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://barooders-strapi.herokuapp.com/api/pim-brands?fields[0]=name&pagination[limit]=1&filters[name][$eq]=Trek
+  body: none
+  auth: none
+}
+
+query {
+  fields[0]: name
+  pagination[limit]: 1
+  filters[name][$eq]: Trek
+}

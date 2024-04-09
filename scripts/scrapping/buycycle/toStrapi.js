@@ -5,7 +5,7 @@ const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/buycycle';
 
 const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
-// const STRAPI_URL = 'http://localhost:1337';
+// const STRAPI_URL = 'http:///localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 const s3 = new AWS.S3({
@@ -85,7 +85,12 @@ const createBrand = async (name) => {
   return result.data;
 };
 
+const PIM_BRANDS = {};
 const getOrCreateBrand = async (name) => {
+  if (PIM_BRANDS[name] !== undefined) {
+    return PIM_BRANDS[name];
+  }
+
   console.log(`The brand ${name} is being searched`);
 
   if (name === 'Riese & Müller') {
@@ -97,17 +102,25 @@ const getOrCreateBrand = async (name) => {
   );
   const result = await response.json();
 
-  console.log(JSON.stringify(result));
-
   if (result.data.length === 0) {
-    return await createBrand(name);
+    const brand = await createBrand(name);
+    PIM_BRANDS[name] = brand;
+    return brand;
   }
 
   console.log(`Brand ${name}:`, result.data[0]);
-  return result.data[0];
+
+  const brand = result.data[0];
+  PIM_BRANDS[name] = brand;
+  return brand;
 };
 
+const PIM_FAMILIES = {};
 const getOrCreateFamily = async ({ brand, brandId, family, productType }) => {
+  if (PIM_FAMILIES[`${family}-${brandId}`] !== undefined) {
+    return PIM_FAMILIES[`${family}-${brandId}`];
+  }
+
   const response = await fetch(
     `${STRAPI_URL}/api/pim-product-families?` +
       new URLSearchParams({
@@ -127,7 +140,9 @@ const getOrCreateFamily = async ({ brand, brandId, family, productType }) => {
 
   const result = await response.json();
   if (result.data.length === 0) {
-    return await createFamily({ brandId, family, productType });
+    const familyResult = await createFamily({ brandId, family, productType });
+    PIM_FAMILIES[`${family}-${brand}`] = familyResult;
+    return familyResult;
   } else {
     if (
       result.data[0].attributes.productType.data === null &&
@@ -138,8 +153,10 @@ const getOrCreateFamily = async ({ brand, brandId, family, productType }) => {
     }
   }
 
+  const familyResult = result.data[0];
+  PIM_FAMILIES[`${family}-${brandId}`] = familyResult;
   // console.log(`Family ${family} has id`, result.data[0].id);
-  return result.data[0];
+  return familyResult;
 };
 
 const createFamily = async ({ brandId, family, productType }) => {
@@ -444,9 +461,9 @@ const run = async () => {
 
   const brands = require('./brandData.json').brands;
 
-  // const idx = brands.findIndex((n) => n.name === 'Riese & Müller');
+  const idx = brands.findIndex((n) => n.name === 'Boardman');
 
-  // const filtered = brands.splice(idx);
+  const filtered = brands.splice(idx);
   // const brands = [
   //   // 'ktm',
   //   // 'fantic',
@@ -462,11 +479,168 @@ const run = async () => {
   //   // 'gasgas',
   // ];
   // console.log(filtered.map((n) => n.name).join('\n'));
+  // const filtered = brands;
 
-  for (const { slug } of brands) {
+  for (const { slug } of filtered) {
     console.log(`Processing ${slug}`);
-    await createProductForBrand(slug);
+    await updateBikes(slug);
   }
+};
+
+const updateBikes = async (brand) => {
+  const files = (
+    await paginatedListFiles(BUCKET_NAME, `${PATH_PREFIX}/data/bikes/${brand}`)
+  ).filter((file) => file.endsWith('.json'));
+
+  if (files.length === 0) {
+    return;
+  }
+
+  const bikes = (
+    await Promise.all(files.map((file) => getObjectContent(file)))
+  ).flatMap((d) => d.data);
+
+  const families = {};
+  bikes
+    .map((b) => ({
+      family: b.family.name,
+      brand: b.brand?.name,
+    }))
+    .forEach((f) => {
+      if (families[f.family] === undefined) {
+        families[f.family] = new Set();
+      }
+      families[f.family].add(f.brand);
+    });
+
+  const previousBrand = bikes[0].brand.name;
+
+  for (const bike of bikes) {
+    const { year, brand, family, name, image, bike_category_id, msrp } = bike;
+
+    if (families[family.name].size === 1) {
+      continue;
+    }
+
+    if (brand == null) {
+      console.log(`Brand is null for ${name}`);
+      continue;
+    }
+
+    if (previousBrand === brand.name) {
+      continue;
+    }
+
+    await updateProductModelBrand({
+      family,
+      previousBrandName: previousBrand,
+      brand,
+      model: name,
+      year,
+      bike_category_id,
+    });
+  }
+};
+
+const updateProductModelBrand = async ({
+  family,
+  previousBrandName,
+  brand,
+  model,
+  bike_category_id,
+  year,
+}) => {
+  if (
+    bikeCategoryMapping[bike_category_id] === undefined &&
+    bike_category_id !== 27
+  ) {
+    console.log(
+      `Unknown bike category: ${bike_category_id} for ${model} of ${brand.name} and family ${family.name}`,
+    );
+  }
+
+  const { id: brandId } = await getOrCreateBrand(mappedName(brand.name));
+  const { id: previousBrandId } = await getOrCreateBrand(
+    mappedName(previousBrandName),
+  );
+
+  const { id: previousFamilyId } = await getOrCreateFamily({
+    brandId: previousBrandId,
+    family: family.name,
+  });
+
+  // console.log(
+  //   `Previous family id: ${previousFamilyId} for ${family.name} and ${previousBrandId}`,
+  // );
+
+  const { id: familyId } = await getOrCreateFamily({
+    brand,
+    brandId,
+    family: family.name,
+    productType: bikeCategoryMapping[bike_category_id],
+  });
+  // console.log(`New family id: ${familyId} for ${family.name} and ${brandId}`);
+
+  const productModelResponse = await fetch(
+    `${STRAPI_URL}/api/pim-product-models?fields%5B0%5D=name&pagination%5Blimit%5D=1&filters%5Bname%5D%5B%24eqi%5D=${getModelName(model, year, brand)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${STRAPI_TOKEN}`,
+      },
+    },
+  );
+
+  const productModelResult = await productModelResponse.json();
+  const productModelId = productModelResult.data[0]?.id;
+
+  if (productModelId == null) {
+    console.log(
+      `Model ${getModelName(model, year, brand)} not found for ${brand.name}`,
+    );
+    return;
+  }
+
+  const url = `${STRAPI_URL}/api/pim-product-models/${productModelId}`;
+  const options = {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${STRAPI_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data: {
+        brand: {
+          disconnect: [
+            {
+              id: previousBrandId,
+            },
+          ],
+          connect: [
+            {
+              id: brandId,
+            },
+          ],
+        },
+        productFamily: {
+          disconnect: [
+            {
+              id: previousFamilyId,
+            },
+          ],
+          connect: [
+            {
+              id: familyId,
+            },
+          ],
+        },
+      },
+    }),
+  };
+
+  const response = await fetch(url, options);
+  const result = await response.json();
+
+  // console.log(`Model '${model}' updated with id`, productModelId);
 };
 
 run();
