@@ -37,9 +37,9 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
           />
         )}
       </div>
-      <div className="col-span-2 my-auto flex flex-grow flex-col gap-3 lg:col-span-1">
+      <div className="col-span-2 my-auto flex w-full flex-grow flex-col gap-3 lg:col-span-1">
         <div className="flex w-full justify-between">
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-2">
             <Characteristics
               tags={tags}
               title={title}
@@ -48,12 +48,14 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
               componentSize="large"
             />
             {vendor.name && (
-              <ProductVendor
-                vendor={vendor.name}
-                withLink={true}
-                productShopifyId={id}
-                size="card"
-              />
+              <div className="w-full">
+                <ProductVendor
+                  vendor={vendor.name}
+                  withLink={true}
+                  productShopifyId={id}
+                  size="card"
+                />
+              </div>
             )}
           </div>
         </div>
