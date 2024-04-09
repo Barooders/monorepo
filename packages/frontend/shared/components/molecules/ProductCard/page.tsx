@@ -9,7 +9,7 @@ import compact from 'lodash/compact';
 import head from 'lodash/head';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FaEye } from 'react-icons/fa';
+import { FaFireFlameCurved } from 'react-icons/fa6';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import Modal from '../../atoms/Modal';
 import BuyButton from './_components/Actions/BuyButton';
@@ -114,24 +114,14 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           </div>
         </div>
         <div className="col-span-5 my-auto flex h-full flex-grow flex-col lg:col-span-2 lg:gap-2">
-          <div className="flex w-full justify-between">
-            <div className="flex flex-col gap-2">
-              <Characteristics
-                tags={tags}
-                title={title}
-                productType={productType}
-                variantCondition={variantCondition}
-                componentSize="large"
-              />
-            </div>
-            <div className="flex w-10 shrink-0 flex-col items-center">
-              {numberOfViews > 10 && (
-                <div className="mt-1 flex w-full flex-col items-center rounded-full bg-slate-100 p-2 text-lg text-slate-500">
-                  <FaEye />
-                  <p className="mt-1 text-xs">{numberOfViews}</p>
-                </div>
-              )}
-            </div>
+          <div className="flex flex-col gap-2">
+            <Characteristics
+              tags={tags}
+              title={title}
+              productType={productType}
+              variantCondition={variantCondition}
+              componentSize="large"
+            />
           </div>
           {vendor.name && (
             <ProductVendor
@@ -185,6 +175,13 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 )}
                 ContentComponent={() => <>{informativeComponent}</>}
               />
+            </div>
+          )}
+
+          {numberOfViews > 10 && (
+            <div className="flex items-center gap-1 text-sm">
+              <FaFireFlameCurved className="text-primary-400" />{' '}
+              {dict.components.productCard.alreadySeenBy(numberOfViews)}
             </div>
           )}
 

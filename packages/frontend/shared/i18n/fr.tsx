@@ -49,6 +49,12 @@ const fr = {
       seeDetails: 'Voir détails',
       buyNow: 'Acheter',
       chatNow: 'Contact',
+      alreadySeenBy: (viewCount: number) => (
+        <>
+          Déjà <span className="text-primary-400">{viewCount} personnes</span>{' '}
+          ont vu ce produit
+        </>
+      ),
       labels: {
         pro: 'PRO',
         refurbished: 'RECONDITIONNÉ',
