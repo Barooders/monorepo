@@ -156,7 +156,7 @@ export class TuvalumMapper {
             envName === Environments.LOCAL ? '-local' : ''
           }`,
           condition: productCondition,
-          compare_at_price: tuvalumProduct.old_price.toString(),
+          compare_at_price: tuvalumProduct.old_price?.toString(),
           inventory_quantity: this.getProductQuantity(tuvalumProduct),
         },
       ],
