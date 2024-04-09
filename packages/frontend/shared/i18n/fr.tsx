@@ -363,7 +363,7 @@ const fr = {
   homepage: {
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
-      title: "Barooders | N°1 du Vélo & Équipements de Sport d'Occasion",
+      title: "Barooders | Vélo & Équipements de Sport d'Occasion",
     },
     mainSlideAltText: 'Vente flash',
     mobileSection: {
