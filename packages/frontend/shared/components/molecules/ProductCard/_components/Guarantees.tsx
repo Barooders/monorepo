@@ -13,6 +13,7 @@ type GuaranteePropsType = PropsType & {
     name: string;
     content: () => React.ReactNode;
     renderIcon: () => React.ReactNode;
+    intent?: 'primary';
   }[];
 };
 
@@ -20,6 +21,7 @@ const formatFinancialHelp = (amount: number) => ({
   name: 'financialOffer',
   content: () => dict.components.productCard.guarantees.financialOffer(amount),
   renderIcon: () => <FaRegStar className="text-xl" />,
+  intent: 'primary',
 });
 
 const GUARANTEES = [
@@ -66,17 +68,22 @@ const B2B_GUARANTEES = [
 const BaseGuarantees: React.FC<GuaranteePropsType> = ({ guarantees }) => {
   return (
     <div className="hidden gap-2 lg:flex">
-      {guarantees.map((guarantee) => (
-        <div
-          className="flex items-center gap-2 rounded-full bg-slate-100 p-2 pr-4"
-          key={guarantee.name}
-        >
-          <div className="rounded-full bg-white p-2">
-            {guarantee.renderIcon()}
+      {guarantees.map((guarantee) => {
+        const isPrimary = guarantee.intent === 'primary';
+        return (
+          <div
+            className={`flex items-center gap-2 rounded-full ${isPrimary ? 'bg-primary-400' : 'bg-slate-100'} p-2 pr-4`}
+            key={guarantee.name}
+          >
+            <div className="rounded-full bg-white p-2">
+              {guarantee.renderIcon()}
+            </div>
+            <p className={`text-sm ${isPrimary ? 'text-white' : ''}`}>
+              {guarantee.content()}
+            </p>
           </div>
-          <p className="text-sm">{guarantee.content()}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
