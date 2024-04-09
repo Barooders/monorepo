@@ -141,29 +141,6 @@ const fr = {
           </p>
         ),
       },
-      commissionDetails: {
-        title: 'Frais de Protection acheteur',
-        proSubtitle: 'Produit vendu par un professionnel',
-        description:
-          'Pour tout achat effectué, nous appliquons des frais couvrant notre protection acheteurs avec les avantages suivants :',
-        verifiedOffers: () => (
-          <>
-            Annonces vérifiées - <span className="font-medium">100%</span>
-          </>
-        ),
-        freeRefund: (duration = 4) => (
-          <>
-            Satisfait ou remboursé -{' '}
-            <span className="font-medium">{duration}j</span>
-          </>
-        ),
-        securedPayment: () => <>Paiement sécurisé</>,
-        clientService: () => (
-          <>
-            Conseils d&apos;expert - <span className="font-medium">7j/7</span>
-          </>
-        ),
-      },
       guarantees: {
         financialOffer: (amount: number) => (
           <>Jusqu&apos;à {amount}€ de prime à l&apos;achat</>

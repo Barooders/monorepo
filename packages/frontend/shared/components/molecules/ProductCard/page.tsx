@@ -15,7 +15,6 @@ import BuyButton from './_components/Actions/BuyButton';
 import ConversationButton from './_components/Actions/ConversationButton';
 import PriceOfferButton from './_components/Actions/PriceOfferButton';
 import Characteristics from './_components/Characteristics';
-import CommissionDetails from './_components/CommissionDetails';
 import DeliveryInformation from './_components/Delivery';
 import FavoriteButton from './_components/FavoriteButton';
 import { Guarantees } from './_components/Guarantees';
@@ -265,9 +264,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               variantId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
-          </div>
-          <div className="mt-2">
-            <CommissionDetails isPro={vendor.isPro} />
           </div>
           {collections.find(
             (collection) => collection === config.collectionIds.bike,
