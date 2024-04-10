@@ -24,7 +24,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   },
   {
     title: 'RADRUNNER100',
-    label: 'RadRunner 100€ offerts',
+    label: 'RadRunner',
     type: 'dynamic',
   },
   {
