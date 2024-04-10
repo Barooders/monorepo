@@ -542,7 +542,7 @@ export class ProductController {
   }
 
   @Post(routesV1.product.createProductModel)
-  // @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
+  @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
   async createProductModel(
     @Body()
     data: CreateProductModelDto,

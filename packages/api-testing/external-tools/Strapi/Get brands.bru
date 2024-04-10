@@ -1,0 +1,17 @@
+meta {
+  name: Get brands
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/pim-brands?pagination[pageSize]	=500&pagination[page]	=2&fields[0]=name
+  body: none
+  auth: none
+}
+
+query {
+  pagination[pageSize]	: 500
+  pagination[page]	: 2
+  fields[0]: name
+}

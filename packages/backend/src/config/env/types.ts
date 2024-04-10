@@ -23,7 +23,6 @@ export type EnvConfigType = {
   };
   externalServices: {
     sendgridApiKey: string;
-    strapiBaseUrl: string;
     scrapflyApiKey: string;
     talkjs: {
       apiKey: string;
@@ -89,6 +88,10 @@ export type EnvConfigType = {
       multipassSecret: string;
       shopAdminWebhookSecret: string;
       shopOnlineStorePublicationId: string;
+    };
+    strapi: {
+      baseUrl: string;
+      apiToken: string;
     };
   };
 };
