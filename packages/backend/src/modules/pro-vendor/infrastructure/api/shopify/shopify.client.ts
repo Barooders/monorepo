@@ -1,5 +1,8 @@
 import { jsonStringify } from '@libs/helpers/json';
-import { parseShopifyError } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
+import {
+  InstrumentedShopify,
+  parseShopifyError,
+} from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { ProductOutOfStockException } from '@modules/pro-vendor/domain/ports/exceptions';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
@@ -74,7 +77,7 @@ export class ShopifyClient {
 
     do {
       const newProducts =
-        await this.getOrCreateShopifyApiNode().product.list(params);
+        await this.getOrCreateShopifyApiNode().listProducts(params);
 
       products = [...products, ...newProducts];
 
@@ -86,7 +89,7 @@ export class ShopifyClient {
 
   async getProduct(productId: number): Promise<Shopify.IProduct | null> {
     try {
-      return await this.getOrCreateShopifyApiNode().product.get(productId);
+      return await this.getOrCreateShopifyApiNode().getProduct(productId);
     } catch (error) {
       throw new Error(`Could not get product from Shopify because: ${error}`);
     }
@@ -171,12 +174,12 @@ export class ShopifyClient {
 
   async isUp(): Promise<boolean> {
     return (
-      (await this.getOrCreateShopifyApiNode().product.list({ limit: 1 }))
+      (await this.getOrCreateShopifyApiNode().listProducts({ limit: 1 }))
         .length > 0
     );
   }
 
-  private getOrCreateShopifyApiNode(): Shopify {
+  private getOrCreateShopifyApiNode(): InstrumentedShopify {
     switch (this.vendorConfigService.getVendorConfig().slug) {
       case 'chris_bikes':
         return this.chrisBikesClient.getClient();
