@@ -53,7 +53,7 @@ const ProductVendorCard: React.FC<ProductVendorProps> = ({
       {productShopifyId && (
         <Button
           className={`text-sm uppercase`}
-          intent="discrete"
+          intent="tertiary"
           href={`/pages/chat?product=${productShopifyId}`}
         >
           {dict.components.productCard.chatNow}

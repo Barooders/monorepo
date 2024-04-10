@@ -47,7 +47,7 @@ const fr = {
       technicalCharacteristics: 'Caractéristiques techniques',
       soldBy: 'Vendu par',
       seeDetails: 'Voir détails',
-      buyNow: 'Acheter',
+      buyNow: 'Acheter maintenant',
       chatNow: 'Contacter',
       alreadySeenBy: (viewCount: number) => (
         <>

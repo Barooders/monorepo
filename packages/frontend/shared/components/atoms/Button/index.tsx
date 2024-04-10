@@ -30,8 +30,6 @@ const Button: React.FC<PropsType> = ({
       case 'secondary':
         return `text-white ${disabled ? 'bg-gray-200' : 'border-black bg-black'}`;
       case 'tertiary':
-        return `bg-white ${disabled ? 'text-gray-200' : 'border-black text-black'}`;
-      case 'discrete':
         return 'bg-gray-200 text-gray-500 font-semibold';
       default:
         return '';
