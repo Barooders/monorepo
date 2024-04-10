@@ -9,8 +9,8 @@ import compact from 'lodash/compact';
 import head from 'lodash/head';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FaFireFlameCurved } from 'react-icons/fa6';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
+import { IoMdFlame } from 'react-icons/io';
 import Modal from '../../atoms/Modal';
 import BuyButton from './_components/Actions/BuyButton';
 import PriceOfferButton from './_components/Actions/PriceOfferButton';
@@ -176,7 +176,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           <div className="flex flex-col gap-3">
             {numberOfViews > 10 && (
               <div className="flex items-center gap-1 text-sm">
-                <FaFireFlameCurved className="text-primary-400" />{' '}
+                <IoMdFlame className="text-primary-400" />{' '}
                 {dict.components.productCard.alreadySeenBy(numberOfViews)}
               </div>
             )}
