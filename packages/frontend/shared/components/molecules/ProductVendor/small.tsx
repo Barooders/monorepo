@@ -1,16 +1,11 @@
+import LinkWrapper from '@/components/atoms/Link/LinkWrapper';
 import SmallReviewLink from '@/components/molecules/Reviews/SmallReviewLink';
 import { getDictionary } from '@/i18n/translate';
-import LinkWrapper from './LinkWrapper';
+import { ProductVendorProps } from '.';
 
 const dict = getDictionary('fr');
 
-const ProductVendor: React.FC<{
-  vendor: string;
-  withLink?: boolean;
-  rating?: number;
-  reviewCount?: number;
-  withSeeAllLink?: boolean;
-}> = ({
+const SmallProductVendor: React.FC<ProductVendorProps> = ({
   vendor,
   withLink = false,
   withSeeAllLink = true,
@@ -43,4 +38,4 @@ const ProductVendor: React.FC<{
   </div>
 );
 
-export default ProductVendor;
+export default SmallProductVendor;

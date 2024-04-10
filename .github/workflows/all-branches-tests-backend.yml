@@ -1,7 +1,10 @@
 name: Static analysis & Tests for backend
 
 on:
-  push:
+  pull_request:
+    branches:
+      - 'main'
+      - 'staging'
     paths:
       - packages/backend/**
 

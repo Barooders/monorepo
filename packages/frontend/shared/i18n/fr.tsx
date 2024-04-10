@@ -38,8 +38,8 @@ const fr = {
       },
     },
     blockEllipsis: {
-      seeMore: 'Voir plus',
-      seeLess: 'Voir moins',
+      seeMore: 'Afficher plus',
+      seeLess: 'Afficher moins',
     },
     productCard: {
       description: 'Description',
@@ -48,7 +48,13 @@ const fr = {
       soldBy: 'Vendu par',
       seeDetails: 'Voir détails',
       buyNow: 'Acheter',
-      chatNow: 'Contacter le vendeur',
+      chatNow: 'Contacter',
+      alreadySeenBy: (viewCount: number) => (
+        <>
+          Déjà <span className="text-primary-400">{viewCount} personnes</span>{' '}
+          ont vu ce produit
+        </>
+      ),
       labels: {
         pro: 'PRO',
         refurbished: 'RECONDITIONNÉ',
@@ -58,6 +64,9 @@ const fr = {
             Prime à l&apos;achat
           </>
         ),
+      },
+      vendor: {
+        proVendor: 'Vendeur pro',
       },
       conditionKey: 'État',
       getConditionLabel: (condition: string) => {
@@ -141,65 +150,14 @@ const fr = {
           </p>
         ),
       },
-      commissionDetails: {
-        title: 'Frais de Protection acheteur',
-        proSubtitle: 'Produit vendu par un professionnel',
-        description:
-          'Pour tout achat effectué, nous appliquons des frais couvrant notre protection acheteurs avec les avantages suivants :',
-        verifiedOffers: () => (
-          <>
-            Annonces vérifiées - <span className="font-medium">100%</span>
-          </>
-        ),
-        freeRefund: (duration = 4) => (
-          <>
-            Satisfait ou remboursé -{' '}
-            <span className="font-medium">{duration}j</span>
-          </>
-        ),
-        securedPayment: () => <>Paiement sécurisé</>,
-        clientService: () => (
-          <>
-            Conseils d&apos;expert - <span className="font-medium">7j/7</span>
-          </>
-        ),
-      },
       guarantees: {
-        christmasDelivery: () => (
-          <div className="flex gap-2">
-            <p>🎄 Livré chez vous avant Noël !</p>
-            <span>-</span>
-            <p className="font-semibold">Livraison 72h</p>
-          </div>
+        financialOffer: (amount: number) => (
+          <>Jusqu&apos;à {amount}€ de prime à l&apos;achat</>
         ),
-        verifiedOffers: () => (
-          <>
-            Annonces
-            <br />
-            <span className="font-medium">100% vérifiées</span>
-          </>
-        ),
-        ratings: () => (
-          <>
-            +100 000 avis
-            <br />
-            <span className="font-medium">Excellent 9/10</span>
-          </>
-        ),
-        securedPayment: () => (
-          <>
-            Paiements sécurisés
-            <br />
-            <span className="font-medium">en plusieurs fois</span>
-          </>
-        ),
-        clientService: () => (
-          <>
-            Conseils d&apos;expert
-            <br />
-            <span className="font-medium">7j/7</span>
-          </>
-        ),
+        verifiedOffers: () => <>Annonces 100% vérifiées</>,
+        freeRefund: () => <>Retours gratuits sous 30 jours</>,
+        clientService: () => <>Conseils d&apos;expert vélo 7j/7</>,
+        sellYourBike: () => <>Revendez votre vélo avec Barooders</>,
       },
       splitPayment: {
         result: ({ amount }: { amount: number }) => (
@@ -287,7 +245,7 @@ const fr = {
         vendorSince: ({ date }: { date: string }) => (
           <>Vendeur depuis le {date}</>
         ),
-        seeReviews: 'Voir les avis',
+        reviews: 'avis',
       },
       discount: {
         remaining: 'Plus que ',

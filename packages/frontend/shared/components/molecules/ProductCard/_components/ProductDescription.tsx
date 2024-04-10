@@ -49,8 +49,8 @@ const ProductDescription: React.FC<{
   return (
     <>
       {description && (
-        <>
-          <TitleWrapper className="mb-3 font-semibold">
+        <div>
+          <TitleWrapper className="mb-3 text-lg font-semibold">
             {dict.components.productCard.description}
           </TitleWrapper>
           <BlockEllipsis>
@@ -63,27 +63,29 @@ const ProductDescription: React.FC<{
               }}
             />
           </BlockEllipsis>
-        </>
+        </div>
       )}
-      <TitleWrapper className="mb-3 font-semibold">
-        {dict.components.productCard.technicalCharacteristics}
-      </TitleWrapper>
-      <BlockEllipsis>
-        <table className="table-auto">
-          <tbody>
-            {tagsToDisplay.map(([name, value]) => (
-              <tr key={name}>
-                <td className="pr-5 text-slate-500">
-                  {capitalize(name.replaceAll('-', ' '))}
-                </td>
-                <td>
-                  <ValueTag value={value} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </BlockEllipsis>
+      <div>
+        <TitleWrapper className="mb-3 text-lg font-semibold">
+          {dict.components.productCard.technicalCharacteristics}
+        </TitleWrapper>
+        <BlockEllipsis>
+          <table className="table-auto">
+            <tbody>
+              {tagsToDisplay.map(([name, value]) => (
+                <tr key={name}>
+                  <td className="pr-5 text-slate-500">
+                    {capitalize(name.replaceAll('-', ' '))}
+                  </td>
+                  <td>
+                    <ValueTag value={value} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </BlockEllipsis>
+      </div>
     </>
   );
 };

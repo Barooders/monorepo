@@ -22,7 +22,7 @@ const BlockEllipsis: React.FC<PropsType> = ({ children }) => {
         )}
       </div>
       <button
-        className="self-end text-sm text-slate-700 underline"
+        className="mt-2 self-start text-sm font-semibold text-slate-700 underline"
         onClick={() => setShowMore(!showMore)}
       >
         {showMore

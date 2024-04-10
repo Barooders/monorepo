@@ -180,18 +180,19 @@ const splitPaymentSolutions: SplitPaymentSolution[] = [
 
 const SplittedPayments: React.FC<PropsType> = ({ price }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col rounded-lg border border-slate-300 px-3">
       {splitPaymentSolutions
         .filter(
           (paymentSolution) =>
             price > paymentSolution.priceRange[0] &&
             price < paymentSolution.priceRange[1],
         )
-        .map((paymentSolution) => (
+        .map((paymentSolution, index) => (
           <PaymentSolution
             key={paymentSolution.name}
             paymentSolution={paymentSolution}
             price={price}
+            isFirst={index === 0}
           />
         ))}
     </div>
@@ -201,7 +202,8 @@ const SplittedPayments: React.FC<PropsType> = ({ price }) => {
 const PaymentSolution: React.FC<{
   paymentSolution: SplitPaymentSolution;
   price: number;
-}> = ({ paymentSolution, price }) => {
+  isFirst: boolean;
+}> = ({ paymentSolution, price, isFirst }) => {
   const [selectedDuration, setSelectedDuration] = useState(0);
 
   const duration = paymentSolution.durations[selectedDuration];
@@ -213,7 +215,7 @@ const PaymentSolution: React.FC<{
   ) : (
     <div
       key={paymentSolution.name}
-      className="flex items-center gap-2 rounded-lg border border-slate-300 py-2 px-3 text-slate-900"
+      className={`flex items-center gap-2 py-2 text-slate-900 ${isFirst ? '' : 'border-t border-slate-200'}`}
     >
       <img
         className="h-4"

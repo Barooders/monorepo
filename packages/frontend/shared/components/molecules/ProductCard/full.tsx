@@ -1,13 +1,13 @@
-import { ProductSingleVariant } from './types';
-import Characteristics from './_components/Characteristics';
-import FavoriteButton from './_components/FavoriteButton';
-import ProductPrice from './_components/ProductPrice';
-import ProductVendor from './_components/ProductVendor';
-import ProductGallery from './_components/ProductGallery';
-import SplittedPayments from './_components/SplittedPayments';
+import ProductVendor from '@/components/molecules/ProductVendor';
 import compact from 'lodash/compact';
 import BuyButton from './_components/Actions/BuyButton';
 import DetailsButton from './_components/Actions/DetailsButton';
+import Characteristics from './_components/Characteristics';
+import FavoriteButton from './_components/FavoriteButton';
+import ProductGallery from './_components/ProductGallery';
+import ProductPrice from './_components/ProductPrice';
+import SplittedPayments from './_components/SplittedPayments';
+import { ProductSingleVariant } from './types';
 
 const FullProductCard: React.FC<ProductSingleVariant> = ({
   shopifyId: id,
@@ -37,9 +37,9 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
           />
         )}
       </div>
-      <div className="col-span-2 my-auto flex flex-grow flex-col lg:col-span-1 lg:gap-2">
+      <div className="col-span-2 my-auto flex w-full flex-grow flex-col gap-3 lg:col-span-1">
         <div className="flex w-full justify-between">
-          <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-2">
             <Characteristics
               tags={tags}
               title={title}
@@ -48,41 +48,40 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
               componentSize="large"
             />
             {vendor.name && (
-              <ProductVendor
-                vendor={vendor.name}
-                withLink={true}
-              />
+              <div className="w-full">
+                <ProductVendor
+                  vendor={vendor.name}
+                  withLink={true}
+                  productShopifyId={id}
+                  size="card"
+                />
+              </div>
             )}
           </div>
-          <div className="shrink-0 cursor-pointer p-1">
-            <FavoriteButton productId={id} />
-          </div>
         </div>
-        <div className="my-1">
-          <ProductPrice
-            productId={id}
-            compareAtPrice={compareAtPrice}
-            price={price}
-            commissionAmount={commissionAmount}
-            discounts={discounts}
-          />
-        </div>
-        {price > 60 && (
-          <div className="mt-3">
-            <SplittedPayments price={price} />
-          </div>
-        )}
+        <ProductPrice
+          productId={id}
+          compareAtPrice={compareAtPrice}
+          price={price}
+          commissionAmount={commissionAmount}
+          discounts={discounts}
+        />
+        {price > 60 && <SplittedPayments price={price} />}
 
         {!isSoldOut && (
-          <div className="mt-6 grid w-full grid-cols-2 gap-2">
-            <BuyButton
-              className="col-span-1"
-              variant={variantId}
-            />
+          <div className="flex gap-2">
             <DetailsButton
-              className="col-span-1"
+              className="flex-grow"
               handle={handle}
               variant={variantId}
+              productId={id}
+            />
+            <BuyButton
+              className="flex-grow"
+              variant={variantId}
+            />
+            <FavoriteButton
+              intent="square"
               productId={id}
             />
           </div>

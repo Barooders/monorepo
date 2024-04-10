@@ -1,9 +1,9 @@
 'use client';
 
-import Link from '@/components/atoms/Link';
+import LinkWrapper from '@/components/atoms/Link/LinkWrapper';
 import { getDictionary } from '@/i18n/translate';
-import { REVIEW_BLOCK_ANCHOR } from './container';
 import ReviewStars from './ReviewStars';
+import { REVIEW_BLOCK_ANCHOR } from './container';
 
 const dict = getDictionary('fr');
 
@@ -23,29 +23,30 @@ const SmallReviewLink: React.FC<PropsType> = ({
   withSeeAllLink = true,
 }) => {
   return (
-    <div className={`flex items-center gap-1 text-sm ${className}`}>
-      <ReviewStars rating={rating} />
-      <p className="text-slate-400">({reviewCount})</p>
-      {withSeeAllLink && (
-        <Link
-          onClick={() => {
-            const reviewContainer =
-              document.getElementById(REVIEW_BLOCK_ANCHOR);
-            if (!reviewContainer) {
-              window.location.href = `/collections/vendor?q=${encodeURIComponent(
-                vendor,
-              )}`;
-              return;
-            }
+    <LinkWrapper
+      shouldWrap={withSeeAllLink}
+      onClick={() => {
+        const reviewContainer = document.getElementById(REVIEW_BLOCK_ANCHOR);
+        if (!reviewContainer) {
+          window.location.href = `/collections/vendor?q=${encodeURIComponent(
+            vendor,
+          )}`;
+          return;
+        }
 
-            reviewContainer.scrollIntoView({ behavior: 'smooth' });
-          }}
-          className="font-semibold underline"
-        >
-          {dict.components.productCard.reviews.seeReviews}
-        </Link>
-      )}
-    </div>
+        reviewContainer.scrollIntoView({ behavior: 'smooth' });
+      }}
+      className={`flex items-center gap-1 text-xs font-semibold ${className}`}
+    >
+      <p>
+        {reviewCount} {dict.components.productCard.reviews.reviews}
+      </p>
+      <div>·</div>
+      <ReviewStars
+        className="text-sm"
+        rating={rating}
+      />
+    </LinkWrapper>
   );
 };
 

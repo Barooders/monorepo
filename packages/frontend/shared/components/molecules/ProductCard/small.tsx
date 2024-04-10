@@ -1,12 +1,12 @@
-import { ProductSingleVariant } from './types';
-import ProductImage from './_components/ProductImage';
+import { sendClickProduct } from '@/analytics';
+import ProductVendor from '@/components/molecules/ProductVendor';
+import first from 'lodash/first';
+import Link from '../../atoms/Link';
 import Characteristics from './_components/Characteristics';
 import FavoriteButton from './_components/FavoriteButton';
+import ProductImage from './_components/ProductImage';
 import ProductPrice from './_components/ProductPrice';
-import ProductVendor from './_components/ProductVendor';
-import { sendClickProduct } from '@/analytics';
-import Link from '../../atoms/Link';
-import first from 'lodash/first';
+import { ProductSingleVariant } from './types';
 
 const SmallProductCard: React.FC<ProductSingleVariant> = ({
   shopifyId: id,
@@ -46,7 +46,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
           )}
         </div>
         <div className="relative col-span-2 my-auto flex flex-grow flex-col">
-          <div className="absolute top-0 right-0 shrink-0 cursor-pointer rounded-full bg-white p-1">
+          <div className="absolute right-0 top-0 shrink-0 cursor-pointer rounded-full bg-white p-1">
             <FavoriteButton productId={id} />
           </div>
           <Characteristics

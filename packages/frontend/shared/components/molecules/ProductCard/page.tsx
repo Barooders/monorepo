@@ -1,6 +1,7 @@
 'use client';
 
 import ProductJsonLd from '@/components/atoms/JsonLd/ProductJsonLd';
+import ProductVendor from '@/components/molecules/ProductVendor';
 import config from '@/config/env';
 import { getProductConfigFromShopifyTags } from '@/config/productAttributes';
 import { getDictionary } from '@/i18n/translate';
@@ -8,24 +9,19 @@ import compact from 'lodash/compact';
 import head from 'lodash/head';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FaEye } from 'react-icons/fa';
+import { FaFireFlameCurved } from 'react-icons/fa6';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import Modal from '../../atoms/Modal';
 import BuyButton from './_components/Actions/BuyButton';
-import ConversationButton from './_components/Actions/ConversationButton';
 import PriceOfferButton from './_components/Actions/PriceOfferButton';
 import Characteristics from './_components/Characteristics';
-import CommissionDetails from './_components/CommissionDetails';
 import DeliveryInformation from './_components/Delivery';
 import FavoriteButton from './_components/FavoriteButton';
 import { Guarantees } from './_components/Guarantees';
-import Offers from './_components/Offers';
-import PaymentIcons from './_components/PaymentIcons';
 import ProductDescription from './_components/ProductDescription';
 import ProductGallery from './_components/ProductGallery';
 import ProductPrice from './_components/ProductPrice';
 import DiscountLabel from './_components/ProductPrice/DiscountLabel';
-import ProductVendor from './_components/ProductVendor';
 import SplittedPayments from './_components/SplittedPayments';
 import StickyBarPayment from './_components/StickyBarPayment';
 import Support from './_components/Support';
@@ -78,6 +74,18 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     (productAttribute) => productAttribute.informativeComponent,
   )?.informativeComponent;
 
+  const renderDescription = () => (
+    <div className="flex flex-col gap-10">
+      <Guarantees availableOffers={availableOffers} />
+      <ProductDescription
+        tags={tags}
+        variantCondition={variantCondition}
+        description={description}
+        isTitle={false}
+      />
+    </div>
+  );
+
   return (
     <>
       <ProductJsonLd
@@ -95,7 +103,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
       />
 
       <div className="grid w-full grid-cols-5 items-start gap-5 overflow-hidden">
-        <div className="relative col-span-5 w-full lg:col-span-3">
+        <div className="relative col-span-5 flex w-full flex-col gap-5 lg:col-span-3">
           {images && (
             <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
               <ProductGallery
@@ -105,53 +113,30 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               />
             </div>
           )}
-          <div className="mt-2 lg:mt-7">
-            <Guarantees />
-          </div>
-          <div className="mt-6 hidden lg:block">
-            <ProductDescription
-              tags={tags}
-              variantCondition={variantCondition}
-              description={description}
-              isTitle={false}
-            />
-          </div>
+          <div className="hidden w-full lg:flex">{renderDescription()}</div>
         </div>
-        <div className="col-span-5 my-auto flex h-full flex-grow flex-col lg:col-span-2 lg:gap-2">
-          <div className="flex w-full justify-between">
-            <div className="flex flex-col gap-2">
-              <Characteristics
-                tags={tags}
-                title={title}
-                productType={productType}
-                variantCondition={variantCondition}
-                componentSize="large"
+        <div className="col-span-5 my-auto flex h-full flex-grow flex-col gap-6 lg:col-span-2">
+          <div className="flex flex-col gap-2">
+            <Characteristics
+              tags={tags}
+              title={title}
+              productType={productType}
+              variantCondition={variantCondition}
+              componentSize="large"
+            />
+            {vendor.name && (
+              <ProductVendor
+                vendor={vendor.name}
+                withLink={true}
+                rating={vendor.reviews.averageRating}
+                reviewCount={vendor.reviews.count}
+                productShopifyId={id}
+                size="card"
               />
-              {vendor.name && (
-                <ProductVendor
-                  vendor={vendor.name}
-                  withLink={true}
-                  rating={vendor.reviews.averageRating}
-                  reviewCount={vendor.reviews.count}
-                />
-              )}
-            </div>
-            <div className="flex w-10 shrink-0 flex-col items-center">
-              <div className="w-full cursor-pointer">
-                <FavoriteButton
-                  intent="secondary"
-                  productId={shopifyId}
-                />
-              </div>
-              {numberOfViews > 10 && (
-                <div className="mt-1 flex w-full flex-col items-center rounded-full bg-slate-100 p-2 text-lg text-slate-500">
-                  <FaEye />
-                  <p className="mt-1 text-xs">{numberOfViews}</p>
-                </div>
-              )}
-            </div>
+            )}
           </div>
-          {discounts && (
+
+          {discounts.length > 0 && (
             <div className="my-2 flex gap-2">
               {discounts.map((discount) => (
                 <DiscountLabel
@@ -163,61 +148,56 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               ))}
             </div>
           )}
-          <div className="my-1">
-            <ProductPrice
-              productId={shopifyId}
-              compareAtPrice={compareAtPrice}
-              price={price}
-              commissionAmount={commissionAmount}
-              componentSize="large"
-              discounts={discounts}
-            />
-          </div>
-          {price > 60 && (
-            <div className="mt-3">
-              <SplittedPayments price={price} />
-            </div>
-          )}
+          <ProductPrice
+            productId={shopifyId}
+            compareAtPrice={compareAtPrice}
+            price={price}
+            commissionAmount={commissionAmount}
+            componentSize="large"
+            discounts={discounts}
+          />
+          {price > 60 && <SplittedPayments price={price} />}
 
           {informativeComponent && (
-            <div className="mt-3">
-              <Modal
-                ButtonComponent={({ openModal }) => (
-                  <div
-                    className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 underline"
-                    onClick={openModal}
-                  >
-                    {dict.components.productCard.sizeGuide}{' '}
-                    <HiOutlineInformationCircle />
-                  </div>
-                )}
-                ContentComponent={() => <>{informativeComponent}</>}
-              />
-            </div>
+            <Modal
+              ButtonComponent={({ openModal }) => (
+                <div
+                  className="flex cursor-pointer items-center gap-1 text-sm text-gray-500 underline"
+                  onClick={openModal}
+                >
+                  {dict.components.productCard.sizeGuide}{' '}
+                  <HiOutlineInformationCircle />
+                </div>
+              )}
+              ContentComponent={() => <>{informativeComponent}</>}
+            />
           )}
 
-          {(variants.length > 1 ||
-            !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (
-            <div>
-              <VariantSelector
-                variants={variants}
-                selectedVariantId={variantShopifyId ?? null}
-                onSelectVariant={(variantId) => setSelectedVariant(variantId)}
-              />
-            </div>
-          )}
+          <div className="flex flex-col gap-3">
+            {numberOfViews > 10 && (
+              <div className="flex items-center gap-1 text-sm">
+                <FaFireFlameCurved className="text-primary-400" />{' '}
+                {dict.components.productCard.alreadySeenBy(numberOfViews)}
+              </div>
+            )}
 
-          {!isSoldOut && (
-            <div className="mt-6 flex w-full flex-col gap-3">
-              <div className="grid w-full grid-cols-2 gap-2">
-                {vendor.negociationMaxAmountPercent ? (
-                  <>
-                    <BuyButton
-                      className="col-span-2"
-                      variant={variantShopifyId}
-                    />
+            {(variants.length > 1 ||
+              !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (
+              <div>
+                <VariantSelector
+                  variants={variants}
+                  selectedVariantId={variantShopifyId ?? null}
+                  onSelectVariant={(variantId) => setSelectedVariant(variantId)}
+                />
+              </div>
+            )}
+
+            {!isSoldOut && (
+              <div className="flex w-full flex-col gap-3">
+                <div className="flex gap-2">
+                  {vendor.negociationMaxAmountPercent && (
                     <PriceOfferButton
-                      className="col-span-1 uppercase"
+                      className="flex-1 uppercase"
                       price={price}
                       productId={id}
                       variant={variantId}
@@ -226,57 +206,29 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                       }
                       shouldRedirectToChat={true}
                     />
-                    <ConversationButton
-                      className="col-span-1"
-                      productId={shopifyId}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <BuyButton
-                      className="col-span-2"
-                      variant={variantShopifyId}
-                    />
-                    <ConversationButton
-                      className="col-span-2"
-                      productId={shopifyId}
-                    />
-                  </>
-                )}
+                  )}
+                  <BuyButton
+                    className="flex-1"
+                    variant={variantShopifyId}
+                  />
+                  <FavoriteButton
+                    intent="square"
+                    productId={shopifyId}
+                  />
+                </div>
               </div>
-              <PaymentIcons />
-            </div>
-          )}
-          <div className="mt-6 block lg:hidden">
-            <ProductDescription
-              tags={tags}
-              variantCondition={variantCondition}
-              description={description}
-              isTitle={true}
-            />
+            )}
           </div>
-          <div className="mt-5">
+          <div className="flex flex-col gap-2">
             <DeliveryInformation
               variantId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
+            {collections.find(
+              (collection) => collection === config.collectionIds.bike,
+            ) && <Support />}
           </div>
-          <div className="mt-2">
-            <CommissionDetails isPro={vendor.isPro} />
-          </div>
-          {collections.find(
-            (collection) => collection === config.collectionIds.bike,
-          ) && (
-            <div className="mt-2">
-              <Support />
-            </div>
-          )}
-          <div className="mt-2">
-            <Offers
-              product={product}
-              availableOffers={availableOffers ?? []}
-            />
-          </div>
+          <div className="flex lg:hidden">{renderDescription()}</div>
         </div>
       </div>
       {pageBottomElementRef &&
