@@ -129,7 +129,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 withLink={true}
                 rating={vendor.reviews.averageRating}
                 reviewCount={vendor.reviews.count}
-                productShopifyId={id}
+                productShopifyId={shopifyId}
                 size="card"
               />
             )}

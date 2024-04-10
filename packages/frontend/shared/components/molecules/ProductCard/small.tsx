@@ -9,7 +9,7 @@ import ProductPrice from './_components/ProductPrice';
 import { ProductSingleVariant } from './types';
 
 const SmallProductCard: React.FC<ProductSingleVariant> = ({
-  shopifyId: id,
+  shopifyId,
   title,
   images,
   labels,
@@ -32,7 +32,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
   return (
     <Link
       href={productLink}
-      onClick={() => sendClickProduct(id)}
+      onClick={() => sendClickProduct(shopifyId)}
       className={`h-full w-36 shrink-0 sm:w-52 lg:w-72 ${className}`}
     >
       <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
@@ -47,7 +47,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
         </div>
         <div className="relative col-span-2 my-auto flex flex-grow flex-col">
           <div className="absolute right-0 top-0 shrink-0 cursor-pointer rounded-full bg-white p-1">
-            <FavoriteButton productId={id} />
+            <FavoriteButton productId={shopifyId} />
           </div>
           <Characteristics
             tags={tags}
@@ -59,7 +59,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
 
           <div className="my-1">
             <ProductPrice
-              productId={id}
+              productId={shopifyId}
               compareAtPrice={compareAtPrice}
               price={price}
               componentSize="small"

@@ -10,7 +10,7 @@ import SplittedPayments from './_components/SplittedPayments';
 import { ProductSingleVariant } from './types';
 
 const FullProductCard: React.FC<ProductSingleVariant> = ({
-  shopifyId: id,
+  shopifyId,
   images,
   vendor,
   labels,
@@ -52,7 +52,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
                 <ProductVendor
                   vendor={vendor.name}
                   withLink={true}
-                  productShopifyId={id}
+                  productShopifyId={shopifyId}
                   size="card"
                 />
               </div>
@@ -60,7 +60,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
           </div>
         </div>
         <ProductPrice
-          productId={id}
+          productId={shopifyId}
           compareAtPrice={compareAtPrice}
           price={price}
           commissionAmount={commissionAmount}
@@ -74,7 +74,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
               className="flex-grow"
               handle={handle}
               variant={variantId}
-              productId={id}
+              productId={shopifyId}
             />
             <BuyButton
               className="flex-grow"
@@ -82,7 +82,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             />
             <FavoriteButton
               intent="square"
-              productId={id}
+              productId={shopifyId}
             />
           </div>
         )}
