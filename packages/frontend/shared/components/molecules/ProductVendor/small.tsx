@@ -31,6 +31,7 @@ const SmallProductVendor: React.FC<ProductVendorProps> = ({
         rating={rating}
         reviewCount={reviewCount}
         withSeeAllLink={withSeeAllLink}
+        size="compact"
       />
     ) : (
       <></>

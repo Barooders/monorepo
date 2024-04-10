@@ -243,6 +243,7 @@ const fr = {
           <>Vendeur depuis le {date}</>
         ),
         reviews: 'avis',
+        seeReviews: 'Voir les avis',
       },
       discount: {
         remaining: 'Plus que ',

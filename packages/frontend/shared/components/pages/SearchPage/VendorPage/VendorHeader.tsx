@@ -85,6 +85,7 @@ const VendorHeader: React.FC<PropsType> = ({
           rating={calculateAverageRatings(reviews.map(({ rating }) => rating))}
           reviewCount={reviews.length}
           className="mt-2"
+          size="compact"
         />
       )}
       <div className="mb-1 mt-3 flex items-start gap-2 lg:my-5">
