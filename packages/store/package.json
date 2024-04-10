@@ -1,0 +1,91 @@
+{
+  "name": "medusa-starter-default",
+  "version": "0.0.1",
+  "description": "A starter for Medusa projects.",
+  "author": "Medusa (https://medusajs.com)",
+  "license": "MIT",
+  "keywords": [
+    "sqlite",
+    "postgres",
+    "typescript",
+    "ecommerce",
+    "headless",
+    "medusa"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "yarn clean && yarn build:server && yarn build:admin",
+    "build:server": "yarn clean && yarn tsc -p tsconfig.server.json",
+    "build:admin": "medusa-admin build",
+    "watch": "yarn tsc --watch",
+    "test": "jest",
+    "seed": "yarn medusa seed -f ./data/seed.json",
+    "start": "yarn build && yarn medusa start",
+    "start:custom": "yarn build && node --preserve-symlinks --trace-warnings index.js",
+    "dev": "yarn build:server && yarn medusa develop"
+  },
+  "dependencies": {
+    "@medusajs/admin": "latest",
+    "@medusajs/cache-inmemory": "latest",
+    "@medusajs/cache-redis": "latest",
+    "@medusajs/event-bus-local": "latest",
+    "@medusajs/event-bus-redis": "latest",
+    "@medusajs/file-local": "latest",
+    "@medusajs/medusa": "latest",
+    "@tanstack/react-query": "4.22.0",
+    "body-parser": "1.19.0",
+    "cors": "2.8.5",
+    "dotenv": "16.3.1",
+    "express": "4.17.2",
+    "medusa-fulfillment-manual": "latest",
+    "medusa-interfaces": "latest",
+    "medusa-payment-manual": "latest",
+    "medusa-payment-stripe": "latest",
+    "prism-react-renderer": "2.0.4",
+    "typeorm": "0.3.16"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.14.3",
+    "@babel/core": "7.14.3",
+    "@babel/preset-typescript": "7.21.4",
+    "@medusajs/medusa-cli": "latest",
+    "@stdlib/number-float64-base-normalize": "0.0.8",
+    "@types/express": "4.17.13",
+    "@types/jest": "27.4.0",
+    "@types/mime": "1.3.5",
+    "@types/node": "20.12.7",
+    "babel-preset-medusa-package": "1.1.19",
+    "eslint": "6.8.0",
+    "jest": "27.3.1",
+    "rimraf": "3.0.2",
+    "ts-jest": "27.0.7",
+    "ts-loader": "9.2.6",
+    "typescript": "4.5.2"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.spec.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/node_modules/"
+    ],
+    "rootDir": "src",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
+    "transform": {
+      ".ts": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node"
+  }
+}
