@@ -53,6 +53,7 @@ import {
 } from 'class-validator';
 import { CollectionService } from '../domain/collection.service';
 import { UserNotAllowedException } from '../domain/ports/exceptions';
+import { IPIMClient } from '../domain/ports/pim.client';
 import { IStoreClient } from '../domain/ports/store.client';
 import {
   DraftProductInputDto,
@@ -62,7 +63,7 @@ import {
   ModerationAction,
   ProductUpdateService,
 } from '../domain/product-update.service';
-import { ProductAdminDTO } from './product.dto';
+import { CreateProductModelDto, ProductAdminDTO } from './product.dto';
 
 type CollectionType = {
   id: string;
@@ -205,6 +206,7 @@ export class ProductController {
     private collectionService: CollectionService,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
+    private pimClient: IPIMClient,
   ) {}
 
   @Post(routesV1.product.createDraftProduct)
@@ -537,6 +539,15 @@ export class ProductController {
         id: jwtToken?.userId ?? authorId,
       },
     );
+  }
+
+  @Post(routesV1.product.createProductModel)
+  @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
+  async createProductModel(
+    @Body()
+    data: CreateProductModelDto,
+  ): Promise<void> {
+    await this.pimClient.createProductModel(data);
   }
 
   private async getInternalProductId(productId: string): Promise<string> {

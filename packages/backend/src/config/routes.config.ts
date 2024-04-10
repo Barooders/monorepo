@@ -82,6 +82,7 @@ export const routesV1 = {
     computeLineItemCommission: '/commission/compute-line-item',
     computeProductCommission: '/commission/product',
     getB2BCommission: '/commission/b2b',
+    createProductModel: '/products/models',
   },
   invoice: {
     previewPayout: '/invoice/preview-payout',

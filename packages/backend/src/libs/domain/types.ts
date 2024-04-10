@@ -78,6 +78,13 @@ export type PIMCategory = {
   };
 };
 
+export type PimBrand = {
+  id: number;
+  attributes: {
+    name: string;
+  };
+};
+
 export const getValidTags = (tags: string[]): string[] => {
   const formattedTags = tags.reduce((acc: string[], tag) => {
     const [key, ...valueEntries] = tag.split(':');

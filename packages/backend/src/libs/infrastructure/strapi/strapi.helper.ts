@@ -3,11 +3,13 @@ import {
   PIMCategory,
   PIMDynamicAttribute,
   PIMProductType,
+  PimBrand,
 } from '@libs/domain/types';
+import { jsonStringify } from '@libs/helpers/json';
 import { createRestClient } from '../http/clients';
 
 export const strapiClient = createRestClient(
-  envConfig.externalServices.strapiBaseUrl,
+  envConfig.externalServices.strapi.baseUrl,
 );
 
 export const getPimProductTypesFromName = async (
@@ -22,6 +24,44 @@ export const getPimProductTypesFromName = async (
   );
 
   return data;
+};
+
+export const getPimBrands = async ({
+  page,
+}: {
+  page: number;
+}): Promise<{
+  data: PimBrand[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
+}> => {
+  const { data, meta } = await strapiClient<{
+    data: PimBrand[];
+    meta: {
+      pagination: {
+        pageCount: number;
+        pageSize: number;
+        page: number;
+        total: number;
+      };
+    };
+  }>(
+    `/api/pim-brands?` +
+      new URLSearchParams({
+        'pagination[page]': page.toString(),
+        'pagination[pageSize]': '500',
+        'fields[0]': 'name',
+      }),
+  );
+
+  return {
+    data,
+    pagination: meta.pagination,
+  };
 };
 
 export const getPimDynamicAttribute = async (
@@ -63,4 +103,40 @@ export const getPimCategoryFromId = async (
   );
 
   return data;
+};
+
+export const createModel = async ({
+  name,
+  manufacturer_suggested_retail_price,
+  imageUrl,
+  year,
+  brandId,
+  isDraft,
+}: {
+  name: string;
+  manufacturer_suggested_retail_price?: number;
+  imageUrl: string;
+  year: number;
+  brandId: number;
+  isDraft: boolean;
+}): Promise<void> => {
+  await strapiClient<{ data: { id: number } }>(`/api/pim-product-models`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${envConfig.externalServices.strapi.apiToken}`,
+    },
+    body: jsonStringify({
+      data: {
+        name,
+        manufacturer_suggested_retail_price,
+        imageUrl,
+        year,
+        brand: {
+          set: [brandId],
+        },
+        publishedAt: isDraft ? null : undefined,
+      },
+    }),
+  });
 };

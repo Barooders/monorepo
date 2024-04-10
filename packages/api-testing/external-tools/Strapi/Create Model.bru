@@ -1,0 +1,32 @@
+meta {
+  name: Create Model
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{strapiBaseUrl}}/api/pim-product-models
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{strapiToken}}
+}
+
+body:json {
+  {
+    "data": {
+      "name": "nono",
+      "manufacturer_suggested_retail_price": 2121,
+      "imageUrl": "kakoka",
+      "year": 2022,
+      "brand": {
+        "set": [
+          3538
+        ]
+      },
+      "publishedAt": null
+    }
+  }
+}

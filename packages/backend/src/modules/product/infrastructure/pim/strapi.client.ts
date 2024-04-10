@@ -1,5 +1,7 @@
-import { PIMCategory, PIMProductType } from '@libs/domain/types';
+import { PIMCategory, PIMProductType, PimBrand } from '@libs/domain/types';
 import {
+  createModel,
+  getPimBrands,
   getPimCategoryFromId,
   getPimProductTypesFromName,
 } from '@libs/infrastructure/strapi/strapi.helper';
@@ -9,9 +11,11 @@ import {
   BIKE_CATEGORY_ID as STRAPI_BIKE_CATEGORY_ID,
 } from '@modules/product/constants';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
+import { CreateProductModel } from '@modules/product/domain/types';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import Fuse from 'fuse.js';
 import { head } from 'lodash';
 
 @Injectable()
@@ -81,5 +85,65 @@ export class StrapiClient implements IPIMClient {
     );
 
     return firstMatch;
+  }
+
+  async createProductModel(model: CreateProductModel): Promise<void> {
+    const brandId = await this.getBrandId(model.brand.name);
+
+    await createModel({
+      name: model.name,
+      manufacturer_suggested_retail_price:
+        model.manufacturer_suggested_retail_price,
+      imageUrl: model.imageUrl,
+      year: model.year,
+      brandId,
+      isDraft: true,
+    });
+  }
+
+  private async getBrandId(brandName: string): Promise<number> {
+    const brands = await this.getBrands();
+
+    const index = new Fuse(brands, {
+      keys: ['attributes.name'],
+      threshold: 0.2,
+    });
+
+    const brand = index.search(brandName, {
+      limit: 1,
+    })[0];
+
+    if (!brand) {
+      throw new Error(`Brand ${brandName} does not exist in PIM`);
+    }
+
+    return brand.item.id;
+  }
+
+  private async getBrands(): Promise<PimBrand[]> {
+    const CACHE_KEY = `pim-brands`;
+    const cachedBrands = await this.cacheManager.get<PimBrand[]>(CACHE_KEY);
+
+    if (cachedBrands) {
+      return cachedBrands;
+    }
+
+    let page = 1;
+    let results: PimBrand[] = [];
+    let pageCount: number | null = null;
+    do {
+      const { data, pagination } = await getPimBrands({ page });
+      results = [...results, ...data];
+      page = pagination.page + 1;
+      pageCount = pagination.pageCount;
+    } while (page <= pageCount);
+
+    await this.cacheManager.set(
+      CACHE_KEY,
+      results,
+      PIM_PRODUCT_TYPE_CACHE_TTL_IN_MILLISECONDS,
+    );
+
+    return results;
   }
 }

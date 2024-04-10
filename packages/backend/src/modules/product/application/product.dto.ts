@@ -6,6 +6,7 @@ import {
   StoredVariant,
 } from '@libs/domain/product.interface';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 class SimpleImageDTO implements Image {
   @ApiProperty()
@@ -162,4 +163,27 @@ export class ProductAdminDTO implements StoredProduct {
 
   @ApiProperty()
   source?: string;
+}
+
+class PimBrand {
+  @ApiProperty()
+  name!: string;
+}
+
+export class CreateProductModelDto {
+  @ApiProperty()
+  name!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  manufacturer_suggested_retail_price?: number;
+
+  @ApiProperty()
+  imageUrl!: string;
+
+  @ApiProperty()
+  year!: number;
+
+  @ApiProperty({ type: PimBrand })
+  brand!: PimBrand;
 }
