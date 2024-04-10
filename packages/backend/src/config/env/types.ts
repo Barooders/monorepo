@@ -60,6 +60,7 @@ export type EnvConfigType = {
       publicVariantsCollection: string;
       b2bVariantsCollection: string;
       collectionsCollection: string;
+      productModelsCollection: string;
     };
     batch: {
       apiKey: string;

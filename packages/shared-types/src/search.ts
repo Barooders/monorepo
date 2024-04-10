@@ -61,3 +61,12 @@ export type SearchCollectionDocument = {
   updatedat_timestamp: number;
   image?: string;
 };
+
+export type SearchProductModelDocument = {
+  name: string;
+  brand: string;
+  family?: string;
+  imageUrl?: string;
+  year?: number;
+  manufacturer_suggested_retail_price?: number;
+};

@@ -54,6 +54,7 @@ import {
 import { CollectionService } from '../domain/collection.service';
 import { UserNotAllowedException } from '../domain/ports/exceptions';
 import { IPIMClient } from '../domain/ports/pim.client';
+import { DocumentType, ISearchClient } from '../domain/ports/search-client';
 import { IStoreClient } from '../domain/ports/store.client';
 import {
   DraftProductInputDto,
@@ -207,6 +208,7 @@ export class ProductController {
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private pimClient: IPIMClient,
+    private searchClient: ISearchClient,
   ) {}
 
   @Post(routesV1.product.createDraftProduct)
@@ -547,7 +549,12 @@ export class ProductController {
     @Body()
     data: CreateProductModelDto,
   ): Promise<void> {
-    await this.pimClient.createProductModel(data);
+    const model = await this.pimClient.createProductModel(data);
+
+    await this.searchClient.indexDocument({
+      documentType: DocumentType.PRODUCT_MODEL,
+      data: model,
+    });
   }
 
   private async getInternalProductId(productId: string): Promise<string> {

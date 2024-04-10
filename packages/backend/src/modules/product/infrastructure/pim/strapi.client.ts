@@ -1,4 +1,9 @@
-import { PIMCategory, PIMProductType, PimBrand } from '@libs/domain/types';
+import {
+  PIMCategory,
+  PIMProductType,
+  PimBrand,
+  PimProductModel,
+} from '@libs/domain/types';
 import {
   createModel,
   getPimBrands,
@@ -87,21 +92,37 @@ export class StrapiClient implements IPIMClient {
     return firstMatch;
   }
 
-  async createProductModel(model: CreateProductModel): Promise<void> {
-    const brandId = await this.getBrandId(model.brand.name);
+  async createProductModel(
+    model: CreateProductModel,
+  ): Promise<PimProductModel> {
+    const pimBrand = await this.getBrand(model.brand.name);
 
-    await createModel({
+    const { id } = await createModel({
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
       imageUrl: model.imageUrl,
       year: model.year,
-      brandId,
+      brandId: pimBrand.id,
       isDraft: true,
     });
+
+    return {
+      id: id.toString(),
+      name: model.name,
+      manufacturer_suggested_retail_price:
+        model.manufacturer_suggested_retail_price,
+      imageUrl: new URL(model.imageUrl),
+      year: model.year,
+      brand: {
+        name: pimBrand.name,
+      },
+    };
   }
 
-  private async getBrandId(brandName: string): Promise<number> {
+  private async getBrand(
+    brandName: string,
+  ): Promise<{ id: number; name: string }> {
     const brands = await this.getBrands();
 
     const index = new Fuse(brands, {
@@ -117,7 +138,7 @@ export class StrapiClient implements IPIMClient {
       throw new Error(`Brand ${brandName} does not exist in PIM`);
     }
 
-    return brand.item.id;
+    return { id: brand.item.id, name: brand.item.attributes.name };
   }
 
   private async getBrands(): Promise<PimBrand[]> {

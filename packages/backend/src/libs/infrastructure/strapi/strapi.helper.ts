@@ -119,24 +119,29 @@ export const createModel = async ({
   year: number;
   brandId: number;
   isDraft: boolean;
-}): Promise<void> => {
-  await strapiClient<{ data: { id: number } }>(`/api/pim-product-models`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${envConfig.externalServices.strapi.apiToken}`,
-    },
-    body: jsonStringify({
-      data: {
-        name,
-        manufacturer_suggested_retail_price,
-        imageUrl,
-        year,
-        brand: {
-          set: [brandId],
-        },
-        publishedAt: isDraft ? null : undefined,
+}): Promise<{ id: number }> => {
+  const { data } = await strapiClient<{ data: { id: number } }>(
+    `/api/pim-product-models`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${envConfig.externalServices.strapi.apiToken}`,
       },
-    }),
-  });
+      body: jsonStringify({
+        data: {
+          name,
+          manufacturer_suggested_retail_price,
+          imageUrl,
+          year,
+          brand: {
+            set: [brandId],
+          },
+          publishedAt: isDraft ? null : undefined,
+        },
+      }),
+    },
+  );
+
+  return data;
 };
