@@ -23,6 +23,11 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
+    title: 'RADRUNNER100',
+    label: 'RadRunner 100€ offerts',
+    type: 'dynamic',
+  },
+  {
     title: 'AGPPRO',
     label: 'Vente privée',
     type: 'static',
