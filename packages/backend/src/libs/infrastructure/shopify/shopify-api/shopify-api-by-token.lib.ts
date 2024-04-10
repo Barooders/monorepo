@@ -36,7 +36,7 @@ const globalForShopifyApiByToken = global as unknown as {
 };
 
 export const DEFAULT_PLAN_CONFIG = {
-  autoLimit: { calls: 1, interval: 3000, bucketSize: 10 },
+  autoLimit: { calls: 2, interval: 10000, bucketSize: 40 },
 };
 
 export const PLUS_PLAN_CONFIG = {

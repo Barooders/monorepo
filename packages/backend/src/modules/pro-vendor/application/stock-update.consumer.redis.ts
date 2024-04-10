@@ -1,5 +1,3 @@
-import { envName } from '@config/env/env.config';
-import { Environments } from '@config/env/types';
 import {
   BackgroundTask,
   CaptureBackgroundTransaction,
@@ -16,7 +14,6 @@ import { IVendorProductServiceProvider } from '../domain/ports/vendor-product-se
 import { SynchroEvent } from '../domain/product-sync.service';
 import { StockUpdateService } from '../domain/stock-update.service';
 
-const MAX_CONCURRENCY = envName === Environments.PRODUCTION ? 10 : 1;
 const ONE_HOUR = 1000 * 60 * 60;
 const TEN_SECONDS = 1000 * 10;
 
@@ -31,7 +28,7 @@ export class StockUpdateConsumer {
     private readonly loggerService: LoggerService,
   ) {}
 
-  @Process({ concurrency: MAX_CONCURRENCY })
+  @Process({ concurrency: 1 })
   @CaptureBackgroundTransaction({
     name: QueueNames.UPDATE_STOCK,
     type: BackgroundTask.CONSUMER,
