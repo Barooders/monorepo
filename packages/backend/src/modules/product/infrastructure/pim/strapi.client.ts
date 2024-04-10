@@ -1,4 +1,9 @@
-import { PIMCategory, PIMProductType, PimBrand } from '@libs/domain/types';
+import {
+  PIMCategory,
+  PIMProductType,
+  PimBrand,
+  PimProductModel,
+} from '@libs/domain/types';
 import {
   createModel,
   getPimBrands,
@@ -87,10 +92,12 @@ export class StrapiClient implements IPIMClient {
     return firstMatch;
   }
 
-  async createProductModel(model: CreateProductModel): Promise<void> {
+  async createProductModel(
+    model: CreateProductModel,
+  ): Promise<PimProductModel> {
     const brandId = await this.getBrandId(model.brand.name);
 
-    await createModel({
+    const { id } = await createModel({
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
@@ -99,6 +106,18 @@ export class StrapiClient implements IPIMClient {
       brandId,
       isDraft: true,
     });
+
+    return {
+      id: id.toString(),
+      name: model.name,
+      manufacturer_suggested_retail_price:
+        model.manufacturer_suggested_retail_price,
+      imageUrl: new URL(model.imageUrl),
+      year: model.year,
+      brand: {
+        name: model.brand.name,
+      },
+    };
   }
 
   private async getBrandId(brandName: string): Promise<number> {

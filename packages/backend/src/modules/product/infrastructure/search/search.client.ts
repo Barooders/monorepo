@@ -6,12 +6,15 @@ import { jsonParse, jsonStringify } from '@libs/helpers/json';
 import {
   TypesenseB2BVariantDocument,
   TypesenseCollectionDocument,
+  TypesenseProductModelDocument,
   TypesensePublicVariantDocument,
   typesenseB2BVariantClient,
   typesenseCollectionClient,
+  typesenseProductModelClient,
   typesensePublicVariantClient,
 } from '@libs/infrastructure/typesense/typesense.base.client';
 import { CollectionToIndex } from '@modules/product/domain/ports/collection-to-index.type';
+import { ProductModelToIndex } from '@modules/product/domain/ports/product-model-to-index.type';
 import {
   DocumentToIndex,
   DocumentType,
@@ -133,6 +136,24 @@ const DOCUMENT_CONFIG = {
       image: imageSrc?.url,
     }),
   },
+  [DocumentType.PRODUCT_MODEL]: {
+    client: typesenseProductModelClient,
+    map: ({
+      id,
+      name,
+      brand,
+      year,
+      imageUrl,
+      manufacturer_suggested_retail_price,
+    }: ProductModelToIndex): TypesenseProductModelDocument => ({
+      id,
+      name,
+      brand: brand.name,
+      year,
+      imageUrl: imageUrl?.toString(),
+      manufacturer_suggested_retail_price,
+    }),
+  },
 };
 
 export class SearchClient implements ISearchClient {
@@ -155,10 +176,10 @@ export class SearchClient implements ISearchClient {
             .documents()
             .upsert(collectionConfig.map(data));
           break;
-        default:
-          throw new Error(
-            `Unknown document type: ${jsonStringify({ documentType, data })}`,
-          );
+        case DocumentType.PRODUCT_MODEL:
+          const modelConfig = DOCUMENT_CONFIG[documentType];
+          await modelConfig.client.documents().upsert(modelConfig.map(data));
+          break;
       }
     } catch (e: any) {
       this.logger.error(

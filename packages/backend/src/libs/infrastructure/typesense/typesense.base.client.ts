@@ -1,7 +1,8 @@
 import envConfig from '@config/env/env.config';
 import {
-  SearchCollectionDocument,
   SearchB2BVariantDocument,
+  SearchCollectionDocument,
+  SearchProductModelDocument,
   SearchPublicVariantDocument,
 } from 'shared-types';
 import { Client } from 'typesense';
@@ -27,6 +28,9 @@ export type TypesenseB2BVariantDocument = SearchB2BVariantDocument & {
 export type TypesenseCollectionDocument = SearchCollectionDocument & {
   id: string;
 };
+export type TypesenseProductModelDocument = SearchProductModelDocument & {
+  id: string;
+};
 
 export const typesensePublicVariantClient = new Client(
   sharedConfig,
@@ -43,4 +47,10 @@ export const typesenseCollectionClient = new Client(
   sharedConfig,
 ).collections<TypesenseCollectionDocument>(
   envConfig.externalServices.typesense.collectionsCollection,
+);
+
+export const typesenseProductModelClient = new Client(
+  sharedConfig,
+).collections<TypesenseProductModelDocument>(
+  envConfig.externalServices.typesense.productModelsCollection,
 );

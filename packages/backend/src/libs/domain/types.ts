@@ -85,6 +85,17 @@ export type PimBrand = {
   };
 };
 
+export type PimProductModel = {
+  id: string;
+  name: string;
+  manufacturer_suggested_retail_price?: number;
+  imageUrl?: URL;
+  year?: number;
+  brand: {
+    name: string;
+  };
+};
+
 export const getValidTags = (tags: string[]): string[] => {
   const formattedTags = tags.reduce((acc: string[], tag) => {
     const [key, ...valueEntries] = tag.split(':');
