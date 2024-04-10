@@ -17,7 +17,7 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: `Partenariat officiel Look - jusqu'à -45%`,
+    label: `Partenariat officiel Look - Fin de la vente le 18 Avril - jusqu'à -45%`,
     icon: '🔥',
     link: '/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles',
   },
