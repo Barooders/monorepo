@@ -2,7 +2,9 @@ import { Amount, Stock, URL } from '@libs/domain/value-objects';
 import { extractRowsFromCSVRawText } from '@libs/helpers/csv';
 import { jsonStringify } from '@libs/helpers/json';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
-import { Injectable, Logger } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { compact, head, nth } from 'lodash';
 import { CSVProduct } from './types';
 
@@ -41,13 +43,27 @@ const parseAmountString = (amount: string): number => {
       .replaceAll('EUR', ''),
   );
 };
+
+export const RAW_CSV_CACHE_TTL_IN_MILLISECONDS = 2 * 60 * 1000;
+
 @Injectable()
 export class CSVClient {
   private readonly logger = new Logger(CSVClient.name);
 
-  constructor(private readonly vendorConfigService: IVendorConfigService) {}
+  constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly vendorConfigService: IVendorConfigService,
+  ) {}
 
   async getAllProducts(productId?: string): Promise<CSVProduct[]> {
+    const cacheKey = `raw_csv_${this.vendorConfigService.getVendorConfig().apiUrl}`;
+
+    const cachedRawCSV = await this.cacheManager.get<string>(cacheKey);
+
+    if (cachedRawCSV) {
+      return await this.mapCsvRowsToProducts(cachedRawCSV, productId);
+    }
+
     const csvUrl = this.vendorConfigService.getVendorConfig().apiUrl;
     const response = await fetch(csvUrl);
 
@@ -56,6 +72,12 @@ export class CSVClient {
     }
 
     const rawCsv = await response.text();
+
+    await this.cacheManager.set(
+      cacheKey,
+      rawCsv,
+      RAW_CSV_CACHE_TTL_IN_MILLISECONDS,
+    );
 
     return await this.mapCsvRowsToProducts(rawCsv, productId);
   }

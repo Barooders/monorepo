@@ -19,9 +19,10 @@ export class StrapiClient implements IPIMClient {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async getPimProductType(productType: string): Promise<PIMProductType> {
-    const cachedPimProductType = await this.cacheManager.get<PIMProductType>(
-      `pim-product-type_${productType}`,
-    );
+    const cacheKey = `pim-product-type_${productType}`;
+
+    const cachedPimProductType =
+      await this.cacheManager.get<PIMProductType>(cacheKey);
 
     if (cachedPimProductType) {
       return cachedPimProductType;
@@ -35,7 +36,7 @@ export class StrapiClient implements IPIMClient {
     }
 
     await this.cacheManager.set(
-      `pim-product-type_${productType}`,
+      cacheKey,
       firstMatch,
       PIM_PRODUCT_TYPE_CACHE_TTL_IN_MILLISECONDS,
     );
