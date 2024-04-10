@@ -56,30 +56,9 @@ export class CSVClient {
   ) {}
 
   async getAllProducts(productId?: string): Promise<CSVProduct[]> {
-    const cacheKey = `raw_csv_${this.vendorConfigService.getVendorConfig().apiUrl}`;
+    const rawCSV = await this.getRawCSV();
 
-    const cachedRawCSV = await this.cacheManager.get<string>(cacheKey);
-
-    if (cachedRawCSV) {
-      return await this.mapCsvRowsToProducts(cachedRawCSV, productId);
-    }
-
-    const csvUrl = this.vendorConfigService.getVendorConfig().apiUrl;
-    const response = await fetch(csvUrl);
-
-    if (!response.ok) {
-      throw new Error(`Cannot fetch CSV: ${csvUrl}`);
-    }
-
-    const rawCsv = await response.text();
-
-    await this.cacheManager.set(
-      cacheKey,
-      rawCsv,
-      RAW_CSV_CACHE_TTL_IN_MILLISECONDS,
-    );
-
-    return await this.mapCsvRowsToProducts(rawCsv, productId);
+    return await this.mapCsvRowsToProducts(rawCSV, productId);
   }
 
   async getProductById(id: string): Promise<CSVProduct | null> {
@@ -97,6 +76,33 @@ export class CSVClient {
     return (
       product?.variants.find((variant) => variant.id === variantId) ?? null
     );
+  }
+
+  private async getRawCSV(): Promise<string> {
+    const cacheKey = `raw_csv_${this.vendorConfigService.getVendorConfig().apiUrl}`;
+
+    const cachedRawCSV = await this.cacheManager.get<string>(cacheKey);
+
+    if (cachedRawCSV) {
+      return cachedRawCSV;
+    }
+
+    const csvUrl = this.vendorConfigService.getVendorConfig().apiUrl;
+    const response = await fetch(csvUrl);
+
+    if (!response.ok) {
+      throw new Error(`Cannot fetch CSV: ${csvUrl}`);
+    }
+
+    const rawCsv = await response.text();
+
+    await this.cacheManager.set(
+      cacheKey,
+      rawCsv,
+      RAW_CSV_CACHE_TTL_IN_MILLISECONDS,
+    );
+
+    return rawCsv;
   }
 
   private async mapCsvRowsToProducts(
