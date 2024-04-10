@@ -173,7 +173,7 @@ export class SearchClient implements ISearchClient {
     documentType: DocumentType,
   ): Promise<void> {
     try {
-      await DOCUMENT_CONFIG[documentType].client.documents().delete(documentId);
+      await DOCUMENT_CONFIG[documentType].client.documents(documentId).delete();
     } catch (e: any) {
       if (isTypesenseNotFoundError(e)) {
         this.logger.debug(

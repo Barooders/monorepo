@@ -72,7 +72,7 @@
     "@nestjs/event-emitter": "1.4.2",
     "@nestjs/jwt": "10.1.1",
     "@nestjs/passport": "9.0.3",
-    "@nestjs/platform-express": "10.2.6",
+    "@nestjs/platform-express": "10.3.6",
     "@nestjs/schedule": "2.2.3",
     "@nestjs/swagger": "7.1.12",
     "@prisma/client": "4.16.2",
@@ -133,7 +133,7 @@
     "shared-types": "0.1.1",
     "shopify-api-node": "3.12.6",
     "talkjs-node": "0.2.5",
-    "typesense": "1.7.2",
+    "typesense": "1.8.1",
     "xmlbuilder2": "3.1.1"
   },
   "devDependencies": {
