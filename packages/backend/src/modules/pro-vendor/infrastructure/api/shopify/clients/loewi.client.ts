@@ -1,27 +1,29 @@
 import { vendorConfig } from '@config/vendor/vendor.config';
-import { DEFAULT_PLAN_CONFIG } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
+import {
+  DEFAULT_PLAN_CONFIG,
+  InstrumentedShopify,
+} from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { Injectable, Logger } from '@nestjs/common';
-import Shopify from 'shopify-api-node';
 
 @Injectable()
 export class LoewiClient {
   private readonly logger = new Logger(LoewiClient.name);
-  private shopifyApiNode: Shopify;
+  private shopifyApiNode: InstrumentedShopify;
 
   constructor() {
-    this.logger.debug('Will instanciate Shopify API node');
+    this.logger.debug('Will instanciate InstrumentedShopify API node');
 
     if (!vendorConfig.loewi.accessToken) {
       throw new Error('Missing access token for Loewi');
     }
 
-    this.shopifyApiNode = new Shopify({
+    this.shopifyApiNode = new InstrumentedShopify({
       shopName: vendorConfig.loewi.apiUrl,
       accessToken: vendorConfig.loewi.accessToken,
       ...DEFAULT_PLAN_CONFIG,
     });
   }
-  getClient(): Shopify {
+  getClient(): InstrumentedShopify {
     return this.shopifyApiNode;
   }
 }
