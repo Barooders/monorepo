@@ -1,11 +1,11 @@
 'use client';
 
+import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import { useAuth } from '@/hooks/useAuth';
-import { getDictionary } from '@/i18n/translate';
-import Link from '@/components/atoms/Link';
-import { useEffect, useState } from 'react';
 import useSearchParams from '@/hooks/useSearchParams';
+import { getDictionary } from '@/i18n/translate';
+import { useEffect, useState } from 'react';
 
 const AuthCallback = () => {
   const labels = getDictionary('fr');
@@ -31,7 +31,7 @@ const AuthCallback = () => {
       }
 
     if (authError) {
-      setError(labels.resetPassword.errors.invalidLink);
+      setError(labels.security.errors.invalidLink);
     }
   }, [refreshToken, authError, type, redirectUrl, checkout_url]);
 

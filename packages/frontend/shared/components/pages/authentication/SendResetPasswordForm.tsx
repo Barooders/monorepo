@@ -36,9 +36,9 @@ const SendResetPasswordForm = () => {
           className="flex flex-col gap-2"
         >
           <h2 className="mb-4 text-2xl font-bold uppercase">
-            {dict.resetPassword.intro.title}
+            {dict.security.intro.title}
           </h2>
-          <p className="mb-4">{dict.resetPassword.intro.description}</p>
+          <p className="mb-4">{dict.security.intro.description}</p>
           <div className="mb-2 min-h-[60px]">
             {state.error && (
               <div className="flex h-full items-center rounded-md border-2 border-rose-600 p-3 text-red-600">
@@ -61,12 +61,12 @@ const SendResetPasswordForm = () => {
             )}
           </div>
           <Input
-            label={dict.resetPassword.inputs.email.label}
+            label={dict.security.inputs.email.label}
             name="email"
             type="email"
             disabled={state.value}
             options={{ required: dict.global.forms.required }}
-            placeholder={dict.resetPassword.inputs.email.placeholder}
+            placeholder={dict.security.inputs.email.placeholder}
           />
           <ReCAPTCHA
             ref={recaptchaRef}
@@ -78,7 +78,7 @@ const SendResetPasswordForm = () => {
               type="submit"
               disabled={state.value}
             >
-              {state.loading ? <Loader /> : dict.resetPassword.submit}
+              {state.loading ? <Loader /> : dict.security.submit}
             </Button>
             <Button
               type="button"

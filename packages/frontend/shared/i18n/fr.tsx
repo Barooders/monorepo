@@ -479,9 +479,9 @@ const fr = {
     },
     submit: 'Confirmer',
   },
-  resetPassword: {
+  security: {
     intro: {
-      title: 'Réinitialiser votre mot de passe',
+      title: 'Sécurité et connexion',
       description:
         'Nous vous ferons parvenir un email pour réinitialiser votre mot de passe.',
     },
@@ -491,7 +491,7 @@ const fr = {
         placeholder: '',
       },
       newPassword: {
-        label: 'Votre nouveau mot de passe',
+        label: 'Réinitialiser votre mot de passe',
         placeholder: '',
       },
     },

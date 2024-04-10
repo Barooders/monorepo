@@ -4,6 +4,7 @@ import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import Input from '@/components/molecules/FormInput';
+import useUser from '@/hooks/state/useUser';
 import { useResetPassword } from '@/hooks/useResetPassword';
 import { getDictionary } from '@/i18n/translate';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -18,6 +19,9 @@ const ResetPassword = () => {
   const [state, resetPassword] = useResetPassword();
   const dict = getDictionary('fr');
 
+  const { hasuraToken } = useUser();
+
+  const email = hasuraToken?.user.email;
   const onSubmit: SubmitHandler<Inputs> = ({ newPassword }) => {
     resetPassword(newPassword);
   };
@@ -30,7 +34,7 @@ const ResetPassword = () => {
           className="flex flex-col gap-2"
         >
           <h2 className="mb-4 text-2xl font-bold uppercase">
-            {dict.resetPassword.intro.title}
+            {dict.security.intro.title}
           </h2>
           <div className="mb-2 min-h-[60px]">
             {state.error && (
@@ -39,20 +43,27 @@ const ResetPassword = () => {
               </p>
             )}
           </div>
+          {email && (
+            <Input
+              label={dictionnary.security.inputs.email.label}
+              name="email"
+              type="email"
+              placeholder={email}
+              disabled={true}
+            />
+          )}
           <Input
-            label={dictionnary.resetPassword.inputs.newPassword.label}
+            label={dictionnary.security.inputs.newPassword.label}
             name="newPassword"
             type="password"
             options={{ required: dictionnary.global.forms.required }}
-            placeholder={
-              dictionnary.resetPassword.inputs.newPassword.placeholder
-            }
+            placeholder={dictionnary.security.inputs.newPassword.placeholder}
           />
           <Button
             className="flex w-[100px] items-center justify-center self-start"
             type="submit"
           >
-            {state.loading ? <Loader /> : dictionnary.resetPassword.submit}
+            {state.loading ? <Loader /> : dictionnary.security.submit}
           </Button>
         </form>
       </FormProvider>
