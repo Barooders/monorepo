@@ -180,6 +180,11 @@ export class SearchClient implements ISearchClient {
           const modelConfig = DOCUMENT_CONFIG[documentType];
           await modelConfig.client.documents().upsert(modelConfig.map(data));
           break;
+        default:
+          documentType satisfies never;
+          throw new Error(
+            `Unknown document type: ${jsonStringify({ documentType, data })}`,
+          );
       }
     } catch (e: any) {
       this.logger.error(
