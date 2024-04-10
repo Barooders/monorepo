@@ -40,7 +40,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     images,
     vendor,
     title,
-    labels,
     description,
     commissionAmount,
     tags,
@@ -108,7 +107,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
               <ProductGallery
                 images={compact(images)}
-                labels={labels}
+                labels={[]}
                 isSoldOut={isSoldOut}
               />
             </div>
