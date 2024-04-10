@@ -1312,7 +1312,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.bikefApiSecret,
     catalog: {
       common: {
-        commissionPercentToAdd: 10,
+        commissionPercentToAdd: 9,
         translateDescription: true,
       },
     },
