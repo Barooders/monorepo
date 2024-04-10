@@ -12,6 +12,7 @@ services:
       POSTGRES_DB: barooders-backend
     volumes:
       - barooders-data:/var/lib/postgresql/data/
+      - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
     ports:
       - '2345:5432'
     healthcheck:
@@ -28,13 +29,12 @@ services:
       barooders-DB:
         condition: service_healthy
     restart: always
-    env_file: .env
     environment:
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
       BACKEND_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
       SIGNUP_WEBHOOK_URL: http://host.docker.internal:3000/v1/customers/webhook/signup
-      SHOPIFY_GRAPHQL_URL: ${SHOPIFY_GRAPHQL_URL}
-      SHOPIFY_STOREFRONT_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_ACCESS_TOKEN}
+      SHOPIFY_GRAPHQL_URL: https://barooders-stagging.myshopify.com/api/2023-01/graphql.json
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN: ef84ae8f519a9a500d23fc7898b91a21
       BACKEND_API_KEY_HEADER: 'Api-Key some-secret'
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'false' # use Hasura CLI to access the console, see projet README
       HASURA_GRAPHQL_DEV_MODE: 'true'
