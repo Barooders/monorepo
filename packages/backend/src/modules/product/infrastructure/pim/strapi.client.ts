@@ -95,7 +95,7 @@ export class StrapiClient implements IPIMClient {
   async createProductModel(
     model: CreateProductModel,
   ): Promise<PimProductModel> {
-    const brandId = await this.getBrandId(model.brand.name);
+    const pimBrand = await this.getBrand(model.brand.name);
 
     const { id } = await createModel({
       name: model.name,
@@ -103,7 +103,7 @@ export class StrapiClient implements IPIMClient {
         model.manufacturer_suggested_retail_price,
       imageUrl: model.imageUrl,
       year: model.year,
-      brandId,
+      brandId: pimBrand.id,
       isDraft: true,
     });
 
@@ -115,12 +115,14 @@ export class StrapiClient implements IPIMClient {
       imageUrl: new URL(model.imageUrl),
       year: model.year,
       brand: {
-        name: model.brand.name,
+        name: pimBrand.name,
       },
     };
   }
 
-  private async getBrandId(brandName: string): Promise<number> {
+  private async getBrand(
+    brandName: string,
+  ): Promise<{ id: number; name: string }> {
     const brands = await this.getBrands();
 
     const index = new Fuse(brands, {
@@ -136,7 +138,7 @@ export class StrapiClient implements IPIMClient {
       throw new Error(`Brand ${brandName} does not exist in PIM`);
     }
 
-    return brand.item.id;
+    return { id: brand.item.id, name: brand.item.attributes.name };
   }
 
   private async getBrands(): Promise<PimBrand[]> {
