@@ -135,12 +135,9 @@ const fr = {
         },
       },
       support: {
-        catchphrase:
-          'Nos experts basés en France sont là pour vous aider ! 🇫🇷 ',
+        catchphrase: 'Contactez nos experts basés en France ! 🇫🇷 ',
         content: () => (
           <p>
-            Contactez nous : <br />
-            📞{' '}
             <Link href="tel:+33189713290">
               <strong>+33 1 89 71 32 90</strong>
             </Link>
