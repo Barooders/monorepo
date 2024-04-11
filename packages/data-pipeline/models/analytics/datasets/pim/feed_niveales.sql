@@ -4,7 +4,9 @@ SELECT
     f.variant_id id,
     m.slug as type,
     COALESCE(f.brand, "Barooders") as brand,
-    COALESCE(p.year, '2023') as year,
+    CASE
+        when p.year in ('2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025') then p.year
+        else '2023' end as year,
     f.barcode as ean,
     case 
         when CHAR_LENGTH(f_api.description) >= 300 then SUBSTR(f_api.description, 1, 300) 
