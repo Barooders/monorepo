@@ -9,18 +9,10 @@
   "scripts": {
     "format": "prettier \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
     "format:fix": "prettier --write \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
-    "build": "yarn workspace backend build && yarn workspace backend prisma:migrate",
     "install-for-render": "./install-for-render.sh",
     "console": "yarn workspace backend console",
     "prepare": "husky"
   },
-  "cacheDirectories": [
-    "node_modules",
-    "packages/backend/node_modules",
-    "packages/cypress/node_modules",
-    "packages/shared-types/node_modules",
-    "packages/frontend/node_modules"
-  ],
   "dependencies": {
     "@types/lodash": "4.14.198",
     "@types/node": "18.14.0",
