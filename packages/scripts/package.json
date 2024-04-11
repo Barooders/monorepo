@@ -1,0 +1,20 @@
+{
+  "name": "scripts",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "prisma:generate:main": "prisma generate --schema=../backend/prisma/schema.main.prisma",
+    "prisma:generate:store": "prisma generate --schema=../backend/prisma/schema.store.prisma",
+    "prisma:generate": "yarn prisma:generate:main && yarn prisma:generate:store",
+    "sync-products": "yarn ts-node -r tsconfig-paths/register sync-products.ts"
+  },
+  "devDependencies": {
+    "@medusajs/medusa": "latest",
+    "@prisma/client": "4.16.2",
+    "prisma": "4.16.2",
+    "ts-node": "10.9.1"
+  },
+  "dependencies": {
+    "dotenv": "16.4.5"
+  }
+}
