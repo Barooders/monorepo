@@ -22,14 +22,15 @@ cache_dependencies() {
 echo "Moving modules to package directories"
 extract_cached_dependencies "backend"
 extract_cached_dependencies "frontend"
+extract_cached_dependencies "store"
 extract_cached_dependencies "cypress"
 
-# Run build steps
+# Run install steps
 yarn install;
-yarn build;
 
 # Copy modules back to cache
 echo "Copying modules back to cache"
 cache_dependencies "backend"
 cache_dependencies "frontend"
+cache_dependencies "store"
 cache_dependencies "cypress"
