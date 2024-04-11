@@ -10,8 +10,8 @@
     "watch": "yarn tsc --watch",
     "test": "jest",
     "seed": "yarn medusa seed -f ./data/seed.json",
-    "start": "yarn build && yarn medusa start",
-    "start:custom": "yarn build && node --preserve-symlinks --trace-warnings index.js",
+    "start": "yarn medusa start",
+    "start:custom": "node --preserve-symlinks --trace-warnings index.js",
     "dev": "yarn build:server && yarn medusa develop"
   },
   "dependencies": {
