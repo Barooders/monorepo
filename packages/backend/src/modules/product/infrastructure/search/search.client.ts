@@ -144,6 +144,7 @@ const DOCUMENT_CONFIG = {
       brand,
       year,
       imageUrl,
+      productType,
       manufacturer_suggested_retail_price,
     }: ProductModelToIndex): TypesenseProductModelDocument => ({
       id,
@@ -152,6 +153,7 @@ const DOCUMENT_CONFIG = {
       year,
       imageUrl: imageUrl?.toString(),
       manufacturer_suggested_retail_price,
+      productType: productType.name,
     }),
   },
 };
