@@ -2,7 +2,7 @@ generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["tracing", "multiSchema", "postgresqlExtensions"]
   binaryTargets   = ["native", "darwin"]
-  output          = "../src/__generated/main-client"
+  output          = env("PRISMA_CLIENT_MAIN_OUTPUT")
 }
 
 datasource db {
