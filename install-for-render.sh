@@ -22,7 +22,7 @@ cache_dependencies() {
 
 # Move modules to package directories
 echo "Moving modules to package directories"
-for $folder in $PACKAGES; do
+for folder in $PACKAGES; do
 	extract_cached_dependencies $folder
 done
 
