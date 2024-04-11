@@ -21,22 +21,23 @@ export type FetchConfigType = RequestInit & {
 
 export const createRestClient = (baseUrl: string) => {
   return async <PayloadType>(path: string, config?: FetchConfigType) => {
-    const result = await fetch(
-      `${baseUrl}${path}`,
-      merge(
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        },
-        config,
-      ),
-    );
-
     let payload = null;
+    let result: Response | null = null;
 
     try {
+      result = await fetch(
+        `${baseUrl}${path}`,
+        merge(
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+          config,
+        ),
+      );
+
       payload = await (config?.responseParsing === 'text'
         ? result.text()
         : config?.responseParsing === 'buffer'
@@ -46,12 +47,12 @@ export const createRestClient = (baseUrl: string) => {
       payload = null;
     }
 
-    if (!result.ok || payload?.statusCode >= 400)
+    if (!result?.ok || payload?.statusCode >= 400)
       throw new BackendFailureException(
         path,
-        payload.code ?? payload.error ?? 'UNKONWN',
-        payload.message ?? 'Some Error occured',
-        payload?.statusCode ?? result.status ?? 400,
+        payload?.code ?? payload?.error ?? 'UNKONWN',
+        payload?.message ?? 'Some Error occured',
+        payload?.statusCode ?? result?.status ?? 400,
       );
 
     return payload as PayloadType;

@@ -77,7 +77,7 @@ export class ShopifyClient {
 
     do {
       const newProducts =
-        await this.getOrCreateShopifyApiNode().listProducts(params);
+        await this.getOrCreateShopifyApiNode().product.list(params);
 
       products = [...products, ...newProducts];
 
@@ -89,7 +89,7 @@ export class ShopifyClient {
 
   async getProduct(productId: number): Promise<Shopify.IProduct | null> {
     try {
-      return await this.getOrCreateShopifyApiNode().getProduct(productId);
+      return await this.getOrCreateShopifyApiNode().product.get(productId);
     } catch (error) {
       throw new Error(`Could not get product from Shopify because: ${error}`);
     }
@@ -174,7 +174,7 @@ export class ShopifyClient {
 
   async isUp(): Promise<boolean> {
     return (
-      (await this.getOrCreateShopifyApiNode().listProducts({ limit: 1 }))
+      (await this.getOrCreateShopifyApiNode().product.list({ limit: 1 }))
         .length > 0
     );
   }

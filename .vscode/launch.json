@@ -48,8 +48,8 @@
 			"request": "launch",
 			"name": "Start dev",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "start:dev"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["start:dev"],
 			"outputCapture": "std",
 		},
 		{
@@ -57,8 +57,8 @@
 			"request": "launch",
 			"name": "Update tags",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "update:tags"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["update:tags"],
 			"outputCapture": "std",
 		},
 		{
@@ -66,8 +66,8 @@
 			"request": "launch",
 			"name": "Start consumer handler",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "start:consumer:dev"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["start:consumer:dev"],
 			"outputCapture": "std",
 		},
 		{
@@ -84,8 +84,8 @@
 			"request": "launch",
 			"name": "Sync new products",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "syncProducts", "-f", "${input:promptVendor}"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "-f", "${input:promptVendor}"],
 			"outputCapture": "std",
 		},
 		{
@@ -93,8 +93,8 @@
 			"request": "launch",
 			"name": "Sync specific products",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "syncProducts", "${input:promptVendor}", "-p", "${input:promptExternalProductId}"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "syncProducts", "${input:promptVendor}", "-p", "${input:promptExternalProductId}"],
 			"outputCapture": "std",
 		},
 		{
@@ -102,8 +102,8 @@
 			"request": "launch",
 			"name": "Update products",
 			"runtimeExecutable": "yarn",
-			"cwd": "${workspaceFolder}",
-			"runtimeArgs": ["workspace backend", "run", "console:dev", "proVendor", "updateProductStatuses", "-f", "${input:promptVendor}"],
+			"cwd": "${workspaceFolder}/packages/backend",
+			"runtimeArgs": ["run", "console:dev", "proVendor", "updateProductStatuses", "-f", "${input:promptVendor}"],
 			"outputCapture": "std",
 		}
 	]
