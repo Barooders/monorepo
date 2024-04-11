@@ -7,4 +7,7 @@ export interface ProductModelToIndex {
   brand: {
     name: string;
   };
+  productType: {
+    name: string;
+  };
 }

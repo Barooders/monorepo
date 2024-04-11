@@ -94,6 +94,9 @@ export type PimProductModel = {
   brand: {
     name: string;
   };
+  productType: {
+    name: string;
+  };
 };
 
 export const getValidTags = (tags: string[]): string[] => {

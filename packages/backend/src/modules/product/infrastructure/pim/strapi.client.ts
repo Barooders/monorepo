@@ -96,6 +96,7 @@ export class StrapiClient implements IPIMClient {
     model: CreateProductModel,
   ): Promise<PimProductModel> {
     const pimBrand = await this.getBrand(model.brand.name);
+    const productType = await this.getPimProductType(model.productType);
 
     const { id } = await createModel({
       name: model.name,
@@ -104,6 +105,7 @@ export class StrapiClient implements IPIMClient {
       imageUrl: model.imageUrl,
       year: model.year,
       brandId: pimBrand.id,
+      productTypeId: productType.id,
       isDraft: true,
     });
 
@@ -114,6 +116,7 @@ export class StrapiClient implements IPIMClient {
         model.manufacturer_suggested_retail_price,
       imageUrl: new URL(model.imageUrl),
       year: model.year,
+      productType: { name: productType.attributes.name },
       brand: {
         name: pimBrand.name,
       },
