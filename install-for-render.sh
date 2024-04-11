@@ -2,6 +2,8 @@
 
 subdirectories_nodemodules="$XDG_CACHE_HOME/subdirectories-nodemodules"
 
+PACKAGES=$(ls packages)
+
 extract_cached_dependencies() {
     source_dir="$1"
     dest_dir="packages/$1/node_modules/"
@@ -20,17 +22,16 @@ cache_dependencies() {
 
 # Move modules to package directories
 echo "Moving modules to package directories"
-extract_cached_dependencies "backend"
-extract_cached_dependencies "frontend"
-extract_cached_dependencies "store"
-extract_cached_dependencies "cypress"
+for $folder in $PACKAGES; do
+	extract_cached_dependencies $folder
+done
 
 # Run install steps
 yarn install;
 
 # Copy modules back to cache
 echo "Copying modules back to cache"
-cache_dependencies "backend"
-cache_dependencies "frontend"
-cache_dependencies "store"
-cache_dependencies "cypress"
+for folder in $PACKAGES; do
+	cache_dependencies $folder
+done
+
