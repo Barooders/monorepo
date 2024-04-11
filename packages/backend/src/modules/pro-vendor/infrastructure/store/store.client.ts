@@ -13,6 +13,7 @@ import {
   cleanShopifyVariant,
 } from '@libs/infrastructure/shopify/mappers';
 import {
+  InstrumentedShopify,
   parseShopifyError,
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
@@ -34,7 +35,7 @@ const backendAuthor: Author = {
 export class StoreClient implements IStoreClient {
   private readonly logger = new Logger(StoreClient.name);
 
-  private shopifyApiByToken: Shopify | null = null;
+  private shopifyApiByToken: InstrumentedShopify | null = null;
 
   constructor(
     private readonly vendorConfigService: IVendorConfigService,
@@ -220,7 +221,7 @@ export class StoreClient implements IStoreClient {
     });
   }
 
-  private getOrCreateShopifyApiByToken(): Shopify {
+  private getOrCreateShopifyApiByToken(): InstrumentedShopify {
     if (!!this.shopifyApiByToken) {
       return this.shopifyApiByToken;
     }

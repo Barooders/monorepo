@@ -273,7 +273,7 @@ export class InstrumentedShopify {
 }
 
 const globalForShopifyApiByToken = global as unknown as {
-  shopifyApiByToken: Shopify;
+  shopifyApiByToken: InstrumentedShopify;
 };
 
 export const DEFAULT_PLAN_CONFIG = {
@@ -326,7 +326,7 @@ export const getSingleProductInOrder = (orderData: Shopify.IOrder) => {
 // Prevents too many instances of shopify api node to be initialized
 export const shopifyApiByToken =
   globalForShopifyApiByToken.shopifyApiByToken ||
-  new Shopify({
+  new InstrumentedShopify({
     shopName: shopifyConfig.shop,
     accessToken: shopifyConfig.backofficeApp.accessToken,
     ...PLUS_PLAN_CONFIG,
