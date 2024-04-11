@@ -164,6 +164,22 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.mckiteshop.com/api/',
     catalog: {},
   },
+  sanferbike: {
+    slug: 'sanferbike',
+    mappingKey: 'sanferbike',
+    type: VendorType.PRESTASHOP,
+    apiKey: vendorSecrets.sanferbikeApiKey,
+    apiUrl: 'https://www.sanferbike.com/api/',
+    catalog: {
+      common: {
+        commissionPercentToAdd: 9,
+        brandFilter: {
+          names: ['trek', 'scott'],
+          action: BrandFilterAction.EXCLUDE,
+        },
+      },
+    },
+  },
   elite_bikes: {
     slug: 'elite_bikes',
     mappingKey: 'elite_bikes',

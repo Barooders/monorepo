@@ -1,0 +1,17 @@
+meta {
+  name: Sanferbike products
+  type: http
+  seq: 123
+}
+
+get {
+  url: https://www.sanferbike.com/api/products
+  body: none
+  auth: none
+}
+
+query {
+  output_format: JSON
+  ws_key: {{sanferbikeApiKey}}
+  ~display: full
+}
