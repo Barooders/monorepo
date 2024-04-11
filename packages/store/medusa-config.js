@@ -79,7 +79,12 @@ const projectConfig = {
   database_url: DATABASE_URL,
   admin_cors: ADMIN_CORS,
   database_schema: DATABASE_SCHEMA,
-//  redis_url: REDIS_URL,
+  database_extra: {
+    ssl: {
+      rejectUnauthorized: process.env.DATABASE_SSL === 'true',
+    },
+  },
+  //  redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
