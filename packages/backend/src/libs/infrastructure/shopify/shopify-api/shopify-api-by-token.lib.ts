@@ -7,6 +7,10 @@ import { jsonStringify } from '@libs/helpers/json';
 import newrelic from 'newrelic';
 import { ShopifyError } from './types';
 
+const instrumentShopifyMethod = <T>(methodName: string, handler: () => T) => {
+  return newrelic.startSegment(`shopify:${methodName}`, false, handler);
+};
+
 class InstrumentedProductClient {
   private shopifyClient: Shopify;
 
@@ -15,44 +19,32 @@ class InstrumentedProductClient {
   }
 
   async get(id: number) {
-    return newrelic.startSegment(
-      `shopify:getProduct:${id}`,
-      false,
-      async () => {
-        return this.shopifyClient.product.get(id);
-      },
+    return instrumentShopifyMethod('getProduct', () =>
+      this.shopifyClient.product.get(id),
     );
   }
 
   async create(params: any) {
-    return newrelic.startSegment('shopify:createProduct', false, async () => {
-      return this.shopifyClient.product.create(params);
-    });
+    return instrumentShopifyMethod('createProduct', () =>
+      this.shopifyClient.product.create(params),
+    );
   }
 
   async list(params: any) {
-    return newrelic.startSegment('shopify:listProducts', false, async () => {
-      return this.shopifyClient.product.list(params);
-    });
+    return instrumentShopifyMethod('listProducts', () =>
+      this.shopifyClient.product.list(params),
+    );
   }
 
   async update(id: number, params: any) {
-    return newrelic.startSegment(
-      `shopify:updateProduct:${id}`,
-      false,
-      async () => {
-        return this.shopifyClient.product.update(id, params);
-      },
+    return instrumentShopifyMethod('updateProduct', () =>
+      this.shopifyClient.product.update(id, params),
     );
   }
 
   async delete(id: number) {
-    return newrelic.startSegment(
-      `shopify:deleteProduct:${id}`,
-      false,
-      async () => {
-        return this.shopifyClient.product.delete(id);
-      },
+    return instrumentShopifyMethod('deleteProduct', () =>
+      this.shopifyClient.product.delete(id),
     );
   }
 }
@@ -65,25 +57,21 @@ class InstrumentedOrderClient {
   }
 
   async get(id: number) {
-    return newrelic.startSegment(`shopify:getOrder:${id}`, false, async () => {
-      return this.shopifyClient.order.get(id);
-    });
+    return instrumentShopifyMethod('getOrder', () =>
+      this.shopifyClient.order.get(id),
+    );
   }
 
   async fulfillmentOrders(id: number) {
-    return newrelic.startSegment(
-      'shopify:getFulfillmentOrders',
-      false,
-      async () => {
-        return this.shopifyClient.order.fulfillmentOrders(id);
-      },
+    return instrumentShopifyMethod('getFulfillmentOrders', () =>
+      this.shopifyClient.order.fulfillmentOrders(id),
     );
   }
 
   async create(params: any) {
-    return newrelic.startSegment('shopify:createOrder', false, async () => {
-      return this.shopifyClient.order.create(params);
-    });
+    return instrumentShopifyMethod('createOrder', () =>
+      this.shopifyClient.order.create(params),
+    );
   }
 }
 
@@ -95,15 +83,15 @@ class InstrumentedCustomerClient {
   }
 
   async search(params: any) {
-    return newrelic.startSegment('shopify:searchCustomer', false, async () => {
-      return this.shopifyClient.customer.search(params);
-    });
+    return instrumentShopifyMethod('searchCustomer', () =>
+      this.shopifyClient.customer.search(params),
+    );
   }
 
   async create(params: any) {
-    return newrelic.startSegment('shopify:createCustomer', false, async () => {
-      return this.shopifyClient.customer.create(params);
-    });
+    return instrumentShopifyMethod('createCustomer', () =>
+      this.shopifyClient.customer.create(params),
+    );
   }
 }
 
@@ -115,22 +103,14 @@ class InstrumentedFulfillmentClient {
   }
 
   async list(id: number) {
-    return newrelic.startSegment(
-      'shopify:listFulfillments',
-      false,
-      async () => {
-        return this.shopifyClient.fulfillment.list(id);
-      },
+    return instrumentShopifyMethod('listFulfillments', () =>
+      this.shopifyClient.fulfillment.list(id),
     );
   }
 
   async createV2(params: any) {
-    return newrelic.startSegment(
-      'shopify:createFulfillmentV2',
-      false,
-      async () => {
-        return this.shopifyClient.fulfillment.createV2(params);
-      },
+    return instrumentShopifyMethod('createFulfillmentV2', () =>
+      this.shopifyClient.fulfillment.createV2(params),
     );
   }
 }
@@ -143,12 +123,8 @@ class InstrumentedTransactionClient {
   }
 
   async create(id: number, params: any) {
-    return newrelic.startSegment(
-      'shopify:createTransaction',
-      false,
-      async () => {
-        return this.shopifyClient.transaction.create(id, params);
-      },
+    return instrumentShopifyMethod('createTransaction', () =>
+      this.shopifyClient.transaction.create(id, params),
     );
   }
 }
@@ -161,24 +137,20 @@ class InstrumentedMetafieldClient {
   }
 
   async create(params: any) {
-    return newrelic.startSegment('shopify:createMetafield', false, async () => {
-      return this.shopifyClient.metafield.create(params);
-    });
+    return instrumentShopifyMethod('createMetafield', () =>
+      this.shopifyClient.metafield.create(params),
+    );
   }
 
   async list(params: any) {
-    return newrelic.startSegment('shopify:listMetafields', false, async () => {
-      return this.shopifyClient.metafield.list(params);
-    });
+    return instrumentShopifyMethod('listMetafields', () =>
+      this.shopifyClient.metafield.list(params),
+    );
   }
 
   async update(id: number, params: any) {
-    return newrelic.startSegment(
-      `shopify:updateMetafield:${id}`,
-      false,
-      async () => {
-        return this.shopifyClient.metafield.update(id, params);
-      },
+    return instrumentShopifyMethod('updateMetafield', () =>
+      this.shopifyClient.metafield.update(id, params),
     );
   }
 }
