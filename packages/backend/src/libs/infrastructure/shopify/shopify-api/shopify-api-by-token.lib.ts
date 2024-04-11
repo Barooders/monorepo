@@ -49,6 +49,44 @@ class InstrumentedProductClient {
   }
 }
 
+class InstrumentedProductVariantClient {
+  private shopifyClient: Shopify;
+
+  constructor(shopifyClient: Shopify) {
+    this.shopifyClient = shopifyClient;
+  }
+
+  async get(id: number) {
+    return instrumentShopifyMethod('getProductVariant', () =>
+      this.shopifyClient.productVariant.get(id),
+    );
+  }
+
+  async create(productId: number, params: any) {
+    return instrumentShopifyMethod('createProductVariant', () =>
+      this.shopifyClient.productVariant.create(productId, params),
+    );
+  }
+
+  async list(id: number) {
+    return instrumentShopifyMethod('listProductVariants', () =>
+      this.shopifyClient.productVariant.list(id),
+    );
+  }
+
+  async update(id: number, params: any) {
+    return instrumentShopifyMethod('updateProductVariant', () =>
+      this.shopifyClient.productVariant.update(id, params),
+    );
+  }
+
+  async delete(productId: number, id: number) {
+    return instrumentShopifyMethod('deleteProductVariant', () =>
+      this.shopifyClient.productVariant.delete(productId, id),
+    );
+  }
+}
+
 class InstrumentedOrderClient {
   private shopifyClient: Shopify;
 
@@ -103,7 +141,7 @@ class InstrumentedFulfillmentClient {
   }
 
   async list(id: number) {
-    return instrumentShopifyMethod('listFulfillments', () =>
+    return instrumentShopifyMethod('listFulfillmentsFromOrder', () =>
       this.shopifyClient.fulfillment.list(id),
     );
   }
@@ -111,6 +149,40 @@ class InstrumentedFulfillmentClient {
   async createV2(params: any) {
     return instrumentShopifyMethod('createFulfillmentV2', () =>
       this.shopifyClient.fulfillment.createV2(params),
+    );
+  }
+}
+
+class InstrumentedFulfillmentOrderClient {
+  private shopifyClient: Shopify;
+
+  constructor(shopifyClient: Shopify) {
+    this.shopifyClient = shopifyClient;
+  }
+
+  async fulfillments(id: number) {
+    return instrumentShopifyMethod('listFulfillmentsFromFulfillmentOrder', () =>
+      this.shopifyClient.fulfillmentOrder.fulfillments(id),
+    );
+  }
+}
+
+class InstrumentedProductImageClient {
+  private shopifyClient: Shopify;
+
+  constructor(shopifyClient: Shopify) {
+    this.shopifyClient = shopifyClient;
+  }
+
+  async create(productId: number, params: any) {
+    return instrumentShopifyMethod('createProductImage', () =>
+      this.shopifyClient.productImage.create(productId, params),
+    );
+  }
+
+  async delete(productId: number, imageId: number) {
+    return instrumentShopifyMethod('deleteProductImage', () =>
+      this.shopifyClient.productImage.create(productId, imageId),
     );
   }
 }
@@ -155,24 +227,48 @@ class InstrumentedMetafieldClient {
   }
 }
 
+class InstrumentedInventoryLevelClient {
+  private shopifyClient: Shopify;
+
+  constructor(shopifyClient: Shopify) {
+    this.shopifyClient = shopifyClient;
+  }
+
+  async set(params: any) {
+    return instrumentShopifyMethod('setInventoryLevel', () =>
+      this.shopifyClient.inventoryLevel.set(params),
+    );
+  }
+}
+
 export class InstrumentedShopify {
   public product: InstrumentedProductClient;
+  public productVariant: InstrumentedProductVariantClient;
+  public productImage: InstrumentedProductImageClient;
   public order: InstrumentedOrderClient;
   public customer: InstrumentedCustomerClient;
   public transaction: InstrumentedTransactionClient;
   public fulfillment: InstrumentedFulfillmentClient;
+  public fulfillmentOrder: InstrumentedFulfillmentOrderClient;
   public metafield: InstrumentedMetafieldClient;
+  public inventoryLevel: InstrumentedInventoryLevelClient;
 
   constructor(
     options: Shopify.IPublicShopifyConfig | Shopify.IPrivateShopifyConfig,
   ) {
     const shopifyClient = new Shopify(options);
     this.product = new InstrumentedProductClient(shopifyClient);
+    this.productVariant = new InstrumentedProductVariantClient(shopifyClient);
+    this.productImage = new InstrumentedProductImageClient(shopifyClient);
     this.order = new InstrumentedOrderClient(shopifyClient);
     this.customer = new InstrumentedCustomerClient(shopifyClient);
     this.transaction = new InstrumentedTransactionClient(shopifyClient);
     this.fulfillment = new InstrumentedFulfillmentClient(shopifyClient);
+    this.fulfillmentOrder = new InstrumentedFulfillmentOrderClient(
+      shopifyClient,
+    );
     this.metafield = new InstrumentedMetafieldClient(shopifyClient);
+    this.inventoryLevel = new InstrumentedInventoryLevelClient(shopifyClient);
   }
 }
 
