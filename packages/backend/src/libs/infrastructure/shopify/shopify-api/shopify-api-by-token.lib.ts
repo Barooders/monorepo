@@ -4,7 +4,6 @@ import { shopifyConfig } from '@config/shopify.config';
 import { BAROODERS_NAMESPACE } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 /* eslint-disable import/no-named-as-default-member */
-import newrelic from 'newrelic';
 import { ShopifyError } from './types';
 
 export class InstrumentedShopify extends Shopify {
@@ -13,22 +12,6 @@ export class InstrumentedShopify extends Shopify {
   ) {
     super(options);
   }
-
-  getProduct = async (id: number) => {
-    return newrelic.startSegment(
-      `shopify:getProduct:${id}`,
-      false,
-      async () => {
-        return this.product.get(id);
-      },
-    );
-  };
-
-  listProducts = async (options: any) => {
-    return newrelic.startSegment('shopify:listProducts', false, async () => {
-      return this.product.list(options);
-    });
-  };
 }
 
 const globalForShopifyApiByToken = global as unknown as {
