@@ -1,17 +1,7 @@
 {
-  "name": "medusa-starter-default",
+  "name": "store",
+  "private": true,
   "version": "0.0.1",
-  "description": "A starter for Medusa projects.",
-  "author": "Medusa (https://medusajs.com)",
-  "license": "MIT",
-  "keywords": [
-    "sqlite",
-    "postgres",
-    "typescript",
-    "ecommerce",
-    "headless",
-    "medusa"
-  ],
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn clean && yarn build:server && yarn build:admin",
