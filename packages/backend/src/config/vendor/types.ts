@@ -65,6 +65,7 @@ export type SynchronizedProVendor =
   | 'savoldelli'
   | 'manufaktur'
   | 'matkite'
+  | 'sanferbike'
   | 'elite_bikes'
   | 'bike_xtreme'
   | 'mbspro'
