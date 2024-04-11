@@ -69,4 +69,5 @@ export type SearchProductModelDocument = {
   imageUrl?: string;
   year?: number;
   manufacturer_suggested_retail_price?: number;
+  productType: string;
 };

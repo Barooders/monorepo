@@ -1,0 +1,31 @@
+meta {
+  name: search model
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://56bmiavw9gt0qkf3p.a1.typesense.net/multi_search
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-typesense-api-key: {{typesenseKey}}
+}
+
+body:json {
+  {
+    "searches": [
+      {
+        "query_by": "brand,family,name,productType",
+        "sort_by": "_text_match:desc",
+        "collection": "product_models",
+        "q": "VTT Lapierre 2022",
+        "page": 1,
+        "per_page": 1
+      }
+    ]
+  }
+}

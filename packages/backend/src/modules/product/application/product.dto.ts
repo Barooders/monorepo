@@ -184,6 +184,9 @@ export class CreateProductModelDto {
   @ApiProperty()
   year!: number;
 
+  @ApiProperty()
+  productType!: string;
+
   @ApiProperty({ type: PimBrand })
   brand!: PimBrand;
 }

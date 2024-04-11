@@ -111,6 +111,7 @@ export const createModel = async ({
   imageUrl,
   year,
   brandId,
+  productTypeId,
   isDraft,
 }: {
   name: string;
@@ -118,6 +119,7 @@ export const createModel = async ({
   imageUrl: string;
   year: number;
   brandId: number;
+  productTypeId: number;
   isDraft: boolean;
 }): Promise<{ id: number }> => {
   const { data } = await strapiClient<{ data: { id: number } }>(
@@ -136,6 +138,9 @@ export const createModel = async ({
           year,
           brand: {
             set: [brandId],
+          },
+          productTypeId: {
+            set: [productTypeId],
           },
           publishedAt: isDraft ? null : undefined,
         },
