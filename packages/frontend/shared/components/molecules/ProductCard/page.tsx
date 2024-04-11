@@ -131,6 +131,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 reviewCount={vendor.reviews.count}
                 productShopifyId={shopifyId}
                 size="card"
+                isPro={vendor.isPro}
               />
             )}
           </div>

@@ -54,6 +54,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
                   withLink={true}
                   productShopifyId={shopifyId}
                   size="card"
+                  isPro={vendor.isPro}
                 />
               </div>
             )}

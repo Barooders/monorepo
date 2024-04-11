@@ -9,6 +9,7 @@ const dict = getDictionary('fr');
 
 const ProductVendorCard: React.FC<ProductVendorProps> = ({
   vendor,
+  isPro = false,
   withLink = false,
   withSeeAllLink = true,
   rating,
@@ -32,12 +33,14 @@ const ProductVendorCard: React.FC<ProductVendorProps> = ({
           >
             {vendor}
           </LinkWrapper>
-          <div
-            className={`ml-2 flex items-center gap-1 rounded bg-blue-200 px-1 ${textStyle} text-[11px] font-semibold text-blue-500`}
-          >
-            <FaCircleCheck />
-            <span>{dict.components.productCard.vendor.proVendor}</span>
-          </div>
+          {isPro && (
+            <div
+              className={`ml-2 flex items-center gap-1 rounded bg-blue-200 px-1 ${textStyle} text-[11px] font-semibold text-blue-500`}
+            >
+              <FaCircleCheck />
+              <span>{dict.components.productCard.vendor.proVendor}</span>
+            </div>
+          )}
         </div>
         {rating && reviewCount ? (
           <SmallReviewLink

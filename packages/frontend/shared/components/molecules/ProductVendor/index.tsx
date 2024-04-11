@@ -3,6 +3,7 @@ import SmallProductVendor from './small';
 
 export type ProductVendorProps = {
   vendor: string;
+  isPro?: boolean;
   withLink?: boolean;
   rating?: number;
   reviewCount?: number;
