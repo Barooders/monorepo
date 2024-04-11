@@ -4,7 +4,7 @@ SELECT
     f.variant_id id,
     m.slug as type,
     COALESCE(f.brand, "Barooders") as brand,
-    p.year as year,
+    COALESCE(p.year, '2023') as year,
     f.barcode as ean,
     case 
         when CHAR_LENGTH(f_api.description) >= 300 then SUBSTR(f_api.description, 1, 300) 
