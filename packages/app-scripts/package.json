@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "login": "clasp login",
-    "open": "clasp open",
-    "push": "clasp push"
+    "open": "cd feed && clasp open",
+    "push": "cd feed && clasp push"
   },
   "dependencies": {
     "@google/clasp": "2.4.2",
