@@ -8,10 +8,7 @@ SELECT
         when p.year in ('2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025') then p.year
         else '2023' end as year,
     f.barcode as ean,
-    case 
-        when CHAR_LENGTH(f_api.description) >= 300 then SUBSTR(f_api.description, 1, 300) 
-        else f_api.description 
-        end as description,
+    "Achetez votre vélo neuf ou reconditionné sur Barooders, au meilleur prix. Jusqu'à -70% sur les meilleures marques." as description,
     COALESCE(p.modele, p.title) as name,
     f.title_proper as title,
     f.price,
