@@ -12,4 +12,20 @@ export type EnvironmentsType = {
     accessKeyId: string;
     secretAccessKey: string;
   };
+  authentication: {
+    jwtSecret: string;
+    cookieSecret: string;
+  };
+  database: {
+    url: string;
+		ssl: boolean;
+  };
+  redis: {
+    url: string;
+  };
+  cors: string[];
+  sendgrid: {
+    apiKey: string;
+    from: string;
+  };
 };
