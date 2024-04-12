@@ -78,6 +78,7 @@ export type SynchronizedProVendor =
   | 'projet_boussole'
   | 'recocycle'
   | 'sbikes'
+  | 'sector_ciclismo'
   | 'semotion'
   | 'skidoc'
   | 'tch'

@@ -989,6 +989,26 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
+  sector_ciclismo: {
+    slug: 'sector_ciclismo',
+    mappingKey: 'sector_ciclismo',
+    type: VendorType.CSV,
+    apiUrl:
+      'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKS-7U4OPGEZgW6ysQGYvDK5EF3PbEpuISJfc8-DNINMa1o-8YIi59JguugaaLIiR5A87MbldmbIiP/pub?gid=1274531655&single=true&output=csv',
+    catalog: {
+      csv: {
+        columns: {
+          ...baseCsvConfig,
+          productType: [13],
+          productTitle: 15,
+          tags: [7, 8, 9, 10, 11, 14],
+          option1: 7,
+          variantCondition: 14,
+          images: [17],
+        },
+      },
+    },
+  },
   horizons_angers: {
     slug: 'horizons_angers',
     mappingKey: 'horizons_angers',

@@ -1,6 +1,7 @@
 function update() {
-  DEVAPICSV.create_ID('A', ['D']);
-  DEVAPICSV.create_ID('B', ['H']);
+  DEVAPICSV.create_ID('A', ['C']);
+  DEVAPICSV.create_ID('B', ['G']);
+  DEVAPICSV.normalizePrices(['O', 'U']);
   DEVAPICSV.synchronizeSheets();
   DEVAPICSV.copyValuesInAlgo();
 }

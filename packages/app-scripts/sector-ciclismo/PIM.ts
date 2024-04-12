@@ -114,7 +114,7 @@ function retrieveInPim(
   const payload = searchPayload({
     brand: getValue(sheet, row, columns['Brand']),
     model: getValue(sheet, row, columns['Model']),
-    year: getValue(sheet, row, columns['Year']),
+    year: '', // getValue(sheet, row, columns['Year']),
     productType: '', // getValue(sheet, row, columns['Type de produit']),
   });
 
