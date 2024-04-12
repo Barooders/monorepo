@@ -2,7 +2,8 @@
 const TYPESENSE_HOST = 'https://56bmiavw9gt0qkf3p.a1.typesense.net';
 const TYPESENSE_API_KEY = 'y9qi4LerVoKw7vS6YS3qiXJDX8FWkZJg';
 const TYPESENSE_COLLECTION_NAME = 'product_models';
-const PRIVATE_SHEET = 'Barooders';
+const VENDOR_SHEET = 'Vendor';
+const PRIVATE_SHEET = 'Vendor';
 const MATCH_THRESHOLD = 1.3;
 
 type ProductModel = {
@@ -38,6 +39,17 @@ type SearchPayload = {
   page: number;
   per_page: number;
 };
+
+function getSheetTab(tabName: string): GoogleAppsScript.Spreadsheet.Sheet {
+  const sheetTab =
+    SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tabName);
+
+  if (!sheetTab) {
+    throw new Error(`Could not find sheet tab with name ${tabName}`);
+  }
+
+  return sheetTab;
+}
 
 function multiSearchInTypesense(
   queries: SearchPayload[],
@@ -85,36 +97,25 @@ function searchPayload({
   };
 }
 
-function getBrand(
+function getValue<Type = string>(
   sheet: GoogleAppsScript.Spreadsheet.Sheet,
   row: number,
   brandColumnIndex: number,
-): string {
+): Type {
   return sheet.getRange(row, brandColumnIndex).getValue();
 }
 
-function getModel(
-  sheet: GoogleAppsScript.Spreadsheet.Sheet,
+function retrieveInPim(
   row: number,
-  modelColumnIndex: number,
-): string {
-  return sheet.getRange(row, modelColumnIndex).getValue();
-}
-
-function getData(
-  row: number,
-  brandColumnIndex: number,
-  modelColumnIndex: number,
-  sheetName: string,
+  columns: Record<string, number>,
 ): Hit<ProductModel> | null {
-  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = spreadsheet.getSheetByName(sheetName)!;
+  var sheet = getSheetTab(VENDOR_SHEET);
 
   const payload = searchPayload({
-    brand: getBrand(sheet, row, brandColumnIndex),
-    model: getModel(sheet, row, modelColumnIndex),
-    year: '',
-    productType: '',
+    brand: getValue(sheet, row, columns['Brand']),
+    model: getValue(sheet, row, columns['Model']),
+    year: getValue(sheet, row, columns['Year']),
+    productType: '', // getValue(sheet, row, columns['Type de produit']),
   });
 
   const searchResult = multiSearchInTypesense([payload]).results[0].hits;
@@ -126,25 +127,20 @@ function getData(
   return searchResult[0];
 }
 
-function loopThroughFilledRows(
-  brandColumnIndex: number,
-  modelColumnIndex: number,
-  sheetName: string,
-  firstRetrievedDataIndex: number,
-) {
-  var sheet =
-    SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PRIVATE_SHEET)!;
+function loopThroughFilledRows() {
+  var sheet = getSheetTab(PRIVATE_SHEET)!;
   var dataRange = sheet.getDataRange();
   var values = dataRange.getValues();
 
-  for (var i = 1; i < values.length; i++) {
-    const data = getData(i + 1, brandColumnIndex, modelColumnIndex, sheetName);
+  const baroodersColumns = getColumns(PRIVATE_SHEET);
+  const vendorColumns = getColumns(VENDOR_SHEET);
+
+  for (var row = 2; row <= values.length; row++) {
+    const data = retrieveInPim(row, vendorColumns);
 
     if (data == null) {
       continue;
     }
-
-    Logger.log('data: ' + JSON.stringify(data));
 
     const {
       document: {
@@ -164,36 +160,44 @@ function loopThroughFilledRows(
       continue;
     }
 
-    sheet.getRange(i + 1, firstRetrievedDataIndex).setValue(retrievedBrand);
     sheet
-      .getRange(i + 1, firstRetrievedDataIndex + 1)
+      .getRange(row, baroodersColumns['[PIM] Marque'])
+      .setValue(retrievedBrand);
+    sheet
+      .getRange(row, baroodersColumns['[PIM] Famille'])
       .setValue(retrievedFamily);
-    sheet.getRange(i + 1, firstRetrievedDataIndex + 2).setValue(retrievedModel);
-
-    sheet.getRange(i + 1, firstRetrievedDataIndex + 3).setValue(retrievedYear);
-    sheet.getRange(i + 1, firstRetrievedDataIndex + 4).setValue(retrievedPrice);
     sheet
-      .getRange(i + 1, firstRetrievedDataIndex + 5)
+      .getRange(row, baroodersColumns['[PIM] Modèle'])
+      .setValue(retrievedModel);
+    sheet
+      .getRange(row, baroodersColumns['[PIM] Année'])
+      .setValue(retrievedYear);
+    sheet
+      .getRange(row, baroodersColumns['[PIM] Prix neuf'])
+      .setValue(retrievedPrice);
+    sheet
+      .getRange(row, baroodersColumns['[PIM] Type'])
       .setValue(retrievedProductType);
     sheet
-      .getRange(i + 1, firstRetrievedDataIndex + 6)
+      .getRange(row, baroodersColumns['[PIM] Image'])
       .setValue(retrievedImageUrl);
     sheet
-      .getRange(i + 1, firstRetrievedDataIndex + 7)
+      .getRange(row, baroodersColumns['[PIM] Score'])
       .setValue(normalizedScore);
   }
 }
 
-function sectorCiclismo() {
-  const brandColumnIndex = 7;
-  const modelColumnIndex = 8;
-  const sheetName = 'Vendor';
-  const firstRetrievedDataIndex = 21;
+function getColumns(sheetName: string): Record<string, number> {
+  const sheet = getSheetTab(sheetName);
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
 
-  loopThroughFilledRows(
-    brandColumnIndex,
-    modelColumnIndex,
-    sheetName,
-    firstRetrievedDataIndex,
+  const headersIndex = headers.reduce(
+    (acc, header, index) => {
+      acc[header] = index + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
   );
+
+  return headersIndex;
 }
