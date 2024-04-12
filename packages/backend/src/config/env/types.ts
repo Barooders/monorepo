@@ -8,10 +8,6 @@ export type EnvSecretConfig = {
   unleashServerApiToken: string;
   appJwtSecret: string;
   loginJwtSecret: string;
-  commandHandler: {
-    endpoint: string;
-    bearerToken: string;
-  };
   basicAuth: {
     username: string;
     password: string;
@@ -19,6 +15,10 @@ export type EnvSecretConfig = {
   externalServices: {
     sendgridApiKey: string;
     scrapflyApiKey: string;
+    commandHandler: {
+      endpoint: string;
+      bearerToken: string;
+    };
     talkjs: {
       apiKey: string;
       appId: string;

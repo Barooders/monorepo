@@ -7,7 +7,9 @@ import { schedule } from 'node-cron';
 
 const {
   cronJobs,
-  commandHandler: { bearerToken, endpoint },
+  externalServices: {
+    commandHandler: { bearerToken, endpoint },
+  },
 } = envConfig;
 
 console.log(`Starting ${cronJobs.length} cron jobs`);
