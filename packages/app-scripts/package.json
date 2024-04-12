@@ -7,7 +7,9 @@
     "open": "cd feed && clasp open",
     "push": "cd feed && clasp push",
     "sector-ciclismo:open": "cd sector-ciclismo && clasp open",
-    "sector-ciclismo:push": "cd sector-ciclismo && clasp push"
+    "sector-ciclismo:push": "cd sector-ciclismo && clasp push",
+    "lib-synchro-csv:open": "cd lib-synchro-csv && clasp open",
+    "lib-synchro-csv:push": "cd lib-synchro-csv && clasp push"
   },
   "dependencies": {
     "@google/clasp": "2.4.2",

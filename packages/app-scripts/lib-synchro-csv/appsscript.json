@@ -1,0 +1,19 @@
+{
+  "timeZone": "Europe/Paris",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "DEVAPICSV",
+        "version": "0",
+        "libraryId": "17u01BgRAZsk8KBELcBSqpAXbyFu562GbaS1Teh4A-g1gWaa3mvWMADuw",
+        "developmentMode": true
+      }
+    ]
+  },
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "DOMAIN"
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}
