@@ -85,8 +85,7 @@ const projectConfig = {
       rejectUnauthorized: process.env.DATABASE_SSL === 'true',
     },
   },
-
-  //  redis_url: REDIS_URL,
+   redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
