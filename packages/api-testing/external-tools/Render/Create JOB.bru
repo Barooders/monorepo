@@ -1,0 +1,20 @@
+meta {
+  name: Create JOB
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://api.render.com/v1/services/srv-coc1bd779t8c73fednlg/jobs
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{renderToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  { "startCommand": "echo hi" }
+}

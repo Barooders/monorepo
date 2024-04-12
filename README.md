@@ -20,4 +20,3 @@ Vercel, Render and Heroku don't handle the caching of node_modules in the same w
 
 - Vercel fully support Yarn workspaces, there is no extra config to make dependencies caching to work.
 - Render only caches the root `node_modules` folder. Therefore, yarn will re-fetch and re-install package-specific modules, causing slow builds. To fix this, we use $XDG_CACHE_HOME folder to get/store packages node_modules folder before/after running `yarn install` (see [install-for-render.sh](/install-for-render.sh)).
-- Heroku caches only the root `node_modules` by default but you can specify `cacheDirectories` key in the package.json to store multiple node_modules folders.
