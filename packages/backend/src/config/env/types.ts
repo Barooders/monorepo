@@ -4,29 +4,10 @@ export enum Environments {
   LOCAL = 'local',
 }
 
-export type EnvConfigType = {
-  envName: Environments;
-  hostname: string;
-  backendBaseUrl: string;
-  logLevel: string;
-  prettyLog: boolean;
-  frontendBaseUrl: string;
+export type EnvSecretConfig = {
   unleashServerApiToken: string;
   appJwtSecret: string;
   loginJwtSecret: string;
-  locationId: string;
-  mobileAppPublicationId: string;
-  technicalAccountId: string;
-  cron: {
-    commandHandler: {
-      endpoint: string;
-      bearerToken: string;
-    };
-    jobs: {
-      cron: string;
-      command: string;
-    }[];
-  };
   basicAuth: {
     username: string;
     password: string;
@@ -34,6 +15,10 @@ export type EnvConfigType = {
   externalServices: {
     sendgridApiKey: string;
     scrapflyApiKey: string;
+    commandHandler: {
+      endpoint: string;
+      bearerToken: string;
+    };
     talkjs: {
       apiKey: string;
       appId: string;
@@ -106,3 +91,21 @@ export type EnvConfigType = {
     };
   };
 };
+
+export type EnvPublicConfig = {
+  envName: Environments;
+  hostname: string;
+  backendBaseUrl: string;
+  logLevel: string;
+  prettyLog: boolean;
+  frontendBaseUrl: string;
+  locationId: string;
+  mobileAppPublicationId: string;
+  technicalAccountId: string;
+  cronJobs: {
+    cron: string;
+    command: string;
+  }[];
+};
+
+export type EnvConfig = EnvSecretConfig & EnvPublicConfig;

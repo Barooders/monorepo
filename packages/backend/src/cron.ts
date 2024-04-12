@@ -6,13 +6,15 @@ import { jsonStringify } from '@libs/helpers/json';
 import { schedule } from 'node-cron';
 
 const {
-  jobs,
-  commandHandler: { bearerToken, endpoint },
-} = envConfig.cron;
+  cronJobs,
+  externalServices: {
+    commandHandler: { bearerToken, endpoint },
+  },
+} = envConfig;
 
-console.log(`Starting ${jobs.length} cron jobs`);
+console.log(`Starting ${cronJobs.length} cron jobs`);
 
-jobs.forEach(({ command, cron }) => {
+cronJobs.forEach(({ command, cron }) => {
   schedule(cron, async () => {
     try {
       const result = await fetch(endpoint, {
