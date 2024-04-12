@@ -6,6 +6,7 @@
     "prisma:generate:main": "prisma generate --schema=../backend/prisma/schema.main.prisma",
     "prisma:generate:store": "prisma generate --schema=../backend/prisma/schema.store.prisma",
     "prisma:generate": "yarn prisma:generate:main && yarn prisma:generate:store",
+		"prisma:copy-client": "mkdir -p ./__generated && cp -r ../backend/src/__generated/*-client ./__generated/",
     "sync-products": "yarn ts-node -r tsconfig-paths/register sync-products.ts"
   },
   "devDependencies": {
