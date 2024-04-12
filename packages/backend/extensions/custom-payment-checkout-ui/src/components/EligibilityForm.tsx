@@ -14,13 +14,15 @@ import {
   usePhone,
   useTranslate,
 } from '@shopify/ui-extensions-react/checkout';
-import { Civility, PaymentSolutions } from '../constants';
 import { useState } from 'react';
+import { useAsyncFn } from 'react-use';
+import { Civility } from '../constants';
 import useCheckEligibility, {
   CustomerInfo,
 } from '../hooks/useCheckEligibility';
-import { useAsyncFn } from 'react-use';
 import dayjs from '../libs/dayjs';
+
+const VALID_ZIPCODE_LENGTH = [2, 3, 5];
 
 type PropsType = {
   paymentHandle: string;
@@ -71,11 +73,14 @@ const EligibilityForm: React.FC<PropsType> = ({ paymentHandle }) => {
 
     const birthDate = dayjs(formState.birthdate, 'DD/MM/YYYY');
 
-    if (!birthDate.isValid()) {
+    if (!birthDate.isValid() || birthDate.isBefore(dayjs('1900-01-01'))) {
       throw new Error(translate('birthDateError'));
     }
 
-    if (Number.isNaN(formState.birthZipcode)) {
+    if (
+      Number.isNaN(formState.birthZipcode) ||
+      !VALID_ZIPCODE_LENGTH.includes(formState.birthZipcode.length)
+    ) {
       throw new Error(translate('birthZipcodeError'));
     }
 
