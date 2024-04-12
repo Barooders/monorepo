@@ -6,7 +6,7 @@ PACKAGES=$(ls packages)
 
 extract_cached_dependencies() {
     package_name=$1
-    package_dir="packages/$package_name/node_modules/"
+    package_dir="packages/$package_name/node_modules"
     cache_dir="$subdirectories_nodemodules/$package_name/*"
 
     mkdir -p $package_dir  # Ensure destination directory exists
