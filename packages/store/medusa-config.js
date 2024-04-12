@@ -1,39 +1,9 @@
-const dotenv = require('dotenv');
-
-let ENV_FILE_NAME = '';
-switch (process.env.NODE_ENV) {
-  case 'production':
-    ENV_FILE_NAME = '.env.production';
-    break;
-  case 'staging':
-    ENV_FILE_NAME = '.env.staging';
-    break;
-  case 'test':
-    ENV_FILE_NAME = '.env.test';
-    break;
-  case 'development':
-  default:
-    ENV_FILE_NAME = '.env';
-    break;
-}
-
+const { config } = require('dotenv');
 try {
-  dotenv.config({ path: process.cwd() + '/' + ENV_FILE_NAME });
+  config({ path: '.env' });
 } catch (e) {}
 
-// CORS when consuming Medusa from admin
-const ADMIN_CORS =
-  process.env.ADMIN_CORS || 'http://localhost:7000,http://localhost:7001';
-
-// CORS to avoid issues when consuming Medusa from a client
-const STORE_CORS = process.env.STORE_CORS || 'http://localhost:8000';
-
-const DATABASE_URL =
-  process.env.DATABASE_URL || 'postgres://localhost/medusa-starter-default';
-
-const DATABASE_SCHEMA = process.env.POSTGRES_SCHEMA || 'medusa';
-
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const envConfig = require('./dist/config/env/env.config').default;
 
 const plugins = [
   `medusa-fulfillment-manual`,
@@ -50,15 +20,25 @@ const plugins = [
     options: {
       autoRebuild: true,
       develop: {
-        open: process.env.OPEN_BROWSER !== 'false',
+        open: true,
       },
     },
   },
   {
     resolve: `medusa-plugin-sendgrid`,
     options: {
-      api_key: process.env.SENDGRID_API_KEY,
-      from: process.env.SENDGRID_FROM,
+      api_key: envConfig.sendgrid.apiKey,
+      from: envConfig.sendgrid.from,
+    },
+  },
+  {
+    resolve: `medusa-file-s3`,
+    options: {
+      s3_url: envConfig.s3.s3Url,
+      bucket: envConfig.s3.bucket,
+      region: envConfig.s3.region,
+      access_key_id: envConfig.s3.accessKeyId,
+      secret_access_key: envConfig.s3.secretAccessKey,
     },
   },
 ];
@@ -79,20 +59,26 @@ const modules = {
   },*/
 };
 
+const DATABASE_SCHEMA = 'medusa';
+
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
-  jwtSecret: process.env.JWT_SECRET,
-  cookieSecret: process.env.COOKIE_SECRET,
-  store_cors: STORE_CORS,
-  database_url: DATABASE_URL,
-  admin_cors: ADMIN_CORS,
+  jwt_secret: envConfig.authentication.jwtSecret,
+  cookie_secret: envConfig.authentication.cookieSecret,
+  store_cors: envConfig.cors.join(','),
+  database_url: `${envConfig.database.url}?options=-c%20search_path%3D${DATABASE_SCHEMA}`,
+  admin_cors: envConfig.cors.join(','),
   database_schema: DATABASE_SCHEMA,
-  database_extra: {
-    ssl: {
-      rejectUnauthorized: process.env.DATABASE_SSL === 'true',
-    },
-  },
-   redis_url: REDIS_URL,
+  ...(envConfig.database.ssl
+    ? {
+        database_extra: {
+          ssl: {
+            rejectUnauthorized: true,
+          },
+        },
+      }
+    : {}),
+  ...(envConfig.redis.url ? { redis_url: envConfig.redis.url } : {}),
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
