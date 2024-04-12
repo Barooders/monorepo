@@ -38,4 +38,15 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     value: null,
     hideReduction: true,
   },
+  {
+    title: 'LOOK_CYCLE',
+    label: 'Vente exclusive',
+    type: 'static',
+    collections: ['5fa8c764-7763-44ca-a493-89d1e29f69ef'],
+    valueType: 'custom',
+    startsAt: dayjs('2024-04-11T07:00:00').toDate(),
+    endsAt: dayjs('2024-04-18T23:00:00').toDate(),
+    value: null,
+    hideReduction: true,
+  },
 ];
