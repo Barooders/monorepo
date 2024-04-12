@@ -5,18 +5,18 @@ subdirectories_nodemodules="$XDG_CACHE_HOME/subdirectories-nodemodules"
 PACKAGES=$(ls packages)
 
 extract_cached_dependencies() {
-    source_dir="$1"
-    package_dir="packages/$1/node_modules/"
-    cache_dir="$subdirectories_nodemodules/$source_dir/*"
+    package_name=$1
+    package_dir="packages/$package_name/node_modules/"
+    cache_dir="$subdirectories_nodemodules/$package_name/*"
 
     mkdir -p $package_dir  # Ensure destination directory exists
     mv $cache_dir $package_dir || true
 }
 
 cache_dependencies() {
-    source_dir="$1"
-    package_dir="packages/$1/node_modules/"
-    cache_dir="$subdirectories_nodemodules/$source_dir"
+    package_name=$1
+    package_dir="packages/$package_name/node_modules/*"
+    cache_dir="$subdirectories_nodemodules/$package_name"
 
     rm -rf $cache_dir  # Remove existing cache
     mkdir -p $cache_dir  # Ensure destination directory exists
