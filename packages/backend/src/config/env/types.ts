@@ -17,6 +17,16 @@ export type EnvConfigType = {
   locationId: string;
   mobileAppPublicationId: string;
   technicalAccountId: string;
+  cron: {
+    commandHandler: {
+      endpoint: string;
+      bearerToken: string;
+    };
+    jobs: {
+      cron: string;
+      command: string;
+    }[];
+  };
   basicAuth: {
     username: string;
     password: string;
