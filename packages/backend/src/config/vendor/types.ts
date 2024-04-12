@@ -1,4 +1,8 @@
-import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
+import {
+  Condition,
+  ProductStatus,
+  SalesChannelName,
+} from '@libs/domain/prisma.main.client';
 import { RecursivePartial } from '@libs/types/recursive-partial.type';
 
 export const UNUSED_VENDOR_ID = 'unused-vendor-id';
@@ -181,6 +185,7 @@ interface CSVCatalogConfig {
     option3?: number;
     productEANCode?: number;
   };
+  salesChannels?: SalesChannelName[];
 }
 
 interface ScrapflyCatalogConfig {

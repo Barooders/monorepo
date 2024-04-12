@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { Amount, Stock, URL } from '@libs/domain/value-objects';
 import { extractRowsFromCSVRawText } from '@libs/helpers/csv';
 import { jsonStringify } from '@libs/helpers/json';
@@ -194,6 +195,13 @@ export class CSVClient {
       productEANCode: getColumnValue(row, csvColumnsConfig.productEANCode),
     }));
 
+    const salesChannelsConfig =
+      this.vendorConfigService.getVendorConfig().catalog.csv?.salesChannels;
+    const salesChannels =
+      salesChannelsConfig !== undefined
+        ? salesChannelsConfig
+        : [SalesChannelName.PUBLIC];
+
     return variants.reduce((acc, variant) => {
       const existingProduct = acc.find(
         (product) => product.id === variant.productId,
@@ -267,6 +275,7 @@ export class CSVClient {
           variants: [mappedVariant],
           tags: compact(variant.tags.map(mapValidKeyValuePair)),
           EANCode: variant.productEANCode,
+          salesChannels,
         });
         return acc;
       }

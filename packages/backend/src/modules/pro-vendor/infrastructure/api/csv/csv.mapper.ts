@@ -65,6 +65,7 @@ export class CSVMapper {
       images: product.images.map(({ url: src }) => ({
         src,
       })),
+      salesChannels: product.salesChannels,
     };
   }
 
