@@ -56,6 +56,7 @@ const plugins = [
   },
 ];
 
+/** @type {import('@medusajs/medusa').ConfigModule["modules"]} */
 const modules = {
   /*eventBus: {
     resolve: "@medusajs/event-bus-redis",
@@ -84,7 +85,14 @@ const projectConfig = {
       rejectUnauthorized: process.env.DATABASE_SSL === 'true',
     },
   },
+
   //  redis_url: REDIS_URL,
+};
+
+/** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
+const featureFlags = {
+  product_categories: true,
+  tax_inclusive_pricing: true,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
@@ -92,4 +100,5 @@ module.exports = {
   projectConfig,
   plugins,
   modules,
+  featureFlags,
 };
