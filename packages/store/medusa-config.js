@@ -1,25 +1,9 @@
-const dotenv = require('dotenv');
-
-let ENV_FILE_NAME = '';
-switch (process.env.NODE_ENV) {
-  case 'production':
-    ENV_FILE_NAME = '.env.production';
-    break;
-  case 'staging':
-    ENV_FILE_NAME = '.env.staging';
-    break;
-  case 'test':
-    ENV_FILE_NAME = '.env.test';
-    break;
-  case 'development':
-  default:
-    ENV_FILE_NAME = '.env';
-    break;
-}
-
+const { config } = require('dotenv');
 try {
-  dotenv.config({ path: process.cwd() + '/' + ENV_FILE_NAME });
+  config({ path: '.env' });
 } catch (e) {}
+
+const envConfig = require('./dist/config/env/env.config').default;
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =
@@ -61,6 +45,16 @@ const plugins = [
       from: process.env.SENDGRID_FROM,
     },
   },
+  {
+    resolve: `medusa-file-s3`,
+    options: {
+      s3_url: envConfig.s3.s3Url,
+      bucket: envConfig.s3.bucket,
+      region: envConfig.s3.region,
+      access_key_id: envConfig.s3.accessKeyId,
+      secret_access_key: envConfig.s3.secretAccessKey,
+    },
+  },
 ];
 
 /** @type {import('@medusajs/medusa').ConfigModule["modules"]} */
@@ -92,7 +86,7 @@ const projectConfig = {
       rejectUnauthorized: process.env.DATABASE_SSL === 'true',
     },
   },
-   redis_url: REDIS_URL,
+  redis_url: REDIS_URL,
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
