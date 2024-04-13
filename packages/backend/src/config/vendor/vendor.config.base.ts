@@ -100,6 +100,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: vendorSecrets.tuvalumApiUrl,
     username: vendorSecrets.tuvalumUsername,
     password: vendorSecrets.tuvalumPassword,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 6 * * *' },
+      { commandName: 'syncProducts', cron: '0 18 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {
       common: {
         priceCorrection: -15,
@@ -112,6 +117,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.freeglisseApiKey,
     apiUrl: vendorSecrets.freeglisseApiUrl,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 1 * * *' },
+    ],
     catalog: {
       common: {
         showExternalIdInDescription: true,
@@ -162,6 +171,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.matkiteApiKey,
     apiUrl: 'https://www.mckiteshop.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {},
   },
   sanferbike: {
@@ -170,6 +183,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.sanferbikeApiKey,
     apiUrl: 'https://www.sanferbike.com/api/',
+    synchros: [],
     catalog: {
       common: {
         commissionPercentToAdd: 9,
@@ -180,25 +194,16 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  elite_bikes: {
-    slug: 'elite_bikes',
-    mappingKey: 'elite_bikes',
-    type: VendorType.PRESTASHOP,
-    apiKey: vendorSecrets.eliteBikesApiKey,
-    apiUrl: 'https://www.used-elitebikes.com/api/',
-    catalog: {
-      common: {
-        defaultProductCondition: Condition.AS_NEW,
-        commissionPercentToAdd: 8,
-      },
-    },
-  },
   bike_xtreme: {
     slug: 'bike_xtreme',
     mappingKey: 'bike_xtreme',
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.bikeXtremeApiKey,
     apiUrl: 'https://www.bikextreme.it/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 2 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -211,6 +216,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.millaBikesApiKey,
     apiUrl: 'https://millabikes.es/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {},
   },
   velo_emotion: {
@@ -219,6 +228,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.veloEmotionApiKey,
     apiUrl: 'https://ac-emotion.com/api/',
+    synchros: [],
     catalog: {},
   },
   velosport34: {
@@ -227,6 +237,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.velosport34ApiKey,
     apiUrl: 'https://www.velo-sport34.fr/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 3 * * *' },
+      { commandName: 'updateProductStatuses', cron: '10 * * * *' },
+    ],
     catalog: {},
   },
   ferrareis: {
@@ -235,6 +249,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.ferrareisApiKey,
     apiUrl: 'https://www.cicloruotaferrareis.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 10,
@@ -247,6 +265,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.cyclingStoreApiKey,
     apiUrl: 'https://cyclingstore.fr/api/',
+    synchros: [],
+    // synchros: [
+    //   { commandName: 'syncProducts', cron: '30 0 * * *' },
+    //   { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    // ],
     catalog: {
       common: {
         variantOptionTagsWithCategorySuffix: ['taille'],
@@ -259,6 +282,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.semotionApiKey,
     apiUrl: 'https://www.sportemotion.fr/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 7 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         variantOptionTagsWithCategorySuffix: ['taille'],
@@ -271,6 +298,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.ebikeApiKey,
     apiUrl: 'https://www.ebike-occasions.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {},
   },
   trocsport: {
@@ -279,6 +310,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.trocsportApiKey,
     apiUrl: vendorSecrets.trocsportApiUrl,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 2 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       common: {
         shouldIgnoreCheapBikesBelow150: true,
@@ -313,6 +348,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.bcyclesApiKey,
     apiUrl: 'https://www.bcycles.it/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 7 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -325,6 +364,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   bewak: {
     slug: 'bewak',
     mappingKey: 'bewak',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     ...merge(cloneDeep(bewakConfig), {
       catalog: {
         common: {
@@ -340,6 +383,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
   bewak_excluded_brands: {
     slug: 'bewak_excluded_brands',
     mappingKey: 'bewak',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 2 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     ...merge(cloneDeep(bewakConfig), {
       catalog: {
         common: {
@@ -358,6 +405,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.kitespiritApiKey,
     apiUrl: vendorSecrets.kitespiritApiUrl,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {},
   },
   skidoc: {
@@ -366,6 +417,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.skidocApiKey,
     apiUrl: vendorSecrets.skidocApiUrl,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 6 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {},
     order: {
       common: {
@@ -398,6 +453,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.freerideApiKey,
     apiUrl: 'https://www.freeride-attitude.com/api/',
+    synchros: [],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -417,6 +473,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.fietsApiKey,
     apiUrl: vendorSecrets.fietsApiUrl,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -429,6 +489,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.funbikeApiKey,
     apiUrl: 'https://www.funwayvelos.fr/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '10 * * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 8,
@@ -441,6 +505,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.mbsProApiKey,
     apiUrl: 'https://www.monbikeshop.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 2 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 8,
@@ -454,6 +522,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.usedEliteBikesApiKey,
     apiUrl: 'https://www.used-elitebikes.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 4 * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 8,
@@ -469,6 +541,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.gemBikesApiKey,
     apiUrl: 'https://shop.gem-bikes.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    ],
     catalog: {},
   },
   tribici_presta: {
@@ -477,6 +553,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.tribiciApiKey,
     apiUrl: 'https://tri4fun-store.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 3 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -491,6 +571,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.clubInSportApiKey,
     apiUrl: 'https://www.clubinsport.com/api/',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 6 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -505,6 +589,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.bernaudeaucycloccasions.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.bernaudeauApiKey,
     apiSecret: vendorSecrets.bernaudeauApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
@@ -518,6 +606,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.bicipedia.it/wp-json/wc/v3',
     apiKey: vendorSecrets.bicipediaApiKey,
     apiSecret: vendorSecrets.bicipediaApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {},
   },
   bbbike: {
@@ -527,6 +619,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.bbbikeforli.it/wp-json/wc/v3',
     apiKey: vendorSecrets.bbbikeApiKey,
     apiSecret: vendorSecrets.bbbikeApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 3 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 1 * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 5,
@@ -540,6 +636,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://api.ciklet.cc/wp-json/wc/v3',
     apiKey: vendorSecrets.cikletApiKey,
     apiSecret: vendorSecrets.cikletApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         allProductsPathOverride: '/products-ng',
@@ -553,6 +653,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://panamebicis.com/wp-json/wc/v3',
     apiKey: vendorSecrets.panameBicisApiKey,
     apiSecret: vendorSecrets.panameBicisApiSecret,
+    synchros: [],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
@@ -567,6 +668,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.ciclimontanini.com/wp-json/wc/v3',
     apiKey: vendorSecrets.montaniniApiKey,
     apiSecret: vendorSecrets.montaniniApiSecret,
+    synchros: [],
+    // synchros: [
+    //   { commandName: 'syncProducts', cron: '30 1 * * *' },
+    //   { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    // ],
     catalog: {
       common: {
         variantOptionTagsWithCategorySuffix: ['taglia'],
@@ -584,6 +690,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://ciclidalzilio.com/wp-json/wc/v3',
     apiKey: vendorSecrets.dazBikeApiKey,
     apiSecret: vendorSecrets.dazBikeApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
@@ -596,6 +706,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'le_bon_coin',
     type: VendorType.SCRAPFLY,
     apiUrl: 'leboncoin.fr',
+    synchros: [{ commandName: 'updateProductStatuses', cron: '30 10 * * *' }],
     catalog: {
       scrapfly: {
         isAvailable: (apiContent: string) => {
@@ -620,6 +731,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'everide',
     type: VendorType.SCRAPFLY,
     apiUrl: 'everide.app',
+    synchros: [{ commandName: 'updateProductStatuses', cron: '0 18 * * *' }],
     catalog: {
       scrapfly: {
         mapReferenceUrl: (url: string) => {
@@ -665,6 +777,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'chris-bike-dijon.myshopify.com',
     accessToken: vendorSecrets.chrisAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 9 * * *' },
+    ],
     catalog: {
       common: {
         parsedTagKeysFromDescription: DESIRED_BIKES_TAGS,
@@ -677,6 +793,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'baroudeur-cycles.myshopify.com',
     accessToken: vendorSecrets.baroudeurAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 2 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -689,6 +809,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'le-cycle-stephanois.myshopify.com',
     accessToken: vendorSecrets.pilatAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 3 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -702,6 +826,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'allcycles-dev.myshopify.com',
     accessToken: vendorSecrets.allCyclesToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 6 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 12 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -716,6 +844,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'pastel-cycles.myshopify.com',
     accessToken: vendorSecrets.pastelAccessToken,
+    synchros: [{ commandName: 'updateProductStatuses', cron: '0 2 * * *' }],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -728,6 +857,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'technicycles-3768.myshopify.com',
     accessToken: vendorSecrets.techniCyclesAccessToken,
+    synchros: [],
+    // synchros: [
+    //   { commandName: 'syncProducts', cron: '30 6 * * *' },
+    //   { commandName: 'updateProductStatuses', cron: '30 8 * * *' },
+    // ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -740,6 +874,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'tweedehands-outdoorkleding.myshopify.com',
     accessToken: vendorSecrets.willemAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 10 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 1 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -753,6 +891,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'loewi2.myshopify.com',
     accessToken: vendorSecrets.loewiAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 21 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 8 * * *' },
+    ],
     catalog: {},
   },
   savoldelli: {
@@ -761,6 +903,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'savoldelli.myshopify.com',
     accessToken: vendorSecrets.savoldelliAccessToken,
+    synchros: [],
     catalog: {},
   },
   tch: {
@@ -769,6 +912,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://feedfiles.woolytech.com/procycles.myshopify.com/9RclmUHL1O.csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -804,6 +951,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'lesvelosmeldois.myshopify.com',
     accessToken: vendorSecrets.velomeldoisAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 9 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 20 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -817,6 +968,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: '73f5c0-2.myshopify.com',
     accessToken: vendorSecrets.cyclinkAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 23 * * *' },
+    ],
     catalog: {},
   },
   mint_bikes: {
@@ -825,6 +980,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'velokaz.myshopify.com',
     accessToken: vendorSecrets.mintAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 7 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 0 * * *' },
+    ],
     catalog: {},
     order: {
       common: { isSyncActivated: true },
@@ -837,6 +996,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'topnsport.myshopify.com',
     accessToken: vendorSecrets.tncAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 20 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 1 * * *' },
+    ],
     catalog: {
       common: {
         variantOptionTagsWithCategorySuffix: ['taille'],
@@ -852,6 +1015,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'alpin_store',
     type: VendorType.XML,
     apiUrl: 'https://search.alpinstore.com/data/flux/barooder.xml',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.AS_NEW,
@@ -896,6 +1063,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.PRESTASHOP,
     apiKey: vendorSecrets.alpinstoreApiKey,
     apiUrl: vendorSecrets.alpinstoreApiUrl,
+    synchros: [],
     catalog: {},
     order: {
       common: {
@@ -926,6 +1094,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     mappingKey: 'zyclora',
     type: VendorType.XML,
     apiUrl: 'https://files.channable.com/XhAjAJB4Y8SPMLjfBDhJPg==.xml',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       xml: {
         fields: {
@@ -989,6 +1161,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPyGihqc3-v5Ev4_EydcoZZwmdpHQhQ8HilOofW3JttEhBwXI-DF5JtHH-4owRmzi3WZsyLqQm6ZyM/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    ],
     catalog: {
       csv: {
         columns: {
@@ -1007,6 +1183,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVIXzEXdqOMDexMi0BnKp1W3esOpWKgQGyVZY8uRQfh9IlaZLG2RBEhG-Gr1u4GdaOYkHvGQujJPp0/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       common: {
         defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
@@ -1028,6 +1208,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdIczC8BzwR-JzH6IAZKP0UrkVEL1-WYT2UWh2BlEJm7Et7lEFyCtO-rIXpgxkc93x4oKE1W2Wh_ow/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 5 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       csv: {
         columns: {
@@ -1047,6 +1231,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vT0Cb9aybxzqYEomhR8yRnrPzlhMyZjljxTM4IwjjJOXrukyWPa095L2YLsNSKJI3yY3GJw_NgjfKIF/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 21 * * *' },
+      { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    ],
     catalog: {
       common: {
         variantOptionTagsWithCategorySuffix: ['taille'],
@@ -1069,6 +1257,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVYXXPlSFGrt9bahdBOEz6odCp9MAJ6EJwIwQjzk-kmweRdgjt1BXrooyMmoaA1Jh1yyjDR-xQ_8RR/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
@@ -1091,6 +1283,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSw3fQ2EacRlb9SaLor59kSQRcjsi2UXmGEirFMgIaJtN2B0Jx9Q2VAmVkDmpEfQfmzPGJmlsqdGsEv/pub?gid=601883144&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
     catalog: {
       common: {
         defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
@@ -1113,6 +1309,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3ivq2GawbgOK9lpH69orIfPgItgJQOlHllobpXHeFcv0KKxrVxddw7ncVvFUQOFYkyuBhzToCa5oa/pub?gid=1274531655&single=true&output=csv',
+    synchros: [],
     catalog: {
       csv: {
         columns: {
@@ -1136,6 +1333,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vStJw3XjK6eech-fixprCYN7fMa62NJ5wbE61GUlSiLgGKdA5kJiGUO3xgIYJnqoacCqgfxUjQ137jS/pub?gid=1274531655&single=true&output=csv',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 4 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 * * * *' },
+    ],
     catalog: {
       csv: {
         columns: {
@@ -1155,6 +1356,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.CSV,
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vRckhzJH863TvQMTvVN7-jRtt8sg3WoyaXzHtb13PdkV9AazV6iYcmjwZ_w9WqtMux-2He94PDqyk3F/pub?gid=1274531655&single=true&output=csv',
+    synchros: [],
     catalog: {
       csv: {
         columns: {
@@ -1174,6 +1376,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'rvfocus1demo.myshopify.com',
     accessToken: vendorSecrets.nordicsAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 1 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 3 * * *' },
+    ],
     catalog: {
       common: {
         defaultDescription: USED_PRODUCT_DEFAULT_DESCRIPTION,
@@ -1187,6 +1393,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'projet-boussole.myshopify.com',
     accessToken: vendorSecrets.boussoleAccessToken,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 11 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 21 * * *' },
+    ],
     catalog: {},
   },
   jbikes: {
@@ -1196,6 +1406,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://jbikes.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.jbikesApiKey,
     apiSecret: vendorSecrets.jbikesApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 9 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         parsedTagKeysFromDescription: DESIRED_BIKES_TAGS,
@@ -1214,6 +1428,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://fastlap.shop/wp-json/wc/v3',
     apiKey: vendorSecrets.fastlapApiKey,
     apiSecret: vendorSecrets.fastlapApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 5 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 16 * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -1230,6 +1448,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.atelierduride.com/wp-json/wc/v3',
     apiKey: vendorSecrets.garybomApiKey,
     apiSecret: vendorSecrets.garybomApiSecret,
+    synchros: [],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
@@ -1243,6 +1462,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://joostracefietsen.nl/wp-json/wc/v3',
     apiKey: vendorSecrets.joostBikesApiKey,
     apiSecret: vendorSecrets.joostBikesApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 3 * * *' },
+      { commandName: 'updateProductStatuses', cron: '40 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,
@@ -1257,6 +1480,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.ciclisport2000.it/wp-json/wc/v3',
     apiKey: vendorSecrets.velosport20ApiKey,
     apiSecret: vendorSecrets.velosport20ApiSecret,
+    synchros: [],
+    // synchros: [
+    //   { commandName: 'syncProducts', cron: '0 4 * * *' },
+    //   { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    // ],
     catalog: {
       common: {
         skipProductUpdate: true,
@@ -1275,6 +1503,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://lehollandaisvelo.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.lehollandaisApiKey,
     apiSecret: vendorSecrets.lehollandaisApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         stringifySingleItemArray: true,
@@ -1288,6 +1520,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://velo-dayak.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.dayakApiKey,
     apiSecret: vendorSecrets.dayakApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 23 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {
       common: {
         minimumDiscount: 0.1,
@@ -1304,6 +1540,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'velvet-3240.myshopify.com',
     accessToken: vendorSecrets.hbeShopifyAccessToken,
+    synchros: [],
     catalog: {
       common: {
         translateDescription: false,
@@ -1326,6 +1563,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.worldbikeformia.it/wp-json/wc/v3',
     apiKey: vendorSecrets.bikefApiKey,
     apiSecret: vendorSecrets.bikefApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 16 * * *' },
+      { commandName: 'updateProductStatuses', cron: '10 * * * *' },
+    ],
     catalog: {
       common: {
         commissionPercentToAdd: 9,
@@ -1340,6 +1581,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://cheapassbikes.nl/wp-json/wc/v3',
     apiKey: vendorSecrets.sbikesApiKey,
     apiSecret: vendorSecrets.sbikesApiSecret,
+    synchros: [],
+    // synchros: [
+    //   { commandName: 'syncProducts', cron: '30 5 * * *' },
+    //   { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    // ],
     catalog: {
       common: {
         priceCorrection: 40,
@@ -1368,6 +1614,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://recocycle.fr/wp-json/wc/v3',
     apiKey: vendorSecrets.recoApiKey,
     apiSecret: vendorSecrets.recoApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 12 * * *' },
+      { commandName: 'updateProductStatuses', cron: '10 * * * *' },
+    ],
     catalog: {
       common: {
         parsedTagKeysFromDescription: ['brand'],
@@ -1384,6 +1634,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.lastenrad-manufaktur.com/wp-json/wc/v3',
     apiKey: vendorSecrets.manufakturApiKey,
     apiSecret: vendorSecrets.manufakturApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 22 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 * * * *' },
+    ],
     catalog: {
       common: {
         parsedTagKeysFromDescription: MINIMAL_BIKES_TAGS,
@@ -1403,6 +1657,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.elettronicshop.com/wp-json/wc/v3',
     apiKey: vendorSecrets.elettronicApiKey,
     apiSecret: vendorSecrets.elettronicApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 12 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 * * * *' },
+    ],
     catalog: {
       common: {
         defaultProductCondition: Condition.VERY_GOOD,
@@ -1420,6 +1678,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl: 'https://www.lemoulinavelos.com/wp-json/wc/v3',
     apiKey: vendorSecrets.moulinApiKey,
     apiSecret: vendorSecrets.moulinApiSecret,
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 17 * * *' },
+      { commandName: 'updateProductStatuses', cron: '10 * * * *' },
+    ],
     catalog: {
       wooCommerce: {
         mapSingleVariant: true,

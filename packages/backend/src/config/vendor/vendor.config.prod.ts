@@ -4,7 +4,6 @@ export const prodVendorConfig: EnvVendorsConfig = {
   tuvalum: { vendorId: 'f20e7bf7-66f9-4e1e-a710-ac524282e72a' },
   freeglisse: { vendorId: '9405edd7-43c8-47f6-8883-2738cc869531' },
   matkite: { vendorId: 'dfb30f4b-f6be-48f4-a94f-26749d93d4e4' },
-  elite_bikes: { vendorId: 'b12f0568-7487-44b8-b4c0-ad9ce9133919' },
   bike_xtreme: { vendorId: 'c789ebfe-f2c7-4dc5-a75d-47785d99b30c' },
   velo_emotion: { vendorId: '6f7915d7-f263-414a-8c71-055cda9ba4ea' },
   cycling_store: { vendorId: '1ebc5f48-eab2-40fe-a43b-da65d61cf828' },

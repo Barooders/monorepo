@@ -66,7 +66,6 @@ export type SynchronizedProVendor =
   | 'manufaktur'
   | 'matkite'
   | 'sanferbike'
-  | 'elite_bikes'
   | 'bike_xtreme'
   | 'mbspro'
   | 'used_elite_bikes'
@@ -237,6 +236,10 @@ export interface FullVendorConfig {
   type: VendorType;
   apiUrl: string;
   vendorId: string;
+  synchros: {
+    commandName: 'updateProductStatuses' | 'syncProducts';
+    cron: string;
+  }[];
   apiKey?: string;
   apiSecret?: string;
   accessToken?: string;

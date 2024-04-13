@@ -1,3 +1,4 @@
+import { vendorConfig } from '@config/vendor/vendor.config';
 import { get } from 'env-var';
 import localCronConfig from './local.cron';
 import localPublicConfig from './local.public';
@@ -15,6 +16,15 @@ const baroodersEnv = get('BAROODERS_ENV').required().asString() as Environments;
 export const envName = Object.values(Environments).includes(baroodersEnv)
   ? baroodersEnv
   : Environments.STAGING;
+
+const vendorsToSync = Object.values(vendorConfig).flatMap(
+  ({ synchros, slug }) => {
+    return synchros.map(({ cron, commandName }) => ({
+      cron,
+      command: `yarn console proVendor ${commandName} ${slug}`,
+    }));
+  },
+);
 
 export const envConfigs: Record<Environments, EnvConfig> = {
   [Environments.LOCAL]: {
@@ -34,6 +44,11 @@ export const envConfigs: Record<Environments, EnvConfig> = {
   },
 };
 
-const envConfig = envConfigs[envName];
+const envConfigWithoutVendorsToSync = envConfigs[envName];
+
+const envConfig = {
+  ...envConfigWithoutVendorsToSync,
+  cronJobs: [...envConfigWithoutVendorsToSync.cronJobs, ...vendorsToSync],
+};
 
 export default envConfig;
