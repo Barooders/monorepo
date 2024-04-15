@@ -59,7 +59,7 @@ const hourlySyncs = [
   getUpdateProductStatusesCron('tch', '0 * * * *'),
   getUpdateProductStatusesCron('tribici_presta', '0 * * * *'),
   getUpdateProductStatusesCron('trocsport', '50 * * * *'),
-  getUpdateProductStatusesCron('tuvalum', '20 * * * *'),
+  // getUpdateProductStatusesCron('tuvalum', '20 * * * *'),
   getUpdateProductStatusesCron('velosport34', '10 * * * *'),
   getUpdateProductStatusesCron('zyclora', '0 * * * *'),
 ];
