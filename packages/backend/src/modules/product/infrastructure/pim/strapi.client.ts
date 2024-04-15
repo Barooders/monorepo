@@ -99,7 +99,7 @@ export class StrapiClient implements IPIMClient {
     const pimBrand = await this.getBrand(model.brand.name);
     const productType = await this.getPimProductType(model.productType);
 
-    const { url: uploadedImageUrl } = await uploadImageToStrapi({
+    const uploadImage = await uploadImageToStrapi({
       url: model.imageUrl,
       fileName: `${model.brand.name} - ${model.name} - ${model.year}`,
     });
@@ -108,7 +108,8 @@ export class StrapiClient implements IPIMClient {
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
-      imageUrl: uploadedImageUrl,
+      imageUrl: uploadImage.url,
+      pictures: uploadImage.id ? [uploadImage.id] : [],
       year: model.year,
       brandId: pimBrand.id,
       productTypeId: productType.id,

@@ -109,6 +109,7 @@ export const createModel = async ({
   name,
   manufacturer_suggested_retail_price,
   imageUrl,
+  pictures,
   year,
   brandId,
   productTypeId,
@@ -117,6 +118,7 @@ export const createModel = async ({
   name: string;
   manufacturer_suggested_retail_price?: number;
   imageUrl: string;
+  pictures: number[];
   year: number;
   brandId: number;
   productTypeId: number;
@@ -142,6 +144,7 @@ export const createModel = async ({
           productType: {
             set: [productTypeId],
           },
+          pictures,
           publishedAt: isDraft ? null : undefined,
         },
       }),
@@ -157,7 +160,7 @@ export const uploadImageToStrapi = async ({
 }: {
   url: string;
   fileName: string;
-}): Promise<{ id: string; url: string }> => {
+}): Promise<{ id: number; url: string }> => {
   const myImage = await fetch(url);
 
   if (!myImage.ok) {
