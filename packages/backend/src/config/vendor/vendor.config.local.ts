@@ -19,9 +19,11 @@ export const localVendorConfig: EnvVendorsConfig = {
   tuvalum: DEFAULT_CONFIG,
   fiets: DEFAULT_CONFIG,
   le_bon_coin: {
+    ...DEFAULT_CONFIG,
     vendorId: UNUSED_VENDOR_ID,
   },
   everide: {
+    ...DEFAULT_CONFIG,
     vendorId: UNUSED_VENDOR_ID,
   },
   zyclora: DEFAULT_CONFIG,
