@@ -281,6 +281,7 @@ export const publicProductAttributesConfiguration: AttributesConfiguration = {
 };
 
 const mergedProductAttributesConfiguration = merge(
+  {},
   publicProductAttributesConfiguration,
   b2bProductAttributesConfiguration,
 );
