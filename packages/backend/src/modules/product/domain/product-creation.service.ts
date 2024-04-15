@@ -38,6 +38,7 @@ import { toCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPIMClient } from './ports/pim.client';
 import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
@@ -119,6 +120,7 @@ export class ProductCreationService {
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private queueClient: IQueueClient,
+    private internalNotificationClient: IInternalNotificationClient,
   ) {}
 
   async createProduct(
@@ -151,6 +153,12 @@ export class ProductCreationService {
       variants,
       metafields: [...metafields, ...seoMetafields],
     });
+
+    if (createdProduct.images.length !== product.images.length) {
+      await this.internalNotificationClient.sendErrorNotification(
+        `🎨 Some images failed to upload when creating product ${createdProduct.id}`,
+      );
+    }
 
     await this.storeClient.publishProduct(String(createdProduct.id));
 

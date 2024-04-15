@@ -33,6 +33,8 @@ import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
+import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
+import { SlackClient } from './infrastructure/slack/slack.client';
 
 const commonImports = [
   PrismaModule,
@@ -74,6 +76,10 @@ const commonProviders = [
   {
     provide: IEmailClient,
     useClass: SendGridClient,
+  },
+  {
+    provide: IInternalNotificationClient,
+    useClass: SlackClient,
   },
   NotificationService,
   ProductCreationService,
