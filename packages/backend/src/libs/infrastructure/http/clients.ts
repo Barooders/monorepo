@@ -1,3 +1,4 @@
+import { jsonStringify } from '@libs/helpers/json';
 import { merge } from 'lodash';
 
 class BackendFailureException extends Error {
@@ -7,7 +8,7 @@ class BackendFailureException extends Error {
 
   constructor(path: string, name: string, message: string, statusCode: number) {
     super(
-      `Error calling backend (path: ${path}) because: [${name}] ${message}`,
+      `Error calling backend (path: ${path}) because: [${jsonStringify(name)}] ${message}`,
     );
     this.path = path;
     this.name = name;

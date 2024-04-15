@@ -9,6 +9,7 @@ import {
   getPimBrands,
   getPimCategoryFromId,
   getPimProductTypesFromName,
+  uploadImageToStrapi,
 } from '@libs/infrastructure/strapi/strapi.helper';
 import {
   PIM_CATEGORY_CACHE_TTL_IN_MILLISECONDS,
@@ -98,11 +99,17 @@ export class StrapiClient implements IPIMClient {
     const pimBrand = await this.getBrand(model.brand.name);
     const productType = await this.getPimProductType(model.productType);
 
+    const uploadImage = await uploadImageToStrapi({
+      url: model.imageUrl,
+      fileName: `${model.brand.name} - ${model.name} - ${model.year}`,
+    });
+
     const { id } = await createModel({
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
-      imageUrl: model.imageUrl,
+      imageUrl: uploadImage.url,
+      pictures: uploadImage.id ? [uploadImage.id] : [],
       year: model.year,
       brandId: pimBrand.id,
       productTypeId: productType.id,
@@ -114,7 +121,7 @@ export class StrapiClient implements IPIMClient {
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
-      imageUrl: new URL(model.imageUrl),
+      imageUrl: new URL(uploadImage.url),
       year: model.year,
       productType: { name: productType.attributes.name },
       brand: {
