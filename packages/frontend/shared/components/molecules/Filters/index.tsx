@@ -8,7 +8,8 @@ import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
 import {
   ProductAttributeConfig,
-  productAttributesConfiguration,
+  b2bProductAttributesConfiguration,
+  publicProductAttributesConfiguration,
 } from '@/config/productAttributes';
 import { useHasura } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
@@ -175,7 +176,7 @@ export const Filters = () => {
   return (
     <>
       <RangeFilter attribute="price" />
-      {Object.values(productAttributesConfiguration).map((attribute) => (
+      {Object.values(publicProductAttributesConfiguration).map((attribute) => (
         <FallbackComponent
           key={attribute.name}
           attribute={attribute}
@@ -247,18 +248,12 @@ export const B2BFilters = () => {
         className="mb-5"
       />
       <RangeFilter attribute="price" />
-      <RangeFilter
-        attribute="total_quantity"
-        showSlider={false}
-      />
-      {Object.values(productAttributesConfiguration)
-        .filter(({ isB2BFilter }) => isB2BFilter)
-        .map((attribute) => (
-          <FallbackComponent
-            key={attribute.name}
-            attribute={attribute}
-          />
-        ))}
+      {Object.values(b2bProductAttributesConfiguration).map((attribute) => (
+        <FallbackComponent
+          key={attribute.name}
+          attribute={attribute}
+        />
+      ))}
     </>
   );
 };

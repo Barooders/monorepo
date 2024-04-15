@@ -83,6 +83,14 @@ const fr = {
       },
       getFacetValueLabel: (facetValue: string) => {
         switch (facetValue.toLowerCase().trim()) {
+          case 'no_product':
+            return 'Indisponible';
+          case 'single_product':
+            return '1 unité';
+          case 'two_to_nine':
+            return 'De 2 à 9 unités';
+          case 'ten_plus':
+            return 'Plus de 10 unités';
           case 'as_new':
           case 'very_good':
           case 'good':
@@ -657,7 +665,6 @@ const fr = {
     contact: 'Contacter',
     facets: {
       price: 'Prix',
-      total_quantity: 'Unités par lot',
       'array_tags.alimentation': 'Alimentation',
       condition: 'État',
       'array_tags.marque': 'Marque',
@@ -674,6 +681,7 @@ const fr = {
       'array_tags.groupe-transmission-velos': 'Transmission',
       'array_tags.taille-wing': 'Taille voile',
       'meta.barooders.owner': 'Type de vendeurs',
+      bundle_type: 'Unités par lot',
       'meta.barooders.product_discount_range': 'Réduction',
       product_type: 'Catégorie',
     },

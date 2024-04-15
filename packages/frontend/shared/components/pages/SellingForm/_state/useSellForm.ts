@@ -1,6 +1,6 @@
 import {
   ProductAttributes,
-  productAttributesConfiguration,
+  publicProductAttributesConfiguration,
 } from '@/config/productAttributes';
 import { ProductStatus } from '@/types';
 import deburr from 'lodash/deburr';
@@ -227,12 +227,12 @@ const useSellForm = create<SellFormState>()(
               body_html: product.description,
               brand: extractTagByPrefix(
                 product.tags,
-                productAttributesConfiguration[ProductAttributes.BRAND]
+                publicProductAttributesConfiguration[ProductAttributes.BRAND]
                   .shopifyTagName,
               ),
               model: extractTagByPrefix(
                 product.tags,
-                productAttributesConfiguration[ProductAttributes.MODEL]
+                publicProductAttributesConfiguration[ProductAttributes.MODEL]
                   .shopifyTagName,
               ),
               status: product.status,

@@ -1,4 +1,5 @@
 import MondopointTable from '@/components/molecules/MondopointTable';
+import { merge } from 'lodash';
 import compact from 'lodash/compact';
 
 export type ProductAttributeConfig = {
@@ -8,7 +9,6 @@ export type ProductAttributeConfig = {
   informativeComponent?: React.ReactNode;
   sortAlphabetically?: boolean;
   capitalize?: boolean;
-  isB2BFilter?: boolean;
 };
 
 export enum ProductAttributes {
@@ -30,6 +30,7 @@ export enum ProductAttributes {
   MATTER_STICK = 'MATTER_STICK',
   MATTER_FRAME = 'MATTER_FRAME',
   LEVEL = 'LEVEL',
+  BUNDLE_TYPE = 'BUNDLE_TYPE',
   OUTINGS_NUMBER = 'OUTINGS_NUMBER',
   CROSS_SKIING_STANDARD = 'CROSS_SKIING_STANDARD',
   WEIGHT = 'WEIGHT',
@@ -56,16 +57,43 @@ export enum ProductAttributes {
   IS_REFURBISHED = 'IS_REFURBISHED',
   SIZE_VOLUME = 'SIZE_VOLUME',
 }
-
-export const productAttributesConfiguration: {
+type AttributesConfiguration = {
   [name: string]: ProductAttributeConfig;
-} = {
+};
+
+const commonAttributesConfiguration: AttributesConfiguration = {
   [ProductAttributes.PRODUCT_TYPE]: {
     name: ProductAttributes.PRODUCT_TYPE,
-    isB2BFilter: true,
     attributeName: 'product_type',
     capitalize: false,
   },
+  [ProductAttributes.CONDITION]: {
+    name: ProductAttributes.CONDITION,
+    attributeName: 'condition',
+  },
+  [ProductAttributes.BRAND]: {
+    name: ProductAttributes.BRAND,
+    attributeName: 'array_tags.marque',
+    shopifyTagName: 'marque',
+  },
+  [ProductAttributes.MODEL]: {
+    name: ProductAttributes.MODEL,
+    attributeName: 'array_tags.modele',
+    shopifyTagName: 'modele',
+    capitalize: false,
+  },
+};
+
+export const b2bProductAttributesConfiguration: AttributesConfiguration = {
+  [ProductAttributes.BUNDLE_TYPE]: {
+    name: ProductAttributes.BUNDLE_TYPE,
+    attributeName: 'bundle_type',
+  },
+  ...commonAttributesConfiguration,
+};
+
+export const publicProductAttributesConfiguration: AttributesConfiguration = {
+  ...commonAttributesConfiguration,
   [ProductAttributes.OWNER]: {
     name: ProductAttributes.OWNER,
     attributeName: 'meta.barooders.owner',
@@ -75,11 +103,6 @@ export const productAttributesConfiguration: {
     attributeName: 'array_tags.formatted-bike-size',
     shopifyTagName: 'formatted-bike-size',
   },
-  [ProductAttributes.CONDITION]: {
-    name: ProductAttributes.CONDITION,
-    isB2BFilter: true,
-    attributeName: 'condition',
-  },
   [ProductAttributes.PRODUCT_DISCOUNT_RANGE]: {
     name: ProductAttributes.PRODUCT_DISCOUNT_RANGE,
     attributeName: 'meta.barooders.product_discount_range',
@@ -87,19 +110,6 @@ export const productAttributesConfiguration: {
   [ProductAttributes.IS_REFURBISHED]: {
     name: ProductAttributes.IS_REFURBISHED,
     attributeName: 'is_refurbished',
-  },
-  [ProductAttributes.BRAND]: {
-    name: ProductAttributes.BRAND,
-    isB2BFilter: true,
-    attributeName: 'array_tags.marque',
-    shopifyTagName: 'marque',
-  },
-  [ProductAttributes.MODEL]: {
-    name: ProductAttributes.MODEL,
-    isB2BFilter: true,
-    attributeName: 'array_tags.modele',
-    shopifyTagName: 'modele',
-    capitalize: false,
   },
   [ProductAttributes.TRANSMISSION_GROUP]: {
     name: ProductAttributes.TRANSMISSION_GROUP,
@@ -270,16 +280,21 @@ export const productAttributesConfiguration: {
   },
 };
 
+const mergedProductAttributesConfiguration = merge(
+  publicProductAttributesConfiguration,
+  b2bProductAttributesConfiguration,
+);
+
 export const getProductConfigFromShopifyTags = (tagNames: string[]) =>
   compact(
     tagNames.map((tagName) =>
-      Object.values(productAttributesConfiguration).find(
+      Object.values(mergedProductAttributesConfiguration).find(
         (productAttribute) => productAttribute.shopifyTagName === tagName,
       ),
     ),
   );
 
 export const getProductConfigFromAttributeName = (tagName: string) =>
-  Object.values(productAttributesConfiguration).find(
+  Object.values(mergedProductAttributesConfiguration).find(
     (productAttribute) => productAttribute.attributeName === tagName,
   );
