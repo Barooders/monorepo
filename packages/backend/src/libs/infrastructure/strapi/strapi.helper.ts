@@ -150,3 +150,36 @@ export const createModel = async ({
 
   return data;
 };
+
+export const uploadImageToStrapi = async ({
+  url,
+  fileName,
+}: {
+  url: string;
+  fileName: string;
+}): Promise<{ id: string; url: string }> => {
+  const myImage = await fetch(url);
+
+  if (!myImage.ok) {
+    throw new Error(`Failed to fetch image: ${url}`);
+  }
+
+  const myBlob = await myImage.blob();
+  const formData = new FormData();
+  formData.append('files', myBlob, fileName);
+
+  const call = await fetch(
+    `${envConfig.externalServices.strapi.baseUrl}/api/upload`,
+    {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${envConfig.externalServices.strapi.apiToken}`,
+      },
+    },
+  );
+
+  const result = await call.json();
+
+  return result[0]!;
+};

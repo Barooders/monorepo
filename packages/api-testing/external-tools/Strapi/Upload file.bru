@@ -1,0 +1,19 @@
+meta {
+  name: Upload file
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{strapiBaseUrl}}/api/upload
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{strapiToken}}
+}
+
+body:multipart-form {
+  files: @file(/Users/clementdessoude/Downloads/Screenshot 2024-04-04 at 09.49.04.png)
+}
