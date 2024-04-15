@@ -1,6 +1,6 @@
 import MondopointTable from '@/components/molecules/MondopointTable';
-import { merge } from 'lodash';
 import compact from 'lodash/compact';
+import { merge } from 'shared-types';
 
 export type ProductAttributeConfig = {
   name: ProductAttributes;
@@ -280,14 +280,13 @@ export const publicProductAttributesConfiguration: AttributesConfiguration = {
   },
 };
 
-const mergedProductAttributesConfiguration = merge(
-  {},
+const mergedProductAttributesConfiguration: AttributesConfiguration = merge(
   publicProductAttributesConfiguration,
   b2bProductAttributesConfiguration,
 );
 
 export const getProductConfigFromShopifyTags = (tagNames: string[]) =>
-  compact(
+  compact<ProductAttributeConfig>(
     tagNames.map((tagName) =>
       Object.values(mergedProductAttributesConfiguration).find(
         (productAttribute) => productAttribute.shopifyTagName === tagName,
@@ -295,7 +294,9 @@ export const getProductConfigFromShopifyTags = (tagNames: string[]) =>
     ),
   );
 
-export const getProductConfigFromAttributeName = (tagName: string) =>
+export const getProductConfigFromAttributeName = (
+  tagName: string,
+): ProductAttributeConfig | undefined =>
   Object.values(mergedProductAttributesConfiguration).find(
     (productAttribute) => productAttribute.attributeName === tagName,
   );
