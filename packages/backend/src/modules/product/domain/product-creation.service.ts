@@ -132,6 +132,7 @@ export class ProductCreationService {
     const { product_type: productType, variants, metafields } = product;
 
     await this.pimClient.checkIfProductTypeExists(productType);
+    await this.validateBundlePrices(product);
 
     const productStatus = this.isProductReadyToPublish(
       product,
@@ -301,6 +302,24 @@ export class ProductCreationService {
       author,
       {},
     );
+  }
+
+  private async validateBundlePrices({ bundlePrices, variants }: Product) {
+    if (!bundlePrices?.length) return;
+
+    const highestBundlePriceInCents = Math.max(
+      ...bundlePrices.map(({ unitPriceInCents }) => unitPriceInCents),
+    );
+
+    if (
+      variants.some(
+        ({ price }) => price && toCents(price) > highestBundlePriceInCents,
+      )
+    ) {
+      throw new Error(
+        'Bundle prices should be cheaper than the unit prices of the variants.',
+      );
+    }
   }
 
   private async createProductFromWeb(

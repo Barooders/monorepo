@@ -10,6 +10,7 @@ import {
   UUID,
   ValueDate,
 } from '@libs/domain/value-objects';
+import { BundleType } from 'shared-types';
 import { ProductType } from '../value-objects/product-type.value-object';
 
 export interface PublicVariantToIndex {
@@ -74,6 +75,7 @@ export interface B2BVariantToIndex {
     handle: string;
     publishedAt: ValueDate;
     productType: ProductType;
+    bundleType: BundleType;
     tags: Tags;
     totalQuantity: Stock;
     largestBundlePrice?: Amount;

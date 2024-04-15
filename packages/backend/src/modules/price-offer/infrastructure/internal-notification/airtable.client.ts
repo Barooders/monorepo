@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import Airtable from 'airtable';
 
 const B2B_TABLE = 'Offres';
-const B2B_OFFER_COMMENT_FIELD = "Détail de l'offre";
+const B2B_OFFER_COMMENT_FIELD = 'Commentaire';
 
 @Injectable()
 export class AirtableClient implements IInternalTrackingClient {
