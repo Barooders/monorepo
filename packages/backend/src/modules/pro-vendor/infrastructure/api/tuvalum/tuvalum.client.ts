@@ -67,6 +67,7 @@ export class TuvalumClient {
         'x-api-key':
           this.vendorConfigService.getVendorConfig().apiKey ?? 'NO_API_KEY',
       },
+      timeout: 10_000,
     });
   }
 }

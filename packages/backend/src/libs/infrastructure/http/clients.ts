@@ -18,7 +18,10 @@ export class BackendFailureException extends Error {
 
 export type FetchConfigType = RequestInit & {
   responseParsing?: 'text' | 'json' | 'buffer';
+  timeout?: number;
 };
+
+const DEFAULT_HTTP_TIMEOUT = 3000;
 
 export const createHttpClient = (
   baseUrl: string,
@@ -29,11 +32,18 @@ export const createHttpClient = (
     let payload = null;
     let result: Response | null = null;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      mergedConfig?.timeout ?? DEFAULT_HTTP_TIMEOUT,
+    );
+
     try {
       result = await fetch(
         `${baseUrl}${path}`,
         merge(
           {
+            signal: controller.signal,
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
@@ -51,6 +61,8 @@ export const createHttpClient = (
     } catch (e) {
       payload = null;
     }
+
+    clearTimeout(timeoutId);
 
     if (!result?.ok || payload?.statusCode >= 400)
       throw new BackendFailureException(
