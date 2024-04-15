@@ -1,7 +1,7 @@
 import { jsonStringify } from '@libs/helpers/json';
 import { merge } from 'lodash';
 
-class BackendFailureException extends Error {
+export class BackendFailureException extends Error {
   readonly path: string;
   readonly name: string;
   readonly statusCode: number;
@@ -20,8 +20,12 @@ export type FetchConfigType = RequestInit & {
   responseParsing?: 'text' | 'json' | 'buffer';
 };
 
-export const createRestClient = (baseUrl: string) => {
-  return async <PayloadType>(path: string, config?: FetchConfigType) => {
+export const createHttpClient = (
+  baseUrl: string,
+  baseConfig?: FetchConfigType,
+) => {
+  return async <ResponseType>(path: string, config?: FetchConfigType) => {
+    const mergedConfig = merge(baseConfig, config);
     let payload = null;
     let result: Response | null = null;
 
@@ -35,13 +39,13 @@ export const createRestClient = (baseUrl: string) => {
               'Content-Type': 'application/json',
             },
           },
-          config,
+          mergedConfig,
         ),
       );
 
-      payload = await (config?.responseParsing === 'text'
+      payload = await (mergedConfig?.responseParsing === 'text'
         ? result.text()
-        : config?.responseParsing === 'buffer'
+        : mergedConfig?.responseParsing === 'buffer'
           ? result.arrayBuffer()
           : result.json());
     } catch (e) {
@@ -56,6 +60,6 @@ export const createRestClient = (baseUrl: string) => {
         payload?.statusCode ?? result?.status ?? 400,
       );
 
-    return payload as PayloadType;
+    return payload as ResponseType;
   };
 };

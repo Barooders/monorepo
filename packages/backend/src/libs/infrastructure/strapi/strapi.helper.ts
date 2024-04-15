@@ -6,9 +6,9 @@ import {
   PimBrand,
 } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
-import { createRestClient } from '../http/clients';
+import { createHttpClient } from '../http/clients';
 
-export const strapiClient = createRestClient(
+export const strapiClient = createHttpClient(
   envConfig.externalServices.strapi.baseUrl,
 );
 
