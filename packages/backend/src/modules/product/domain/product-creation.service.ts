@@ -315,13 +315,13 @@ export class ProductCreationService {
   private async validateBundlePrices({ bundlePrices, variants }: Product) {
     if (!bundlePrices?.length) return;
 
-    const highestBundlePriceInCents = Math.max(
+    const highestBundlePriceInCents = Math.min(
       ...bundlePrices.map(({ unitPriceInCents }) => unitPriceInCents),
     );
 
     if (
       variants.some(
-        ({ price }) => price && toCents(price) > highestBundlePriceInCents,
+        ({ price }) => price && toCents(price) <= highestBundlePriceInCents,
       )
     ) {
       throw new Error(
