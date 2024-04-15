@@ -336,7 +336,7 @@ const SearchPage: React.FC<PropsType> = ({
                 renderTitle={() => <p>{dict.search.descriptionTitle}</p>}
                 ContentComponent={() => (
                   <div
-                    className="my-3"
+                    className="collection-descriptions my-3"
                     dangerouslySetInnerHTML={{
                       __html: collectionData.descriptionHtml,
                     }}
