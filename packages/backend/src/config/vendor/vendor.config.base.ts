@@ -180,19 +180,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  elite_bikes: {
-    slug: 'elite_bikes',
-    mappingKey: 'elite_bikes',
-    type: VendorType.PRESTASHOP,
-    apiKey: vendorSecrets.eliteBikesApiKey,
-    apiUrl: 'https://www.used-elitebikes.com/api/',
-    catalog: {
-      common: {
-        defaultProductCondition: Condition.AS_NEW,
-        commissionPercentToAdd: 8,
-      },
-    },
-  },
   bike_xtreme: {
     slug: 'bike_xtreme',
     mappingKey: 'bike_xtreme',

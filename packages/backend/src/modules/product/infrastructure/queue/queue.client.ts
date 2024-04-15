@@ -1,4 +1,4 @@
-import { envName } from '@config/env/env.config';
+import { envName } from '@config/env/env-name.config';
 import { Environments } from '@config/env/types';
 import { UUID } from '@libs/domain/value-objects';
 import { QueueNames } from '@modules/product/config';

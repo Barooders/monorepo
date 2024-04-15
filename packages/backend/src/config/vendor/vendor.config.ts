@@ -1,10 +1,10 @@
+import { envName } from '@config/env/env-name.config';
 import { RecursivePartial } from '@libs/types/recursive-partial.type';
 import { merge } from 'lodash';
 import { Environments } from '../env/types';
-import { envName } from '../env/env.config';
 import { AllVendorsConfigInterface } from './types';
-import { localVendorConfig } from './vendor.config.local';
 import { baseVendorConfig } from './vendor.config.base';
+import { localVendorConfig } from './vendor.config.local';
 import { prodVendorConfig } from './vendor.config.prod';
 import { stagingVendorConfig } from './vendor.config.staging';
 
@@ -20,5 +20,5 @@ const vendorConfigByEnv: EnvironmentsConfig = {
 
 export const vendorConfig: AllVendorsConfigInterface = merge(
   baseVendorConfig,
-  vendorConfigByEnv[envName as Environments],
+  vendorConfigByEnv[envName],
 ) as AllVendorsConfigInterface;

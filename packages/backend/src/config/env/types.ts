@@ -102,10 +102,13 @@ export type EnvPublicConfig = {
   locationId: string;
   mobileAppPublicationId: string;
   technicalAccountId: string;
+};
+
+export type EnvCronConfig = {
   cronJobs: {
     cron: string;
     command: string;
   }[];
 };
 
-export type EnvConfig = EnvSecretConfig & EnvPublicConfig;
+export type EnvConfig = EnvSecretConfig & EnvPublicConfig & EnvCronConfig;

@@ -66,7 +66,6 @@ export type SynchronizedProVendor =
   | 'manufaktur'
   | 'matkite'
   | 'sanferbike'
-  | 'elite_bikes'
   | 'bike_xtreme'
   | 'mbspro'
   | 'used_elite_bikes'
@@ -231,12 +230,18 @@ interface PrestashopOrderConfig {
   fetchProductWeightForShippingCompute?: boolean;
 }
 
+interface SynchroConfig {
+  commandName: 'updateProductStatuses' | 'syncProducts';
+  cron: string;
+}
+
 export interface FullVendorConfig {
   slug: SynchronizedProVendor;
   mappingKey: MappingKey;
   type: VendorType;
   apiUrl: string;
   vendorId: string;
+  synchros: SynchroConfig[];
   apiKey?: string;
   apiSecret?: string;
   accessToken?: string;
@@ -272,7 +277,10 @@ export type VendorConfig = FullVendorConfig & {
 };
 
 export type AllBaseVendorsConfig = {
-  [key in SynchronizedProVendor]: Omit<FullVendorConfig, 'vendorId'>;
+  [key in SynchronizedProVendor]: Omit<
+    FullVendorConfig,
+    'vendorId' | 'synchros'
+  >;
 };
 
 export type AllVendorsConfigInterface = {
@@ -282,6 +290,7 @@ export type AllVendorsConfigInterface = {
 export type EnvVendorsConfig = {
   [key in SynchronizedProVendor]: RecursivePartial<FullVendorConfig> & {
     vendorId: string;
+    synchros: SynchroConfig[];
   };
 };
 

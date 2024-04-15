@@ -3,6 +3,7 @@ import { EnvVendorsConfig, UNUSED_VENDOR_ID } from './types';
 
 const DEFAULT_CONFIG = {
   vendorId: DEFAULT_USER,
+  synchros: [],
 };
 
 const DEFAULT_CONFIG_WITHOUT_ORDER = {
@@ -18,9 +19,11 @@ export const localVendorConfig: EnvVendorsConfig = {
   tuvalum: DEFAULT_CONFIG,
   fiets: DEFAULT_CONFIG,
   le_bon_coin: {
+    ...DEFAULT_CONFIG,
     vendorId: UNUSED_VENDOR_ID,
   },
   everide: {
+    ...DEFAULT_CONFIG,
     vendorId: UNUSED_VENDOR_ID,
   },
   zyclora: DEFAULT_CONFIG,
@@ -89,7 +92,6 @@ export const localVendorConfig: EnvVendorsConfig = {
   club_in_sport: DEFAULT_CONFIG,
   bikef: DEFAULT_CONFIG,
   matkite: DEFAULT_CONFIG,
-  elite_bikes: DEFAULT_CONFIG,
   bike_xtreme: DEFAULT_CONFIG,
   hbe_shopify: DEFAULT_CONFIG,
   elettronic: DEFAULT_CONFIG,

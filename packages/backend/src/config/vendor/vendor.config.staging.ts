@@ -3,6 +3,7 @@ import { EnvVendorsConfig, UNUSED_VENDOR_ID } from './types';
 const DEFAULT_USER = '52355f01-31c9-4f47-a062-d4a7564d4791';
 const DEFAULT_CONFIG = {
   vendorId: DEFAULT_USER,
+  synchros: [],
 };
 const DISABLED_ORDER_SYNC_CONFIG = {
   order: {
@@ -20,16 +21,29 @@ const DEFAULT_CONFIG_WITHOUT_ORDER = {
 export const stagingVendorConfig: EnvVendorsConfig = {
   tuvalum: {
     vendorId: 'eac0e7ff-8809-42e7-9392-f6f3f382eebc',
+    synchros: [
+      {
+        cron: '30 * * * *',
+        commandName: 'updateProductStatuses',
+      },
+      {
+        cron: '0 3 * * *',
+        commandName: 'syncProducts',
+      },
+    ],
   },
   fiets: DEFAULT_CONFIG,
   le_bon_coin: {
     vendorId: UNUSED_VENDOR_ID,
+    synchros: [],
   },
   everide: {
     vendorId: UNUSED_VENDOR_ID,
+    synchros: [],
   },
   zyclora: {
     vendorId: '54862c01-e6d6-4474-a9af-5a22b2b11d23',
+    synchros: [],
   },
   chris_bikes: DEFAULT_CONFIG,
   ciklet: DEFAULT_CONFIG,
@@ -56,30 +70,38 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   freeglisse: DEFAULT_CONFIG_WITHOUT_ORDER,
   projet_boussole: {
     vendorId: 'b4cce880-04c5-4eac-9547-1ce5e1c15cc9',
+    synchros: [],
   },
   ebs: {
     vendorId: 'a2b6c4f6-d393-4b80-9696-49604c6c0caa',
+    synchros: [],
   },
   bcycles: {
     vendorId: 'f34ab201-9895-4a14-a577-601e6302f708',
+    synchros: [],
   },
   tnc: {
     vendorId: 'dbf74a44-a9c9-4cb6-b025-260efe28ad23',
+    synchros: [],
     ...DISABLED_ORDER_SYNC_CONFIG,
   },
   skidoc: DEFAULT_CONFIG_WITHOUT_ORDER,
   trocsport: DEFAULT_CONFIG_WITHOUT_ORDER,
   jbikes: {
     vendorId: '56686e56-92b8-4e06-9e19-7447c4346efd',
+    synchros: [],
   },
   moulin_a_velos: {
     vendorId: 'c30ae02a-49c1-4040-b92c-fcc4ec2914bc',
+    synchros: [],
   },
   cyclink: {
     vendorId: 'b2cef3d5-431b-4c67-be19-9fc6638294f2',
+    synchros: [],
   },
   recocycle: {
     vendorId: '41100601-e3a8-4abb-8790-ba8533932153',
+    synchros: [],
   },
   freeride: DEFAULT_CONFIG,
   velo_meldois: DEFAULT_CONFIG,
@@ -113,7 +135,6 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   bikef: DEFAULT_CONFIG,
   techni_cycles: DEFAULT_CONFIG,
   matkite: DEFAULT_CONFIG,
-  elite_bikes: DEFAULT_CONFIG,
   velo_emotion: DEFAULT_CONFIG,
   hbe_shopify: DEFAULT_CONFIG,
   elettronic: DEFAULT_CONFIG,

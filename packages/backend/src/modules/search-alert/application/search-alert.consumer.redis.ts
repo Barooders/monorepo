@@ -1,4 +1,4 @@
-import { envName } from '@config/env/env.config';
+import { envName } from '@config/env/env-name.config';
 import { Environments } from '@config/env/types';
 import {
   BackgroundTask,
