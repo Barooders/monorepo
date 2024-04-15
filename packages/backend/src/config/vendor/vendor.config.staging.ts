@@ -21,7 +21,16 @@ const DEFAULT_CONFIG_WITHOUT_ORDER = {
 export const stagingVendorConfig: EnvVendorsConfig = {
   tuvalum: {
     vendorId: 'eac0e7ff-8809-42e7-9392-f6f3f382eebc',
-    synchros: [],
+    synchros: [
+      {
+        cron: '30 * * * *',
+        commandName: 'updateProductStatuses',
+      },
+      {
+        cron: '0 3 * * *',
+        commandName: 'syncProducts',
+      },
+    ],
   },
   fiets: DEFAULT_CONFIG,
   le_bon_coin: {
