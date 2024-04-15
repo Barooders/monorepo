@@ -51,6 +51,19 @@ module.exports = {
         selector: 'CallExpression > MemberExpression > Identifier[name="JSON"]',
       },
     ],
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'lodash',
+            importNames: ['merge'],
+            message:
+              'Lodash merge mutates the first object, please use our merge override from shared-types instead.',
+          },
+        ],
+      },
+    ],
     'import/no-restricted-paths': [
       'error',
       {
