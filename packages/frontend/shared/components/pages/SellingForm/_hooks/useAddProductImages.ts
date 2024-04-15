@@ -32,6 +32,7 @@ const useAddProductImages = () => {
     addProductInfo('images', [...productInfos.images, ...imageUrls]);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useWrappedAsyncFn(addProductImages, [productInfos.images]);
 };
 

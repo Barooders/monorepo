@@ -13,6 +13,7 @@ const useWrappedAsyncFn = <T extends FunctionReturningPromise>(
   deps?: DependencyList,
   options?: Options,
 ): AsyncFnReturn<T> => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const reactUseAsyncReturn = useAsyncFn(fn, deps);
 
   const [{ error }] = reactUseAsyncReturn;
