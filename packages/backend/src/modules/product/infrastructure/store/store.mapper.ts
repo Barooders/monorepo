@@ -264,7 +264,7 @@ export class StoreMapper {
       tags: new Tags({
         tags: getTagsObject(exposedProductTags.map(({ fullTag }) => fullTag)),
       }),
-      bundleType: getBundleType(variants.length),
+      bundleType: getBundleType(Number(storeB2BProduct.totalQuantity)),
       totalQuantity: new Stock({
         stock: Number(storeB2BProduct.totalQuantity),
       }),
