@@ -248,10 +248,6 @@ export const B2BFilters = () => {
         className="mb-5"
       />
       <RangeFilter attribute="price" />
-      <RangeFilter
-        attribute="total_quantity"
-        showSlider={false}
-      />
       {Object.values(b2bProductAttributesConfiguration).map((attribute) => (
         <FallbackComponent
           key={attribute.name}

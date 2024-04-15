@@ -30,6 +30,7 @@ export enum ProductAttributes {
   MATTER_STICK = 'MATTER_STICK',
   MATTER_FRAME = 'MATTER_FRAME',
   LEVEL = 'LEVEL',
+  BUNDLE_TYPE = 'BUNDLE_TYPE',
   OUTINGS_NUMBER = 'OUTINGS_NUMBER',
   CROSS_SKIING_STANDARD = 'CROSS_SKIING_STANDARD',
   WEIGHT = 'WEIGHT',
@@ -84,6 +85,10 @@ const commonAttributesConfiguration: AttributesConfiguration = {
 };
 
 export const b2bProductAttributesConfiguration: AttributesConfiguration = {
+  [ProductAttributes.BUNDLE_TYPE]: {
+    name: ProductAttributes.BUNDLE_TYPE,
+    attributeName: 'bundle_type',
+  },
   ...commonAttributesConfiguration,
 };
 
