@@ -20,6 +20,7 @@ import FavoriteButton from './_components/FavoriteButton';
 import { Guarantees } from './_components/Guarantees';
 import ProductDescription from './_components/ProductDescription';
 import ProductGallery from './_components/ProductGallery';
+import ProductLabel from './_components/ProductLabel';
 import ProductPrice from './_components/ProductPrice';
 import DiscountLabel from './_components/ProductPrice/DiscountLabel';
 import SplittedPayments from './_components/SplittedPayments';
@@ -43,6 +44,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     description,
     commissionAmount,
     tags,
+    labels,
     productType,
     variantCondition,
     variantId,
@@ -84,6 +86,25 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
       />
     </div>
   );
+
+  const productLabels = [
+    ...labels
+      .filter((label) => label.position === 'left')
+      .map((label, idx) => (
+        <ProductLabel
+          key={idx}
+          label={label}
+        />
+      )),
+    ...discounts.map((discount) => (
+      <DiscountLabel
+        key={discount.title}
+        discount={discount}
+        displayDetails={true}
+        sticked={false}
+      />
+    )),
+  ];
 
   return (
     <>
@@ -136,18 +157,10 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             )}
           </div>
 
-          {discounts.length > 0 && (
-            <div className="my-2 flex gap-2">
-              {discounts.map((discount) => (
-                <DiscountLabel
-                  key={discount.title}
-                  discount={discount}
-                  displayDetails={true}
-                  sticked={false}
-                />
-              ))}
-            </div>
+          {productLabels.length > 0 && (
+            <div className="flex gap-2">{productLabels}</div>
           )}
+
           <ProductPrice
             productId={shopifyId}
             compareAtPrice={compareAtPrice}
