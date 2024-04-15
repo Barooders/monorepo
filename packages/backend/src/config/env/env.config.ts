@@ -1,5 +1,5 @@
 import { vendorConfig } from '@config/vendor/vendor.config';
-import { get } from 'env-var';
+import { envName } from './env-name.config';
 import localCronConfig from './local.cron';
 import localPublicConfig from './local.public';
 import localSecretConfig from './local.secret';
@@ -10,12 +10,6 @@ import stagingCronConfig from './staging.cron';
 import stagingPublicConfig from './staging.public';
 import stagingSecretConfig from './staging.secret';
 import { EnvConfig, Environments } from './types';
-
-const baroodersEnv = get('BAROODERS_ENV').required().asString() as Environments;
-
-export const envName = Object.values(Environments).includes(baroodersEnv)
-  ? baroodersEnv
-  : Environments.STAGING;
 
 const vendorsToSync = Object.values(vendorConfig).flatMap(
   ({ synchros, slug }) => {

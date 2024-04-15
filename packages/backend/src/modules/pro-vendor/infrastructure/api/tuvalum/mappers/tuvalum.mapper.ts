@@ -1,4 +1,4 @@
-import { envName } from '@config/env/env.config';
+import { envName } from '@config/env/env-name.config';
 import { Environments } from '@config/env/types';
 import { mapCondition } from '@libs/domain/product.interface';
 import { CONDITION_TAG_KEY } from '@libs/domain/types';

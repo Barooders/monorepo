@@ -1,7 +1,7 @@
-import { envName } from '@config/env/env.config';
+import { envName } from '@config/env/env-name.config';
 import { Environments } from '@config/env/types';
-import { ProfilingIntegration } from '@sentry/profiling-node';
 import * as Sentry from '@sentry/node';
+import { ProfilingIntegration } from '@sentry/profiling-node';
 
 export enum SentryContext {
   WEB = 'WEB',
