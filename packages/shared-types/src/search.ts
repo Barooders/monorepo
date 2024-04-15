@@ -6,6 +6,13 @@ export enum DiscountRange {
   FROM_80_TO_100 = '80-100%',
 }
 
+export enum BundleType {
+  NO_PRODUCT = 'no_product',
+  SINGLE_PRODUCT = 'single_product',
+  TWO_TO_NINE = 'two_to_nine',
+  TEN_PLUS = 'ten_plus',
+}
+
 type SearchBaseVariantDocument = {
   variant_shopify_id: number;
   variant_internal_id?: string;
@@ -51,6 +58,7 @@ export type SearchB2BVariantDocument = SearchBaseVariantDocument & {
   vendor_id: string;
   largest_bundle_price?: number;
   total_quantity: number;
+  bundle_type: BundleType;
 };
 
 export type SearchCollectionDocument = {

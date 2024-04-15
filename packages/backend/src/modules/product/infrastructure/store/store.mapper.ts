@@ -29,6 +29,15 @@ import {
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { meanBy } from 'lodash';
+import { BundleType } from 'shared-types';
+
+const getBundleType = (variantsCount: number): BundleType => {
+  if (variantsCount === 0) return BundleType.NO_PRODUCT;
+  if (variantsCount === 1) return BundleType.SINGLE_PRODUCT;
+  if (variantsCount < 10) return BundleType.TWO_TO_NINE;
+
+  return BundleType.TEN_PLUS;
+};
 
 const getHighestDiscount = (
   variants: PublicVariantToIndex['variant'][],
@@ -255,6 +264,7 @@ export class StoreMapper {
       tags: new Tags({
         tags: getTagsObject(exposedProductTags.map(({ fullTag }) => fullTag)),
       }),
+      bundleType: getBundleType(variants.length),
       totalQuantity: new Stock({
         stock: Number(storeB2BProduct.totalQuantity),
       }),

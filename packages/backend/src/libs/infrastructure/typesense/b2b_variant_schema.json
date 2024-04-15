@@ -6,6 +6,11 @@
       "type": "string"
     },
     {
+      "name": "bundle_type",
+      "type": "string",
+      "facet": true
+    },
+    {
       "name": "title",
       "type": "string",
       "facet": true
