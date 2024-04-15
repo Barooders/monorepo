@@ -4,7 +4,7 @@ const localPublicConfig: EnvPublicConfig = {
   envName: Environments.LOCAL,
   logLevel: 'trace',
   prettyLog: true,
-  hostname: 'http://localhPublicConfigost:3000',
+  hostname: 'http://localhost:3000',
   backendBaseUrl: 'http://localhost:3000',
   frontendBaseUrl: 'https://barooders.com',
   technicalAccountId: 'a2c381be-84ec-4b6c-b819-410988bd3ae8',
