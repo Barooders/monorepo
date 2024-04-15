@@ -34,7 +34,7 @@ import { SearchClient } from './infrastructure/search/search.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
 import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
-import { SlackClient } from './infrastructure/slack/slack.client';
+import { SlackClient } from './infrastructure/internal-notification/slack.client';
 
 const commonImports = [
   PrismaModule,
