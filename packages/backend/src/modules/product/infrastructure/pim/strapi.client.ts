@@ -121,7 +121,7 @@ export class StrapiClient implements IPIMClient {
       name: model.name,
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
-      imageUrl: new URL(model.imageUrl),
+      imageUrl: new URL(uploadImage.url),
       year: model.year,
       productType: { name: productType.attributes.name },
       brand: {
