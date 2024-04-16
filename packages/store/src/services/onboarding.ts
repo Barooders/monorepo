@@ -1,8 +1,8 @@
-import { TransactionBaseService } from "@medusajs/medusa";
-import OnboardingRepository from "../repositories/onboarding";
-import { OnboardingState } from "../models/onboarding";
-import { EntityManager, IsNull, Not } from "typeorm";
-import { UpdateOnboardingStateInput } from "../types/onboarding";
+import { TransactionBaseService } from '@medusajs/medusa';
+import OnboardingRepository from '../repositories/onboarding';
+import { OnboardingState } from '../models/onboarding';
+import { EntityManager, IsNull, Not } from 'typeorm';
+import { UpdateOnboardingStateInput } from '../types/onboarding';
 
 type InjectedDependencies = {
   manager: EntityManager;
@@ -20,7 +20,7 @@ class OnboardingService extends TransactionBaseService {
 
   async retrieve(): Promise<OnboardingState | undefined> {
     const onboardingRepo = this.activeManager_.withRepository(
-      this.onboardingRepository_
+      this.onboardingRepository_,
     );
 
     const status = await onboardingRepo.findOne({
@@ -34,7 +34,7 @@ class OnboardingService extends TransactionBaseService {
     return await this.atomicPhase_(
       async (transactionManager: EntityManager) => {
         const onboardingRepository = transactionManager.withRepository(
-          this.onboardingRepository_
+          this.onboardingRepository_,
         );
 
         const status = await this.retrieve();
@@ -44,7 +44,7 @@ class OnboardingService extends TransactionBaseService {
         }
 
         return await onboardingRepository.save(status);
-      }
+      },
     );
   }
 }
