@@ -29,7 +29,7 @@ export const createHttpClient = (
   baseConfig?: FetchConfigType,
 ) => {
   return async <ResponseType>(path: string, config?: FetchConfigType) => {
-    const mergedConfig = merge(baseConfig, config);
+    const mergedConfig = merge({}, baseConfig, config);
     let payload = null;
     let result: Response | null = null;
     const timeoutDuration = mergedConfig?.timeout ?? DEFAULT_HTTP_TIMEOUT;
