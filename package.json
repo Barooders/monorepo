@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "format": "prettier \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" --check",
-    "format:fix": "prettier --write \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\"",
+    "format": "prettier \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" \"packages/store/**/*.ts\" --check",
+    "format:fix": "prettier --write \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\" \"packages/store/**/*.ts\"",
     "install-for-render": "./install-for-render.sh",
     "console": "yarn workspace backend console",
     "prepare": "husky"
