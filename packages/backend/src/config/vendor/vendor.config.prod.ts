@@ -6,7 +6,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
     synchros: [
       { commandName: 'syncProducts', cron: '0 6 * * *' },
       { commandName: 'syncProducts', cron: '0 18 * * *' },
-      // { commandName: 'updateProductStatuses', cron: '20 */2 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 */2 * * *' },
     ],
   },
   freeglisse: {
