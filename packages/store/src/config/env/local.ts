@@ -12,7 +12,7 @@ const localConfig: EnvironmentsType = {
     ssl: false,
   },
   redis: {
-    url: undefined,
+    url: 'redis://localhost:6379',
   },
   cors: ['http://localhost:8000', 'http://localhost:7001'],
   sendgrid: {
