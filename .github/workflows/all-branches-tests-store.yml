@@ -24,6 +24,10 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
+      - name: Decrypt secrets
+        run: yarn workspace store clean
+      - name: Run ESLint
+        run: yarn workspace store lint
       - name: Build TS server app
         run: yarn workspace store build:server
       - name: Build TS admin app

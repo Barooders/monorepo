@@ -18,7 +18,7 @@ export default async function prepareShippingOptions(
           data: {
             id: 'manual-fulfillment',
           },
-          // @ts-ignore
+          // @ts-expect-error type is missing
           price_type: 'flat_rate',
           amount: 1000,
         })

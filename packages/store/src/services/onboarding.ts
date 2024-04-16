@@ -13,6 +13,7 @@ class OnboardingService extends TransactionBaseService {
   protected onboardingRepository_: typeof OnboardingRepository;
 
   constructor({ onboardingRepository }: InjectedDependencies) {
+    // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
     this.onboardingRepository_ = onboardingRepository;
