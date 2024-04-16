@@ -1,5 +1,4 @@
 import { jsonStringify } from '@libs/helpers/json';
-import { Logger } from '@nestjs/common';
 import { merge } from 'shared-types';
 
 export class BackendFailureException extends Error {
@@ -36,10 +35,13 @@ export const createHttpClient = (
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
-      Logger.log(
-        `Aborting request to ${path} after ${timeoutDuration / 1000}s`,
-      );
       controller.abort();
+      throw new BackendFailureException(
+        path,
+        'TIMEOUT',
+        `Aborting request after ${timeoutDuration / 1000}s`,
+        408,
+      );
     }, timeoutDuration);
 
     try {
