@@ -1,7 +1,8 @@
 export type ImageToUpload = {
-  attachment: string;
+  attachment?: string;
   filename?: string;
   position?: number;
+  src?: string;
 };
 
 export type ProductImage = {

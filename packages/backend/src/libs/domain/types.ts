@@ -24,68 +24,48 @@ export const BIKES_COLLECTION_HANDLE = 'velos';
 export const MOUNTAIN_BIKES_COLLECTION_HANDLES = ['vtt', 'vtt-electriques'];
 export const BIKE_SIZE_TAG_KEY = 'taille-velo';
 
-export type PIMProductType = {
+export type PIMEntity<T> = {
   id: number;
-  attributes: {
-    name: string;
-    weight: number;
-    gendered?: string;
-    shopifyManCollectionId?: string;
-    shopifyCollectionId?: string;
-    shopifyWomanCollectionId?: string;
-    shopifyChildCollectionId?: string;
-    shopifySportCollectionId?: string;
-    sportName?: string;
-    createdAt: Date;
-    updatedAt: Date;
-    publishedAt: Date;
-    order?: number;
-  };
+  attributes: T;
 };
 
-export type PIMProductAttribute = {
+export type PIMEntityList<T> = {
+  data: PIMEntity<T>[];
+};
+
+export type ProductType = {
   id: number;
-  attributes: {
-    tagPrefix: string;
-  };
+  name: string;
+  weight: number;
+  gendered?: string;
+  shopifyManCollectionId?: string;
+  shopifyCollectionId?: string;
+  shopifyWomanCollectionId?: string;
+  shopifyChildCollectionId?: string;
+  shopifySportCollectionId?: string;
+  sportName?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  order?: number;
 };
 
-export type PIMDynamicAttribute = {
-  attributes: {
-    pim_product_attributes: {
-      data: PIMProductAttribute[];
-    };
-  };
-};
-
-export type PIMCategory = {
+export type ProductAttribute = {
   id: number;
-  attributes: {
-    name: string;
-    label: string;
-    createdAt: Date;
-    updatedAt: Date;
-    publishedAt: Date;
-    order: number | null;
-    productTypes: {
-      data: {
-        id: number;
-        attributes: {
-          name: string;
-        };
-      }[];
-    };
-  };
+  tagPrefix: string;
 };
 
-export type PimBrand = {
-  id: number;
-  attributes: {
-    name: string;
-  };
+export type ProductCategory = {
+  name: string;
+  label: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  order: number | null;
+  productTypes: PIMEntityList<ProductType>;
 };
 
-export type PimProductModel = {
+export type ProductModel = {
   id: string;
   name: string;
   manufacturer_suggested_retail_price?: number;
@@ -98,6 +78,17 @@ export type PimProductModel = {
     name: string;
   };
 };
+
+export type PIMProductType = PIMEntity<ProductType>;
+export type PIMProductAttribute = PIMEntity<ProductAttribute>;
+export type PIMDynamicAttribute = PIMEntity<{
+  pim_product_attributes: PIMEntityList<ProductAttribute>;
+}>;
+export type PIMCategory = PIMEntity<ProductCategory>;
+export type PIMBrand = PIMEntity<{
+  name: string;
+}>;
+export type PIMProductModel = PIMEntity<ProductModel>;
 
 export const getValidTags = (tags: string[]): string[] => {
   const formattedTags = tags.reduce((acc: string[], tag) => {

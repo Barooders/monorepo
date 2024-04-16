@@ -2,8 +2,9 @@ import envConfig from '@config/env/env.config';
 import {
   PIMCategory,
   PIMDynamicAttribute,
+  PIMProductModel,
   PIMProductType,
-  PimBrand,
+  PIMBrand,
 } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { createHttpClient } from '../http/clients';
@@ -26,12 +27,26 @@ export const getPimProductTypesFromName = async (
   return data;
 };
 
+export const getPimProductModelsFromName = async (
+  productModel: string,
+): Promise<PIMProductModel[]> => {
+  const { data } = await strapiClient<{
+    data: PIMProductModel[];
+  }>(
+    `/api/pim-product-models?filters[name][$eq]=${encodeURIComponent(
+      productModel,
+    )}&pagination[limit]=1`,
+  );
+
+  return data;
+};
+
 export const getPimBrands = async ({
   page,
 }: {
   page: number;
 }): Promise<{
-  data: PimBrand[];
+  data: PIMBrand[];
   pagination: {
     page: number;
     pageSize: number;
@@ -40,7 +55,7 @@ export const getPimBrands = async ({
   };
 }> => {
   const { data, meta } = await strapiClient<{
-    data: PimBrand[];
+    data: PIMBrand[];
     meta: {
       pagination: {
         pageCount: number;

@@ -591,12 +591,21 @@ export class ShopifyClient implements IStoreClient {
     productId: string,
     image: ImageToUpload,
   ): Promise<ProductImage> {
+    const imageSrc = image.attachment
+      ? { attachment: image.attachment.split(',')[1] }
+      : image.src
+        ? { src: image.src }
+        : null;
+    if (!imageSrc) {
+      throw new Error('Image should have attachment or src key');
+    }
+
     const productImage = await shopifyApiByToken.productImage.create(
       Number(productId),
       {
         position: image.position,
         filename: image.filename,
-        attachment: image.attachment.split(',')[1],
+        ...imageSrc,
       },
     );
 

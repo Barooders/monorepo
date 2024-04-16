@@ -1,13 +1,15 @@
 import {
+  PIMBrand,
   PIMCategory,
+  PIMProductModel,
   PIMProductType,
-  PimBrand,
-  PimProductModel,
+  ProductModel,
 } from '@libs/domain/types';
 import {
   createModel,
   getPimBrands,
   getPimCategoryFromId,
+  getPimProductModelsFromName,
   getPimProductTypesFromName,
   uploadImageToStrapi,
 } from '@libs/infrastructure/strapi/strapi.helper';
@@ -43,6 +45,32 @@ export class StrapiClient implements IPIMClient {
 
     if (!firstMatch) {
       throw new Error(`Product type ${productType} does not exist in PIM`);
+    }
+
+    await this.cacheManager.set(
+      cacheKey,
+      firstMatch,
+      PIM_PRODUCT_TYPE_CACHE_TTL_IN_MILLISECONDS,
+    );
+
+    return firstMatch;
+  }
+
+  async getPimProductModel(productModel: string): Promise<PIMProductModel> {
+    const cacheKey = `pim-product-model_${productModel}`;
+
+    const cachedPimProductModel =
+      await this.cacheManager.get<PIMProductModel>(cacheKey);
+
+    if (cachedPimProductModel) {
+      return cachedPimProductModel;
+    }
+
+    const results = await getPimProductModelsFromName(productModel);
+    const firstMatch = head(results);
+
+    if (!firstMatch) {
+      throw new Error(`Product model ${productModel} does not exist in PIM`);
     }
 
     await this.cacheManager.set(
@@ -93,9 +121,7 @@ export class StrapiClient implements IPIMClient {
     return firstMatch;
   }
 
-  async createProductModel(
-    model: CreateProductModel,
-  ): Promise<PimProductModel> {
+  async createProductModel(model: CreateProductModel): Promise<ProductModel> {
     const pimBrand = await this.getBrand(model.brand.name);
     const productType = await this.getPimProductType(model.productType);
 
@@ -151,16 +177,16 @@ export class StrapiClient implements IPIMClient {
     return { id: brand.item.id, name: brand.item.attributes.name };
   }
 
-  private async getBrands(): Promise<PimBrand[]> {
+  private async getBrands(): Promise<PIMBrand[]> {
     const CACHE_KEY = `pim-brands`;
-    const cachedBrands = await this.cacheManager.get<PimBrand[]>(CACHE_KEY);
+    const cachedBrands = await this.cacheManager.get<PIMBrand[]>(CACHE_KEY);
 
     if (cachedBrands) {
       return cachedBrands;
     }
 
     let page = 1;
-    let results: PimBrand[] = [];
+    let results: PIMBrand[] = [];
     let pageCount: number | null = null;
     do {
       const { data, pagination } = await getPimBrands({ page });
