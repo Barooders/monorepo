@@ -1,3 +1,4 @@
+import 'dotenv';
 import { get } from 'env-var';
 import localConfig from './local';
 import productionConfig from './production';

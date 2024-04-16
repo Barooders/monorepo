@@ -1,9 +1,4 @@
-const { config } = require('dotenv');
-try {
-  config({ path: '.env' });
-} catch (e) {}
-
-const envConfig = require('./dist/config/env/env.config').default;
+const envConfig = require(`${__dirname}/dist/config/env/env.config`).default;
 
 const plugins = [
   `medusa-fulfillment-manual`,
