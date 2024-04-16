@@ -1,4 +1,5 @@
 packages/store/src/config/env/production.ts filter=crypt diff=crypt merge=crypt
+packages/store/src/config/env/staging.ts filter=crypt diff=crypt merge=crypt
 packages/backend/src/config/env/local.secret.ts filter=crypt diff=crypt merge=crypt
 packages/backend/src/config/env/staging.secret.ts filter=crypt diff=crypt merge=crypt
 packages/backend/src/config/env/prod.secret.ts filter=crypt diff=crypt merge=crypt
