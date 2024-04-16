@@ -7,6 +7,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin', 'filenames-simple'],
   extends: [
+    '../../.eslintrc.common.js',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:import/typescript',
@@ -49,19 +50,6 @@ module.exports = {
         message:
           "Please don't use JSON. Prefer usage of jsonStringify or jsonParse",
         selector: 'CallExpression > MemberExpression > Identifier[name="JSON"]',
-      },
-    ],
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'lodash',
-            importNames: ['merge'],
-            message:
-              'Lodash merge mutates the first object, please use our merge override from shared-types instead.',
-          },
-        ],
       },
     ],
     'import/no-restricted-paths': [
