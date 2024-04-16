@@ -1,6 +1,6 @@
 export enum Environments {
   PRODUCTION = 'production',
-  // STAGING = 'staging',
+  STAGING = 'staging',
   LOCAL = 'local',
 }
 
@@ -18,7 +18,7 @@ export type EnvironmentsType = {
   };
   database: {
     url: string;
-		ssl: boolean;
+    ssl: boolean;
   };
   redis: {
     url: string;

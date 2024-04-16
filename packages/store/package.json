@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-		"decrypt-secrets": "./decrypt-secrets.sh",
+    "decrypt-secrets": "./decrypt-secrets.sh",
     "clean": "rimraf dist && yarn run decrypt-secrets",
     "build": "yarn clean && yarn build:server && yarn build:admin",
     "build:server": "yarn clean && yarn tsc -p tsconfig.server.json",
@@ -11,6 +11,7 @@
     "watch": "yarn tsc --watch",
     "test": "jest",
     "seed": "yarn medusa seed -f ./data/seed.json",
+    "migrate": "yarn medusa migrations run",
     "start": "yarn medusa start",
     "start:custom": "node --preserve-symlinks --trace-warnings index.js",
     "dev": "yarn build:server && yarn medusa develop"
