@@ -7,6 +7,7 @@ const useFlag = (key: string): boolean => {
 
   useEffect(() => {
     setFlag(unleashFlag);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return flag;

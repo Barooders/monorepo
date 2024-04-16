@@ -1,6 +1,6 @@
 import { jsonStringify } from '@libs/helpers/json';
 import { Logger } from '@nestjs/common';
-import { merge } from 'lodash';
+import { merge } from 'shared-types';
 
 export class BackendFailureException extends Error {
   readonly path: string;

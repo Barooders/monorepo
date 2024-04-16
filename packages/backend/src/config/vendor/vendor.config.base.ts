@@ -1,7 +1,8 @@
 import { Condition } from '@libs/domain/prisma.main.client';
 import { jsonParse } from '@libs/helpers/json';
 import { JSDOM } from 'jsdom';
-import { cloneDeep, merge } from 'lodash';
+import { cloneDeep } from 'lodash';
+import { merge } from 'shared-types';
 import {
   NEW_PRODUCT_DEFAULT_DESCRIPTION,
   USED_PRODUCT_DEFAULT_DESCRIPTION,

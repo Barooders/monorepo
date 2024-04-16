@@ -1,6 +1,6 @@
 import { envName } from '@config/env/env-name.config';
 import { RecursivePartial } from '@libs/types/recursive-partial.type';
-import { merge } from 'lodash';
+import { merge } from 'shared-types';
 import { Environments } from '../env/types';
 import { AllVendorsConfigInterface } from './types';
 import { baseVendorConfig } from './vendor.config.base';
