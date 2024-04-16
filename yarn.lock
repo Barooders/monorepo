@@ -5542,7 +5542,7 @@
     winston "^3.8.2"
     yargs "^15.3.1"
 
-"@medusajs/medusa-js@*":
+"@medusajs/medusa-js@*", "@medusajs/medusa-js@6.1.8":
   version "6.1.8"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-6.1.8.tgz#2c8c5aa30757a3a0f5e6aec1bdbe74d2080eaa4f"
   integrity sha512-2i480Uslh7Y2qJW5OSrzXKR2NKjmYRAcWbcuKGBawmpMkveTVesuP/VmYCYNuBB/V3HKq/KEa9Q868lc1F+FKQ==
@@ -5636,7 +5636,7 @@
     awilix "^8.0.0"
     graphql "^16.6.0"
 
-"@medusajs/types@^1.11.15":
+"@medusajs/types@1.11.15", "@medusajs/types@^1.11.15":
   version "1.11.15"
   resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.11.15.tgz#d02450737a7f0c2a3bbdef078d81252055eb76c9"
   integrity sha512-1zoM+MSbSxuDoyJ3xUVlwh5DgB9DgZH4yu/WUrymbZwVNka7/uPIraRG65sVO6fJu+/y8NpEe231Y7ZEyFz19A==
@@ -16962,7 +16962,7 @@ dotenv@16.3.1:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
   integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
 
-dotenv@16.4.5, dotenv@^16.0.0, dotenv@^16.0.3, dotenv@^16.4.5:
+dotenv@^16.0.0, dotenv@^16.0.3, dotenv@^16.4.5:
   version "16.4.5"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
   integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
