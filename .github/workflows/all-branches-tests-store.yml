@@ -1,0 +1,29 @@
+name: Static analysis & Tests for store
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'staging'
+    paths:
+      - packages/store/**
+
+env:
+  TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+
+jobs:
+  static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Build TS server app
+        run: yarn workspace store build:server
+      - name: Build TS admin app
+        run: yarn workspace store build:admin
