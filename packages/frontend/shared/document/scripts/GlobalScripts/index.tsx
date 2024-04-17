@@ -6,10 +6,6 @@ const GlobalScripts = () => {
     <>
       <Script
         strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${config.gtag.id}`}
-      />
-      <Script
-        strategy="afterInteractive"
         id="setup-google-script"
         dangerouslySetInnerHTML={{
           __html: `
