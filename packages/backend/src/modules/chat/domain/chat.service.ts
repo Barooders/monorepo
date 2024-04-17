@@ -227,13 +227,13 @@ export class ChatService implements IChatService {
     }
 
     await this.chatRepository.createParticipant(
-      String(customer?.shopifyId),
+      String(customer?.chatId),
       displayName ?? customer.sellerName,
       customer?.user.email,
       role,
     );
 
-    return { participantId: String(customer?.shopifyId) };
+    return { participantId: String(customer?.chatId) };
   }
 
   private async isNewConversation(conversationId: string) {
@@ -244,11 +244,11 @@ export class ChatService implements IChatService {
     return !newConversationEvent;
   }
 
-  private async getSimplifiedCustomerEmail(customerId: string) {
+  private async getSimplifiedCustomerEmail(customerParticipantId: string) {
     const {
       user: { email: senderEmail },
     } = await this.prisma.customer.findFirstOrThrow({
-      where: { shopifyId: Number(customerId) },
+      where: { chatId: customerParticipantId },
       select: { user: { select: { email: true } } },
     });
     const simplifiedEmail = senderEmail
@@ -259,7 +259,7 @@ export class ChatService implements IChatService {
     return simplifiedEmail;
   }
 
-  private async countCustomerNewConversation(customerId: string) {
+  private async countCustomerNewConversation(customerParticipantId: string) {
     return await this.prisma.event.count({
       where: {
         AND: [
@@ -267,7 +267,9 @@ export class ChatService implements IChatService {
           {
             payload: {
               path: ['simplifiedEmail'],
-              equals: await this.getSimplifiedCustomerEmail(customerId),
+              equals: await this.getSimplifiedCustomerEmail(
+                customerParticipantId,
+              ),
             },
           },
           { createdAt: { gte: new Date(new Date(Date.now() - ONE_DAY)) } },
