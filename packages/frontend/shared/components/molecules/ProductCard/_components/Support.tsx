@@ -1,3 +1,5 @@
+import { sendNewSalesCall } from '@/analytics';
+import Link from '@/components/atoms/Link';
 import { getDictionary } from '@/i18n/translate';
 import { PiHeadset } from 'react-icons/pi';
 
@@ -15,7 +17,7 @@ const SupportPicture = () => (
   </span>
 );
 
-const Support = () => {
+const Support: React.FC<{ productPrice: number }> = ({ productPrice }) => {
   return (
     <div className="flex justify-start gap-2 rounded-lg border border-slate-300 p-3">
       <PiHeadset className="my-1" />
@@ -25,7 +27,15 @@ const Support = () => {
         </p>
         <div className="flex items-center gap-3 text-sm">
           <SupportPicture />
-          {dict.components.productCard.support.content()}
+          <p>
+            <Link
+              href="tel:+33189713290"
+              onClick={() => sendNewSalesCall(productPrice)}
+            >
+              <strong>+33 1 89 71 32 90</strong>
+            </Link>
+            {dict.components.productCard.support.content()}
+          </p>
         </div>
       </div>
     </div>

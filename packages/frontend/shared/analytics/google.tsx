@@ -6,14 +6,22 @@ export const gtag = (...args: any[]) => {
   window.gtag(...args);
 };
 
-export const sendNewConversationConversion = () => {
+const sendConversion = (value: number, id: string) => {
   gtag('event', 'conversion', {
-    send_to: `${config.gtag.id}/${config.gtag.conversionLabels.newConversation}`,
+    send_to: `${config.gtag.id}/${id}`,
+    value: value,
+    currency: 'EUR',
   });
 };
 
-export const sendNewPriceOfferConversion = () => {
-  gtag('event', 'conversion', {
-    send_to: `${config.gtag.id}/${config.gtag.conversionLabels.newPriceOffer}`,
-  });
+export const sendNewConversationConversion = (productPrice: number) => {
+  sendConversion(productPrice, config.gtag.conversionLabels.newConversation);
+};
+
+export const sendNewPriceOfferConversion = (productPrice: number) => {
+  sendConversion(productPrice, config.gtag.conversionLabels.newPriceOffer);
+};
+
+export const sendNewSalesCallConversion = (productPrice: number) => {
+  sendConversion(productPrice, config.gtag.conversionLabels.newSalesCall);
 };

@@ -20,6 +20,7 @@ const productionEnv = {
       finishCheckout: 'blIdCI2PkvcCEMeMo5Mo',
       newConversation: 'zeOYCLjA2ZgZEMeMo5Mo',
       newPriceOffer: 'KJejCKrOjZwZEMeMo5Mo',
+      newSalesCall: 'hxlkCJTlv6cZEMeMo5Mo',
     },
   },
 };

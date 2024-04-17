@@ -145,14 +145,10 @@ const fr = {
       support: {
         catchphrase: 'Contactez nos experts basés en France ! 🇫🇷 ',
         content: () => (
-          <p>
-            <Link href="tel:+33189713290">
-              <strong>+33 1 89 71 32 90</strong>
-            </Link>
-            <br />
+          <>
             💬 Chat en bas de page <br />
             9h-18h30 et le samedi de 11h à 16 h
-          </p>
+          </>
         ),
       },
       guarantees: {

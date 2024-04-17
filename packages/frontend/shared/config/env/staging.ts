@@ -21,6 +21,7 @@ const developmentEnv = {
       finishCheckout: 'NuA-CPjg_bcYEJiV5PQp',
       newConversation: '',
       newPriceOffer: '',
+      newSalesCall: '',
     },
   },
 };
