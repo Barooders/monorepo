@@ -76,22 +76,6 @@ array_relationships:
         remote_table:
           name: OrderLines
           schema: public
-computed_fields:
-  - name: shopifySearch
-    definition:
-      function:
-        name: shopify_search
-        schema: public
-remote_relationships:
-  - definition:
-      hasura_fields:
-        - shopifySearch
-      remote_field:
-        products:
-          arguments:
-            query: $shopifySearch
-      remote_schema: Barooders Shopify
-    name: products
 select_permissions:
   - role: me_as_customer
     permission:
@@ -109,8 +93,6 @@ select_permissions:
         - shopifyId
         - updatedAt
         - usedShipping
-      computed_fields:
-        - shopifySearch
       filter:
         authUserId:
           _eq: X-Hasura-User-Id
@@ -130,8 +112,6 @@ select_permissions:
         - shopifyId
         - updatedAt
         - usedShipping
-      computed_fields:
-        - shopifySearch
       filter:
         authUserId:
           _eq: X-Hasura-User-Id
@@ -159,17 +139,12 @@ select_permissions:
         - coverPictureShopifyCdnUrl
         - createdAt
         - description
-        - firstName
         - isPro
-        - lastName
         - profilePictureShopifyCdnUrl
         - sellerName
         - shipmentTimeframe
         - shopifyId
         - updatedAt
-        - usedShipping
-      computed_fields:
-        - shopifySearch
       filter: {}
 update_permissions:
   - role: registered_user
