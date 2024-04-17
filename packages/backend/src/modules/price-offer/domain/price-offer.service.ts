@@ -516,15 +516,11 @@ export class PriceOfferService implements IPriceOfferService {
     message: string,
   ): Promise<void> {
     const conversationId = await this.getAssociatedConversationId(priceOfferId);
-    const sender = await this.prisma.customer.findUniqueOrThrow({
+    const { chatId } = await this.prisma.customer.findUniqueOrThrow({
       where: { authUserId: userId.uuid },
     });
 
-    await this.chatService.writeMessage(
-      sender.shopifyId.toString(),
-      message,
-      conversationId,
-    );
+    await this.chatService.writeMessage(chatId, message, conversationId);
   }
 
   private async getAssociatedConversationId(priceOfferId: UUID) {

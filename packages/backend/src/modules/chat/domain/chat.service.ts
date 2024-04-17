@@ -36,7 +36,7 @@ export abstract class ChatRepository {
   ): Promise<string>;
 
   abstract writeMessage(
-    participantId: string,
+    senderChatId: string,
     message: string,
     conversationId: string,
   ): Promise<void>;
@@ -61,7 +61,7 @@ export class NewConversationLimitExceededException extends ExceptionBase {
 }
 
 type Participant = {
-  participantId: string;
+  chatId: string;
   internalId: string;
   shopifyId: number;
 };
@@ -92,8 +92,8 @@ export class ChatService implements IChatService {
   writeMessage = this.chatRepository.writeMessage;
 
   async writeSupportMessage(conversationId: string, message: string) {
-    const supportParticipantId = await this.getSupportParticipantId();
-    await this.writeMessage(supportParticipantId, message, conversationId);
+    const supportChatId = await this.getSupportChatId();
+    await this.writeMessage(supportChatId, message, conversationId);
   }
 
   async handleNewMessage(
@@ -120,7 +120,7 @@ export class ChatService implements IChatService {
     productShopifyId: number,
     customerParticipant: Participant,
   ) {
-    const customerParticipantId = customerParticipant.participantId;
+    const customerParticipantId = customerParticipant.chatId;
     const { id, shopifyId, vendorId, exposedProduct } =
       await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
         where: { shopifyId: productShopifyId },
@@ -145,7 +145,7 @@ export class ChatService implements IChatService {
       },
     });
 
-    const { participantId: sellerParticipantId } = await this.createParticipant(
+    const { chatId: sellerParticipantId } = await this.createParticipant(
       new UUID({ uuid: vendorId }),
       UserRole.SELLER,
       sellerName ?? '',
@@ -160,7 +160,7 @@ export class ChatService implements IChatService {
       [
         customerParticipantId,
         sellerParticipantId,
-        await this.getSupportParticipantId(),
+        await this.getSupportChatId(),
       ],
       {
         customerId: customerParticipantId,
@@ -210,15 +210,14 @@ export class ChatService implements IChatService {
     return { conversationId, isNewConversation };
   }
 
-  private async getSupportParticipantId(): Promise<string> {
-    const { participantId: supportParticipantId } =
-      await this.createParticipant(
-        BAROODERS_SUPPORT_ACCOUNT_ID,
-        UserRole.ADMIN,
-        BAROODERS_SUPPORT_DISPLAY_NAME,
-      );
+  private async getSupportChatId(): Promise<string> {
+    const { chatId } = await this.createParticipant(
+      BAROODERS_SUPPORT_ACCOUNT_ID,
+      UserRole.ADMIN,
+      BAROODERS_SUPPORT_DISPLAY_NAME,
+    );
 
-    return supportParticipantId;
+    return chatId;
   }
 
   private createConversationId(customerId: string, productShopifyId: number) {
@@ -255,17 +254,17 @@ export class ChatService implements IChatService {
       throw new IncompleteUserException(authUserId.uuid, missingFields);
     }
 
-    const participantId = String(customer?.shopifyId);
+    const chatId = String(customer?.chatId);
 
     await this.chatRepository.createParticipant(
-      participantId,
+      chatId,
       displayName ?? customer.sellerName,
       customer?.user.email,
       role,
     );
 
     return {
-      participantId,
+      chatId,
       internalId: authUserId.uuid,
       shopifyId: Number(customer.shopifyId),
     };
@@ -279,11 +278,11 @@ export class ChatService implements IChatService {
     return !newConversationEvent;
   }
 
-  private async getSimplifiedCustomerEmail(customerId: string) {
+  private async getSimplifiedCustomerEmail(chatId: string) {
     const {
       user: { email: senderEmail },
     } = await this.prisma.customer.findFirstOrThrow({
-      where: { shopifyId: Number(customerId) },
+      where: { chatId },
       select: { user: { select: { email: true } } },
     });
     const simplifiedEmail = senderEmail
@@ -294,7 +293,7 @@ export class ChatService implements IChatService {
     return simplifiedEmail;
   }
 
-  private async countCustomerNewConversation(customerId: string) {
+  private async countCustomerNewConversation(chatId: string) {
     return await this.prisma.event.count({
       where: {
         AND: [
@@ -302,7 +301,7 @@ export class ChatService implements IChatService {
           {
             payload: {
               path: ['simplifiedEmail'],
-              equals: await this.getSimplifiedCustomerEmail(customerId),
+              equals: await this.getSimplifiedCustomerEmail(chatId),
             },
           },
           { createdAt: { gte: new Date(new Date(Date.now() - ONE_DAY)) } },
