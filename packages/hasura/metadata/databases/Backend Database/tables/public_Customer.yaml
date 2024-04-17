@@ -81,6 +81,7 @@ select_permissions:
     permission:
       columns:
         - authUserId
+        - chatId
         - coverPictureShopifyCdnUrl
         - createdAt
         - description
