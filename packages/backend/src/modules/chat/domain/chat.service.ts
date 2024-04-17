@@ -164,9 +164,11 @@ export class ChatService implements IChatService {
       ],
       {
         customerId: customerParticipantId,
+        customerChatId: customerParticipantId,
         customerInternalId: customerParticipant.internalId,
         customerShopifyId: customerParticipant.shopifyId,
         vendorId: sellerParticipantId,
+        vendorChatId: sellerParticipantId,
         vendorInternalId: vendorInternalId,
         vendorShopifyId: Number(vendorShopifyId),
         productId: productShopifyId.toString(),
