@@ -156,7 +156,7 @@ const fr = {
           <>Jusqu&apos;à {amount}€ de prime à l&apos;achat</>
         ),
         verifiedOffers: () => <>Annonces 100% vérifiées</>,
-        freeRefund: () => <>Retours gratuits sous 30 jours</>,
+        freeRefund: () => <>Retours gratuits sous 14 jours</>,
         clientService: () => <>Conseils d&apos;expert vélo 7j/7</>,
         sellYourBike: () => <>Revendez votre vélo avec Barooders</>,
       },
