@@ -85,23 +85,6 @@ export class ChatService implements IChatService {
     return await this.getOrCreateConversation(productId, customerParticipantId);
   }
 
-  async getOrCreateConversationWhenUserNotCreated(
-    customerShopifyId: string,
-    email: string,
-    displayName: string,
-    productId: string,
-  ): Promise<{ conversationId: string }> {
-    const { participantId: customerParticipantId } =
-      await this.createParticipantWhenUserNotCreated(
-        customerShopifyId,
-        email,
-        displayName,
-        UserRole.BUYER,
-      );
-
-    return await this.getOrCreateConversation(productId, customerParticipantId);
-  }
-
   writeMessage = this.chatRepository.writeMessage;
 
   async writeSupportMessage(conversationId: string, message: string) {
@@ -251,22 +234,6 @@ export class ChatService implements IChatService {
     );
 
     return { participantId: String(customer?.shopifyId) };
-  }
-
-  private async createParticipantWhenUserNotCreated(
-    userShopifyId: string,
-    email: string,
-    displayName: string,
-    role: UserRole,
-  ): Promise<{ participantId: string }> {
-    await this.chatRepository.createParticipant(
-      userShopifyId,
-      displayName,
-      email,
-      role,
-    );
-
-    return { participantId: userShopifyId };
   }
 
   private async isNewConversation(conversationId: string) {
