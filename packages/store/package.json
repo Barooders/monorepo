@@ -5,8 +5,8 @@
   "scripts": {
     "decrypt-secrets": "../../decrypt-secrets.sh",
     "clean": "rimraf dist && yarn run decrypt-secrets",
-    "build": "yarn build:server && yarn build:admin",
-    "build:server": "yarn clean && yarn tsc -p tsconfig.server.json",
+    "build": "yarn clean && yarn build:server && yarn build:admin",
+    "build:server": "yarn tsc -p tsconfig.server.json",
     "build:admin": "medusa-admin build",
     "watch": "yarn tsc --watch",
     "lint": "eslint \"**/*.ts\" --fix --max-warnings=0",
