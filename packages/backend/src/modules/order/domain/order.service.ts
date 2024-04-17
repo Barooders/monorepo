@@ -132,7 +132,7 @@ export class OrderService {
       const chatConversationId =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: customerId }),
-          String(product.shopifyId),
+          Number(product.shopifyId),
         );
 
       return `/pages/chat?conversationId=${chatConversationId}`;

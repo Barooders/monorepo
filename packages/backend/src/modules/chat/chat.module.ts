@@ -5,14 +5,9 @@ import { PrismaModule } from '@libs/domain/prisma.module';
 import { PostgreSQLSessionStorage } from '@libs/infrastructure/shopify/session-storage/postgresql-session-storage/postgresql-session-storage.lib';
 import { SessionMapper } from '@libs/infrastructure/shopify/session-storage/postgresql-session-storage/session.mapper';
 import { ChatController } from './application/chat.web';
-import {
-  ChatRepository,
-  ChatService,
-  StoreRepository,
-} from './domain/chat.service';
-import { TalkJSChatRepository } from './infrastructure/chat/talk-js.repository';
-import { ShopifyRepository } from './infrastructure/store/shopify.repository';
+import { ChatRepository, ChatService } from './domain/chat.service';
 import { IChatService } from './domain/ports/chat-service';
+import { TalkJSChatRepository } from './infrastructure/chat/talk-js.repository';
 
 @Module({
   imports: [PrismaModule],
@@ -27,7 +22,6 @@ import { IChatService } from './domain/ports/chat-service';
       useClass: ChatService,
     },
     { provide: ChatRepository, useClass: TalkJSChatRepository },
-    { provide: StoreRepository, useClass: ShopifyRepository },
   ],
   exports: [IChatService],
 })

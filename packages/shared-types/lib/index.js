@@ -30,14 +30,8 @@ var __exportStar =
         __createBinding(exports, m, p);
   };
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.merge = void 0;
-/* eslint-disable no-restricted-imports */
-const lodash_1 = require('lodash');
 __exportStar(require('./auth'), exports);
 __exportStar(require('./search'), exports);
-//export * from './utils';
-const merge = (object, source) => {
-  return (0, lodash_1.merge)({}, object, source);
-};
-exports.merge = merge;
+__exportStar(require('./utils'), exports);
+__exportStar(require('./chat'), exports);
 //# sourceMappingURL=index.js.map
