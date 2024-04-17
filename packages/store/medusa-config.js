@@ -1,14 +1,13 @@
+const { config } = require('dotenv');
+try {
+  config({ path: '.env' });
+} catch (e) {}
+
 const envConfig = require(`${__dirname}/dist/config/env/env.config`).default;
 
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
-  {
-    resolve: `@medusajs/file-local`,
-    options: {
-      upload_dir: 'uploads',
-    },
-  },
   {
     resolve: '@medusajs/admin',
     /** @type {import('@medusajs/admin').PluginOptions} */

@@ -1,8 +1,8 @@
-import productionConfig from './production';
+import stagingConfig from './staging';
 import { EnvironmentsType } from './types';
 
 const localConfig: EnvironmentsType = {
-  s3: productionConfig.s3,
+  s3: stagingConfig.s3,
   authentication: {
     jwtSecret: 'something',
     cookieSecret: 'something',

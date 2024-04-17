@@ -1,0 +1,30 @@
+meta {
+  name: Batch CSV Import Products
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{medusaUrl}}/admin/batch-jobs
+  body: json
+  auth: none
+}
+
+headers {
+  x-medusa-access-token: {{medusaAdminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "product-import",
+    "context": {
+      "fileKey": "{{medusaFileKey}}"
+    },
+    "dry_run": false
+  }
+}
+
+script:post-response {
+  bru.setEnvVar("medusaBatchJobId",res.body.batch_job.id)
+}
