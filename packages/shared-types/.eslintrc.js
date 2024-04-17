@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    '../../.eslintrc.common.js',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
   plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',

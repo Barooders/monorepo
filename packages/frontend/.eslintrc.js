@@ -1,5 +1,6 @@
 module.exports = {
   extends: [
+    '../../.eslintrc.common.js',
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -13,19 +14,6 @@ module.exports = {
       'warn',
       {
         additionalHooks: '(useWrappedAsyncFn|useAsync)',
-      },
-    ],
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'lodash',
-            importNames: ['merge'],
-            message:
-              'Lodash merge mutates the first object, please use our merge override from shared-types instead.',
-          },
-        ],
       },
     ],
   },

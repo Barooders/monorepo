@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "decrypt-secrets": "./decrypt-secrets.sh",
+    "decrypt-secrets": "../../decrypt-secrets.sh",
     "prebuild": "rimraf dist && yarn run decrypt-secrets && yarn prisma:generate",
     "console:dev": "ts-node -r tsconfig-paths/register src/console.ts",
     "cron:dev": "ts-node -r tsconfig-paths/register src/cron.ts",

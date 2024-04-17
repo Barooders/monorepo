@@ -11,4 +11,4 @@ echo "Diff files:"
 git diff --name-only | grep ''
 echo " "
 echo "Decrypting secrets..."
-./bin/transcrypt -y -c aes-256-cbc -p $TRANSCRYPT_PASSWORD || true
+../../bin/transcrypt -y -c aes-256-cbc -p $TRANSCRYPT_PASSWORD || true
