@@ -15,7 +15,7 @@ const vendorsToSync = Object.values(vendorConfig).flatMap(
   ({ synchros, slug }) => {
     return synchros.map(({ cron, commandName }) => ({
       cron,
-      command: `yarn console proVendor ${commandName} ${slug}`,
+      command: `yarn workspace backend console proVendor ${commandName} ${slug}`,
     }));
   },
 );
