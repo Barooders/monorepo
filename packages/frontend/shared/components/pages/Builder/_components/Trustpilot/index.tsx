@@ -26,8 +26,7 @@ const Trustpilot = () => {
           href="https://fr.trustpilot.com/review/barooders.com"
           target="_blank"
           rel="noopener noreferrer"
-        >
-        </a>
+        ></a>
       </div>
     </>
   );

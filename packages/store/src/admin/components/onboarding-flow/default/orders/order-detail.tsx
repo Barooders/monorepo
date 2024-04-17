@@ -1,15 +1,18 @@
-import React from "react";
+import React from 'react';
 import {
   ComputerDesktopSolid,
   CurrencyDollarSolid,
-  NextJs
-} from "@medusajs/icons";
-import { IconBadge, Heading, Text } from "@medusajs/ui";
+  NextJs,
+} from '@medusajs/icons';
+import { IconBadge, Heading, Text } from '@medusajs/ui';
 
 const OrderDetailDefault = () => {
   return (
     <>
-      <Text size="small" className="mb-6">
+      <Text
+        size="small"
+        className="mb-6"
+      >
         You finished the setup guide 🎉 You now have your first order. Feel free
         to play around with the order management functionalities, such as
         capturing payment, creating fulfillments, and more.
@@ -47,8 +50,8 @@ const OrderDetailDefault = () => {
                 Add Commerce Features
               </Text>
               <Text size="small">
-                Learn about all available commerce features and how to
-                add them in your storefront
+                Learn about all available commerce features and how to add them
+                in your storefront
               </Text>
             </div>
           </div>
@@ -75,8 +78,8 @@ const OrderDetailDefault = () => {
                 Build Custom Use Cases
               </Text>
               <Text size="small">
-                Build a marketplace, subscription-based purchases,
-                or your custom use-cases.
+                Build a marketplace, subscription-based purchases, or your
+                custom use-cases.
               </Text>
             </div>
           </div>
@@ -103,15 +106,14 @@ const OrderDetailDefault = () => {
                 Install Next.js Quickstart
               </Text>
               <Text size="small">
-                Install and use the Next.js storefront with
-                your commerce store.
+                Install and use the Next.js storefront with your commerce store.
               </Text>
             </div>
           </div>
         </a>
       </div>
       <div>
-        You can find more useful guides in{" "}
+        You can find more useful guides in{' '}
         <a
           href="https://docs.medusajs.com/?ref=onboarding"
           target="_blank"
@@ -119,7 +121,7 @@ const OrderDetailDefault = () => {
         >
           our documentation
         </a>
-        . If you like Medusa, please{" "}
+        . If you like Medusa, please{' '}
         <a
           href="https://github.com/medusajs/medusa"
           target="_blank"

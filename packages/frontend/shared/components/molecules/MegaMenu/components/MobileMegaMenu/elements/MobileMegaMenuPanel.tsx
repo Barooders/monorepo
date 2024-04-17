@@ -135,8 +135,8 @@ const MobileMegaMenuPanel = ({
           isToggled
             ? 'translate-x-0'
             : appearFrom === 'left'
-            ? '-translate-x-full'
-            : `translate-x-full xs:-translate-x-full`,
+              ? '-translate-x-full'
+              : `translate-x-full xs:-translate-x-full`,
         ])}
       >
         {isToggled && (

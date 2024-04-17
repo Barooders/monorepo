@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "format": "prettier \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\" \"packages/frontend/**/*.ts\" \"packages/store/**/*.ts\" --check",
-    "format:fix": "prettier --write \"packages/shared-types/**/*.ts\" \"packages/backend/**/*.ts\"  \"packages/frontend/**/*.ts\" \"packages/store/**/*.ts\"",
+    "format": "prettier \"{,**/}*.{json,ts,css,scss,yml,tsx}\" --check",
+    "format:fix": "prettier --write \"{,**/}*.{json,ts,css,scss,yml,tsx}\"",
     "install-for-render": "./install-for-render.sh",
     "prepare": "husky"
   },

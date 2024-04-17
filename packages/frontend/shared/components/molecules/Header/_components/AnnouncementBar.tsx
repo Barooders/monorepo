@@ -29,9 +29,9 @@ const AnnouncementBar = () => {
   const dict = getDictionary('fr');
 
   return (
-    <div className="bg-gray-150 text-secondary-900 relative hidden h-9 w-full px-2 lg:block lg:px-4">
+    <div className="relative hidden h-9 w-full bg-gray-150 px-2 text-secondary-900 lg:block lg:px-4">
       <Ellipse className="absolute left-0 top-0" />
-      <div className="max-w-page-content mx-auto flex h-full items-center justify-between">
+      <div className="mx-auto flex h-full max-w-page-content items-center justify-between">
         <div>
           <NoSSR>
             <TrustpilotWidget />

@@ -2,3 +2,6 @@
 **/__generated/
 node_modules/
 **/node_modules/
+**/.cache/
+**/target/
+**/.next/

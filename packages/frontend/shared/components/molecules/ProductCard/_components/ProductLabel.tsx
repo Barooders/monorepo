@@ -19,8 +19,8 @@ const ProductLabel: React.FC<PropsType> = ({ label, stickSide }) => {
         stickSide === 'left'
           ? 'rounded-l-none'
           : stickSide === 'right'
-          ? 'rounded-r-none'
-          : ''
+            ? 'rounded-r-none'
+            : ''
       } ${
         backgroundColorStyles[label.color] ?? backgroundColorStyles.white
       } px-1 py-1 text-xs font-semibold shadow md:py-1`}

@@ -8,15 +8,18 @@ const productionCronConfig: EnvCronConfig = {
     },
     {
       cron: '0 * * * *',
-      command: 'yarn workspace backend console order sendUnfulfilledOrdersEmails 2',
+      command:
+        'yarn workspace backend console order sendUnfulfilledOrdersEmails 2',
     },
     {
       cron: '30 * * * *',
-      command: 'yarn workspace backend console order sendUnfulfilledOrdersEmails 5',
+      command:
+        'yarn workspace backend console order sendUnfulfilledOrdersEmails 5',
     },
     {
       cron: '40 * * * *',
-      command: 'yarn workspace backend console order sendUnfulfilledOrdersEmails 8',
+      command:
+        'yarn workspace backend console order sendUnfulfilledOrdersEmails 8',
     },
     {
       cron: '0 * * * *',
@@ -32,7 +35,8 @@ const productionCronConfig: EnvCronConfig = {
     },
     {
       cron: '0 8 * * *',
-      command: 'yarn workspace backend console product sendEmailToVendorsWithOldProducts',
+      command:
+        'yarn workspace backend console product sendEmailToVendorsWithOldProducts',
     },
     {
       cron: '0 2 * * 1,4',

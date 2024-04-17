@@ -1,13 +1,12 @@
-import React from "react";
-import { 
-  useAdminProduct,
+import { Button, Text } from '@medusajs/ui';
+import {
   useAdminCreateDraftOrder,
-  useMedusa
-} from "medusa-react";
-import { StepContentProps } from "../../../../widgets/onboarding-flow/onboarding-flow";
-import { Button, Text } from "@medusajs/ui";
-import prepareRegions from "../../../../utils/prepare-region";
-import prepareShippingOptions from "../../../../utils/prepare-shipping-options";
+  useAdminProduct,
+  useMedusa,
+} from 'medusa-react';
+import prepareRegions from '../../../../utils/prepare-region';
+import prepareShippingOptions from '../../../../utils/prepare-shipping-options';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
   const { product } = useAdminProduct(data.product_id);
@@ -20,11 +19,11 @@ const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
     try {
       // check if there is a shipping option and a region
       // and if not, create demo ones
-      const regions = await prepareRegions(client)
-      const shipping_options = await prepareShippingOptions(client, regions[0])
+      const regions = await prepareRegions(client);
+      const shipping_options = await prepareShippingOptions(client, regions[0]);
 
       const { draft_order } = await createDraftOrder({
-        email: "customer@medusajs.com",
+        email: 'customer@medusajs.com',
         items: [
           variant
             ? {
@@ -49,6 +48,7 @@ const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
 
       onNext(order);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   };
@@ -56,10 +56,13 @@ const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
     <>
       <div className="mb-6">
         <Text className="mb-2">
-          The last step is to create a sample order using the product you just created. You can then view your order’s details, process its payment, fulfillment, inventory, and more.
+          The last step is to create a sample order using the product you just
+          created. You can then view your order’s details, process its payment,
+          fulfillment, inventory, and more.
         </Text>
         <Text>
-          By clicking the “Create a Sample Order” button, we’ll generate an order using the product you created and default configurations.
+          By clicking the “Create a Sample Order” button, we’ll generate an
+          order using the product you created and default configurations.
         </Text>
       </div>
       <div className="flex gap-2">

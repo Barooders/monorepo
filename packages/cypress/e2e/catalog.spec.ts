@@ -2,7 +2,7 @@
 enum TrackedElements {
   HITS_COUNT = 'hits-count',
 }
-const SEARCH_DOMAIN = '56bmiavw9gt0qkf3p.a1.typesense.net'
+const SEARCH_DOMAIN = '56bmiavw9gt0qkf3p.a1.typesense.net';
 
 // This should be in support/e2e.ts but a current bug prevents it from working there.
 // See: https://github.com/cypress-io/cypress/issues/22929#issuecomment-1839513931

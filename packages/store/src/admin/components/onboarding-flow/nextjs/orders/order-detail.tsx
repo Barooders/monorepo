@@ -1,14 +1,21 @@
-import React from "react";
-import { CurrencyDollarSolid, NextJs, ComputerDesktopSolid } from "@medusajs/icons";
-import { IconBadge, Heading, Text } from "@medusajs/ui";
+import React from 'react';
+import {
+  CurrencyDollarSolid,
+  NextJs,
+  ComputerDesktopSolid,
+} from '@medusajs/icons';
+import { IconBadge, Heading, Text } from '@medusajs/ui';
 
 const OrderDetailNextjs = () => {
   const queryParams = `?ref=onboarding&type=${
-    process.env.MEDUSA_ADMIN_ONBOARDING_TYPE || "nextjs"
+    process.env.MEDUSA_ADMIN_ONBOARDING_TYPE || 'nextjs'
   }`;
   return (
     <>
-      <Text size="small" className="mb-6">
+      <Text
+        size="small"
+        className="mb-6"
+      >
         You finished the setup guide 🎉. You now have a complete ecommerce store
         with a backend, admin, and a Next.js storefront. Feel free to play
         around with each of these components to experience all commerce features
@@ -77,8 +84,8 @@ const OrderDetailNextjs = () => {
                 Add Commerce Features
               </Text>
               <Text size="small">
-                Learn about all available commerce features and how to
-                add them in your storefront
+                Learn about all available commerce features and how to add them
+                in your storefront
               </Text>
             </div>
           </div>
@@ -105,15 +112,15 @@ const OrderDetailNextjs = () => {
                 Build Custom Use Cases
               </Text>
               <Text size="small">
-                Build a marketplace, subscription-based purchases,
-                or your custom use-cases.
+                Build a marketplace, subscription-based purchases, or your
+                custom use-cases.
               </Text>
             </div>
           </div>
         </a>
       </div>
       <div>
-        You can find more useful guides in{" "}
+        You can find more useful guides in{' '}
         <a
           href="https://docs.medusajs.com/?ref=onboarding"
           target="_blank"
@@ -121,7 +128,7 @@ const OrderDetailNextjs = () => {
         >
           our documentation
         </a>
-        . If you like Medusa, please{" "}
+        . If you like Medusa, please{' '}
         <a
           href="https://github.com/medusajs/medusa"
           target="_blank"

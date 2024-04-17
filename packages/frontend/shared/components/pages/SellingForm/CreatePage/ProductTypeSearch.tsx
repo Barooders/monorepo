@@ -59,15 +59,15 @@ const ProductTypeSearch: React.FC<PropsType> = ({ onSelect }) => {
         ),
       )
     : searchTerm
-    ? index
-        .search(searchTerm)
-        .map(({ item }) => item)
-        .slice(0, 10)
-    : sortTaxonomies(
-        Object.values(sellFormConfig.taxonomy).filter(
-          ({ rootItem }) => rootItem,
-        ),
-      );
+      ? index
+          .search(searchTerm)
+          .map(({ item }) => item)
+          .slice(0, 10)
+      : sortTaxonomies(
+          Object.values(sellFormConfig.taxonomy).filter(
+            ({ rootItem }) => rootItem,
+          ),
+        );
 
   return (
     <SellingFormPageContainer

@@ -44,8 +44,8 @@ const InformationStep: React.FC = () => {
               informationsSelected?.[item.tagPrefix] === 'oui'
                 ? true
                 : informationsSelected?.[item.tagPrefix] === 'non'
-                ? false
-                : null
+                  ? false
+                  : null
             }
             onChange={(value) =>
               addProductTagsInfo(item.tagPrefix, value ? 'oui' : 'non')

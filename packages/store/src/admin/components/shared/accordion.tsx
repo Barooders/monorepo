@@ -1,8 +1,8 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import React from "react";
-import { CheckCircleSolid, CircleMiniSolid } from "@medusajs/icons";
-import { Heading, Text, clx } from "@medusajs/ui";
-import ActiveCircleDottedLine from "./icons/active-circle-dotted-line";
+import { CheckCircleSolid, CircleMiniSolid } from '@medusajs/icons';
+import { Heading, Text, clx } from '@medusajs/ui';
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import React from 'react';
+import ActiveCircleDottedLine from './icons/active-circle-dotted-line';
 
 type AccordionItemProps = AccordionPrimitive.AccordionItemProps & {
   title: string;
@@ -11,7 +11,7 @@ type AccordionItemProps = AccordionPrimitive.AccordionItemProps & {
   required?: boolean;
   tooltip?: string;
   forceMountContent?: true;
-  headingSize?: "small" | "medium" | "large";
+  headingSize?: 'small' | 'medium' | 'large';
   customTrigger?: React.ReactNode;
   complete?: boolean;
   active?: boolean;
@@ -35,15 +35,19 @@ const Item: React.FC<AccordionItemProps> = ({
   title,
   subtitle,
   description,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   required,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   tooltip,
   children,
   className,
   complete,
-  headingSize = "large",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  headingSize = 'large',
   customTrigger = undefined,
   forceMountContent = undefined,
   active,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   triggerable,
   ...props
 }) => {
@@ -51,9 +55,9 @@ const Item: React.FC<AccordionItemProps> = ({
     <AccordionPrimitive.Item
       {...props}
       className={clx(
-        "border-grey-20 group border-t last:mb-0",
-        "py-1 px-8",
-        className
+        'border-grey-20 group border-t last:mb-0',
+        'py-1 px-8',
+        className,
       )}
     >
       <AccordionPrimitive.Header className="px-1">
@@ -77,7 +81,10 @@ const Item: React.FC<AccordionItemProps> = ({
                   </>
                 )}
               </div>
-              <Heading level="h3" className={clx("text-ui-fg-base")}>
+              <Heading
+                level="h3"
+                className={clx('text-ui-fg-base')}
+              >
                 {title}
               </Heading>
             </div>
@@ -86,7 +93,11 @@ const Item: React.FC<AccordionItemProps> = ({
             </AccordionPrimitive.Trigger>
           </div>
           {subtitle && (
-            <Text as="span" size="small" className="mt-1">
+            <Text
+              as="span"
+              size="small"
+              className="mt-1"
+            >
               {subtitle}
             </Text>
           )}
@@ -95,7 +106,7 @@ const Item: React.FC<AccordionItemProps> = ({
       <AccordionPrimitive.Content
         forceMount={forceMountContent}
         className={clx(
-          "radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open radix-state-closed:pointer-events-none px-1"
+          'radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open radix-state-closed:pointer-events-none px-1',
         )}
       >
         <div className="inter-base-regular group-radix-state-closed:animate-accordion-close">

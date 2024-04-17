@@ -1,42 +1,43 @@
-import React, { useMemo } from "react";
-import { 
+import React, { useMemo } from 'react';
+import {
   useAdminCreateProduct,
   useAdminCreateCollection,
-  useMedusa
-} from "medusa-react";
-import { StepContentProps } from "../../../../widgets/onboarding-flow/onboarding-flow";
-import { Button, Text } from "@medusajs/ui";
-import getSampleProducts from "../../../../utils/sample-products";
-import prepareRegions from "../../../../utils/prepare-region";
+  useMedusa,
+} from 'medusa-react';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
+import { Button, Text } from '@medusajs/ui';
+import getSampleProducts from '../../../../utils/sample-products';
+import prepareRegions from '../../../../utils/prepare-region';
 
 const ProductsListDefault = ({ onNext, isComplete }: StepContentProps) => {
   const { mutateAsync: createCollection, isLoading: collectionLoading } =
     useAdminCreateCollection();
   const { mutateAsync: createProduct, isLoading: productLoading } =
     useAdminCreateProduct();
-  const { client } = useMedusa()
+  const { client } = useMedusa();
 
-  const isLoading = useMemo(() => 
-    collectionLoading || productLoading,
-    [collectionLoading, productLoading]
+  const isLoading = useMemo(
+    () => collectionLoading || productLoading,
+    [collectionLoading, productLoading],
   );
 
   const createSample = async () => {
     try {
       const { collection } = await createCollection({
-        title: "Merch",
-        handle: "merch",
+        title: 'Merch',
+        handle: 'merch',
       });
 
-      const regions = await prepareRegions(client)
+      const regions = await prepareRegions(client);
 
       const sampleProducts = getSampleProducts({
         regions,
-        collection_id: collection.id
-      })
+        collection_id: collection.id,
+      });
       const { product } = await createProduct(sampleProducts[0]);
       onNext(product);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   };
