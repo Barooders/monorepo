@@ -15,13 +15,22 @@ const sendConversion = (value: number, id: string) => {
 };
 
 export const sendNewConversationConversion = (productPrice: number) => {
-  sendConversion(productPrice, config.gtag.conversionLabels.newConversation);
+  sendConversion(
+    productPrice * 0.1,
+    config.gtag.conversionLabels.newConversation,
+  );
 };
 
 export const sendNewPriceOfferConversion = (productPrice: number) => {
-  sendConversion(productPrice, config.gtag.conversionLabels.newPriceOffer);
+  sendConversion(
+    productPrice * 0.15,
+    config.gtag.conversionLabels.newPriceOffer,
+  );
 };
 
 export const sendNewSalesCallConversion = (productPrice: number) => {
-  sendConversion(productPrice, config.gtag.conversionLabels.newSalesCall);
+  sendConversion(
+    productPrice * 0.15,
+    config.gtag.conversionLabels.newSalesCall,
+  );
 };
