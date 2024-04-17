@@ -63,7 +63,7 @@ export class NewConversationLimitExceededException extends ExceptionBase {
 type Participant = {
   participantId: string;
   internalId: string;
-  shopifyId: string;
+  shopifyId: number;
 };
 
 @Injectable()
@@ -168,10 +168,10 @@ export class ChatService implements IChatService {
         customerShopifyId: customerParticipant.shopifyId,
         vendorId: sellerParticipantId,
         vendorInternalId: vendorInternalId,
-        vendorShopifyId: vendorShopifyId.toString(),
+        vendorShopifyId: Number(vendorShopifyId),
         productId: productShopifyId.toString(),
         productInternalId: id,
-        productShopifyId: shopifyId.toString(),
+        productShopifyId: Number(shopifyId),
         productType: exposedProduct.productType,
       },
     );
@@ -265,7 +265,7 @@ export class ChatService implements IChatService {
     return {
       participantId,
       internalId: authUserId.uuid,
-      shopifyId: String(customer.shopifyId),
+      shopifyId: Number(customer.shopifyId),
     };
   }
 
