@@ -32765,6 +32765,17 @@ export type GetProductPriceQuery = {
   }>;
 };
 
+export type FetchCustomerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchCustomerQuery = {
+  __typename?: 'query_root';
+  Customer: Array<{
+    __typename?: 'Customer';
+    chatId: string | null;
+    sellerName: string | null;
+  }>;
+};
+
 export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
   [key: string]: never;
 }>;
