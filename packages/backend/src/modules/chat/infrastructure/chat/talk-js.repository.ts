@@ -2,6 +2,7 @@ import { TalkJS } from 'talkjs-node';
 import { ChatRepository } from '@modules/chat/domain/chat.service';
 import { UserRole } from '@modules/chat/types';
 import envConfig from '@config/env/env.config';
+import { ChatConversationMetadata } from 'shared-types';
 
 const talkJs = new TalkJS({
   appId: envConfig.externalServices.talkjs.appId,
@@ -33,7 +34,7 @@ export class TalkJSChatRepository implements ChatRepository {
     id: string,
     subject: string,
     participantIds: string[],
-    metadata: Record<string, string>,
+    metadata: ChatConversationMetadata,
   ) {
     await talkJs.conversations.create(id, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -54,7 +55,7 @@ export class TalkJSChatRepository implements ChatRepository {
     conversationId: string,
   ): Promise<void> {
     await talkJs.conversations.messages.send({
-      conversationId: conversationId,
+      conversationId,
       messages: [
         {
           text: message,

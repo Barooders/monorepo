@@ -243,7 +243,7 @@ export class OrderMapper {
     }
 
     const chatConversationLink = await this.getChatConversationLink(
-      String(soldProduct.product_id),
+      soldProduct.product_id,
       String(orderData.customer.id),
     );
 
@@ -385,7 +385,7 @@ export class OrderMapper {
   }
 
   private async getChatConversationLink(
-    productId: string,
+    productShopifyId: number,
     customerShopifyId: string,
   ) {
     const frontendChatPage = `https://${envConfig.externalServices.shopify.shopDns}/pages/chat`;
@@ -393,7 +393,7 @@ export class OrderMapper {
     try {
       const conversationId =
         await this.handDeliveryService.updateChatConversationAndGetConversationId(
-          productId,
+          productShopifyId,
           customerShopifyId,
         );
 

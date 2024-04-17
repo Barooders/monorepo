@@ -5,9 +5,11 @@ import {
   EventName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
+import { ChatConversationMetadata } from 'shared-types';
 import { chatConfig } from '../chat.config';
 import { UserRole } from '../types';
 import { IChatService } from './ports/chat-service';
@@ -30,7 +32,7 @@ export abstract class ChatRepository {
     id: string,
     subject: string,
     participantIds: string[],
-    metadata: Record<string, string>,
+    metadata: ChatConversationMetadata,
   ): Promise<string>;
 
   abstract writeMessage(
@@ -38,15 +40,6 @@ export abstract class ChatRepository {
     message: string,
     conversationId: string,
   ): Promise<void>;
-}
-
-export abstract class StoreRepository {
-  abstract getProductInfo(productId: string): Promise<{
-    sellerName: string;
-    handle: string;
-    productType: string;
-    title: string;
-  }>;
 }
 
 export class IncompleteUserException extends ExceptionBase {
@@ -67,39 +60,33 @@ export class NewConversationLimitExceededException extends ExceptionBase {
   readonly code = 'CHAT.NEW_CONVERSATION_LIMIT_EXCEEDED';
 }
 
+type Participant = {
+  participantId: string;
+  internalId: string;
+  shopifyId: number;
+};
+
 @Injectable()
 export class ChatService implements IChatService {
   constructor(
     private chatRepository: ChatRepository,
-    private storeRepository: StoreRepository,
     private prisma: PrismaMainClient,
+    private storePrisma: PrismaStoreClient,
   ) {}
 
   async getOrCreateConversationFromAuthUserId(
     authUserId: UUID,
-    productId: string,
+    productShopifyId: number,
   ): Promise<{ conversationId: string; isNewConversation: boolean }> {
-    const { participantId: customerParticipantId } =
-      await this.createParticipant(authUserId, UserRole.BUYER);
+    const customerParticipant = await this.createParticipant(
+      authUserId,
+      UserRole.BUYER,
+    );
 
-    return await this.getOrCreateConversation(productId, customerParticipantId);
-  }
-
-  async getOrCreateConversationWhenUserNotCreated(
-    customerShopifyId: string,
-    email: string,
-    displayName: string,
-    productId: string,
-  ): Promise<{ conversationId: string }> {
-    const { participantId: customerParticipantId } =
-      await this.createParticipantWhenUserNotCreated(
-        customerShopifyId,
-        email,
-        displayName,
-        UserRole.BUYER,
-      );
-
-    return await this.getOrCreateConversation(productId, customerParticipantId);
+    return await this.getOrCreateConversation(
+      productShopifyId,
+      customerParticipant,
+    );
   }
 
   writeMessage = this.chatRepository.writeMessage;
@@ -130,29 +117,46 @@ export class ChatService implements IChatService {
   }
 
   private async getOrCreateConversation(
-    productId: string,
-    customerParticipantId: string,
+    productShopifyId: number,
+    customerParticipant: Participant,
   ) {
-    const { sellerName, handle, productType, title } =
-      await this.storeRepository.getProductInfo(productId);
-    const seller = await this.prisma.customer.findFirst({
-      where: { sellerName },
-      select: { authUserId: true },
+    const customerParticipantId = customerParticipant.participantId;
+    const { id, shopifyId, vendorId, exposedProduct } =
+      await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
+        where: { shopifyId: productShopifyId },
+        include: {
+          exposedProduct: true,
+        },
+      });
+
+    if (!exposedProduct) {
+      throw new Error(
+        `Product with shopifyId ${productShopifyId} not found in store`,
+      );
+    }
+
+    const {
+      sellerName,
+      shopifyId: vendorShopifyId,
+      authUserId: vendorInternalId,
+    } = await this.prisma.customer.findFirstOrThrow({
+      where: {
+        authUserId: vendorId,
+      },
     });
 
-    const sellerId = seller
-      ? new UUID({ uuid: seller.authUserId })
-      : BAROODERS_SUPPORT_ACCOUNT_ID;
-
     const { participantId: sellerParticipantId } = await this.createParticipant(
-      sellerId,
+      new UUID({ uuid: vendorId }),
       UserRole.SELLER,
-      sellerName,
+      sellerName ?? '',
     );
 
     const conversationId = await this.chatRepository.createConversation(
-      this.createConversationId(customerParticipantId, productId),
-      this.createConversationSubject(handle, title),
+      this.createConversationId(customerParticipantId, productShopifyId),
+      this.createConversationSubject(
+        exposedProduct.handle,
+        exposedProduct.title,
+      ),
       [
         customerParticipantId,
         sellerParticipantId,
@@ -160,9 +164,17 @@ export class ChatService implements IChatService {
       ],
       {
         customerId: customerParticipantId,
+        customerChatId: customerParticipantId,
+        customerInternalId: customerParticipant.internalId,
+        customerShopifyId: customerParticipant.shopifyId.toString(),
         vendorId: sellerParticipantId,
-        productId,
-        productType,
+        vendorChatId: sellerParticipantId,
+        vendorInternalId: vendorInternalId,
+        vendorShopifyId: vendorShopifyId.toString(),
+        productId: productShopifyId.toString(),
+        productInternalId: id,
+        productShopifyId: shopifyId.toString(),
+        productType: exposedProduct.productType,
       },
     );
 
@@ -187,9 +199,9 @@ export class ChatService implements IChatService {
             ),
           },
           metadata: {
-            productType,
+            productType: exposedProduct.productType,
             sellerName,
-            handle,
+            handle: exposedProduct.handle,
           },
         },
       });
@@ -209,9 +221,9 @@ export class ChatService implements IChatService {
     return supportParticipantId;
   }
 
-  private createConversationId(customerId: string, productId: string) {
+  private createConversationId(customerId: string, productShopifyId: number) {
     return createHmac('sha256', chatConfig.chatIdEncryptionKey)
-      .update(`${customerId}-${productId}`)
+      .update(`${customerId}-${productShopifyId}`)
       .digest('hex');
   }
 
@@ -227,7 +239,7 @@ export class ChatService implements IChatService {
     authUserId: UUID,
     role: UserRole,
     displayName?: string,
-  ): Promise<{ participantId: string }> {
+  ): Promise<Participant> {
     const customer = await this.prisma.customer.findUnique({
       where: { authUserId: authUserId.uuid },
       include: {
@@ -243,30 +255,20 @@ export class ChatService implements IChatService {
       throw new IncompleteUserException(authUserId.uuid, missingFields);
     }
 
+    const participantId = String(customer?.shopifyId);
+
     await this.chatRepository.createParticipant(
-      String(customer?.shopifyId),
+      participantId,
       displayName ?? customer.sellerName,
       customer?.user.email,
       role,
     );
 
-    return { participantId: String(customer?.shopifyId) };
-  }
-
-  private async createParticipantWhenUserNotCreated(
-    userShopifyId: string,
-    email: string,
-    displayName: string,
-    role: UserRole,
-  ): Promise<{ participantId: string }> {
-    await this.chatRepository.createParticipant(
-      userShopifyId,
-      displayName,
-      email,
-      role,
-    );
-
-    return { participantId: userShopifyId };
+    return {
+      participantId,
+      internalId: authUserId.uuid,
+      shopifyId: Number(customer.shopifyId),
+    };
   }
 
   private async isNewConversation(conversationId: string) {

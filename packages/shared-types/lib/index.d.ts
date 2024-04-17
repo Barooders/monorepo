@@ -1,7 +1,5 @@
 export * from './auth';
 export * from './search';
-export declare const merge: <TObject, TSource>(
-  object: TObject,
-  source: TSource,
-) => TObject & TSource;
+export * from './utils';
+export * from './chat';
 //# sourceMappingURL=index.d.ts.map
