@@ -15,21 +15,19 @@ import HandDeliveryPanel from './_components/HandDeliveryPanel';
 import PriceOfferPanel from './_components/PriceOfferPanel';
 
 export type AssociatedOrderLine = {
-  productShopifyId: string;
   shippingSolution: ShippingSolution;
   orderShopifyId: string;
 };
 
 export type AssociatedProductDetails = {
   handle: string;
-  id: string;
+  internalId: string;
   originalPrice: number;
-  vendorId: string;
+  vendorInternalId: string;
 };
 
 export type PropsType = {
   loading: boolean;
-  productId: string;
   conversation: ConversationType;
   associatedOrderLine: AssociatedOrderLine | null;
   negociationAgreement: NegociationAgreementType | null;
@@ -70,17 +68,17 @@ const panelConfig: {
         <div className="flex h-full w-full items-center justify-center gap-3 px-5">
           {negociationAgreement && (
             <PriceOfferButton
-              productId={productDetails.id ?? ''}
+              productInternalId={productDetails.internalId ?? ''}
               negociationMaxAmountPercent={
                 negociationAgreement.maxAmountPercent
               }
-              buyerShopifyId={conversation.customerId}
+              buyerInternalId={conversation.customerInternalId}
               price={productDetails.originalPrice}
               variant={undefined}
               size="small"
             />
           )}
-          {productDetails.vendorId !== user?.id && (
+          {productDetails.vendorInternalId !== user?.id && (
             <BuyButton handle={productDetails.handle} />
           )}
         </div>
@@ -112,11 +110,11 @@ const panelConfig: {
       proposedPriceOffer && (
         <PriceOfferPanel
           negociationAgreement={negociationAgreement}
-          productId={productDetails?.id}
+          productInternalId={productDetails?.internalId}
           proposedPriceOffer={proposedPriceOffer}
           productHandle={productDetails?.handle ?? ''}
-          isBuyer={productDetails?.vendorId !== user?.id}
-          buyerId={conversation.customerId}
+          isBuyer={productDetails?.vendorInternalId !== user?.id}
+          buyerInternalId={conversation.customerInternalId}
           originalPrice={productDetails?.originalPrice}
         />
       ),

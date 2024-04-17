@@ -1,4 +1,3 @@
-import { GetCustomerIdFromShopifyIdQuery } from '@/__generated/graphql';
 import { operations } from '@/__generated/rest-schema';
 import { sendPriceOffer } from '@/analytics';
 import Button from '@/components/atoms/Button';
@@ -6,11 +5,8 @@ import Loader from '@/components/atoms/Loader';
 import Input from '@/components/molecules/FormInput';
 import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
-import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
-import first from 'lodash/first';
 import { useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
@@ -23,22 +19,14 @@ type Inputs = {
 
 type PropsType = {
   variantId?: string;
-  productId: string;
+  productInternalId: string;
   originalPrice: number;
-  buyerShopifyId?: string;
+  buyerInternalId?: string;
   negociationMaxAmountPercent: number;
   closeModal?: () => void;
   shouldRedirectToChat?: boolean;
   previousOfferPrice?: number;
 };
-
-const GET_CUSTOMER_ID = gql`
-  query getCustomerIdFromShopifyId($customerShopifyId: bigint) {
-    Customer(where: { shopifyId: { _eq: $customerShopifyId } }) {
-      authUserId
-    }
-  }
-`;
 
 export enum Status {
   BEFORE_SEND = 'BEFORE_SEND',
@@ -47,21 +35,14 @@ export enum Status {
 
 const MakeOfferModal: React.FC<PropsType> = ({
   variantId,
-  productId,
-  buyerShopifyId,
+  productInternalId,
+  buyerInternalId,
   originalPrice,
   closeModal,
   negociationMaxAmountPercent,
   shouldRedirectToChat = false,
 }) => {
   const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
-  const fetchUserId =
-    useHasura<GetCustomerIdFromShopifyIdQuery>(GET_CUSTOMER_ID);
-  const getUserId = async (customerShopifyId: string) => {
-    const result = await fetchUserId({ customerShopifyId });
-    return first(result.Customer)?.authUserId;
-  };
-
   const { hasuraToken } = useUser.getState();
   const { fetchAPI } = useBackend();
 
@@ -89,13 +70,11 @@ const MakeOfferModal: React.FC<PropsType> = ({
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
     if (!newPrice) return;
 
-    const computedBuyerId = buyerShopifyId
-      ? await getUserId(buyerShopifyId)
-      : hasuraToken?.user.id;
+    const computedBuyerId = buyerInternalId ?? hasuraToken?.user.id;
 
     if (!computedBuyerId) {
       throw new Error(
-        `Could not determine buyer id when creating offer on ${productId}`,
+        `Could not determine buyer id when creating offer on ${productInternalId}`,
       );
     }
 
@@ -103,7 +82,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
       {
         buyerId: computedBuyerId,
         newPriceInCents: newPrice * 100,
-        productId,
+        productId: productInternalId,
         productVariantId: variantId,
       };
 
@@ -112,7 +91,12 @@ const MakeOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
-    sendPriceOffer(hasuraToken?.user.id ?? '', productId, newPrice, variantId);
+    sendPriceOffer(
+      hasuraToken?.user.id ?? '',
+      productInternalId,
+      newPrice,
+      variantId,
+    );
     setStatus(Status.AFTER_SEND);
   };
 

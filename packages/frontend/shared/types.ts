@@ -1,4 +1,4 @@
-import { HASURA_ROLES } from 'shared-types';
+import { ChatConversationMetadata, HASURA_ROLES } from 'shared-types';
 import { CLAIMS_KEY } from '../shared/config';
 
 export type HasuraToken = {
@@ -199,11 +199,11 @@ export type ImageType = {
   height: number | null;
 };
 
-export type ConversationType = {
+export type ConversationType = Pick<
+  ChatConversationMetadata,
+  'customerInternalId' | 'productInternalId' | 'vendorInternalId'
+> & {
   id: string;
-  customerId: string;
-  vendorId: string;
-  productId: string;
 };
 
 export type NegociationAgreementType = {

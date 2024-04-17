@@ -7,7 +7,7 @@ export abstract class IChatService {
   ): Promise<void>;
 
   abstract writeMessage(
-    authorShopifyId: string,
+    authorInternalId: string,
     message: string,
     conversationId: string,
   ): Promise<void>;

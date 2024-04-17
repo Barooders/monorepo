@@ -29,7 +29,7 @@ const ORDER_LINE_FRAGMENT = gql`
     shippingSolution
     productVariant {
       product {
-        shopifyId
+        id
       }
     }
   }
@@ -38,8 +38,8 @@ const ORDER_LINE_FRAGMENT = gql`
 const FETCH_CONVERSATION_USER_DETAILS = gql`
   ${ORDER_LINE_FRAGMENT}
 
-  query fetchConversationUserDetails($userShopifyId: bigint) {
-    Customer(where: { shopifyId: { _eq: $userShopifyId } }) {
+  query fetchConversationUserDetails($userInternalId: uuid) {
+    Customer(where: { authUserId: { _eq: $userInternalId } }) {
       purchasedOrders {
         orderLines {
           ...HandDeliveryOrderLineFragment
@@ -49,15 +49,15 @@ const FETCH_CONVERSATION_USER_DETAILS = gql`
         ...HandDeliveryOrderLineFragment
       }
       onlineProducts {
-        shopifyId
+        id
       }
     }
   }
 `;
 
 const FETCH_CONVERSATION_PRODUCT_DETAILS = gql`
-  query fetchConversationProductDetails($productShopifyId: bigint) {
-    Product(where: { shopifyId: { _eq: $productShopifyId } }) {
+  query fetchConversationProductDetails($productInternalId: String) {
+    Product(where: { id: { _eq: $productInternalId } }) {
       id
       handle
       variants {
@@ -79,35 +79,33 @@ const FETCH_CONVERSATION_PRODUCT_DETAILS = gql`
 
 const findAssociatedOrderLine = (
   orderLines: HandDeliveryOrderLineFragmentFragment[],
-  currentProductId: string,
+  currentProductInternalId: string,
 ): HandDeliveryOrderLineFragmentFragment | null =>
   orderLines.find(
     (orderLine) =>
-      orderLine.productVariant?.product.shopifyId === currentProductId,
+      orderLine.productVariant?.product.id === currentProductInternalId,
   ) ?? null;
 
 const extractAssociatedOrderLine = (
   response: FetchConversationUserDetailsQuery,
-  currentProductId: string,
+  currentProductInternalId: string,
 ): AssociatedOrderLine | null => {
   const customer = first(response?.Customer);
 
   const rawAssociatedOrderLine =
     findAssociatedOrderLine(
       customer?.purchasedOrders.flatMap((order) => order.orderLines) ?? [],
-      currentProductId,
+      currentProductInternalId,
     ) ??
     findAssociatedOrderLine(
       customer?.vendorSoldOrderLines ?? [],
-      currentProductId,
+      currentProductInternalId,
     );
 
   if (!rawAssociatedOrderLine) return null;
 
   return {
     orderShopifyId: rawAssociatedOrderLine.order.shopifyId,
-    productShopifyId:
-      rawAssociatedOrderLine.productVariant?.product.shopifyId ?? '',
     shippingSolution: rawAssociatedOrderLine.shippingSolution,
   };
 };
@@ -147,8 +145,8 @@ const extractProductDetails = (
   return {
     handle: product.handle ?? '',
     originalPrice: extractOriginalPrice(response),
-    id: product.id,
-    vendorId: product.vendorId,
+    internalId: product.id,
+    vendorInternalId: product.vendorId,
   };
 };
 
@@ -200,13 +198,12 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   }, 1000);
 
   const [productDetailsState, doFetchProduct] = useWrappedAsyncFn(
-    async (productShopifyId: string) =>
-      fetchProductDetails({ productShopifyId: parseInt(productShopifyId) }),
+    async (productInternalId: string) =>
+      fetchProductDetails({ productInternalId }),
     [],
   );
   const [userDetailsState, doFetchUser] = useWrappedAsyncFn(
-    (userShopifyId: string) =>
-      fetchUserDetails({ userShopifyId: parseInt(userShopifyId) }),
+    (userInternalId: string) => fetchUserDetails({ userInternalId }),
     [],
   );
 
@@ -215,28 +212,31 @@ const WrappedChatPanel: React.FC<PropsType> = ({
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
         variables: {
-          productShopifyId: parseInt(conversation.productId),
-          buyerShopifyId: parseInt(conversation.customerId),
+          productInternalId: conversation.productInternalId,
+          buyerInternalId: conversation.customerInternalId,
         },
       },
     );
 
   useEffect(() => {
     (async () => {
-      doFetchProduct(conversation.productId);
+      doFetchProduct(conversation.productInternalId);
     })();
-  }, [conversation.productId]);
+  }, [conversation.productInternalId]);
 
   useEffect(() => {
     (async () => {
-      const userShopifyId = extractTokenInfo().shopifyId;
-      if (!userShopifyId) return;
-      doFetchUser(userShopifyId);
+      const userInternalId = extractTokenInfo().id;
+      if (!userInternalId) return;
+      doFetchUser(userInternalId);
     })();
   }, []);
 
   const associatedOrderLine = userDetailsState.value
-    ? extractAssociatedOrderLine(userDetailsState.value, conversation.productId)
+    ? extractAssociatedOrderLine(
+        userDetailsState.value,
+        conversation.productInternalId,
+      )
     : null;
 
   const productDetails = productDetailsState.value
@@ -263,7 +263,6 @@ const WrappedChatPanel: React.FC<PropsType> = ({
         productDetails={productDetails}
         negociationAgreement={negociationAgreement}
         associatedOrderLine={associatedOrderLine}
-        productId={conversation.productId}
         conversation={conversation}
         setPanelHeight={setPanelHeight}
         proposedPriceOffer={proposedPriceOffer}

@@ -199,7 +199,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                     <PriceOfferButton
                       className="flex-1 uppercase"
                       price={price}
-                      productId={id}
+                      productInternalId={id}
                       variant={variantId}
                       negociationMaxAmountPercent={
                         vendor.negociationMaxAmountPercent
