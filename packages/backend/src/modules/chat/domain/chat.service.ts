@@ -63,7 +63,6 @@ export class NewConversationLimitExceededException extends ExceptionBase {
 type Participant = {
   chatId: string;
   internalId: string;
-  shopifyId: number;
 };
 
 @Injectable()
@@ -121,7 +120,7 @@ export class ChatService implements IChatService {
     customerParticipant: Participant,
   ) {
     const customerParticipantId = customerParticipant.chatId;
-    const { id, shopifyId, vendorId, exposedProduct } =
+    const { id, vendorId, exposedProduct } =
       await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
         where: { shopifyId: productShopifyId },
         include: {
@@ -135,15 +134,12 @@ export class ChatService implements IChatService {
       );
     }
 
-    const {
-      sellerName,
-      shopifyId: vendorShopifyId,
-      authUserId: vendorInternalId,
-    } = await this.prisma.customer.findFirstOrThrow({
-      where: {
-        authUserId: vendorId,
-      },
-    });
+    const { sellerName, authUserId: vendorInternalId } =
+      await this.prisma.customer.findFirstOrThrow({
+        where: {
+          authUserId: vendorId,
+        },
+      });
 
     const { chatId: sellerParticipantId } = await this.createParticipant(
       new UUID({ uuid: vendorId }),
@@ -163,17 +159,11 @@ export class ChatService implements IChatService {
         await this.getSupportChatId(),
       ],
       {
-        customerId: customerParticipantId,
         customerChatId: customerParticipantId,
         customerInternalId: customerParticipant.internalId,
-        customerShopifyId: customerParticipant.shopifyId.toString(),
-        vendorId: sellerParticipantId,
         vendorChatId: sellerParticipantId,
         vendorInternalId: vendorInternalId,
-        vendorShopifyId: vendorShopifyId.toString(),
-        productId: productShopifyId.toString(),
         productInternalId: id,
-        productShopifyId: shopifyId.toString(),
         productType: exposedProduct.productType,
       },
     );
@@ -266,7 +256,6 @@ export class ChatService implements IChatService {
     return {
       chatId,
       internalId: authUserId.uuid,
-      shopifyId: Number(customer.shopifyId),
     };
   }
 
