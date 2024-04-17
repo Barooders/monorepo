@@ -1,0 +1,22 @@
+meta {
+  name: Get conversation
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/chat/conversation
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "productId": "9011565887823",
+    "customerId": "6732033884401"
+  }
+}

@@ -2,13 +2,13 @@ export interface ChatConversationMetadata {
   customerId: string;
   customerChatId: string;
   customerInternalId: string;
-  customerShopifyId: number;
+  customerShopifyId: string;
   vendorId: string;
   vendorChatId: string;
   vendorInternalId: string;
-  vendorShopifyId: number;
+  vendorShopifyId: string;
   productId: string;
   productInternalId: string;
-  productShopifyId: number;
+  productShopifyId: string;
   productType: string;
 }
