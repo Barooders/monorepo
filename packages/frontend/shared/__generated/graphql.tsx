@@ -984,6 +984,7 @@ export type Customer = {
   VendorReviews_aggregate: VendorReview_Aggregate;
   authUserId: Scalars['uuid'];
   buyerCommissionRate: Scalars['Int'];
+  chatId: Maybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
   createdAt: Scalars['timestamp'];
   description: Maybe<Scalars['String']>;
@@ -1010,7 +1011,6 @@ export type Customer = {
   /** An aggregate relationship */
   paymentAccounts_aggregate: PaymentAccounts_Aggregate;
   preferredPaymentProvider: Scalars['PaymentProvider'];
-  products: Shopify_ProductConnection;
   profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
   /** An array relationship */
   purchasedOrders: Array<Order>;
@@ -1020,8 +1020,6 @@ export type Customer = {
   sellerName: Maybe<Scalars['String']>;
   shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
   shopifyId: Scalars['bigint'];
-  /** A computed field, executes function "shopify_search" */
-  shopifySearch: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['timestamp']>;
   usedShipping: Scalars['ShippingType'];
   /** An object relationship */
@@ -1141,16 +1139,6 @@ export type CustomerPaymentAccounts_AggregateArgs = {
 };
 
 /** columns and relationships of "Customer" */
-export type CustomerProductsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
-  sortKey?: InputMaybe<Shopify_ProductSortKeys>;
-};
-
-/** columns and relationships of "Customer" */
 export type CustomerPurchasedOrdersArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
   limit: InputMaybe<Scalars['Int']>;
@@ -1247,6 +1235,7 @@ export type Customer_Bool_Exp = {
   _or: InputMaybe<Array<Customer_Bool_Exp>>;
   authUserId: InputMaybe<Uuid_Comparison_Exp>;
   buyerCommissionRate: InputMaybe<Int_Comparison_Exp>;
+  chatId: InputMaybe<String_Comparison_Exp>;
   coverPictureShopifyCdnUrl: InputMaybe<String_Comparison_Exp>;
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   description: InputMaybe<String_Comparison_Exp>;
@@ -1272,7 +1261,6 @@ export type Customer_Bool_Exp = {
   sellerName: InputMaybe<String_Comparison_Exp>;
   shipmentTimeframe: InputMaybe<ShipmentTimeframe_Comparison_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
-  shopifySearch: InputMaybe<String_Comparison_Exp>;
   updatedAt: InputMaybe<Timestamp_Comparison_Exp>;
   usedShipping: InputMaybe<ShippingType_Comparison_Exp>;
   user: InputMaybe<Users_Bool_Exp>;
@@ -1284,6 +1272,8 @@ export type Customer_Bool_Exp = {
 export enum Customer_Constraint {
   /** unique or primary key constraint on columns "authUserId" */
   CustomerAuthUserIdKey = 'Customer_authUserId_key',
+  /** unique or primary key constraint on columns "chatId" */
+  CustomerChatIdKey = 'Customer_chatId_key',
   /** unique or primary key constraint on columns "authUserId" */
   CustomerPkey = 'Customer_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -1303,6 +1293,7 @@ export type Customer_Insert_Input = {
   VendorReviews: InputMaybe<VendorReview_Arr_Rel_Insert_Input>;
   authUserId: InputMaybe<Scalars['uuid']>;
   buyerCommissionRate: InputMaybe<Scalars['Int']>;
+  chatId: InputMaybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   createdAt: InputMaybe<Scalars['timestamp']>;
   description: InputMaybe<Scalars['String']>;
@@ -1334,6 +1325,7 @@ export type Customer_Max_Fields = {
   __typename?: 'Customer_max_fields';
   authUserId: Maybe<Scalars['uuid']>;
   buyerCommissionRate: Maybe<Scalars['Int']>;
+  chatId: Maybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['timestamp']>;
   description: Maybe<Scalars['String']>;
@@ -1346,8 +1338,6 @@ export type Customer_Max_Fields = {
   sellerName: Maybe<Scalars['String']>;
   shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
   shopifyId: Maybe<Scalars['bigint']>;
-  /** A computed field, executes function "shopify_search" */
-  shopifySearch: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['timestamp']>;
   usedShipping: Maybe<Scalars['ShippingType']>;
 };
@@ -1357,6 +1347,7 @@ export type Customer_Min_Fields = {
   __typename?: 'Customer_min_fields';
   authUserId: Maybe<Scalars['uuid']>;
   buyerCommissionRate: Maybe<Scalars['Int']>;
+  chatId: Maybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
   createdAt: Maybe<Scalars['timestamp']>;
   description: Maybe<Scalars['String']>;
@@ -1369,8 +1360,6 @@ export type Customer_Min_Fields = {
   sellerName: Maybe<Scalars['String']>;
   shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
   shopifyId: Maybe<Scalars['bigint']>;
-  /** A computed field, executes function "shopify_search" */
-  shopifySearch: Maybe<Scalars['String']>;
   updatedAt: Maybe<Scalars['timestamp']>;
   usedShipping: Maybe<Scalars['ShippingType']>;
 };
@@ -1404,6 +1393,7 @@ export type Customer_Order_By = {
   VendorReviews_aggregate: InputMaybe<VendorReview_Aggregate_Order_By>;
   authUserId: InputMaybe<Order_By>;
   buyerCommissionRate: InputMaybe<Order_By>;
+  chatId: InputMaybe<Order_By>;
   coverPictureShopifyCdnUrl: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   description: InputMaybe<Order_By>;
@@ -1424,7 +1414,6 @@ export type Customer_Order_By = {
   sellerName: InputMaybe<Order_By>;
   shipmentTimeframe: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
-  shopifySearch: InputMaybe<Order_By>;
   updatedAt: InputMaybe<Order_By>;
   usedShipping: InputMaybe<Order_By>;
   user: InputMaybe<Users_Order_By>;
@@ -1442,6 +1431,8 @@ export enum Customer_Select_Column {
   AuthUserId = 'authUserId',
   /** column name */
   BuyerCommissionRate = 'buyerCommissionRate',
+  /** column name */
+  ChatId = 'chatId',
   /** column name */
   CoverPictureShopifyCdnUrl = 'coverPictureShopifyCdnUrl',
   /** column name */
@@ -1482,6 +1473,7 @@ export enum Customer_Select_Column {
 export type Customer_Set_Input = {
   authUserId: InputMaybe<Scalars['uuid']>;
   buyerCommissionRate: InputMaybe<Scalars['Int']>;
+  chatId: InputMaybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   createdAt: InputMaybe<Scalars['timestamp']>;
   description: InputMaybe<Scalars['String']>;
@@ -1537,6 +1529,7 @@ export type Customer_Stream_Cursor_Input = {
 export type Customer_Stream_Cursor_Value_Input = {
   authUserId: InputMaybe<Scalars['uuid']>;
   buyerCommissionRate: InputMaybe<Scalars['Int']>;
+  chatId: InputMaybe<Scalars['String']>;
   coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
   createdAt: InputMaybe<Scalars['timestamp']>;
   description: InputMaybe<Scalars['String']>;
@@ -1570,6 +1563,8 @@ export enum Customer_Update_Column {
   AuthUserId = 'authUserId',
   /** column name */
   BuyerCommissionRate = 'buyerCommissionRate',
+  /** column name */
+  ChatId = 'chatId',
   /** column name */
   CoverPictureShopifyCdnUrl = 'coverPictureShopifyCdnUrl',
   /** column name */
@@ -16233,7 +16228,7 @@ export type Dbt_Store_Exposed_Product_Sum_Fields = {
 /** columns and relationships of "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag = {
   __typename?: 'dbt_store_exposed_product_tag';
-  full_tag: Scalars['String'];
+  full_tag: Maybe<Scalars['String']>;
   product_id: Scalars['String'];
   tag: Scalars['String'];
   value: Scalars['String'];
@@ -16281,8 +16276,6 @@ export type Dbt_Store_Exposed_Product_Tag_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Arr_Rel_Insert_Input = {
   data: Array<Dbt_Store_Exposed_Product_Tag_Insert_Input>;
-  /** upsert condition */
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_exposed_product_tag". All fields are combined with a logical 'AND'. */
@@ -16295,12 +16288,6 @@ export type Dbt_Store_Exposed_Product_Tag_Bool_Exp = {
   tag: InputMaybe<String_Comparison_Exp>;
   value: InputMaybe<String_Comparison_Exp>;
 };
-
-/** unique or primary key constraints on table "dbt.store_exposed_product_tag" */
-export enum Dbt_Store_Exposed_Product_Tag_Constraint {
-  /** unique or primary key constraint on columns "product_id", "full_tag" */
-  StoreExposedProductTagProductIdFullTagKey = 'store_exposed_product_tag_product_id_full_tag_key',
-}
 
 /** input type for inserting data into table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Insert_Input = {
@@ -16353,13 +16340,6 @@ export type Dbt_Store_Exposed_Product_Tag_Mutation_Response = {
   returning: Array<Dbt_Store_Exposed_Product_Tag>;
 };
 
-/** on_conflict condition type for table "dbt.store_exposed_product_tag" */
-export type Dbt_Store_Exposed_Product_Tag_On_Conflict = {
-  constraint: Dbt_Store_Exposed_Product_Tag_Constraint;
-  update_columns: Array<Dbt_Store_Exposed_Product_Tag_Update_Column>;
-  where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
-};
-
 /** Ordering options when selecting data from "dbt.store_exposed_product_tag". */
 export type Dbt_Store_Exposed_Product_Tag_Order_By = {
   full_tag: InputMaybe<Order_By>;
@@ -16403,18 +16383,6 @@ export type Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Value_Input = {
   tag: InputMaybe<Scalars['String']>;
   value: InputMaybe<Scalars['String']>;
 };
-
-/** update columns of table "dbt.store_exposed_product_tag" */
-export enum Dbt_Store_Exposed_Product_Tag_Update_Column {
-  /** column name */
-  FullTag = 'full_tag',
-  /** column name */
-  ProductId = 'product_id',
-  /** column name */
-  Tag = 'tag',
-  /** column name */
-  Value = 'value',
-}
 
 export type Dbt_Store_Exposed_Product_Tag_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -19593,13 +19561,11 @@ export type Mutation_RootInsert_Dbt_Store_Exposed_Product_OneArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Dbt_Store_Exposed_Product_TagArgs = {
   objects: Array<Dbt_Store_Exposed_Product_Tag_Insert_Input>;
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Dbt_Store_Exposed_Product_Tag_OneArgs = {
   object: Dbt_Store_Exposed_Product_Tag_Insert_Input;
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** mutation root */
@@ -22461,6 +22427,8 @@ export type ShopifyQueryRoot = {
   pageByHandle: Maybe<Shopify_Page>;
   /** List of the shop's pages. */
   pages: Shopify_PageConnection;
+  /** List of the predictive search results. */
+  predictiveSearch: Maybe<Shopify_PredictiveSearchResult>;
   /** Fetch a specific `Product` by one of its unique attributes. */
   product: Maybe<Shopify_Product>;
   /** Find a product by its handle. */
@@ -22484,6 +22452,8 @@ export type ShopifyQueryRoot = {
   products: Shopify_ProductConnection;
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
   publicApiVersions: Array<Shopify_ApiVersion>;
+  /** List of the search results. */
+  search: Shopify_SearchResultItemConnection;
   /** The shop associated with the storefront access token. */
   shop: Shopify_Shop;
   /** A list of redirects for a shop. */
@@ -22610,6 +22580,15 @@ export type ShopifyQueryRootPagesArgs = {
   sortKey?: InputMaybe<Shopify_PageSortKeys>;
 };
 
+export type ShopifyQueryRootPredictiveSearchArgs = {
+  limit: InputMaybe<Scalars['Int']>;
+  limitScope: InputMaybe<Shopify_PredictiveSearchLimitScope>;
+  query: Scalars['String'];
+  searchableFields: InputMaybe<Array<Shopify_SearchableField>>;
+  types: InputMaybe<Array<Shopify_PredictiveSearchType>>;
+  unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
+};
+
 export type ShopifyQueryRootProductArgs = {
   handle: InputMaybe<Scalars['String']>;
   id: InputMaybe<Scalars['ID']>;
@@ -22640,6 +22619,20 @@ export type ShopifyQueryRootProductsArgs = {
   query: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
   sortKey?: InputMaybe<Shopify_ProductSortKeys>;
+};
+
+export type ShopifyQueryRootSearchArgs = {
+  after: InputMaybe<Scalars['String']>;
+  before: InputMaybe<Scalars['String']>;
+  first: InputMaybe<Scalars['Int']>;
+  last: InputMaybe<Scalars['Int']>;
+  prefix: InputMaybe<Shopify_SearchPrefixQueryType>;
+  productFilters: InputMaybe<Array<Shopify_ProductFilter>>;
+  query: Scalars['String'];
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<Shopify_SearchSortKeys>;
+  types: InputMaybe<Array<Shopify_SearchType>>;
+  unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
 };
 
 export type ShopifyQueryRootUrlRedirectsArgs = {
@@ -22722,7 +22715,8 @@ export type Shopify_AppliedGiftCard = Shopify_Node & {
 /** An article in an online store blog. */
 export type Shopify_Article = Shopify_HasMetafields &
   Shopify_Node &
-  Shopify_OnlineStorePublishable & {
+  Shopify_OnlineStorePublishable &
+  Shopify_Trackable & {
     __typename?: 'shopify_Article';
     /** The article's author. */
     author: Shopify_ArticleAuthor;
@@ -22763,6 +22757,8 @@ export type Shopify_Article = Shopify_HasMetafields &
     tags: Array<Scalars['String']>;
     /** The article’s name. */
     title: Scalars['String'];
+    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+    trackingParameters: Maybe<Scalars['String']>;
   };
 
 /** An article in an online store blog. */
@@ -24508,7 +24504,8 @@ export type Shopify_CheckoutUserError = Shopify_DisplayableError & {
  */
 export type Shopify_Collection = Shopify_HasMetafields &
   Shopify_Node &
-  Shopify_OnlineStorePublishable & {
+  Shopify_OnlineStorePublishable &
+  Shopify_Trackable & {
     __typename?: 'shopify_Collection';
     /** Stripped description of the collection, single line with HTML tags removed. */
     description: Scalars['String'];
@@ -24536,6 +24533,8 @@ export type Shopify_Collection = Shopify_HasMetafields &
     seo: Shopify_Seo;
     /** The collection’s name. Limit of 255 characters. */
     title: Scalars['String'];
+    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+    trackingParameters: Maybe<Scalars['String']>;
     /** The date and time when the collection was last modified. */
     updatedAt: Scalars['shopify_DateTime'];
   };
@@ -24595,6 +24594,8 @@ export type Shopify_CollectionConnection = {
   nodes: Array<Shopify_Collection>;
   /** Information to aid in pagination. */
   pageInfo: Shopify_PageInfo;
+  /** The total count of Collections. */
+  totalCount: Scalars['shopify_UnsignedInt64'];
 };
 
 /**
@@ -24710,6 +24711,37 @@ export enum Shopify_CompletionErrorCode {
   PaymentInvalidPaymentMethod = 'PAYMENT_INVALID_PAYMENT_METHOD',
   PaymentTransientError = 'PAYMENT_TRANSIENT_ERROR',
 }
+
+/** Represents information about the grouped merchandise in the cart. */
+export type Shopify_ComponentizableCartLine = Shopify_BaseCartLine &
+  Shopify_Node & {
+    __typename?: 'shopify_ComponentizableCartLine';
+    /** An attribute associated with the cart line. */
+    attribute: Maybe<Shopify_Attribute>;
+    /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+    attributes: Array<Shopify_Attribute>;
+    /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
+    cost: Shopify_CartLineCost;
+    /** The discounts that have been applied to the cart line. */
+    discountAllocations: Array<Shopify_CartDiscountAllocation>;
+    /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
+    estimatedCost: Shopify_CartLineEstimatedCost;
+    /** A globally-unique ID. */
+    id: Scalars['ID'];
+    /** The components of the line item. */
+    lineComponents: Array<Shopify_CartLine>;
+    /** The merchandise that the buyer intends to purchase. */
+    merchandise: Shopify_Merchandise;
+    /** The quantity of the merchandise that the customer intends to purchase. */
+    quantity: Scalars['Int'];
+    /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+    sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
+  };
+
+/** Represents information about the grouped merchandise in the cart. */
+export type Shopify_ComponentizableCartLineAttributeArgs = {
+  key: Scalars['String'];
+};
 
 /** A country. */
 export type Shopify_Country = {
@@ -27104,6 +27136,8 @@ export type Shopify_MarketMetafieldsArgs = {
 export type Shopify_Media = {
   /** A word or phrase to share the nature or contents of a media. */
   alt: Maybe<Scalars['String']>;
+  /** A globally-unique ID. */
+  id: Scalars['ID'];
   /** The media content type. */
   mediaContentType: Shopify_MediaContentType;
   /** The presentation for a media. */
@@ -27224,6 +27258,8 @@ export type Shopify_MenuItem = Shopify_Node & {
   id: Scalars['ID'];
   /** The menu item's child items. */
   items: Array<Shopify_MenuItem>;
+  /** The linked resource. */
+  resource: Maybe<Shopify_MenuItemResource>;
   /** The ID of the linked resource. */
   resourceId: Maybe<Scalars['ID']>;
   /** The menu item's tags to filter a collection. */
@@ -27235,6 +27271,18 @@ export type Shopify_MenuItem = Shopify_Node & {
   /** The menu item's URL. */
   url: Maybe<Scalars['shopify_URL']>;
 };
+
+/**
+ * The list of possible resources a `MenuItem` can reference.
+ *
+ */
+export type Shopify_MenuItemResource =
+  | Shopify_Article
+  | Shopify_Blog
+  | Shopify_Collection
+  | Shopify_Page
+  | Shopify_Product
+  | Shopify_ShopPolicy;
 
 /** A menu item type. */
 export enum Shopify_MenuItemType {
@@ -27876,7 +27924,8 @@ export enum Shopify_OrderSortKeys {
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Shopify_Page = Shopify_HasMetafields &
   Shopify_Node &
-  Shopify_OnlineStorePublishable & {
+  Shopify_OnlineStorePublishable &
+  Shopify_Trackable & {
     __typename?: 'shopify_Page';
     /** The description of the page, complete with HTML formatting. */
     body: Scalars['shopify_HTML'];
@@ -27898,6 +27947,8 @@ export type Shopify_Page = Shopify_HasMetafields &
     seo: Maybe<Shopify_Seo>;
     /** The title of the page. */
     title: Scalars['String'];
+    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+    trackingParameters: Maybe<Scalars['String']>;
     /** The timestamp of the latest page update. */
     updatedAt: Scalars['shopify_DateTime'];
   };
@@ -28044,6 +28095,47 @@ export enum Shopify_PaymentTokenType {
   Vault = 'VAULT',
 }
 
+/** Decides the distribution of results. */
+export enum Shopify_PredictiveSearchLimitScope {
+  /** Return results up to limit across all types. */
+  All = 'ALL',
+  /** Return results up to limit per type. */
+  Each = 'EACH',
+}
+
+/**
+ * A predictive search result represents a list of products, collections, pages, articles, and query suggestions
+ * that matches the predictive search query.
+ *
+ */
+export type Shopify_PredictiveSearchResult = {
+  __typename?: 'shopify_PredictiveSearchResult';
+  /** The articles that match the search query. */
+  articles: Array<Shopify_Article>;
+  /** The articles that match the search query. */
+  collections: Array<Shopify_Collection>;
+  /** The pages that match the search query. */
+  pages: Array<Shopify_Page>;
+  /** The products that match the search query. */
+  products: Array<Shopify_Product>;
+  /** The query suggestions that are relevant to the search query. */
+  queries: Array<Shopify_SearchQuerySuggestion>;
+};
+
+/** The types of search items to perform predictive search on. */
+export enum Shopify_PredictiveSearchType {
+  /** Returns matching articles. */
+  Article = 'ARTICLE',
+  /** Returns matching collections. */
+  Collection = 'COLLECTION',
+  /** Returns matching pages. */
+  Page = 'PAGE',
+  /** Returns matching products. */
+  Product = 'PRODUCT',
+  /** Returns matching query strings. */
+  Query = 'QUERY',
+}
+
 /**
  * The input fields for a filter used to view a subset of products in a collection matching a specific price range.
  *
@@ -28076,7 +28168,8 @@ export type Shopify_PricingValue =
  */
 export type Shopify_Product = Shopify_HasMetafields &
   Shopify_Node &
-  Shopify_OnlineStorePublishable & {
+  Shopify_OnlineStorePublishable &
+  Shopify_Trackable & {
     __typename?: 'shopify_Product';
     /** Indicates if at least one product variant is available for sale. */
     availableForSale: Scalars['Boolean'];
@@ -28141,6 +28234,8 @@ export type Shopify_Product = Shopify_HasMetafields &
     title: Scalars['String'];
     /** The total quantity of inventory in stock for this Product. */
     totalInventory: Maybe<Scalars['Int']>;
+    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+    trackingParameters: Maybe<Scalars['String']>;
     /**
      * The date and time when the product was last modified.
      * A product's `updatedAt` value can change for different reasons. For example, if an order
@@ -28635,6 +28730,114 @@ export type Shopify_ScriptDiscountApplication = Shopify_DiscountApplication & {
   value: Shopify_PricingValue;
 };
 
+/** Specifies whether to perform a partial word match on the last search term. */
+export enum Shopify_SearchPrefixQueryType {
+  /** Perform a partial word match on the last search term. */
+  Last = 'LAST',
+  /** Don't perform a partial word match on the last search term. */
+  None = 'NONE',
+}
+
+/** A search query suggestion. */
+export type Shopify_SearchQuerySuggestion = Shopify_Trackable & {
+  __typename?: 'shopify_SearchQuerySuggestion';
+  /** The text of the search query suggestion with highlighted HTML tags. */
+  styledText: Scalars['String'];
+  /** The text of the search query suggestion. */
+  text: Scalars['String'];
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']>;
+};
+
+/**
+ * A search result that matches the search query.
+ *
+ */
+export type Shopify_SearchResultItem =
+  | Shopify_Article
+  | Shopify_Page
+  | Shopify_Product;
+
+/**
+ * An auto-generated type for paginating through multiple SearchResultItems.
+ *
+ */
+export type Shopify_SearchResultItemConnection = {
+  __typename?: 'shopify_SearchResultItemConnection';
+  /** A list of edges. */
+  edges: Array<Shopify_SearchResultItemEdge>;
+  /** A list of the nodes contained in SearchResultItemEdge. */
+  nodes: Array<Shopify_SearchResultItem>;
+  /** Information to aid in pagination. */
+  pageInfo: Shopify_PageInfo;
+  /** A list of available filters. */
+  productFilters: Array<Shopify_Filter>;
+  /** The total number of results. */
+  totalCount: Scalars['Int'];
+};
+
+/**
+ * An auto-generated type which holds one SearchResultItem and a cursor during pagination.
+ *
+ */
+export type Shopify_SearchResultItemEdge = {
+  __typename?: 'shopify_SearchResultItemEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of SearchResultItemEdge. */
+  node: Shopify_SearchResultItem;
+};
+
+/** The set of valid sort keys for the search query. */
+export enum Shopify_SearchSortKeys {
+  /** Sort by the `price` value. */
+  Price = 'PRICE',
+  /** Sort by relevance to the search terms. */
+  Relevance = 'RELEVANCE',
+}
+
+/** The types of search items to perform search within. */
+export enum Shopify_SearchType {
+  /** Returns matching articles. */
+  Article = 'ARTICLE',
+  /** Returns matching pages. */
+  Page = 'PAGE',
+  /** Returns matching products. */
+  Product = 'PRODUCT',
+}
+
+/** Specifies whether to display results for unavailable products. */
+export enum Shopify_SearchUnavailableProductsType {
+  /** Exclude unavailable products. */
+  Hide = 'HIDE',
+  /** Show unavailable products after all other matching results. This is the default. */
+  Last = 'LAST',
+  /** Show unavailable products in the order that they're found. */
+  Show = 'SHOW',
+}
+
+/** Specifies the list of resource fields to search. */
+export enum Shopify_SearchableField {
+  /** Author of the page or article. */
+  Author = 'AUTHOR',
+  /** Body of the page or article or product description or collection description. */
+  Body = 'BODY',
+  /** Product type. */
+  ProductType = 'PRODUCT_TYPE',
+  /** Tag associated with the product or article. */
+  Tag = 'TAG',
+  /** Title of the page or article or product title or collection title. */
+  Title = 'TITLE',
+  /** Variant barcode. */
+  VariantsBarcode = 'VARIANTS_BARCODE',
+  /** Variant SKU. */
+  VariantsSku = 'VARIANTS_SKU',
+  /** Variant title. */
+  VariantsTitle = 'VARIANTS_TITLE',
+  /** Product vendor. */
+  Vendor = 'VENDOR',
+}
+
 /**
  * Properties used by customers to select a product variant.
  * Products can have multiple options, like different sizes or colors.
@@ -29007,6 +29210,8 @@ export type Shopify_StoreAvailability = {
   location: Shopify_Location;
   /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). */
   pickUpTime: Scalars['String'];
+  /** The quantity of the product variant in-stock at this location. */
+  quantityAvailable: Scalars['Int'];
 };
 
 /**
@@ -29220,6 +29425,12 @@ export type Shopify_TokenizedPaymentInputV3 = {
   test: InputMaybe<Scalars['Boolean']>;
   /** The type of payment token. */
   type: Shopify_PaymentTokenType;
+};
+
+/** Represents a resource that you can track the origin of the search traffic. */
+export type Shopify_Trackable = {
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']>;
 };
 
 /** An object representing exchange of money for a product or service. */
@@ -32532,6 +32743,24 @@ export type FetchAccountPageVendorDataQuery = {
       productBrand: string | null;
       productImage: string | null;
       order: { __typename?: 'Order'; id: string; status: any; name: string };
+    }>;
+  }>;
+};
+
+export type GetProductPriceQueryVariables = Exact<{
+  productShopifyId: InputMaybe<Scalars['bigint']>;
+}>;
+
+export type GetProductPriceQuery = {
+  __typename?: 'query_root';
+  dbt_store_base_product: Array<{
+    __typename?: 'dbt_store_base_product';
+    variants: Array<{
+      __typename?: 'dbt_store_base_product_variant';
+      variant: {
+        __typename?: 'dbt_store_exposed_product_variant';
+        price: any;
+      } | null;
     }>;
   }>;
 };

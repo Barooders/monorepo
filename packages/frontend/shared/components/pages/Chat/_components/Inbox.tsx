@@ -1,14 +1,18 @@
 'use client';
 
+import { GetProductPriceQuery } from '@/__generated/graphql';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import ChatPanel from '@/components/molecules/ChatPanel/container';
+import { useHasura } from '@/hooks/useHasura';
 import useStartChatConversation from '@/hooks/useStartChatConversation';
 import { getDictionary } from '@/i18n/translate';
 import { ConversationType } from '@/types';
+import { gql } from '@apollo/client';
 import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
+import first from 'lodash/first';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdRefresh } from 'react-icons/md';
 import Talk from 'talkjs';
@@ -26,6 +30,21 @@ type CustomDataType = {
   productId: string;
   productType: string;
 };
+
+const GET_PRODUCT_PRICE = gql`
+  query getProductPrice($productShopifyId: bigint) {
+    dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
+      variants(
+        limit: 1
+        where: { variant: { inventoryQuantity: { _gt: 0 } } }
+      ) {
+        variant {
+          price
+        }
+      }
+    }
+  }
+`;
 
 const PANEL_INSERT_DELAY = 1000;
 
@@ -46,6 +65,7 @@ const Inbox: React.FC<Props> = ({
   const [panelHeight, setPanelHeight] = useState<number>(0);
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
+  const fetchProductPrice = useHasura<GetProductPriceQuery>(GET_PRODUCT_PRICE);
 
   useEffect(() => {
     if (!readyForPanel) {
@@ -75,6 +95,14 @@ const Inbox: React.FC<Props> = ({
     [customerId, customerName],
   );
 
+  const getProductPrice = useCallback(async (productShopifyId: number) => {
+    const result = await fetchProductPrice({
+      productShopifyId,
+    });
+    return first(first(result.dbt_store_base_product)?.variants)?.variant
+      ?.price;
+  }, []);
+
   const initConversation = useCallback(async () => {
     if (initialConversationId) {
       setSelectedConversationId(initialConversationId);
@@ -87,11 +115,23 @@ const Inbox: React.FC<Props> = ({
           await startChatConversation(productId, customerId);
 
         setSelectedConversationId(conversationId);
-        if (isNewConversation) sendOpenNewConversation(productId, customerId);
+        if (isNewConversation) {
+          sendOpenNewConversation(
+            productId,
+            customerId,
+            await getProductPrice(parseInt(productId)),
+          );
+        }
         return;
       } catch (e) {}
     }
-  }, [customerId, initialConversationId, productId, startChatConversation]);
+  }, [
+    customerId,
+    initialConversationId,
+    productId,
+    startChatConversation,
+    getProductPrice,
+  ]);
 
   useEffect(() => {
     Talk.ready.then(() => setTalkLoaded(true));

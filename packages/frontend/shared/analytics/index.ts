@@ -3,6 +3,7 @@ import {
   gtag,
   sendNewConversationConversion,
   sendNewPriceOfferConversion,
+  sendNewSalesCallConversion,
 } from './google';
 import { trackEvent } from './klaviyo';
 import {
@@ -18,10 +19,11 @@ export const initAnalytics = () => {
 export const sendOpenNewConversation = (
   productId: string,
   customerId: string,
+  productPrice: number,
 ) => {
   gtag('event', 'newConversationOpened', { productId, customerId });
   sendEvent('newConversationOpened', { productId, customerId });
-  sendNewConversationConversion();
+  sendNewConversationConversion(productPrice);
 };
 
 export const sendBeginCheckout = (productId: string) => {
@@ -89,9 +91,14 @@ export const sendCreateAlert = (customerId: string, filters: string[]) => {
 export const sendPriceOffer = (
   customerId: string,
   productId: string,
+  productPrice: number,
   variantId?: string,
 ) => {
   gtag('event', 'sendPriceOffer', { customerId, variantId, productId });
   sendEvent('sendPriceOffer', { customerId, variantId, productId });
-  sendNewPriceOfferConversion();
+  sendNewPriceOfferConversion(productPrice);
+};
+
+export const sendNewSalesCall = (productPrice: number) => {
+  sendNewSalesCallConversion(productPrice);
 };

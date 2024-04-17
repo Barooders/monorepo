@@ -226,7 +226,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             />
             {collections.find(
               (collection) => collection === config.collectionIds.bike,
-            ) && <Support />}
+            ) && <Support productPrice={price} />}
           </div>
           <div className="flex lg:hidden">{renderDescription()}</div>
         </div>

@@ -21,6 +21,7 @@ const testEnv = {
       finishCheckout: '',
       newConversation: '',
       newPriceOffer: '',
+      newSalesCall: '',
     },
   },
 };

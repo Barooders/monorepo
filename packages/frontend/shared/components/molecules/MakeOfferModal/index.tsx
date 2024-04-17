@@ -112,7 +112,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
-    sendPriceOffer(hasuraToken?.user.id ?? '', productId, variantId);
+    sendPriceOffer(hasuraToken?.user.id ?? '', productId, newPrice, variantId);
     setStatus(Status.AFTER_SEND);
   };
 
