@@ -1,0 +1,15 @@
+meta {
+  name: Get conversation
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://api.talkjs.com/v1/{{talkJsAppId}}/conversations/12f8dfdc9622790548355b4cfd91107438d87b8e1e5dc8dcc863bb18afd04c0c
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{talkJsSecretKey}}
+}
