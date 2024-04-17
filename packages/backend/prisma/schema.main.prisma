@@ -248,7 +248,7 @@ model Customer {
   createdAt                   DateTime               @default(now())
   updatedAt                   DateTime?              @updatedAt
   authUserId                  String                 @id @unique @db.Uuid
-  chatId                      String?                @unique
+  chatId                      String                 @unique
   buyerCommissionRate         Int                    @default(100)
   scoring                     CustomerScoring?
   overridesProductNotation    Boolean                @default(false)

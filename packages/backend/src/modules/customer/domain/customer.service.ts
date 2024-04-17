@@ -39,6 +39,7 @@ export class CustomerService {
         lastName: user.lastName,
         sellerName: user.userName,
         authUserId: user.id,
+        chatId: user.id,
         profilePictureShopifyCdnUrl: user.profilePictureUrl,
         negociationAgreements: {
           create: {
