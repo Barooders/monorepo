@@ -5,6 +5,11 @@ const GlobalScripts = () => {
   return (
     <>
       <Script
+        id="load-google-script"
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${config.gtag.id}`}
+      />
+      <Script
         strategy="afterInteractive"
         id="setup-google-script"
         dangerouslySetInnerHTML={{
