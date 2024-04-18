@@ -245,6 +245,7 @@ export class OrderMapper {
     const chatConversationLink = await this.getChatConversationLink(
       soldProduct.product_id,
       String(orderData.customer.id),
+      orderData,
     );
 
     const previousOrderLines = await this.mainPrisma.orderLines.findMany({
@@ -387,8 +388,11 @@ export class OrderMapper {
   private async getChatConversationLink(
     productShopifyId: number,
     customerShopifyId: string,
+    orderData: IOrder,
   ) {
     const frontendChatPage = `https://${envConfig.externalServices.shopify.shopDns}/pages/chat`;
+
+    if (!isHandDeliveryOrder(orderData)) return frontendChatPage;
 
     try {
       const conversationId =
