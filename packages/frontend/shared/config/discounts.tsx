@@ -28,6 +28,12 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
+    // Ends on 25/04
+    title: 'VELOROUEN50',
+    label: 'Vélo Rouen',
+    type: 'dynamic',
+  },
+  {
     title: 'AGPPRO',
     label: 'Vente privée',
     type: 'static',
