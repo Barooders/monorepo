@@ -7,7 +7,9 @@ import {
   Prisma,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { CurrencyCode } from '@libs/types/common/money.types';
+import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { CommissionService } from '@modules/order/domain/commission.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { head, last } from 'lodash';
@@ -21,8 +23,6 @@ import {
   PRODUCT_DISCOUNT,
   PRODUCT_PRICE,
 } from './ports/types';
-import { IChatService } from '@modules/chat/domain/ports/chat-service';
-import { UUID } from '@libs/domain/value-objects';
 
 export const NEXT_STEP: Partial<Record<OrderStatus, OrderStatus>> = {
   [OrderStatus.CREATED]: OrderStatus.PAID,
@@ -132,7 +132,7 @@ export class OrderService {
       const chatConversationId =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: customerId }),
-          Number(product.shopifyId),
+          product.id,
         );
 
       return `/pages/chat?conversationId=${chatConversationId}`;

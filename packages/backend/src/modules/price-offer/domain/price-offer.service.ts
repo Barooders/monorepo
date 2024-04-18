@@ -531,7 +531,7 @@ export class PriceOfferService implements IPriceOfferService {
         },
         select: {
           buyerId: true,
-          product: { select: { shopifyId: true } },
+          product: { select: { id: true } },
         },
       });
 
@@ -542,7 +542,7 @@ export class PriceOfferService implements IPriceOfferService {
     const { conversationId } =
       await this.chatService.getOrCreateConversationFromAuthUserId(
         new UUID({ uuid: buyerId }),
-        Number(priceOfferProduct.shopifyId),
+        priceOfferProduct.id,
       );
 
     return conversationId;

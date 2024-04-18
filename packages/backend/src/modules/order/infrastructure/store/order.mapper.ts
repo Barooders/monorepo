@@ -199,6 +199,13 @@ export class OrderMapper {
       throw new Error(`No shippable product found in order ${id}`);
     }
 
+    const { id: productInternalId } =
+      await this.mainPrisma.product.findUniqueOrThrow({
+        where: {
+          shopifyId: soldProduct.product_id,
+        },
+      });
+
     const productMetafields = await shopifyApiByToken.metafield.list({
       metafield: {
         owner_resource: 'product',
@@ -243,7 +250,7 @@ export class OrderMapper {
     }
 
     const chatConversationLink = await this.getChatConversationLink(
-      soldProduct.product_id,
+      productInternalId,
       String(orderData.customer.id),
       orderData,
     );
@@ -386,7 +393,7 @@ export class OrderMapper {
   }
 
   private async getChatConversationLink(
-    productShopifyId: number,
+    productInternalId: string,
     customerShopifyId: string,
     orderData: IOrder,
   ) {
@@ -397,7 +404,7 @@ export class OrderMapper {
     try {
       const conversationId =
         await this.handDeliveryService.updateChatConversationAndGetConversationId(
-          productShopifyId,
+          productInternalId,
           customerShopifyId,
         );
 

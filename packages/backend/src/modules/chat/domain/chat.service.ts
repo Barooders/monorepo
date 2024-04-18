@@ -75,7 +75,7 @@ export class ChatService implements IChatService {
 
   async getOrCreateConversationFromAuthUserId(
     authUserId: UUID,
-    productShopifyId: number,
+    productInternalId: string,
   ): Promise<{ conversationId: string; isNewConversation: boolean }> {
     const customerParticipant = await this.createParticipant(
       authUserId,
@@ -83,7 +83,7 @@ export class ChatService implements IChatService {
     );
 
     return await this.getOrCreateConversation(
-      productShopifyId,
+      productInternalId,
       customerParticipant,
     );
   }
@@ -101,7 +101,6 @@ export class ChatService implements IChatService {
     senderId: string,
     conversationId: string,
     hasAttachment: boolean,
-    metadata?: Record<string, string>,
   ): Promise<void> {
     await this.prisma.message.create({
       data: {
@@ -110,18 +109,17 @@ export class ChatService implements IChatService {
         senderId,
         text,
         hasAttachment,
-        metadata,
       },
     });
   }
 
   private async getOrCreateConversation(
-    productShopifyId: number,
+    productInternalId: string,
     { chatId: customerChatId, internalId: customerInternalId }: Participant,
   ) {
-    const { id, vendorId, exposedProduct } =
+    const { vendorId, exposedProduct } =
       await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
-        where: { shopifyId: productShopifyId },
+        where: { id: productInternalId },
         include: {
           exposedProduct: true,
         },
@@ -129,7 +127,7 @@ export class ChatService implements IChatService {
 
     if (!exposedProduct) {
       throw new Error(
-        `Product with shopifyId ${productShopifyId} not found in store`,
+        `Product with id ${productInternalId} not found in store`,
       );
     }
 
@@ -146,8 +144,13 @@ export class ChatService implements IChatService {
       sellerName ?? '',
     );
 
-    const conversationId = await this.chatRepository.createConversation(
-      this.createConversationId(customerChatId, productShopifyId),
+    const conversationId = await this.getConversationId(
+      customerChatId,
+      productInternalId,
+    );
+
+    await this.chatRepository.createConversation(
+      conversationId,
       this.createConversationSubject(
         exposedProduct.handle,
         exposedProduct.title,
@@ -158,7 +161,7 @@ export class ChatService implements IChatService {
         customerInternalId,
         vendorChatId,
         vendorInternalId,
-        productInternalId: id,
+        productInternalId,
         productType: exposedProduct.productType,
       },
     );
@@ -169,7 +172,7 @@ export class ChatService implements IChatService {
         id: conversationId,
         buyerId: customerInternalId,
         vendorId: vendorInternalId,
-        productId: id,
+        productId: productInternalId,
       },
       update: {},
     });
@@ -214,9 +217,31 @@ export class ChatService implements IChatService {
     return chatId;
   }
 
-  private createConversationId(customerId: string, productShopifyId: number) {
+  private async getConversationId(
+    customerChatId: string,
+    productInternalId: string,
+  ) {
+    const existingConversation = await this.prisma.conversation.findFirst({
+      where: {
+        buyer: {
+          chatId: customerChatId,
+        },
+        productId: productInternalId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    return (
+      existingConversation?.id ??
+      this.createConversationId(customerChatId, productInternalId)
+    );
+  }
+
+  private createConversationId(customerId: string, productInternalId: string) {
     return createHmac('sha256', chatConfig.chatIdEncryptionKey)
-      .update(`${customerId}-${productShopifyId}`)
+      .update(`${customerId}-${productInternalId}`)
       .digest('hex');
   }
 

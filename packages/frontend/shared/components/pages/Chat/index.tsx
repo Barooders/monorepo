@@ -43,7 +43,6 @@ const Chat: React.FC<PropsType> = ({ productId, selectedConversationId }) => {
     (async () => {
       doFetchCustomer();
     })();
-    doFetchCustomer();
   }, []);
 
   const customer = head(customerState.value?.Customer);

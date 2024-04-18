@@ -78,7 +78,7 @@ export class HandDeliveryService {
         );
       }
 
-      const { shopifyId: productShopifyId } =
+      const { id: productInternalId } =
         await this.prisma.product.findFirstOrThrow({
           where: {
             variants: {
@@ -93,7 +93,7 @@ export class HandDeliveryService {
         const { conversationId: chatConversationId } =
           await this.chatService.getOrCreateConversationFromAuthUserId(
             new UUID({ uuid: authUserId }),
-            Number(productShopifyId),
+            productInternalId,
           );
         paidHandDeliveryOrdersWithConversationId.push({
           orderShopifyId,
@@ -203,7 +203,7 @@ export class HandDeliveryService {
   }
 
   async updateChatConversationAndGetConversationId(
-    productId: number,
+    productInternalId: string,
     customerShopifyId: string,
   ): Promise<string> {
     const { authUserId } = await this.prisma.customer.findUniqueOrThrow({
@@ -214,7 +214,7 @@ export class HandDeliveryService {
     const { conversationId } =
       await this.chatService.getOrCreateConversationFromAuthUserId(
         new UUID({ uuid: authUserId }),
-        productId,
+        productInternalId,
       );
 
     await this.chatService.writeSupportMessage(

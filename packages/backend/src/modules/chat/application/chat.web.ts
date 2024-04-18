@@ -9,6 +9,7 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
@@ -38,7 +39,10 @@ type WebhookMessageDTO = {
 
 @Controller(routesV1.version)
 export class ChatController {
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private prisma: PrismaMainClient,
+  ) {}
 
   @Post(routesV1.chat.conversation)
   @UseGuards(JwtAuthGuard)
@@ -50,10 +54,16 @@ export class ChatController {
     const { productId } = conversationInputDto;
 
     try {
+      const { id: productInternalId } =
+        await this.prisma.product.findUniqueOrThrow({
+          where: {
+            shopifyId: Number(productId),
+          },
+        });
       const { conversationId, isNewConversation } =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: tokenInfo.userId }),
-          Number(productId),
+          productInternalId,
         );
 
       return { conversationId, isNewConversation };
@@ -83,7 +93,6 @@ export class ChatController {
       type === 'SystemMessage' ? 'system-user' : senderId ?? 'no-user-found',
       conversationId,
       !!attachment,
-      webhookMessageDTO.data.conversation.custom,
     );
   }
 }
