@@ -15,6 +15,7 @@ import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
 import first from 'lodash/first';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdRefresh } from 'react-icons/md';
+import { useInterval } from 'react-use';
 import { ChatConversationMetadata } from 'shared-types';
 import Talk from 'talkjs';
 
@@ -60,6 +61,13 @@ const Inbox: React.FC<Props> = ({
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
   const fetchProductPrice = useHasura<GetProductPriceQuery>(GET_PRODUCT_PRICE);
+  const canaryElRef = useRef<HTMLDivElement | null>(null);
+
+  useInterval(() => {
+    if (canaryElRef.current?.clientWidth === 0) {
+      setReadyForPanel(false);
+    }
+  }, 1000);
 
   useEffect(() => {
     if (!readyForPanel) {
@@ -167,11 +175,13 @@ const Inbox: React.FC<Props> = ({
               height={panelHeight}
             >
               {conversationData ? (
-                <ChatPanel
-                  setPanelHeight={setPanelHeight}
-                  conversation={conversationData}
-                  onDetached={() => setReadyForPanel(false)}
-                />
+                <>
+                  <div ref={canaryElRef} />
+                  <ChatPanel
+                    setPanelHeight={setPanelHeight}
+                    conversation={conversationData}
+                  />
+                </>
               ) : (
                 <></>
               )}
