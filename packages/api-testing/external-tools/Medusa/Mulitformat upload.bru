@@ -1,0 +1,15 @@
+meta {
+  name: Mulitformat upload
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{medusaUrl}}/admin/uploads/multi-format
+  body: none
+  auth: none
+}
+
+headers {
+  x-medusa-access-token: {{medusaAdminToken}}
+}
