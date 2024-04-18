@@ -321,8 +321,10 @@ model Conversation {
   createdAt DateTime @default(now())
   buyerId   String   @db.Uuid
   vendorId  String   @db.Uuid
+  productId String
   buyer     Customer @relation(name: "buyerConversations", fields: [buyerId], references: [authUserId])
   vendor    Customer @relation(name: "vendorConversations", fields: [vendorId], references: [authUserId])
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@schema("public")
 }
@@ -395,6 +397,7 @@ model Product {
   priceOffers          PriceOffer[]
   productSalesChannels ProductSalesChannel[]
   bundlePrices         BundlePrice[]
+  conversations        Conversation[]
 
   @@schema("public")
 }

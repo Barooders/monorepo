@@ -169,6 +169,7 @@ export class ChatService implements IChatService {
         id: conversationId,
         buyerId: customerInternalId,
         vendorId: vendorInternalId,
+        productId: id,
       },
       update: {},
     });
