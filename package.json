@@ -4,7 +4,13 @@
   "description": "Barooders monorepo",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/app-scripts",
+    "packages/backend",
+    "packages/cypress",
+    "packages/frontend",
+    "packages/hasura",
+    "packages/scripts",
+    "packages/shared-types"
   ],
   "scripts": {
     "format": "prettier \"{,**/}*.{json,ts,css,scss,yml,tsx}\" --check",
