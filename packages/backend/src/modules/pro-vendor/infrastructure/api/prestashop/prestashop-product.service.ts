@@ -18,6 +18,7 @@ import { FreeglisseMapper } from './mappers/freeglisse.mapper';
 import { FunbikeMapper } from './mappers/funbike.mapper';
 import { GemBikesMapper } from './mappers/gem-bikes.mapper';
 import { MatbikeMapper } from './mappers/matbike.mapper';
+import { SanferbikeMapper } from './mappers/sanferbike.mapper';
 import { SEMotionMapper } from './mappers/semotion.mapper';
 import { TribiciMapper } from './mappers/tribici.mapper';
 import { UsedEliteBikesMapper } from './mappers/used-elite-bikes.mapper';
@@ -38,6 +39,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     private bikeXtremeMapper: BikeXtremeMapper,
     private tribiciMapper: TribiciMapper,
     private matbikeMapper: MatbikeMapper,
+    private sanferbikeMapper: SanferbikeMapper,
     private gemBikesMapper: GemBikesMapper,
     private usedEliteBikesMapper: UsedEliteBikesMapper,
     private velosport34Mapper: Velosport34Mapper,
@@ -87,6 +89,8 @@ export class PrestashopProductService implements ProVendorStrategy {
         return this.semotionMapper;
       case 'matkite':
         return this.matbikeMapper;
+      case 'sanferbike':
+        return this.sanferbikeMapper;
       case 'velosport34':
         return this.velosport34Mapper;
       case 'funbike':

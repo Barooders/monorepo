@@ -11,6 +11,7 @@ import { StockUpdateService } from '@modules/pro-vendor/domain/stock-update.serv
 import { PrestashopDefaultMapper } from '@modules/pro-vendor/infrastructure/api/prestashop/mappers/default.mapper';
 import { FietsMapper } from '@modules/pro-vendor/infrastructure/api/prestashop/mappers/fiets.mapper';
 import { MatbikeMapper } from '@modules/pro-vendor/infrastructure/api/prestashop/mappers/matbike.mapper';
+import { SanferbikeMapper } from '@modules/pro-vendor/infrastructure/api/prestashop/mappers/sanferbike.mapper';
 import { SEMotionMapper } from '@modules/pro-vendor/infrastructure/api/prestashop/mappers/semotion.mapper';
 import { PrestashopProductService } from '@modules/pro-vendor/infrastructure/api/prestashop/prestashop-product.service';
 import { PrestashopClient } from '@modules/pro-vendor/infrastructure/api/prestashop/prestashop.client';
@@ -148,6 +149,7 @@ export const proVendorSharedServices = [
   BikeXtremeMapper,
   TribiciMapper,
   MatbikeMapper,
+  SanferbikeMapper,
   Velosport34Mapper,
   MintMapper,
   VeloMeldoisMapper,
