@@ -18,3 +18,18 @@ headers {
 body:json {
   { "startCommand": "yarn workspace backend console indexProduct all -b" }
 }
+
+vars:post-response {
+  startedJobId: res.body.id
+}
+
+script:post-response {
+  res.body = {
+    ...res.body,
+    serviceUrl: `https://dashboard.render.com/web/${res.body.serviceId}/jobs`
+  }
+}
+
+docs {
+  To go check the logs you can go to https://dashboard.render.com/web/srv-coc1bd779t8c73fednlg/jobs
+}

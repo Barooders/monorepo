@@ -1,0 +1,16 @@
+meta {
+  name: Cancel JOB
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://api.render.com/v1/services/{{renderJobService}}/jobs/{{startedJobId}}/cancel
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{renderToken}}
+  Content-Type: application/json
+}
