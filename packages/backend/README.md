@@ -1,6 +1,6 @@
 # Barooders Backend
 
-A software to handle all Barooders backend logic.
+A software to handle all Barooders back logic.
 
 ![image](https://user-images.githubusercontent.com/10167015/212770522-dffbb2ff-1438-467e-8ab6-c1c1fb7487f0.png)
 [Edit on Excalidraw](https://excalidraw.com/#json=1xpuEsAcaIzBH_KXNaWNd,3vMzTbsMs6CdVWA2jzH7kA)
