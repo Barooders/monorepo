@@ -47,14 +47,13 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
           />
         )}
       </div>
-      <div className="relative col-span-2 my-auto flex flex-grow flex-col justify-between">
+      <div className="relative col-span-2 my-auto flex h-[230px] flex-grow flex-col justify-between">
         <Characteristics
           tags={tags}
           title={title}
           productType={productType}
           variantCondition={variantCondition}
           componentSize="medium"
-          className="h-[95px]"
           extraTagKeys={[
             { key: 'couleur', label: dict.components.productCard.colorLabel },
           ]}
@@ -69,7 +68,9 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
                 />
               </div>
             </div>
-            <p>P.U.: {formatCurrency(price, { round: true })}€</p>
+            {largestBundlePrice && largestBundlePrice < 0.96 * price && (
+              <p>P.U.: {formatCurrency(price, { round: true })}€</p>
+            )}
             <div className="flex items-center gap-1">
               <span className="font-bold">P.U. Lot:</span>
               <ProductPrice
