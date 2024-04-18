@@ -15,6 +15,7 @@ import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
 import first from 'lodash/first';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdRefresh } from 'react-icons/md';
+import { ChatConversationMetadata } from 'shared-types';
 import Talk from 'talkjs';
 
 type Props = {
@@ -22,13 +23,6 @@ type Props = {
   customerName: string;
   productId?: string | null;
   initialConversationId?: string;
-};
-
-type CustomDataType = {
-  customerId: string;
-  vendorId: string;
-  productId: string;
-  productType: string;
 };
 
 const GET_PRODUCT_PRICE = gql`
@@ -76,13 +70,16 @@ const Inbox: React.FC<Props> = ({
   const onConversationSelected = (e: Talk.ConversationSelectedEvent) => {
     if (!e.conversation) return;
 
-    const customData = e.conversation.custom as CustomDataType;
+    const customData = e.conversation.custom as Omit<
+      ChatConversationMetadata,
+      'id'
+    >;
     setSelectedConversationId(e.conversation.id);
     setConversationData({
       id: e.conversation.id,
-      customerId: customData.customerId,
-      productId: customData.productId,
-      vendorId: customData.vendorId,
+      customerInternalId: customData.customerInternalId,
+      productInternalId: customData.productInternalId,
+      vendorInternalId: customData.vendorInternalId,
     });
   };
 

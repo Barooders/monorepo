@@ -8,6 +8,7 @@ async function main() {
     update: {},
     create: {
       shopifyId: 7141905695055,
+      chatId: '7141905695055',
       profilePictureShopifyCdnUrl:
         'https://cdn.shopify.com/s/files/1/0576/4340/1365/files/pdp_mavic.jpg?v=1658763951',
       coverPictureShopifyCdnUrl:

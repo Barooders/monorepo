@@ -32075,8 +32075,8 @@ export type GetAvailableDiscountsQuery = {
 };
 
 export type SubscribeToOpenedPriceOfferSubscriptionVariables = Exact<{
-  productShopifyId: InputMaybe<Scalars['bigint']>;
-  buyerShopifyId: InputMaybe<Scalars['bigint']>;
+  productInternalId: InputMaybe<Scalars['String']>;
+  buyerInternalId: InputMaybe<Scalars['uuid']>;
 }>;
 
 export type SubscribeToOpenedPriceOfferSubscription = {
@@ -32107,12 +32107,12 @@ export type HandDeliveryOrderLineFragmentFragment = {
   order: { __typename?: 'Order'; shopifyId: string };
   productVariant: {
     __typename?: 'ProductVariant';
-    product: { __typename?: 'Product'; shopifyId: any };
+    product: { __typename?: 'Product'; id: string };
   } | null;
 };
 
 export type FetchConversationUserDetailsQueryVariables = Exact<{
-  userShopifyId: InputMaybe<Scalars['bigint']>;
+  userInternalId: InputMaybe<Scalars['uuid']>;
 }>;
 
 export type FetchConversationUserDetailsQuery = {
@@ -32127,7 +32127,7 @@ export type FetchConversationUserDetailsQuery = {
         order: { __typename?: 'Order'; shopifyId: string };
         productVariant: {
           __typename?: 'ProductVariant';
-          product: { __typename?: 'Product'; shopifyId: any };
+          product: { __typename?: 'Product'; id: string };
         } | null;
       }>;
     }>;
@@ -32137,15 +32137,15 @@ export type FetchConversationUserDetailsQuery = {
       order: { __typename?: 'Order'; shopifyId: string };
       productVariant: {
         __typename?: 'ProductVariant';
-        product: { __typename?: 'Product'; shopifyId: any };
+        product: { __typename?: 'Product'; id: string };
       } | null;
     }>;
-    onlineProducts: Array<{ __typename?: 'Product'; shopifyId: any }>;
+    onlineProducts: Array<{ __typename?: 'Product'; id: string }>;
   }>;
 };
 
 export type FetchConversationProductDetailsQueryVariables = Exact<{
-  productShopifyId: InputMaybe<Scalars['bigint']>;
+  productInternalId: InputMaybe<Scalars['String']>;
 }>;
 
 export type FetchConversationProductDetailsQuery = {
@@ -32193,15 +32193,6 @@ export type FetchB2BSavedSearchQuery = {
       value: string;
     }>;
   }>;
-};
-
-export type GetCustomerIdFromShopifyIdQueryVariables = Exact<{
-  customerShopifyId: InputMaybe<Scalars['bigint']>;
-}>;
-
-export type GetCustomerIdFromShopifyIdQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{ __typename?: 'Customer'; authUserId: any }>;
 };
 
 export type FetchNegociationAgreementQueryVariables = Exact<{
@@ -32762,6 +32753,17 @@ export type GetProductPriceQuery = {
         price: any;
       } | null;
     }>;
+  }>;
+};
+
+export type FetchCustomerQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchCustomerQuery = {
+  __typename?: 'query_root';
+  Customer: Array<{
+    __typename?: 'Customer';
+    chatId: string | null;
+    sellerName: string | null;
   }>;
 };
 

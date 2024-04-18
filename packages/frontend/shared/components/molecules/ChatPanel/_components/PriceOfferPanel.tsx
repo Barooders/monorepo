@@ -21,9 +21,9 @@ type PropsType = {
   productHandle: string;
   isBuyer?: boolean;
   negociationAgreement: NegociationAgreementType | null;
-  buyerId: string;
+  buyerInternalId: string;
   originalPrice?: number;
-  productId?: string;
+  productInternalId?: string;
 };
 
 const PriceOfferPanel: React.FC<PropsType> = ({
@@ -31,8 +31,8 @@ const PriceOfferPanel: React.FC<PropsType> = ({
   productHandle,
   isBuyer,
   negociationAgreement,
-  productId,
-  buyerId,
+  productInternalId,
+  buyerInternalId,
   originalPrice,
 }) => {
   const { fetchAPI } = useBackend();
@@ -118,16 +118,16 @@ const PriceOfferPanel: React.FC<PropsType> = ({
             ContentComponent={({ closeModal }) =>
               originalPrice &&
               negociationAgreement?.maxAmountPercent &&
-              productId && (
+              productInternalId && (
                 <MakeOfferModal
                   originalPrice={originalPrice}
-                  productId={productId}
+                  productInternalId={productInternalId}
                   closeModal={closeModal}
                   negociationMaxAmountPercent={
                     negociationAgreement.maxAmountPercent
                   }
                   shouldRedirectToChat={false}
-                  buyerShopifyId={buyerId}
+                  buyerInternalId={buyerInternalId}
                 />
               )
             }

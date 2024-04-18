@@ -2,14 +2,14 @@ import { gql } from '@apollo/client';
 
 export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = gql`
   subscription subscribeToOpenedPriceOffer(
-    $productShopifyId: bigint
-    $buyerShopifyId: bigint
+    $productInternalId: String
+    $buyerInternalId: uuid
   ) {
     PriceOffer(
       where: {
         _and: {
-          product: { shopifyId: { _eq: $productShopifyId } }
-          buyer: { shopifyId: { _eq: $buyerShopifyId } }
+          product: { id: { _eq: $productInternalId } }
+          buyer: { authUserId: { _eq: $buyerInternalId } }
           _or: [
             { status: { _eq: "PROPOSED" } }
             { status: { _eq: "ACCEPTED" } }

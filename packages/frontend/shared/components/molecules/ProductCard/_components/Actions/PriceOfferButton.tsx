@@ -20,9 +20,9 @@ const dict = getDictionary('fr');
 
 type PropsType = {
   variant: ProductSingleVariant['variantShopifyId'];
-  productId: ProductSingleVariant['id'];
+  productInternalId: ProductSingleVariant['id'];
   price: ProductSingleVariant['price'];
-  buyerShopifyId?: string;
+  buyerInternalId?: string;
   negociationMaxAmountPercent: number;
   className?: string;
   size?: ButtonPropsType['size'];
@@ -51,14 +51,14 @@ const MakeOfferButton: React.FC<
 const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
   props,
 ) => {
-  const { productId, className, size } = props;
+  const { productInternalId, className, size, buyerInternalId } = props;
   const { loading, data } =
     useSubscription<SubscribeToOpenedPriceOfferSubscription>(
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
         variables: {
-          productShopifyId: productId,
-          buyerShopifyId: props.buyerShopifyId,
+          productInternalId,
+          buyerInternalId,
         },
       },
     );
@@ -85,10 +85,10 @@ const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
 
 const PriceOfferButton: React.FC<PropsType> = (props) => {
   const {
-    productId,
+    productInternalId,
     variant,
     price,
-    buyerShopifyId,
+    buyerInternalId,
     negociationMaxAmountPercent,
     shouldRedirectToChat,
   } = props;
@@ -115,11 +115,11 @@ const PriceOfferButton: React.FC<PropsType> = (props) => {
         <MakeOfferModal
           originalPrice={price}
           variantId={variant}
-          productId={productId}
+          productInternalId={productInternalId}
           closeModal={closeModal}
           negociationMaxAmountPercent={negociationMaxAmountPercent}
           shouldRedirectToChat={shouldRedirectToChat}
-          buyerShopifyId={buyerShopifyId}
+          buyerInternalId={buyerInternalId}
         />
       )}
     />
