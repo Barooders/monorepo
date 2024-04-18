@@ -105,6 +105,8 @@ export type BundlePrice = {
   createdAt: Scalars['timestamp'];
   id: Scalars['String'];
   minQuantity: Scalars['Int'];
+  /** An object relationship */
+  product: Product;
   productId: Scalars['String'];
   unitPriceInCents: Scalars['bigint'];
 };
@@ -153,6 +155,7 @@ export type BundlePrice_Bool_Exp = {
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   minQuantity: InputMaybe<Int_Comparison_Exp>;
+  product: InputMaybe<Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   unitPriceInCents: InputMaybe<Bigint_Comparison_Exp>;
 };
@@ -174,6 +177,7 @@ export type BundlePrice_Insert_Input = {
   createdAt: InputMaybe<Scalars['timestamp']>;
   id: InputMaybe<Scalars['String']>;
   minQuantity: InputMaybe<Scalars['Int']>;
+  product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   productId: InputMaybe<Scalars['String']>;
   unitPriceInCents: InputMaybe<Scalars['bigint']>;
 };
@@ -219,6 +223,7 @@ export type BundlePrice_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   minQuantity: InputMaybe<Order_By>;
+  product: InputMaybe<Product_Order_By>;
   productId: InputMaybe<Order_By>;
   unitPriceInCents: InputMaybe<Order_By>;
 };
@@ -984,7 +989,7 @@ export type Customer = {
   VendorReviews_aggregate: VendorReview_Aggregate;
   authUserId: Scalars['uuid'];
   buyerCommissionRate: Scalars['Int'];
-  chatId: Maybe<Scalars['String']>;
+  chatId: Scalars['String'];
   coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
   createdAt: Scalars['timestamp'];
   description: Maybe<Scalars['String']>;
@@ -32762,7 +32767,7 @@ export type FetchCustomerQuery = {
   __typename?: 'query_root';
   Customer: Array<{
     __typename?: 'Customer';
-    chatId: string | null;
+    chatId: string;
     sellerName: string | null;
   }>;
 };
