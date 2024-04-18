@@ -15,9 +15,9 @@ headers {
 }
 
 body:multipart-form {
-  files: @file(/Users/clementdessoude/Downloads/active_products.csv)
+  files: @file(/Users/clementdessoude/Downloads/active_products_limit_photos.csv)
 }
 
 script:post-response {
-  bru.setEnvVar("medusaFileKey",res.body.uploads[0].key)
+  bru.setEnvVar("medusaFileKey",res?.body?.uploads?.[0]?.key)
 }
