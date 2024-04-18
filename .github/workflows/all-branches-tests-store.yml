@@ -9,6 +9,10 @@ on:
       - packages/store/**
       - packages/shared-types/**
 
+defaults:
+  run:
+    working-directory: ./packages/store
+
 env:
   TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
   BAROODERS_ENV: local
@@ -26,10 +30,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Decrypt secrets
-        run: yarn workspace store clean
+        run: yarn clean
       - name: Run ESLint
-        run: yarn workspace store lint
+        run: yarn lint
       - name: Build TS server app
-        run: yarn workspace store build:server
+        run: yarn build:server
       - name: Build TS admin app
-        run: yarn workspace store build:admin
+        run: yarn build:admin
