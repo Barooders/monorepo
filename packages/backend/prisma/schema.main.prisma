@@ -309,7 +309,6 @@ model Message {
   text           String
   hasAttachment  Boolean
   senderId       String
-  metadata       Json?
   conversationId String
   createdAt      DateTime @default(now())
 

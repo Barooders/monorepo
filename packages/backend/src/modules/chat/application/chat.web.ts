@@ -83,7 +83,6 @@ export class ChatController {
       type === 'SystemMessage' ? 'system-user' : senderId ?? 'no-user-found',
       conversationId,
       !!attachment,
-      webhookMessageDTO.data.conversation.custom,
     );
   }
 }

@@ -101,7 +101,6 @@ export class ChatService implements IChatService {
     senderId: string,
     conversationId: string,
     hasAttachment: boolean,
-    metadata?: Record<string, string>,
   ): Promise<void> {
     await this.prisma.message.create({
       data: {
@@ -110,7 +109,6 @@ export class ChatService implements IChatService {
         senderId,
         text,
         hasAttachment,
-        metadata,
       },
     });
   }
