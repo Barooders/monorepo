@@ -117,9 +117,8 @@ export class ChatService implements IChatService {
 
   private async getOrCreateConversation(
     productShopifyId: number,
-    customerParticipant: Participant,
+    { chatId: customerChatId, internalId: customerInternalId }: Participant,
   ) {
-    const customerParticipantId = customerParticipant.chatId;
     const { id, vendorId, exposedProduct } =
       await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
         where: { shopifyId: productShopifyId },
@@ -141,41 +140,46 @@ export class ChatService implements IChatService {
         },
       });
 
-    const { chatId: sellerParticipantId } = await this.createParticipant(
+    const { chatId: vendorChatId } = await this.createParticipant(
       new UUID({ uuid: vendorId }),
       UserRole.SELLER,
       sellerName ?? '',
     );
 
     const conversationId = await this.chatRepository.createConversation(
-      this.createConversationId(customerParticipantId, productShopifyId),
+      this.createConversationId(customerChatId, productShopifyId),
       this.createConversationSubject(
         exposedProduct.handle,
         exposedProduct.title,
       ),
-      [
-        customerParticipantId,
-        sellerParticipantId,
-        await this.getSupportChatId(),
-      ],
+      [customerChatId, vendorChatId, await this.getSupportChatId()],
       {
-        customerChatId: customerParticipantId,
-        customerInternalId: customerParticipant.internalId,
-        vendorChatId: sellerParticipantId,
-        vendorInternalId: vendorInternalId,
+        customerChatId,
+        customerInternalId,
+        vendorChatId,
+        vendorInternalId,
         productInternalId: id,
         productType: exposedProduct.productType,
       },
     );
 
+    await this.prisma.conversation.upsert({
+      where: { id: conversationId },
+      create: {
+        id: conversationId,
+        buyerId: customerInternalId,
+        vendorId: vendorInternalId,
+      },
+      update: {},
+    });
+
     const isNewConversation = await this.isNewConversation(conversationId);
 
     if (isNewConversation) {
-      const numberOfNewConversations = await this.countCustomerNewConversation(
-        customerParticipantId,
-      );
+      const numberOfNewConversations =
+        await this.countCustomerNewConversation(customerChatId);
       if (numberOfNewConversations >= 10)
-        throw new NewConversationLimitExceededException(customerParticipantId);
+        throw new NewConversationLimitExceededException(customerChatId);
 
       await this.prisma.event.create({
         data: {
@@ -183,10 +187,9 @@ export class ChatService implements IChatService {
           aggregateId: conversationId,
           name: EventName.CHAT_STARTED,
           payload: {
-            senderId: customerParticipantId,
-            simplifiedEmail: await this.getSimplifiedCustomerEmail(
-              customerParticipantId,
-            ),
+            senderId: customerChatId,
+            simplifiedEmail:
+              await this.getSimplifiedCustomerEmail(customerChatId),
           },
           metadata: {
             productType: exposedProduct.productType,

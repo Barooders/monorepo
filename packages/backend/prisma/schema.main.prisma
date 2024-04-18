@@ -272,6 +272,8 @@ model Customer {
   buyerOffers                 PriceOffer[]           @relation(name: "buyerOffers")
   initiatedOffers             PriceOffer[]           @relation(name: "initiatedOffers")
   negociationAgreements       NegociationAgreement[]
+  buyerConversations          Conversation[]         @relation(name: "buyerConversations")
+  vendorConversations         Conversation[]         @relation(name: "vendorConversations")
 
   @@index([sellerName])
   @@schema("public")
@@ -310,6 +312,17 @@ model Message {
   metadata       Json?
   conversationId String
   createdAt      DateTime @default(now())
+
+  @@schema("public")
+}
+
+model Conversation {
+  id        String   @id
+  createdAt DateTime @default(now())
+  buyerId   String   @db.Uuid
+  vendorId  String   @db.Uuid
+  buyer     Customer @relation(name: "buyerConversations", fields: [buyerId], references: [authUserId])
+  vendor    Customer @relation(name: "vendorConversations", fields: [vendorId], references: [authUserId])
 
   @@schema("public")
 }
