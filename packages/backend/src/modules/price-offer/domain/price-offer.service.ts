@@ -160,7 +160,7 @@ export class PriceOfferService implements IPriceOfferService {
         initiatedBy: buyerId.uuid,
         status: PriceOfferStatus.PROPOSED,
         includedBuyerCommissionPercentage: commission.percentage,
-        description,
+        internalNote: description,
       },
     });
 
