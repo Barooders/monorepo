@@ -1,6 +1,5 @@
 import {
   AggregateName,
-  EventName,
   PriceOffer,
   PriceOfferStatus,
   PrismaMainClient,
@@ -11,10 +10,13 @@ import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { ICommissionRepository } from '@modules/product/domain/ports/commission.repository';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import dayjs from 'dayjs';
 import { first } from 'lodash';
 import { ParticipantEmailSender, Participants } from './config';
+import { PriceOfferCreatedDomainEvent } from './events/price-offer.created.domain-event';
+import { PriceOfferUpdatedDomainEvent } from './events/price-offer.updated.domain-event';
 import {
   ForbiddenParticipation,
   IncoherentPriceOfferStatus,
@@ -31,8 +33,6 @@ const dict = getDictionnary(Locales.FR);
 
 @Injectable()
 export class PriceOfferService implements IPriceOfferService {
-  private readonly logger = new Logger(PriceOfferService.name);
-
   constructor(
     protected readonly prisma: PrismaMainClient,
     protected readonly storePrisma: PrismaStoreClient,
@@ -42,6 +42,7 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly internalNotificationClient: IInternalNotificationClient,
     protected readonly internalTrackingClient: IInternalTrackingClient,
     protected readonly commissionRepository: ICommissionRepository,
+    protected readonly eventEmitter: EventEmitter2,
   ) {}
 
   async createNewPublicPriceOffer(
@@ -79,16 +80,14 @@ export class PriceOfferService implements IPriceOfferService {
 
     const priceOfferUUID = new UUID({ uuid: newPriceOffer.id });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.created',
+      new PriceOfferCreatedDomainEvent({
+        priceOfferId: newPriceOffer.id,
         aggregateId: buyerId.uuid,
-        name: EventName.PRICE_OFFER_CREATED,
-        payload: {
-          priceOfferId: newPriceOffer.id,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     await this.sendMessageToConversation(
       priceOfferUUID,
@@ -164,16 +163,14 @@ export class PriceOfferService implements IPriceOfferService {
       },
     });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.created',
+      new PriceOfferCreatedDomainEvent({
+        priceOfferId: newPriceOffer.id,
         aggregateId: buyerId.uuid,
-        name: EventName.PRICE_OFFER_CREATED,
-        payload: {
-          priceOfferId: newPriceOffer.id,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     const offerMessage = `
       🚲 Produit: ${productType} - ${handle}
@@ -352,17 +349,15 @@ export class PriceOfferService implements IPriceOfferService {
       data,
     });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.updated',
+      new PriceOfferUpdatedDomainEvent({
+        priceOfferId: priceOfferId.uuid,
+        newStatus,
         aggregateId: updatedPriceOffer.buyerId,
-        name: EventName.PRICE_OFFER_UPDATED,
-        payload: {
-          priceOfferId: priceOfferId.uuid,
-          newStatus,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     return updatedPriceOffer;
   }
