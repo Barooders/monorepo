@@ -10,6 +10,7 @@ export class KlaviyoClient implements IMarketingClient {
     const client = this.createKlaviyoClient();
 
     await client('/data-privacy-deletion-jobs', {
+      method: 'POST',
       body: jsonStringify({
         data: {
           type: 'data-privacy-deletion-job',

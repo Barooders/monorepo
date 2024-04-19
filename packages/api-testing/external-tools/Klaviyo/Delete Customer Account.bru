@@ -1,0 +1,36 @@
+meta {
+  name: Delete Customer Account
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{klaviyoUrl}}/data-privacy-deletion-jobs
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Klaviyo-API-Key {{klaviyoApiKey}}
+	accept: application/json
+	content-type: application/json
+	revision: 2024-02-15
+}
+
+body:json {
+	{
+		"data": {
+			"type": "data-privacy-deletion-job",
+			"attributes": {
+				"profile": {
+					"data": {
+						"type": "profile",
+						"attributes": {
+							"email": "some-email@barooders.com"
+						}
+					}
+				}
+			}
+		}
+	}
+}
