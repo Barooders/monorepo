@@ -511,4 +511,8 @@ export const prodVendorConfig: EnvVendorsConfig = {
       { commandName: 'updateProductStatuses', cron: '10 */3 * * *' },
     ],
   },
+  sector_ciclismo: {
+    vendorId: '19070fd7-c486-4231-9734-c8b42ee250ba',
+    synchros: [],
+  },
 };

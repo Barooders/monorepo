@@ -1,3 +1,4 @@
+import { SalesChannelName } from '@libs/domain/prisma.main.client';
 import { Amount, Stock, URL } from '@libs/domain/value-objects';
 
 export type CSVProduct = {
@@ -18,4 +19,5 @@ export type CSVProduct = {
   }[];
   tags: { key: string; value: string }[];
   EANCode?: string;
+  salesChannels: SalesChannelName[];
 };

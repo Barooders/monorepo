@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "login": "clasp login",
-    "open": "clasp open",
-    "push": "clasp push"
+    "open": "clasp -P feed open",
+    "push": "clasp -P feed push",
+    "sector-ciclismo:open": "clasp -P sector-ciclismo open",
+    "sector-ciclismo:push": "clasp -P sector-ciclismo push",
+    "lib-synchro-csv:open": "clasp -P lib-synchro-csv open",
+    "lib-synchro-csv:push": "clasp -P lib-synchro-csv push"
   },
   "dependencies": {
     "@google/clasp": "2.4.2",

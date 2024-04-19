@@ -99,4 +99,5 @@ export const localVendorConfig: EnvVendorsConfig = {
   joost_bikes: DEFAULT_CONFIG,
   velosport20: DEFAULT_CONFIG,
   le_hollandais: DEFAULT_CONFIG,
+  sector_ciclismo: DEFAULT_CONFIG,
 };
