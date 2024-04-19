@@ -43,6 +43,7 @@ export type EnvSecretConfig = {
       paymentgatewayBaseUrl: string;
       hmacSecret: string;
     };
+    klaviyo?: { apiKey: string };
     airtable?: {
       secretApiToken: string;
       appId: string;

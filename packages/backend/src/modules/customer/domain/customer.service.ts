@@ -1,14 +1,18 @@
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { IMarketingClient } from './ports/marketing.client';
 import { IStoreRepository } from './ports/store.repository';
 import { User } from './ports/user';
 
 @Injectable()
 export class CustomerService {
+  private readonly logger: Logger = new Logger(CustomerService.name);
+
   constructor(
     protected readonly storeRepository: IStoreRepository,
     protected readonly prisma: PrismaMainClient,
+    protected readonly marketingClient: IMarketingClient,
   ) {}
 
   async updateUserInfo(userId: UUID, { phoneNumber }: { phoneNumber: string }) {
@@ -88,6 +92,46 @@ export class CustomerService {
   async deleteNegociationAgreement(userId: UUID) {
     await this.prisma.negociationAgreement.deleteMany({
       where: { vendorId: userId.uuid },
+    });
+  }
+
+  async anonymizeCustomerAccount(userId: UUID) {
+    const anonymousEmail = `deleted+${userId.uuid}@barooders.com`;
+    const { email: formerEmail } = await this.prisma.users.findUniqueOrThrow({
+      where: { id: userId.uuid },
+      select: { email: true },
+    });
+
+    this.logger.log('Changing Customer');
+    await this.prisma.customer.update({
+      where: { authUserId: userId.uuid },
+      data: { firstName: '', lastName: '', sellerName: '' },
+    });
+
+    this.logger.log('Changing orders');
+    await this.prisma.order.updateMany({
+      where: { customerId: userId.uuid },
+      data: { customerEmail: anonymousEmail },
+    });
+
+    this.logger.log('Changing paymentAccounts');
+    await this.prisma.paymentAccounts.updateMany({
+      where: { customerId: userId.uuid },
+      data: { email: anonymousEmail },
+    });
+
+    this.logger.log('Anonymize in Shopify');
+    await this.storeRepository.anonymizeCustomer(userId, anonymousEmail);
+
+    if (formerEmail) {
+      this.logger.log('Deletion request in Klaviyo');
+      await this.marketingClient.deleteProfile(formerEmail);
+    }
+
+    this.logger.log('Change user email in users');
+    await this.prisma.users.update({
+      where: { id: userId.uuid },
+      data: { email: anonymousEmail },
     });
   }
 }

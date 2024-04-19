@@ -131,6 +131,12 @@ class InstrumentedCustomerClient {
       this.shopifyClient.customer.create(params),
     );
   }
+
+  async update(id: number, params: any) {
+    return instrumentShopifyMethod('updateCustomer', () =>
+      this.shopifyClient.customer.update(id, params),
+    );
+  }
 }
 
 class InstrumentedFulfillmentClient {

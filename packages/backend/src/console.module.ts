@@ -1,3 +1,4 @@
+import { CustomerConsoleModule } from '@modules/customer/customer.console.module';
 import { OrderConsoleModule } from '@modules/order/order.module';
 import { ProVendorConsoleModule } from '@modules/pro-vendor/console.module';
 import { IndexationConsoleModule } from '@modules/product/indexation.module';
@@ -13,6 +14,7 @@ const consoleModules = [
   OrderConsoleModule,
   ProductConsoleModule,
   IndexationConsoleModule,
+  CustomerConsoleModule,
 ];
 
 @Module({
