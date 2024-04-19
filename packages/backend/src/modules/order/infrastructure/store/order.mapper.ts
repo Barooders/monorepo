@@ -401,6 +401,9 @@ export class OrderMapper {
 
     if (!isHandDeliveryOrder(orderData)) return frontendChatPage;
 
+    const isUnknownCustomer = (await this.getCustomerId(orderData)) === null;
+    if (isUnknownCustomer) return frontendChatPage;
+
     try {
       const conversationId =
         await this.handDeliveryService.updateChatConversationAndGetConversationId(
