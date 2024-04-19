@@ -21,7 +21,7 @@ export class CustomerCLIConsole {
     description:
       'Anonymize user account when a user want to have its info removed',
   })
-  async indexAllCollections(email: string): Promise<void> {
+  async anonymizeUser(email: string): Promise<void> {
     const userToAnonymize = await this.mainPrisma.users.findUniqueOrThrow({
       where: { email },
       select: { id: true },

@@ -131,7 +131,7 @@ export class CustomerService {
     this.logger.log('Change user email in users');
     await this.prisma.users.update({
       where: { id: userId.uuid },
-      data: { email: anonymousEmail },
+      data: { email: anonymousEmail, disabled: true },
     });
   }
 }
