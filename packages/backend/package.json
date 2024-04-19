@@ -120,6 +120,8 @@
     "jsdom": "21.1.2",
     "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
+    "@medusajs/medusa-js": "6.1.8",
+    "@medusajs/types": "1.11.15",
     "nanoid": "3.3.4",
     "nanoid-dictionary": "4.3.0",
     "nest-commander": "3.12.0",
