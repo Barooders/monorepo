@@ -36,6 +36,9 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   stock,
   hasOpenedPriceOffer,
 }) => {
+  const shouldShowBothPrices =
+    largestBundlePrice && largestBundlePrice < 0.96 * price;
+  const bundlePrice = shouldShowBothPrices ? largestBundlePrice : price;
   return (
     <div className="grid w-full grid-cols-2 gap-1 overflow-hidden border border-slate-50">
       <div className="relative col-span-2 h-52 w-full flex-grow sm:h-64">
@@ -68,7 +71,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
                 />
               </div>
             </div>
-            {largestBundlePrice && largestBundlePrice < 0.96 * price && (
+            {shouldShowBothPrices && (
               <p>P.U.: {formatCurrency(price, { round: true })}€</p>
             )}
             <div className="flex items-center gap-1">
@@ -77,7 +80,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
                 productId={shopifyId}
                 discounts={[]}
                 compareAtPrice={Math.max(compareAtPrice, price)}
-                price={largestBundlePrice ?? price}
+                price={bundlePrice}
                 showPriceRecap={false}
               />
             </div>
