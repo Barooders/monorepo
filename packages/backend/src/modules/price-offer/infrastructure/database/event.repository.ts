@@ -1,4 +1,5 @@
 import { EventName, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { PriceOfferCreatedDomainEvent } from '@modules/price-offer/domain/events/price-offer.created.domain-event';
 import { PriceOfferUpdatedDomainEvent } from '@modules/price-offer/domain/events/price-offer.updated.domain-event';
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
@@ -12,7 +13,8 @@ export class EventRepository {
     aggregateId,
     aggregateName,
     priceOfferId,
-    newStatus,
+    updates,
+    metadata,
   }: PriceOfferUpdatedDomainEvent) {
     await this.mainPrisma.event.create({
       data: {
@@ -21,8 +23,12 @@ export class EventRepository {
         name: EventName.PRICE_OFFER_UPDATED,
         payload: {
           priceOfferId,
-          newStatus,
+          updates: {
+            ...updates,
+            newPriceInCents: updates.newPriceInCents?.toString(),
+          },
         },
+        metadata,
       },
     });
   }
@@ -32,7 +38,7 @@ export class EventRepository {
     aggregateId,
     aggregateName,
     priceOfferId,
-  }: PriceOfferUpdatedDomainEvent) {
+  }: PriceOfferCreatedDomainEvent) {
     await this.mainPrisma.event.create({
       data: {
         aggregateName,

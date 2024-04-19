@@ -31,6 +31,17 @@ import { IStoreClient } from './ports/store.client';
 
 const dict = getDictionnary(Locales.FR);
 
+export type PriceOfferUpdates = Partial<
+  Pick<
+    PriceOffer,
+    | 'status'
+    | 'publicNote'
+    | 'internalNote'
+    | 'newPriceInCents'
+    | 'discountCode'
+  >
+>;
+
 @Injectable()
 export class PriceOfferService implements IPriceOfferService {
   constructor(
@@ -204,11 +215,32 @@ export class PriceOfferService implements IPriceOfferService {
   }
 
   async updatePriceOfferByAdmin(
-    _priceOfferId: UUID,
-    _updates: Partial<PriceOffer>,
-    _authorId?: string,
+    priceOfferId: UUID,
+    updates: PriceOfferUpdates,
+    authorId?: string,
   ) {
-    throw new Error('Method not implemented.');
+    const updatedPriceOffer = await this.prisma.priceOffer.update({
+      where: {
+        id: priceOfferId.uuid,
+      },
+      data: updates,
+      select: {
+        buyerId: true,
+      },
+    });
+
+    this.eventEmitter.emit(
+      'price-offer.updated',
+      new PriceOfferUpdatedDomainEvent({
+        priceOfferId: priceOfferId.uuid,
+        updates,
+        aggregateId: updatedPriceOffer.buyerId,
+        aggregateName: AggregateName.CUSTOMER,
+        metadata: {
+          author: { id: authorId, type: 'admin' },
+        },
+      }),
+    );
   }
 
   async cancelPriceOffer(userId: UUID, priceOfferId: UUID): Promise<void> {
@@ -333,11 +365,11 @@ export class PriceOfferService implements IPriceOfferService {
 
   private async changePriceOfferStatus(
     priceOfferId: UUID,
-    newStatus: PriceOfferStatus,
+    status: PriceOfferStatus,
     discountCode?: string,
   ): Promise<PriceOffer> {
     const data: { status: PriceOfferStatus; discountCode?: string } = {
-      status: newStatus,
+      status,
     };
 
     if (discountCode) data.discountCode = discountCode;
@@ -353,7 +385,7 @@ export class PriceOfferService implements IPriceOfferService {
       'price-offer.updated',
       new PriceOfferUpdatedDomainEvent({
         priceOfferId: priceOfferId.uuid,
-        newStatus,
+        updates: { status, discountCode },
         aggregateId: updatedPriceOffer.buyerId,
         aggregateName: AggregateName.CUSTOMER,
       }),

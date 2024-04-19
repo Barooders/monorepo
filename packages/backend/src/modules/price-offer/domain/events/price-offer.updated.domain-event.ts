@@ -2,15 +2,20 @@ import {
   DomainEvent,
   DomainEventProps,
 } from '@libs/domain/events/domain-events.base';
-import { PriceOfferStatus } from '@libs/domain/prisma.main.client';
+import { Author } from '@libs/domain/types';
+import { PriceOfferUpdates } from '../price-offer.service';
 
 export class PriceOfferUpdatedDomainEvent extends DomainEvent {
   readonly priceOfferId: string;
-  readonly newStatus: PriceOfferStatus;
+  readonly updates: PriceOfferUpdates;
+  readonly metadata?: {
+    author: Author;
+  };
 
   constructor(props: DomainEventProps<PriceOfferUpdatedDomainEvent>) {
     super(props);
     this.priceOfferId = props.priceOfferId;
-    this.newStatus = props.newStatus;
+    this.updates = props.updates;
+    this.metadata = props.metadata;
   }
 }

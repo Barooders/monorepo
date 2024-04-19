@@ -26,6 +26,8 @@ import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy'
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsOptional, IsString, isUUID } from 'class-validator';
 import { PriceOfferService } from '../domain/price-offer.service';
+import { AuthGuard } from '@nestjs/passport';
+import { OrGuard } from '@libs/application/decorators/or-guard';
 
 class UpdatePriceOfferDTO {
   @ApiProperty()
@@ -246,7 +248,7 @@ export class PriceOfferController {
   }
 
   @Put(routesV1.priceOffer.priceOfferByAdmin)
-  @UseGuards(AdminGuard)
+  @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
   async updatePriceOfferAsAdmin(
     @Param('priceOfferId') priceOfferId: string,
     @Body() body: UpdatePriceOfferByAdminDTO,
