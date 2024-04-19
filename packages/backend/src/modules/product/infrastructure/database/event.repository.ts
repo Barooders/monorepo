@@ -46,6 +46,10 @@ export class EventRepository {
     productInternalId: productId, // Renamed to productId to keep consistency in Event table
     metadata,
   }: ProductUpdatedDomainEvent) {
+    this.logger.log(
+      `Product ${productId} was refused by ${metadata.author.id}`,
+    );
+
     await this.mainPrisma.event.create({
       data: {
         aggregateName,
@@ -67,6 +71,8 @@ export class EventRepository {
     productShopifyId,
     metadata,
   }: ProductCreatedDomainEvent) {
+    this.logger.log(`Created product ${productId}`);
+
     await this.mainPrisma.event.create({
       data: {
         aggregateName,
