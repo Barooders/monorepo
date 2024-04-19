@@ -67,6 +67,7 @@
     "@bull-board/api": "5.15.3",
     "@bull-board/express": "5.15.3",
     "@bull-board/nestjs": "5.15.3",
+    "@medusajs/medusa": "1.20.4",
     "@medusajs/medusa-js": "6.1.8",
     "@medusajs/types": "1.11.15",
     "@nestjs/axios": "1.0.1",
