@@ -3,7 +3,7 @@ import {
   DomainEventProps,
 } from '@libs/domain/events/domain-events.base';
 import { Author } from '@libs/domain/types';
-import { PriceOfferUpdates } from '../price-offer.service';
+import { PriceOfferUpdates } from '../ports/price-offer';
 
 export class PriceOfferUpdatedDomainEvent extends DomainEvent {
   readonly priceOfferId: string;

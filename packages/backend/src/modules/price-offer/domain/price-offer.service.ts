@@ -26,21 +26,10 @@ import {
 import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IInternalTrackingClient } from './ports/internal-tracking.client';
-import { IPriceOfferService } from './ports/price-offer';
+import { IPriceOfferService, PriceOfferUpdates } from './ports/price-offer';
 import { IStoreClient } from './ports/store.client';
 
 const dict = getDictionnary(Locales.FR);
-
-export type PriceOfferUpdates = Partial<
-  Pick<
-    PriceOffer,
-    | 'status'
-    | 'publicNote'
-    | 'internalNote'
-    | 'newPriceInCents'
-    | 'discountCode'
-  >
->;
 
 @Injectable()
 export class PriceOfferService implements IPriceOfferService {
