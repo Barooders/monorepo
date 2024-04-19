@@ -15,10 +15,6 @@ export class LoggerService extends PinoLogger {
     super.warn({ sharedContext: this.sharedContext, context: args }, message);
   }
 
-  info(message: string, ...args: string[]) {
-    super.info({ sharedContext: this.sharedContext, context: args }, message);
-  }
-
   debug(message: string, ...args: string[]) {
     super.debug({ sharedContext: this.sharedContext, context: args }, message);
   }
