@@ -45,7 +45,9 @@ const applicationModules = [
   imports: [
     RequestContextModule,
     ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot({
+      wildcard: true,
+    }),
     BaseModule,
     ...applicationModules,
   ],
