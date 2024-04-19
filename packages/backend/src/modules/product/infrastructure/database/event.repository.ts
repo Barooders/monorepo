@@ -1,11 +1,14 @@
 import { EventName, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { jsonStringify } from '@libs/helpers/json';
 import { ProductCreatedDomainEvent } from '@modules/product/domain/events/product.created.domain-event';
 import { ProductUpdatedDomainEvent } from '@modules/product/domain/events/product.updated.domain-event';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class EventRepository {
+  private readonly logger = new Logger(EventRepository.name);
+
   constructor(private mainPrisma: PrismaMainClient) {}
 
   @OnEvent('product.updated', { async: true })
@@ -16,6 +19,12 @@ export class EventRepository {
     payload,
     metadata,
   }: ProductUpdatedDomainEvent) {
+    if (metadata.author.type === 'backend') {
+      this.logger.log(
+        `Updated product ${productId} with ${jsonStringify(payload)}`,
+      );
+      return;
+    }
     await this.mainPrisma.event.create({
       data: {
         aggregateName,
