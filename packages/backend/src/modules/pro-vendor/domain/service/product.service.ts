@@ -297,6 +297,24 @@ export class ProductService {
     productStoreId: number,
     productFromStore: StoredProduct,
   ) {
+    if (!mappedProduct.variants || mappedProduct.variants.length === 0) return;
+
+    const createdVariants = await Promise.all(
+      mappedProduct.variants.map(async (variant) => {
+        return {
+          ...variant,
+          internal_id: await this.getOrCreateVariantId(variant, productStoreId), //TODO: we know here which variants already exist
+        };
+      }),
+    );
+
+    this.logger.debug(jsonStringify({ createdVariants }));
+
+    await this.updateVariantsPricesAndQuantities(
+      createdVariants,
+      productFromStore.variants,
+    );
+
     const internalVariants = await this.prisma.vendorProVariant.findMany({
       where: {
         internalVariantId: {
@@ -321,24 +339,6 @@ export class ProductService {
     );
 
     this.logger.debug(jsonStringify({ internalVariants, variantsToDelete }));
-
-    if (!mappedProduct.variants) return;
-
-    const createdVariants = await Promise.all(
-      mappedProduct.variants.map(async (variant) => {
-        return {
-          ...variant,
-          internal_id: await this.getOrCreateVariantId(variant, productStoreId), //TODO: we know here which variants already exist
-        };
-      }),
-    );
-
-    this.logger.debug(jsonStringify({ createdVariants }));
-
-    await this.updateVariantsPricesAndQuantities(
-      createdVariants,
-      productFromStore.variants,
-    );
   }
 
   private async updateSEOMetafields(
