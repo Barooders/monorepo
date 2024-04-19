@@ -206,6 +206,14 @@ export class PriceOfferService implements IPriceOfferService {
     return await this.changePriceOfferStatus(priceOfferId, newStatus);
   }
 
+  async updatePriceOfferByAdmin(
+    _priceOfferId: UUID,
+    _updates: Partial<PriceOffer>,
+    _authorId?: string,
+  ) {
+    throw new Error('Method not implemented.');
+  }
+
   async cancelPriceOffer(userId: UUID, priceOfferId: UUID): Promise<void> {
     const updatedPriceOffer = await this.updatePriceOfferStatus(
       userId,
