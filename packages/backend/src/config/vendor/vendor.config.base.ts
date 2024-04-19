@@ -969,6 +969,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           },
         },
       },
+      common: {
+        priceCorrection: -10,
+      },
     },
   },
   lario_ebike: {
