@@ -19,12 +19,12 @@ export class EventRepository {
     payload,
     metadata,
   }: ProductUpdatedDomainEvent) {
-    if (metadata.author.type === 'backend') {
-      this.logger.log(
-        `Updated product ${productId} with ${jsonStringify(payload)}`,
-      );
-      return;
-    }
+    this.logger.log(
+      `Updated product ${productId} with ${jsonStringify(payload)}`,
+    );
+
+    if (metadata.author.type === 'backend') return;
+
     await this.mainPrisma.event.create({
       data: {
         aggregateName,
