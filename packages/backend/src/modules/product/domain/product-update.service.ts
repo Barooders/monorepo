@@ -1,7 +1,6 @@
 import {
   AggregateName,
   Condition,
-  EventName,
   Prisma,
   PrismaMainClient,
   ProductNotation,
@@ -13,15 +12,16 @@ import {
   Variant,
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
-import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { pick } from 'lodash';
+import { ProductRefusedDomainEvent } from './events/product.refused.domain-event';
+import { ProductUpdatedDomainEvent } from './events/product.updated.domain-event';
 import { NotificationService } from './notification.service';
 import { UserNotAllowedException } from './ports/exceptions';
 import { IPIMClient } from './ports/pim.client';
-import { IQueueClient } from './ports/queue-client';
 import { IStoreClient } from './ports/store.client';
 import { getHandDeliveryMetafields } from './product.methods';
 import { ImageToUpload, ProductImage } from './types';
@@ -44,7 +44,7 @@ export class ProductUpdateService {
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private notificationService: NotificationService,
-    private queueClient: IQueueClient,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async updateProduct(
@@ -75,18 +75,21 @@ export class ProductUpdateService {
 
     try {
       const vendor = await this.getVendorFromProductId(productId);
-      await this.notifyEvent({
-        eventName: EventName.PRODUCT_UPDATED,
-        vendorId: vendor.authUserId,
-        productId,
-        payload: {
-          productShopifyId: productId.storeId,
-          updates: jsonStringify(updatesAndPreviousValues),
-        },
-        metadata: {
-          author,
-        },
-      });
+      this.eventEmitter.emit(
+        'product.updated',
+        new ProductUpdatedDomainEvent({
+          aggregateId: vendor.authUserId,
+          aggregateName: AggregateName.VENDOR,
+          productInternalId: productId.id,
+          payload: {
+            productShopifyId: productId.storeId,
+            updates: jsonStringify(updatesAndPreviousValues),
+          },
+          metadata: {
+            author,
+          },
+        }),
+      );
 
       if (notifyVendor) {
         await this.notificationService.notify(
@@ -157,20 +160,23 @@ export class ProductUpdateService {
 
     try {
       const vendor = await this.getVendorFromProductId(productId);
-      await this.notifyEvent({
-        eventName: EventName.PRODUCT_UPDATED,
-        vendorId: vendor.authUserId,
-        productId,
-        payload: {
-          variantId: variantId.id,
-          productStoreId: productId.storeId,
-          variantStoreId: variantId.storeId,
-          updates: jsonStringify(updatesAndPreviousValues),
-        },
-        metadata: {
-          author,
-        },
-      });
+      this.eventEmitter.emit(
+        'product.updated',
+        new ProductUpdatedDomainEvent({
+          aggregateId: vendor.authUserId,
+          aggregateName: AggregateName.VENDOR,
+          productInternalId: productId.id,
+          payload: {
+            variantId: variantId.id,
+            productStoreId: productId.storeId,
+            variantStoreId: variantId.storeId,
+            updates: jsonStringify(updatesAndPreviousValues),
+          },
+          metadata: {
+            author,
+          },
+        }),
+      );
     } catch (e: any) {
       this.logger.error(
         `Unable to create event PRODUCT_UPDATED when updating variant ${variantId.id} : ${e.message}`,
@@ -196,20 +202,23 @@ export class ProductUpdateService {
         product: true,
       },
     });
-    await this.notifyEvent({
-      eventName: EventName.PRODUCT_UPDATED,
-      vendorId: productVariantInDB.product.vendorId,
-      productId,
-      payload: {
-        variantId: variantId.id,
-        productStoreId: productId.storeId,
-        variantStoreId: variantId.storeId,
-      },
-      metadata: {
-        comment: 'Product variant deleted',
-        author,
-      },
-    });
+    this.eventEmitter.emit(
+      'product.updated',
+      new ProductUpdatedDomainEvent({
+        aggregateId: productVariantInDB.product.vendorId,
+        aggregateName: AggregateName.VENDOR,
+        productInternalId: productId.id,
+        payload: {
+          variantId: variantId.id,
+          productStoreId: productId.storeId,
+          variantStoreId: variantId.storeId,
+        },
+        metadata: {
+          comment: 'Product variant deleted',
+          author,
+        },
+      }),
+    );
   }
 
   async applyStockUpdateInDatabaseOnly(
@@ -229,22 +238,23 @@ export class ProductUpdateService {
       include: { product: true },
     });
 
-    await this.notifyEvent({
-      eventName: EventName.PRODUCT_UPDATED,
-      vendorId: productVariantInDB.product.vendorId,
-      productId: {
-        id: productVariantInDB.productId,
-        storeId: productVariantInDB.product.shopifyId.toString(),
-      },
-      payload: {
-        variantId: productVariantInDB.id,
-        stockUpdate,
-        newQuantity: productVariantInDB.quantity,
-      },
-      metadata: {
-        author,
-      },
-    });
+    this.eventEmitter.emit(
+      'product.updated',
+      new ProductUpdatedDomainEvent({
+        aggregateId: productVariantInDB.product.vendorId,
+        aggregateName: AggregateName.VENDOR,
+        productInternalId: productVariantInDB.productId,
+        payload: {
+          variantId: productVariantInDB.id,
+          stockUpdate,
+          newQuantity: productVariantInDB.quantity,
+        },
+        metadata: {
+          comment: 'Product variant deleted',
+          author,
+        },
+      }),
+    );
   }
 
   async moderateProduct(
@@ -278,17 +288,17 @@ export class ProductUpdateService {
 
     try {
       const vendor = await this.getVendorFromProductId(productId);
-      await this.notifyEvent({
-        eventName: EventName.PRODUCT_REFUSED,
-        vendorId: vendor.authUserId,
-        productId,
-        payload: {
-          productId: productId.id,
-        },
-        metadata: {
-          author,
-        },
-      });
+      this.eventEmitter.emit(
+        'product.refused',
+        new ProductRefusedDomainEvent({
+          aggregateId: vendor.authUserId,
+          aggregateName: AggregateName.VENDOR,
+          productInternalId: productId.id,
+          metadata: {
+            author,
+          },
+        }),
+      );
     } catch (e: any) {
       this.logger.error(
         `Unable to create event PRODUCT_REFUSED for product ${productId.id} : ${e.message}`,
@@ -396,35 +406,5 @@ export class ProductUpdateService {
       before: pick(currentProduct, Object.keys(concreteUpdates)),
       after: pick(updatedProduct, Object.keys(concreteUpdates)),
     };
-  }
-
-  private async notifyEvent({
-    eventName,
-    vendorId,
-    productId,
-    payload,
-    metadata,
-  }: {
-    eventName: EventName;
-    vendorId: string;
-    productId: EntityId;
-    payload: Record<string, string | number>;
-    metadata: { author: Author; comment?: string };
-  }) {
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.VENDOR,
-        aggregateId: vendorId,
-        name: eventName,
-        payload: {
-          ...payload,
-          productId: productId.id,
-        },
-        metadata,
-      },
-    });
-    await this.queueClient.planProductIndexation(
-      new UUID({ uuid: productId.id }),
-    );
   }
 }

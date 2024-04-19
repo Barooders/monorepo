@@ -30,6 +30,26 @@ export class EventRepository {
     });
   }
 
+  @OnEvent('product.refused', { async: true })
+  async handleProductRefused({
+    aggregateId,
+    aggregateName,
+    productInternalId: productId, // Renamed to productId to keep consistency in Event table
+    metadata,
+  }: ProductUpdatedDomainEvent) {
+    await this.mainPrisma.event.create({
+      data: {
+        aggregateName,
+        aggregateId,
+        name: EventName.PRODUCT_REFUSED,
+        payload: {
+          productId,
+        },
+        metadata,
+      },
+    });
+  }
+
   @OnEvent('product.created', { async: true })
   async handleProductCreated({
     aggregateId,
