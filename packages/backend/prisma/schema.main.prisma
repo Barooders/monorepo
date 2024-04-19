@@ -408,6 +408,7 @@ model ProductVariant {
   quantity     Int
   productId    String
   priceInCents BigInt?
+  compareAtPriceInCents BigInt?
   condition    Condition?
   product      Product      @relation(fields: [productId], references: [id])
   priceOffers  PriceOffer[]
