@@ -1,5 +1,7 @@
+import { Condition } from '@libs/domain/prisma.main.client';
 import { Injectable } from '@nestjs/common';
 import { first } from 'lodash';
+import { ProductDTO } from '../dto/prestashop-product.dto';
 import { PrestashopDefaultMapper } from './default.mapper';
 
 @Injectable()
@@ -27,5 +29,9 @@ export class SanferbikeMapper extends PrestashopDefaultMapper {
     if (['20839'].includes(rootCategoryId)) return 'vélos-de-trekking';
 
     return externalCategoryId;
+  }
+
+  getProductCondition(_product: ProductDTO): Condition {
+    return Condition.AS_NEW;
   }
 }
