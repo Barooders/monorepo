@@ -35,6 +35,7 @@ import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
 import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
+import { EventRepository } from './infrastructure/database/event.repository';
 
 const commonImports = [
   PrismaModule,
@@ -84,6 +85,7 @@ const commonProviders = [
   NotificationService,
   ProductCreationService,
   ProductUpdateService,
+  EventRepository,
   CollectionService,
   AdminGuard,
   AuthGuard('header-api-key'),

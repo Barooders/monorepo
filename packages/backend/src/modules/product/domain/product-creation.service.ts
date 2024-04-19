@@ -1,7 +1,6 @@
 import {
   AggregateName,
   Condition,
-  EventName,
   PrismaMainClient,
   ProductStatus,
   SalesChannelName,
@@ -32,15 +31,16 @@ import {
 } from 'class-validator';
 import { IStoreClient } from './ports/store.client';
 
-import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
 import { jsonStringify } from '@libs/helpers/json';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { ProductCreatedDomainEvent } from './events/product.created.domain-event';
+import { ProductUpdatedDomainEvent } from './events/product.updated.domain-event';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IPIMClient } from './ports/pim.client';
-import { IQueueClient } from './ports/queue-client';
 import { getHandDeliveryMetafields } from './product.methods';
 
 class BundlePriceDTO {
@@ -119,8 +119,8 @@ export class ProductCreationService {
     private pimClient: IPIMClient,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
-    private queueClient: IQueueClient,
     private internalNotificationClient: IInternalNotificationClient,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async createProduct(
@@ -211,17 +211,18 @@ export class ProductCreationService {
       },
     });
 
-    await this.notifyEvent({
-      eventName: EventName.PRODUCT_CREATED,
-      vendorId,
-      productId: productInDB.id,
-      payload: {
-        productShopifyId: createdProduct.id,
-      },
-      metadata: {
-        author,
-      },
-    });
+    this.eventEmitter.emit(
+      'product.created',
+      new ProductCreatedDomainEvent({
+        aggregateId: vendorId,
+        aggregateName: AggregateName.VENDOR,
+        productInternalId: productInDB.id,
+        productShopifyId: productInDB.shopifyId,
+        metadata: {
+          author,
+        },
+      }),
+    );
 
     return createdProduct;
   }
@@ -254,19 +255,22 @@ export class ProductCreationService {
       },
     });
 
-    await this.notifyEvent({
-      eventName: EventName.PRODUCT_UPDATED,
-      vendorId: productVariantInDB.product.vendorId,
-      productId: productVariantInDB.product.id,
-      payload: {
-        newVariantId: productVariantInDB.id,
-        newVariantShopifyId: createdVariant.id,
-        productShopifyId: productId,
-      },
-      metadata: {
-        author,
-      },
-    });
+    this.eventEmitter.emit(
+      'product.updated',
+      new ProductUpdatedDomainEvent({
+        aggregateId: productVariantInDB.product.vendorId,
+        aggregateName: AggregateName.VENDOR,
+        productInternalId: productVariantInDB.product.id,
+        payload: {
+          newVariantId: productVariantInDB.id,
+          newVariantShopifyId: createdVariant.id,
+          productShopifyId: productId,
+        },
+        metadata: {
+          author,
+        },
+      }),
+    );
 
     return createdVariant;
   }
@@ -453,33 +457,5 @@ export class ProductCreationService {
       (bypassImageCheck || product.images.length > 0) &&
       product.product_type
     );
-  }
-
-  private async notifyEvent({
-    eventName,
-    vendorId,
-    productId,
-    payload,
-    metadata,
-  }: {
-    eventName: EventName;
-    vendorId: string;
-    productId: string;
-    payload: Record<string, string | number>;
-    metadata: { author: Author; comment?: string };
-  }) {
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.VENDOR,
-        aggregateId: vendorId,
-        name: eventName,
-        payload: {
-          ...payload,
-          productId,
-        },
-        metadata,
-      },
-    });
-    await this.queueClient.planProductIndexation(new UUID({ uuid: productId }));
   }
 }
