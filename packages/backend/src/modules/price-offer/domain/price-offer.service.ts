@@ -348,7 +348,7 @@ export class PriceOfferService implements IPriceOfferService {
       data: {
         aggregateName: AggregateName.CUSTOMER,
         aggregateId: updatedPriceOffer.buyerId,
-        name: EventName.PRICE_OFFER_STATUS_UPDATED,
+        name: EventName.PRICE_OFFER_UPDATED,
         payload: {
           priceOfferId: priceOfferId.uuid,
           newStatus,
