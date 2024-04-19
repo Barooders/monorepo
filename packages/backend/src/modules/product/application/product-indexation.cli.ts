@@ -125,6 +125,27 @@ export class ProductIndexationCLIConsole {
     );
   }
 
+  @Command({
+    command: 'fromVendor <vendorName>',
+    description: 'Add vendor products to index queue',
+  })
+  async indexVendorProducts(vendorName: string): Promise<void> {
+    const productIds = await this.mainPrisma.product.findMany({
+      where: {
+        vendor: { sellerName: { equals: vendorName } },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    this.logger.warn(
+      `This command will index (${productIds.length}) products of vendor ${vendorName}`,
+    );
+
+    await this.indexMultipleProducts(productIds.map(({ id }) => id));
+  }
+
   private async indexMultipleProducts(productIds: string[]) {
     for (const productId of productIds) {
       this.logger.warn(`Sending product (${productId}) to queue`);
