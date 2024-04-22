@@ -828,7 +828,6 @@ enum PriceOfferStatus {
   DECLINED
   ACCEPTED
   BOUGHT_WITH
-  BOUGHT_WITHOUT
   CANCELED
 
   @@schema("public")
