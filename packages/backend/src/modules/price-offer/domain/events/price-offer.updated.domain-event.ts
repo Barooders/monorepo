@@ -7,7 +7,7 @@ import { PriceOfferUpdates } from '../ports/price-offer';
 
 export class PriceOfferUpdatedDomainEvent extends DomainEvent {
   readonly updates: PriceOfferUpdates;
-  readonly metadata?: {
+  readonly metadata: {
     author: Author;
   };
 

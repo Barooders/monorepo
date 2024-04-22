@@ -1,8 +1,10 @@
 import { PriceOffer } from '@libs/domain/prisma.main.client';
+import { Author } from '@libs/domain/types';
 
 export abstract class IPriceOfferService {
   abstract updatePriceOfferStatusFromOrder(
     usedDiscountCodes: string[],
+    author: Author,
   ): Promise<void>;
 }
 

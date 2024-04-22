@@ -10,11 +10,11 @@ import { IInternalTrackingClient } from './domain/ports/internal-tracking.client
 import { IPriceOfferService } from './domain/ports/price-offer';
 import { IStoreClient } from './domain/ports/store.client';
 import { PriceOfferService } from './domain/price-offer.service';
+import { EventRepository } from './infrastructure/database/event.repository';
 import { SendGridClient } from './infrastructure/email/sendgrid';
 import { AirtableClient } from './infrastructure/internal-notification/airtable.client';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { ShopifyClient } from './infrastructure/store/shopify';
-import { EventRepository } from './infrastructure/database/event.repository';
 import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { AuthGuard } from '@nestjs/passport';
 
