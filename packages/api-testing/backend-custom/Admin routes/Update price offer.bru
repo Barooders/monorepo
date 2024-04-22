@@ -1,0 +1,22 @@
+meta {
+  name: Update price offer
+  type: http
+  seq: 12
+}
+
+put {
+  url: {{backendBaseUrl}}/v1/admin/price-offer/abe4f962-fb33-4dd7-8e80-7cf652ff009b
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}
+
+body:json {
+  {
+    "status": "CANCELED"
+  }
+}

@@ -15,6 +15,8 @@ import { AirtableClient } from './infrastructure/internal-notification/airtable.
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { ShopifyClient } from './infrastructure/store/shopify';
 import { EventRepository } from './infrastructure/database/event.repository';
+import { AdminGuard } from '@libs/application/decorators/admin.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Module({
   imports: [PrismaModule, ChatModule, ProductModule],
@@ -42,6 +44,8 @@ import { EventRepository } from './infrastructure/database/event.repository';
       provide: IEmailClient,
       useClass: SendGridClient,
     },
+    AdminGuard,
+    AuthGuard('header-api-key'),
   ],
   exports: [IPriceOfferService],
 })
