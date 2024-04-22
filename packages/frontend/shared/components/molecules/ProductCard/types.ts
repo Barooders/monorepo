@@ -79,4 +79,5 @@ export type B2BProductCardProps = {
   handle: string;
   shopifyId: string;
   id: string;
+  openDetails: (productInternalId: string) => void;
 };

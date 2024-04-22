@@ -1,5 +1,12 @@
-import ProPage from '@/components/pages/ProPage';
+'use client';
 
-export default function WebProPage() {
-  return <ProPage />;
-}
+import ProPage from '@/components/pages/ProPage';
+import useSearchParams from '@/hooks/useSearchParams';
+
+const WebProPage: React.FC = () => {
+  const productInternalId = useSearchParams('product');
+
+  return <ProPage productInternalId={productInternalId} />;
+};
+
+export default WebProPage;

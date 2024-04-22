@@ -56,7 +56,9 @@ function NoResults() {
   );
 }
 
-const B2BSearchResults: React.FC = () => {
+const B2BSearchResults: React.FC<{
+  openDetails: (productInternalId: string) => void;
+}> = ({ openDetails }) => {
   const { data: priceOffersResult } =
     useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
       SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
@@ -80,6 +82,7 @@ const B2BSearchResults: React.FC = () => {
                     ({ productId }) => productId === hit.product_internal_id,
                   )
                 }
+                openDetails={openDetails}
               />
             </>
           );

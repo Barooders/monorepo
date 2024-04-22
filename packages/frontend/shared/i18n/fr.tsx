@@ -1192,6 +1192,7 @@ const fr = {
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',
+      details: 'Voir le détail',
     },
   },
 };

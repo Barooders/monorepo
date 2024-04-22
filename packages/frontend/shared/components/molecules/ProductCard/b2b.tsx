@@ -35,6 +35,7 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   image,
   stock,
   hasOpenedPriceOffer,
+  openDetails,
 }) => {
   const shouldShowBothPrices =
     largestBundlePrice && largestBundlePrice < 0.96 * price;
@@ -85,20 +86,23 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
               />
             </div>
           </div>
-          {hasOpenedPriceOffer ? (
-            <ExistingOfferComponent />
-          ) : (
-            <div className="flex gap-2">
+
+          <div className="flex gap-2">
+            {hasOpenedPriceOffer ? (
+              <ExistingOfferComponent />
+            ) : (
               <B2BPriceOfferButton
                 productId={id}
                 userCanNegociate={true}
               />
-              <B2BPriceOfferButton
-                productId={id}
-                userCanNegociate={false}
-              />
-            </div>
-          )}
+            )}
+            <Button
+              onClick={() => openDetails(id)}
+              intent="tertiary"
+            >
+              {dict.b2b.productCard.details}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

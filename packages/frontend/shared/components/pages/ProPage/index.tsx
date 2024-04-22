@@ -1,5 +1,7 @@
 'use client';
 
+import PortalDrawer from '@/components/atoms/Drawer/portal';
+import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
@@ -7,11 +9,25 @@ import InstantSearchProvider from '@/components/pages/SearchPage/_components/Ins
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
+import { useEffect, useState } from 'react';
 import B2BCollectionHeader from './_components/B2BCollectionHeader';
 import B2BSearchResults from './_components/B2BSearchResults';
 
-const ProPage: React.FC = () => {
+type PropsType = {
+  productInternalId: string | null;
+};
+
+const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
   const { user } = useHasuraToken();
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (productInternalId) {
+      setSelectedProductId(productInternalId);
+    }
+  }, [productInternalId]);
 
   if (!user) return <></>;
 
@@ -35,12 +51,22 @@ const ProPage: React.FC = () => {
             </div>
             <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
               <B2BCollectionHeader />
-              <B2BSearchResults />
+              <B2BSearchResults
+                openDetails={(productInternalId: string) =>
+                  setSelectedProductId(productInternalId)
+                }
+              />
               <Pagination />
             </div>
           </div>
         </div>
       </InstantSearchProvider>
+      <PortalDrawer
+        ContentComponent={() => <div className="w-52">Toto</div>}
+        side={DrawerSide.RIGHT}
+        closeMenu={() => setSelectedProductId(null)}
+        isOpen={!!selectedProductId}
+      />
     </PageContainer>
   );
 };
