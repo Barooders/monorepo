@@ -184,7 +184,10 @@ export const prodVendorConfig: EnvVendorsConfig = {
   },
   sanferbike: {
     vendorId: '743f4783-b0cd-49a3-8d02-70f1d1f704b5',
-    synchros: [],
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 */3 * * *' },
+    ],
   },
   tribici_presta: {
     vendorId: 'd99c1c6d-98e9-4cca-a758-f1c3d06a8eec',
