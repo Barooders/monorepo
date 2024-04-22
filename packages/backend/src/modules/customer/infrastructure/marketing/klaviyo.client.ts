@@ -11,7 +11,7 @@ export class KlaviyoClient implements IMarketingClient {
 
     await client('/data-privacy-deletion-jobs', {
       method: 'POST',
-      body: jsonStringify({
+      data: jsonStringify({
         data: {
           type: 'data-privacy-deletion-job',
           attributes: {

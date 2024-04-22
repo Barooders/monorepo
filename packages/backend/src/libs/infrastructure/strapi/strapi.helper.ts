@@ -1,10 +1,10 @@
 import envConfig from '@config/env/env.config';
 import {
+  PIMBrand,
   PIMCategory,
   PIMDynamicAttribute,
   PIMProductModel,
   PIMProductType,
-  PIMBrand,
 } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { createHttpClient } from '../http/clients';
@@ -147,7 +147,7 @@ export const createModel = async ({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${envConfig.externalServices.strapi.apiToken}`,
       },
-      body: jsonStringify({
+      data: jsonStringify({
         data: {
           name,
           manufacturer_suggested_retail_price,

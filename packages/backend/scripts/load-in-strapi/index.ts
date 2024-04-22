@@ -1,9 +1,9 @@
-import 'dotenv.config';
-import pim from './pim';
-import { strapiClient } from '@libs/infrastructure/strapi/strapi.helper';
-import qs from 'qs';
-import { first } from 'lodash';
 import { jsonStringify } from '@libs/helpers/json';
+import { strapiClient } from '@libs/infrastructure/strapi/strapi.helper';
+import 'dotenv.config';
+import { first } from 'lodash';
+import qs from 'qs';
+import pim from './pim';
 
 // eslint-disable-next-line no-console
 const wrappedConsole = console;
@@ -41,7 +41,7 @@ const uploadImage = async (imageURL: string) => {
     wrappedConsole.log(formData);
     const result = await strapiClient<{ id: string }>('/api/upload', {
       method: 'POST',
-      body: formData,
+      data: formData,
     });
 
     return result.id;
@@ -89,7 +89,7 @@ const run = async () => {
       const imageId = model.imageSrc ? await uploadImage(model.imageSrc) : null;
       await strapiClient(`/api/pim-product-models`, {
         method: 'POST',
-        body: jsonStringify({
+        data: jsonStringify({
           data: {
             name: model.model,
             pictures: imageId ? [imageId] : [],
