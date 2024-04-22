@@ -14,12 +14,14 @@ import { SendGridClient } from './infrastructure/email/sendgrid';
 import { AirtableClient } from './infrastructure/internal-notification/airtable.client';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { ShopifyClient } from './infrastructure/store/shopify';
+import { EventRepository } from './infrastructure/database/event.repository';
 
 @Module({
   imports: [PrismaModule, ChatModule, ProductModule],
   controllers: [PriceOfferController],
   providers: [
     PriceOfferService,
+    EventRepository,
     {
       provide: IInternalNotificationClient,
       useClass: SlackClient,

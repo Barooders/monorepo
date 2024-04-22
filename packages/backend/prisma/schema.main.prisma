@@ -357,7 +357,8 @@ model PriceOffer {
   product                           Product          @relation(fields: [productId], references: [id])
   productVariantId                  String?
   productVariant                    ProductVariant?  @relation(fields: [productVariantId], references: [id])
-  description                       String?          @db.VarChar(2000)
+  internalNote                      String?          @db.VarChar(2000)
+  publicNote                        String?          @db.VarChar(2000)
   includedBuyerCommissionPercentage Float            @default(0)
 
   @@schema("public")
@@ -845,7 +846,7 @@ enum EventName {
   DISCOUNT_CREATED
   CUSTOMER_CREATED
   PRICE_OFFER_CREATED
-  PRICE_OFFER_STATUS_UPDATED
+  PRICE_OFFER_UPDATED
   SEARCH_ALERT_SENT
   CHAT_STARTED
   FAVORITE_PRODUCT_CREATED

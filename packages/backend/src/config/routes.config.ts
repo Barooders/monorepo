@@ -40,7 +40,8 @@ export const routesV1 = {
   priceOffer: {
     root: '/price-offer',
     b2b: '/price-offer/b2b',
-    getPriceOffer: 'price-offer/:priceOfferId',
+    priceOffer: 'price-offer/:priceOfferId',
+    priceOfferByAdmin: '/admin/price-offer/:priceOfferId',
   },
   order: {
     root: '/orders',

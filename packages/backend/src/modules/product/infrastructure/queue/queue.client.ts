@@ -2,12 +2,15 @@ import { envName } from '@config/env/env-name.config';
 import { Environments } from '@config/env/types';
 import { UUID } from '@libs/domain/value-objects';
 import { QueueNames } from '@modules/product/config';
+import { ProductCreatedDomainEvent } from '@modules/product/domain/events/product.created.domain-event';
+import { ProductUpdatedDomainEvent } from '@modules/product/domain/events/product.updated.domain-event';
 import {
   IQueueClient,
   QueueOptions,
 } from '@modules/product/domain/ports/queue-client';
 import { InjectQueue } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 
 const FORTY_FIVE_MINUTES = 45 * 60 * 1000;
@@ -23,7 +26,7 @@ export class QueueClient implements IQueueClient {
 
   async planProductIndexation(
     { uuid: productId }: UUID,
-    options: QueueOptions | undefined,
+    options?: QueueOptions,
   ): Promise<void> {
     this.logger.warn(`Planning indexation for product ${productId}`);
 
@@ -38,5 +41,12 @@ export class QueueClient implements IQueueClient {
         delay: options?.withoutDelay ? 0 : QUEUE_DELAY,
       },
     );
+  }
+
+  @OnEvent('product.*', { async: true })
+  async triggerProductIndexation({
+    productInternalId,
+  }: ProductCreatedDomainEvent | ProductUpdatedDomainEvent) {
+    await this.planProductIndexation(new UUID({ uuid: productInternalId }));
   }
 }

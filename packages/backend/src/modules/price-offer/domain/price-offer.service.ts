@@ -1,6 +1,5 @@
 import {
   AggregateName,
-  EventName,
   PriceOffer,
   PriceOfferStatus,
   PrismaMainClient,
@@ -11,10 +10,13 @@ import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { ICommissionRepository } from '@modules/product/domain/ports/commission.repository';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import dayjs from 'dayjs';
 import { first } from 'lodash';
 import { ParticipantEmailSender, Participants } from './config';
+import { PriceOfferCreatedDomainEvent } from './events/price-offer.created.domain-event';
+import { PriceOfferUpdatedDomainEvent } from './events/price-offer.updated.domain-event';
 import {
   ForbiddenParticipation,
   IncoherentPriceOfferStatus,
@@ -24,15 +26,13 @@ import {
 import { IEmailClient } from './ports/email.client';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { IInternalTrackingClient } from './ports/internal-tracking.client';
-import { IPriceOfferService } from './ports/price-offer';
+import { IPriceOfferService, PriceOfferUpdates } from './ports/price-offer';
 import { IStoreClient } from './ports/store.client';
 
 const dict = getDictionnary(Locales.FR);
 
 @Injectable()
 export class PriceOfferService implements IPriceOfferService {
-  private readonly logger = new Logger(PriceOfferService.name);
-
   constructor(
     protected readonly prisma: PrismaMainClient,
     protected readonly storePrisma: PrismaStoreClient,
@@ -42,6 +42,7 @@ export class PriceOfferService implements IPriceOfferService {
     protected readonly internalNotificationClient: IInternalNotificationClient,
     protected readonly internalTrackingClient: IInternalTrackingClient,
     protected readonly commissionRepository: ICommissionRepository,
+    protected readonly eventEmitter: EventEmitter2,
   ) {}
 
   async createNewPublicPriceOffer(
@@ -79,16 +80,14 @@ export class PriceOfferService implements IPriceOfferService {
 
     const priceOfferUUID = new UUID({ uuid: newPriceOffer.id });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.created',
+      new PriceOfferCreatedDomainEvent({
+        priceOfferId: newPriceOffer.id,
         aggregateId: buyerId.uuid,
-        name: EventName.PRICE_OFFER_CREATED,
-        payload: {
-          priceOfferId: newPriceOffer.id,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     await this.sendMessageToConversation(
       priceOfferUUID,
@@ -160,20 +159,18 @@ export class PriceOfferService implements IPriceOfferService {
         initiatedBy: buyerId.uuid,
         status: PriceOfferStatus.PROPOSED,
         includedBuyerCommissionPercentage: commission.percentage,
-        description,
+        internalNote: description,
       },
     });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.created',
+      new PriceOfferCreatedDomainEvent({
+        priceOfferId: newPriceOffer.id,
         aggregateId: buyerId.uuid,
-        name: EventName.PRICE_OFFER_CREATED,
-        payload: {
-          priceOfferId: newPriceOffer.id,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     const offerMessage = `
       🚲 Produit: ${productType} - ${handle}
@@ -204,6 +201,35 @@ export class PriceOfferService implements IPriceOfferService {
     await this.checkUpdatePriceOffer(userId, priceOfferId, newStatus);
 
     return await this.changePriceOfferStatus(priceOfferId, newStatus);
+  }
+
+  async updatePriceOfferByAdmin(
+    priceOfferId: UUID,
+    updates: PriceOfferUpdates,
+    authorId?: string,
+  ) {
+    const updatedPriceOffer = await this.prisma.priceOffer.update({
+      where: {
+        id: priceOfferId.uuid,
+      },
+      data: updates,
+      select: {
+        buyerId: true,
+      },
+    });
+
+    this.eventEmitter.emit(
+      'price-offer.updated',
+      new PriceOfferUpdatedDomainEvent({
+        priceOfferId: priceOfferId.uuid,
+        updates,
+        aggregateId: updatedPriceOffer.buyerId,
+        aggregateName: AggregateName.CUSTOMER,
+        metadata: {
+          author: { id: authorId, type: 'admin' },
+        },
+      }),
+    );
   }
 
   async cancelPriceOffer(userId: UUID, priceOfferId: UUID): Promise<void> {
@@ -328,11 +354,11 @@ export class PriceOfferService implements IPriceOfferService {
 
   private async changePriceOfferStatus(
     priceOfferId: UUID,
-    newStatus: PriceOfferStatus,
+    status: PriceOfferStatus,
     discountCode?: string,
   ): Promise<PriceOffer> {
     const data: { status: PriceOfferStatus; discountCode?: string } = {
-      status: newStatus,
+      status,
     };
 
     if (discountCode) data.discountCode = discountCode;
@@ -344,17 +370,15 @@ export class PriceOfferService implements IPriceOfferService {
       data,
     });
 
-    await this.prisma.event.create({
-      data: {
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'price-offer.updated',
+      new PriceOfferUpdatedDomainEvent({
+        priceOfferId: priceOfferId.uuid,
+        updates: { status, discountCode },
         aggregateId: updatedPriceOffer.buyerId,
-        name: EventName.PRICE_OFFER_STATUS_UPDATED,
-        payload: {
-          priceOfferId: priceOfferId.uuid,
-          newStatus,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+      }),
+    );
 
     return updatedPriceOffer;
   }

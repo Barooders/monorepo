@@ -4,7 +4,7 @@ import { EnvPublicConfig, Environments } from './types';
 const productionPublicConfig: EnvPublicConfig = {
   envName: Environments.PRODUCTION,
   logLevel:
-    get('DEBUG').default('false').asString() === 'true' ? 'trace' : 'warn',
+    get('DEBUG').default('false').asString() === 'true' ? 'trace' : 'info',
   prettyLog: get('DEBUG').default('false').asBool(),
   hostname: 'https://backend.barooders.com',
   backendBaseUrl: 'https://backend.barooders.com',

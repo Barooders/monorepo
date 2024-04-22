@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
 
+import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
 import { User } from '@libs/application/decorators/user.decorator';
 import {
@@ -22,12 +24,37 @@ import { Amount, UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString, isUUID } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, isUUID } from 'class-validator';
 import { PriceOfferService } from '../domain/price-offer.service';
+import { AuthGuard } from '@nestjs/passport';
+import { OrGuard } from '@libs/application/decorators/or-guard';
 
 class UpdatePriceOfferDTO {
   @ApiProperty()
+  @IsEnum(PriceOfferStatus)
   status!: PriceOfferStatus;
+}
+
+class UpdatePriceOfferByAdminDTO {
+  @IsOptional()
+  @IsEnum(PriceOfferStatus)
+  @ApiProperty({ required: false })
+  status?: PriceOfferStatus;
+
+  @IsInt()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  newPriceInCents?: bigint;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  publicNote?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  internalNote?: string;
 }
 
 class NewPublicPriceOfferDTO {
@@ -35,7 +62,7 @@ class NewPublicPriceOfferDTO {
   @ApiProperty()
   buyerId!: string;
 
-  @IsNumber()
+  @IsInt()
   @ApiProperty()
   newPriceInCents!: number;
 
@@ -55,11 +82,11 @@ class NewPublicPriceOfferDTO {
 }
 
 class NewB2BPriceOfferDTO {
-  @IsNumber()
+  @IsInt()
   @ApiProperty()
   buyerUnitPriceInCents!: number;
 
-  @IsNumber()
+  @IsInt()
   @ApiProperty()
   sellerUnitPriceInCents!: number;
 
@@ -181,10 +208,7 @@ export class PriceOfferController {
     );
   }
 
-  @ApiResponse({
-    type: PriceOfferDTO,
-  })
-  @Put(routesV1.priceOffer.getPriceOffer)
+  @Put(routesV1.priceOffer.priceOffer)
   @UseGuards(JwtAuthGuard)
   async updatePriceOffer(
     @Param('priceOfferId') priceOfferId: string,
@@ -220,6 +244,21 @@ export class PriceOfferController {
 
     throw new BadRequestException(
       `${body.status} is an incorrect price offer status`,
+    );
+  }
+
+  @Put(routesV1.priceOffer.priceOfferByAdmin)
+  @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
+  async updatePriceOfferAsAdmin(
+    @Param('priceOfferId') priceOfferId: string,
+    @Body() body: UpdatePriceOfferByAdminDTO,
+    @Query()
+    { authorId }: { authorId?: string },
+  ): Promise<void> {
+    return await this.priceOfferService.updatePriceOfferByAdmin(
+      new UUID({ uuid: priceOfferId }),
+      body,
+      authorId,
     );
   }
 }

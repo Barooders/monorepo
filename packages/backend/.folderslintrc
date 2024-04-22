@@ -13,6 +13,7 @@
     "modules/*/domain/**",
     "modules/*/infrastructure/chat",
     "modules/*/infrastructure/email",
+    "modules/*/infrastructure/database",
     "modules/*/infrastructure/notification",
     "modules/*/infrastructure/internal-notification",
     "modules/*/infrastructure/analytics",

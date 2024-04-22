@@ -12,7 +12,6 @@ import { ProductModule } from '@modules/product/product.module';
 import { ShopifyAuthModule } from '@modules/shopify-auth/shopify-auth.module';
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RequestContextModule } from 'nestjs-request-context';
 import { BaseModule } from './base.module';
@@ -45,7 +44,6 @@ const applicationModules = [
   imports: [
     RequestContextModule,
     ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
     BaseModule,
     ...applicationModules,
   ],
