@@ -12,7 +12,6 @@ export class EventRepository {
   async handlePriceOfferUpdated({
     aggregateId,
     aggregateName,
-    priceOfferId,
     updates,
     metadata,
   }: PriceOfferUpdatedDomainEvent) {
@@ -22,7 +21,6 @@ export class EventRepository {
         aggregateId,
         name: EventName.PRICE_OFFER_UPDATED,
         payload: {
-          priceOfferId,
           updates: {
             ...updates,
             newPriceInCents: updates.newPriceInCents?.toString(),
@@ -37,16 +35,12 @@ export class EventRepository {
   async handlePriceOfferCreated({
     aggregateId,
     aggregateName,
-    priceOfferId,
   }: PriceOfferCreatedDomainEvent) {
     await this.mainPrisma.event.create({
       data: {
         aggregateName,
         aggregateId,
         name: EventName.PRICE_OFFER_CREATED,
-        payload: {
-          priceOfferId,
-        },
       },
     });
   }
