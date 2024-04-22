@@ -5,19 +5,19 @@ import config from '@/config/env';
 import useDiscounts from '@/hooks/state/useDiscounts';
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
+import { getVariantToSelect } from '../container';
+import { ProductMultiVariants, ProductSingleVariant } from '../types';
 import MediumProductCard from './card';
 import FullProductCard from './full';
 import ProductPage from './page';
 import SmallProductCard from './small';
-import { ProductMultiVariants, ProductSingleVariant } from './types';
 
 const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const availableVariants = props.variants.filter(({ available }) => available);
-  const getVariantToSelect = (variantId?: string) =>
-    availableVariants.find(({ shopifyId: id }) => id === variantId) ??
-    availableVariants[0] ??
-    props.variants[0];
-  const defaultVariant = getVariantToSelect(props.variantShopifyId);
+  const defaultVariant = getVariantToSelect(
+    props.variants,
+    props.variantShopifyId,
+  );
 
   const [selectedVariantId, setSelectedVariant] = useState(
     defaultVariant.shopifyId,
@@ -26,7 +26,9 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const { isAdmin } = useAuth();
 
   useEffect(() => {
-    setSelectedVariant(getVariantToSelect(props.variantShopifyId).shopifyId);
+    setSelectedVariant(
+      getVariantToSelect(props.variants, props.variantShopifyId).shopifyId,
+    );
   }, [props.variantShopifyId]);
 
   const { compareAtPrice, price } =

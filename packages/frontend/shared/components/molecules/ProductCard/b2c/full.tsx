@@ -1,13 +1,13 @@
 import ProductVendor from '@/components/molecules/ProductVendor';
 import compact from 'lodash/compact';
-import BuyButton from './_components/Actions/BuyButton';
-import DetailsButton from './_components/Actions/DetailsButton';
-import Characteristics from './_components/Characteristics';
-import FavoriteButton from './_components/FavoriteButton';
-import ProductGallery from './_components/ProductGallery';
-import ProductPrice from './_components/ProductPrice';
-import SplittedPayments from './_components/SplittedPayments';
-import { ProductSingleVariant } from './types';
+import BuyButton from '../_components/Actions/BuyButton';
+import DetailsButton from '../_components/Actions/DetailsButton';
+import Characteristics from '../_components/Characteristics';
+import FavoriteButton from '../_components/FavoriteButton';
+import ProductGallery from '../_components/ProductGallery';
+import ProductPrice from '../_components/ProductPrice';
+import SplittedPayments from '../_components/SplittedPayments';
+import { ProductSingleVariant } from '../types';
 
 const FullProductCard: React.FC<ProductSingleVariant> = ({
   shopifyId,

@@ -1,12 +1,12 @@
 import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
-import B2BPriceOfferButton from './_components/Actions/B2BPriceOfferButton';
-import Characteristics from './_components/Characteristics';
-import ProductImage from './_components/ProductImage';
-import ProductLabel from './_components/ProductLabel';
-import ProductPrice from './_components/ProductPrice';
-import { B2BProductCardProps } from './types';
+import B2BPriceOfferButton from '../_components/Actions/B2BPriceOfferButton';
+import Characteristics from '../_components/Characteristics';
+import ProductImage from '../_components/ProductImage';
+import ProductLabel from '../_components/ProductLabel';
+import ProductPrice from '../_components/ProductPrice';
+import { B2BProductCardProps } from '../types';
 
 const dict = getDictionary('fr');
 

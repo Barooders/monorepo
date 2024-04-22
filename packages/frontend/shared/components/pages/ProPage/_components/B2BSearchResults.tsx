@@ -1,5 +1,5 @@
 import { SubscribeToOpenedB2BPriceOffersSubscription } from '@/__generated/graphql';
-import B2BProductCard from '@/components/molecules/ProductCard/b2b';
+import B2BProductCard from '@/components/molecules/ProductCard/b2b/card';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
 import { gql, useSubscription } from '@apollo/client';

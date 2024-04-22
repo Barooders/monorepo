@@ -8,7 +8,7 @@ import { patrick } from '@/mockData/vendor';
 import { fromAPI } from '@/mappers/product';
 
 import ProductCard from '.';
-import { CardLabel } from './types';
+import { CardLabel } from '../types';
 import { poppins } from '@/document/fonts';
 
 const product = fromAPI(canyonVTT);

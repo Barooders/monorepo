@@ -9,6 +9,15 @@ export type CardLabel = {
   content: React.ReactNode;
 };
 
+export type RawVariant = {
+  option1Name: string | null;
+  option1: string | null;
+  option2Name: string | null;
+  option2: string | null;
+  option3Name: string | null;
+  option3: string | null;
+};
+
 export type Variant = {
   name: string;
   id: string;

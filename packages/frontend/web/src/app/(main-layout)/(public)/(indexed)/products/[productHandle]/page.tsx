@@ -1,19 +1,19 @@
+import { FetchProductMetadataQuery } from '@/__generated/graphql';
 import { fetchHasura } from '@/clients/hasura';
+import { fetchProductByHandle } from '@/clients/products';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
-import { getData as getProductCardData } from '@/components/molecules/ProductCard/container';
+import { getData as getProductCardData } from '@/components/molecules/ProductCard/b2c/container';
 import ProductPage from '@/components/pages/ProductPage';
 import { COMMISSION_PRODUCT_TYPE } from '@/config';
 import config from '@/config/env';
+import { BackendFailureException } from '@/exception/backend-failure.exception';
 import { ForbiddenPathException } from '@/exceptions/ForbiddenPathException';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
-import { BackendFailureException } from '@/exception/backend-failure.exception';
-import { fetchProductByHandle } from '@/clients/products';
 import { getDictionary } from '@/i18n/translate';
-import { FetchProductMetadataQuery } from '@/__generated/graphql';
+import { AppRouterPage } from '@/types';
 import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { Metadata } from 'next';
-import { AppRouterPage } from '@/types';
 
 type CollectionType = {
   id: string;

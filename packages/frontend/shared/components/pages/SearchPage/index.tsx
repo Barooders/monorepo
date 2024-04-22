@@ -13,17 +13,17 @@ import { getDictionary } from '@/i18n/translate';
 import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
-import Collapse from '../../atoms/Collapse';
-import InnerPageBanner from '../../atoms/InnerPageBanner';
-import { getData as getProductData } from '../../molecules/ProductCard/container';
-import { ProductMultiVariants as ProductCardPropsType } from '../../molecules/ProductCard/types';
-import Reviews from '../../molecules/Reviews';
+import Collapse from '@/components/atoms/Collapse';
+import InnerPageBanner from '@/components/atoms/InnerPageBanner';
+import { getData as getProductData } from '@/components/molecules/ProductCard/b2c/container';
+import { ProductMultiVariants as ProductCardPropsType } from '@/components/molecules/ProductCard/types';
+import Reviews from '@/components/molecules/Reviews';
 import {
   REVIEWS_FRAGMENT,
   REVIEW_BLOCK_ANCHOR,
   mapReviewsFromFragment,
-} from '../../molecules/Reviews/container';
-import SearchAlertButton from '../../molecules/SearchAlertButton/index.mobile';
+} from '@/components/molecules/Reviews/container';
+import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.mobile';
 import CollectionHeader from './CollectionPage/CollectionHeader';
 import RelatedCollections from './CollectionPage/RelatedCollections';
 import SearchHeader from './GlobalSearch/SearchHeader';

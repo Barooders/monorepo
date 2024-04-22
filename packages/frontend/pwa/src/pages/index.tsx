@@ -5,7 +5,7 @@ import SearchPage, {
 } from '@/components/pages/SearchPage';
 import ProductPage from '@/components/pages/ProductPage';
 import { fetchProductByHandle } from '@/clients/products';
-import { getData as getProductCardData } from '@/components/molecules/ProductCard/container';
+import { getData as getProductCardData } from '@/components/molecules/ProductCard/b2c/container';
 import { getMenuData } from '@/components/molecules/MegaMenu';
 import WithLoaderDataAsProps from '../components/WithLoaderAsProps';
 import Root from '../components/Root';
