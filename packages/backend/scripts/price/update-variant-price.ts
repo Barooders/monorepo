@@ -19,6 +19,8 @@ const run = async () => {
     from: 2,
   })) as ProductTypeToUpdateRow[];
 
+  throw new Error('Compare at price is not updated in database yet.');
+
   for (const [variantId, variantPrice] of rows) {
     try {
       console.log(`Updating variant ${variantId}`);

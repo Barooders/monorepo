@@ -243,6 +243,9 @@ export class ProductCreationService {
         shopifyId: createdVariant.id,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
+        compareAtPriceInCents: data.compare_at_price
+          ? toCents(data.compare_at_price)
+          : null,
         condition: data.condition,
         product: {
           connect: {

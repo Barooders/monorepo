@@ -327,13 +327,22 @@ export class ProductUpdateService {
     {
       inventory_quantity,
       price,
+      compare_at_price,
       condition,
-    }: { inventory_quantity?: number; price?: string; condition?: Condition },
+    }: {
+      inventory_quantity?: number;
+      price?: string;
+      compare_at_price?: string | null;
+      condition?: Condition;
+    },
   ) {
     const concreteUpdates: Prisma.ProductVariantUpdateInput = {
       ...(inventory_quantity !== undefined && { quantity: inventory_quantity }),
       ...(condition !== undefined && { condition }),
       ...(price && { priceInCents: toCents(price) }),
+      ...(compare_at_price && {
+        compareAtPriceInCents: toCents(compare_at_price),
+      }),
     };
 
     if (Object.keys(concreteUpdates).length === 0) return;
