@@ -15,6 +15,7 @@ import { routesV1 } from '@config/routes.config';
 
 import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { B2BUserGuard } from '@libs/application/decorators/b2b-user.guard';
+import { OrGuard } from '@libs/application/decorators/or-guard';
 import { User } from '@libs/application/decorators/user.decorator';
 import {
   PriceOfferStatus,
@@ -23,11 +24,17 @@ import {
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsOptional, IsString, isUUID } from 'class-validator';
-import { PriceOfferService } from '../domain/price-offer.service';
 import { AuthGuard } from '@nestjs/passport';
-import { OrGuard } from '@libs/application/decorators/or-guard';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import {
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  isUUID,
+} from 'class-validator';
+import { PriceOfferService } from '../domain/price-offer.service';
 
 class UpdatePriceOfferDTO {
   @ApiProperty()
@@ -45,6 +52,11 @@ class UpdatePriceOfferByAdminDTO {
   @IsOptional()
   @ApiProperty({ required: false })
   newPriceInCents?: bigint;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  includedBuyerCommissionPercentage?: number;
 
   @IsString()
   @IsOptional()
