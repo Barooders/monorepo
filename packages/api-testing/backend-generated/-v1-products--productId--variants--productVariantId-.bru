@@ -5,18 +5,22 @@ meta {
 }
 
 patch {
-  url: {{base_url}}/v1/products/{{productId}}/variants/{{productVariantId}}
+  url: {{base_url}}/v1/products/{{productShopifyId}}/variants/{{productShopifyVariantId}}
   body: json
-  auth: none
+  auth: bearer
 }
 
 headers {
   Content-Type: application/json
 }
 
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLXNob3BpZnlDdXN0b21lcklkIjoiNzY5MjcxMDcwNzUzNSIsIngtaGFzdXJhLXNlbGxlck5hbWUiOiJjbGVtZW50ZGVzc291ZGUiLCJ4LWhhc3VyYS1jaGF0SWQiOiI3NjkyNzEwNzA3NTM1IiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJtZSIsInJlZ2lzdGVyZWRfdXNlciIsInB1YmxpYyIsIm1lX2FzX2N1c3RvbWVyIiwibWVfYXNfdmVuZG9yIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InJlZ2lzdGVyZWRfdXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiIwNjMyM2IyMC0wNjE1LTRiNjYtYTUwOC05YzQzZTBkNWM3MTYiLCJ4LWhhc3VyYS11c2VyLWlzLWFub255bW91cyI6ImZhbHNlIn0sInN1YiI6IjA2MzIzYjIwLTA2MTUtNGI2Ni1hNTA4LTljNDNlMGQ1YzcxNiIsImlhdCI6MTcxMzc3NTYzMCwiZXhwIjoxNzE0MDM0ODMwLCJpc3MiOiJoYXN1cmEtYXV0aCJ9.rbc0K1uOxA4-aA78EpbkWejMLXdKl1lY38mfwAMb3qo
+}
+
 body:json {
   {
-    "quantity": 0,
+    "quantity": 2,
     "price": {
       "amountInCents": 124999,
       "currency": "EUR"
@@ -25,6 +29,6 @@ body:json {
       "amountInCents": 124999,
       "currency": "EUR"
     },
-    "condition": "string"
+    "condition": "AS_NEW"
   }
 }
