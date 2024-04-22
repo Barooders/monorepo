@@ -6,6 +6,7 @@ import {
   SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import { Author } from '@libs/domain/types';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
@@ -85,6 +86,9 @@ export class PriceOfferService implements IPriceOfferService {
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
+        metadata: {
+          author: { id: userId.uuid, type: 'user' },
+        },
       }),
     );
 
@@ -167,6 +171,9 @@ export class PriceOfferService implements IPriceOfferService {
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
+        metadata: {
+          author: { id: buyerId.uuid, type: 'user' },
+        },
       }),
     );
 
@@ -198,7 +205,11 @@ export class PriceOfferService implements IPriceOfferService {
   ): Promise<PriceOffer> {
     await this.checkUpdatePriceOffer(userId, priceOfferId, newStatus);
 
-    return await this.changePriceOfferStatus(priceOfferId, newStatus);
+    return await this.changePriceOfferStatus(
+      { type: 'user', id: userId.uuid },
+      priceOfferId,
+      newStatus,
+    );
   }
 
   async updatePriceOfferByAdmin(
@@ -285,6 +296,7 @@ export class PriceOfferService implements IPriceOfferService {
     const { discountCode } = await this.createDiscountCode(priceOfferId);
 
     const updatedPriceOffer = await this.changePriceOfferStatus(
+      { type: 'user', id: userId.uuid },
       priceOfferId,
       PriceOfferStatus.ACCEPTED,
       discountCode,
@@ -330,6 +342,7 @@ export class PriceOfferService implements IPriceOfferService {
 
   async updatePriceOfferStatusFromOrder(
     usedDiscountCodes: string[],
+    author: Author,
   ): Promise<void> {
     if (!usedDiscountCodes || usedDiscountCodes.length === 0) return;
 
@@ -340,6 +353,7 @@ export class PriceOfferService implements IPriceOfferService {
     await Promise.all(
       relatedPriceOffers.map((priceOffer) =>
         this.changePriceOfferStatus(
+          author,
           new UUID({ uuid: priceOffer.id }),
           PriceOfferStatus.BOUGHT_WITH,
         ),
@@ -350,6 +364,7 @@ export class PriceOfferService implements IPriceOfferService {
   }
 
   private async changePriceOfferStatus(
+    author: Author,
     priceOfferId: UUID,
     status: PriceOfferStatus,
     discountCode?: string,
@@ -373,6 +388,9 @@ export class PriceOfferService implements IPriceOfferService {
         updates: { status, discountCode },
         aggregateId: priceOfferId.uuid,
         aggregateName: AggregateName.PRICE_OFFER,
+        metadata: {
+          author,
+        },
       }),
     );
 
