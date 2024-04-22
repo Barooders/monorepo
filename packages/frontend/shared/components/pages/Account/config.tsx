@@ -7,6 +7,7 @@ import { HiBadgeCheck, HiBell, HiKey, HiMail } from 'react-icons/hi';
 import { IoMdAnalytics } from 'react-icons/io';
 import { RiAccountCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
 import { OrderStatus } from './types';
+import { MdOutlinePriceChange } from 'react-icons/md';
 
 export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
   [OrderStatus.CREATED]: 'bg-gray-100 text-gray-800',
@@ -47,6 +48,16 @@ export const MENU_BLOCKS_CONFIG: MenuBlockConfig[][] = [
       link: '/account/info',
       icon: (
         <RiAccountCircleFill
+          size={20}
+          color={ICON_COLOR}
+        />
+      ),
+    },
+    {
+      slug: 'priceOffers',
+      link: '/account/price-offers',
+      icon: (
+        <MdOutlinePriceChange
           size={20}
           color={ICON_COLOR}
         />

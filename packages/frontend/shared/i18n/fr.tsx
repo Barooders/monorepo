@@ -856,6 +856,9 @@ const fr = {
       personalInfos: {
         title: 'Mes préférences de vente',
       },
+      priceOffers: {
+        title: 'Mes offres',
+      },
       vendorData: {
         title: 'Mes données',
       },
