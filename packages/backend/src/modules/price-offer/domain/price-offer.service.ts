@@ -83,9 +83,8 @@ export class PriceOfferService implements IPriceOfferService {
     this.eventEmitter.emit(
       'price-offer.created',
       new PriceOfferCreatedDomainEvent({
-        priceOfferId: newPriceOffer.id,
-        aggregateId: buyerId.uuid,
-        aggregateName: AggregateName.CUSTOMER,
+        aggregateId: newPriceOffer.id,
+        aggregateName: AggregateName.PRICE_OFFER,
       }),
     );
 
@@ -166,9 +165,8 @@ export class PriceOfferService implements IPriceOfferService {
     this.eventEmitter.emit(
       'price-offer.created',
       new PriceOfferCreatedDomainEvent({
-        priceOfferId: newPriceOffer.id,
-        aggregateId: buyerId.uuid,
-        aggregateName: AggregateName.CUSTOMER,
+        aggregateId: newPriceOffer.id,
+        aggregateName: AggregateName.PRICE_OFFER,
       }),
     );
 
@@ -208,7 +206,7 @@ export class PriceOfferService implements IPriceOfferService {
     updates: PriceOfferUpdates,
     authorId?: string,
   ) {
-    const updatedPriceOffer = await this.prisma.priceOffer.update({
+    await this.prisma.priceOffer.update({
       where: {
         id: priceOfferId.uuid,
       },
@@ -221,10 +219,9 @@ export class PriceOfferService implements IPriceOfferService {
     this.eventEmitter.emit(
       'price-offer.updated',
       new PriceOfferUpdatedDomainEvent({
-        priceOfferId: priceOfferId.uuid,
         updates,
-        aggregateId: updatedPriceOffer.buyerId,
-        aggregateName: AggregateName.CUSTOMER,
+        aggregateId: priceOfferId.uuid,
+        aggregateName: AggregateName.PRICE_OFFER,
         metadata: {
           author: { id: authorId, type: 'admin' },
         },
@@ -373,10 +370,9 @@ export class PriceOfferService implements IPriceOfferService {
     this.eventEmitter.emit(
       'price-offer.updated',
       new PriceOfferUpdatedDomainEvent({
-        priceOfferId: priceOfferId.uuid,
         updates: { status, discountCode },
-        aggregateId: updatedPriceOffer.buyerId,
-        aggregateName: AggregateName.CUSTOMER,
+        aggregateId: priceOfferId.uuid,
+        aggregateName: AggregateName.PRICE_OFFER,
       }),
     );
 

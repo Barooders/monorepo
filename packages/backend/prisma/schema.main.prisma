@@ -877,6 +877,7 @@ enum AggregateName {
   VENDOR
   DISCOUNT
   CUSTOMER
+  PRICE_OFFER
   ORDER
   CHECKOUT
   CART
