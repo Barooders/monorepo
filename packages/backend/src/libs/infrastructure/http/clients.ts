@@ -1,8 +1,7 @@
 import { jsonStringify } from '@libs/helpers/json';
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-// eslint-disable-next-line no-restricted-imports
-import { merge } from 'lodash';
+import { merge } from 'shared-types';
 
 export class BackendFailureException extends Error {
   readonly path: string;
@@ -35,12 +34,8 @@ export const createHttpClient = (
   baseConfig?: AxiosRequestConfig,
 ) => {
   return async <ResponseType>(path: string, config?: AxiosRequestConfig) => {
-    const mergedConfig: AxiosRequestConfig = merge(
-      { path: `${baseUrl}${path}` },
-      DEFAULT_CONFIG,
-      baseConfig,
-      config,
-    );
+    const urlConfig: AxiosRequestConfig = { url: `${baseUrl}${path}` };
+    const mergedConfig = merge(urlConfig, DEFAULT_CONFIG, baseConfig, config);
 
     const result = await axios(mergedConfig);
 
