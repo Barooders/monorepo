@@ -1,0 +1,15 @@
+meta {
+  name: BCycles variant
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://www.bcycles.it/api/products/4456?ws_key={{bcyclesApiKey}}
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{bcyclesApiKey}}
+}
