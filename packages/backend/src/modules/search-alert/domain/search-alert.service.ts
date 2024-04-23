@@ -15,6 +15,7 @@ import { SavedSearchUpdatedDomainEvent } from './events/saved-search.updated.dom
 import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
 import { SearchRepository } from './ports/search-repository';
+import { SavedSearchEntity } from './ports/saved-search.entity';
 
 @Injectable()
 export class SearchAlertService {
@@ -31,7 +32,7 @@ export class SearchAlertService {
 
   async createSavedSearch(
     _userId: UUID,
-    _savedSearchDTO: any,
+    _savedSearchDTO: SavedSearchEntity,
   ): Promise<string> {
     throw new Error('Method not implemented.');
   }

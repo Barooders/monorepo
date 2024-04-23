@@ -95,7 +95,15 @@ export class SavedSearchController {
   @UseGuards(JwtAuthGuard)
   async createSavedSearch(
     @Body()
-    savedSearchDTO: CreateSavedSearchDTO,
+    {
+      name,
+      type,
+      resultsUrl,
+      collectionId,
+      query,
+      shouldTriggerAlerts,
+      refinements,
+    }: CreateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<string> {
     if (!userId) {
@@ -106,7 +114,30 @@ export class SavedSearchController {
 
     return await this.searchAlertService.createSavedSearch(
       new UUID({ uuid: userId }),
-      savedSearchDTO,
+      {
+        name,
+        type,
+        resultsUrl,
+        collectionId,
+        query,
+        shouldTriggerAlerts,
+        filters: [
+          ...refinements
+            .filter((refinement) => refinement.type === 'disjunctive')
+            .map((refinement) => ({
+              facetName: refinement.attribute,
+              value: String(refinement.value),
+              label: String(refinement.label),
+            })),
+          ...refinements
+            .filter((refinement) => refinement.type === 'numeric')
+            .map((refinement) => ({
+              facetName: refinement.attribute,
+              value: String(refinement.value),
+              operator: String(refinement.operator),
+            })),
+        ],
+      },
     );
   }
 
