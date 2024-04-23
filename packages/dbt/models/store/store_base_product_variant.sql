@@ -18,7 +18,6 @@ SELECT
     ppv."productId" AS "product_id",
     ppv.quantity AS inventory_quantity,
     CURRENT_DATE AS sync_date,
-    ppv."priceInCents"::float / 100 AS price,
     pv.compare_at_price AS compare_at_price,
     po1.name AS option_1_name,
     pv.option_1 AS option_1,

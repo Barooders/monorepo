@@ -129,7 +129,6 @@ model StoreBaseProductVariant {
   shopifyId         BigInt     @id @map("shopify_id")
   inventoryQuantity BigInt     @map("inventory_quantity")
   syncDate          DateTime   @map("sync_date") @db.Date
-  price             Float
   compareAtPrice    Float?     @map("compare_at_price")
   option1Name       String?    @map("option_1_name") @db.VarChar(256)
   option1           String?    @map("option_1") @db.VarChar(256)
@@ -271,7 +270,7 @@ model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
   inventoryQuantity BigInt // TODO: DEPRECATED: use base product
   syncDate          DateTime                @db.Date // TODO: DEPRECATED: use base product
-  price             Float // TODO: DEPRECATED: use base product
+  price             Float
   compareAtPrice    Float? // TODO: DEPRECATED: use base product
   option1Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
   option1           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product

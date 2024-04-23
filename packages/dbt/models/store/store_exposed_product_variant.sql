@@ -8,7 +8,7 @@ SELECT
     bpv."shopify_id" AS "shopify_id",
     bpv.inventory_quantity AS "inventoryQuantity",
     bpv.sync_date AS "syncDate",
-    bpv.price,
+    ppv."priceInCents"::float / 100 AS price,
     bpv.compare_at_price AS "compareAtPrice",
     bpv.option_1_name AS "option1Name",
     bpv.option_1 AS "option1",
@@ -23,7 +23,8 @@ SELECT
     bpv.updated_at AS "updatedAt"
 
 FROM {{ref('store_base_product_variant')}} bpv
-LEFT JOIN public."ProductSalesChannel" psc ON ppv."productId" = psc."productId"
+LEFT JOIN public."ProductVariant" ppv ON ppv.id = bpv.id
+LEFT JOIN public."ProductSalesChannel" psc ON bpv."productId" = psc."productId"
 
 WHERE
   bpv.inventory_quantity IS NOT NULL
