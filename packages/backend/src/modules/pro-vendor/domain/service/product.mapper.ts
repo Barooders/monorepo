@@ -47,19 +47,7 @@ export class ProductMapper {
       });
     }
 
-    for (const variant of mappedProduct.variants) {
-      if (!variant.inventory_quantity) continue;
-
-      for (const { key, value } of variant.optionProperties) {
-        const variantOptionTag = await this.getVariantOptionTags(
-          key,
-          mappedProduct,
-          value,
-        );
-
-        tags.push(...variantOptionTag);
-      }
-    }
+    tags.push(...(await this.getProductVariantOptionTags(mappedProduct)));
 
     const desiredParsedKeys = catalogFeatures?.parsedTagKeysFromDescription;
 
@@ -220,6 +208,25 @@ export class ProductMapper {
     productDescription = `${descriptionPrefix}${productDescription}${descriptionSuffix}`;
 
     return productDescription;
+  }
+
+  private async getProductVariantOptionTags(mappedProduct: SyncProduct) {
+    const tags = [];
+    for (const variant of mappedProduct.variants) {
+      if (!variant.inventory_quantity) continue;
+
+      for (const { key, value } of variant.optionProperties) {
+        const variantOptionTag = await this.getVariantOptionTags(
+          key,
+          mappedProduct,
+          value,
+        );
+
+        tags.push(...variantOptionTag);
+      }
+    }
+
+    return tags;
   }
 
   private async getVariantOptionTags(
