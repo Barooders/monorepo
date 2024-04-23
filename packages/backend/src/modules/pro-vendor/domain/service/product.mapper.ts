@@ -37,35 +37,18 @@ export class ProductMapper {
 
     const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     for (const variant of mappedProduct.variants) {
-      const variantMultiplier =
-        getMultiplierFromCommission(
-          catalogFeatures?.commissionPercentToAdd ?? 0,
-        ) * (catalogFeatures?.priceMultiplier ?? 1);
-
-      variant.price = (
-        Number(variant.price) * variantMultiplier +
-        this.getPriceCorrection({ isBike })
-      ).toFixed(2);
+      variant.price = this.getPrice({
+        variant,
+        isBike,
+      });
 
       for (const { key, value } of variant.optionProperties) {
         if (!variant.inventory_quantity) continue;
 
-        const suffix =
-          catalogFeatures?.variantOptionTagsWithCategorySuffix?.includes(
-            key.toLowerCase(),
-          )
-            ? mappedProduct.product_type.toLowerCase().replaceAll(' ', '-')
-            : '';
-        const tagKey = `variant-option-${key.toLowerCase()}-${suffix}`;
-        const variantOptionTag = await this.tagService.getOrCreateTag(
-          tagKey,
+        const variantOptionTag = await this.getVariantOptionTags(
+          key,
+          mappedProduct,
           value,
-          tagKey,
-          this.vendorConfigService.getVendorConfig().mappingKey,
-          {
-            externalId: mappedProduct.external_id,
-            title: mappedProduct.title,
-          },
         );
 
         tags.push(...variantOptionTag);
@@ -221,6 +204,49 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private async getVariantOptionTags(
+    key: string,
+    mappedProduct: SyncProduct,
+    value: string,
+  ) {
+    const catalogFeatures =
+      this.vendorConfigService.getVendorConfig().catalog.common;
+
+    const suffix =
+      catalogFeatures?.variantOptionTagsWithCategorySuffix?.includes(
+        key.toLowerCase(),
+      )
+        ? mappedProduct.product_type.toLowerCase().replaceAll(' ', '-')
+        : '';
+    const tagKey = `variant-option-${key.toLowerCase()}-${suffix}`;
+    const variantOptionTag = await this.tagService.getOrCreateTag(
+      tagKey,
+      value,
+      tagKey,
+      this.vendorConfigService.getVendorConfig().mappingKey,
+      {
+        externalId: mappedProduct.external_id,
+        title: mappedProduct.title,
+      },
+    );
+    return variantOptionTag;
+  }
+
+  private getPrice({ variant, isBike }: { variant: Variant; isBike: boolean }) {
+    const catalogFeatures =
+      this.vendorConfigService.getVendorConfig().catalog.common;
+
+    const variantMultiplier =
+      getMultiplierFromCommission(
+        catalogFeatures?.commissionPercentToAdd ?? 0,
+      ) * (catalogFeatures?.priceMultiplier ?? 1);
+
+    return (
+      Number(variant.price) * variantMultiplier +
+      this.getPriceCorrection({ isBike })
+    ).toFixed(2);
   }
 
   private getPriceCorrection({ isBike }: { isBike: boolean }) {
