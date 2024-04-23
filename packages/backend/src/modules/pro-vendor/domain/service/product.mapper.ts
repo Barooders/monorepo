@@ -37,13 +37,13 @@ export class ProductMapper {
 
     const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     for (const variant of mappedProduct.variants) {
-      const variantMutiplier =
+      const variantMultiplier =
         getMultiplierFromCommission(
           catalogFeatures?.commissionPercentToAdd ?? 0,
         ) * (catalogFeatures?.priceMultiplier ?? 1);
 
       variant.price = (
-        Number(variant.price) * variantMutiplier +
+        Number(variant.price) * variantMultiplier +
         this.getPriceCorrection({ isBike })
       ).toFixed(2);
 
