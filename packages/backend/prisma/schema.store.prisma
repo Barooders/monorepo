@@ -91,26 +91,25 @@ model StoreProductCollectionWithManualCollections {
 }
 
 model StoreBaseProduct {
-  id                        String        @id
-  shopifyId                 BigInt        @unique
-  createdAt                 DateTime      @db.Timestamptz(6)
-  vendorId                  String        @db.Uuid
-  publishedAt               DateTime?     @db.Timestamptz(6)
-  productType               String        @map("product_type") @db.VarChar(256)
-  status                    ProductStatus
-  title                     String        @db.VarChar(256)
-  description               String?       @db.VarChar(131072)
-  handle                    String        @db.VarChar(256)
-  numberOfViews             BigInt        @default(0) @map("number_of_views")
-  syncDate                  DateTime      @map("sync_date") @db.Date
-  firstImage                String?       @map("first_image") @db.VarChar(512)
-  model                     String?
-  brand                     String?
-  size                      String?
-  gender                    String?
-  modelYear                 String?       @map("model_year")
-  totalQuantity             BigInt        @map("total_quantity")
-  largestBundlePriceInCents BigInt?       @map("largest_bundle_price_in_cents")
+  id            String        @id
+  shopifyId     BigInt        @unique
+  createdAt     DateTime      @db.Timestamptz(6)
+  vendorId      String        @db.Uuid
+  publishedAt   DateTime?     @db.Timestamptz(6)
+  productType   String        @map("product_type") @db.VarChar(256)
+  status        ProductStatus
+  title         String        @db.VarChar(256)
+  description   String?       @db.VarChar(131072)
+  handle        String        @db.VarChar(256)
+  numberOfViews BigInt        @default(0) @map("number_of_views")
+  syncDate      DateTime      @map("sync_date") @db.Date
+  firstImage    String?       @map("first_image") @db.VarChar(512)
+  model         String?
+  brand         String?
+  size          String?
+  gender        String?
+  modelYear     String?       @map("model_year")
+  totalQuantity BigInt        @map("total_quantity")
 
   exposedImages            StoreExposedProductImage[]
   exposedProduct           StoreExposedProduct?
