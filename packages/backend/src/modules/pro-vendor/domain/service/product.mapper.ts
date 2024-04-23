@@ -59,7 +59,31 @@ export class ProductMapper {
       });
     }
 
-    const filteredVariants = mappedProduct.variants
+    const filteredVariants = this.getFilteredVariants(
+      mappedProduct,
+      catalogFeatures,
+    );
+
+    const defaultProductCondition = catalogFeatures?.defaultProductCondition;
+
+    return {
+      ...mappedProduct,
+      variants: filteredVariants.map((variant) => ({
+        ...variant,
+        ...(defaultProductCondition && { condition: defaultProductCondition }),
+      })),
+      isVisibleInStore:
+        filteredVariants.length === 0 ? false : mappedProduct.isVisibleInStore,
+      body_html: productDescription,
+      tags: tags.map((tag) => tag.replace(',', '.')),
+    };
+  }
+
+  private getFilteredVariants(
+    mappedProduct: SyncProduct,
+    catalogFeatures: CommonCatalogConfig | undefined,
+  ) {
+    return mappedProduct.variants
       .filter(({ external_id, optionProperties }: Variant) => {
         const ignoredVariants = catalogFeatures?.ignoredVariants ?? [];
 
@@ -94,20 +118,6 @@ export class ProductMapper {
 
         return isKept;
       });
-
-    const defaultProductCondition = catalogFeatures?.defaultProductCondition;
-
-    return {
-      ...mappedProduct,
-      variants: filteredVariants.map((variant) => ({
-        ...variant,
-        ...(defaultProductCondition && { condition: defaultProductCondition }),
-      })),
-      isVisibleInStore:
-        filteredVariants.length === 0 ? false : mappedProduct.isVisibleInStore,
-      body_html: productDescription,
-      tags: tags.map((tag) => tag.replace(',', '.')),
-    };
   }
 
   private checkIfProductShouldBeSkipped(
