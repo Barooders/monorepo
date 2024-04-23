@@ -1,0 +1,11 @@
+table:
+  name: store_b2c_product_variant
+  schema: dbt
+select_permissions:
+  - role: public
+    permission:
+      columns:
+        - price
+        - shopify_id
+      filter: {}
+    comment: ""
