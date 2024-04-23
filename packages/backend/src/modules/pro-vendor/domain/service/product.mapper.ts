@@ -37,6 +37,14 @@ export class ProductMapper {
 
     const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     const mappedTagsObject = getTagsObject(mappedProduct.tags);
+
+    this.checkIfProductShouldBeSkipped(
+      catalogFeatures,
+      mappedProduct,
+      mappedTagsObject,
+      isBike,
+    );
+
     const tags = await this.getTags(
       catalogFeatures,
       mappedProduct,
@@ -49,44 +57,6 @@ export class ProductMapper {
         variant,
         isBike,
       });
-    }
-
-    if (
-      catalogFeatures?.excludedTitles?.some((excludedTitle) =>
-        mappedProduct.title.toLowerCase().includes(excludedTitle.toLowerCase()),
-      )
-    ) {
-      throw new SkippedProductException(
-        mappedProduct.external_id,
-        'Product title is excluded',
-      );
-    }
-
-    this.checkExcludedBrands(mappedTagsObject, catalogFeatures, mappedProduct);
-
-    if (
-      catalogFeatures?.shouldIgnoreCheapBikesBelow150 === true &&
-      mappedProduct.variants.some((variant) => Number(variant.price) < 150) &&
-      isBike
-    ) {
-      throw new SkippedProductException(
-        mappedProduct.external_id,
-        'Product is too cheap to be shipped',
-      );
-    }
-
-    const minimalPriceInCents = catalogFeatures?.minimalPriceInCents;
-
-    if (
-      minimalPriceInCents &&
-      mappedProduct.variants.some(
-        (variant) => Number(variant.price) * 100 < minimalPriceInCents,
-      )
-    ) {
-      throw new SkippedProductException(
-        mappedProduct.external_id,
-        'Product is too cheap to be synced',
-      );
     }
 
     const filteredVariants = mappedProduct.variants
@@ -138,6 +108,51 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private checkIfProductShouldBeSkipped(
+    catalogFeatures: CommonCatalogConfig | undefined,
+    mappedProduct: SyncProduct,
+    mappedTagsObject: Record<string, string[]>,
+    isBike: boolean,
+  ) {
+    if (
+      catalogFeatures?.excludedTitles?.some((excludedTitle) =>
+        mappedProduct.title.toLowerCase().includes(excludedTitle.toLowerCase()),
+      )
+    ) {
+      throw new SkippedProductException(
+        mappedProduct.external_id,
+        'Product title is excluded',
+      );
+    }
+
+    this.checkExcludedBrands(mappedTagsObject, catalogFeatures, mappedProduct);
+
+    if (
+      catalogFeatures?.shouldIgnoreCheapBikesBelow150 === true &&
+      mappedProduct.variants.some((variant) => Number(variant.price) < 150) &&
+      isBike
+    ) {
+      throw new SkippedProductException(
+        mappedProduct.external_id,
+        'Product is too cheap to be shipped',
+      );
+    }
+
+    const minimalPriceInCents = catalogFeatures?.minimalPriceInCents;
+
+    if (
+      minimalPriceInCents &&
+      mappedProduct.variants.some(
+        (variant) => Number(variant.price) * 100 < minimalPriceInCents,
+      )
+    ) {
+      throw new SkippedProductException(
+        mappedProduct.external_id,
+        'Product is too cheap to be synced',
+      );
+    }
   }
 
   private checkExcludedBrands(
