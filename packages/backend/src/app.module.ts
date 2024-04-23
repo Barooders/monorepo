@@ -15,6 +15,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RequestContextModule } from 'nestjs-request-context';
 import { BaseModule } from './base.module';
+import { SearchAlertAppModule } from '@modules/search-alert/module';
 
 const interceptors = [
   {
@@ -38,6 +39,7 @@ const applicationModules = [
   ProductModule,
   PaymentModule,
   PriceOfferModule,
+  SearchAlertAppModule,
 ];
 
 @Module({

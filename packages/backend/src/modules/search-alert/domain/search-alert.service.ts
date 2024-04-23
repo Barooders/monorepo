@@ -2,13 +2,15 @@ import {
   AggregateName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
+import { SavedSearchUpdatedDomainEvent } from './events/saved-search.updated.domain-event';
 import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
 import { SearchRepository } from './ports/search-repository';
@@ -25,6 +27,45 @@ export class SearchAlertService {
     private searchRepository: SearchRepository,
     private eventEmitter: EventEmitter2,
   ) {}
+
+  async updateSavedSearch(
+    userId: UUID,
+    savedSearchUUID: UUID,
+    shouldTriggerAlerts: boolean,
+  ): Promise<void> {
+    const savedSearchId = savedSearchUUID.uuid;
+    const { customerId } = await this.prisma.savedSearch.findUniqueOrThrow({
+      where: { id: savedSearchId },
+      select: { customerId: true },
+    });
+
+    if (customerId !== userId.uuid) {
+      throw new UnauthorizedException(
+        `User ${userId.uuid} is not authorized to update search ${savedSearchId}`,
+      );
+    }
+
+    await this.prisma.searchAlert.upsert({
+      where: { searchId: savedSearchId },
+      create: {
+        searchId: savedSearchId,
+        isActive: shouldTriggerAlerts,
+      },
+      update: {
+        isActive: shouldTriggerAlerts,
+      },
+    });
+
+    this.eventEmitter.emit(
+      'saved-search.updated',
+      new SavedSearchUpdatedDomainEvent({
+        aggregateId: customerId,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: savedSearchId,
+        payload: { shouldTriggerAlerts: String(shouldTriggerAlerts) },
+      }),
+    );
+  }
 
   async triggerAllSearchAlerts(): Promise<{
     payload: { triggeredAlerts: string[] };

@@ -7,6 +7,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { SearchAlertCLIConsole } from './application/search-alert.cli';
 import { SearchAlertConsumer } from './application/search-alert.consumer.redis';
+import { SearchAlertController } from './application/search-alert.web';
 import { QueueNames } from './config';
 import { EmailRepository } from './domain/ports/email-repository';
 import { SearchRepository } from './domain/ports/search-repository';
@@ -36,6 +37,13 @@ const commonProviders = [
     useClass: SendgridRepository,
   },
 ];
+
+@Module({
+  imports: commonImports,
+  controllers: [SearchAlertController],
+  providers: [...commonProviders],
+})
+export class SearchAlertAppModule {}
 
 @Module({
   imports: commonImports,

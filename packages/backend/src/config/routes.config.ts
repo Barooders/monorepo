@@ -43,6 +43,9 @@ export const routesV1 = {
     priceOffer: 'price-offer/:priceOfferId',
     priceOfferByAdmin: '/admin/price-offer/:priceOfferId',
   },
+  searchAlert: {
+    savedSearch: '/saved-search/:savedSearchId',
+  },
   order: {
     root: '/orders',
     onCreatedEvent: '/orders/webhook/created-event',
