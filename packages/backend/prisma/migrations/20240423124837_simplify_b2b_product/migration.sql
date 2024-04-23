@@ -1,11 +1,5 @@
-/*
-  Warnings:
-
-  - Added the required column `total_quantity` to the `store_exposed_product` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- AlterTable
-ALTER TABLE "dbt"."store_exposed_product" ADD COLUMN     "total_quantity" BIGINT NOT NULL;
+ALTER TABLE "dbt"."store_exposed_product" ADD COLUMN     "total_quantity" BIGINT NOT NULL DEFAULT 0;
 
 -- CreateTable
 CREATE TABLE "dbt"."store_b2c_product_variant" (
