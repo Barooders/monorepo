@@ -48,21 +48,9 @@ export class ProductMapper {
     }
 
     tags.push(...(await this.getProductVariantOptionTags(mappedProduct)));
-
-    const desiredParsedKeys = catalogFeatures?.parsedTagKeysFromDescription;
-
-    if (desiredParsedKeys) {
-      const tagsFromDescription = await this.tagService.parseTextAndCreateTags(
-        desiredParsedKeys,
-        `${mappedProduct.title} - ${mappedProduct.body_html}`,
-        this.vendorConfigService.getVendorConfig().mappingKey,
-        {
-          externalId: mappedProduct.external_id,
-          title: mappedProduct.title,
-        },
-      );
-      tags.push(...tagsFromDescription);
-    }
+    tags.push(
+      ...(await this.tagsFromDescription(catalogFeatures, mappedProduct)),
+    );
 
     if (
       catalogFeatures?.excludedTitles?.some((excludedTitle) =>
@@ -180,6 +168,25 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private async tagsFromDescription(
+    catalogFeatures: CommonCatalogConfig | undefined,
+    mappedProduct: SyncProduct,
+  ) {
+    const desiredParsedKeys = catalogFeatures?.parsedTagKeysFromDescription;
+
+    if (!desiredParsedKeys) return [];
+
+    return await this.tagService.parseTextAndCreateTags(
+      desiredParsedKeys,
+      `${mappedProduct.title} - ${mappedProduct.body_html}`,
+      this.vendorConfigService.getVendorConfig().mappingKey,
+      {
+        externalId: mappedProduct.external_id,
+        title: mappedProduct.title,
+      },
+    );
   }
 
   private async getProductDescription(
