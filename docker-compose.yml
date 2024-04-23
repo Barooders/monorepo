@@ -13,6 +13,7 @@ services:
     volumes:
       - barooders-data:/var/lib/postgresql/data/
       - ./init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+      - ./dumps:/usr/local/dumps
     ports:
       - '2345:5432'
     healthcheck:
