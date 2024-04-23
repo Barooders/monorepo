@@ -57,7 +57,7 @@ export class SearchAlertService {
     const searchAlert = await this.prisma.searchAlert.findUniqueOrThrow({
       where: { id: alertId },
       include: {
-        SavedSearch: {
+        savedSearch: {
           include: {
             customer: { include: { user: true } },
             facetFilters: true,
@@ -67,7 +67,7 @@ export class SearchAlertService {
       },
     });
 
-    const savedSearch = searchAlert.SavedSearch;
+    const savedSearch = searchAlert.savedSearch;
 
     this.logger.debug(`Starting to sync alert ${savedSearch.name}`);
 
