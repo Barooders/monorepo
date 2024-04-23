@@ -659,7 +659,7 @@ model SavedSearch {
   numericFilters NumericFilter[]
   collection     Collection?     @relation(fields: [collectionId], references: [shopifyId])
   customer       Customer        @relation(fields: [customerId], references: [authUserId])
-  searchAlerts   SearchAlert[]
+  searchAlert    SearchAlert?
 
   @@schema("public")
 }
@@ -667,10 +667,10 @@ model SavedSearch {
 model SearchAlert {
   id                 String      @id @default(dbgenerated("(gen_random_uuid())::text"))
   isActive           Boolean
-  searchId           String
+  searchId           String      @unique
   latestResultsCount Int?
   latestRunAt        DateTime?
-  SavedSearch        SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+  savedSearch        SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
 
   @@schema("public")
 }
