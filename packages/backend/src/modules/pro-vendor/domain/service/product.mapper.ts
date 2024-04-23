@@ -75,7 +75,7 @@ export class ProductMapper {
       isVisibleInStore:
         filteredVariants.length === 0 ? false : mappedProduct.isVisibleInStore,
       body_html: productDescription,
-      tags: tags.map((tag) => tag.replace(',', '.')),
+      tags,
     };
   }
 
@@ -215,7 +215,7 @@ export class ProductMapper {
       tags.push('genre:Mixte');
     }
 
-    return tags;
+    return tags.map((tag) => tag.replace(',', '.'));
   }
 
   private async tagsFromDescription(
