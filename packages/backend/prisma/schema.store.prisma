@@ -125,7 +125,6 @@ model StoreBaseProductVariant {
   @@schema("dbt")
 }
 
-// TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProduct {
   id            String           @id
   publishedAt   DateTime?        @db.Timestamptz(6)
@@ -136,6 +135,7 @@ model StoreExposedProduct {
   description   String?          @db.VarChar(131072)
   handle        String           @db.VarChar(256)
   numberOfViews BigInt           @default(0)
+  totalQuantity BigInt           @map("total_quantity")
   brand         String?
   size          String?
   gender        String?
@@ -162,7 +162,6 @@ model StoreB2BProduct {
   publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
   productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use exposed product
   status                    ProductStatus // TODO: DEPRECATED: use exposed product
-  totalQuantity             BigInt           @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
   title                     String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
   brand                     String? // TODO: DEPRECATED: use exposed product
@@ -234,7 +233,6 @@ model StoreProductForAnalytics {
   @@schema("dbt")
 }
 
-// TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
   inventoryQuantity BigInt
@@ -259,7 +257,6 @@ model StoreExposedProductVariant {
   @@schema("dbt")
 }
 
-// TODO: Delete to use only base product with Hasura permissions
 model StoreB2BProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
   inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use exposed product
