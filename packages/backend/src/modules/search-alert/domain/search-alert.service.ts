@@ -10,12 +10,13 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
+import { SavedSearchCreatedDomainEvent } from './events/saved-search.created.domain-event';
 import { SavedSearchDeletedDomainEvent } from './events/saved-search.deleted.domain-event';
 import { SavedSearchUpdatedDomainEvent } from './events/saved-search.updated.domain-event';
 import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
-import { SearchRepository } from './ports/search-repository';
 import { SavedSearchEntity } from './ports/saved-search.entity';
+import { SearchRepository } from './ports/search-repository';
 
 @Injectable()
 export class SearchAlertService {
@@ -31,10 +32,56 @@ export class SearchAlertService {
   ) {}
 
   async createSavedSearch(
-    _userId: UUID,
-    _savedSearchDTO: SavedSearchEntity,
+    userId: UUID,
+    {
+      facetFilters,
+      numericFilters,
+      shouldTriggerAlerts,
+      ...savedSearch
+    }: SavedSearchEntity,
   ): Promise<string> {
-    throw new Error('Method not implemented.');
+    const newSavedSearch = await this.prisma.savedSearch.create({
+      data: {
+        customerId: userId.uuid,
+        ...savedSearch,
+        facetFilters: {
+          createMany: {
+            data: facetFilters.map(({ facetName, value, label }) => ({
+              facetName,
+              value,
+              label,
+            })),
+          },
+        },
+        numericFilters: {
+          createMany: {
+            data: numericFilters.map(({ facetName, value, operator }) => ({
+              facetName,
+              value,
+              operator,
+            })),
+          },
+        },
+        ...(shouldTriggerAlerts && {
+          searchAlert: {
+            create: {
+              isActive: true,
+            },
+          },
+        }),
+      },
+    });
+
+    this.eventEmitter.emit(
+      'saved-search.created',
+      new SavedSearchCreatedDomainEvent({
+        aggregateId: userId.uuid,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: newSavedSearch.id,
+      }),
+    );
+
+    return newSavedSearch.id;
   }
 
   async updateSavedSearch(
@@ -64,7 +111,7 @@ export class SearchAlertService {
       new SavedSearchUpdatedDomainEvent({
         aggregateId: customerId,
         aggregateName: AggregateName.CUSTOMER,
-        savedSearchId: savedSearchId,
+        savedSearchId,
         payload: { shouldTriggerAlerts: String(shouldTriggerAlerts) },
       }),
     );

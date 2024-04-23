@@ -121,22 +121,20 @@ export class SavedSearchController {
         collectionId,
         query,
         shouldTriggerAlerts,
-        filters: [
-          ...refinements
-            .filter((refinement) => refinement.type === 'disjunctive')
-            .map((refinement) => ({
-              facetName: refinement.attribute,
-              value: String(refinement.value),
-              label: String(refinement.label),
-            })),
-          ...refinements
-            .filter((refinement) => refinement.type === 'numeric')
-            .map((refinement) => ({
-              facetName: refinement.attribute,
-              value: String(refinement.value),
-              operator: String(refinement.operator),
-            })),
-        ],
+        facetFilters: refinements
+          .filter((refinement) => refinement.type === 'disjunctive')
+          .map((refinement) => ({
+            facetName: refinement.attribute,
+            value: String(refinement.value),
+            label: String(refinement.label),
+          })),
+        numericFilters: refinements
+          .filter((refinement) => refinement.type === 'numeric')
+          .map((refinement) => ({
+            facetName: refinement.attribute,
+            value: String(refinement.value),
+            operator: String(refinement.operator),
+          })),
       },
     );
   }

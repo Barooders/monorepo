@@ -15,7 +15,8 @@ export type SavedSearchEntity = {
   name: string;
   type: SavedSearchType;
   resultsUrl: string;
-  filters: (FacetFilter | NumericFilter)[];
+  facetFilters: FacetFilter[];
+  numericFilters: NumericFilter[];
   shouldTriggerAlerts: boolean;
   collectionId?: string;
   query?: string;
