@@ -35,10 +35,14 @@ export class ProductMapper {
       mappedProduct,
     );
 
-    const tags = mappedProduct.tags;
-    const mappedTagsObject = getTagsObject(tags);
-
     const isBike = await this.pimClient.isBike(mappedProduct.product_type);
+    const mappedTagsObject = getTagsObject(mappedProduct.tags);
+    const tags = await this.getTags(
+      catalogFeatures,
+      mappedProduct,
+      mappedTagsObject,
+      isBike,
+    );
 
     for (const variant of mappedProduct.variants) {
       variant.price = this.getPrice({
@@ -46,11 +50,6 @@ export class ProductMapper {
         isBike,
       });
     }
-
-    tags.push(...(await this.getProductVariantOptionTags(mappedProduct)));
-    tags.push(
-      ...(await this.tagsFromDescription(catalogFeatures, mappedProduct)),
-    );
 
     if (
       catalogFeatures?.excludedTitles?.some((excludedTitle) =>
@@ -61,10 +60,6 @@ export class ProductMapper {
         mappedProduct.external_id,
         'Product title is excluded',
       );
-    }
-
-    if (isBike && !mappedTagsObject.genre) {
-      tags.push('genre:Mixte');
     }
 
     const productBrand = head(mappedTagsObject.marque)?.toLowerCase();
@@ -168,6 +163,25 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private async getTags(
+    catalogFeatures: CommonCatalogConfig | undefined,
+    mappedProduct: SyncProduct,
+    mappedTagsObject: Record<string, string[]>,
+    isBike: boolean,
+  ) {
+    const tags = [
+      ...mappedProduct.tags,
+      ...(await this.getProductVariantOptionTags(mappedProduct)),
+      ...(await this.tagsFromDescription(catalogFeatures, mappedProduct)),
+    ];
+
+    if (isBike && !mappedTagsObject.genre) {
+      tags.push('genre:Mixte');
+    }
+
+    return tags;
   }
 
   private async tagsFromDescription(
