@@ -2,6 +2,17 @@ table:
   name: store_exposed_product_image
   schema: dbt
 select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - alt
+        - height
+        - position
+        - productId
+        - shopify_id
+        - src
+        - width
+      filter: {}
   - role: me_as_customer
     permission:
       columns:
