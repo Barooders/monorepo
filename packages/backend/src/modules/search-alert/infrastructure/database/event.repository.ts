@@ -1,4 +1,5 @@
 import { EventName, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { SavedSearchDeletedDomainEvent } from '@modules/search-alert/domain/events/saved-search.deleted.domain-event';
 import { SavedSearchUpdatedDomainEvent } from '@modules/search-alert/domain/events/saved-search.updated.domain-event';
 import { SearchAlertSentDomainEvent } from '@modules/search-alert/domain/events/search-alert.sent.domain-event';
 import { Injectable, Logger } from '@nestjs/common';
@@ -41,6 +42,24 @@ export class EventRepository {
         aggregateId,
         name: EventName.SAVED_SEARCH_UPDATED,
         payload,
+        metadata: {
+          savedSearchId,
+        },
+      },
+    });
+  }
+
+  @OnEvent('saved-search.deleted', { async: true })
+  async handleSavedSearchDeleted({
+    aggregateId,
+    aggregateName,
+    savedSearchId,
+  }: SavedSearchDeletedDomainEvent) {
+    await this.mainPrisma.event.create({
+      data: {
+        aggregateName,
+        aggregateId,
+        name: EventName.SAVED_SEARCH_DELETED,
         metadata: {
           savedSearchId,
         },

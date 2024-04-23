@@ -10,6 +10,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
+import { SavedSearchDeletedDomainEvent } from './events/saved-search.deleted.domain-event';
 import { SavedSearchUpdatedDomainEvent } from './events/saved-search.updated.domain-event';
 import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
@@ -34,16 +35,10 @@ export class SearchAlertService {
     shouldTriggerAlerts: boolean,
   ): Promise<void> {
     const savedSearchId = savedSearchUUID.uuid;
-    const { customerId } = await this.prisma.savedSearch.findUniqueOrThrow({
-      where: { id: savedSearchId },
-      select: { customerId: true },
-    });
-
-    if (customerId !== userId.uuid) {
-      throw new UnauthorizedException(
-        `User ${userId.uuid} is not authorized to update search ${savedSearchId}`,
-      );
-    }
+    const customerId = await this.throwIfUpdateNotAuthorizedAndGetCustomerId(
+      userId.uuid,
+      savedSearchId,
+    );
 
     await this.prisma.searchAlert.upsert({
       where: { searchId: savedSearchId },
@@ -63,6 +58,27 @@ export class SearchAlertService {
         aggregateName: AggregateName.CUSTOMER,
         savedSearchId: savedSearchId,
         payload: { shouldTriggerAlerts: String(shouldTriggerAlerts) },
+      }),
+    );
+  }
+
+  async deleteSavedSearch(userId: UUID, savedSearchUUID: UUID): Promise<void> {
+    const savedSearchId = savedSearchUUID.uuid;
+    const customerId = await this.throwIfUpdateNotAuthorizedAndGetCustomerId(
+      userId.uuid,
+      savedSearchId,
+    );
+
+    await this.prisma.savedSearch.delete({
+      where: { id: savedSearchId },
+    });
+
+    this.eventEmitter.emit(
+      'saved-search.deleted',
+      new SavedSearchDeletedDomainEvent({
+        aggregateId: customerId,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: savedSearchId,
       }),
     );
   }
@@ -179,5 +195,23 @@ export class SearchAlertService {
         searchAlertId: alertId,
       }),
     );
+  }
+
+  private async throwIfUpdateNotAuthorizedAndGetCustomerId(
+    userId: string,
+    savedSearchId: string,
+  ) {
+    const { customerId } = await this.prisma.savedSearch.findUniqueOrThrow({
+      where: { id: savedSearchId },
+      select: { customerId: true },
+    });
+
+    if (customerId !== userId) {
+      throw new UnauthorizedException(
+        `User ${userId} is not authorized to update saved search ${savedSearchId}`,
+      );
+    }
+
+    return customerId;
   }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Put,
   UnauthorizedException,
@@ -45,6 +46,24 @@ export class SearchAlertController {
       new UUID({ uuid: userId }),
       new UUID({ uuid: savedSearchId }),
       shouldTriggerAlerts,
+    );
+  }
+
+  @Delete(routesV1.searchAlert.savedSearch)
+  @UseGuards(JwtAuthGuard)
+  async deleteSavedSearch(
+    @Param('savedSearchId') savedSearchId: string,
+    @User() { userId }: ExtractedUser,
+  ): Promise<void> {
+    if (!userId) {
+      throw new UnauthorizedException(
+        `User not found in token, user (${userId})`,
+      );
+    }
+
+    await this.searchAlertService.deleteSavedSearch(
+      new UUID({ uuid: userId }),
+      new UUID({ uuid: savedSearchId }),
     );
   }
 }
