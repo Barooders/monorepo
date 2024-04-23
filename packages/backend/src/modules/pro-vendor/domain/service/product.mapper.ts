@@ -42,9 +42,9 @@ export class ProductMapper {
         isBike,
       });
 
-      for (const { key, value } of variant.optionProperties) {
-        if (!variant.inventory_quantity) continue;
+      if (!variant.inventory_quantity) continue;
 
+      for (const { key, value } of variant.optionProperties) {
         const variantOptionTag = await this.getVariantOptionTags(
           key,
           mappedProduct,
