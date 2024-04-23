@@ -35,6 +35,7 @@ export class EventRepository {
   async handlePriceOfferCreated({
     aggregateId,
     aggregateName,
+    payload,
     metadata,
   }: PriceOfferCreatedDomainEvent) {
     await this.mainPrisma.event.create({
@@ -42,6 +43,7 @@ export class EventRepository {
         aggregateName,
         aggregateId,
         name: EventName.PRICE_OFFER_CREATED,
+        payload,
         metadata,
       },
     });

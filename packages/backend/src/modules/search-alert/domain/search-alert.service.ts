@@ -3,6 +3,7 @@ import {
   EventName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { jsonStringify } from '@libs/helpers/json';
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { Queue } from 'bull';
@@ -10,7 +11,6 @@ import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
 import { EmailRepository } from './ports/email-repository';
 import { SearchRepository } from './ports/search-repository';
-import { jsonStringify } from '@libs/helpers/json';
 
 @Injectable()
 export class SearchAlertService {
@@ -57,7 +57,7 @@ export class SearchAlertService {
     const searchAlert = await this.prisma.searchAlert.findUniqueOrThrow({
       where: { id: alertId },
       include: {
-        SavedSearch: {
+        savedSearch: {
           include: {
             customer: { include: { user: true } },
             facetFilters: true,
@@ -67,7 +67,7 @@ export class SearchAlertService {
       },
     });
 
-    const savedSearch = searchAlert.SavedSearch;
+    const savedSearch = searchAlert.savedSearch;
 
     this.logger.debug(`Starting to sync alert ${savedSearch.name}`);
 
@@ -132,9 +132,9 @@ export class SearchAlertService {
       data: {
         name: EventName.SEARCH_ALERT_SENT,
         aggregateName: AggregateName.CUSTOMER,
-        aggregateId: savedSearch.id,
+        aggregateId: savedSearch.customer.authUserId,
         metadata: {
-          customerId: savedSearch.customer.authUserId,
+          searchAlertId: alertId,
         },
       },
     });

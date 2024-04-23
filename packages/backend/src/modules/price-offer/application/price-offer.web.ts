@@ -21,7 +21,7 @@ import {
   PriceOfferStatus,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
-import { Amount, UUID } from '@libs/domain/value-objects';
+import { Amount, Stock, UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { AuthGuard } from '@nestjs/passport';
@@ -52,6 +52,11 @@ class UpdatePriceOfferByAdminDTO {
   @IsOptional()
   @ApiProperty({ required: false })
   newPriceInCents?: bigint;
+
+  @IsInt()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  quantity?: number;
 
   @IsNumber()
   @IsOptional()
@@ -94,6 +99,10 @@ class NewPublicPriceOfferDTO {
 }
 
 class NewB2BPriceOfferDTO {
+  @IsInt()
+  @ApiProperty()
+  quantity!: number;
+
   @IsInt()
   @ApiProperty()
   buyerUnitPriceInCents!: number;
@@ -202,6 +211,7 @@ export class PriceOfferController {
       sellerUnitPriceInCents,
       productId,
       description,
+      quantity,
     }: NewB2BPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
@@ -217,6 +227,7 @@ export class PriceOfferController {
       new Amount({ amountInCents: sellerUnitPriceInCents }),
       new UUID({ uuid: productId }),
       description,
+      new Stock({ stock: quantity }),
     );
   }
 

@@ -105,6 +105,9 @@ export interface paths {
   '/v1/admin/products/{productId}/moderate': {
     post: operations['ProductController_moderateProduct'];
   };
+  '/v1/products/models': {
+    post: operations['ProductController_createProductModel'];
+  };
   '/v1/commission/create': {
     post: operations['BuyerCommissionController_createAndPublishCommissionProduct'];
   };
@@ -122,6 +125,9 @@ export interface paths {
   };
   '/v1/price-offer/{priceOfferId}': {
     put: operations['PriceOfferController_updatePriceOffer'];
+  };
+  '/v1/admin/price-offer/{priceOfferId}': {
+    put: operations['PriceOfferController_updatePriceOfferAsAdmin'];
   };
   '/v1/chat/conversation': {
     post: operations['ChatController_getOrCreateConversation'];
@@ -318,6 +324,17 @@ export interface components {
       vendorId?: components['schemas']['UUID'];
     };
     ModerateProductInputDto: Record<string, never>;
+    PimBrand: {
+      name: string;
+    };
+    CreateProductModelDto: {
+      name: string;
+      manufacturer_suggested_retail_price: number;
+      imageUrl: string;
+      year: number;
+      productType: string;
+      brand: components['schemas']['PimBrand'];
+    };
     CommissionInputDto: {
       cartLineIds?: string[];
     };
@@ -346,6 +363,7 @@ export interface components {
       discountCode: string;
     };
     NewB2BPriceOfferDTO: {
+      quantity: number;
       buyerUnitPriceInCents: number;
       sellerUnitPriceInCents: number;
       productId: string;
@@ -353,6 +371,14 @@ export interface components {
     };
     UpdatePriceOfferDTO: {
       status: string;
+    };
+    UpdatePriceOfferByAdminDTO: {
+      status?: string;
+      /** Format: int64 */
+      newPriceInCents?: number;
+      includedBuyerCommissionPercentage?: number;
+      publicNote?: string;
+      internalNote?: string;
     };
     ConversationInputDto: Record<string, never>;
     ProductDTO: {
@@ -398,7 +424,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-05T19:31:08.641Z
+       * @example 2024-04-23T13:32:15.579Z
        */
       birthDate: string;
       /**
@@ -870,6 +896,18 @@ export interface operations {
       };
     };
   };
+  ProductController_createProductModel: {
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateProductModelDto'];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
   BuyerCommissionController_createAndPublishCommissionProduct: {
     requestBody: {
       content: {
@@ -965,10 +1003,25 @@ export interface operations {
       };
     };
     responses: {
-      default: {
-        content: {
-          'application/json': components['schemas']['PriceOfferDTO'];
-        };
+      200: {
+        content: never;
+      };
+    };
+  };
+  PriceOfferController_updatePriceOfferAsAdmin: {
+    parameters: {
+      path: {
+        priceOfferId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdatePriceOfferByAdminDTO'];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
       };
     };
   };

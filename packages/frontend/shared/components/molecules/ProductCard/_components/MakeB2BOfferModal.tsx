@@ -86,7 +86,8 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
         buyerUnitPriceInCents: Math.floor(price * 100),
         sellerUnitPriceInCents: Math.floor(vendorUnitPrice * 100),
         productId,
-        description: `[${userCanNegociate ? 'OFFRE' : 'ACHAT'}][${quantity}x${price}€] ${description}`,
+        description: `Note client: "${description}"`,
+        quantity,
       };
 
     await fetchAPI('/v1/price-offer/b2b', {
