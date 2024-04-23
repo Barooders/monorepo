@@ -1,14 +1,15 @@
 import {
   AggregateName,
-  EventName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
+import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
 import { SearchRepository } from './ports/search-repository';
 
@@ -22,6 +23,7 @@ export class SearchAlertService {
     private prisma: PrismaMainClient,
     private emailRepository: EmailRepository,
     private searchRepository: SearchRepository,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async triggerAllSearchAlerts(): Promise<{
@@ -128,15 +130,13 @@ export class SearchAlertService {
       emailPayload,
     );
 
-    await this.prisma.event.create({
-      data: {
-        name: EventName.SEARCH_ALERT_SENT,
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'search-alert.sent',
+      new SearchAlertSentDomainEvent({
         aggregateId: savedSearch.customer.authUserId,
-        metadata: {
-          searchAlertId: alertId,
-        },
-      },
-    });
+        aggregateName: AggregateName.CUSTOMER,
+        searchAlertId: alertId,
+      }),
+    );
   }
 }
