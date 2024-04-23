@@ -4,15 +4,7 @@
     pre_hook='delete from {{this}}'
 ) }}
 
-WITH images_ranked AS (
-  SELECT
-    images."productId",
-    images.src AS "firstImage",
-    ROW_NUMBER() OVER (PARTITION BY images."productId" ORDER BY images."syncDate" DESC) AS row_number
-  FROM {{ref('store_exposed_product_image')}} images
-  WHERE images.position = 1
-),
-largest_bundle_prices AS (
+WITH largest_bundle_prices AS (
     SELECT "productId", "unitPriceInCents"
     FROM (
     SELECT
@@ -22,40 +14,23 @@ largest_bundle_prices AS (
     FROM public."BundlePrice"
     ) AS ranked
     WHERE row_num = 1
-),
-total_quantities AS (
-    SELECT
-        "productId",
-        SUM("quantity") AS "totalQuantity"
-    FROM public."ProductVariant"
-    GROUP BY "productId"
-
 )
 
 SELECT
-    bp.id AS id,
-    sp.published_at AS "published_at",
-    COALESCE(p."productType", sp.product_type) AS "product_type",
-    CAST(p.status::TEXT AS dbt."ProductStatus") AS status,
-    tq."totalQuantity" AS "total_quantity",
+    ep.id AS id,
+    ep."publishedAt" AS published_at,
+    ep."productType" AS product_type,
+    ep.status,
+    ep.total_quantity AS total_quantity,
     (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * lbp."unitPriceInCents" AS "largest_bundle_price_in_cents",
-    sp.title,
-    t_brand.value AS brand,
-    sp.handle,
-    CURRENT_DATE AS "sync_date",
-    ir."firstImage" AS "first_image"
+    ep.title,
+    ep.brand,
+    ep.handle,
+    ep."syncDate" AS sync_date,
+    ep."firstImage" AS first_image
 
-FROM {{ref('store_base_product')}} bp
-LEFT JOIN public."Product" p ON p.id = bp.id
-LEFT JOIN fivetran_shopify.product sp ON sp.id = bp."shopifyId"
-LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_brand WHERE tag = 'marque' group by 1) t_brand ON t_brand.product_id = bp.id
-LEFT JOIN images_ranked ir ON ir."productId" = bp.id AND ir.row_number = 1
-LEFT JOIN public."ProductSalesChannel" psc ON bp.id = psc."productId"
-LEFT JOIN largest_bundle_prices lbp ON lbp."productId" = bp.id
-LEFT JOIN total_quantities tq ON tq."productId" = bp.id
+FROM {{ref('store_exposed_product')}} ep
+LEFT JOIN public."ProductSalesChannel" psc ON ep.id = psc."productId"
+LEFT JOIN largest_bundle_prices lbp ON lbp."productId" = ep.id
 
-WHERE
-  sp.id IS NOT NULL
-  AND COALESCE(p."productType",sp.product_type) IS NOT NULL
-  AND sp.title IS NOT NULL
-  AND psc."salesChannelName"::TEXT='B2B'
+WHERE psc."salesChannelName"::TEXT='B2B'

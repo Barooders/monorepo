@@ -1,14 +1,13 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["tracing", "multiSchema", "postgresqlExtensions"]
+  previewFeatures = ["tracing", "multiSchema"]
   binaryTargets   = ["native", "darwin"]
-	output          = "../src/__generated/store-client"
+  output          = "../src/__generated/store-client"
 }
 
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
-  extensions   = [citext, pgcrypto]
   schemas      = ["dbt"]
   relationMode = "prisma"
 }
@@ -91,10 +90,11 @@ model StoreProductCollectionWithManualCollections {
 }
 
 model StoreBaseProduct {
-  id                       String                                        @id
-  shopifyId                BigInt                                        @unique
-  createdAt                DateTime                                      @db.Timestamptz(6)
-  vendorId                 String                                        @db.Uuid
+  id        String   @id
+  shopifyId BigInt   @unique
+  createdAt DateTime @db.Timestamptz(6)
+  vendorId  String   @db.Uuid
+
   exposedImages            StoreExposedProductImage[]
   exposedProduct           StoreExposedProduct?
   exposedProductTags       StoreExposedProductTag[]
@@ -110,10 +110,11 @@ model StoreBaseProduct {
 }
 
 model StoreBaseProductVariant {
-  id                     String? //TODO: remove "?" once all variants are in database
-  shopifyId              BigInt                      @id @map("shopify_id")
-  createdAt              DateTime                    @db.Timestamptz(6)
-  productId              String
+  id        String? //TODO: remove "?" once all variants are in database
+  shopifyId BigInt   @id @map("shopify_id")
+  createdAt DateTime @db.Timestamptz(6)
+  productId String
+
   product                StoreBaseProduct            @relation(fields: [productId], references: [id])
   exposedProductVariant  StoreExposedProductVariant?
   storeB2BProductVariant StoreB2BProductVariant?
@@ -134,6 +135,7 @@ model StoreExposedProduct {
   description   String?          @db.VarChar(131072)
   handle        String           @db.VarChar(256)
   numberOfViews BigInt           @default(0)
+  totalQuantity BigInt           @default(0) @map("total_quantity")
   brand         String?
   size          String?
   gender        String?
@@ -157,16 +159,16 @@ model StoreExposedProduct {
 
 model StoreB2BProduct {
   id                        String           @id
-  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6)
-  productType               String           @map("product_type") @db.VarChar(256)
-  status                    ProductStatus
-  totalQuantity             BigInt           @map("total_quantity")
+  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
+  productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  status                    ProductStatus // TODO: DEPRECATED: use exposed product
+  totalQuantity             BigInt           @default(0) @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
-  title                     String           @db.VarChar(256)
-  brand                     String?
-  handle                    String           @db.VarChar(256)
-  syncDate                  DateTime         @map("sync_date") @db.Date
-  firstImage                String?          @map("first_image") @db.VarChar(512)
+  title                     String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  brand                     String? // TODO: DEPRECATED: use exposed product
+  handle                    String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  syncDate                  DateTime         @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
+  firstImage                String?          @map("first_image") @db.VarChar(512) // TODO: DEPRECATED: use exposed product
   product                   StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([id])
@@ -236,7 +238,7 @@ model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
   inventoryQuantity BigInt
   syncDate          DateTime                @db.Date
-  price             Float
+  price             Float // TODO: DEPRECATED: move this to B2C variant
   compareAtPrice    Float?
   option1Name       String?                 @db.VarChar(256)
   option1           String?                 @db.VarChar(256)
@@ -258,17 +260,26 @@ model StoreExposedProductVariant {
 
 model StoreB2BProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt                  @map("inventory_quantity")
-  syncDate          DateTime                @map("sync_date") @db.Date
-  price             Float
-  compareAtPrice    Float?                  @map("compare_at_price")
-  title             String                  @db.VarChar(256)
-  condition         Condition?
-  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6)
+  inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use exposed product
+  syncDate          DateTime                @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
+  price             Float // TODO: DEPRECATED: use exposed product
+  compareAtPrice    Float?                  @map("compare_at_price") // TODO: DEPRECATED: use exposed product
+  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  condition         Condition? // TODO: DEPRECATED: use exposed product
+  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_b2b_product_variant")
+  @@schema("dbt")
+}
+
+model StoreB2CProductVariant {
+  shopifyId BigInt @id @map("shopify_id")
+  price     Float
+
+  @@index([shopifyId])
+  @@map("store_b2c_product_variant")
   @@schema("dbt")
 }
 

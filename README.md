@@ -1,5 +1,15 @@
 # Barooders' monorepo
 
+## Load staging data locally
+
+- Go to https://dashboard.render.com/d/dpg-co3cfo821fec738v4qlg-a/recovery
+- Download dump, unzip it and move it to `./dumps/db-staging-backup.sql`
+- Run sync with command:
+
+```bash
+./load-dump.sh
+```
+
 ## About monorepos
 
 ### Generic information

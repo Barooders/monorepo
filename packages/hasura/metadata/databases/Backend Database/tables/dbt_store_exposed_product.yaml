@@ -12,6 +12,26 @@ object_relationships:
           name: store_base_product
           schema: dbt
 select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - brand
+        - description
+        - firstImage
+        - gender
+        - handle
+        - id
+        - model
+        - modelYear
+        - numberOfViews
+        - productType
+        - publishedAt
+        - size
+        - status
+        - title
+        - total_quantity
+        - vendor
+      filter: {}
   - role: me_as_customer
     permission:
       columns:

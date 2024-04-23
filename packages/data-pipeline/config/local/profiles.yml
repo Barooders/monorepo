@@ -1,4 +1,4 @@
-barooders_dbt:
+barooders_dbt_bigquery:
   target: prod
   outputs:
     prod:
