@@ -258,6 +258,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
           <Button
             onClick={closeModal}
             intent={'secondary'}
+            className="text-sm"
           >
             {dict.makeOffer.backToSite}
           </Button>
