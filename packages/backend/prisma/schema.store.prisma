@@ -2,7 +2,7 @@ generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["tracing", "multiSchema", "postgresqlExtensions"]
   binaryTargets   = ["native", "darwin"]
-	output          = "../src/__generated/store-client"
+  output          = "../src/__generated/store-client"
 }
 
 datasource db {
@@ -91,10 +91,27 @@ model StoreProductCollectionWithManualCollections {
 }
 
 model StoreBaseProduct {
-  id                       String                                        @id
-  shopifyId                BigInt                                        @unique
-  createdAt                DateTime                                      @db.Timestamptz(6)
-  vendorId                 String                                        @db.Uuid
+  id                        String        @id
+  shopifyId                 BigInt        @unique
+  createdAt                 DateTime      @db.Timestamptz(6)
+  vendorId                  String        @db.Uuid
+  publishedAt               DateTime?     @db.Timestamptz(6)
+  productType               String        @map("product_type") @db.VarChar(256)
+  status                    ProductStatus
+  title                     String        @db.VarChar(256)
+  description               String?       @db.VarChar(131072)
+  handle                    String        @db.VarChar(256)
+  numberOfViews             BigInt        @default(0) @map("number_of_views")
+  syncDate                  DateTime      @map("sync_date") @db.Date
+  firstImage                String?       @map("first_image") @db.VarChar(512)
+  model                     String?
+  brand                     String?
+  size                      String?
+  gender                    String?
+  modelYear                 String?       @map("model_year")
+  totalQuantity             BigInt        @map("total_quantity")
+  largestBundlePriceInCents BigInt?       @map("largest_bundle_price_in_cents")
+
   exposedImages            StoreExposedProductImage[]
   exposedProduct           StoreExposedProduct?
   exposedProductTags       StoreExposedProductTag[]
@@ -110,8 +127,25 @@ model StoreBaseProduct {
 }
 
 model StoreBaseProductVariant {
-  id                     String? //TODO: remove "?" once all variants are in database
-  shopifyId              BigInt                      @id @map("shopify_id")
+  id                String? //TODO: remove "?" once all variants are in database
+  shopifyId         BigInt     @id @map("shopify_id")
+  inventoryQuantity BigInt     @map("inventory_quantity")
+  syncDate          DateTime   @map("sync_date") @db.Date
+  price             Float
+  compareAtPrice    Float?     @map("compare_at_price")
+  option1Name       String?    @map("option_1_name") @db.VarChar(256)
+  option1           String?    @map("option_1") @db.VarChar(256)
+  option2Name       String?    @map("option_2_name") @db.VarChar(256)
+  option2           String?    @map("option_2") @db.VarChar(256)
+  option3Name       String?    @map("option_3_name") @db.VarChar(256)
+  option3           String?    @map("option_3") @db.VarChar(256)
+  condition         Condition?
+  isRefurbished     Boolean?   @map("is_refurbished")
+  requiresShipping  Boolean?   @map("requires_shipping")
+  title             String     @db.VarChar(256)
+  updatedAt         DateTime   @map("updated_at") @db.Timestamptz(6)
+  publishedAt       DateTime?  @map("published_at") @db.Timestamptz(6)
+
   createdAt              DateTime                    @db.Timestamptz(6)
   productId              String
   product                StoreBaseProduct            @relation(fields: [productId], references: [id])
@@ -124,23 +158,24 @@ model StoreBaseProductVariant {
   @@schema("dbt")
 }
 
+// TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProduct {
   id            String           @id
-  publishedAt   DateTime?        @db.Timestamptz(6)
-  productType   String           @db.VarChar(256)
-  status        ProductStatus
-  title         String           @db.VarChar(256)
+  publishedAt   DateTime?        @db.Timestamptz(6) // TODO: DEPRECATED: use base product
+  productType   String           @db.VarChar(256) // TODO: DEPRECATED: use base product
+  status        ProductStatus // TODO: DEPRECATED: use base product
+  title         String           @db.VarChar(256) // TODO: DEPRECATED: use base product
   vendor        String           @db.VarChar(256)
-  description   String?          @db.VarChar(131072)
-  handle        String           @db.VarChar(256)
-  numberOfViews BigInt           @default(0)
-  brand         String?
+  description   String?          @db.VarChar(131072) // TODO: DEPRECATED: use base product
+  handle        String           @db.VarChar(256) // TODO: DEPRECATED: use base product
+  numberOfViews BigInt           @default(0) // TODO: DEPRECATED: use base product
+  brand         String? // TODO: DEPRECATED: use base product
   size          String?
   gender        String?
-  model         String?
+  model         String? // TODO: DEPRECATED: use base product
   modelYear     String?
-  syncDate      DateTime         @db.Date
-  firstImage    String?          @db.VarChar(512)
+  syncDate      DateTime         @db.Date // TODO: DEPRECATED: use base product
+  firstImage    String?          @db.VarChar(512) // TODO: DEPRECATED: use base product
   product       StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([handle])
@@ -155,18 +190,19 @@ model StoreExposedProduct {
   @@schema("dbt")
 }
 
+// TODO: Delete to use only base product with Hasura permissions
 model StoreB2BProduct {
   id                        String           @id
-  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6)
-  productType               String           @map("product_type") @db.VarChar(256)
-  status                    ProductStatus
+  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use base product
+  productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use base product
+  status                    ProductStatus // TODO: DEPRECATED: use base product
   totalQuantity             BigInt           @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
-  title                     String           @db.VarChar(256)
-  brand                     String?
-  handle                    String           @db.VarChar(256)
-  syncDate                  DateTime         @map("sync_date") @db.Date
-  firstImage                String?          @map("first_image") @db.VarChar(512)
+  title                     String           @db.VarChar(256) // TODO: DEPRECATED: use base product
+  brand                     String? // TODO: DEPRECATED: use base product
+  handle                    String           @db.VarChar(256) // TODO: DEPRECATED: use base product
+  syncDate                  DateTime         @map("sync_date") @db.Date // TODO: DEPRECATED: use base product
+  firstImage                String?          @map("first_image") @db.VarChar(512) // TODO: DEPRECATED: use base product
   product                   StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([id])
@@ -232,23 +268,24 @@ model StoreProductForAnalytics {
   @@schema("dbt")
 }
 
+// TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt
-  syncDate          DateTime                @db.Date
-  price             Float
-  compareAtPrice    Float?
-  option1Name       String?                 @db.VarChar(256)
-  option1           String?                 @db.VarChar(256)
-  option2Name       String?                 @db.VarChar(256)
-  option2           String?                 @db.VarChar(256)
-  option3Name       String?                 @db.VarChar(256)
-  option3           String?                 @db.VarChar(256)
-  condition         Condition?
+  inventoryQuantity BigInt // TODO: DEPRECATED: use base product
+  syncDate          DateTime                @db.Date // TODO: DEPRECATED: use base product
+  price             Float // TODO: DEPRECATED: use base product
+  compareAtPrice    Float? // TODO: DEPRECATED: use base product
+  option1Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  option1           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  option2Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  option2           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  option3Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  option3           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
+  condition         Condition? // TODO: DEPRECATED: use base product
   isRefurbished     Boolean?
   requiresShipping  Boolean?
-  title             String                  @db.VarChar(256)
-  updatedAt         DateTime                @db.Timestamptz(6)
+  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use base product
+  updatedAt         DateTime                @db.Timestamptz(6) // TODO: DEPRECATED: use base product
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
@@ -256,15 +293,16 @@ model StoreExposedProductVariant {
   @@schema("dbt")
 }
 
+// TODO: Delete to use only base product with Hasura permissions
 model StoreB2BProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt                  @map("inventory_quantity")
-  syncDate          DateTime                @map("sync_date") @db.Date
-  price             Float
-  compareAtPrice    Float?                  @map("compare_at_price")
-  title             String                  @db.VarChar(256)
-  condition         Condition?
-  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6)
+  inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use base product
+  syncDate          DateTime                @map("sync_date") @db.Date // TODO: DEPRECATED: use base product
+  price             Float // TODO: DEPRECATED: use base product
+  compareAtPrice    Float?                  @map("compare_at_price") // TODO: DEPRECATED: use base product
+  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use base product
+  condition         Condition? // TODO: DEPRECATED: use base product
+  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6) // TODO: DEPRECATED: use base product
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
