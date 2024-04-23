@@ -469,7 +469,6 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       common: {
         defaultProductCondition: Condition.AS_NEW,
         variantOptionTagsWithCategorySuffix: ['taille'],
-        minimumDiscount: 0.1,
         priceCorrections: [
           {
             // Marquage des vélos
