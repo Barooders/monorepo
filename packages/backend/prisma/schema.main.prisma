@@ -654,7 +654,7 @@ model SavedSearch {
   query          String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
-  resultsUrl     String?
+  resultsUrl     String
   facetFilters   FacetFilter[]
   numericFilters NumericFilter[]
   collection     Collection?     @relation(fields: [collectionId], references: [shopifyId])
