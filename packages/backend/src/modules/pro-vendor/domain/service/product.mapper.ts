@@ -173,22 +173,39 @@ export class ProductMapper {
     }
 
     const filteredVariants = mappedProduct.variants
-      .filter(({ optionProperties }: Variant) => {
+      .filter(({ external_id, optionProperties }: Variant) => {
         const ignoredVariants = catalogFeatures?.ignoredVariants ?? [];
 
-        return !ignoredVariants.some((ignoredVariant) => {
+        const isKept = !ignoredVariants.some((ignoredVariant) => {
           return optionProperties.some(({ value }) =>
             value.toLowerCase().includes(ignoredVariant.toLowerCase()),
           );
         });
+
+        if (!isKept) {
+          this.logger.log(
+            `Variant ${external_id} is ignored due to ignoredVariants condition (ignoredVariants: ${ignoredVariants})`,
+          );
+        }
+
+        return isKept;
       })
-      .filter(({ price, compare_at_price }) => {
+      .filter(({ external_id, price, compare_at_price }) => {
         const minimumDiscount = catalogFeatures?.minimumDiscount;
 
         if (!minimumDiscount) return true;
         if (!compare_at_price) return false;
 
-        return Number(price) < Number(compare_at_price) * (1 - minimumDiscount);
+        const isKept =
+          Number(price) < Number(compare_at_price) * (1 - minimumDiscount);
+
+        if (!isKept) {
+          this.logger.log(
+            `Variant ${external_id} is ignored due to minimum discount condition (minimumDiscount: ${minimumDiscount})`,
+          );
+        }
+
+        return isKept;
       });
 
     const defaultProductCondition = catalogFeatures?.defaultProductCondition;
