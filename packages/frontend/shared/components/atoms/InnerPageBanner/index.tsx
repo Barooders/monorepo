@@ -17,9 +17,9 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: `Partenariat officiel Look - Fin de la vente le 18 Avril - jusqu'à -45%`,
-    icon: '🔥',
-    link: '/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles',
+    label: '️Vendeur de la semaine - VéloRouen - -50€',
+    icon: '⭐️',
+    link: '/collections/velo-rouen',
   },
   {
     label: `Tous nos vélos reconditionnés sont désormais éligible à la prime d’état : contactez-nous ! 💬`,
