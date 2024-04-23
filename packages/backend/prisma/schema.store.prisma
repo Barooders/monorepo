@@ -90,25 +90,10 @@ model StoreProductCollectionWithManualCollections {
 }
 
 model StoreBaseProduct {
-  id            String        @id
-  shopifyId     BigInt        @unique
-  createdAt     DateTime      @db.Timestamptz(6)
-  vendorId      String        @db.Uuid
-  publishedAt   DateTime?     @db.Timestamptz(6)
-  productType   String        @map("product_type") @db.VarChar(256)
-  status        ProductStatus
-  title         String        @db.VarChar(256)
-  description   String?       @db.VarChar(131072)
-  handle        String        @db.VarChar(256)
-  numberOfViews BigInt        @default(0) @map("number_of_views")
-  syncDate      DateTime      @map("sync_date") @db.Date
-  firstImage    String?       @map("first_image") @db.VarChar(512)
-  model         String?
-  brand         String?
-  size          String?
-  gender        String?
-  modelYear     String?       @map("model_year")
-  totalQuantity BigInt        @map("total_quantity")
+  id        String   @id
+  shopifyId BigInt   @unique
+  createdAt DateTime @db.Timestamptz(6)
+  vendorId  String   @db.Uuid
 
   exposedImages            StoreExposedProductImage[]
   exposedProduct           StoreExposedProduct?
@@ -125,26 +110,11 @@ model StoreBaseProduct {
 }
 
 model StoreBaseProductVariant {
-  id                String? //TODO: remove "?" once all variants are in database
-  shopifyId         BigInt     @id @map("shopify_id")
-  inventoryQuantity BigInt     @map("inventory_quantity")
-  syncDate          DateTime   @map("sync_date") @db.Date
-  compareAtPrice    Float?     @map("compare_at_price")
-  option1Name       String?    @map("option_1_name") @db.VarChar(256)
-  option1           String?    @map("option_1") @db.VarChar(256)
-  option2Name       String?    @map("option_2_name") @db.VarChar(256)
-  option2           String?    @map("option_2") @db.VarChar(256)
-  option3Name       String?    @map("option_3_name") @db.VarChar(256)
-  option3           String?    @map("option_3") @db.VarChar(256)
-  condition         Condition?
-  isRefurbished     Boolean?   @map("is_refurbished")
-  requiresShipping  Boolean?   @map("requires_shipping")
-  title             String     @db.VarChar(256)
-  updatedAt         DateTime   @map("updated_at") @db.Timestamptz(6)
-  publishedAt       DateTime?  @map("published_at") @db.Timestamptz(6)
+  id        String? //TODO: remove "?" once all variants are in database
+  shopifyId BigInt   @id @map("shopify_id")
+  createdAt DateTime @db.Timestamptz(6)
+  productId String
 
-  createdAt              DateTime                    @db.Timestamptz(6)
-  productId              String
   product                StoreBaseProduct            @relation(fields: [productId], references: [id])
   exposedProductVariant  StoreExposedProductVariant?
   storeB2BProductVariant StoreB2BProductVariant?
@@ -158,21 +128,21 @@ model StoreBaseProductVariant {
 // TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProduct {
   id            String           @id
-  publishedAt   DateTime?        @db.Timestamptz(6) // TODO: DEPRECATED: use base product
-  productType   String           @db.VarChar(256) // TODO: DEPRECATED: use base product
-  status        ProductStatus // TODO: DEPRECATED: use base product
-  title         String           @db.VarChar(256) // TODO: DEPRECATED: use base product
+  publishedAt   DateTime?        @db.Timestamptz(6)
+  productType   String           @db.VarChar(256)
+  status        ProductStatus
+  title         String           @db.VarChar(256)
   vendor        String           @db.VarChar(256)
-  description   String?          @db.VarChar(131072) // TODO: DEPRECATED: use base product
-  handle        String           @db.VarChar(256) // TODO: DEPRECATED: use base product
-  numberOfViews BigInt           @default(0) // TODO: DEPRECATED: use base product
-  brand         String? // TODO: DEPRECATED: use base product
+  description   String?          @db.VarChar(131072)
+  handle        String           @db.VarChar(256)
+  numberOfViews BigInt           @default(0)
+  brand         String?
   size          String?
   gender        String?
-  model         String? // TODO: DEPRECATED: use base product
+  model         String?
   modelYear     String?
-  syncDate      DateTime         @db.Date // TODO: DEPRECATED: use base product
-  firstImage    String?          @db.VarChar(512) // TODO: DEPRECATED: use base product
+  syncDate      DateTime         @db.Date
+  firstImage    String?          @db.VarChar(512)
   product       StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([handle])
@@ -187,19 +157,18 @@ model StoreExposedProduct {
   @@schema("dbt")
 }
 
-// TODO: Delete to use only base product with Hasura permissions
 model StoreB2BProduct {
   id                        String           @id
-  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use base product
-  productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use base product
-  status                    ProductStatus // TODO: DEPRECATED: use base product
+  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
+  productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  status                    ProductStatus // TODO: DEPRECATED: use exposed product
   totalQuantity             BigInt           @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
-  title                     String           @db.VarChar(256) // TODO: DEPRECATED: use base product
-  brand                     String? // TODO: DEPRECATED: use base product
-  handle                    String           @db.VarChar(256) // TODO: DEPRECATED: use base product
-  syncDate                  DateTime         @map("sync_date") @db.Date // TODO: DEPRECATED: use base product
-  firstImage                String?          @map("first_image") @db.VarChar(512) // TODO: DEPRECATED: use base product
+  title                     String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  brand                     String? // TODO: DEPRECATED: use exposed product
+  handle                    String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  syncDate                  DateTime         @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
+  firstImage                String?          @map("first_image") @db.VarChar(512) // TODO: DEPRECATED: use exposed product
   product                   StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([id])
@@ -268,21 +237,21 @@ model StoreProductForAnalytics {
 // TODO: Delete to use only base product with Hasura permissions
 model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt // TODO: DEPRECATED: use base product
-  syncDate          DateTime                @db.Date // TODO: DEPRECATED: use base product
-  price             Float
-  compareAtPrice    Float? // TODO: DEPRECATED: use base product
-  option1Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  option1           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  option2Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  option2           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  option3Name       String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  option3           String?                 @db.VarChar(256) // TODO: DEPRECATED: use base product
-  condition         Condition? // TODO: DEPRECATED: use base product
+  inventoryQuantity BigInt
+  syncDate          DateTime                @db.Date
+  price             Float // TODO: DEPRECATED: move this to B2C variant
+  compareAtPrice    Float?
+  option1Name       String?                 @db.VarChar(256)
+  option1           String?                 @db.VarChar(256)
+  option2Name       String?                 @db.VarChar(256)
+  option2           String?                 @db.VarChar(256)
+  option3Name       String?                 @db.VarChar(256)
+  option3           String?                 @db.VarChar(256)
+  condition         Condition?
   isRefurbished     Boolean?
   requiresShipping  Boolean?
-  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use base product
-  updatedAt         DateTime                @db.Timestamptz(6) // TODO: DEPRECATED: use base product
+  title             String                  @db.VarChar(256)
+  updatedAt         DateTime                @db.Timestamptz(6)
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
@@ -293,17 +262,26 @@ model StoreExposedProductVariant {
 // TODO: Delete to use only base product with Hasura permissions
 model StoreB2BProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use base product
-  syncDate          DateTime                @map("sync_date") @db.Date // TODO: DEPRECATED: use base product
-  price             Float // TODO: DEPRECATED: use base product
-  compareAtPrice    Float?                  @map("compare_at_price") // TODO: DEPRECATED: use base product
-  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use base product
-  condition         Condition? // TODO: DEPRECATED: use base product
-  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6) // TODO: DEPRECATED: use base product
+  inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use exposed product
+  syncDate          DateTime                @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
+  price             Float // TODO: DEPRECATED: use exposed product
+  compareAtPrice    Float?                  @map("compare_at_price") // TODO: DEPRECATED: use exposed product
+  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use exposed product
+  condition         Condition? // TODO: DEPRECATED: use exposed product
+  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
   variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_b2b_product_variant")
+  @@schema("dbt")
+}
+
+model StoreB2CProductVariant {
+  shopifyId BigInt @id @map("shopify_id")
+  price     Float
+
+  @@index([shopifyId])
+  @@map("store_b2c_product_variant")
   @@schema("dbt")
 }
 
