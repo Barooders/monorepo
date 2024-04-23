@@ -62,32 +62,7 @@ export class ProductMapper {
       );
     }
 
-    const productBrand = head(mappedTagsObject.marque)?.toLowerCase();
-    const brandNames = catalogFeatures?.brandFilter?.names ?? [];
-    const action = catalogFeatures?.brandFilter?.action;
-    this.logger.debug({ productBrand, brandNames, action });
-
-    if (
-      action === BrandFilterAction.EXCLUDE &&
-      productBrand &&
-      brandNames.includes(productBrand)
-    ) {
-      throw new SkippedProductException(
-        mappedProduct.external_id,
-        `Brand ${productBrand} is excluded`,
-      );
-    }
-
-    if (
-      action === BrandFilterAction.ONLY &&
-      productBrand &&
-      !brandNames.includes(productBrand)
-    ) {
-      throw new SkippedProductException(
-        mappedProduct.external_id,
-        `Brand ${productBrand} is not allowed for this vendor`,
-      );
-    }
+    this.checkExcludedBrands(mappedTagsObject, catalogFeatures, mappedProduct);
 
     if (
       catalogFeatures?.shouldIgnoreCheapBikesBelow150 === true &&
@@ -163,6 +138,40 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private checkExcludedBrands(
+    mappedTagsObject: Record<string, string[]>,
+    catalogFeatures: CommonCatalogConfig | undefined,
+    mappedProduct: SyncProduct,
+  ) {
+    const productBrand = head(mappedTagsObject.marque)?.toLowerCase();
+    const brandNames = catalogFeatures?.brandFilter?.names ?? [];
+    const action = catalogFeatures?.brandFilter?.action;
+
+    this.logger.debug({ productBrand, brandNames, action });
+
+    if (
+      action === BrandFilterAction.EXCLUDE &&
+      productBrand &&
+      brandNames.includes(productBrand)
+    ) {
+      throw new SkippedProductException(
+        mappedProduct.external_id,
+        `Brand ${productBrand} is excluded`,
+      );
+    }
+
+    if (
+      action === BrandFilterAction.ONLY &&
+      productBrand &&
+      !brandNames.includes(productBrand)
+    ) {
+      throw new SkippedProductException(
+        mappedProduct.external_id,
+        `Brand ${productBrand} is not allowed for this vendor`,
+      );
+    }
   }
 
   private async getTags(
