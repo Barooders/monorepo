@@ -35,16 +35,16 @@ export class ProductMapper {
     const tags = mappedProduct.tags;
     const mappedTagsObject = getTagsObject(tags);
 
+    const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     for (const variant of mappedProduct.variants) {
       const variantMutiplier =
         getMultiplierFromCommission(
           catalogFeatures?.commissionPercentToAdd ?? 0,
         ) * (catalogFeatures?.priceMultiplier ?? 1);
-      const priceCorrection = catalogFeatures?.priceCorrection ?? 0;
 
       variant.price = (
         Number(variant.price) * variantMutiplier +
-        priceCorrection
+        this.getPriceCorrection({ isBike })
       ).toFixed(2);
 
       for (const { key, value } of variant.optionProperties) {
@@ -116,7 +116,6 @@ export class ProductMapper {
       );
     }
 
-    const isBike = await this.pimClient.isBike(mappedProduct.product_type);
     if (isBike && !mappedTagsObject.genre) {
       tags.push('genre:Mixte');
     }
@@ -205,5 +204,17 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private getPriceCorrection({ isBike }: { isBike: boolean }) {
+    const priceCorrection =
+      this.vendorConfigService.getVendorConfig().catalog.common
+        ?.priceCorrections;
+
+    if (!priceCorrection) return 0;
+
+    return priceCorrection
+      .filter(({ filter }) => filter === undefined || filter({ isBike }))
+      .reduce((acc, { amount }) => amount + acc, 0);
   }
 }

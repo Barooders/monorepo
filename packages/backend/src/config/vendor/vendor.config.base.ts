@@ -103,7 +103,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     password: vendorSecrets.tuvalumPassword,
     catalog: {
       common: {
-        priceCorrection: -15,
+        priceCorrections: [{ amount: -15 }],
       },
     },
   },
@@ -470,6 +470,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
         defaultProductCondition: Condition.AS_NEW,
         variantOptionTagsWithCategorySuffix: ['taille'],
         minimumDiscount: 0.1,
+        priceCorrections: [{ amount: 20, filter: ({ isBike }) => isBike }],
       },
     },
   },
@@ -970,7 +971,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
         },
       },
       common: {
-        priceCorrection: -10,
+        priceCorrections: [{ amount: -10 }],
       },
     },
   },
@@ -1353,7 +1354,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiSecret: vendorSecrets.sbikesApiSecret,
     catalog: {
       common: {
-        priceCorrection: 40,
+        priceCorrections: [{ amount: 40 }],
         translateDescription: true,
         descriptionPrefix: `<ul>
       <li>Tous les vélos seront livrés avec un antivol et une sonnette</li>
