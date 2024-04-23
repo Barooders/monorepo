@@ -113,7 +113,10 @@ interface CommonCatalogConfig {
   showExternalIdInDescription?: boolean;
   commissionPercentToAdd?: number;
   priceMultiplier?: number;
-  priceCorrection?: number;
+  priceCorrections?: {
+    amount: number;
+    filter?: (input: { isBike: boolean }) => boolean;
+  }[];
   minimumDiscount?: number;
   defaultPublishedProductStatus?: ProductStatus;
   descriptionPrefix?: string;
