@@ -101,7 +101,7 @@ export enum BrandFilterAction {
   EXCLUDE = 'exclude',
 }
 
-interface CommonCatalogConfig {
+export interface CommonCatalogConfig {
   skipProductUpdate?: boolean;
   shouldIgnoreCheapBikesBelow150?: boolean;
   minimalPriceInCents?: number;

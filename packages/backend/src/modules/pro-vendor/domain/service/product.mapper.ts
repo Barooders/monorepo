@@ -1,4 +1,4 @@
-import { BrandFilterAction } from '@config/vendor/types';
+import { BrandFilterAction, CommonCatalogConfig } from '@config/vendor/types';
 import { Variant } from '@libs/domain/product.interface';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { ITranslator } from '@modules/pro-vendor/domain/ports/translator';
@@ -29,8 +29,11 @@ export class ProductMapper {
   ): Promise<SyncProduct> {
     const catalogFeatures =
       this.vendorConfigService.getVendorConfig().catalog.common;
-    let productDescription =
-      catalogFeatures?.defaultDescription ?? mappedProduct.body_html;
+
+    const productDescription = await this.getProductDescription(
+      catalogFeatures,
+      mappedProduct,
+    );
 
     const tags = mappedProduct.tags;
     const mappedTagsObject = getTagsObject(tags);
@@ -54,24 +57,6 @@ export class ProductMapper {
         tags.push(...variantOptionTag);
       }
     }
-
-    if (catalogFeatures?.translateDescription) {
-      const translatedDescription = await this.translator.translate(
-        mappedProduct.body_html,
-      );
-
-      if (translatedDescription) {
-        productDescription = translatedDescription;
-      }
-    }
-
-    if (catalogFeatures?.showExternalIdInDescription) {
-      productDescription = `Référence: ${mappedProduct.external_id}\n${productDescription}`;
-    }
-
-    const descriptionPrefix = catalogFeatures?.descriptionPrefix ?? '';
-    const descriptionSuffix = catalogFeatures?.descriptionSuffix ?? '';
-    productDescription = `${descriptionPrefix}${productDescription}${descriptionSuffix}`;
 
     const desiredParsedKeys = catalogFeatures?.parsedTagKeysFromDescription;
 
@@ -204,6 +189,34 @@ export class ProductMapper {
       body_html: productDescription,
       tags: tags.map((tag) => tag.replace(',', '.')),
     };
+  }
+
+  private async getProductDescription(
+    catalogFeatures: CommonCatalogConfig | undefined,
+    mappedProduct: SyncProduct,
+  ) {
+    let productDescription =
+      catalogFeatures?.defaultDescription ?? mappedProduct.body_html;
+
+    if (catalogFeatures?.translateDescription) {
+      const translatedDescription = await this.translator.translate(
+        mappedProduct.body_html,
+      );
+
+      if (translatedDescription) {
+        productDescription = translatedDescription;
+      }
+    }
+
+    if (catalogFeatures?.showExternalIdInDescription) {
+      productDescription = `Référence: ${mappedProduct.external_id}\n${productDescription}`;
+    }
+
+    const descriptionPrefix = catalogFeatures?.descriptionPrefix ?? '';
+    const descriptionSuffix = catalogFeatures?.descriptionSuffix ?? '';
+    productDescription = `${descriptionPrefix}${productDescription}${descriptionSuffix}`;
+
+    return productDescription;
   }
 
   private async getVariantOptionTags(
