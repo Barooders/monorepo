@@ -39,12 +39,15 @@ export class ProductMapper {
     const mappedTagsObject = getTagsObject(tags);
 
     const isBike = await this.pimClient.isBike(mappedProduct.product_type);
+
     for (const variant of mappedProduct.variants) {
       variant.price = this.getPrice({
         variant,
         isBike,
       });
+    }
 
+    for (const variant of mappedProduct.variants) {
       if (!variant.inventory_quantity) continue;
 
       for (const { key, value } of variant.optionProperties) {
