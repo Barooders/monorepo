@@ -87,32 +87,78 @@ export class SearchAlertService {
   async updateSavedSearch(
     userId: UUID,
     savedSearchUUID: UUID,
-    shouldTriggerAlerts: boolean,
+    updates: Partial<SavedSearchEntity>,
   ): Promise<void> {
-    const savedSearchId = savedSearchUUID.uuid;
+    const searchId = savedSearchUUID.uuid;
     const customerId = await this.throwIfUpdateNotAuthorizedAndGetCustomerId(
       userId.uuid,
-      savedSearchId,
+      searchId,
     );
 
-    await this.prisma.searchAlert.upsert({
-      where: { searchId: savedSearchId },
-      create: {
-        searchId: savedSearchId,
-        isActive: shouldTriggerAlerts,
-      },
-      update: {
-        isActive: shouldTriggerAlerts,
-      },
-    });
+    const {
+      shouldTriggerAlerts,
+      facetFilters,
+      numericFilters,
+      ...savedSearch
+    } = updates;
+
+    if (shouldTriggerAlerts) {
+      await this.prisma.searchAlert.upsert({
+        where: { searchId },
+        create: {
+          searchId,
+          isActive: shouldTriggerAlerts,
+        },
+        update: {
+          isActive: shouldTriggerAlerts,
+        },
+      });
+    }
+
+    if (Object.keys(savedSearch).length > 0) {
+      await this.prisma.savedSearch.update({
+        where: { id: searchId },
+        data: savedSearch,
+      });
+    }
+
+    if (facetFilters) {
+      await this.prisma.facetFilter.deleteMany({
+        where: { searchId },
+      });
+
+      await this.prisma.facetFilter.createMany({
+        data: facetFilters.map(({ facetName, value, label }) => ({
+          searchId,
+          facetName,
+          value,
+          label,
+        })),
+      });
+    }
+
+    if (numericFilters) {
+      await this.prisma.numericFilter.deleteMany({
+        where: { searchId },
+      });
+
+      await this.prisma.numericFilter.createMany({
+        data: numericFilters.map(({ facetName, value, operator }) => ({
+          searchId,
+          facetName,
+          value,
+          operator,
+        })),
+      });
+    }
 
     this.eventEmitter.emit(
       'saved-search.updated',
       new SavedSearchUpdatedDomainEvent({
         aggregateId: customerId,
         aggregateName: AggregateName.CUSTOMER,
-        savedSearchId,
-        payload: { shouldTriggerAlerts: String(shouldTriggerAlerts) },
+        savedSearchId: searchId,
+        payload: { updates: jsonStringify(updates) },
       }),
     );
   }

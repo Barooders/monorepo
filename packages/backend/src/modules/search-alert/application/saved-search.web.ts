@@ -81,11 +81,26 @@ class CreateSavedSearchDTO {
   @IsBoolean()
   shouldTriggerAlerts!: boolean;
 }
-class UpdateSavedSearchDTO {
-  @ApiProperty()
-  @IsBoolean()
-  shouldTriggerAlerts!: boolean;
-}
+
+const mapFacetFilters = (refinements: RefinementDTO[]) => {
+  return refinements
+    .filter((refinement) => refinement.type === 'disjunctive')
+    .map((refinement) => ({
+      facetName: refinement.attribute,
+      value: String(refinement.value),
+      label: String(refinement.label),
+    }));
+};
+
+const mapNumericFilters = (refinements: RefinementDTO[]) => {
+  return refinements
+    .filter((refinement) => refinement.type === 'numeric')
+    .map((refinement) => ({
+      facetName: refinement.attribute,
+      value: String(refinement.value),
+      operator: String(refinement.operator),
+    }));
+};
 
 @Controller(routesV1.version)
 export class SavedSearchController {
@@ -95,15 +110,7 @@ export class SavedSearchController {
   @UseGuards(JwtAuthGuard)
   async createSavedSearch(
     @Body()
-    {
-      name,
-      type,
-      resultsUrl,
-      collectionId,
-      query,
-      shouldTriggerAlerts,
-      refinements,
-    }: CreateSavedSearchDTO,
+    { refinements, ...createSavedSearchDTO }: CreateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<string> {
     if (!userId) {
@@ -115,26 +122,9 @@ export class SavedSearchController {
     return await this.searchAlertService.createSavedSearch(
       new UUID({ uuid: userId }),
       {
-        name,
-        type,
-        resultsUrl,
-        collectionId,
-        query,
-        shouldTriggerAlerts,
-        facetFilters: refinements
-          .filter((refinement) => refinement.type === 'disjunctive')
-          .map((refinement) => ({
-            facetName: refinement.attribute,
-            value: String(refinement.value),
-            label: String(refinement.label),
-          })),
-        numericFilters: refinements
-          .filter((refinement) => refinement.type === 'numeric')
-          .map((refinement) => ({
-            facetName: refinement.attribute,
-            value: String(refinement.value),
-            operator: String(refinement.operator),
-          })),
+        ...createSavedSearchDTO,
+        facetFilters: mapFacetFilters(refinements),
+        numericFilters: mapNumericFilters(refinements),
       },
     );
   }
@@ -144,7 +134,7 @@ export class SavedSearchController {
   async updateSavedSearch(
     @Param('savedSearchId') savedSearchId: string,
     @Body()
-    { shouldTriggerAlerts }: UpdateSavedSearchDTO,
+    { refinements, ...createSavedSearchDTO }: Partial<CreateSavedSearchDTO>,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
     if (!userId) {
@@ -156,7 +146,13 @@ export class SavedSearchController {
     await this.searchAlertService.updateSavedSearch(
       new UUID({ uuid: userId }),
       new UUID({ uuid: savedSearchId }),
-      shouldTriggerAlerts,
+      {
+        ...createSavedSearchDTO,
+        ...(refinements && {
+          facetFilters: mapFacetFilters(refinements),
+          numericFilters: mapNumericFilters(refinements),
+        }),
+      },
     );
   }
 
