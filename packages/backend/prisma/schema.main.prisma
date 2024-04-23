@@ -344,6 +344,7 @@ model Notification {
 model PriceOffer {
   id                                String           @id @default(dbgenerated("(gen_random_uuid())::text"))
   name                              BigInt           @unique @default(autoincrement())
+  quantity                          Int              @default(1)
   salesChannelName                  SalesChannelName
   salesChannel                      SalesChannel     @relation(fields: [salesChannelName], references: [name])
   createdAt                         DateTime         @default(now())

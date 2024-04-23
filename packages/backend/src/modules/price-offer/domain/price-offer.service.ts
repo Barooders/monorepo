@@ -7,7 +7,7 @@ import {
 } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { Author } from '@libs/domain/types';
-import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
+import { Amount, Stock, UUID, ValueDate } from '@libs/domain/value-objects';
 import { Locales, getDictionnary } from '@libs/i18n';
 import { IChatService } from '@modules/chat/domain/ports/chat-service';
 import { ICommissionRepository } from '@modules/product/domain/ports/commission.repository';
@@ -53,6 +53,8 @@ export class PriceOfferService implements IPriceOfferService {
     productId: UUID,
     productVariantId?: UUID,
   ): Promise<PriceOffer> {
+    const quantity = 1;
+
     const ongoingOffer = await this.getOngoingPriceOffer(buyerId, productId);
     if (ongoingOffer) {
       await this.cancelPriceOffer(userId, new UUID({ uuid: ongoingOffer.id }));
@@ -70,6 +72,7 @@ export class PriceOfferService implements IPriceOfferService {
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
         salesChannelName: SalesChannelName.PUBLIC,
+        quantity,
         buyerId: buyerId.uuid,
         productId: productId.uuid,
         productVariantId: productVariantId?.uuid,
@@ -89,6 +92,7 @@ export class PriceOfferService implements IPriceOfferService {
         payload: {
           initiatedBy: userId.uuid,
           newPriceInCents: newPrice.amount.toFixed(4),
+          quantity: quantity.toString(),
         },
         metadata: {
           author: { id: userId.uuid, type: 'user' },
@@ -122,6 +126,7 @@ export class PriceOfferService implements IPriceOfferService {
     sellerPrice: Amount,
     productId: UUID,
     description: string,
+    quantity: Stock,
   ): Promise<void> {
     const participantDataQuery = {
       select: {
@@ -160,6 +165,7 @@ export class PriceOfferService implements IPriceOfferService {
     const newPriceOffer = await this.prisma.priceOffer.create({
       data: {
         salesChannelName: SalesChannelName.B2B,
+        quantity: quantity.stock,
         buyerId: buyerId.uuid,
         productId: productId.uuid,
         newPriceInCents: buyerPrice.amountInCents,
@@ -178,6 +184,7 @@ export class PriceOfferService implements IPriceOfferService {
         payload: {
           initiatedBy: buyerId.uuid,
           newPriceInCents: buyerPrice.amount.toFixed(4),
+          quantity: quantity.stock.toString(),
         },
         metadata: {
           author: { id: buyerId.uuid, type: 'user' },
