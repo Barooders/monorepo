@@ -1,68 +1,111 @@
-{{ config(
-    materialized='incremental',
-    unique_key='id',
-    pre_hook='delete from {{this}}'
-) }}
+{{
+    config(
+        materialized="incremental", unique_key="id", pre_hook="delete from {{this}}"
+    )
+}}
 
-with dynamic_tags AS (
-    SELECT
-        da.name AS name,
-        pa.tag_prefix AS tag_prefix,
-        al.pim_product_attribute_order AS priority
-    FROM fivetran_strapi_public.pim_dynamic_attributes AS da
-    JOIN fivetran_strapi_public.pim_dynamic_attributes_pim_product_attributes_links al ON al.pim_dynamic_attribute_id = da.id
-    JOIN fivetran_strapi_public.pim_product_attributes pa ON pa.id = al.pim_product_attribute_id
-),
-images_ranked AS (
-  SELECT
-    images."productId",
-    images.src AS "firstImage",
-    ROW_NUMBER() OVER (PARTITION BY images."productId" ORDER BY images."syncDate" DESC) AS row_number
-  FROM {{ref('store_exposed_product_image')}} images
-  WHERE images.position = 1
-),
-total_quantities AS (
-    SELECT
-        "productId",
-        SUM("quantity") AS "totalQuantity"
-    FROM public."ProductVariant"
-    GROUP BY "productId"
-)
+with
+    dynamic_tags as (
+        select
+            da.name as name,
+            pa.tag_prefix as tag_prefix,
+            al.pim_product_attribute_order as priority
+        from fivetran_strapi_public.pim_dynamic_attributes as da
+        join
+            fivetran_strapi_public.pim_dynamic_attributes_pim_product_attributes_links al
+            on al.pim_dynamic_attribute_id = da.id
+        join
+            fivetran_strapi_public.pim_product_attributes pa
+            on pa.id = al.pim_product_attribute_id
+    ),
+    images_ranked as (
+        select
+            images."productId",
+            images.src as "firstImage",
+            row_number() over (
+                partition by images."productId" order by images."syncDate" desc
+            ) as row_number
+        from {{ ref("store_exposed_product_image") }} images
+        where images.position = 1
+    ),
+    total_quantities as (
+        select "productId", sum("quantity") as "totalQuantity"
+        from public."ProductVariant"
+        group by "productId"
+    )
 
-
-SELECT
-    bp.id AS id,
-    sp.published_at AS "publishedAt",
-    COALESCE(p."productType", sp.product_type) AS "productType",
+select
+    bp.id as id,
+    sp.published_at as "publishedAt",
+    coalesce(p."productType", sp.product_type) as "productType",
     sp.title,
     sp.vendor,
-    REPLACE_PHONE_NUMBER(REPLACE_LINKS_AND_MAILS(sp.body_html)) AS "description",
+    replace_phone_number(replace_links_and_mails(sp.body_html)) as "description",
     sp.handle,
-    CAST(p.status::TEXT AS dbt."ProductStatus") AS status,
-    t_brand.value AS brand,
-    COALESCE(pr.traffictot,0) AS "numberOfViews",
-    t_size.value AS size,
-    t_gender.value AS gender,
-    t_model.value AS model,
-    t_year.value AS "modelYear",
-    CURRENT_DATE AS "syncDate",
-    ir."firstImage" AS "firstImage",
-		tq."totalQuantity" AS "total_quantity"
+    cast(p.status::text as dbt."ProductStatus") as status,
+    t_brand.value as brand,
+    coalesce(pr.traffictot, 0) as "numberOfViews",
+    t_size.value as size,
+    t_gender.value as gender,
+    t_model.value as model,
+    t_year.value as "modelYear",
+    current_date as "syncDate",
+    ir."firstImage" as "firstImage",
+    coalesce(tq."totalQuantity", 0) as "total_quantity"
 
-FROM {{ref('store_base_product')}} bp
-LEFT JOIN public."Product" p ON p.id = bp.id
-LEFT JOIN fivetran_shopify.product sp ON sp.id = bp."shopifyId"
+from {{ ref("store_base_product") }} bp
+left join public."Product" p on p.id = bp.id
+left join fivetran_shopify.product sp on sp.id = bp."shopifyId"
 
-LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_brand WHERE tag = 'marque' group by 1) t_brand ON t_brand.product_id = bp.id
-LEFT JOIN (SELECT product_id, min(t_size.value) value from {{ref('store_exposed_product_tag')}} t_size JOIN dynamic_tags dt ON dt.tag_prefix = t_size.tag AND dt.name = 'size' group by 1) t_size ON t_size.product_id = bp.id
-LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_gender WHERE tag = 'genre' group by 1) t_gender ON t_gender.product_id = bp.id
-LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_model WHERE tag = 'modele' group by 1) t_model ON t_model.product_id = bp.id
-LEFT JOIN (SELECT product_id, min(value) value from {{ref('store_exposed_product_tag')}} t_year WHERE tag = 'année' group by 1) t_year ON t_year.product_id = bp.id
-LEFT JOIN images_ranked ir ON ir."productId" = bp.id AND ir.row_number = 1
-LEFT JOIN total_quantities tq ON tq."productId" = bp.id
-LEFT JOIN biquery_analytics_dbt.products_ranking pr ON pr.id = bp.id AND pr._fivetran_deleted=FALSE
+left join
+    (
+        select product_id, min(value) value
+        from {{ ref("store_exposed_product_tag") }} t_brand
+        where tag = 'marque'
+        group by 1
+    ) t_brand
+    on t_brand.product_id = bp.id
+left join
+    (
+        select product_id, min(t_size.value) value
+        from {{ ref("store_exposed_product_tag") }} t_size
+        join dynamic_tags dt on dt.tag_prefix = t_size.tag and dt.name = 'size'
+        group by 1
+    ) t_size
+    on t_size.product_id = bp.id
+left join
+    (
+        select product_id, min(value) value
+        from {{ ref("store_exposed_product_tag") }} t_gender
+        where tag = 'genre'
+        group by 1
+    ) t_gender
+    on t_gender.product_id = bp.id
+left join
+    (
+        select product_id, min(value) value
+        from {{ ref("store_exposed_product_tag") }} t_model
+        where tag = 'modele'
+        group by 1
+    ) t_model
+    on t_model.product_id = bp.id
+left join
+    (
+        select product_id, min(value) value
+        from {{ ref("store_exposed_product_tag") }} t_year
+        where tag = 'année'
+        group by 1
+    ) t_year
+    on t_year.product_id = bp.id
+left join images_ranked ir on ir."productId" = bp.id and ir.row_number = 1
+left join total_quantities tq on tq."productId" = bp.id
+left join
+    biquery_analytics_dbt.products_ranking pr
+    on pr.id = bp.id
+    and pr._fivetran_deleted = false
 
-WHERE
-  sp.id IS NOT NULL
-  AND COALESCE(p."productType",sp.product_type) IS NOT NULL
-  AND sp.title IS NOT NULL
+where
+    sp.id is not null
+    and coalesce(p."productType", sp.product_type) is not null
+    and sp.title is not null
+    g
