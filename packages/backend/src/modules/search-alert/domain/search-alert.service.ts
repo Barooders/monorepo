@@ -29,6 +29,13 @@ export class SearchAlertService {
     private eventEmitter: EventEmitter2,
   ) {}
 
+  async createSavedSearch(
+    _userId: UUID,
+    _savedSearchDTO: any,
+  ): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
+
   async updateSavedSearch(
     userId: UUID,
     savedSearchUUID: UUID,
