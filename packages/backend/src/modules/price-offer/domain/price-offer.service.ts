@@ -86,6 +86,10 @@ export class PriceOfferService implements IPriceOfferService {
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
+        payload: {
+          initiatedBy: userId.uuid,
+          newPriceInCents: newPrice.amount.toFixed(4),
+        },
         metadata: {
           author: { id: userId.uuid, type: 'user' },
         },
@@ -171,6 +175,10 @@ export class PriceOfferService implements IPriceOfferService {
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
+        payload: {
+          initiatedBy: buyerId.uuid,
+          newPriceInCents: buyerPrice.amount.toFixed(4),
+        },
         metadata: {
           author: { id: buyerId.uuid, type: 'user' },
         },
