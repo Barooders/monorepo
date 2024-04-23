@@ -260,9 +260,8 @@ export class ProductMapper {
 
     const descriptionPrefix = catalogFeatures?.descriptionPrefix ?? '';
     const descriptionSuffix = catalogFeatures?.descriptionSuffix ?? '';
-    productDescription = `${descriptionPrefix}${productDescription}${descriptionSuffix}`;
 
-    return productDescription;
+    return `${descriptionPrefix}${productDescription}${descriptionSuffix}`;
   }
 
   private async getProductVariantOptionTags(mappedProduct: SyncProduct) {
@@ -271,7 +270,7 @@ export class ProductMapper {
       if (!variant.inventory_quantity) continue;
 
       for (const { key, value } of variant.optionProperties) {
-        const variantOptionTag = await this.getVariantOptionTags(
+        const variantOptionTag = await this.getVariantOptionTag(
           key,
           mappedProduct,
           value,
@@ -284,7 +283,7 @@ export class ProductMapper {
     return tags;
   }
 
-  private async getVariantOptionTags(
+  private async getVariantOptionTag(
     key: string,
     mappedProduct: SyncProduct,
     value: string,
@@ -299,7 +298,8 @@ export class ProductMapper {
         ? mappedProduct.product_type.toLowerCase().replaceAll(' ', '-')
         : '';
     const tagKey = `variant-option-${key.toLowerCase()}-${suffix}`;
-    const variantOptionTag = await this.tagService.getOrCreateTag(
+
+    return await this.tagService.getOrCreateTag(
       tagKey,
       value,
       tagKey,
@@ -309,7 +309,6 @@ export class ProductMapper {
         title: mappedProduct.title,
       },
     );
-    return variantOptionTag;
   }
 
   private getPrice({ variant, isBike }: { variant: Variant; isBike: boolean }) {
