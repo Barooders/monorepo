@@ -7,7 +7,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { SearchAlertCLIConsole } from './application/search-alert.cli';
 import { SearchAlertConsumer } from './application/search-alert.consumer.redis';
-import { SearchAlertController } from './application/search-alert.web';
+import { SavedSearchController } from './application/saved-search.web';
 import { QueueNames } from './config';
 import { EmailRepository } from './domain/ports/email-repository';
 import { SearchRepository } from './domain/ports/search-repository';
@@ -40,7 +40,7 @@ const commonProviders = [
 
 @Module({
   imports: commonImports,
-  controllers: [SearchAlertController],
+  controllers: [SavedSearchController],
   providers: [...commonProviders],
 })
 export class SearchAlertAppModule {}

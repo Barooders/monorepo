@@ -25,10 +25,10 @@ class UpdateSavedSearchDTO {
 }
 
 @Controller(routesV1.version)
-export class SearchAlertController {
+export class SavedSearchController {
   constructor(private searchAlertService: SearchAlertService) {}
 
-  @Put(routesV1.searchAlert.savedSearch)
+  @Put(routesV1.savedSearch.one)
   @UseGuards(JwtAuthGuard)
   async updateSavedSearch(
     @Param('savedSearchId') savedSearchId: string,
@@ -49,7 +49,7 @@ export class SearchAlertController {
     );
   }
 
-  @Delete(routesV1.searchAlert.savedSearch)
+  @Delete(routesV1.savedSearch.one)
   @UseGuards(JwtAuthGuard)
   async deleteSavedSearch(
     @Param('savedSearchId') savedSearchId: string,

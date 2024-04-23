@@ -43,8 +43,9 @@ export const routesV1 = {
     priceOffer: 'price-offer/:priceOfferId',
     priceOfferByAdmin: '/admin/price-offer/:priceOfferId',
   },
-  searchAlert: {
-    savedSearch: '/saved-search/:savedSearchId',
+  savedSearch: {
+    root: '/saved-search',
+    one: '/saved-search/:savedSearchId',
   },
   order: {
     root: '/orders',
