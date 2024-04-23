@@ -86,7 +86,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
         buyerUnitPriceInCents: Math.floor(price * 100),
         sellerUnitPriceInCents: Math.floor(vendorUnitPrice * 100),
         productId,
-        description: `Offre initiale (${quantity}x${price}€): ${description}`,
+        description: `Note client: "${description}"`,
         quantity,
       };
 
