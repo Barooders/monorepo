@@ -16,10 +16,10 @@ with
 
 select
     bpv."shopify_id" as "shopify_id",
-    coalesce(ppv.quantity, 0) as "inventoryQuantity",
+    ppv.quantity as "inventoryQuantity",
     current_date as "syncDate",
     ppv."priceInCents"::float / 100 as "price",
-    pv.compare_at_price as "compareAtPrice",
+    ppv."compareAtPriceInCents"::float / 100 as "compareAtPrice",
     po1.name as "option1Name",
     pv.option_1 as "option1",
     po2.name as "option2Name",
@@ -56,6 +56,5 @@ left join
     on (po3.product_id = pv.product_id and po3.position = 3)
 
 where
-    pv.inventory_quantity is not null
-    and pv.price is not null
-    and pv.updated_at is not null
+    ppv.quantity is not null
+    and ppv."priceInCents" is not null
