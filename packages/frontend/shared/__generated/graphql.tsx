@@ -32393,15 +32393,6 @@ export type SubscribeToOpenedPriceOfferSubscription = {
   }>;
 };
 
-export type StoreSavedSearchMutationVariables = Exact<{
-  savedSearchInput: SavedSearch_Insert_Input;
-}>;
-
-export type StoreSavedSearchMutation = {
-  __typename?: 'mutation_root';
-  insert_SavedSearch_one: { __typename?: 'SavedSearch'; id: string } | null;
-};
-
 export type HandDeliveryOrderLineFragmentFragment = {
   __typename?: 'OrderLines';
   shippingSolution: any;
@@ -33075,6 +33066,7 @@ export type FetchB2BSavedSearchQuery = {
       operator: string;
       value: string;
     }>;
+    SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
   }>;
 };
 

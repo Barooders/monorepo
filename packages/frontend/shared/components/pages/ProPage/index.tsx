@@ -34,6 +34,9 @@ const FETCH_B2B_SAVED_SEARCH = gql`
         value
       }
       query
+      SearchAlert {
+        isActive
+      }
     }
   }
 `;

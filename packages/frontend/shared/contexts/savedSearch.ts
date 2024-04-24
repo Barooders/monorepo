@@ -12,6 +12,9 @@ export type SavedSearch = {
     operator: string;
     value: string;
   }>;
+  SearchAlert: {
+    isActive: boolean;
+  } | null;
 };
 
 export const SavedSearchContext = createContext<SavedSearch | undefined>(
