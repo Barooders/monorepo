@@ -2,8 +2,8 @@ import { SavedSearchType } from '@libs/domain/prisma.main.client';
 import { Condition } from '@libs/domain/prisma.store.client';
 import { jsonStringify } from '@libs/helpers/json';
 import {
+  typesenseB2BVariantClient,
   typesensePublicVariantClient,
-  TypesensePublicVariantDocument,
 } from '@libs/infrastructure/typesense/typesense.base.client';
 import {
   SearchRepository,
@@ -11,8 +11,17 @@ import {
 } from '@modules/search-alert/domain/ports/search-repository';
 import { Logger } from '@nestjs/common';
 import { head } from 'lodash';
-import { SearchResponseHit } from 'typesense/lib/Typesense/Documents';
 
+const CLIENT_CONFIG = {
+  [SavedSearchType.PUBLIC_COLLECTION_PAGE]: {
+    client: typesensePublicVariantClient,
+    preset: 'searchable_product_attributes',
+  },
+  [SavedSearchType.B2B_MAIN_PAGE]: {
+    client: typesenseB2BVariantClient,
+    preset: 'searchable_b2b_product_attributes',
+  },
+};
 export class TypesenseRepository implements SearchRepository {
   private readonly logger = new Logger(TypesenseRepository.name);
 
@@ -41,35 +50,24 @@ export class TypesenseRepository implements SearchRepository {
       `Searching with options ${jsonStringify(queryOptions, 2)}`,
     );
 
-    if (type === SavedSearchType.PUBLIC_COLLECTION_PAGE)
-      return this.getPublicSavedSearchResults({ query, queryOptions });
+    const clientConfig = CLIENT_CONFIG[type];
 
-    throw new Error(`Unsupported search type: ${type}`);
-  }
+    if (!clientConfig) {
+      throw new Error(`Client config not found for type ${type}`);
+    }
 
-  private async getPublicSavedSearchResults({
-    query,
-    queryOptions,
-  }: {
-    query: string;
-    queryOptions: {
-      facetFilters: string[];
-      numericFilters: string[];
-    };
-  }): Promise<SearchResults> {
-    const { hits, found: nbHits } = await typesensePublicVariantClient
+    const { hits, found: nbHits } = await clientConfig.client
       .documents()
       .search({
         q: query,
-        preset: 'searchable_product_attributes',
+        preset: clientConfig.preset,
         filter_by: [
           ...queryOptions.facetFilters,
           ...queryOptions.numericFilters,
         ].join('&&'),
       });
 
-    const results =
-      hits ?? ([] as SearchResponseHit<TypesensePublicVariantDocument>[]);
+    const results = hits ?? [];
 
     return {
       nbHits,
