@@ -4,6 +4,7 @@ import { FetchSavedSearchesQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
+import SearchAlertToggleButton from '@/components/molecules/SearchAlertToggleButton';
 import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
@@ -101,14 +102,22 @@ const SavedSearches = () => {
                       {dict.savedSearches.link}
                     </Button>
                   )}
-                  <Button
-                    className="mt-2"
-                    size="small"
-                    intent="tertiary"
-                    onClick={() => doRemoveSavedSearch(savedSearch.id)}
-                  >
-                    {dict.savedSearches.deleteButton}
-                  </Button>
+                  <div className="mt-2 flex gap-1">
+                    <Button
+                      className="flex-grow"
+                      size="small"
+                      intent="tertiary"
+                      onClick={() => doRemoveSavedSearch(savedSearch.id)}
+                    >
+                      {dict.savedSearches.deleteButton}
+                    </Button>
+                    <SearchAlertToggleButton
+                      searchId={savedSearch.id}
+                      isSearchAlertInitiallyActive={
+                        savedSearch?.SearchAlert?.isActive ?? false
+                      }
+                    />
+                  </div>
                 </li>
               );
             })

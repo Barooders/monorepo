@@ -24,14 +24,23 @@ const SearchAlertToggleButton: React.FC<{
   return (
     <Button
       onClick={toggleSearchAlert}
-      intent={isSearchAlertActive ? 'primary' : 'discrete'}
-      className="text-md w-full shadow-md"
+      intent={isSearchAlertActive ? 'secondary' : 'discrete'}
+      size="small"
+      className="text-md shadow-md"
     >
       <div className="flex items-center justify-center gap-2">
         {isSearchAlertActive ? (
-          <IoMdNotifications className="text-white" />
+          <IoMdNotifications
+            height={24}
+            width={24}
+            className="text-white"
+          />
         ) : (
-          <IoMdNotificationsOff className="text-black" />
+          <IoMdNotificationsOff
+            height={24}
+            width={24}
+            className="text-black"
+          />
         )}
       </div>
     </Button>
