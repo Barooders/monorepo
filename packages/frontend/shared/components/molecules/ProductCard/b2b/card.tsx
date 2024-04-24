@@ -22,7 +22,9 @@ const ExistingOfferComponent: React.FC = () => {
   );
 };
 
-const B2BProductCard: React.FC<B2BProductCardProps> = ({
+const B2BProductCard: React.FC<
+  B2BProductCardProps & { openDetails: (productInternalId: string) => void }
+> = ({
   id,
   shopifyId,
   title,

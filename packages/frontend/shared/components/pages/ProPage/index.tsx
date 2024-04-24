@@ -65,10 +65,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
       <PortalDrawer
         ContentComponent={() =>
           selectedProductId ? (
-            <B2BProductPanel
-              productInternalId={selectedProductId}
-              intent="panel"
-            />
+            <B2BProductPanel productInternalId={selectedProductId} />
           ) : (
             <></>
           )

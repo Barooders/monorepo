@@ -75,6 +75,7 @@ export type ProductSingleVariant = ProductMultiVariants & {
 };
 
 export type B2BProductCardProps = {
+  hasOpenedPriceOffer: boolean;
   tags: Record<string, string>;
   variantCondition: Condition;
   image?: ImageType;
