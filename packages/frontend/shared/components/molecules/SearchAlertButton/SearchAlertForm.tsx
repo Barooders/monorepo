@@ -1,16 +1,11 @@
-import { SaveNewSearchAlertMutation } from '@/__generated/graphql';
 import { sendCreateAlert } from '@/analytics';
 import Input from '@/components/molecules/FormInput';
 import useSearchPage from '@/hooks/state/useSearchPage';
 import useUser from '@/hooks/state/useUser';
-import { useHasura } from '@/hooks/useHasura';
+import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import {
-  mapCurrentSearchToString,
-  mapRefinementsToFilters,
-} from '@/mappers/search';
-import { gql } from '@apollo/client';
+import { mapCurrentSearchToString } from '@/mappers/search';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
@@ -31,6 +26,7 @@ type PropsType = {
 const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const { hasuraToken } = useUser.getState();
   const { items } = useCurrentRefinements();
+  const [, storeSavedSearch] = useStoreSavedSearch();
   const collection = useSearchPage((state) => state.collection);
   const query = useSearchPage((state) => state.query);
   const refinements = items
@@ -49,14 +45,6 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
     });
   }
 
-  const saveNewSearchAlert = useHasura<SaveNewSearchAlertMutation>(gql`
-    mutation saveNewSearchAlert($searchAlertInput: SearchAlert_insert_input!) {
-      insert_SearchAlert_one(object: $searchAlertInput) {
-        id
-      }
-    }
-  `);
-
   const formMethods = useForm<Inputs>({
     defaultValues: {
       name: collection?.name ?? query ?? '',
@@ -64,20 +52,14 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async ({ name }) => {
-    await saveNewSearchAlert({
-      searchAlertInput: {
-        isActive: true,
-        SavedSearch: {
-          data: {
-            name,
-            type: 'PUBLIC_COLLECTION_PAGE',
-            collectionId: collection?.id,
-            query,
-            resultsUrl: window.location.href,
-            ...mapRefinementsToFilters(refinements),
-          },
-        },
-      },
+    await storeSavedSearch({
+      shouldTriggerAlerts: true,
+      name,
+      type: 'PUBLIC_COLLECTION_PAGE',
+      collectionId: collection?.id,
+      query: query ?? undefined,
+      resultsUrl: window.location.href,
+      refinements,
     });
 
     toast.success(dict.searchAlerts.successToaster);

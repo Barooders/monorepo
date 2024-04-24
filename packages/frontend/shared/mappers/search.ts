@@ -272,34 +272,3 @@ export const mapCurrentSearchToString = (
     .map(capitalize)
     .join('・');
 };
-
-export const mapRefinementsToFilters = (
-  refinements: {
-    attribute: string;
-    type: string;
-    operator?: string;
-    label: string;
-    value: string | number;
-  }[],
-) => {
-  return {
-    FacetFilters: {
-      data: refinements
-        .filter((refinement) => refinement.type === 'disjunctive')
-        .map((refinement) => ({
-          facetName: refinement.attribute,
-          value: String(refinement.value),
-          label: String(refinement.label),
-        })),
-    },
-    NumericFilters: {
-      data: refinements
-        .filter((refinement) => refinement.type === 'numeric')
-        .map((refinement) => ({
-          facetName: refinement.attribute,
-          value: String(refinement.value),
-          operator: String(refinement.operator),
-        })),
-    },
-  };
-};
