@@ -64,7 +64,7 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
           openModal();
           doFetchProductHitData();
         }}
-        className="mt-2 w-full"
+        className="w-full"
       >
         {userCanNegociate
           ? dict.b2b.productCard.makeAnOffer.openModal

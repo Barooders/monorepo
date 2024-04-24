@@ -1,6 +1,8 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
+import { useKeyPressEvent } from 'react-use';
 import { SearchB2BVariantDocument } from 'shared-types';
 
 const AdminHitHelper = ({
@@ -9,7 +11,12 @@ const AdminHitHelper = ({
   hit: SearchB2BVariantDocument;
 }) => {
   const { isAdmin } = useAuth();
-  if (!isAdmin()) return <></>;
+  const [shouldShow, setShouldShow] = useState(true);
+  useKeyPressEvent('?', () => {
+    setShouldShow(!shouldShow);
+  });
+
+  if (!isAdmin() || !shouldShow) return <></>;
 
   const retoolLink = `https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management?product_id=${product_shopify_id}&market=B2B`;
 

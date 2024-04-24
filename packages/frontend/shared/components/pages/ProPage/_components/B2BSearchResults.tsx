@@ -1,5 +1,5 @@
 import { SubscribeToOpenedB2BPriceOffersSubscription } from '@/__generated/graphql';
-import B2BProductCard from '@/components/molecules/ProductCard/b2b';
+import B2BProductCard from '@/components/molecules/ProductCard/b2b/card';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
 import { gql, useSubscription } from '@apollo/client';
@@ -56,7 +56,9 @@ function NoResults() {
   );
 }
 
-const B2BSearchResults: React.FC = () => {
+const B2BSearchResults: React.FC<{
+  openDetails: (productInternalId: string) => void;
+}> = ({ openDetails }) => {
   const { data: priceOffersResult } =
     useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
       SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
@@ -66,7 +68,7 @@ const B2BSearchResults: React.FC = () => {
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
         classNames={{
-          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
+          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-5',
         }}
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
           const productCardProps = fromSearchToB2BProductCard(hit);
@@ -80,6 +82,7 @@ const B2BSearchResults: React.FC = () => {
                     ({ productId }) => productId === hit.product_internal_id,
                   )
                 }
+                openDetails={openDetails}
               />
             </>
           );

@@ -6,7 +6,8 @@ import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
 const PRODUCT_HIT_QUERY = gql`
@@ -58,9 +59,14 @@ const AdminHitHelper = ({
     },
   );
 
-  if (!isAdmin() || !value) return <></>;
+  const [shouldShow, setShouldShow] = useState(true);
+  useKeyPressEvent('?', () => {
+    setShouldShow(!shouldShow);
+  });
 
   const dbtProduct = value?.dbt_store_product_for_analytics[0];
+
+  if (!isAdmin() || !dbtProduct || !shouldShow) return <></>;
 
   return (
     <div

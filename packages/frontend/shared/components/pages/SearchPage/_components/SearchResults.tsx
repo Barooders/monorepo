@@ -1,5 +1,5 @@
 import NoSSR from '@/components/atoms/NoSSR';
-import ProductCard from '@/components/molecules/ProductCard';
+import ProductCard from '@/components/molecules/ProductCard/b2c';
 import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.desktop';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToProductCard } from '@/mappers/search';

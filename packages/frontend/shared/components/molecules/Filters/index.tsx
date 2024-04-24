@@ -2,7 +2,7 @@ import { FetchB2BSavedSearchQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
-import PortalDrawer from '@/components/atoms/Drawer/portal';
+import PortalDrawer from '@/components/atoms/Drawer/withButton';
 import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';

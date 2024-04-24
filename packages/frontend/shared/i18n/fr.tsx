@@ -1192,6 +1192,12 @@ const fr = {
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',
+      details: 'Détails',
+      price: {
+        quantities: 'Unités par lot',
+        unitPrice: "A l'unité",
+        unitBundlePrice: 'En lot',
+      },
     },
   },
 };

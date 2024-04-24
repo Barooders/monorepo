@@ -9,6 +9,15 @@ export type CardLabel = {
   content: React.ReactNode;
 };
 
+export type RawVariant = {
+  option1Name: string | null;
+  option1: string | null;
+  option2Name: string | null;
+  option2: string | null;
+  option3Name: string | null;
+  option3: string | null;
+};
+
 export type Variant = {
   name: string;
   id: string;
@@ -79,4 +88,22 @@ export type B2BProductCardProps = {
   handle: string;
   shopifyId: string;
   id: string;
+};
+
+export type B2BProductPanelProps = {
+  tags: Record<string, string>;
+  variantCondition: Condition;
+  title: string;
+  price: number;
+  largestBundlePrice?: number;
+  compareAtPrice: number;
+  stock: number;
+  productType: string;
+  handle: string;
+  shopifyId: string;
+  id: string;
+  images: string[];
+  description: string;
+  isSoldOut: boolean;
+  numberOfViews: number;
 };

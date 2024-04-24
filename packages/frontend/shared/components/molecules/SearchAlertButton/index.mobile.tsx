@@ -1,4 +1,4 @@
-import PortalDrawer from '@/components/atoms/Drawer/portal';
+import PortalDrawer from '@/components/atoms/Drawer/withButton';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
 import { FaRegBell } from 'react-icons/fa';

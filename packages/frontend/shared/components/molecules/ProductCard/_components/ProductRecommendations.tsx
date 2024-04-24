@@ -7,7 +7,7 @@ import { getDictionary } from '@/i18n/translate';
 import { fetchRecommendedProducts } from '@/mappers/search';
 import { ErrorBoundary } from '@sentry/nextjs';
 import { useEffect } from 'react';
-import ProductCard from '..';
+import ProductCard from '../b2c';
 
 const dict = getDictionary('fr');
 

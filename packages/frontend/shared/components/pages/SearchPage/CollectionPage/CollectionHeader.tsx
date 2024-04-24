@@ -1,6 +1,6 @@
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import SortBy from '@/components/molecules/Filters/SortBy';
-import ProductCard from '@/components/molecules/ProductCard';
+import ProductCard from '@/components/molecules/ProductCard/b2c';
 import { TrackedElements } from '@/config/e2e';
 import { getDictionary } from '@/i18n/translate';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';

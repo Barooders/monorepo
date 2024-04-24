@@ -2,7 +2,7 @@
 
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
-import { ProductCardWithContainer } from '@/components/molecules/ProductCard/connected';
+import { ProductCardWithContainer } from '@/components/molecules/ProductCard/b2c/connected';
 import useUser from '@/hooks/state/useUser';
 import useFavoriteProducts from '@/hooks/useFavoriteProducts';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
