@@ -11,6 +11,15 @@ object_relationships:
         remote_table:
           name: store_b2b_product_variant
           schema: dbt
+  - name: b2cVariant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopify_id: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_b2c_product_variant
+          schema: dbt
   - name: product
     using:
       manual_configuration:

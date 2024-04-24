@@ -1,6 +1,16 @@
 table:
   name: store_b2c_product_variant
   schema: dbt
+object_relationships:
+  - name: variant
+    using:
+      manual_configuration:
+        column_mapping:
+          shopify_id: shopify_id
+        insertion_order: null
+        remote_table:
+          name: store_base_product_variant
+          schema: dbt
 select_permissions:
   - role: public
     permission:
