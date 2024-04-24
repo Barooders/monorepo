@@ -135,47 +135,51 @@ function loopThroughFilledRows() {
   const vendorColumns = getColumns(VENDOR_SHEET);
 
   for (var row = 2; row <= values.length; row++) {
-    const data = retrieveInPim(row, vendorColumns);
-
-    if (data == null) {
-      continue;
-    }
-
-    const {
-      document: {
-        brand: retrievedBrand,
-        family: retrievedFamily,
-        name: retrievedModel,
-        imageUrl: retrievedImageUrl,
-        year: retrievedYear,
-        manufacturer_suggested_retail_price: retrievedPrice,
-        productType: retrievedProductType,
-      },
-      text_match_info: { score },
-    } = data;
-    const normalizedScore = score / 1e18;
-
-    if (normalizedScore < MATCH_THRESHOLD) {
-      continue;
-    }
-
-    sheet.getRange(row, vendorColumns['[PIM] Marque']).setValue(retrievedBrand);
-    sheet
-      .getRange(row, vendorColumns['[PIM] Famille'])
-      .setValue(retrievedFamily);
-    sheet.getRange(row, vendorColumns['[PIM] Modèle']).setValue(retrievedModel);
-    sheet.getRange(row, vendorColumns['[PIM] Année']).setValue(retrievedYear);
-    sheet
-      .getRange(row, vendorColumns['[PIM] Prix neuf'])
-      .setValue(retrievedPrice);
-    sheet
-      .getRange(row, vendorColumns['[PIM] Type'])
-      .setValue(retrievedProductType);
-    sheet
-      .getRange(row, vendorColumns['[PIM] Image'])
-      .setValue(retrievedImageUrl);
-    sheet.getRange(row, vendorColumns['[PIM] Score']).setValue(normalizedScore);
+    retrievePimAndFillRow(row, vendorColumns, sheet);
   }
+}
+
+function retrievePimAndFillRow(
+  row: number,
+  vendorColumns: Record<string, number>,
+  sheet: GoogleAppsScript.Spreadsheet.Sheet,
+) {
+  const data = retrieveInPim(row, vendorColumns);
+
+  if (data == null) {
+    return;
+  }
+
+  const {
+    document: {
+      brand: retrievedBrand,
+      family: retrievedFamily,
+      name: retrievedModel,
+      imageUrl: retrievedImageUrl,
+      year: retrievedYear,
+      manufacturer_suggested_retail_price: retrievedPrice,
+      productType: retrievedProductType,
+    },
+    text_match_info: { score },
+  } = data;
+  const normalizedScore = score / 1e18;
+
+  if (normalizedScore < MATCH_THRESHOLD) {
+    return;
+  }
+
+  sheet.getRange(row, vendorColumns['[PIM] Marque']).setValue(retrievedBrand);
+  sheet.getRange(row, vendorColumns['[PIM] Famille']).setValue(retrievedFamily);
+  sheet.getRange(row, vendorColumns['[PIM] Modèle']).setValue(retrievedModel);
+  sheet.getRange(row, vendorColumns['[PIM] Année']).setValue(retrievedYear);
+  sheet
+    .getRange(row, vendorColumns['[PIM] Prix neuf'])
+    .setValue(retrievedPrice);
+  sheet
+    .getRange(row, vendorColumns['[PIM] Type'])
+    .setValue(retrievedProductType);
+  sheet.getRange(row, vendorColumns['[PIM] Image']).setValue(retrievedImageUrl);
+  sheet.getRange(row, vendorColumns['[PIM] Score']).setValue(normalizedScore);
 }
 
 function getColumns(sheetName: string): Record<string, number> {
@@ -234,6 +238,9 @@ function addProductToPim(row: number, vendorColumns: Record<string, number>) {
       Logger.log('Cannot add product to PIM: ' + response.getContentText());
     } else {
       Logger.log('Product has been added to PIM');
+
+      retrievePimAndFillRow(row, vendorColumns, sheet);
+      sheet.getRange(row, vendorColumns['[PIM] ok']).setValue('ok');
     }
   } catch (error) {
     Logger.log('Cannot add product to PIM: ' + error);
