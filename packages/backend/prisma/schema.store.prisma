@@ -237,7 +237,7 @@ model StoreProductForAnalytics {
 model StoreExposedProductVariant {
   shopifyId          BigInt                  @id @map("shopify_id")
   inventoryQuantity  BigInt
-  inventory_quantity BigInt
+  inventory_quantity BigInt                  @default(0)
   syncDate           DateTime                @db.Date
   price              Float // TODO: DEPRECATED: move this to B2C variant
   compareAtPrice     Float?
