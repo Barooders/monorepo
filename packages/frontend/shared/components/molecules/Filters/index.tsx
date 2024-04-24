@@ -1,4 +1,3 @@
-import { FetchB2BSavedSearchQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
@@ -11,19 +10,17 @@ import {
   b2bProductAttributesConfiguration,
   publicProductAttributesConfiguration,
 } from '@/config/productAttributes';
-import { useHasura } from '@/hooks/useHasura';
+import { SavedSearchContext } from '@/contexts/savedSearch';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
   useRefinementList,
   useSearchBox,
 } from 'react-instantsearch-hooks-web';
-import { HASURA_ROLES } from 'shared-types';
 import ActiveFilters from './ActiveFilters';
 import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
@@ -33,27 +30,6 @@ const dict = getDictionary('fr');
 
 const HIDDEN_FILTER_THRESHOLD = 0.5;
 const REMOVED_FILTER_THRESHOLD = 0.2;
-
-const FETCH_B2B_SAVED_SEARCH = gql`
-  query FetchB2BSavedSearch {
-    SavedSearch(
-      limit: 1
-      order_by: { createdAt: desc }
-      where: { type: { _eq: "B2B_MAIN_PAGE" } }
-    ) {
-      FacetFilters {
-        value
-        facetName
-      }
-      NumericFilters {
-        facetName
-        operator
-        value
-      }
-      query
-    }
-  }
-`;
 
 const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
   attribute,
@@ -190,45 +166,35 @@ export const B2BFilters = () => {
   const { refine } = useSearchBox({});
   const { setIndexUiState } = useInstantSearch();
   const [query, setQuery] = useState<string>('');
-
-  const fetchB2BSavedSearch = useHasura<FetchB2BSavedSearchQuery>(
-    FETCH_B2B_SAVED_SEARCH,
-    HASURA_ROLES.REGISTERED_USER,
-  );
+  const savedSearch = useContext(SavedSearchContext);
 
   useEffect(() => {
-    (async () => {
-      const { SavedSearch } = await fetchB2BSavedSearch();
+    if (!savedSearch) return;
 
-      if (SavedSearch.length === 0) return;
+    const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-      const { query, FacetFilters, NumericFilters } = SavedSearch[0];
+    setQuery(savedQuery ?? '');
 
-      setQuery(query ?? '');
+    const facetFilters = groupBy(FacetFilters, 'facetName');
+    const numericFilters = groupBy(NumericFilters, 'facetName');
 
-      const facetFilters = groupBy(FacetFilters, 'facetName');
-      const numericFilters = groupBy(NumericFilters, 'facetName');
-
-      setIndexUiState((prevIndexUiState) => ({
-        ...prevIndexUiState,
-        refinementList: {
-          ...prevIndexUiState.refinementList,
-          ...mapValues(facetFilters, (value) =>
-            value.map(({ value }) => value),
-          ),
-        },
-        range: {
-          ...prevIndexUiState.range,
-          ...mapValues(numericFilters, (value) => {
-            const minValue = find(value, { operator: '>=' })?.value ?? '';
-            const maxValue = find(value, { operator: '<=' })?.value ?? '';
-            return `${minValue}:${maxValue}`;
-          }),
-        },
-        ...(query && { query }),
-      }));
-    })();
-  }, []);
+    setIndexUiState((prevIndexUiState) => ({
+      ...prevIndexUiState,
+      refinementList: {
+        ...prevIndexUiState.refinementList,
+        ...mapValues(facetFilters, (value) => value.map(({ value }) => value)),
+      },
+      range: {
+        ...prevIndexUiState.range,
+        ...mapValues(numericFilters, (value) => {
+          const minValue = find(value, { operator: '>=' })?.value ?? '';
+          const maxValue = find(value, { operator: '<=' })?.value ?? '';
+          return `${minValue}:${maxValue}`;
+        }),
+      },
+      ...(query && { query }),
+    }));
+  }, [savedSearch, query, setIndexUiState])
 
   return (
     <>
