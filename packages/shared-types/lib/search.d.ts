@@ -11,6 +11,10 @@ export declare enum BundleType {
   TWO_TO_NINE = 'two_to_nine',
   TEN_PLUS = 'ten_plus',
 }
+export declare enum SearchPreset {
+  PUBLIC = 'searchable_product_attributes',
+  B2B = 'searchable_b2b_product_attributes',
+}
 type SearchBaseVariantDocument = {
   variant_shopify_id: number;
   variant_internal_id?: string;

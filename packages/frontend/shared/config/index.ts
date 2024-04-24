@@ -1,4 +1,5 @@
 import config from '@/config/env';
+import { SearchPreset } from 'shared-types';
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter';
 import { SEARCH_DOMAIN } from './e2e';
 
@@ -25,11 +26,6 @@ export const searchCollections = {
   suggestions: config.search.publicVariantSuggestionsCollection,
 };
 
-export const SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET =
-  'searchable_product_attributes';
-export const SEARCHABLE_B2B_PRODUCT_ATTRIBUTES_PRESET =
-  'searchable_b2b_product_attributes';
-
 export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
     apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_KEY ?? '',
@@ -53,7 +49,7 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
   flattenGroupedHits: false,
   collectionSpecificSearchParameters: {
     [publicVariantsCollection]: {
-      preset: SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
+      preset: SearchPreset.PUBLIC,
       group_by: 'product_internal_id',
       group_limit: 50,
     },
@@ -61,7 +57,7 @@ export const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
       query_by: 'title,handle',
     },
     [b2bVariantsCollection]: {
-      preset: SEARCHABLE_B2B_PRODUCT_ATTRIBUTES_PRESET,
+      preset: SearchPreset.B2B,
       group_by: 'product_internal_id',
       group_limit: 50,
     },

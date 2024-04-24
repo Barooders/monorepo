@@ -1,34 +1,38 @@
+import { SavedSearchType } from '@libs/domain/prisma.main.client';
 import { Condition } from '@libs/domain/prisma.store.client';
 import { jsonStringify } from '@libs/helpers/json';
 import {
+  typesenseB2BVariantClient,
   typesensePublicVariantClient,
-  TypesensePublicVariantDocument,
 } from '@libs/infrastructure/typesense/typesense.base.client';
-import { SearchRepository } from '@modules/search-alert/domain/ports/search-repository';
+import {
+  SearchRepository,
+  SearchResults,
+} from '@modules/search-alert/domain/ports/search-repository';
 import { Logger } from '@nestjs/common';
 import { head } from 'lodash';
-import { SearchResponseHit } from 'typesense/lib/Typesense/Documents';
+import { SearchPreset } from 'shared-types';
 
+const CLIENT_CONFIG = {
+  [SavedSearchType.PUBLIC_COLLECTION_PAGE]: {
+    client: typesensePublicVariantClient,
+    preset: SearchPreset.PUBLIC,
+  },
+  [SavedSearchType.B2B_MAIN_PAGE]: {
+    client: typesenseB2BVariantClient,
+    preset: SearchPreset.B2B,
+  },
+};
 export class TypesenseRepository implements SearchRepository {
   private readonly logger = new Logger(TypesenseRepository.name);
 
   async getSavedSearchResults(
+    type: SavedSearchType,
     query: string,
     facetFilters: { facetName: string; value: string }[],
     numericFilters: { facetName: string; value: string; operator: string }[],
     since: Date,
-  ): Promise<{
-    nbHits: number;
-    hits: {
-      imageUrl: string;
-      brand: string;
-      handle: string;
-      characteristics: string;
-      price: string;
-      compareAtPrice: string;
-      discount: string;
-    }[];
-  }> {
+  ): Promise<SearchResults> {
     const queryOptions = {
       facetFilters: facetFilters.map(
         (facetFilter) => `${facetFilter.facetName}:=${facetFilter.value}`,
@@ -47,19 +51,24 @@ export class TypesenseRepository implements SearchRepository {
       `Searching with options ${jsonStringify(queryOptions, 2)}`,
     );
 
-    const { hits, found: nbHits } = await typesensePublicVariantClient
+    const clientConfig = CLIENT_CONFIG[type];
+
+    if (!clientConfig) {
+      throw new Error(`Client config not found for type ${type}`);
+    }
+
+    const { hits, found: nbHits } = await clientConfig.client
       .documents()
       .search({
         q: query,
-        preset: 'searchable_product_attributes',
+        preset: clientConfig.preset,
         filter_by: [
           ...queryOptions.facetFilters,
           ...queryOptions.numericFilters,
         ].join('&&'),
       });
 
-    const results =
-      hits ?? ([] as SearchResponseHit<TypesensePublicVariantDocument>[]);
+    const results = hits ?? [];
 
     return {
       nbHits,

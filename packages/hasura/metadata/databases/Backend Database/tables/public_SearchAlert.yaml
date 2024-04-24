@@ -5,16 +5,6 @@ object_relationships:
   - name: SavedSearch
     using:
       foreign_key_constraint_on: searchId
-insert_permissions:
-  - role: registered_user
-    permission:
-      check:
-        SavedSearch:
-          customerId:
-            _eq: X-Hasura-User-Id
-      columns:
-        - isActive
-        - searchId
 select_permissions:
   - role: registered_user
     permission:
@@ -24,23 +14,6 @@ select_permissions:
         - latestRunAt
         - latestResultsCount
         - searchId
-      filter:
-        SavedSearch:
-          customerId:
-            _eq: X-Hasura-User-Id
-update_permissions:
-  - role: registered_user
-    permission:
-      columns:
-        - isActive
-      filter:
-        SavedSearch:
-          customerId:
-            _eq: X-Hasura-User-Id
-      check: null
-delete_permissions:
-  - role: registered_user
-    permission:
       filter:
         SavedSearch:
           customerId:

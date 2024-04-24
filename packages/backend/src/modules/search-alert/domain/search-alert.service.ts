@@ -236,6 +236,7 @@ export class SearchAlertService {
     yesterday.setDate(today.getDate() - 1);
 
     const { hits, nbHits } = await this.searchRepository.getSavedSearchResults(
+      savedSearch.type,
       savedSearch.query ?? '',
       savedSearch.facetFilters,
       savedSearch.numericFilters,

@@ -32,21 +32,6 @@ array_relationships:
         table:
           name: NumericFilter
           schema: public
-insert_permissions:
-  - role: registered_user
-    permission:
-      check:
-        customerId:
-          _eq: X-Hasura-User-Id
-      set:
-        customerId: x-hasura-User-Id
-      columns:
-        - collectionId
-        - customerId
-        - name
-        - query
-        - type
-        - resultsUrl
 select_permissions:
   - role: registered_user
     permission:
@@ -60,27 +45,6 @@ select_permissions:
         - updatedAt
         - customerId
         - resultsUrl
-      filter:
-        customerId:
-          _eq: X-Hasura-User-Id
-update_permissions:
-  - role: registered_user
-    permission:
-      columns:
-        - collectionId
-        - name
-        - query
-        - type
-        - resultsUrl
-      filter:
-        customerId:
-          _eq: X-Hasura-User-Id
-      check: null
-      set:
-        customerId: x-hasura-User-Id
-delete_permissions:
-  - role: registered_user
-    permission:
       filter:
         customerId:
           _eq: X-Hasura-User-Id
