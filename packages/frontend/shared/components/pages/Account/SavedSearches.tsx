@@ -1,15 +1,13 @@
 'use client';
 
+import { FetchSavedSearchesQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
+import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import {
-  FetchSavedSearchesQuery,
-  RemoveSavedSearchMutation,
-} from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
@@ -34,15 +32,8 @@ const FETCH_SAVED_SEARCHES = gql`
   }
 `;
 
-const REMOVE_SAVED_SEARCHES = gql`
-  mutation removeSavedSearch($searchId: String!) {
-    delete_SavedSearch_by_pk(id: $searchId) {
-      id
-    }
-  }
-`;
-
 const SavedSearches = () => {
+  const [, removeSavedSearch] = useDeleteSavedSearch();
   const fetchSavedSearches =
     useHasura<FetchSavedSearchesQuery>(FETCH_SAVED_SEARCHES);
   const [fetchState, doFetchSavedSearches] =
@@ -50,12 +41,8 @@ const SavedSearches = () => {
       fetchSavedSearches,
     );
 
-  const removeSavedSearch = useHasura<RemoveSavedSearchMutation>(
-    REMOVE_SAVED_SEARCHES,
-  );
-
   const doRemoveSavedSearch = async (searchId: string) => {
-    await removeSavedSearch({ searchId });
+    await removeSavedSearch(searchId);
     doFetchSavedSearches();
   };
 
