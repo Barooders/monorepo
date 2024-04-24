@@ -654,7 +654,7 @@ model SavedSearch {
   query          String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime?       @updatedAt
-  resultsUrl     String?
+  resultsUrl     String
   facetFilters   FacetFilter[]
   numericFilters NumericFilter[]
   collection     Collection?     @relation(fields: [collectionId], references: [shopifyId])
@@ -849,7 +849,10 @@ enum EventName {
   CUSTOMER_CREATED
   PRICE_OFFER_CREATED
   PRICE_OFFER_UPDATED
+  SAVED_SEARCH_CREATED
+  SAVED_SEARCH_UPDATED
   SEARCH_ALERT_SENT
+  SAVED_SEARCH_DELETED
   CHAT_STARTED
   FAVORITE_PRODUCT_CREATED
   SUPPORT_REQUEST_CREATED

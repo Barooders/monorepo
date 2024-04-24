@@ -42,6 +42,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
       savedSearchInput: {
         name: 'B2B search',
         type: 'B2B_MAIN_PAGE',
+        resultsUrl: window.location.href,
         query,
         ...mapRefinementsToFilters(refinements),
       },

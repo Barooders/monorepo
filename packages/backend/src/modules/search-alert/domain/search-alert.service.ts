@@ -1,15 +1,21 @@
 import {
   AggregateName,
-  EventName,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Queue } from 'bull';
 import { capitalize } from 'lodash';
 import { QueueNames } from '../config';
+import { SavedSearchCreatedDomainEvent } from './events/saved-search.created.domain-event';
+import { SavedSearchDeletedDomainEvent } from './events/saved-search.deleted.domain-event';
+import { SavedSearchUpdatedDomainEvent } from './events/saved-search.updated.domain-event';
+import { SearchAlertSentDomainEvent } from './events/search-alert.sent.domain-event';
 import { EmailRepository } from './ports/email-repository';
+import { SavedSearchEntity } from './ports/saved-search.entity';
 import { SearchRepository } from './ports/search-repository';
 
 @Injectable()
@@ -22,7 +28,161 @@ export class SearchAlertService {
     private prisma: PrismaMainClient,
     private emailRepository: EmailRepository,
     private searchRepository: SearchRepository,
+    private eventEmitter: EventEmitter2,
   ) {}
+
+  async createSavedSearch(
+    userId: UUID,
+    {
+      facetFilters,
+      numericFilters,
+      shouldTriggerAlerts,
+      ...savedSearch
+    }: SavedSearchEntity,
+  ): Promise<string> {
+    const newSavedSearch = await this.prisma.savedSearch.create({
+      data: {
+        customerId: userId.uuid,
+        ...savedSearch,
+        facetFilters: {
+          createMany: {
+            data: facetFilters.map(({ facetName, value, label }) => ({
+              facetName,
+              value,
+              label,
+            })),
+          },
+        },
+        numericFilters: {
+          createMany: {
+            data: numericFilters.map(({ facetName, value, operator }) => ({
+              facetName,
+              value,
+              operator,
+            })),
+          },
+        },
+        ...(shouldTriggerAlerts && {
+          searchAlert: {
+            create: {
+              isActive: true,
+            },
+          },
+        }),
+      },
+    });
+
+    this.eventEmitter.emit(
+      'saved-search.created',
+      new SavedSearchCreatedDomainEvent({
+        aggregateId: userId.uuid,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: newSavedSearch.id,
+      }),
+    );
+
+    return newSavedSearch.id;
+  }
+
+  async updateSavedSearch(
+    userId: UUID,
+    savedSearchUUID: UUID,
+    updates: Partial<SavedSearchEntity>,
+  ): Promise<void> {
+    const searchId = savedSearchUUID.uuid;
+    const customerId = await this.throwIfUpdateNotAuthorizedAndGetCustomerId(
+      userId.uuid,
+      searchId,
+    );
+
+    const {
+      shouldTriggerAlerts,
+      facetFilters,
+      numericFilters,
+      ...savedSearch
+    } = updates;
+
+    if (shouldTriggerAlerts) {
+      await this.prisma.searchAlert.upsert({
+        where: { searchId },
+        create: {
+          searchId,
+          isActive: shouldTriggerAlerts,
+        },
+        update: {
+          isActive: shouldTriggerAlerts,
+        },
+      });
+    }
+
+    if (Object.keys(savedSearch).length > 0) {
+      await this.prisma.savedSearch.update({
+        where: { id: searchId },
+        data: savedSearch,
+      });
+    }
+
+    if (facetFilters) {
+      await this.prisma.facetFilter.deleteMany({
+        where: { searchId },
+      });
+
+      await this.prisma.facetFilter.createMany({
+        data: facetFilters.map(({ facetName, value, label }) => ({
+          searchId,
+          facetName,
+          value,
+          label,
+        })),
+      });
+    }
+
+    if (numericFilters) {
+      await this.prisma.numericFilter.deleteMany({
+        where: { searchId },
+      });
+
+      await this.prisma.numericFilter.createMany({
+        data: numericFilters.map(({ facetName, value, operator }) => ({
+          searchId,
+          facetName,
+          value,
+          operator,
+        })),
+      });
+    }
+
+    this.eventEmitter.emit(
+      'saved-search.updated',
+      new SavedSearchUpdatedDomainEvent({
+        aggregateId: customerId,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: searchId,
+        payload: { updates: jsonStringify(updates) },
+      }),
+    );
+  }
+
+  async deleteSavedSearch(userId: UUID, savedSearchUUID: UUID): Promise<void> {
+    const savedSearchId = savedSearchUUID.uuid;
+    const customerId = await this.throwIfUpdateNotAuthorizedAndGetCustomerId(
+      userId.uuid,
+      savedSearchId,
+    );
+
+    await this.prisma.savedSearch.delete({
+      where: { id: savedSearchId },
+    });
+
+    this.eventEmitter.emit(
+      'saved-search.deleted',
+      new SavedSearchDeletedDomainEvent({
+        aggregateId: customerId,
+        aggregateName: AggregateName.CUSTOMER,
+        savedSearchId: savedSearchId,
+      }),
+    );
+  }
 
   async triggerAllSearchAlerts(): Promise<{
     payload: { triggeredAlerts: string[] };
@@ -128,15 +288,31 @@ export class SearchAlertService {
       emailPayload,
     );
 
-    await this.prisma.event.create({
-      data: {
-        name: EventName.SEARCH_ALERT_SENT,
-        aggregateName: AggregateName.CUSTOMER,
+    this.eventEmitter.emit(
+      'search-alert.sent',
+      new SearchAlertSentDomainEvent({
         aggregateId: savedSearch.customer.authUserId,
-        metadata: {
-          searchAlertId: alertId,
-        },
-      },
+        aggregateName: AggregateName.CUSTOMER,
+        searchAlertId: alertId,
+      }),
+    );
+  }
+
+  private async throwIfUpdateNotAuthorizedAndGetCustomerId(
+    userId: string,
+    savedSearchId: string,
+  ) {
+    const { customerId } = await this.prisma.savedSearch.findUniqueOrThrow({
+      where: { id: savedSearchId },
+      select: { customerId: true },
     });
+
+    if (customerId !== userId) {
+      throw new UnauthorizedException(
+        `User ${userId} is not authorized to update saved search ${savedSearchId}`,
+      );
+    }
+
+    return customerId;
   }
 }
