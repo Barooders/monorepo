@@ -38,7 +38,7 @@ const ICON_COLOR = '#828E96';
 type MenuBlockConfig = {
   slug: string;
   link?: string;
-  showToProVendorsOnly?: boolean;
+  isVisible?: (props: { isB2BUser: boolean; isProUser: boolean }) => boolean;
   icon: React.ReactNode;
 };
 
@@ -69,6 +69,7 @@ export const MENU_BLOCKS_CONFIG: MenuBlockConfig[][] = [
     {
       slug: 'priceOffers',
       link: '/account/price-offers',
+      isVisible: ({ isB2BUser }) => isB2BUser,
       icon: (
         <MdOutlinePriceChange
           size={20}
@@ -79,7 +80,7 @@ export const MENU_BLOCKS_CONFIG: MenuBlockConfig[][] = [
     {
       slug: 'vendorData',
       link: '/account/vendor-data',
-      showToProVendorsOnly: true,
+      isVisible: ({ isProUser }) => isProUser,
       icon: (
         <IoMdAnalytics
           size={20}

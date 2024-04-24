@@ -26,10 +26,11 @@ interface Wallet {
 }
 
 type PropsType = {
-  vendorIsPro: boolean;
+  isProUser: boolean;
+  isB2BUser: boolean;
 };
 
-const AccountMenu: React.FC<PropsType> = ({ vendorIsPro }) => {
+const AccountMenu: React.FC<PropsType> = ({ isProUser, isB2BUser }) => {
   const { logout } = useAuth();
   const { fetchAPI } = useBackend();
   const dict = getDictionary('fr');
@@ -96,7 +97,7 @@ const AccountMenu: React.FC<PropsType> = ({ vendorIsPro }) => {
           className="mt-5"
           key={index}
         >
-          {block.map(({ link, slug, icon, showToProVendorsOnly }) =>
+          {block.map(({ link, slug, icon, isVisible }) =>
             slug === 'logout' ? (
               <button
                 className="mt-2 flex w-full flex-row items-center rounded-lg border border-zinc-200 p-4"
@@ -108,7 +109,7 @@ const AccountMenu: React.FC<PropsType> = ({ vendorIsPro }) => {
                   {dict.account.menuBlocks.logout.title}
                 </p>
               </button>
-            ) : !showToProVendorsOnly || vendorIsPro ? (
+            ) : !isVisible || isVisible({ isProUser, isB2BUser }) ? (
               <Link
                 className="mt-2 flex w-full flex-row items-center rounded-lg border border-zinc-200 p-4"
                 key={slug}

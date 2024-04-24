@@ -19,6 +19,7 @@ import AccountMenu from './_components/AccountMenu';
 import { mapProductFromGraphQl } from './_helpers/map-product';
 import { MAX_PRODUCTS_PER_BLOCK, PRODUCTS_BY_SECTION } from './config';
 import { OrderStatus } from './types';
+import { useAuth } from '@/hooks/useAuth';
 
 const getDisplayedStatus = (status: string | null) => {
   if (!status) return dict.account.orderStatus.unknown.short;
@@ -153,6 +154,7 @@ interface AccountPageData {
 }
 
 const Account = () => {
+  const { isB2BUser } = useAuth();
   const fetchAccountPageCustomerData =
     useHasura<FetchAccountPageCustomerDataQuery>(
       FETCH_ACCOUNT_PAGE_CUSTOMER_DATA,
@@ -419,7 +421,10 @@ const Account = () => {
             </div>
           </div>
           <div className="col-start-1 col-end-13 lg:col-start-10">
-            <AccountMenu vendorIsPro={value?.customer.isPro ?? false} />
+            <AccountMenu
+              isProUser={value?.customer.isPro ?? false}
+              isB2BUser={isB2BUser()}
+            />
           </div>
         </div>
       )}
