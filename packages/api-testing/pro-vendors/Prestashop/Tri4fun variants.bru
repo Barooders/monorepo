@@ -1,0 +1,24 @@
+meta {
+  name: Tri4fun variants
+  type: http
+  seq: 82
+}
+
+get {
+  url: https://tri4fun-store.com/api/combinations/7355?ws_key={{tri4funApiKey}}&price[price_on_sale][use_tax]=1&price[price_on_sale][use_reduction]=1&price[price_old][use_tax]=1&price[price_old][use_reduction]=0
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{tri4funApiKey}}
+  price[price_on_sale][use_tax]: 1
+  price[price_on_sale][use_reduction]: 1
+  price[price_old][use_tax]: 1
+  price[price_old][use_reduction]: 0
+}
+
+headers {
+  accept-Encoding: gzip;q=0,deflate,sdch
+  Content-Type: application/json
+}

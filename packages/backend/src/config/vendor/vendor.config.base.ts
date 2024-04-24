@@ -469,8 +469,13 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       common: {
         defaultProductCondition: Condition.AS_NEW,
         variantOptionTagsWithCategorySuffix: ['taille'],
-        minimumDiscount: 0.1,
-        priceCorrections: [{ amount: 20, filter: ({ isBike }) => isBike }],
+        priceCorrections: [
+          {
+            // Marquage des vélos
+            amount: 20,
+            filter: ({ isBike }) => isBike,
+          },
+        ],
       },
     },
   },

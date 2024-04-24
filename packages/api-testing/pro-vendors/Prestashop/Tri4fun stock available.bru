@@ -1,0 +1,20 @@
+meta {
+  name: Tri4fun stock available
+  type: http
+  seq: 83
+}
+
+get {
+  url: https://tri4fun-store.com/api/stock_availables/7355?ws_key={{tri4funApiKey}}
+  body: none
+  auth: none
+}
+
+query {
+  ws_key: {{tri4funApiKey}}
+}
+
+headers {
+  accept-Encoding: gzip;q=0,deflate,sdch
+  Content-Type: application/json
+}
