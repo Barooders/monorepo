@@ -23,7 +23,7 @@ import {
   REVIEW_BLOCK_ANCHOR,
   mapReviewsFromFragment,
 } from '../../molecules/Reviews/container';
-import SearchAlertButton from '../../molecules/SearchAlertButton/index.mobile';
+import SavedSearchButton from '../../molecules/SavedSearchButton/index.mobile';
 import CollectionHeader from './CollectionPage/CollectionHeader';
 import RelatedCollections from './CollectionPage/RelatedCollections';
 import SearchHeader from './GlobalSearch/SearchHeader';
@@ -348,7 +348,7 @@ const SearchPage: React.FC<PropsType> = ({
         </div>
       </div>
       <div className="fixed bottom-3 right-6 md:hidden">
-        <SearchAlertButton />
+        <SavedSearchButton />
       </div>
     </InstantSearchProvider>
   );

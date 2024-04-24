@@ -4,11 +4,11 @@ import { FaRegBell } from 'react-icons/fa';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
-import SearchAlertForm from './SearchAlertForm';
+import SavedSearchForm from './SavedSearchForm';
 
 const dict = getDictionary('fr');
 
-const SearchAlertButton: React.FC = () => {
+const SavedSearchButton: React.FC = () => {
   const { needsLogin } = useIsLoggedIn();
 
   return (
@@ -27,7 +27,7 @@ const SearchAlertButton: React.FC = () => {
           </Button>
         )}
         ContentComponent={({ closeModal }) => (
-          <SearchAlertForm
+          <SavedSearchForm
             onSave={closeModal}
             onClose={closeModal}
           />
@@ -37,4 +37,4 @@ const SearchAlertButton: React.FC = () => {
   );
 };
 
-export default SearchAlertButton;
+export default SavedSearchButton;

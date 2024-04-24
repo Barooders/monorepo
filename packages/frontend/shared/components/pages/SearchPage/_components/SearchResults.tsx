@@ -1,6 +1,6 @@
 import NoSSR from '@/components/atoms/NoSSR';
 import ProductCard from '@/components/molecules/ProductCard';
-import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.desktop';
+import SavedSearchButton from '@/components/molecules/SavedSearchButton/index.desktop';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToProductCard } from '@/mappers/search';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
@@ -35,7 +35,7 @@ function NoResults() {
       </p>
       <p className="text-sm text-slate-500">{dict.search.noResults.subtitle}</p>
       <div className="mt-3">
-        <SearchAlertButton />
+        <SavedSearchButton />
       </div>
     </div>
   );
@@ -67,7 +67,7 @@ const SearchResults: React.FC = () => {
         }}
       />
       <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
-        <SearchAlertButton />
+        <SavedSearchButton />
       </div>
     </NoResultsBoundary>
   );

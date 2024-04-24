@@ -2,11 +2,11 @@ import PortalDrawer from '@/components/atoms/Drawer/portal';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
 import { FaRegBell } from 'react-icons/fa';
-import SearchAlertForm from './SearchAlertForm';
+import SavedSearchForm from './SavedSearchForm';
 
 const dict = getDictionary('fr');
 
-const SearchAlertButton: React.FC = () => {
+const SavedSearchButton: React.FC = () => {
   const { needsLogin } = useIsLoggedIn();
 
   return (
@@ -23,7 +23,7 @@ const SearchAlertButton: React.FC = () => {
         </button>
       )}
       ContentComponent={({ closeMenu }) => (
-        <SearchAlertForm
+        <SavedSearchForm
           onSave={closeMenu}
           onClose={closeMenu}
         />
@@ -32,4 +32,4 @@ const SearchAlertButton: React.FC = () => {
   );
 };
 
-export default SearchAlertButton;
+export default SavedSearchButton;

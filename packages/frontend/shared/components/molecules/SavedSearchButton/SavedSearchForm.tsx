@@ -23,7 +23,7 @@ type PropsType = {
   onClose: () => void;
 };
 
-const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
+const SavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const { hasuraToken } = useUser.getState();
   const { items } = useCurrentRefinements();
   const [, storeSavedSearch] = useStoreSavedSearch();
@@ -131,4 +131,4 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   );
 };
 
-export default SearchAlertForm;
+export default SavedSearchForm;
