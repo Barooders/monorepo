@@ -15,12 +15,8 @@ select_permissions:
   - role: b2b_user
     permission:
       columns:
-        - first_image
         - id
         - largest_bundle_price_in_cents
-        - product_type
-        - status
-        - title
         - total_quantity
       filter: {}
     comment: ""
