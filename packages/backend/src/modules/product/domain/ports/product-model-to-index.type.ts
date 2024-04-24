@@ -7,7 +7,7 @@ export interface ProductModelToIndex {
   brand: {
     name: string;
   };
-  productType: {
+  productType?: {
     name: string;
   };
 }

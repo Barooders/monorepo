@@ -154,7 +154,7 @@ const DOCUMENT_CONFIG = {
       year,
       imageUrl: imageUrl?.toString(),
       manufacturer_suggested_retail_price,
-      productType: productType.name,
+      productType: productType?.name,
     }),
   },
 };

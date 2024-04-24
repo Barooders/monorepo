@@ -7,6 +7,7 @@ export enum Environments {
 export type EnvSecretConfig = {
   unleashServerApiToken: string;
   appJwtSecret: string;
+  appScriptsSecret: string;
   loginJwtSecret: string;
   basicAuth: {
     username: string;

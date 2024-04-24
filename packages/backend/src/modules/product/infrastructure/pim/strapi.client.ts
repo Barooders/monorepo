@@ -123,7 +123,10 @@ export class StrapiClient implements IPIMClient {
 
   async createProductModel(model: CreateProductModel): Promise<ProductModel> {
     const pimBrand = await this.getBrand(model.brand.name);
-    const productType = await this.getPimProductType(model.productType);
+    const productType =
+      model.productType !== undefined
+        ? await this.getPimProductType(model.productType)
+        : undefined;
 
     const uploadImage = await uploadImageToStrapi({
       url: model.imageUrl,
@@ -138,7 +141,7 @@ export class StrapiClient implements IPIMClient {
       pictures: uploadImage.id ? [uploadImage.id] : [],
       year: model.year,
       brandId: pimBrand.id,
-      productTypeId: productType.id,
+      productTypeId: productType?.id,
       isDraft: true,
     });
 
@@ -149,7 +152,10 @@ export class StrapiClient implements IPIMClient {
         model.manufacturer_suggested_retail_price,
       imageUrl: new URL(uploadImage.url),
       year: model.year,
-      productType: { name: productType.attributes.name },
+      productType:
+        productType === undefined
+          ? undefined
+          : { name: productType.attributes.name },
       brand: {
         name: pimBrand.name,
       },
