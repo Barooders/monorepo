@@ -8231,6 +8231,8 @@ export type ProductVariant = {
   /** An object relationship */
   storeB2BVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   /** An object relationship */
+  storeB2CVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
+  /** An object relationship */
   storeExposedVariant: Maybe<Dbt_Store_Exposed_Product_Variant>;
 };
 
@@ -8328,6 +8330,7 @@ export type ProductVariant_Bool_Exp = {
   quantity: InputMaybe<Int_Comparison_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   storeB2BVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
+  storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
   storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
 
@@ -8359,6 +8362,7 @@ export type ProductVariant_Insert_Input = {
   quantity: InputMaybe<Scalars['Int']>;
   shopifyId: InputMaybe<Scalars['bigint']>;
   storeB2BVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Obj_Rel_Insert_Input>;
+  storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input>;
   storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
@@ -8447,6 +8451,7 @@ export type ProductVariant_Order_By = {
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   storeB2BVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Order_By>;
+  storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
   storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Order_By>;
 };
 
@@ -13820,8 +13825,11 @@ export type Dbt_Store_B2b_Product_Variant_Variance_Fields = {
 /** columns and relationships of "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant = {
   __typename?: 'dbt_store_b2c_product_variant';
+  compare_at_price: Maybe<Scalars['float8']>;
   price: Scalars['float8'];
   shopify_id: Scalars['bigint'];
+  /** An object relationship */
+  variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
 
 /** aggregated selection of "dbt.store_b2c_product_variant" */
@@ -13856,6 +13864,7 @@ export type Dbt_Store_B2c_Product_Variant_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type Dbt_Store_B2c_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_avg_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13865,8 +13874,10 @@ export type Dbt_Store_B2c_Product_Variant_Bool_Exp = {
   _and: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Bool_Exp>>;
   _not: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Bool_Exp>>;
+  compare_at_price: InputMaybe<Float8_Comparison_Exp>;
   price: InputMaybe<Float8_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
+  variant: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "dbt.store_b2c_product_variant" */
@@ -13877,19 +13888,23 @@ export enum Dbt_Store_B2c_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Inc_Input = {
+  compare_at_price: InputMaybe<Scalars['float8']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
 
 /** input type for inserting data into table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Insert_Input = {
+  compare_at_price: InputMaybe<Scalars['float8']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
+  variant: InputMaybe<Dbt_Store_Base_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_B2c_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_max_fields';
+  compare_at_price: Maybe<Scalars['float8']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
@@ -13897,6 +13912,7 @@ export type Dbt_Store_B2c_Product_Variant_Max_Fields = {
 /** aggregate min on columns */
 export type Dbt_Store_B2c_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_min_fields';
+  compare_at_price: Maybe<Scalars['float8']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
@@ -13910,6 +13926,13 @@ export type Dbt_Store_B2c_Product_Variant_Mutation_Response = {
   returning: Array<Dbt_Store_B2c_Product_Variant>;
 };
 
+/** input type for inserting object relation for remote table "dbt.store_b2c_product_variant" */
+export type Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input = {
+  data: Dbt_Store_B2c_Product_Variant_Insert_Input;
+  /** upsert condition */
+  on_conflict: InputMaybe<Dbt_Store_B2c_Product_Variant_On_Conflict>;
+};
+
 /** on_conflict condition type for table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_On_Conflict = {
   constraint: Dbt_Store_B2c_Product_Variant_Constraint;
@@ -13919,8 +13942,10 @@ export type Dbt_Store_B2c_Product_Variant_On_Conflict = {
 
 /** Ordering options when selecting data from "dbt.store_b2c_product_variant". */
 export type Dbt_Store_B2c_Product_Variant_Order_By = {
+  compare_at_price: InputMaybe<Order_By>;
   price: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
+  variant: InputMaybe<Dbt_Store_Base_Product_Variant_Order_By>;
 };
 
 /** primary key columns input for table: dbt.store_b2c_product_variant */
@@ -13931,6 +13956,8 @@ export type Dbt_Store_B2c_Product_Variant_Pk_Columns_Input = {
 /** select columns of table "dbt.store_b2c_product_variant" */
 export enum Dbt_Store_B2c_Product_Variant_Select_Column {
   /** column name */
+  CompareAtPrice = 'compare_at_price',
+  /** column name */
   Price = 'price',
   /** column name */
   ShopifyId = 'shopify_id',
@@ -13938,6 +13965,7 @@ export enum Dbt_Store_B2c_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Set_Input = {
+  compare_at_price: InputMaybe<Scalars['float8']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
@@ -13945,6 +13973,7 @@ export type Dbt_Store_B2c_Product_Variant_Set_Input = {
 /** aggregate stddev on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13952,6 +13981,7 @@ export type Dbt_Store_B2c_Product_Variant_Stddev_Fields = {
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_pop_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13959,6 +13989,7 @@ export type Dbt_Store_B2c_Product_Variant_Stddev_Pop_Fields = {
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_samp_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13973,6 +14004,7 @@ export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input = {
+  compare_at_price: InputMaybe<Scalars['float8']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
@@ -13980,12 +14012,15 @@ export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Dbt_Store_B2c_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_sum_fields';
+  compare_at_price: Maybe<Scalars['float8']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
 
 /** update columns of table "dbt.store_b2c_product_variant" */
 export enum Dbt_Store_B2c_Product_Variant_Update_Column {
+  /** column name */
+  CompareAtPrice = 'compare_at_price',
   /** column name */
   Price = 'price',
   /** column name */
@@ -14004,6 +14039,7 @@ export type Dbt_Store_B2c_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_B2c_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_var_pop_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -14011,6 +14047,7 @@ export type Dbt_Store_B2c_Product_Variant_Var_Pop_Fields = {
 /** aggregate var_samp on columns */
 export type Dbt_Store_B2c_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_var_samp_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -14018,6 +14055,7 @@ export type Dbt_Store_B2c_Product_Variant_Var_Samp_Fields = {
 /** aggregate variance on columns */
 export type Dbt_Store_B2c_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_variance_fields';
+  compare_at_price: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -14396,6 +14434,8 @@ export type Dbt_Store_Base_Product_Variant = {
   __typename?: 'dbt_store_base_product_variant';
   /** An object relationship */
   b2bVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
+  /** An object relationship */
+  b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
   createdAt: Scalars['timestamptz'];
   id: Maybe<Scalars['String']>;
   /** An object relationship */
@@ -14485,6 +14525,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
   _not: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Bool_Exp>>;
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
+  b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
@@ -14507,6 +14548,7 @@ export type Dbt_Store_Base_Product_Variant_Inc_Input = {
 /** input type for inserting data into table "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Insert_Input = {
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Obj_Rel_Insert_Input>;
+  b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input>;
   createdAt: InputMaybe<Scalars['timestamptz']>;
   id: InputMaybe<Scalars['String']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
@@ -14575,6 +14617,7 @@ export type Dbt_Store_Base_Product_Variant_On_Conflict = {
 /** Ordering options when selecting data from "dbt.store_base_product_variant". */
 export type Dbt_Store_Base_Product_Variant_Order_By = {
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Order_By>;
+  b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
@@ -16649,6 +16692,7 @@ export type Dbt_Store_Exposed_Product_Variant = {
   compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
   inventoryQuantity: Scalars['bigint'];
+  inventory_quantity: Scalars['bigint'];
   isRefurbished: Maybe<Scalars['Boolean']>;
   option1: Maybe<Scalars['String']>;
   option1Name: Maybe<Scalars['String']>;
@@ -16700,6 +16744,7 @@ export type Dbt_Store_Exposed_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_avg_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -16712,6 +16757,7 @@ export type Dbt_Store_Exposed_Product_Variant_Bool_Exp = {
   compareAtPrice: InputMaybe<Float8_Comparison_Exp>;
   condition: InputMaybe<Condition_Comparison_Exp>;
   inventoryQuantity: InputMaybe<Bigint_Comparison_Exp>;
+  inventory_quantity: InputMaybe<Bigint_Comparison_Exp>;
   isRefurbished: InputMaybe<Boolean_Comparison_Exp>;
   option1: InputMaybe<String_Comparison_Exp>;
   option1Name: InputMaybe<String_Comparison_Exp>;
@@ -16738,6 +16784,7 @@ export enum Dbt_Store_Exposed_Product_Variant_Constraint {
 export type Dbt_Store_Exposed_Product_Variant_Inc_Input = {
   compareAtPrice: InputMaybe<Scalars['float8']>;
   inventoryQuantity: InputMaybe<Scalars['bigint']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
@@ -16747,6 +16794,7 @@ export type Dbt_Store_Exposed_Product_Variant_Insert_Input = {
   compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
   inventoryQuantity: InputMaybe<Scalars['bigint']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
   option1Name: InputMaybe<Scalars['String']>;
@@ -16769,6 +16817,7 @@ export type Dbt_Store_Exposed_Product_Variant_Max_Fields = {
   compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
   inventoryQuantity: Maybe<Scalars['bigint']>;
+  inventory_quantity: Maybe<Scalars['bigint']>;
   option1: Maybe<Scalars['String']>;
   option1Name: Maybe<Scalars['String']>;
   option2: Maybe<Scalars['String']>;
@@ -16788,6 +16837,7 @@ export type Dbt_Store_Exposed_Product_Variant_Min_Fields = {
   compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
   inventoryQuantity: Maybe<Scalars['bigint']>;
+  inventory_quantity: Maybe<Scalars['bigint']>;
   option1: Maybe<Scalars['String']>;
   option1Name: Maybe<Scalars['String']>;
   option2: Maybe<Scalars['String']>;
@@ -16829,6 +16879,7 @@ export type Dbt_Store_Exposed_Product_Variant_Order_By = {
   compareAtPrice: InputMaybe<Order_By>;
   condition: InputMaybe<Order_By>;
   inventoryQuantity: InputMaybe<Order_By>;
+  inventory_quantity: InputMaybe<Order_By>;
   isRefurbished: InputMaybe<Order_By>;
   option1: InputMaybe<Order_By>;
   option1Name: InputMaybe<Order_By>;
@@ -16857,7 +16908,7 @@ export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
   /** column name */
   Condition = 'condition',
   /** column name */
-  InventoryQuantity = 'inventoryQuantity',
+  InventoryQuantity = 'inventory_quantity',
   /** column name */
   IsRefurbished = 'isRefurbished',
   /** column name */
@@ -16891,6 +16942,7 @@ export type Dbt_Store_Exposed_Product_Variant_Set_Input = {
   compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
   inventoryQuantity: InputMaybe<Scalars['bigint']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
   option1Name: InputMaybe<Scalars['String']>;
@@ -16911,6 +16963,7 @@ export type Dbt_Store_Exposed_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -16920,6 +16973,7 @@ export type Dbt_Store_Exposed_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_pop_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -16929,6 +16983,7 @@ export type Dbt_Store_Exposed_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_samp_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -16946,6 +17001,7 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
   compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
   inventoryQuantity: InputMaybe<Scalars['bigint']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
   option1Name: InputMaybe<Scalars['String']>;
@@ -16966,6 +17022,7 @@ export type Dbt_Store_Exposed_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_sum_fields';
   compareAtPrice: Maybe<Scalars['float8']>;
   inventoryQuantity: Maybe<Scalars['bigint']>;
+  inventory_quantity: Maybe<Scalars['bigint']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
@@ -16977,7 +17034,7 @@ export enum Dbt_Store_Exposed_Product_Variant_Update_Column {
   /** column name */
   Condition = 'condition',
   /** column name */
-  InventoryQuantity = 'inventoryQuantity',
+  InventoryQuantity = 'inventory_quantity',
   /** column name */
   IsRefurbished = 'isRefurbished',
   /** column name */
@@ -17020,6 +17077,7 @@ export type Dbt_Store_Exposed_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_pop_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -17029,6 +17087,7 @@ export type Dbt_Store_Exposed_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_samp_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -17038,6 +17097,7 @@ export type Dbt_Store_Exposed_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_variance_fields';
   compareAtPrice: Maybe<Scalars['Float']>;
   inventoryQuantity: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -32494,26 +32554,29 @@ export type FetchProductForNewOfferQueryVariables = Exact<{
 
 export type FetchProductForNewOfferQuery = {
   __typename?: 'query_root';
-  dbt_store_b2b_product: Array<{
-    __typename?: 'dbt_store_b2b_product';
-    total_quantity: any;
-    title: string;
-    product: {
-      __typename?: 'dbt_store_base_product';
-      variants: Array<{
-        __typename?: 'dbt_store_base_product_variant';
-        b2bVariant: {
-          __typename?: 'dbt_store_b2b_product_variant';
-          inventory_quantity: any;
-          price: any;
-          title: string;
-        } | null;
-      }>;
-      bundlePrices: Array<{
-        __typename?: 'dbt_store_bundle_price';
-        unit_price_in_cents: any;
-        min_quantity: number;
-      }>;
+  dbt_store_base_product: Array<{
+    __typename?: 'dbt_store_base_product';
+    variants: Array<{
+      __typename?: 'dbt_store_base_product_variant';
+      variant: {
+        __typename?: 'dbt_store_exposed_product_variant';
+        inventory_quantity: any;
+        title: string;
+      } | null;
+      b2bVariant: {
+        __typename?: 'dbt_store_b2b_product_variant';
+        price: any;
+      } | null;
+    }>;
+    bundlePrices: Array<{
+      __typename?: 'dbt_store_bundle_price';
+      unit_price_in_cents: any;
+      min_quantity: number;
+    }>;
+    exposedProduct: {
+      __typename?: 'dbt_store_exposed_product';
+      title: string;
+      total_quantity: any;
     } | null;
   }>;
 };
@@ -32529,7 +32592,7 @@ export type FetchB2BProductQuery = {
     id: string;
     shopifyId: any;
     vendorId: any;
-    product: {
+    exposedProduct: {
       __typename?: 'dbt_store_exposed_product';
       model: string | null;
       description: string | null;
@@ -32550,17 +32613,17 @@ export type FetchB2BProductQuery = {
     }>;
     variants: Array<{
       __typename?: 'dbt_store_base_product_variant';
-      variant: {
+      exposedVariant: {
         __typename?: 'dbt_store_exposed_product_variant';
-        compareAtPrice: any | null;
         title: string;
         condition: any | null;
-        inventoryQuantity: any;
+        inventory_quantity: any;
         shopify_id: any;
       } | null;
       b2bVariant: {
         __typename?: 'dbt_store_b2b_product_variant';
         price: any;
+        compare_at_price: any | null;
       } | null;
     }>;
     tags: Array<{
@@ -32592,19 +32655,22 @@ export type ProductCardFieldsFragment = {
       __typename?: 'dbt_store_base_product_variant';
       id: string | null;
       shopifyId: any;
-      variant: {
+      exposedVariant: {
         __typename?: 'dbt_store_exposed_product_variant';
-        inventoryQuantity: any;
+        inventory_quantity: any;
         option1Name: string | null;
         option1: string | null;
         option2Name: string | null;
         option2: string | null;
         option3Name: string | null;
         option3: string | null;
-        price: any;
-        compareAtPrice: any | null;
         condition: any | null;
         isRefurbished: boolean | null;
+      } | null;
+      b2cVariant: {
+        __typename?: 'dbt_store_b2c_product_variant';
+        price: any;
+        compare_at_price: any | null;
       } | null;
     }>;
     tags: Array<{
@@ -32684,19 +32750,22 @@ export type FetchProductsQuery = {
           __typename?: 'dbt_store_base_product_variant';
           id: string | null;
           shopifyId: any;
-          variant: {
+          exposedVariant: {
             __typename?: 'dbt_store_exposed_product_variant';
-            inventoryQuantity: any;
+            inventory_quantity: any;
             option1Name: string | null;
             option1: string | null;
             option2Name: string | null;
             option2: string | null;
             option3Name: string | null;
             option3: string | null;
-            price: any;
-            compareAtPrice: any | null;
             condition: any | null;
             isRefurbished: boolean | null;
+          } | null;
+          b2cVariant: {
+            __typename?: 'dbt_store_b2c_product_variant';
+            price: any;
+            compare_at_price: any | null;
           } | null;
         }>;
         tags: Array<{
@@ -32793,6 +32862,9 @@ export type FetchOnlineProductsQuery = {
             variant: {
               __typename?: 'dbt_store_exposed_product_variant';
               condition: any | null;
+            } | null;
+            b2cVariant: {
+              __typename?: 'dbt_store_b2c_product_variant';
               price: any;
             } | null;
           }>;
@@ -32973,6 +33045,9 @@ export type StoreProductFieldsFragment = {
       variant: {
         __typename?: 'dbt_store_exposed_product_variant';
         condition: any | null;
+      } | null;
+      b2cVariant: {
+        __typename?: 'dbt_store_b2c_product_variant';
         price: any;
       } | null;
     }>;
@@ -33013,6 +33088,9 @@ export type FetchAccountPageCustomerDataQuery = {
               variant: {
                 __typename?: 'dbt_store_exposed_product_variant';
                 condition: any | null;
+              } | null;
+              b2cVariant: {
+                __typename?: 'dbt_store_b2c_product_variant';
                 price: any;
               } | null;
             }>;
@@ -33062,6 +33140,9 @@ export type FetchAccountPageVendorDataQuery = {
             variant: {
               __typename?: 'dbt_store_exposed_product_variant';
               condition: any | null;
+            } | null;
+            b2cVariant: {
+              __typename?: 'dbt_store_b2c_product_variant';
               price: any;
             } | null;
           }>;
@@ -33089,8 +33170,8 @@ export type GetProductPriceQuery = {
     __typename?: 'dbt_store_base_product';
     variants: Array<{
       __typename?: 'dbt_store_base_product_variant';
-      variant: {
-        __typename?: 'dbt_store_exposed_product_variant';
+      b2cVariant: {
+        __typename?: 'dbt_store_b2c_product_variant';
         price: any;
       } | null;
     }>;
@@ -33106,15 +33187,6 @@ export type FetchCustomerQuery = {
     chatId: string;
     sellerName: string | null;
   }>;
-};
-
-export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type SubscribeToOpenedB2BPriceOffersSubscription = {
-  __typename?: 'subscription_root';
-  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
 };
 
 export type FetchB2BSavedSearchQueryVariables = Exact<{ [key: string]: never }>;
@@ -33138,6 +33210,15 @@ export type FetchB2BSavedSearchQuery = {
     }>;
     SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
   }>;
+};
+
+export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type SubscribeToOpenedB2BPriceOffersSubscription = {
+  __typename?: 'subscription_root';
+  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
 };
 
 export type FetchProductNotationQueryVariables = Exact<{

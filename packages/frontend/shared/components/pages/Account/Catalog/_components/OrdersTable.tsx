@@ -96,6 +96,7 @@ const OrdersTables = () => {
                     variant: {
                       condition,
                     },
+                    b2cVariant: {},
                   },
                 ],
               },

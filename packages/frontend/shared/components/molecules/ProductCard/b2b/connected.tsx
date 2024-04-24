@@ -22,7 +22,7 @@ export const FETCH_B2B_PRODUCT = gql`
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
       id
       shopifyId
-      product {
+      exposedProduct: product {
         model
         description
         numberOfViews
@@ -39,15 +39,15 @@ export const FETCH_B2B_PRODUCT = gql`
         src
       }
       variants(limit: 10) {
-        variant {
-          compareAtPrice
+        exposedVariant: variant {
           title
           condition
-          inventoryQuantity
+          inventory_quantity
           shopify_id
         }
         b2bVariant {
           price
+          compare_at_price
         }
       }
       tags {
@@ -70,45 +70,46 @@ export const mapToProps = (
   }
 
   const availableVariants = rawProduct.variants.filter(
-    (variant) => variant.variant?.inventoryQuantity > 0,
+    (variant) => variant.exposedVariant?.inventory_quantity > 0,
   );
 
   const mainVariantRaw = first(
     availableVariants.length > 0 ? availableVariants : rawProduct.variants,
   );
 
-  if (!rawProduct.b2bProduct || !rawProduct.product || !mainVariantRaw) {
+  if (!rawProduct.b2bProduct || !rawProduct.exposedProduct || !mainVariantRaw) {
     throw new Error('Product is missing key information');
   }
 
   const mainVariant = {
     ...mainVariantRaw.b2bVariant,
-    ...mainVariantRaw.variant,
+    ...mainVariantRaw.exposedVariant,
   };
 
   const stock = availableVariants.reduce(
-    (totalStock, { variant }) => totalStock + (variant?.inventoryQuantity ?? 0),
+    (totalStock, { exposedVariant }) =>
+      totalStock + (exposedVariant?.inventory_quantity ?? 0),
     0,
   );
 
   return {
-    compareAtPrice: mainVariant.compareAtPrice,
-    handle: rawProduct.product.handle,
+    compareAtPrice: mainVariant.compare_at_price,
+    handle: rawProduct.exposedProduct.handle,
     id: rawProduct.id,
-    productType: rawProduct.product.productType,
+    productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
     shopifyId: rawProduct.shopifyId,
     stock,
-    title: rawProduct.product.title,
+    title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),
     variantCondition: mainVariant.condition,
     largestBundlePrice: roundCurrency(
       rawProduct.b2bProduct.largest_bundle_price_in_cents / 100,
     ),
     images: rawProduct.images.map((image) => image.src),
-    description: rawProduct.product.description ?? '',
+    description: rawProduct.exposedProduct.description ?? '',
     isSoldOut: stock === 0,
-    numberOfViews: rawProduct.product.numberOfViews,
+    numberOfViews: rawProduct.exposedProduct.numberOfViews,
     hasOpenedPriceOffer,
   };
 };

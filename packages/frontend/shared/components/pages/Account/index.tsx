@@ -45,6 +45,8 @@ const STORE_PRODUCT_FRAGMENT = gql`
       variants(order_by: { variant: { price: asc } }, limit: 1) {
         variant {
           condition
+        }
+        b2cVariant {
           price
         }
       }

@@ -42,18 +42,20 @@ export const PRODUCT_CARD_FRAGMENT = gql`
       variants(limit: 30) {
         id
         shopifyId: shopify_id
-        variant {
-          inventoryQuantity
+        exposedVariant: variant {
+          inventory_quantity
           option1Name
           option1
           option2Name
           option2
           option3Name
           option3
-          price
-          compareAtPrice
           condition
           isRefurbished
+        }
+        b2cVariant {
+          price
+          compare_at_price
         }
       }
       tags {
@@ -142,15 +144,17 @@ export const createProductFromFragment = (
   );
 
   const variants = productFromDBT.product.variants.map(
-    ({ shopifyId, variant, id }) => ({
-      name: variant ? createVariantName(variant) : '',
+    ({ shopifyId, exposedVariant, b2cVariant, id }) => ({
+      name: exposedVariant ? createVariantName(exposedVariant) : '',
       id: id ?? '',
       shopifyId: String(shopifyId) ?? '',
-      price: Number(variant?.price),
-      compareAtPrice: Number(variant?.compareAtPrice),
-      available: !!variant?.inventoryQuantity && variant?.inventoryQuantity > 0,
-      condition: (variant?.condition as Condition) ?? Condition.GOOD,
-      isRefurbished: !!variant?.isRefurbished,
+      price: Number(b2cVariant?.price),
+      compareAtPrice: Number(b2cVariant?.compare_at_price),
+      available:
+        !!exposedVariant?.inventory_quantity &&
+        exposedVariant?.inventory_quantity > 0,
+      condition: (exposedVariant?.condition as Condition) ?? Condition.GOOD,
+      isRefurbished: !!exposedVariant?.isRefurbished,
     }),
   );
 

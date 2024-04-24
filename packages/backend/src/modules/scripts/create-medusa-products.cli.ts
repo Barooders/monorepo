@@ -72,6 +72,7 @@ export class SyncProductsInMedusaCLI {
               baseProductVariants: {
                 include: {
                   exposedProductVariant: true,
+                  storeB2CProductVariant: true,
                 },
               },
             },
@@ -111,7 +112,7 @@ export class SyncProductsInMedusaCLI {
               prices: [
                 {
                   amount: Math.round(
-                    Number(variant.exposedProductVariant.price) * 100,
+                    Number(variant.storeB2CProductVariant?.price ?? 0) * 100,
                   ),
                   currency_code: 'EUR',
                 },
