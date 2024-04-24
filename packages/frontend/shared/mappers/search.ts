@@ -1,3 +1,4 @@
+import { getFacetValueLabel } from '@/components/molecules/Filters/utils/getFacetLabel';
 import {
   CardLabel,
   ProductMultiVariants,
@@ -256,7 +257,12 @@ export const fetchRecommendedProducts = async ({
 };
 
 export const mapCurrentSearchToString = (
-  refinements: { operator?: string; label: string; value: string }[],
+  refinements: {
+    attribute: string;
+    operator?: string;
+    label: string;
+    value: string;
+  }[],
   query?: string,
 ): string => {
   return [
@@ -265,7 +271,7 @@ export const mapCurrentSearchToString = (
       .map((refinement) =>
         refinement.operator
           ? `${refinement.operator} ${refinement.value}`
-          : refinement.label,
+          : getFacetValueLabel(refinement.attribute, refinement.label),
       )
       .map(String),
   ]

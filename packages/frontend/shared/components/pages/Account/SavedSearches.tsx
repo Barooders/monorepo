@@ -4,6 +4,7 @@ import { FetchSavedSearchesQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
+import { getFacetValueLabel } from '@/components/molecules/Filters/utils/getFacetLabel';
 import SearchAlertToggleButton from '@/components/molecules/SearchAlertToggleButton';
 import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
 import { useHasura } from '@/hooks/useHasura';
@@ -80,8 +81,8 @@ const SavedSearches = () => {
                     </p>
                     <p className="mt-1 text-sm text-slate-500">
                       {[
-                        ...savedSearch.FacetFilters.map(
-                          (filter) => filter.label,
+                        ...savedSearch.FacetFilters.map((filter) =>
+                          getFacetValueLabel(filter.facetName, filter.label),
                         ),
                         ...savedSearch.NumericFilters.map(
                           (filter) => `${filter.operator} ${filter.value}`,

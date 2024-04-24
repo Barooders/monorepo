@@ -102,6 +102,8 @@ export type BrandRating_Comparison_Exp = {
 /** columns and relationships of "BundlePrice" */
 export type BundlePrice = {
   __typename?: 'BundlePrice';
+  /** An object relationship */
+  Product: Product;
   createdAt: Scalars['timestamp'];
   id: Scalars['String'];
   minQuantity: Scalars['Int'];
@@ -147,6 +149,7 @@ export type BundlePrice_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "BundlePrice". All fields are combined with a logical 'AND'. */
 export type BundlePrice_Bool_Exp = {
+  Product: InputMaybe<Product_Bool_Exp>;
   _and: InputMaybe<Array<BundlePrice_Bool_Exp>>;
   _not: InputMaybe<BundlePrice_Bool_Exp>;
   _or: InputMaybe<Array<BundlePrice_Bool_Exp>>;
@@ -171,6 +174,7 @@ export type BundlePrice_Inc_Input = {
 
 /** input type for inserting data into table "BundlePrice" */
 export type BundlePrice_Insert_Input = {
+  Product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   createdAt: InputMaybe<Scalars['timestamp']>;
   id: InputMaybe<Scalars['String']>;
   minQuantity: InputMaybe<Scalars['Int']>;
@@ -216,6 +220,7 @@ export type BundlePrice_On_Conflict = {
 
 /** Ordering options when selecting data from "BundlePrice". */
 export type BundlePrice_Order_By = {
+  Product: InputMaybe<Product_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   minQuantity: InputMaybe<Order_By>;
@@ -16407,7 +16412,7 @@ export type Dbt_Store_Exposed_Product_Sum_Fields = {
 /** columns and relationships of "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag = {
   __typename?: 'dbt_store_exposed_product_tag';
-  full_tag: Scalars['String'];
+  full_tag: Maybe<Scalars['String']>;
   product_id: Scalars['String'];
   tag: Scalars['String'];
   value: Scalars['String'];
@@ -16455,8 +16460,6 @@ export type Dbt_Store_Exposed_Product_Tag_Aggregate_Order_By = {
 /** input type for inserting array relation for remote table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Arr_Rel_Insert_Input = {
   data: Array<Dbt_Store_Exposed_Product_Tag_Insert_Input>;
-  /** upsert condition */
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_exposed_product_tag". All fields are combined with a logical 'AND'. */
@@ -16469,12 +16472,6 @@ export type Dbt_Store_Exposed_Product_Tag_Bool_Exp = {
   tag: InputMaybe<String_Comparison_Exp>;
   value: InputMaybe<String_Comparison_Exp>;
 };
-
-/** unique or primary key constraints on table "dbt.store_exposed_product_tag" */
-export enum Dbt_Store_Exposed_Product_Tag_Constraint {
-  /** unique or primary key constraint on columns "product_id", "full_tag" */
-  StoreExposedProductTagProductIdFullTagKey = 'store_exposed_product_tag_product_id_full_tag_key',
-}
 
 /** input type for inserting data into table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Insert_Input = {
@@ -16527,13 +16524,6 @@ export type Dbt_Store_Exposed_Product_Tag_Mutation_Response = {
   returning: Array<Dbt_Store_Exposed_Product_Tag>;
 };
 
-/** on_conflict condition type for table "dbt.store_exposed_product_tag" */
-export type Dbt_Store_Exposed_Product_Tag_On_Conflict = {
-  constraint: Dbt_Store_Exposed_Product_Tag_Constraint;
-  update_columns: Array<Dbt_Store_Exposed_Product_Tag_Update_Column>;
-  where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
-};
-
 /** Ordering options when selecting data from "dbt.store_exposed_product_tag". */
 export type Dbt_Store_Exposed_Product_Tag_Order_By = {
   full_tag: InputMaybe<Order_By>;
@@ -16577,18 +16567,6 @@ export type Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Value_Input = {
   tag: InputMaybe<Scalars['String']>;
   value: InputMaybe<Scalars['String']>;
 };
-
-/** update columns of table "dbt.store_exposed_product_tag" */
-export enum Dbt_Store_Exposed_Product_Tag_Update_Column {
-  /** column name */
-  FullTag = 'full_tag',
-  /** column name */
-  ProductId = 'product_id',
-  /** column name */
-  Tag = 'tag',
-  /** column name */
-  Value = 'value',
-}
 
 export type Dbt_Store_Exposed_Product_Tag_Updates = {
   /** sets the columns of the filtered rows to the given values */
@@ -19810,13 +19788,11 @@ export type Mutation_RootInsert_Dbt_Store_Exposed_Product_OneArgs = {
 /** mutation root */
 export type Mutation_RootInsert_Dbt_Store_Exposed_Product_TagArgs = {
   objects: Array<Dbt_Store_Exposed_Product_Tag_Insert_Input>;
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** mutation root */
 export type Mutation_RootInsert_Dbt_Store_Exposed_Product_Tag_OneArgs = {
   object: Dbt_Store_Exposed_Product_Tag_Insert_Input;
-  on_conflict: InputMaybe<Dbt_Store_Exposed_Product_Tag_On_Conflict>;
 };
 
 /** mutation root */
