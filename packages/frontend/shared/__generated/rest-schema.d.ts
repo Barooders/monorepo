@@ -162,6 +162,13 @@ export interface paths {
   '/v1/shopify/auth/callback': {
     get: operations['ShopifyAuthController_handleAuthenticationCallback'];
   };
+  '/v1/saved-search': {
+    post: operations['SavedSearchController_createSavedSearch'];
+  };
+  '/v1/saved-search/{savedSearchId}': {
+    put: operations['SavedSearchController_updateSavedSearch'];
+    delete: operations['SavedSearchController_deleteSavedSearch'];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -376,6 +383,7 @@ export interface components {
       status?: string;
       /** Format: int64 */
       newPriceInCents?: number;
+      quantity?: number;
       includedBuyerCommissionPercentage?: number;
       publicNote?: string;
       internalNote?: string;
@@ -424,7 +432,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-23T13:32:15.579Z
+       * @example 2024-04-24T07:45:30.729Z
        */
       birthDate: string;
       /**
@@ -453,6 +461,22 @@ export interface components {
     PaymentLinkDTO: {
       /** @description The id of the payment generated at eligibility */
       paymentId: string;
+    };
+    RefinementDTO: {
+      attribute: string;
+      type: string;
+      label: string;
+      value: Record<string, never>;
+      operator: string;
+    };
+    CreateSavedSearchDTO: {
+      name: string;
+      type: string;
+      resultsUrl: string;
+      collectionId: string;
+      query: string;
+      refinements: components['schemas']['RefinementDTO'][];
+      shouldTriggerAlerts: boolean;
     };
   };
   responses: never;
@@ -1127,6 +1151,42 @@ export interface operations {
     };
   };
   ShopifyAuthController_handleAuthenticationCallback: {
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  SavedSearchController_createSavedSearch: {
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateSavedSearchDTO'];
+      };
+    };
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  SavedSearchController_updateSavedSearch: {
+    parameters: {
+      path: {
+        savedSearchId: string;
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  SavedSearchController_deleteSavedSearch: {
+    parameters: {
+      path: {
+        savedSearchId: string;
+      };
+    };
     responses: {
       200: {
         content: never;
