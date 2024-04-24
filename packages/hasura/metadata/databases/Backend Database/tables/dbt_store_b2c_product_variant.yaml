@@ -16,6 +16,7 @@ select_permissions:
     permission:
       columns:
         - price
+        - compare_at_price
         - shopify_id
       filter: {}
     comment: ""

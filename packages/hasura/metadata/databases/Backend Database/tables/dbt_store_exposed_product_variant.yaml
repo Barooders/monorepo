@@ -17,6 +17,7 @@ select_permissions:
       columns:
         - compareAtPrice
         - inventoryQuantity
+        - inventory_quantity
         - option1
         - option1Name
         - option2
