@@ -1,11 +1,10 @@
-import { useHasura } from '@/hooks/useHasura';
+import { operations } from '@/__generated/rest-schema';
+import { SavedSearchContext } from '@/contexts/savedSearch';
+import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import {
-  mapCurrentSearchToString,
-  mapRefinementsToFilters,
-} from '@/mappers/search';
-import { gql } from '@apollo/client';
+import { mapCurrentSearchToString } from '@/mappers/search';
+import { useContext, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
@@ -23,30 +22,44 @@ type PropsType = {
 };
 
 const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
+  const existingSavedSearch = useContext(SavedSearchContext);
+  const [, setSavedSearchId] = useState<string | undefined>(
+    existingSavedSearch?.id,
+  );
+  const { fetchAPI } = useBackend();
   const { items } = useCurrentRefinements();
   const { query } = useSearchBox();
-  const refinements = items.flatMap((item) => item.refinements);
+  const refinements = items
+    .flatMap((item) => item.refinements)
+    .map(({ value, ...refinement }) => ({
+      ...refinement,
+      value: String(value),
+    }));
 
-  const storeSavedSearch = useHasura(gql`
-    mutation storeSavedSearch($savedSearchInput: SavedSearch_insert_input!) {
-      insert_SavedSearch_one(object: $savedSearchInput) {
-        id
-      }
-    }
-  `);
-
-  const formMethods = useForm({});
-
-  const onSubmit = async () => {
-    await storeSavedSearch({
-      savedSearchInput: {
+  const storeSavedSearch = async () => {
+    const savedSearch: operations['SavedSearchController_createSavedSearch']['requestBody']['content']['application/json'] =
+      {
         name: 'B2B search',
         type: 'B2B_MAIN_PAGE',
         resultsUrl: window.location.href,
         query,
-        ...mapRefinementsToFilters(refinements),
-      },
+        refinements,
+        shouldTriggerAlerts: false,
+      };
+    const newSavedSearchId = await fetchAPI<
+      operations['SavedSearchController_createSavedSearch']['responses']['default']['content']['application/json']
+    >('/v1/saved-search', {
+      method: 'POST',
+      body: JSON.stringify(savedSearch),
     });
+
+    setSavedSearchId(newSavedSearchId);
+  };
+
+  const formMethods = useForm({});
+
+  const onSubmit = async () => {
+    await storeSavedSearch();
 
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
     onSave();

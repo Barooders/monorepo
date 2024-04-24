@@ -256,7 +256,7 @@ export const fetchRecommendedProducts = async ({
 };
 
 export const mapCurrentSearchToString = (
-  refinements: { operator?: string; label: string; value: string | number }[],
+  refinements: { operator?: string; label: string; value: string }[],
   query?: string,
 ): string => {
   return [

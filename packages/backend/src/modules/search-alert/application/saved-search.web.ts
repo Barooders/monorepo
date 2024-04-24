@@ -14,7 +14,7 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
@@ -40,9 +40,10 @@ class RefinementDTO {
   label!: string;
 
   @ApiProperty()
-  value!: string | number;
+  @IsString()
+  value!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   operator?: string;
@@ -61,12 +62,12 @@ class CreateSavedSearchDTO {
   @IsString()
   resultsUrl!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   collectionId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   query?: string;
@@ -107,6 +108,7 @@ export class SavedSearchController {
   constructor(private searchAlertService: SearchAlertService) {}
 
   @Post(routesV1.savedSearch.root)
+  @ApiResponse({ type: String })
   @UseGuards(JwtAuthGuard)
   async createSavedSearch(
     @Body()

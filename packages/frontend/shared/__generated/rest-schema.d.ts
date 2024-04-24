@@ -432,7 +432,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-24T07:45:30.729Z
+       * @example 2024-04-24T09:31:22.575Z
        */
       birthDate: string;
       /**
@@ -466,15 +466,15 @@ export interface components {
       attribute: string;
       type: string;
       label: string;
-      value: Record<string, never>;
-      operator: string;
+      value: string;
+      operator?: string;
     };
     CreateSavedSearchDTO: {
       name: string;
       type: string;
       resultsUrl: string;
-      collectionId: string;
-      query: string;
+      collectionId?: string;
+      query?: string;
       refinements: components['schemas']['RefinementDTO'][];
       shouldTriggerAlerts: boolean;
     };
@@ -1164,8 +1164,10 @@ export interface operations {
       };
     };
     responses: {
-      201: {
-        content: never;
+      default: {
+        content: {
+          'application/json': string;
+        };
       };
     };
   };

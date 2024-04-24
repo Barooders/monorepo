@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export type SavedSearch = {
+  id: string;
   query: string | null;
   FacetFilters: Array<{
     value: string;

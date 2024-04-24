@@ -23,6 +23,7 @@ const FETCH_B2B_SAVED_SEARCH = gql`
       order_by: { createdAt: desc }
       where: { type: { _eq: "B2B_MAIN_PAGE" } }
     ) {
+      id
       FacetFilters {
         value
         facetName

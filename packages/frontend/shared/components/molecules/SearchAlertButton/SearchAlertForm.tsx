@@ -33,7 +33,12 @@ const SearchAlertForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const { items } = useCurrentRefinements();
   const collection = useSearchPage((state) => state.collection);
   const query = useSearchPage((state) => state.query);
-  const refinements = items.flatMap((item) => item.refinements);
+  const refinements = items
+    .flatMap((item) => item.refinements)
+    .map(({ value, ...refinement }) => ({
+      ...refinement,
+      value: String(value),
+    }));
 
   if (collection?.id && collection.name) {
     refinements.unshift({
