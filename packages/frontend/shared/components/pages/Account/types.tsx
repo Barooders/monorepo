@@ -29,6 +29,14 @@ export const enum OrderStatus {
   LABELED = 'LABELED',
 }
 
+export const enum PriceOfferStatus {
+  PROPOSED = 'PROPOSED',
+  DECLINED = 'DECLINED',
+  ACCEPTED = 'ACCEPTED',
+  BOUGHT_WITH = 'BOUGHT_WITH',
+  CANCELED = 'CANCELED',
+}
+
 export const enum ShippingSolution {
   HAND_DELIVERY = 'HAND_DELIVERY',
   VENDOR = 'VENDOR',

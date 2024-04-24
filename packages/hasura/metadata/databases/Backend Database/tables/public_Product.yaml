@@ -53,10 +53,6 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter:
-        salesChannels:
-          salesChannelName:
-            _eq: PUBLIC
   - role: me_as_vendor
     permission:
       columns:
@@ -80,10 +76,6 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter:
-        salesChannels:
-          salesChannelName:
-            _eq: PUBLIC
   - role: registered_user
     permission:
       columns:
@@ -94,7 +86,3 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter:
-        salesChannels:
-          salesChannelName:
-            _eq: PUBLIC
