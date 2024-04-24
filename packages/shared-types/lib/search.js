@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
-exports.BundleType = exports.DiscountRange = void 0;
+exports.SearchPreset = exports.BundleType = exports.DiscountRange = void 0;
 var DiscountRange;
 (function (DiscountRange) {
   DiscountRange['FROM_0_TO_20'] = '0-20%';
@@ -16,4 +16,9 @@ var BundleType;
   BundleType['TWO_TO_NINE'] = 'two_to_nine';
   BundleType['TEN_PLUS'] = 'ten_plus';
 })(BundleType || (exports.BundleType = BundleType = {}));
+var SearchPreset;
+(function (SearchPreset) {
+  SearchPreset['PUBLIC'] = 'searchable_product_attributes';
+  SearchPreset['B2B'] = 'searchable_b2b_product_attributes';
+})(SearchPreset || (exports.SearchPreset = SearchPreset = {}));
 //# sourceMappingURL=search.js.map

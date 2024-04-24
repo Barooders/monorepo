@@ -5,7 +5,6 @@ import {
 import { ProductCardProps } from '@/components/pages/ProductPage';
 import { Condition } from '@/components/pages/SellingForm/types';
 import {
-  SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
   publicVariantsCollection,
   typesenseInstantsearchAdapter,
 } from '@/config';
@@ -14,6 +13,7 @@ import { mapValues } from 'lodash';
 import capitalize from 'lodash/capitalize';
 import {
   SearchB2BVariantDocument,
+  SearchPreset,
   SearchPublicVariantDocument,
 } from 'shared-types';
 
@@ -190,7 +190,7 @@ const getProductsFromFilterQuery = async (
     .search(
       {
         q: '*',
-        preset: SEARCHABLE_PRODUCT_ATTRIBUTES_PRESET,
+        preset: SearchPreset.PUBLIC,
         filter_by: filterQuery,
         sort_by: 'computed_scoring:desc',
         group_by: 'product_internal_id',

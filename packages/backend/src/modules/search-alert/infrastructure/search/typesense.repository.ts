@@ -11,15 +11,16 @@ import {
 } from '@modules/search-alert/domain/ports/search-repository';
 import { Logger } from '@nestjs/common';
 import { head } from 'lodash';
+import { SearchPreset } from 'shared-types';
 
 const CLIENT_CONFIG = {
   [SavedSearchType.PUBLIC_COLLECTION_PAGE]: {
     client: typesensePublicVariantClient,
-    preset: 'searchable_product_attributes',
+    preset: SearchPreset.PUBLIC,
   },
   [SavedSearchType.B2B_MAIN_PAGE]: {
     client: typesenseB2BVariantClient,
-    preset: 'searchable_b2b_product_attributes',
+    preset: SearchPreset.B2B,
   },
 };
 export class TypesenseRepository implements SearchRepository {

@@ -13,6 +13,11 @@ export enum BundleType {
   TEN_PLUS = 'ten_plus',
 }
 
+export enum SearchPreset {
+  PUBLIC = 'searchable_product_attributes',
+  B2B = 'searchable_b2b_product_attributes',
+}
+
 type SearchBaseVariantDocument = {
   variant_shopify_id: number;
   variant_internal_id?: string;
