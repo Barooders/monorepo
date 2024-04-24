@@ -14,7 +14,7 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
@@ -40,9 +40,10 @@ class RefinementDTO {
   label!: string;
 
   @ApiProperty()
-  value!: string | number;
+  @IsString()
+  value!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   operator?: string;
@@ -61,12 +62,12 @@ class CreateSavedSearchDTO {
   @IsString()
   resultsUrl!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   collectionId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   query?: string;
@@ -80,6 +81,34 @@ class CreateSavedSearchDTO {
   @ApiProperty()
   @IsBoolean()
   shouldTriggerAlerts!: boolean;
+}
+
+class UpdateSavedSearchDTO {
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  collectionId?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  query?: string;
+
+  @ApiProperty({
+    isArray: true,
+    required: false,
+    minItems: 1,
+    type: RefinementDTO,
+  })
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => RefinementDTO)
+  @IsOptional()
+  refinements?: RefinementDTO[];
+
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  shouldTriggerAlerts?: boolean;
 }
 
 const mapFacetFilters = (refinements: RefinementDTO[]) => {
@@ -107,6 +136,7 @@ export class SavedSearchController {
   constructor(private searchAlertService: SearchAlertService) {}
 
   @Post(routesV1.savedSearch.root)
+  @ApiResponse({ type: String })
   @UseGuards(JwtAuthGuard)
   async createSavedSearch(
     @Body()
@@ -130,11 +160,12 @@ export class SavedSearchController {
   }
 
   @Put(routesV1.savedSearch.one)
+  @ApiResponse({ status: 204, description: 'Saved search updated' })
   @UseGuards(JwtAuthGuard)
   async updateSavedSearch(
     @Param('savedSearchId') savedSearchId: string,
     @Body()
-    { refinements, ...createSavedSearchDTO }: Partial<CreateSavedSearchDTO>,
+    { refinements, ...updateSavedSearchDTO }: UpdateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
     if (!userId) {
@@ -147,7 +178,7 @@ export class SavedSearchController {
       new UUID({ uuid: userId }),
       new UUID({ uuid: savedSearchId }),
       {
-        ...createSavedSearchDTO,
+        ...updateSavedSearchDTO,
         ...(refinements && {
           facetFilters: mapFacetFilters(refinements),
           numericFilters: mapNumericFilters(refinements),

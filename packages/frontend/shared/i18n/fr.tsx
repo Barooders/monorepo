@@ -699,7 +699,7 @@ const fr = {
   },
   savedSearches: {
     title: 'Vos recherches enregistrées',
-    deleteButton: "Supprimer l'alerte",
+    deleteButton: 'Supprimer',
     link: 'Voir les résultats',
   },
   account: {

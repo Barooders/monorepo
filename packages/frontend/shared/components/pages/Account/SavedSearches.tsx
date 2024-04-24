@@ -1,24 +1,24 @@
 'use client';
 
+import { FetchSavedSearchesQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
+import SearchAlertToggleButton from '@/components/molecules/SearchAlertToggleButton';
+import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import {
-  FetchSavedSearchesQuery,
-  RemoveSavedSearchMutation,
-} from '@/__generated/graphql';
 import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
 
 const FETCH_SAVED_SEARCHES = gql`
   query fetchSavedSearches {
-    SavedSearch(where: { type: { _eq: "PUBLIC_COLLECTION_PAGE" } }) {
+    SavedSearch {
       id
       name
+      type
       resultsUrl
       FacetFilters {
         facetName
@@ -30,19 +30,15 @@ const FETCH_SAVED_SEARCHES = gql`
         operator
         value
       }
-    }
-  }
-`;
-
-const REMOVE_SAVED_SEARCHES = gql`
-  mutation removeSavedSearch($searchId: String!) {
-    delete_SavedSearch_by_pk(id: $searchId) {
-      id
+      SearchAlert {
+        isActive
+      }
     }
   }
 `;
 
 const SavedSearches = () => {
+  const [, removeSavedSearch] = useDeleteSavedSearch();
   const fetchSavedSearches =
     useHasura<FetchSavedSearchesQuery>(FETCH_SAVED_SEARCHES);
   const [fetchState, doFetchSavedSearches] =
@@ -50,12 +46,8 @@ const SavedSearches = () => {
       fetchSavedSearches,
     );
 
-  const removeSavedSearch = useHasura<RemoveSavedSearchMutation>(
-    REMOVE_SAVED_SEARCHES,
-  );
-
   const doRemoveSavedSearch = async (searchId: string) => {
-    await removeSavedSearch({ searchId });
+    await removeSavedSearch(searchId);
     doFetchSavedSearches();
   };
 
@@ -110,14 +102,22 @@ const SavedSearches = () => {
                       {dict.savedSearches.link}
                     </Button>
                   )}
-                  <Button
-                    className="mt-2"
-                    size="small"
-                    intent="tertiary"
-                    onClick={() => doRemoveSavedSearch(savedSearch.id)}
-                  >
-                    {dict.savedSearches.deleteButton}
-                  </Button>
+                  <div className="mt-2 flex gap-1">
+                    <Button
+                      className="flex-grow"
+                      size="small"
+                      intent="tertiary"
+                      onClick={() => doRemoveSavedSearch(savedSearch.id)}
+                    >
+                      {dict.savedSearches.deleteButton}
+                    </Button>
+                    <SearchAlertToggleButton
+                      searchId={savedSearch.id}
+                      isSearchAlertInitiallyActive={
+                        savedSearch?.SearchAlert?.isActive ?? false
+                      }
+                    />
+                  </div>
                 </li>
               );
             })

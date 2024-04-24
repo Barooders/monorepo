@@ -2,19 +2,11 @@
 
 import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
 import { fetchHasura } from '@/clients/hasura';
+import Collapse from '@/components/atoms/Collapse';
+import InnerPageBanner from '@/components/atoms/InnerPageBanner';
 import { DesktopFilters, MobileFilters } from '@/components/molecules/Filters';
 import { getMenuData } from '@/components/molecules/MegaMenu';
 import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
-import { searchCollections } from '@/config';
-import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
-import useSearchPage from '@/hooks/state/useSearchPage';
-import useInitDiscounts from '@/hooks/useInitDiscounts';
-import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
-import first from 'lodash/first';
-import { useEffect } from 'react';
-import Collapse from '@/components/atoms/Collapse';
-import InnerPageBanner from '@/components/atoms/InnerPageBanner';
 import { getData as getProductData } from '@/components/molecules/ProductCard/b2c/container';
 import { ProductMultiVariants as ProductCardPropsType } from '@/components/molecules/ProductCard/types';
 import Reviews from '@/components/molecules/Reviews';
@@ -23,7 +15,15 @@ import {
   REVIEW_BLOCK_ANCHOR,
   mapReviewsFromFragment,
 } from '@/components/molecules/Reviews/container';
-import SearchAlertButton from '@/components/molecules/SearchAlertButton/index.mobile';
+import { searchCollections } from '@/config';
+import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
+import useSearchPage from '@/hooks/state/useSearchPage';
+import useInitDiscounts from '@/hooks/useInitDiscounts';
+import { getDictionary } from '@/i18n/translate';
+import { gql } from '@apollo/client';
+import first from 'lodash/first';
+import { useEffect } from 'react';
+import SavedSearchButton from '../../molecules/SavedSearchButton/index.mobile';
 import CollectionHeader from './CollectionPage/CollectionHeader';
 import RelatedCollections from './CollectionPage/RelatedCollections';
 import SearchHeader from './GlobalSearch/SearchHeader';
@@ -348,7 +348,7 @@ const SearchPage: React.FC<PropsType> = ({
         </div>
       </div>
       <div className="fixed bottom-3 right-6 md:hidden">
-        <SearchAlertButton />
+        <SavedSearchButton />
       </div>
     </InstantSearchProvider>
   );

@@ -1,11 +1,10 @@
-import { useHasura } from '@/hooks/useHasura';
+import { SavedSearchContext } from '@/contexts/savedSearch';
+import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
+import useUpdateSavedSearch from '@/hooks/useUpdateSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import {
-  mapCurrentSearchToString,
-  mapRefinementsToFilters,
-} from '@/mappers/search';
-import { gql } from '@apollo/client';
+import { mapCurrentSearchToString } from '@/mappers/search';
+import { useContext, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
@@ -23,30 +22,40 @@ type PropsType = {
 };
 
 const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
+  const existingSavedSearch = useContext(SavedSearchContext);
+  const [savedSearchId, setSavedSearchId] = useState<string | undefined>(
+    existingSavedSearch?.id,
+  );
+  const [, storeSavedSearch] = useStoreSavedSearch();
+  const [, updateSavedSearch] = useUpdateSavedSearch();
   const { items } = useCurrentRefinements();
   const { query } = useSearchBox();
-  const refinements = items.flatMap((item) => item.refinements);
-
-  const storeSavedSearch = useHasura(gql`
-    mutation storeSavedSearch($savedSearchInput: SavedSearch_insert_input!) {
-      insert_SavedSearch_one(object: $savedSearchInput) {
-        id
-      }
-    }
-  `);
+  const refinements = items
+    .flatMap((item) => item.refinements)
+    .map(({ value, ...refinement }) => ({
+      ...refinement,
+      value: String(value),
+    }));
 
   const formMethods = useForm({});
 
   const onSubmit = async () => {
-    await storeSavedSearch({
-      savedSearchInput: {
-        name: 'B2B search',
+    if (savedSearchId) {
+      await updateSavedSearch(savedSearchId, {
+        query,
+        refinements,
+      });
+    } else {
+      const newSavedSearchId = await storeSavedSearch({
+        name: 'Recherche B2B',
         type: 'B2B_MAIN_PAGE',
         resultsUrl: window.location.href,
         query,
-        ...mapRefinementsToFilters(refinements),
-      },
-    });
+        refinements,
+        shouldTriggerAlerts: false,
+      });
+      setSavedSearchId(newSavedSearchId);
+    }
 
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
     onSave();
