@@ -1,6 +1,10 @@
 table:
   name: BundlePrice
   schema: public
+object_relationships:
+  - name: Product
+    using:
+      foreign_key_constraint_on: productId
 select_permissions:
   - role: b2b_user
     permission:
