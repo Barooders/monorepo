@@ -1,6 +1,6 @@
-import { operations } from '@/__generated/rest-schema';
 import { SavedSearchContext } from '@/contexts/savedSearch';
-import useBackend from '@/hooks/useBackend';
+import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
+import useUpdateSavedSearch from '@/hooks/useUpdateSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearchToString } from '@/mappers/search';
@@ -26,7 +26,8 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const [savedSearchId, setSavedSearchId] = useState<string | undefined>(
     existingSavedSearch?.id,
   );
-  const { fetchAPI } = useBackend();
+  const [, storeSavedSearch] = useStoreSavedSearch();
+  const [, updateSavedSearch] = useUpdateSavedSearch();
   const { items } = useCurrentRefinements();
   const { query } = useSearchBox();
   const refinements = items
@@ -36,48 +37,24 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
       value: String(value),
     }));
 
-  const storeSavedSearch = async () => {
-    const savedSearch: operations['SavedSearchController_createSavedSearch']['requestBody']['content']['application/json'] =
-      {
+  const formMethods = useForm({});
+
+  const onSubmit = async () => {
+    if (savedSearchId) {
+      await updateSavedSearch(savedSearchId, {
+        query,
+        refinements,
+      });
+    } else {
+      const newSavedSearchId = await storeSavedSearch({
         name: 'B2B search',
         type: 'B2B_MAIN_PAGE',
         resultsUrl: window.location.href,
         query,
         refinements,
         shouldTriggerAlerts: false,
-      };
-    const newSavedSearchId = await fetchAPI<
-      operations['SavedSearchController_createSavedSearch']['responses']['default']['content']['application/json']
-    >('/v1/saved-search', {
-      method: 'POST',
-      body: JSON.stringify(savedSearch),
-    });
-
-    setSavedSearchId(newSavedSearchId);
-  };
-
-  const updateSavedSearch = async () => {
-    if (!savedSearchId) throw new Error('Saved search id is missing');
-
-    const savedSearch: operations['SavedSearchController_updateSavedSearch']['requestBody']['content']['application/json'] =
-      {
-        query,
-        refinements,
-      };
-
-    await fetchAPI(`/v1/saved-search/${savedSearchId}`, {
-      method: 'PUT',
-      body: JSON.stringify(savedSearch),
-    });
-  };
-
-  const formMethods = useForm({});
-
-  const onSubmit = async () => {
-    if (savedSearchId) {
-      await updateSavedSearch();
-    } else {
-      await storeSavedSearch();
+      });
+      setSavedSearchId(newSavedSearchId);
     }
 
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
