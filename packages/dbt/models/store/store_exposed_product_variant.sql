@@ -1,48 +1,61 @@
-{{ config(
-    materialized='incremental',
-    unique_key='shopify_id',
-    pre_hook='delete from {{this}}'
-) }}
+{{
+    config(
+        materialized="incremental",
+        unique_key="shopify_id",
+        pre_hook="delete from {{this}}",
+    )
+}}
 
-WITH bikes AS (
-    SELECT pc.product_id
-    FROM {{ref('store_product_collection')}} pc
-    LEFT JOIN {{ref('store_collection')}} c ON pc.collection_id=c.id
-    WHERE c.handle='velos'
-)
+with
+    bikes as (
+        select pc.product_id
+        from {{ ref("store_product_collection") }} pc
+        left join {{ ref("store_collection") }} c on pc.collection_id = c.id
+        where c.handle = 'velos'
+    )
 
-SELECT
-    bpv."shopify_id" AS "shopify_id",
-    ppv.quantity AS "inventoryQuantity",
-    CURRENT_DATE AS "syncDate",
-    ppv."priceInCents"::float / 100 AS "price",
-    pv.compare_at_price AS "compareAtPrice",
-    po1.name AS "option1Name",
-    pv.option_1 AS "option1",
-    po2.name AS "option2Name",
-    pv.option_2 AS "option2",
-    po3.name AS "option3Name",
-    pv.option_3 AS "option3",
-    pv.requires_shipping AS "requiresShipping",
+select
+    bpv."shopify_id" as "shopify_id",
+    coalesce(ppv.quantity, 0) as "inventoryQuantity",
+    current_date as "syncDate",
+    ppv."priceInCents"::float / 100 as "price",
+    pv.compare_at_price as "compareAtPrice",
+    po1.name as "option1Name",
+    pv.option_1 as "option1",
+    po2.name as "option2Name",
+    pv.option_2 as "option2",
+    po3.name as "option3Name",
+    pv.option_3 as "option3",
+    pv.requires_shipping as "requiresShipping",
     pv.title,
-    CAST(ppv.condition::TEXT AS dbt."Condition") as "condition",
-    CASE
-        WHEN ppv.condition::TEXT<>'AS_NEW' AND c."isRefurbisher"=TRUE AND pp.id IN (SELECT product_id FROM bikes) THEN TRUE
-        ELSE FALSE
-    END AS "isRefurbished",
-    pv.updated_at AS "updatedAt"
+    cast(ppv.condition::text as dbt."Condition") as "condition",
+    case
+        when
+            ppv.condition::text <> 'AS_NEW'
+            and c."isRefurbisher" = true
+            and pp.id in (select product_id from bikes)
+        then true
+        else false
+    end as "isRefurbished",
+    pv.updated_at as "updatedAt"
 
-FROM {{ref('store_base_product_variant')}} bpv
-LEFT JOIN public."ProductVariant" ppv ON ppv.id = bpv.id
-LEFT JOIN public."Product" pp ON ppv."productId"=pp.id
-LEFT JOIN public."Customer" c ON pp."vendorId"=c."authUserId"
-LEFT JOIN fivetran_shopify.product_variant pv ON pv.id = bpv."shopify_id"
+from {{ ref("store_base_product_variant") }} bpv
+left join public."ProductVariant" ppv on ppv.id = bpv.id
+left join public."Product" pp on ppv."productId" = pp.id
+left join public."Customer" c on pp."vendorId" = c."authUserId"
+left join fivetran_shopify.product_variant pv on pv.id = bpv."shopify_id"
 
-LEFT JOIN fivetran_shopify.product_option po1 ON (po1.product_id=pv.product_id AND po1.position=1)
-LEFT JOIN fivetran_shopify.product_option po2 ON (po2.product_id=pv.product_id AND po2.position=2)
-LEFT JOIN fivetran_shopify.product_option po3 ON (po3.product_id=pv.product_id AND po3.position=3)
+left join
+    fivetran_shopify.product_option po1
+    on (po1.product_id = pv.product_id and po1.position = 1)
+left join
+    fivetran_shopify.product_option po2
+    on (po2.product_id = pv.product_id and po2.position = 2)
+left join
+    fivetran_shopify.product_option po3
+    on (po3.product_id = pv.product_id and po3.position = 3)
 
-WHERE
-  pv.inventory_quantity IS NOT NULL
-  AND pv.price IS NOT NULL
-  AND pv.updated_at IS NOT NULL
+where
+    pv.inventory_quantity is not null
+    and pv.price is not null
+    and pv.updated_at is not null
