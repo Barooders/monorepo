@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import B2BCollectionHeader from './_components/B2BCollectionHeader';
 import B2BSearchResults from './_components/B2BSearchResults';
 
+export const PRODUCT_ID_QUERY_KEY = 'product';
+
 type PropsType = {
   productInternalId: string | null;
 };
@@ -29,6 +31,20 @@ const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
       setSelectedProductId(productInternalId);
     }
   }, [productInternalId]);
+
+  const addProductToUrl = (productInternalId: string) => {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.append(PRODUCT_ID_QUERY_KEY, productInternalId);
+
+    history.pushState({}, 'Open product', newUrl.toString());
+  };
+
+  const removeProductFromUrl = () => {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.delete(PRODUCT_ID_QUERY_KEY);
+
+    history.pushState({}, 'Close product', newUrl.toString());
+  };
 
   if (!user) return <></>;
 
@@ -53,9 +69,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
             <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
               <B2BCollectionHeader />
               <B2BSearchResults
-                openDetails={(productInternalId: string) =>
-                  setSelectedProductId(productInternalId)
-                }
+                openDetails={(productInternalId: string) => {
+                  addProductToUrl(productInternalId);
+                  setSelectedProductId(productInternalId);
+                }}
               />
               <Pagination />
             </div>
@@ -65,13 +82,18 @@ const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
       <PortalDrawer
         ContentComponent={() =>
           selectedProductId ? (
-            <B2BProductPanel productInternalId={selectedProductId} />
+            <div className="w-[360px] md:w-[400px] lg:w-[450px]">
+              <B2BProductPanel productInternalId={selectedProductId} />
+            </div>
           ) : (
             <></>
           )
         }
         side={DrawerSide.RIGHT}
-        closeMenu={() => setSelectedProductId(null)}
+        closeMenu={() => {
+          removeProductFromUrl();
+          setSelectedProductId(null);
+        }}
         isOpen={!!selectedProductId}
       />
     </PageContainer>

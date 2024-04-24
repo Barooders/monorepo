@@ -1,4 +1,5 @@
 import { FetchB2BProductQuery } from '@/__generated/graphql';
+import Loader from '@/components/atoms/Loader';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
@@ -116,7 +117,7 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
     FETCH_B2B_PRODUCT,
     HASURA_ROLES.B2B_USER,
   );
-  const [{ value }, doGetData] = useWrappedAsyncFn(fetchB2BProduct);
+  const [{ value, loading }, doGetData] = useWrappedAsyncFn(fetchB2BProduct);
 
   useEffect(() => {
     doGetData({
@@ -126,7 +127,15 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
 
   const productCardProps = value ? mapToProps(value) : null;
 
-  return <>{productCardProps && <ProductPanel {...productCardProps} />}</>;
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        productCardProps && <ProductPanel {...productCardProps} />
+      )}
+    </>
+  );
 };
 
 export default ProductPanelWithContainer;

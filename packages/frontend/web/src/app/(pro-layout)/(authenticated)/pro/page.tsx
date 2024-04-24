@@ -1,10 +1,10 @@
 'use client';
 
-import ProPage from '@/components/pages/ProPage';
+import ProPage, { PRODUCT_ID_QUERY_KEY } from '@/components/pages/ProPage';
 import useSearchParams from '@/hooks/useSearchParams';
 
 const WebProPage: React.FC = () => {
-  const productInternalId = useSearchParams('product');
+  const productInternalId = useSearchParams(PRODUCT_ID_QUERY_KEY);
 
   return <ProPage productInternalId={productInternalId} />;
 };
