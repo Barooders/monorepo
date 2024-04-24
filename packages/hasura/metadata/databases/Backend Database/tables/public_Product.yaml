@@ -53,6 +53,7 @@ select_permissions:
         - productType
         - status
         - vendorId
+      filter: {}
   - role: me_as_vendor
     permission:
       columns:
@@ -76,6 +77,7 @@ select_permissions:
         - productType
         - status
         - vendorId
+      filter: {}
   - role: registered_user
     permission:
       columns:
@@ -86,3 +88,4 @@ select_permissions:
         - productType
         - status
         - vendorId
+      filter: {}
