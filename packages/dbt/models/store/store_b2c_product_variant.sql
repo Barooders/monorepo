@@ -9,7 +9,7 @@
 select
     epv.shopify_id,
     ppv."priceInCents" / 100 as "price",
-    ppv."compareAtPriceInCents" / 100 AS compare_at_price,
+    ppv."compareAtPriceInCents" / 100 AS compare_at_price
 from {{ ref("store_exposed_product_variant") }} epv
 join {{ ref("store_base_product_variant") }} bpv on bpv.shopify_id = epv.shopify_id
 left join public."ProductVariant" ppv on ppv.id = bpv.id
