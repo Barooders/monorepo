@@ -38,7 +38,7 @@ type PriceOffer = {
 
 const FETCH_PRICE_OFFERS = gql`
   query fetchPriceOffers {
-    PriceOffer {
+    PriceOffer(order_by: { createdAt: desc }) {
       id
       createdAt
       publicNote
