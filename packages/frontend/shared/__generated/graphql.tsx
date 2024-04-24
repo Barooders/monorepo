@@ -32881,11 +32881,14 @@ export type FetchPriceOffersQuery = {
   PriceOffer: Array<{
     __typename?: 'PriceOffer';
     id: string;
+    buyerId: any;
+    includedBuyerCommissionPercentage: any;
     createdAt: any;
     publicNote: string | null;
     quantity: number;
     status: any;
     newPriceInCents: any;
+    productId: string;
     product: {
       __typename?: 'Product';
       storeExposedProduct: {
