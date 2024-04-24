@@ -23,7 +23,7 @@ type PropsType = {
 
 const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
   const existingSavedSearch = useContext(SavedSearchContext);
-  const [, setSavedSearchId] = useState<string | undefined>(
+  const [savedSearchId, setSavedSearchId] = useState<string | undefined>(
     existingSavedSearch?.id,
   );
   const { fetchAPI } = useBackend();
@@ -56,10 +56,29 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
     setSavedSearchId(newSavedSearchId);
   };
 
+  const updateSavedSearch = async () => {
+    if (!savedSearchId) throw new Error('Saved search id is missing');
+
+    const savedSearch: operations['SavedSearchController_updateSavedSearch']['requestBody']['content']['application/json'] =
+      {
+        query,
+        refinements,
+      };
+
+    await fetchAPI(`/v1/saved-search/${savedSearchId}`, {
+      method: 'PUT',
+      body: JSON.stringify(savedSearch),
+    });
+  };
+
   const formMethods = useForm({});
 
   const onSubmit = async () => {
-    await storeSavedSearch();
+    if (savedSearchId) {
+      await updateSavedSearch();
+    } else {
+      await storeSavedSearch();
+    }
 
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
     onSave();

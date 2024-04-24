@@ -83,6 +83,34 @@ class CreateSavedSearchDTO {
   shouldTriggerAlerts!: boolean;
 }
 
+class UpdateSavedSearchDTO {
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  collectionId?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  query?: string;
+
+  @ApiProperty({
+    isArray: true,
+    required: false,
+    minItems: 1,
+    type: RefinementDTO,
+  })
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => RefinementDTO)
+  @IsOptional()
+  refinements?: RefinementDTO[];
+
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  shouldTriggerAlerts?: boolean;
+}
+
 const mapFacetFilters = (refinements: RefinementDTO[]) => {
   return refinements
     .filter((refinement) => refinement.type === 'disjunctive')
@@ -132,11 +160,12 @@ export class SavedSearchController {
   }
 
   @Put(routesV1.savedSearch.one)
+  @ApiResponse({ status: 204, description: 'Saved search updated' })
   @UseGuards(JwtAuthGuard)
   async updateSavedSearch(
     @Param('savedSearchId') savedSearchId: string,
     @Body()
-    { refinements, ...createSavedSearchDTO }: Partial<CreateSavedSearchDTO>,
+    { refinements, ...updateSavedSearchDTO }: UpdateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
     if (!userId) {
@@ -149,7 +178,7 @@ export class SavedSearchController {
       new UUID({ uuid: userId }),
       new UUID({ uuid: savedSearchId }),
       {
-        ...createSavedSearchDTO,
+        ...updateSavedSearchDTO,
         ...(refinements && {
           facetFilters: mapFacetFilters(refinements),
           numericFilters: mapNumericFilters(refinements),

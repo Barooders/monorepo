@@ -3,171 +3,172 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
-  '/v1/auth/shopify': {
-    post: operations['ShopifyController_shopifyLogin'];
+  "/v1/auth/shopify": {
+    post: operations["ShopifyController_shopifyLogin"];
   };
-  '/v1/customers/wallet': {
-    get: operations['CustomerController_fetchCustomerWallet'];
+  "/v1/customers/wallet": {
+    get: operations["CustomerController_fetchCustomerWallet"];
   };
-  '/v1/customers': {
-    put: operations['CustomerController_updateUserInfo'];
+  "/v1/customers": {
+    put: operations["CustomerController_updateUserInfo"];
   };
-  '/v1/negociation-agreement': {
-    post: operations['CustomerController_upsertNegociationAgreement'];
-    delete: operations['CustomerController_deleteNegociationAgreement'];
+  "/v1/negociation-agreement": {
+    post: operations["CustomerController_upsertNegociationAgreement"];
+    delete: operations["CustomerController_deleteNegociationAgreement"];
   };
-  '/v1/customers/vendor-data': {
-    get: operations['CustomerController_fetchVendorDataUrl'];
+  "/v1/customers/vendor-data": {
+    get: operations["CustomerController_fetchVendorDataUrl"];
   };
-  '/v1/customers/webhook/signup': {
-    post: operations['CustomerWebhooksHasuraController_handleSignupHasuraEvent'];
+  "/v1/customers/webhook/signup": {
+    post: operations["CustomerWebhooksHasuraController_handleSignupHasuraEvent"];
   };
-  '/v1/orders/webhook/paid-event': {
-    post: operations['PaidOrderWebhookShopifyController_'];
+  "/v1/orders/webhook/paid-event": {
+    post: operations["PaidOrderWebhookShopifyController_"];
   };
-  '/v1/admin/orders/webhook/paid-event': {
-    post: operations['PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin'];
+  "/v1/admin/orders/webhook/paid-event": {
+    post: operations["PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin"];
   };
-  '/v1/orders/webhook/created-event': {
-    post: operations['CreatedOrderWebhookShopifyController_handleCreatedOrderEvent'];
+  "/v1/orders/webhook/created-event": {
+    post: operations["CreatedOrderWebhookShopifyController_handleCreatedOrderEvent"];
   };
-  '/v1/orders/webhook/update': {
-    post: operations['OrderWebhookSendCloudController_notifyOnParcelUpdate'];
+  "/v1/orders/webhook/update": {
+    post: operations["OrderWebhookSendCloudController_notifyOnParcelUpdate"];
   };
-  '/v1/orders/hand-delivery': {
-    get: operations['HandDeliveryOrderController_getPaidHandDeliveryOrders'];
+  "/v1/orders/hand-delivery": {
+    get: operations["HandDeliveryOrderController_getPaidHandDeliveryOrders"];
   };
-  '/v1/orders/hand-delivery/status': {
-    post: operations['HandDeliveryOrderController_setDeliveredOrderMatchingProductId'];
+  "/v1/orders/hand-delivery/status": {
+    post: operations["HandDeliveryOrderController_setDeliveredOrderMatchingProductId"];
   };
-  '/v1/orders/{orderId}': {
-    get: operations['OrderController_getOrder'];
+  "/v1/orders/{orderId}": {
+    get: operations["OrderController_getOrder"];
   };
-  '/v1/orders/{orderId}/shipping-label': {
-    post: operations['OrderController_getOrCreateShippingLabel'];
+  "/v1/orders/{orderId}/shipping-label": {
+    post: operations["OrderController_getOrCreateShippingLabel"];
   };
-  '/v1/admin/order-lines/{orderLineId}/fulfill': {
-    post: operations['OrderController_fulFillOrderLineAsAdmin'];
+  "/v1/admin/order-lines/{orderLineId}/fulfill": {
+    post: operations["OrderController_fulFillOrderLineAsAdmin"];
   };
-  '/v1/order-lines/{orderLineId}/fulfill': {
-    post: operations['OrderController_fulFillOrderLine'];
+  "/v1/order-lines/{orderLineId}/fulfill": {
+    post: operations["OrderController_fulFillOrderLine"];
   };
-  '/v1/admin/order/{orderId}/refund': {
-    post: operations['OrderController_refundOrderAsAdmin'];
+  "/v1/admin/order/{orderId}/refund": {
+    post: operations["OrderController_refundOrderAsAdmin"];
   };
-  '/v1/admin/order/{orderId}/cancel': {
-    post: operations['OrderController_cancelOrderAsAdmin'];
+  "/v1/admin/order/{orderId}/cancel": {
+    post: operations["OrderController_cancelOrderAsAdmin"];
   };
-  '/v1/order-lines/{orderLineId}/cancel': {
-    post: operations['OrderController_cancelOrder'];
+  "/v1/order-lines/{orderLineId}/cancel": {
+    post: operations["OrderController_cancelOrder"];
   };
-  '/v1/admin/order-lines/{orderLineId}/update-status': {
-    post: operations['OrderController_updateOrderStatusAsAdmin'];
+  "/v1/admin/order-lines/{orderLineId}/update-status": {
+    post: operations["OrderController_updateOrderStatusAsAdmin"];
   };
-  '/v1/invoice/preview-payout': {
-    get: operations['PayoutController_previewPayout'];
+  "/v1/invoice/preview-payout": {
+    get: operations["PayoutController_previewPayout"];
   };
-  '/v1/invoice/payout': {
-    post: operations['PayoutController_executePayout'];
+  "/v1/invoice/payout": {
+    post: operations["PayoutController_executePayout"];
   };
-  '/v1/products/create': {
-    post: operations['ProductController_createDraftProduct'];
+  "/v1/products/create": {
+    post: operations["ProductController_createDraftProduct"];
   };
-  '/v1/admin/products/create': {
-    post: operations['ProductController_createProduct'];
+  "/v1/admin/products/create": {
+    post: operations["ProductController_createProduct"];
   };
-  '/v1/products/{productId}/image': {
-    post: operations['ProductController_addProductImage'];
+  "/v1/products/{productId}/image": {
+    post: operations["ProductController_addProductImage"];
   };
-  '/v1/products/{productId}/image/{imageId}': {
-    delete: operations['ProductController_deleteProductImage'];
+  "/v1/products/{productId}/image/{imageId}": {
+    delete: operations["ProductController_deleteProductImage"];
   };
-  '/v1/products/by-handle/{productHandle}': {
-    get: operations['ProductController_getProductByHandle'];
+  "/v1/products/by-handle/{productHandle}": {
+    get: operations["ProductController_getProductByHandle"];
   };
-  '/v1/admin/products/{productId}': {
-    get: operations['ProductController_getProductByAdmin'];
-    patch: operations['ProductController_updateProductByAdmin'];
+  "/v1/admin/products/{productId}": {
+    get: operations["ProductController_getProductByAdmin"];
+    patch: operations["ProductController_updateProductByAdmin"];
   };
-  '/v1/products/{productId}': {
-    patch: operations['ProductController_updateProduct'];
+  "/v1/products/{productId}": {
+    patch: operations["ProductController_updateProduct"];
   };
-  '/v1/products/{productId}/variants/{productVariantId}': {
-    patch: operations['ProductController_updateProductVariant'];
+  "/v1/products/{productId}/variants/{productVariantId}": {
+    patch: operations["ProductController_updateProductVariant"];
   };
-  '/v1/admin/vendors/{vendorId}/products': {
-    post: operations['ProductController_triggerVendorProductsUpdateByAdmin'];
+  "/v1/admin/vendors/{vendorId}/products": {
+    post: operations["ProductController_triggerVendorProductsUpdateByAdmin"];
   };
-  '/v1/admin/products/{productId}/variants/{productVariantId}': {
-    patch: operations['ProductController_updateProductVariantByAdmin'];
+  "/v1/admin/products/{productId}/variants/{productVariantId}": {
+    patch: operations["ProductController_updateProductVariantByAdmin"];
   };
-  '/v1/admin/products/{productId}/moderate': {
-    post: operations['ProductController_moderateProduct'];
+  "/v1/admin/products/{productId}/moderate": {
+    post: operations["ProductController_moderateProduct"];
   };
-  '/v1/products/models': {
-    post: operations['ProductController_createProductModel'];
+  "/v1/products/models": {
+    post: operations["ProductController_createProductModel"];
   };
-  '/v1/commission/create': {
-    post: operations['BuyerCommissionController_createAndPublishCommissionProduct'];
+  "/v1/commission/create": {
+    post: operations["BuyerCommissionController_createAndPublishCommissionProduct"];
   };
-  '/v1/commission/compute-line-item': {
-    get: operations['BuyerCommissionController_computeLineItemCommission'];
+  "/v1/commission/compute-line-item": {
+    get: operations["BuyerCommissionController_computeLineItemCommission"];
   };
-  '/v1/commission/product': {
-    get: operations['BuyerCommissionController_computeProductCommission'];
+  "/v1/commission/product": {
+    get: operations["BuyerCommissionController_computeProductCommission"];
   };
-  '/v1/price-offer': {
-    post: operations['PriceOfferController_createPublicPriceOffer'];
+  "/v1/price-offer": {
+    post: operations["PriceOfferController_createPublicPriceOffer"];
   };
-  '/v1/price-offer/b2b': {
-    post: operations['PriceOfferController_createB2BPriceOfferByBuyer'];
+  "/v1/price-offer/b2b": {
+    post: operations["PriceOfferController_createB2BPriceOfferByBuyer"];
   };
-  '/v1/price-offer/{priceOfferId}': {
-    put: operations['PriceOfferController_updatePriceOffer'];
+  "/v1/price-offer/{priceOfferId}": {
+    put: operations["PriceOfferController_updatePriceOffer"];
   };
-  '/v1/admin/price-offer/{priceOfferId}': {
-    put: operations['PriceOfferController_updatePriceOfferAsAdmin'];
+  "/v1/admin/price-offer/{priceOfferId}": {
+    put: operations["PriceOfferController_updatePriceOfferAsAdmin"];
   };
-  '/v1/chat/conversation': {
-    post: operations['ChatController_getOrCreateConversation'];
+  "/v1/chat/conversation": {
+    post: operations["ChatController_getOrCreateConversation"];
   };
-  '/v1/chat/message/webhook': {
-    post: operations['ChatController_handleNewMessageWebhook'];
+  "/v1/chat/message/webhook": {
+    post: operations["ChatController_handleNewMessageWebhook"];
   };
-  '/v1/buy/payment/checkout': {
-    post: operations['PaymentWebController_getOrCreateCheckout'];
+  "/v1/buy/payment/checkout": {
+    post: operations["PaymentWebController_getOrCreateCheckout"];
   };
-  '/v1/buy/payment/eligibility': {
-    post: operations['PaymentWebController_checkPaymentEligibility'];
+  "/v1/buy/payment/eligibility": {
+    post: operations["PaymentWebController_checkPaymentEligibility"];
   };
-  '/v1/buy/payment/link': {
-    post: operations['PaymentWebController_createPaymentLink'];
+  "/v1/buy/payment/link": {
+    post: operations["PaymentWebController_createPaymentLink"];
   };
-  '/v1/buy/payment/link/redirect': {
-    get: operations['PaymentWebController_redirectToPaymentLink'];
+  "/v1/buy/payment/link/redirect": {
+    get: operations["PaymentWebController_redirectToPaymentLink"];
   };
-  '/v1/buy/payment/notify': {
-    post: operations['PaymentFloaWebhookController_notifyPaymentResult'];
+  "/v1/buy/payment/notify": {
+    post: operations["PaymentFloaWebhookController_notifyPaymentResult"];
   };
-  '/v1/delivery-profile/product-variant/{shopifyProductVariantId}': {
-    get: operations['DeliveryProfileController_getProductDeliveryProfile'];
+  "/v1/delivery-profile/product-variant/{shopifyProductVariantId}": {
+    get: operations["DeliveryProfileController_getProductDeliveryProfile"];
   };
-  '/v1/__internal__/heartbeat': {
-    get: operations['HealthCheckController_beat'];
+  "/v1/__internal__/heartbeat": {
+    get: operations["HealthCheckController_beat"];
   };
-  '/v1/shopify/auth': {
-    get: operations['ShopifyAuthController_handleAuthentication'];
+  "/v1/shopify/auth": {
+    get: operations["ShopifyAuthController_handleAuthentication"];
   };
-  '/v1/shopify/auth/callback': {
-    get: operations['ShopifyAuthController_handleAuthenticationCallback'];
+  "/v1/shopify/auth/callback": {
+    get: operations["ShopifyAuthController_handleAuthenticationCallback"];
   };
-  '/v1/saved-search': {
-    post: operations['SavedSearchController_createSavedSearch'];
+  "/v1/saved-search": {
+    post: operations["SavedSearchController_createSavedSearch"];
   };
-  '/v1/saved-search/{savedSearchId}': {
-    put: operations['SavedSearchController_updateSavedSearch'];
-    delete: operations['SavedSearchController_deleteSavedSearch'];
+  "/v1/saved-search/{savedSearchId}": {
+    put: operations["SavedSearchController_updateSavedSearch"];
+    delete: operations["SavedSearchController_deleteSavedSearch"];
   };
 }
 
@@ -197,15 +198,7 @@ export interface components {
       /** @example 2023-01-14 16:54:08 */
       updatedAt: string;
       /** @enum {string} */
-      status:
-        | 'CREATED'
-        | 'PAID'
-        | 'SHIPPED'
-        | 'DELIVERED'
-        | 'PAID_OUT'
-        | 'CANCELED'
-        | 'RETURNED'
-        | 'LABELED';
+      status: "CREATED" | "PAID" | "SHIPPED" | "DELIVERED" | "PAID_OUT" | "CANCELED" | "RETURNED" | "LABELED";
     };
     PayoutInputQuery: {
       /** @description The Shopify id of the order line */
@@ -217,7 +210,7 @@ export interface components {
     };
     BundlePriceDTO: Record<string, never>;
     DraftProductInputDto: {
-      bundlePrices: components['schemas']['BundlePriceDTO'][];
+      bundlePrices: components["schemas"]["BundlePriceDTO"][];
     };
     AddProductImageDTO: {
       attachment: string;
@@ -269,19 +262,19 @@ export interface components {
       status: string;
       vendor: string;
       tags: string[];
-      variants: components['schemas']['VariantDTO'][];
-      options: components['schemas']['OptionDTO'][];
+      variants: components["schemas"]["VariantDTO"][];
+      options: components["schemas"]["OptionDTO"][];
       created_at: string;
       updated_at: string;
       template_suffix: string;
       handle: string;
       published_at: string;
       published_scope: string;
-      image: components['schemas']['MainProductImageDTO'];
+      image: components["schemas"]["MainProductImageDTO"];
       title: string;
       body_html: string;
       product_type: string;
-      images: components['schemas']['SimpleImageDTO'][];
+      images: components["schemas"]["SimpleImageDTO"][];
       price: number;
       compare_at_price: number;
       EANCode: string;
@@ -290,7 +283,7 @@ export interface components {
     };
     ProductUpdateInputDto: {
       /** @enum {string} */
-      status?: 'ARCHIVED' | 'DRAFT' | 'ACTIVE';
+      status?: "ARCHIVED" | "DRAFT" | "ACTIVE";
       bodyHtml?: string;
       title?: string;
       tags?: string[];
@@ -312,14 +305,14 @@ export interface components {
     };
     ProductVariantUpdateInputDto: {
       quantity?: number;
-      price?: components['schemas']['AmountDTO'];
-      compareAtPrice?: components['schemas']['AmountDTO'];
+      price?: components["schemas"]["AmountDTO"];
+      compareAtPrice?: components["schemas"]["AmountDTO"];
       condition?: string;
     };
     UUID: Record<string, never>;
     ProductAdminUpdateInputDto: {
       /** @enum {string} */
-      status?: 'ARCHIVED' | 'DRAFT' | 'ACTIVE';
+      status?: "ARCHIVED" | "DRAFT" | "ACTIVE";
       bodyHtml?: string;
       title?: string;
       tags?: string[];
@@ -327,8 +320,8 @@ export interface components {
       handDeliveryPostalCode?: string;
       metafields?: unknown[];
       /** @enum {string} */
-      manualNotation?: 'A' | 'B' | 'C';
-      vendorId?: components['schemas']['UUID'];
+      manualNotation?: "A" | "B" | "C";
+      vendorId?: components["schemas"]["UUID"];
     };
     ModerateProductInputDto: Record<string, never>;
     PimBrand: {
@@ -340,7 +333,7 @@ export interface components {
       imageUrl: string;
       year: number;
       productType: string;
-      brand: components['schemas']['PimBrand'];
+      brand: components["schemas"]["PimBrand"];
     };
     CommissionInputDto: {
       cartLineIds?: string[];
@@ -390,16 +383,16 @@ export interface components {
     };
     ConversationInputDto: Record<string, never>;
     ProductDTO: {
-      amount: components['schemas']['AmountDTO'];
+      amount: components["schemas"]["AmountDTO"];
       shipping: string;
       productType: string;
       id: string;
     };
     CartInfoDTO: {
       storeId: string;
-      totalAmount: components['schemas']['AmountDTO'];
+      totalAmount: components["schemas"]["AmountDTO"];
       productsCount: number;
-      products: components['schemas']['ProductDTO'][];
+      products: components["schemas"]["ProductDTO"][];
     };
     AddressDTO: {
       /**
@@ -432,7 +425,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-24T09:31:22.575Z
+       * @example 2024-04-24T09:58:17.068Z
        */
       birthDate: string;
       /**
@@ -445,7 +438,7 @@ export interface components {
        * @example Mr
        */
       civility: string;
-      address: components['schemas']['AddressDTO'];
+      address: components["schemas"]["AddressDTO"];
       /**
        * @description Phone number with country code
        * @example +33612345678
@@ -453,8 +446,8 @@ export interface components {
       phoneNumber: string;
     };
     EligibilityInputDTO: {
-      customerInfo: components['schemas']['CustomerInfoDTO'];
-      cartInfo: components['schemas']['CartInfoDTO'];
+      customerInfo: components["schemas"]["CustomerInfoDTO"];
+      cartInfo: components["schemas"]["CartInfoDTO"];
       checkoutId: string;
       paymentSolutionCode: string;
     };
@@ -475,8 +468,14 @@ export interface components {
       resultsUrl: string;
       collectionId?: string;
       query?: string;
-      refinements: components['schemas']['RefinementDTO'][];
+      refinements: components["schemas"]["RefinementDTO"][];
       shouldTriggerAlerts: boolean;
+    };
+    UpdateSavedSearchDTO: {
+      collectionId?: string;
+      query?: string;
+      refinements?: components["schemas"]["RefinementDTO"][];
+      shouldTriggerAlerts?: boolean;
     };
   };
   responses: never;
@@ -491,11 +490,12 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
+
   ShopifyController_shopifyLogin: {
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['ShopifyLoginResponse'];
+          "application/json": components["schemas"]["ShopifyLoginResponse"];
         };
       };
     };
@@ -510,7 +510,7 @@ export interface operations {
   CustomerController_updateUserInfo: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateUserInputDto'];
+        "application/json": components["schemas"]["UpdateUserInputDto"];
       };
     };
     responses: {
@@ -522,13 +522,13 @@ export interface operations {
   CustomerController_upsertNegociationAgreement: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['NegociationAgreementInputDto'];
+        "application/json": components["schemas"]["NegociationAgreementInputDto"];
       };
     };
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['NegociationAgreementResponseDto'];
+          "application/json": components["schemas"]["NegociationAgreementResponseDto"];
         };
       };
     };
@@ -544,7 +544,7 @@ export interface operations {
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['VendorDataUrlDto'];
+          "application/json": components["schemas"]["VendorDataUrlDto"];
         };
       };
     };
@@ -594,7 +594,7 @@ export interface operations {
   HandDeliveryOrderController_setDeliveredOrderMatchingProductId: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['ValidateHandDeliveryOrderDto'];
+        "application/json": components["schemas"]["ValidateHandDeliveryOrderDto"];
       };
     };
     responses: {
@@ -635,7 +635,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['OrderLineFulfillmentDTO'];
+        "application/json": components["schemas"]["OrderLineFulfillmentDTO"];
       };
     };
     responses: {
@@ -652,7 +652,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['OrderLineFulfillmentDTO'];
+        "application/json": components["schemas"]["OrderLineFulfillmentDTO"];
       };
     };
     responses: {
@@ -705,7 +705,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['OrderStatusUpdateDTO'];
+        "application/json": components["schemas"]["OrderStatusUpdateDTO"];
       };
     };
     responses: {
@@ -730,7 +730,7 @@ export interface operations {
   PayoutController_executePayout: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['PayoutInputQuery'];
+        "application/json": components["schemas"]["PayoutInputQuery"];
       };
     };
     responses: {
@@ -742,7 +742,7 @@ export interface operations {
   ProductController_createDraftProduct: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['DraftProductInputDto'];
+        "application/json": components["schemas"]["DraftProductInputDto"];
       };
     };
     responses: {
@@ -754,7 +754,7 @@ export interface operations {
   ProductController_createProduct: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['DraftProductInputDto'];
+        "application/json": components["schemas"]["DraftProductInputDto"];
       };
     };
     responses: {
@@ -771,13 +771,13 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['AddProductImageDTO'];
+        "application/json": components["schemas"]["AddProductImageDTO"];
       };
     };
     responses: {
       201: {
         content: {
-          'application/json': components['schemas']['AddProductImageResponseDTO'];
+          "application/json": components["schemas"]["AddProductImageResponseDTO"];
         };
       };
     };
@@ -816,7 +816,7 @@ export interface operations {
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['ProductAdminDTO'];
+          "application/json": components["schemas"]["ProductAdminDTO"];
         };
       };
     };
@@ -829,7 +829,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProductAdminUpdateInputDto'];
+        "application/json": components["schemas"]["ProductAdminUpdateInputDto"];
       };
     };
     responses: {
@@ -846,7 +846,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProductUpdateInputDto'];
+        "application/json": components["schemas"]["ProductUpdateInputDto"];
       };
     };
     responses: {
@@ -864,7 +864,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProductVariantUpdateInputDto'];
+        "application/json": components["schemas"]["ProductVariantUpdateInputDto"];
       };
     };
     responses: {
@@ -894,7 +894,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProductVariantUpdateInputDto'];
+        "application/json": components["schemas"]["ProductVariantUpdateInputDto"];
       };
     };
     responses: {
@@ -911,7 +911,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['ModerateProductInputDto'];
+        "application/json": components["schemas"]["ModerateProductInputDto"];
       };
     };
     responses: {
@@ -923,7 +923,7 @@ export interface operations {
   ProductController_createProductModel: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateProductModelDto'];
+        "application/json": components["schemas"]["CreateProductModelDto"];
       };
     };
     responses: {
@@ -935,13 +935,13 @@ export interface operations {
   BuyerCommissionController_createAndPublishCommissionProduct: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['CommissionInputDto'];
+        "application/json": components["schemas"]["CommissionInputDto"];
       };
     };
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['Commission'];
+          "application/json": components["schemas"]["Commission"];
         };
       };
     };
@@ -990,13 +990,13 @@ export interface operations {
   PriceOfferController_createPublicPriceOffer: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewPublicPriceOfferDTO'];
+        "application/json": components["schemas"]["NewPublicPriceOfferDTO"];
       };
     };
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['PriceOfferDTO'];
+          "application/json": components["schemas"]["PriceOfferDTO"];
         };
       };
     };
@@ -1004,13 +1004,13 @@ export interface operations {
   PriceOfferController_createB2BPriceOfferByBuyer: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewB2BPriceOfferDTO'];
+        "application/json": components["schemas"]["NewB2BPriceOfferDTO"];
       };
     };
     responses: {
       default: {
         content: {
-          'application/json': components['schemas']['PriceOfferDTO'];
+          "application/json": components["schemas"]["PriceOfferDTO"];
         };
       };
     };
@@ -1023,7 +1023,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdatePriceOfferDTO'];
+        "application/json": components["schemas"]["UpdatePriceOfferDTO"];
       };
     };
     responses: {
@@ -1040,7 +1040,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdatePriceOfferByAdminDTO'];
+        "application/json": components["schemas"]["UpdatePriceOfferByAdminDTO"];
       };
     };
     responses: {
@@ -1052,7 +1052,7 @@ export interface operations {
   ChatController_getOrCreateConversation: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['ConversationInputDto'];
+        "application/json": components["schemas"]["ConversationInputDto"];
       };
     };
     responses: {
@@ -1071,7 +1071,7 @@ export interface operations {
   PaymentWebController_getOrCreateCheckout: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['CartInfoDTO'];
+        "application/json": components["schemas"]["CartInfoDTO"];
       };
     };
     responses: {
@@ -1083,7 +1083,7 @@ export interface operations {
   PaymentWebController_checkPaymentEligibility: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['EligibilityInputDTO'];
+        "application/json": components["schemas"]["EligibilityInputDTO"];
       };
     };
     responses: {
@@ -1095,7 +1095,7 @@ export interface operations {
   PaymentWebController_createPaymentLink: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['PaymentLinkDTO'];
+        "application/json": components["schemas"]["PaymentLinkDTO"];
       };
     };
     responses: {
@@ -1160,13 +1160,13 @@ export interface operations {
   SavedSearchController_createSavedSearch: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateSavedSearchDTO'];
+        "application/json": components["schemas"]["CreateSavedSearchDTO"];
       };
     };
     responses: {
       default: {
         content: {
-          'application/json': string;
+          "application/json": string;
         };
       };
     };
@@ -1177,8 +1177,14 @@ export interface operations {
         savedSearchId: string;
       };
     };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdateSavedSearchDTO"];
+      };
+    };
     responses: {
-      200: {
+      /** @description Saved search updated */
+      204: {
         content: never;
       };
     };
