@@ -1,6 +1,7 @@
 'use client';
 
 import ProductJsonLd from '@/components/atoms/JsonLd/ProductJsonLd';
+import Modal from '@/components/atoms/Modal';
 import ProductVendor from '@/components/molecules/ProductVendor';
 import config from '@/config/env';
 import { getProductConfigFromShopifyTags } from '@/config/productAttributes';
@@ -10,8 +11,6 @@ import head from 'lodash/head';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiOutlineInformationCircle } from 'react-icons/hi2';
-import { IoMdFlame } from 'react-icons/io';
-import Modal from '@/components/atoms/Modal';
 import BuyButton from '../_components/Actions/BuyButton';
 import PriceOfferButton from '../_components/Actions/PriceOfferButton';
 import Characteristics from '../_components/Characteristics';
@@ -22,6 +21,7 @@ import ProductDescription from '../_components/ProductDescription';
 import ProductGallery from '../_components/ProductGallery';
 import ProductPrice from '../_components/ProductPrice';
 import DiscountLabel from '../_components/ProductPrice/DiscountLabel';
+import ProductViews from '../_components/ProductViews';
 import SplittedPayments from '../_components/SplittedPayments';
 import StickyBarPayment from '../_components/StickyBarPayment';
 import Support from '../_components/Support';
@@ -174,12 +174,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           )}
 
           <div className="flex flex-col gap-3">
-            {numberOfViews > 10 && (
-              <div className="flex items-center gap-1 text-sm">
-                <IoMdFlame className="text-primary-400" />{' '}
-                {dict.components.productCard.alreadySeenBy(numberOfViews)}
-              </div>
-            )}
+            <ProductViews numberOfViews={numberOfViews} />
 
             {(variants.length > 1 ||
               !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (

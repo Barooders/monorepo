@@ -3,9 +3,12 @@ import flow from 'lodash/flow';
 import groupBy from 'lodash/groupBy';
 import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
-import { RawVariant, Variant } from './types';
+import { RawVariant } from './types';
 
-export const getVariantToSelect = (variants: Variant[], variantId?: string) => {
+export const getVariantToSelect = (
+  variants: { available: boolean; shopifyId?: string }[],
+  variantId?: string,
+) => {
   const availableVariants = variants.filter(({ available }) => available);
   return (
     availableVariants.find(({ shopifyId: id }) => id === variantId) ??

@@ -1,12 +1,15 @@
 import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
+import compact from 'lodash/compact';
 import B2BPriceOfferButton from '../_components/Actions/B2BPriceOfferButton';
 import Characteristics from '../_components/Characteristics';
-import ProductImage from '../_components/ProductImage';
+import ProductDescription from '../_components/ProductDescription';
+import ProductGallery from '../_components/ProductGallery';
 import ProductLabel from '../_components/ProductLabel';
 import ProductPrice from '../_components/ProductPrice';
-import { B2BProductCardProps } from '../types';
+import { B2BProductPanelProps } from '../types';
+import ProductViews from '../_components/ProductViews';
 
 const dict = getDictionary('fr');
 
@@ -22,7 +25,7 @@ const ExistingOfferComponent: React.FC = () => {
   );
 };
 
-const B2BProductCard: React.FC<B2BProductCardProps> = ({
+const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
   id,
   shopifyId,
   title,
@@ -32,10 +35,11 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   price,
   compareAtPrice,
   largestBundlePrice,
-  image,
+  images,
   stock,
-  hasOpenedPriceOffer,
-  openDetails,
+  description,
+  isSoldOut,
+	numberOfViews
 }) => {
   const shouldShowBothPrices =
     largestBundlePrice && largestBundlePrice < 0.96 * price;
@@ -43,12 +47,21 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
   return (
     <div className="grid w-full grid-cols-2 gap-1 overflow-hidden border border-slate-50">
       <div className="relative col-span-2 h-52 w-full flex-grow sm:h-64">
-        {image && (
-          <ProductImage
-            image={image}
-            labels={[]}
-            discounts={[]}
-          />
+        {images && (
+          <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
+            <ProductGallery
+              images={compact(
+                images.map((imageSrc) => ({
+                  src: imageSrc,
+                  height: null,
+                  width: null,
+                  altText: '',
+                })),
+              )}
+              labels={[]}
+              isSoldOut={isSoldOut}
+            />
+          </div>
         )}
       </div>
       <div className="relative col-span-2 my-auto flex h-[230px] flex-grow flex-col justify-between">
@@ -87,26 +100,36 @@ const B2BProductCard: React.FC<B2BProductCardProps> = ({
             </div>
           </div>
 
-          <div className="flex gap-2">
-            {hasOpenedPriceOffer ? (
+					<ProductViews numberOfViews={numberOfViews} />
+
+          {
+            // TODO
+            false ? (
               <ExistingOfferComponent />
             ) : (
-              <B2BPriceOfferButton
-                productId={id}
-                userCanNegociate={true}
-              />
-            )}
-            <Button
-              onClick={() => openDetails(id)}
-              intent="tertiary"
-            >
-              {dict.b2b.productCard.details}
-            </Button>
-          </div>
+              <div className="flex gap-2">
+                <B2BPriceOfferButton
+                  productId={id}
+                  userCanNegociate={false}
+                />
+                <B2BPriceOfferButton
+                  productId={id}
+                  userCanNegociate={true}
+                />
+              </div>
+            )
+          }
+
+          <ProductDescription
+            tags={tags}
+            variantCondition={variantCondition}
+            description={description}
+            isTitle={false}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default B2BProductCard;
+export default B2BProductPanel;

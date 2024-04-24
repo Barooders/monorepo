@@ -5,6 +5,7 @@ import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
+import B2BProductPanel from '@/components/molecules/ProductCard/b2b/connected';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
@@ -62,7 +63,16 @@ const ProPage: React.FC<PropsType> = ({ productInternalId = null }) => {
         </div>
       </InstantSearchProvider>
       <PortalDrawer
-        ContentComponent={() => <div className="w-52">Toto</div>}
+        ContentComponent={() =>
+          selectedProductId ? (
+            <B2BProductPanel
+              productInternalId={selectedProductId}
+              intent="panel"
+            />
+          ) : (
+            <></>
+          )
+        }
         side={DrawerSide.RIGHT}
         closeMenu={() => setSelectedProductId(null)}
         isOpen={!!selectedProductId}
