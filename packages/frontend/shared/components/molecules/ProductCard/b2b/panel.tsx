@@ -37,6 +37,7 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
   stock,
   description,
   numberOfViews,
+  hasOpenedPriceOffer,
 }) => {
   const firstImage = first(images);
   return (
@@ -75,23 +76,20 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
 
       <ProductViews numberOfViews={numberOfViews} />
 
-      {
-        // TODO
-        false ? (
-          <ExistingOfferComponent />
-        ) : (
-          <div className="flex gap-2">
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={false}
-            />
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={true}
-            />
-          </div>
-        )
-      }
+      {hasOpenedPriceOffer ? (
+        <ExistingOfferComponent />
+      ) : (
+        <div className="flex gap-2">
+          <B2BPriceOfferButton
+            productId={id}
+            userCanNegociate={false}
+          />
+          <B2BPriceOfferButton
+            productId={id}
+            userCanNegociate={true}
+          />
+        </div>
+      )}
 
       <ProductDescription
         tags={tags}

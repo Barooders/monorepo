@@ -1,31 +1,16 @@
-import { SubscribeToOpenedB2BPriceOffersSubscription } from '@/__generated/graphql';
 import B2BProductCard from '@/components/molecules/ProductCard/b2b/card';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
-import { gql, useSubscription } from '@apollo/client';
 import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
 import { SearchB2BVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 
 const dict = getDictionary('fr');
 
-const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql`
-  subscription subscribeToOpenedB2BPriceOffers {
-    PriceOffer(
-      where: {
-        _and: {
-          salesChannelName: { _eq: "B2B" }
-          _or: [
-            { status: { _eq: "PROPOSED" } }
-            { status: { _eq: "ACCEPTED" } }
-          ]
-        }
-      }
-    ) {
-      productId
-    }
-  }
-`;
+type PropsType = {
+  openDetails: (productInternalId: string) => void;
+  openedPriceOfferProductIds: string[];
+};
 
 const NoResultsBoundary: React.FC<{
   children: React.ReactNode;
@@ -56,14 +41,10 @@ function NoResults() {
   );
 }
 
-const B2BSearchResults: React.FC<{
-  openDetails: (productInternalId: string) => void;
-}> = ({ openDetails }) => {
-  const { data: priceOffersResult } =
-    useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
-      SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
-    );
-
+const B2BSearchResults: React.FC<PropsType> = ({
+  openDetails,
+  openedPriceOfferProductIds,
+}) => {
   return (
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
@@ -78,8 +59,8 @@ const B2BSearchResults: React.FC<{
               <B2BProductCard
                 {...productCardProps}
                 hasOpenedPriceOffer={
-                  !!priceOffersResult?.PriceOffer.find(
-                    ({ productId }) => productId === hit.product_internal_id,
+                  !!openedPriceOfferProductIds.find(
+                    (productId) => productId === hit.product_internal_id,
                   )
                 }
                 openDetails={openDetails}

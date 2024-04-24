@@ -1,6 +1,9 @@
 'use client';
 
-import { FetchB2BSavedSearchQuery } from '@/__generated/graphql';
+import {
+  FetchB2BSavedSearchQuery,
+  SubscribeToOpenedB2BPriceOffersSubscription,
+} from '@/__generated/graphql';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
 import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -13,7 +16,7 @@ import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
-import { gql } from '@apollo/client';
+import { gql, useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import B2BCollectionHeader from './_components/B2BCollectionHeader';
@@ -46,6 +49,24 @@ const FETCH_B2B_SAVED_SEARCH = gql`
   }
 `;
 
+const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql`
+  subscription subscribeToOpenedB2BPriceOffers {
+    PriceOffer(
+      where: {
+        _and: {
+          salesChannelName: { _eq: "B2B" }
+          _or: [
+            { status: { _eq: "PROPOSED" } }
+            { status: { _eq: "ACCEPTED" } }
+          ]
+        }
+      }
+    ) {
+      productId
+    }
+  }
+`;
+
 type PropsType = {
   productInternalId: string | null;
 };
@@ -61,6 +82,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
     FETCH_B2B_SAVED_SEARCH,
     HASURA_ROLES.REGISTERED_USER,
   );
+
+  const { data: priceOffersResult } =
+    useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
+      SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
+    );
 
   useEffect(() => {
     if (productInternalId) {
@@ -92,6 +118,8 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
   if (!user) return <></>;
 
   const filters = [`total_quantity:> 0`, `vendor_id:!=${user.id}`];
+  const openedPriceOfferProductIds =
+    priceOffersResult?.PriceOffer.map(({ productId }) => productId) ?? [];
 
   return (
     <PageContainer includeVerticalPadding={false}>
@@ -117,6 +145,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
                     addProductToUrl(productInternalId);
                     setSelectedProductId(productInternalId);
                   }}
+                  openedPriceOfferProductIds={openedPriceOfferProductIds}
                 />
                 <Pagination />
               </div>
@@ -128,7 +157,12 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
         ContentComponent={() =>
           selectedProductId ? (
             <div className="w-[360px] md:w-[400px] lg:w-[450px]">
-              <B2BProductPanel productInternalId={selectedProductId} />
+              <B2BProductPanel
+                productInternalId={selectedProductId}
+                hasOpenedPriceOffer={openedPriceOfferProductIds.includes(
+                  selectedProductId,
+                )}
+              />
             </div>
           ) : (
             <></>

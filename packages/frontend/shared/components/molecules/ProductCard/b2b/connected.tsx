@@ -14,6 +14,7 @@ import ProductPanel from './panel';
 
 export type ContainerPropsType = {
   productInternalId: string;
+  hasOpenedPriceOffer: boolean;
 };
 
 export const FETCH_B2B_PRODUCT = gql`
@@ -60,6 +61,7 @@ export const FETCH_B2B_PRODUCT = gql`
 
 export const mapToProps = (
   productResponse: FetchB2BProductQuery,
+  hasOpenedPriceOffer: boolean,
 ): B2BProductPanelProps => {
   const rawProduct = first(productResponse.dbt_store_base_product);
 
@@ -107,11 +109,13 @@ export const mapToProps = (
     description: rawProduct.product.description ?? '',
     isSoldOut: stock === 0,
     numberOfViews: rawProduct.product.numberOfViews,
+    hasOpenedPriceOffer,
   };
 };
 
 const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   productInternalId,
+  hasOpenedPriceOffer,
 }) => {
   const fetchB2BProduct = useHasura<FetchB2BProductQuery>(
     FETCH_B2B_PRODUCT,
@@ -125,7 +129,9 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
     });
   }, [productInternalId]);
 
-  const productCardProps = value ? mapToProps(value) : null;
+  const productCardProps = value
+    ? mapToProps(value, hasOpenedPriceOffer)
+    : null;
 
   return (
     <>

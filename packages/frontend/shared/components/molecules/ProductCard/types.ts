@@ -106,4 +106,5 @@ export type B2BProductPanelProps = {
   description: string;
   isSoldOut: boolean;
   numberOfViews: number;
+  hasOpenedPriceOffer: boolean;
 };
