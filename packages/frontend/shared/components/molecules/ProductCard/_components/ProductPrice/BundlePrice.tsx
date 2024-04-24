@@ -27,7 +27,7 @@ const BundlePrice: React.FC<PropsType> = ({
   const bundlePrice = shouldShowBothPrices ? largestBundlePrice : price;
 
   return (
-    <div className={className}>
+    <div className={`flex flex-col gap-2 ${className}`}>
       <div className="flex gap-1">
         <p>{dict.b2b.productCard.price.quantities}:</p>
         <div className="w-fit">
@@ -36,23 +36,29 @@ const BundlePrice: React.FC<PropsType> = ({
           />
         </div>
       </div>
-      {shouldShowBothPrices && (
-        <p>
-          {dict.b2b.productCard.price.unitPrice}:{' '}
-          {formatCurrency(price, { round: true })}€
+      <div className="flex flex-col">
+        <p className="whitespace-nowrap">
+          {shouldShowBothPrices ? (
+            <>
+              {dict.b2b.productCard.price.unitPrice} :{' '}
+              {formatCurrency(price, { round: true })}€
+            </>
+          ) : (
+            <>&nbsp;</>
+          )}
         </p>
-      )}
-      <div className="flex items-center gap-1">
-        <span className="font-bold">
-          ${dict.b2b.productCard.price.unitBundlePrice}:
-        </span>
-        <ProductPrice
-          productId={shopifyId}
-          discounts={[]}
-          compareAtPrice={Math.max(compareAtPrice, price)}
-          price={bundlePrice}
-          showPriceRecap={false}
-        />
+        <div className="flex items-center gap-1">
+          <span className="whitespace-nowrap font-bold">
+            {dict.b2b.productCard.price.unitBundlePrice} :
+          </span>
+          <ProductPrice
+            productId={shopifyId}
+            discounts={[]}
+            compareAtPrice={Math.max(compareAtPrice, price)}
+            price={bundlePrice}
+            showPriceRecap={false}
+          />
+        </div>
       </div>
     </div>
   );

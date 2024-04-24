@@ -68,7 +68,7 @@ const B2BSearchResults: React.FC<{
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
         classNames={{
-          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-4',
+          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-5',
         }}
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
           const productCardProps = fromSearchToB2BProductCard(hit);

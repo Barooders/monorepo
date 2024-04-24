@@ -1195,8 +1195,8 @@ const fr = {
       details: 'Détails',
       price: {
         quantities: 'Unités par lot',
-        unitPrice: 'P.U.',
-        unitBundlePrice: 'P.U. par lot',
+        unitPrice: "A l'unité",
+        unitBundlePrice: 'En lot',
       },
     },
   },
