@@ -108,4 +108,3 @@ where
     sp.id is not null
     and coalesce(p."productType", sp.product_type) is not null
     and sp.title is not null
-    g
