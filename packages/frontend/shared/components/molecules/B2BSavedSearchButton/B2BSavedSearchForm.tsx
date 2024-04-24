@@ -47,7 +47,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
       });
     } else {
       const newSavedSearchId = await storeSavedSearch({
-        name: 'B2B search',
+        name: 'Recherche B2B',
         type: 'B2B_MAIN_PAGE',
         resultsUrl: window.location.href,
         query,

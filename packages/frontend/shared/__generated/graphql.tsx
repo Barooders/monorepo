@@ -32708,15 +32708,6 @@ export type ReviewsFieldsFragment = {
   };
 };
 
-export type SaveNewSearchAlertMutationVariables = Exact<{
-  searchAlertInput: SearchAlert_Insert_Input;
-}>;
-
-export type SaveNewSearchAlertMutation = {
-  __typename?: 'mutation_root';
-  insert_SearchAlert_one: { __typename?: 'SearchAlert'; id: string } | null;
-};
-
 export type FetchOnlineProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchOnlineProductsQuery = {
@@ -32862,6 +32853,7 @@ export type FetchSavedSearchesQuery = {
     __typename?: 'SavedSearch';
     id: string;
     name: string;
+    type: any;
     resultsUrl: string;
     FacetFilters: Array<{
       __typename?: 'FacetFilter';
@@ -32875,16 +32867,8 @@ export type FetchSavedSearchesQuery = {
       operator: string;
       value: string;
     }>;
+    SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
   }>;
-};
-
-export type RemoveSavedSearchMutationVariables = Exact<{
-  searchId: Scalars['String'];
-}>;
-
-export type RemoveSavedSearchMutation = {
-  __typename?: 'mutation_root';
-  delete_SavedSearch_by_pk: { __typename?: 'SavedSearch'; id: string } | null;
 };
 
 export type StoreProductFieldsFragment = {

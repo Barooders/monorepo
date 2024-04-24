@@ -14,9 +14,10 @@ import { useEffect } from 'react';
 
 const FETCH_SAVED_SEARCHES = gql`
   query fetchSavedSearches {
-    SavedSearch(where: { type: { _eq: "PUBLIC_COLLECTION_PAGE" } }) {
+    SavedSearch {
       id
       name
+      type
       resultsUrl
       FacetFilters {
         facetName
@@ -27,6 +28,9 @@ const FETCH_SAVED_SEARCHES = gql`
         facetName
         operator
         value
+      }
+      SearchAlert {
+        isActive
       }
     }
   }
