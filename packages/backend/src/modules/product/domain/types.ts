@@ -15,7 +15,7 @@ export type CreateProductModel = {
   manufacturer_suggested_retail_price?: number;
   imageUrl: string;
   year: number;
-  productType: string;
+  productType?: string;
   brand: {
     name: string;
   };

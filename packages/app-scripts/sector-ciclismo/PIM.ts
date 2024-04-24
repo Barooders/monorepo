@@ -132,7 +132,6 @@ function loopThroughFilledRows() {
   var dataRange = sheet.getDataRange();
   var values = dataRange.getValues();
 
-  const baroodersColumns = getColumns(PRIVATE_SHEET);
   const vendorColumns = getColumns(VENDOR_SHEET);
 
   for (var row = 2; row <= values.length; row++) {
@@ -160,30 +159,22 @@ function loopThroughFilledRows() {
       continue;
     }
 
+    sheet.getRange(row, vendorColumns['[PIM] Marque']).setValue(retrievedBrand);
     sheet
-      .getRange(row, baroodersColumns['[PIM] Marque'])
-      .setValue(retrievedBrand);
-    sheet
-      .getRange(row, baroodersColumns['[PIM] Famille'])
+      .getRange(row, vendorColumns['[PIM] Famille'])
       .setValue(retrievedFamily);
+    sheet.getRange(row, vendorColumns['[PIM] Modèle']).setValue(retrievedModel);
+    sheet.getRange(row, vendorColumns['[PIM] Année']).setValue(retrievedYear);
     sheet
-      .getRange(row, baroodersColumns['[PIM] Modèle'])
-      .setValue(retrievedModel);
-    sheet
-      .getRange(row, baroodersColumns['[PIM] Année'])
-      .setValue(retrievedYear);
-    sheet
-      .getRange(row, baroodersColumns['[PIM] Prix neuf'])
+      .getRange(row, vendorColumns['[PIM] Prix neuf'])
       .setValue(retrievedPrice);
     sheet
-      .getRange(row, baroodersColumns['[PIM] Type'])
+      .getRange(row, vendorColumns['[PIM] Type'])
       .setValue(retrievedProductType);
     sheet
-      .getRange(row, baroodersColumns['[PIM] Image'])
+      .getRange(row, vendorColumns['[PIM] Image'])
       .setValue(retrievedImageUrl);
-    sheet
-      .getRange(row, baroodersColumns['[PIM] Score'])
-      .setValue(normalizedScore);
+    sheet.getRange(row, vendorColumns['[PIM] Score']).setValue(normalizedScore);
   }
 }
 
@@ -200,4 +191,63 @@ function getColumns(sheetName: string): Record<string, number> {
   );
 
   return headersIndex;
+}
+
+function addProductToPim(row: number, vendorColumns: Record<string, number>) {
+  var sheet = getSheetTab(VENDOR_SHEET);
+
+  const isPimModelKo =
+    getValue(sheet, row, vendorColumns['[PIM] ok'])?.toLowerCase() === 'ko';
+
+  if (!isPimModelKo) {
+    return;
+  }
+
+  const textBody = JSON.stringify({
+    name: getValue(sheet, row, vendorColumns['Model']),
+    manufacturer_suggested_retail_price:
+      getValue(sheet, row, vendorColumns['MSRP']) ?? undefined,
+    imageUrl: getValue(sheet, row, vendorColumns['Image']),
+    brand: {
+      name: getValue(sheet, row, vendorColumns['Brand']),
+    },
+    // year: Number(getValue(sheet, row, vendorColumns['Année'])),
+    // productType: getValue(sheet, row, vendorColumns['Category']),
+  });
+
+  Logger.log('Adding product to PIM: ' + textBody);
+
+  try {
+    const response = UrlFetchApp.fetch(
+      `https://backend.barooders.com/v1/products/models`,
+      {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'Api-Key ' + BAROODERS_BACKEND_API_KEY,
+        },
+        payload: textBody,
+      },
+    );
+
+    if (response.getResponseCode() !== 200) {
+      Logger.log('Cannot add product to PIM: ' + response.getContentText());
+    } else {
+      Logger.log('Product has been added to PIM');
+    }
+  } catch (error) {
+    Logger.log('Cannot add product to PIM: ' + error);
+  }
+}
+
+function addAllMissingProductToPim() {
+  const vendorColumns = getColumns(VENDOR_SHEET);
+  var sheet = getSheetTab(VENDOR_SHEET)!;
+
+  const dataRange = sheet.getDataRange();
+  const values = dataRange.getValues();
+
+  for (var row = 2; row <= values.length; row++) {
+    addProductToPim(row, vendorColumns);
+  }
 }

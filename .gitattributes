@@ -5,3 +5,4 @@ packages/backend/src/config/env/staging.secret.ts filter=crypt diff=crypt merge=
 packages/backend/src/config/env/prod.secret.ts filter=crypt diff=crypt merge=crypt
 packages/backend/src/config/vendor/vendor.secret.ts filter=crypt diff=crypt merge=crypt
 packages/api-testing/**/environments/*.bru filter=crypt diff=crypt merge=crypt
+packages/app-scripts/**/secret.ts filter=crypt diff=crypt merge=crypt

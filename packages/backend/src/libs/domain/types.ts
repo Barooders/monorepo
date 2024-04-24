@@ -74,7 +74,7 @@ export type ProductModel = {
   brand: {
     name: string;
   };
-  productType: {
+  productType?: {
     name: string;
   };
 };
