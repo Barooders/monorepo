@@ -25,6 +25,9 @@ select_permissions:
         - initiatedBy
         - newPriceInCents
         - salesChannelName
+        - publicNote
+        - quantity
+        - includedBuyerCommissionPercentage
         - productId
         - productVariantId
         - status
@@ -37,6 +40,9 @@ select_permissions:
         - status
         - newPriceInCents
         - salesChannelName
+        - publicNote
+        - quantity
+        - includedBuyerCommissionPercentage
         - discountCode
         - id
         - productId
@@ -54,6 +60,9 @@ select_permissions:
         - status
         - newPriceInCents
         - salesChannelName
+        - publicNote
+        - quantity
+        - includedBuyerCommissionPercentage
         - discountCode
         - id
         - productId

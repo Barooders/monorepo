@@ -1,7 +1,7 @@
 import Link from '@/components/atoms/Link';
 import { OrderStatus } from '@/components/pages/Account/types';
 import { ShipmentTimeframe } from '@/config';
-import { AccountSections, ProductStatus } from '@/types';
+import { AccountSections, PriceOfferStatus, ProductStatus } from '@/types';
 import { formatCurrency } from '@/utils/currency';
 import { RiMoneyEuroCircleLine } from 'react-icons/ri';
 
@@ -735,6 +735,32 @@ const fr = {
       [ProductStatus.ARCHIVED]: 'Archivé',
       unknown: 'Statut inconnu',
     },
+    priceOfferStatus: {
+      [PriceOfferStatus.PROPOSED]: {
+        short: 'Reçue',
+        long: `L'offre est en cours d'analyse`,
+      },
+      [PriceOfferStatus.ACCEPTED]: {
+        short: 'Acceptée',
+        long: `L'offre a été payée`,
+      },
+      [PriceOfferStatus.CANCELED]: {
+        short: 'Annulée',
+        long: `L'offre a été annulée`,
+      },
+      [PriceOfferStatus.DECLINED]: {
+        short: 'Refusée',
+        long: `L'offre a été refusée`,
+      },
+      [PriceOfferStatus.BOUGHT_WITH]: {
+        short: 'Transaction réussie',
+        long: 'Une commande a été réalisée',
+      },
+      unknown: {
+        short: 'Inconnu',
+        long: 'Statut inconnu',
+      },
+    },
     orderStatus: {
       [OrderStatus.PAID]: {
         short: 'Payée',
@@ -832,12 +858,17 @@ const fr = {
       searchPlaceholder: {
         onlineProduct: 'Rechercher une annonce',
         order: 'Rechercher une commande',
+        priceOffer: 'Rechercher une offre',
       },
       columns: {
         label: 'Annonce',
+        priceOffer: 'Offre',
         price: 'Prix',
+        quantity: 'Quantité',
+        note: 'Commentaire',
         numberOfViews: 'Nombre de vues',
         orderDate: 'Date de commande',
+        createdAtDate: 'Date de création',
         orderName: 'Numéro de commande',
         status: 'Statut',
         actions: 'Actions',
@@ -947,6 +978,9 @@ const fr = {
   },
   purchases: {
     title: 'Mes achats',
+  },
+  priceOffers: {
+    title: 'Mes offres',
   },
   favorites: {
     title: 'Mes articles favoris',

@@ -5,19 +5,32 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { HiBadgeCheck, HiBell, HiKey, HiMail } from 'react-icons/hi';
 import { IoMdAnalytics } from 'react-icons/io';
-import { RiAccountCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
-import { OrderStatus } from './types';
 import { MdOutlinePriceChange } from 'react-icons/md';
+import { RiAccountCircleFill, RiQuestionnaireFill } from 'react-icons/ri';
+import { OrderStatus, PriceOfferStatus } from './types';
+
+const grayTag = 'bg-gray-100 text-gray-800';
+const yellowTag = 'bg-yellow-100 text-yellow-800';
+const greenTag = 'bg-green-100 text-green-800';
+const redTag = 'bg-red-100 text-red-800';
 
 export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
-  [OrderStatus.CREATED]: 'bg-gray-100 text-gray-800',
-  [OrderStatus.PAID]: 'bg-yellow-100 text-yellow-800',
-  [OrderStatus.LABELED]: 'bg-yellow-100 text-yellow-800',
-  [OrderStatus.SHIPPED]: 'bg-green-100 text-green-800',
-  [OrderStatus.DELIVERED]: 'bg-green-100 text-green-800',
-  [OrderStatus.CANCELED]: 'bg-red-100 text-red-800',
-  [OrderStatus.RETURNED]: 'bg-yellow-100 text-yellow-800',
-  [OrderStatus.PAID_OUT]: 'bg-green-100 text-green-800',
+  [OrderStatus.CREATED]: grayTag,
+  [OrderStatus.PAID]: yellowTag,
+  [OrderStatus.LABELED]: yellowTag,
+  [OrderStatus.SHIPPED]: greenTag,
+  [OrderStatus.DELIVERED]: greenTag,
+  [OrderStatus.CANCELED]: redTag,
+  [OrderStatus.RETURNED]: yellowTag,
+  [OrderStatus.PAID_OUT]: greenTag,
+};
+
+export const PRICE_OFFER_STATUS_COLORS: Record<PriceOfferStatus, string> = {
+  [PriceOfferStatus.PROPOSED]: grayTag,
+  [PriceOfferStatus.DECLINED]: redTag,
+  [PriceOfferStatus.CANCELED]: grayTag,
+  [PriceOfferStatus.BOUGHT_WITH]: greenTag,
+  [PriceOfferStatus.ACCEPTED]: greenTag,
 };
 
 const ICON_COLOR = '#828E96';

@@ -102,11 +102,11 @@ export type BrandRating_Comparison_Exp = {
 /** columns and relationships of "BundlePrice" */
 export type BundlePrice = {
   __typename?: 'BundlePrice';
-  /** An object relationship */
-  Product: Product;
   createdAt: Scalars['timestamp'];
   id: Scalars['String'];
   minQuantity: Scalars['Int'];
+  /** An object relationship */
+  product: Product;
   productId: Scalars['String'];
   unitPriceInCents: Scalars['bigint'];
 };
@@ -149,13 +149,13 @@ export type BundlePrice_Avg_Fields = {
 
 /** Boolean expression to filter rows from the table "BundlePrice". All fields are combined with a logical 'AND'. */
 export type BundlePrice_Bool_Exp = {
-  Product: InputMaybe<Product_Bool_Exp>;
   _and: InputMaybe<Array<BundlePrice_Bool_Exp>>;
   _not: InputMaybe<BundlePrice_Bool_Exp>;
   _or: InputMaybe<Array<BundlePrice_Bool_Exp>>;
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   minQuantity: InputMaybe<Int_Comparison_Exp>;
+  product: InputMaybe<Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   unitPriceInCents: InputMaybe<Bigint_Comparison_Exp>;
 };
@@ -174,10 +174,10 @@ export type BundlePrice_Inc_Input = {
 
 /** input type for inserting data into table "BundlePrice" */
 export type BundlePrice_Insert_Input = {
-  Product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   createdAt: InputMaybe<Scalars['timestamp']>;
   id: InputMaybe<Scalars['String']>;
   minQuantity: InputMaybe<Scalars['Int']>;
+  product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   productId: InputMaybe<Scalars['String']>;
   unitPriceInCents: InputMaybe<Scalars['bigint']>;
 };
@@ -220,10 +220,10 @@ export type BundlePrice_On_Conflict = {
 
 /** Ordering options when selecting data from "BundlePrice". */
 export type BundlePrice_Order_By = {
-  Product: InputMaybe<Product_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   minQuantity: InputMaybe<Order_By>;
+  product: InputMaybe<Product_Order_By>;
   productId: InputMaybe<Order_By>;
   unitPriceInCents: InputMaybe<Order_By>;
 };
@@ -32871,6 +32871,31 @@ export type FetchOrderDataSubscription = {
         }>;
       } | null;
     }>;
+  }>;
+};
+
+export type FetchPriceOffersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchPriceOffersQuery = {
+  __typename?: 'query_root';
+  PriceOffer: Array<{
+    __typename?: 'PriceOffer';
+    id: string;
+    createdAt: any;
+    publicNote: string | null;
+    quantity: number;
+    status: any;
+    newPriceInCents: any;
+    product: {
+      __typename?: 'Product';
+      storeExposedProduct: {
+        __typename?: 'dbt_store_exposed_product';
+        brand: string | null;
+        productType: string;
+        size: string | null;
+        firstImage: string | null;
+      } | null;
+    };
   }>;
 };
 
