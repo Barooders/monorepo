@@ -9,7 +9,7 @@ object_relationships:
     using:
       manual_configuration:
         column_mapping:
-          shopifyId: shopify_id
+          id: id
         insertion_order: null
         remote_table:
           name: store_b2b_product_variant
@@ -18,7 +18,7 @@ object_relationships:
     using:
       manual_configuration:
         column_mapping:
-          shopifyId: shopify_id
+          id: id
         insertion_order: null
         remote_table:
           name: store_b2c_product_variant
@@ -27,7 +27,7 @@ object_relationships:
     using:
       manual_configuration:
         column_mapping:
-          shopifyId: shopify_id
+          id: id
         insertion_order: null
         remote_table:
           name: store_exposed_product_variant
