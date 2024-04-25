@@ -15,7 +15,6 @@ with
     )
 
 select
-    bpv."shopify_id" as "shopify_id",
     bpv.id as id,
     ppv.quantity as "inventory_quantity",
     current_date as "syncDate",
