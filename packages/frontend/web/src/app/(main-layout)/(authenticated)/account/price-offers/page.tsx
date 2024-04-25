@@ -1,6 +1,6 @@
 'use client';
-import PriceOffersTable from '@/components/pages/Account/PriceOffersTable';
+import B2BPriceOffersTable from '@/components/pages/Account/B2BPriceOffersTable';
 
-const PriceOffersPage = () => <PriceOffersTable />;
+const PriceOffersPage = () => <B2BPriceOffersTable />;
 
 export default PriceOffersPage;

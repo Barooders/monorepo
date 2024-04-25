@@ -43,6 +43,17 @@ array_relationships:
           name: ProductVariant
           schema: public
 select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - EANCode
+        - GTINCode
+        - createdAt
+        - handle
+        - productType
+        - status
+      filter: {}
+    comment: ""
   - role: me_as_customer
     permission:
       columns:
@@ -53,7 +64,10 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter: {}
+      filter:
+        salesChannels:
+          salesChannelName:
+            _eq: PUBLIC
   - role: me_as_vendor
     permission:
       columns:
@@ -77,7 +91,10 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter: {}
+      filter:
+        salesChannels:
+          salesChannelName:
+            _eq: PUBLIC
   - role: registered_user
     permission:
       columns:
@@ -88,4 +105,7 @@ select_permissions:
         - productType
         - status
         - vendorId
-      filter: {}
+      filter:
+        salesChannels:
+          salesChannelName:
+            _eq: PUBLIC

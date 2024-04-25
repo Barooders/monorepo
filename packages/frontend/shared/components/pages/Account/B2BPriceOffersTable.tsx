@@ -82,11 +82,11 @@ const FETCH_PRICE_OFFERS = gql`
   }
 `;
 
-const PriceOffersTable = () => {
+const B2BPriceOffersTable = () => {
   const { user } = useHasuraToken();
   const fetchPriceOffers = useHasura<FetchPriceOffersQuery>(
     FETCH_PRICE_OFFERS,
-    HASURA_ROLES.ME_AS_CUSTOMER,
+    HASURA_ROLES.B2B_USER,
   );
 
   const [{ loading, error, value }, doFetchPriceOffers] = useWrappedAsyncFn<
@@ -207,4 +207,4 @@ const PriceOffersTable = () => {
   );
 };
 
-export default PriceOffersTable;
+export default B2BPriceOffersTable;
