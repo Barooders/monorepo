@@ -1,4 +1,4 @@
-import { Condition } from '@libs/domain/prisma.main.client';
+import { Condition, SalesChannelName } from '@libs/domain/prisma.main.client';
 import { jsonParse } from '@libs/helpers/json';
 import { JSDOM } from 'jsdom';
 import { cloneDeep } from 'lodash';
@@ -1015,6 +1015,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           variantCondition: 14,
           images: [17],
         },
+        salesChannels: [SalesChannelName.B2B],
       },
     },
   },
