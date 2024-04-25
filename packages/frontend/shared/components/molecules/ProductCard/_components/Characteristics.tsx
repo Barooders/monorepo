@@ -66,7 +66,7 @@ const Characteristics: React.FC<{
         {brand}{' '}
       </p>
       <p
-        className={`flex gap-1 tracking-tight text-gray-600 ${
+        className={`flex flex-wrap gap-1 tracking-tight text-gray-600 ${
           componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'
         }`}
       >
