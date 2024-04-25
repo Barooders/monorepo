@@ -6,19 +6,17 @@
 
 WITH variant_data AS (
     SELECT
-        bpv."productId",
-        min(epv.condition) condition,
+        ppv."productId",
+        min(ppv.condition) as condition,
         max(
             CASE
-                WHEN b2bpv.compare_at_price IS NULL OR b2bpv.compare_at_price = 0 THEN 0
-                WHEN b2bpv.price IS NULL OR b2bpv.price = 0 THEN 0
-                ELSE ((b2bpv.compare_at_price - b2bpv.price) / b2bpv.compare_at_price) * 100
+                WHEN ppv."compareAtPriceInCents" IS NULL OR ppv."compareAtPriceInCents" = 0 THEN 0
+                WHEN ppv."priceInCents" IS NULL OR ppv."priceInCents" = 0 THEN 0
+                ELSE ((ppv."compareAtPriceInCents" - ppv."priceInCents") / ppv."compareAtPriceInCents") * 100
             END
         ) AS highest_discount
-    FROM {{ref('store_b2c_product_variant')}} b2bpv
-    LEFT JOIN {{ref('store_exposed_product_variant')}} epv ON epv."shopify_id"=b2bpv."shopify_id"
-    LEFT JOIN {{ref('store_base_product_variant')}} bpv ON bpv."shopify_id"=b2bpv."shopify_id"
-    GROUP BY bpv."productId"
+    FROM public."ProductVariant" ppv
+    GROUP BY ppv."productId"
 ), image_data AS (
     SELECT
         "productId",
