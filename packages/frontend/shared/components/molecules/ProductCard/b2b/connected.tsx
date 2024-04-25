@@ -43,7 +43,6 @@ export const FETCH_B2B_PRODUCT = gql`
           title
           condition
           inventory_quantity
-          shopify_id
         }
         b2bVariant {
           price
