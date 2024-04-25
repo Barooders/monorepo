@@ -595,13 +595,13 @@ model SalesChannel {
 }
 
 model ProductSalesChannel {
+  id               String          @id @default(dbgenerated("(gen_random_uuid())::text"))
   salesChannelName SalesChannelName
   salesChannel     SalesChannel     @relation(fields: [salesChannelName], references: [name])
   productId        String
   product          Product          @relation(fields: [productId], references: [id])
   createdAt        DateTime         @default(now())
 
-  @@id([salesChannelName, productId])
   @@index([productId])
   @@index([salesChannelName])
   @@schema("public")
