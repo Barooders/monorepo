@@ -12,11 +12,32 @@ object_relationships:
           name: store_base_product_variant
           schema: dbt
 select_permissions:
+  - role: me_as_customer
+    permission:
+      columns:
+        - compare_at_price
+        - price
+      filter: {}
+    comment: ""
+  - role: me_as_vendor
+    permission:
+      columns:
+        - compare_at_price
+        - price
+      filter: {}
+    comment: ""
   - role: public
     permission:
       columns:
         - price
         - compare_at_price
         - shopify_id
+      filter: {}
+    comment: ""
+  - role: registered_user
+    permission:
+      columns:
+        - compare_at_price
+        - price
       filter: {}
     comment: ""

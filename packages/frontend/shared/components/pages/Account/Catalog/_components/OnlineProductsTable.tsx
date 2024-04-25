@@ -65,7 +65,7 @@ const FETCH_ONLINE_PRODUCTS = gql`
           numberOfViews
           size
           product {
-            variants(order_by: { variant: { price: asc } }, limit: 1) {
+            variants(order_by: { b2cVariant: { price: asc } }, limit: 1) {
               variant {
                 condition
               }

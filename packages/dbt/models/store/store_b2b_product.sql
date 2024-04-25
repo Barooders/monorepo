@@ -18,8 +18,7 @@ WITH largest_bundle_prices AS (
 
 SELECT
     ep.id AS id,
-    (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * lbp."unitPriceInCents" AS "largest_bundle_price_in_cents",
-
+    (1 + GET_GLOBAL_B2B_BUYER_COMMISSION() / 100) * lbp."unitPriceInCents" AS "largest_bundle_price_in_cents"
 FROM {{ref('store_exposed_product')}} ep
 LEFT JOIN public."ProductSalesChannel" psc ON ep.id = psc."productId"
 LEFT JOIN largest_bundle_prices lbp ON lbp."productId" = ep.id

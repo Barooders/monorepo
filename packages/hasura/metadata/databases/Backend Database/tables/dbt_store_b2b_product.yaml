@@ -17,6 +17,5 @@ select_permissions:
       columns:
         - id
         - largest_bundle_price_in_cents
-        - total_quantity
       filter: {}
     comment: ""

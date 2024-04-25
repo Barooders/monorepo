@@ -15,6 +15,31 @@ object_relationships:
     using:
       foreign_key_constraint_on: productVariantId
 select_permissions:
+  - role: b2b_user
+    permission:
+      columns:
+        - buyerId
+        - createdAt
+        - discountCode
+        - id
+        - includedBuyerCommissionPercentage
+        - initiatedBy
+        - name
+        - newPriceInCents
+        - productId
+        - productVariantId
+        - publicNote
+        - quantity
+        - salesChannelName
+        - status
+      filter:
+        _or:
+          - buyerId:
+              _eq: X-Hasura-User-Id
+          - product:
+              vendorId:
+                _eq: X-Hasura-User-Id
+    comment: ""
   - role: me_as_customer
     permission:
       columns:
