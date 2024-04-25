@@ -39,8 +39,8 @@ feed_gmc as (
             end as etat,
         p.size,
         case
-            when p.modele is not null and etat != 'Neuf' then ARRAY_TO_STRING([initcap(p.brand), p.modele, upper(p.size), p.etat], " | ") 
-            when p.modele is not null and etat = 'Neuf' then ARRAY_TO_STRING([initcap(p.brand), p.modele, upper(p.size)], " | ") 
+            when p.modele is not null and etat != 'Neuf' then ARRAY_TO_STRING([initcap(p.brand), p.modele, upper(p.size), p.etat], " | ")
+            when p.modele is not null and etat = 'Neuf' then ARRAY_TO_STRING([initcap(p.brand), p.modele, upper(p.size)], " | ")
             else p.title end as title_proper,
         case when p.modele is null then 0 else 1 end as has_modele,
         DATE_DIFF(current_date(), p.creation_date, day) as age,
@@ -81,9 +81,9 @@ feed_gmc as (
         dp.discount_title,
         case when c.buyercommissionrate < 100 then true else false end as new_commission,
         Case
-          --SKI 
-          --when variable.Skisdynamic and safe_divide(perfsByBrand.ca,perfsByBrand.cost) > 2 then "Top Brand ski" 
-          --when variable.Skisdynamic and safe_divide(perfsByBrand.ca,perfsByBrand.cost) < 1 then "Low Brand ski" 
+          --SKI
+          --when variable.Skisdynamic and safe_divide(perfsByBrand.ca,perfsByBrand.cost) > 2 then "Top Brand ski"
+          --when variable.Skisdynamic and safe_divide(perfsByBrand.ca,perfsByBrand.cost) < 1 then "Low Brand ski"
           --when variable.Skisdynamic then "Medium Brand ski"
           when bc.universe = "Ski | Snow" and bc.product_category in ("Matériel", "Chaussures", "Accessoires") then "Top Brand ski" -- en attendant d'avoir configuré perfs dynamiques avec channable x Gads
 
@@ -94,7 +94,7 @@ feed_gmc as (
 
           when p.scoring = "B" and p.product_type in ("VTT", "VTT électriques", "Cyclocross", "BMX", "Vélos de trekking", "Vélos de voyage et trekking électriques") then "B VTT VTC"
           when p.scoring = "B" and p.product_type in ("Vélos de course", "Vélos de triathlon", "Gravel", "Vélos de route", "Vélos de route électriques", "Vélos de contre la montre", "Cyclocross", "Gravel électriques") then "B route gravel"
-          
+
           when p.scoring in ("A", "B") and p.product_type in ("VTC", "VTC électriques", "Vélos de ville électriques", "Vélos électriques", "Vélos vintage", "Vélos enfant", "Vélos urbains et hollandais", "Vélos pliants", "Vélos longtail", "Vélos cargo", "Fixie et Single Speed") then "A B vélos ville"
 
           when p.scoring = "C" and p.product_type in ("VTT", "VTT électriques", "Cyclocross", "BMX", "Vélos de trekking", "Vélos de voyage et trekking électriques") then "C VTT VTC"
@@ -119,16 +119,17 @@ feed_gmc as (
     left JOIN {{ref('breadcrumbs')}} as bc on bc.product_type = p.product_type
     left JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.id as string) and snap.date = date_sub(current_date, interval 1 day)
     left join barooders_backend_public.customer as c on cast(c.shopifyid as string) = cast(p.vendor_id as string)
-
+    left join barooders_backend_public.productsaleschannel ON productsaleschannel.productid = p.id
     where
         (
-            (p.status = 'active' AND v.inventory_quantity > 0) 
+            (p.status = 'active' AND v.inventory_quantity > 0)
             OR (snap.quantity > 0))
+        AND productsaleschannel.saleschannelname = 'PUBLIC'
         AND p.vendor != 'Commission'
         AND not (bc.universe = "Vélo | VTT" AND bc.product_category = "Vélos" AND p.etat = "Bon état" and p.owner = 'c2c')
         AND not (bc.product_category != "Vélos" AND p.scoring = "C")
         AND not (p.owner = 'c2c' and DATE_DIFF(current_date(), p.creation_date, day) > 28)
         AND not (p.vendor not in ('Tubike', 'MVélos', 'TBike', 'TNC', 'EBSolutions', 'Darosa', 'LinkBike', 'Cyclable G', 'Cyclable M', 'Bonnieux Bikes', 'BICIRIO', 'Free', 'Cyclesaveyron') and bc.universe = "Vélo | VTT" AND bc.product_category = "Vélos" and DATE_DIFF(current_date(), p.creation_date, day) > 56)
-)  
-  
+)
+
 SELECT * from feed_gmc
