@@ -60,7 +60,7 @@ const FETCH_CONVERSATION_PRODUCT_DETAILS = gql`
       id
       handle
       variants {
-        storeExposedVariant {
+        storeB2CVariant {
           price
         }
       }
@@ -127,7 +127,7 @@ const extractNegociationAgreement = (
 const extractOriginalPrice = (
   response: FetchConversationProductDetailsQuery,
 ): number => {
-  const price = first(first(response.Product)?.variants)?.storeExposedVariant
+  const price = first(first(response.Product)?.variants)?.storeB2CVariant
     ?.price;
 
   if (!price) throw new Error('Could not find price on product');

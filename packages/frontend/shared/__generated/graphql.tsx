@@ -13193,19 +13193,10 @@ export type Date_Comparison_Exp = {
 /** columns and relationships of "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product = {
   __typename?: 'dbt_store_b2b_product';
-  brand: Maybe<Scalars['String']>;
-  first_image: Maybe<Scalars['String']>;
-  handle: Scalars['String'];
   id: Scalars['String'];
   largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
-  product_type: Scalars['String'];
-  published_at: Maybe<Scalars['timestamptz']>;
-  status: Scalars['ProductStatus'];
-  sync_date: Scalars['date'];
-  title: Scalars['String'];
-  total_quantity: Scalars['bigint'];
 };
 
 /** aggregated selection of "dbt.store_b2b_product" */
@@ -13241,7 +13232,6 @@ export type Dbt_Store_B2b_Product_Aggregate_FieldsCountArgs = {
 export type Dbt_Store_B2b_Product_Avg_Fields = {
   __typename?: 'dbt_store_b2b_product_avg_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_b2b_product". All fields are combined with a logical 'AND'. */
@@ -13249,18 +13239,9 @@ export type Dbt_Store_B2b_Product_Bool_Exp = {
   _and: InputMaybe<Array<Dbt_Store_B2b_Product_Bool_Exp>>;
   _not: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_B2b_Product_Bool_Exp>>;
-  brand: InputMaybe<String_Comparison_Exp>;
-  first_image: InputMaybe<String_Comparison_Exp>;
-  handle: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   largest_bundle_price_in_cents: InputMaybe<Bigint_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
-  product_type: InputMaybe<String_Comparison_Exp>;
-  published_at: InputMaybe<Timestamptz_Comparison_Exp>;
-  status: InputMaybe<ProductStatus_Comparison_Exp>;
-  sync_date: InputMaybe<Date_Comparison_Exp>;
-  title: InputMaybe<String_Comparison_Exp>;
-  total_quantity: InputMaybe<Bigint_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "dbt.store_b2b_product" */
@@ -13272,55 +13253,27 @@ export enum Dbt_Store_B2b_Product_Constraint {
 /** input type for incrementing numeric columns in table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Inc_Input = {
   largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
 };
 
 /** input type for inserting data into table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Insert_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  first_image: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
   id: InputMaybe<Scalars['String']>;
   largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
-  product_type: InputMaybe<Scalars['String']>;
-  published_at: InputMaybe<Scalars['timestamptz']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_B2b_Product_Max_Fields = {
   __typename?: 'dbt_store_b2b_product_max_fields';
-  brand: Maybe<Scalars['String']>;
-  first_image: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
   largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
-  product_type: Maybe<Scalars['String']>;
-  published_at: Maybe<Scalars['timestamptz']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  sync_date: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  total_quantity: Maybe<Scalars['bigint']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_B2b_Product_Min_Fields = {
   __typename?: 'dbt_store_b2b_product_min_fields';
-  brand: Maybe<Scalars['String']>;
-  first_image: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
   id: Maybe<Scalars['String']>;
   largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
-  product_type: Maybe<Scalars['String']>;
-  published_at: Maybe<Scalars['timestamptz']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  sync_date: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  total_quantity: Maybe<Scalars['bigint']>;
 };
 
 /** response of any mutation on the table "dbt.store_b2b_product" */
@@ -13348,18 +13301,9 @@ export type Dbt_Store_B2b_Product_On_Conflict = {
 
 /** Ordering options when selecting data from "dbt.store_b2b_product". */
 export type Dbt_Store_B2b_Product_Order_By = {
-  brand: InputMaybe<Order_By>;
-  first_image: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   largest_bundle_price_in_cents: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
-  product_type: InputMaybe<Order_By>;
-  published_at: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  sync_date: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  total_quantity: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: dbt.store_b2b_product */
@@ -13370,63 +13314,33 @@ export type Dbt_Store_B2b_Product_Pk_Columns_Input = {
 /** select columns of table "dbt.store_b2b_product" */
 export enum Dbt_Store_B2b_Product_Select_Column {
   /** column name */
-  Brand = 'brand',
-  /** column name */
-  FirstImage = 'first_image',
-  /** column name */
-  Handle = 'handle',
-  /** column name */
   Id = 'id',
   /** column name */
   LargestBundlePriceInCents = 'largest_bundle_price_in_cents',
-  /** column name */
-  ProductType = 'product_type',
-  /** column name */
-  PublishedAt = 'published_at',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  SyncDate = 'sync_date',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  TotalQuantity = 'total_quantity',
 }
 
 /** input type for updating data in table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Set_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  first_image: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
   id: InputMaybe<Scalars['String']>;
   largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
-  product_type: InputMaybe<Scalars['String']>;
-  published_at: InputMaybe<Scalars['timestamptz']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_B2b_Product_Stddev_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_B2b_Product_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_pop_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_B2b_Product_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_samp_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** Streaming cursor of the table "dbt_store_b2b_product" */
@@ -13439,50 +13353,22 @@ export type Dbt_Store_B2b_Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2b_Product_Stream_Cursor_Value_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  first_image: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
   id: InputMaybe<Scalars['String']>;
   largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
-  product_type: InputMaybe<Scalars['String']>;
-  published_at: InputMaybe<Scalars['timestamptz']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_B2b_Product_Sum_Fields = {
   __typename?: 'dbt_store_b2b_product_sum_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
-  total_quantity: Maybe<Scalars['bigint']>;
 };
 
 /** update columns of table "dbt.store_b2b_product" */
 export enum Dbt_Store_B2b_Product_Update_Column {
   /** column name */
-  Brand = 'brand',
-  /** column name */
-  FirstImage = 'first_image',
-  /** column name */
-  Handle = 'handle',
-  /** column name */
   Id = 'id',
   /** column name */
   LargestBundlePriceInCents = 'largest_bundle_price_in_cents',
-  /** column name */
-  ProductType = 'product_type',
-  /** column name */
-  PublishedAt = 'published_at',
-  /** column name */
-  Status = 'status',
-  /** column name */
-  SyncDate = 'sync_date',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  TotalQuantity = 'total_quantity',
 }
 
 export type Dbt_Store_B2b_Product_Updates = {
@@ -13498,34 +13384,26 @@ export type Dbt_Store_B2b_Product_Updates = {
 export type Dbt_Store_B2b_Product_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_var_pop_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_B2b_Product_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_var_samp_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_B2b_Product_Variance_Fields = {
   __typename?: 'dbt_store_b2b_product_variance_fields';
   largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant = {
   __typename?: 'dbt_store_b2b_product_variant';
   compare_at_price: Maybe<Scalars['float8']>;
-  condition: Maybe<Scalars['Condition']>;
-  inventory_quantity: Scalars['bigint'];
   price: Scalars['float8'];
   shopify_id: Scalars['bigint'];
-  sync_date: Scalars['date'];
-  title: Scalars['String'];
-  updated_at: Scalars['timestamptz'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
@@ -13563,7 +13441,6 @@ export type Dbt_Store_B2b_Product_Variant_Aggregate_FieldsCountArgs = {
 export type Dbt_Store_B2b_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_avg_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13574,13 +13451,8 @@ export type Dbt_Store_B2b_Product_Variant_Bool_Exp = {
   _not: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Bool_Exp>>;
   compare_at_price: InputMaybe<Float8_Comparison_Exp>;
-  condition: InputMaybe<Condition_Comparison_Exp>;
-  inventory_quantity: InputMaybe<Bigint_Comparison_Exp>;
   price: InputMaybe<Float8_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
-  sync_date: InputMaybe<Date_Comparison_Exp>;
-  title: InputMaybe<String_Comparison_Exp>;
-  updated_at: InputMaybe<Timestamptz_Comparison_Exp>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
@@ -13593,7 +13465,6 @@ export enum Dbt_Store_B2b_Product_Variant_Constraint {
 /** input type for incrementing numeric columns in table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Inc_Input = {
   compare_at_price: InputMaybe<Scalars['float8']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
@@ -13601,13 +13472,8 @@ export type Dbt_Store_B2b_Product_Variant_Inc_Input = {
 /** input type for inserting data into table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Insert_Input = {
   compare_at_price: InputMaybe<Scalars['float8']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
@@ -13615,26 +13481,16 @@ export type Dbt_Store_B2b_Product_Variant_Insert_Input = {
 export type Dbt_Store_B2b_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_max_fields';
   compare_at_price: Maybe<Scalars['float8']>;
-  condition: Maybe<Scalars['Condition']>;
-  inventory_quantity: Maybe<Scalars['bigint']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
-  sync_date: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  updated_at: Maybe<Scalars['timestamptz']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_B2b_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_min_fields';
   compare_at_price: Maybe<Scalars['float8']>;
-  condition: Maybe<Scalars['Condition']>;
-  inventory_quantity: Maybe<Scalars['bigint']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
-  sync_date: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  updated_at: Maybe<Scalars['timestamptz']>;
 };
 
 /** response of any mutation on the table "dbt.store_b2b_product_variant" */
@@ -13663,13 +13519,8 @@ export type Dbt_Store_B2b_Product_Variant_On_Conflict = {
 /** Ordering options when selecting data from "dbt.store_b2b_product_variant". */
 export type Dbt_Store_B2b_Product_Variant_Order_By = {
   compare_at_price: InputMaybe<Order_By>;
-  condition: InputMaybe<Order_By>;
-  inventory_quantity: InputMaybe<Order_By>;
   price: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
-  sync_date: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  updated_at: InputMaybe<Order_By>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Order_By>;
 };
 
@@ -13683,38 +13534,22 @@ export enum Dbt_Store_B2b_Product_Variant_Select_Column {
   /** column name */
   CompareAtPrice = 'compare_at_price',
   /** column name */
-  Condition = 'condition',
-  /** column name */
-  InventoryQuantity = 'inventory_quantity',
-  /** column name */
   Price = 'price',
   /** column name */
   ShopifyId = 'shopify_id',
-  /** column name */
-  SyncDate = 'sync_date',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at',
 }
 
 /** input type for updating data in table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Set_Input = {
   compare_at_price: InputMaybe<Scalars['float8']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_B2b_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13723,7 +13558,6 @@ export type Dbt_Store_B2b_Product_Variant_Stddev_Fields = {
 export type Dbt_Store_B2b_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_pop_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13732,7 +13566,6 @@ export type Dbt_Store_B2b_Product_Variant_Stddev_Pop_Fields = {
 export type Dbt_Store_B2b_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_samp_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13748,20 +13581,14 @@ export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Value_Input = {
   compare_at_price: InputMaybe<Scalars['float8']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
   price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
-  sync_date: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_B2b_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_sum_fields';
   compare_at_price: Maybe<Scalars['float8']>;
-  inventory_quantity: Maybe<Scalars['bigint']>;
   price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
@@ -13771,19 +13598,9 @@ export enum Dbt_Store_B2b_Product_Variant_Update_Column {
   /** column name */
   CompareAtPrice = 'compare_at_price',
   /** column name */
-  Condition = 'condition',
-  /** column name */
-  InventoryQuantity = 'inventory_quantity',
-  /** column name */
   Price = 'price',
   /** column name */
   ShopifyId = 'shopify_id',
-  /** column name */
-  SyncDate = 'sync_date',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  UpdatedAt = 'updated_at',
 }
 
 export type Dbt_Store_B2b_Product_Variant_Updates = {
@@ -13799,7 +13616,6 @@ export type Dbt_Store_B2b_Product_Variant_Updates = {
 export type Dbt_Store_B2b_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_var_pop_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13808,7 +13624,6 @@ export type Dbt_Store_B2b_Product_Variant_Var_Pop_Fields = {
 export type Dbt_Store_B2b_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_var_samp_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -13817,7 +13632,6 @@ export type Dbt_Store_B2b_Product_Variant_Var_Samp_Fields = {
 export type Dbt_Store_B2b_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_variance_fields';
   compare_at_price: Maybe<Scalars['Float']>;
-  inventory_quantity: Maybe<Scalars['Float']>;
   price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
@@ -16689,9 +16503,7 @@ export type Dbt_Store_Exposed_Product_Variance_Fields = {
 /** columns and relationships of "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant = {
   __typename?: 'dbt_store_exposed_product_variant';
-  compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
-  inventoryQuantity: Scalars['bigint'];
   inventory_quantity: Scalars['bigint'];
   isRefurbished: Maybe<Scalars['Boolean']>;
   option1: Maybe<Scalars['String']>;
@@ -16700,7 +16512,6 @@ export type Dbt_Store_Exposed_Product_Variant = {
   option2Name: Maybe<Scalars['String']>;
   option3: Maybe<Scalars['String']>;
   option3Name: Maybe<Scalars['String']>;
-  price: Scalars['float8'];
   requiresShipping: Maybe<Scalars['Boolean']>;
   shopify_id: Scalars['bigint'];
   syncDate: Scalars['date'];
@@ -16742,10 +16553,7 @@ export type Dbt_Store_Exposed_Product_Variant_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type Dbt_Store_Exposed_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_avg_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
@@ -16754,9 +16562,7 @@ export type Dbt_Store_Exposed_Product_Variant_Bool_Exp = {
   _and: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Bool_Exp>>;
   _not: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Bool_Exp>>;
-  compareAtPrice: InputMaybe<Float8_Comparison_Exp>;
   condition: InputMaybe<Condition_Comparison_Exp>;
-  inventoryQuantity: InputMaybe<Bigint_Comparison_Exp>;
   inventory_quantity: InputMaybe<Bigint_Comparison_Exp>;
   isRefurbished: InputMaybe<Boolean_Comparison_Exp>;
   option1: InputMaybe<String_Comparison_Exp>;
@@ -16765,7 +16571,6 @@ export type Dbt_Store_Exposed_Product_Variant_Bool_Exp = {
   option2Name: InputMaybe<String_Comparison_Exp>;
   option3: InputMaybe<String_Comparison_Exp>;
   option3Name: InputMaybe<String_Comparison_Exp>;
-  price: InputMaybe<Float8_Comparison_Exp>;
   requiresShipping: InputMaybe<Boolean_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
   syncDate: InputMaybe<Date_Comparison_Exp>;
@@ -16782,18 +16587,13 @@ export enum Dbt_Store_Exposed_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Inc_Input = {
-  compareAtPrice: InputMaybe<Scalars['float8']>;
-  inventoryQuantity: InputMaybe<Scalars['bigint']>;
   inventory_quantity: InputMaybe<Scalars['bigint']>;
-  price: InputMaybe<Scalars['float8']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
 };
 
 /** input type for inserting data into table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Insert_Input = {
-  compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
-  inventoryQuantity: InputMaybe<Scalars['bigint']>;
   inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
@@ -16802,7 +16602,6 @@ export type Dbt_Store_Exposed_Product_Variant_Insert_Input = {
   option2Name: InputMaybe<Scalars['String']>;
   option3: InputMaybe<Scalars['String']>;
   option3Name: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
   requiresShipping: InputMaybe<Scalars['Boolean']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
   syncDate: InputMaybe<Scalars['date']>;
@@ -16814,9 +16613,7 @@ export type Dbt_Store_Exposed_Product_Variant_Insert_Input = {
 /** aggregate max on columns */
 export type Dbt_Store_Exposed_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_max_fields';
-  compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
-  inventoryQuantity: Maybe<Scalars['bigint']>;
   inventory_quantity: Maybe<Scalars['bigint']>;
   option1: Maybe<Scalars['String']>;
   option1Name: Maybe<Scalars['String']>;
@@ -16824,7 +16621,6 @@ export type Dbt_Store_Exposed_Product_Variant_Max_Fields = {
   option2Name: Maybe<Scalars['String']>;
   option3: Maybe<Scalars['String']>;
   option3Name: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
   syncDate: Maybe<Scalars['date']>;
   title: Maybe<Scalars['String']>;
@@ -16834,9 +16630,7 @@ export type Dbt_Store_Exposed_Product_Variant_Max_Fields = {
 /** aggregate min on columns */
 export type Dbt_Store_Exposed_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_min_fields';
-  compareAtPrice: Maybe<Scalars['float8']>;
   condition: Maybe<Scalars['Condition']>;
-  inventoryQuantity: Maybe<Scalars['bigint']>;
   inventory_quantity: Maybe<Scalars['bigint']>;
   option1: Maybe<Scalars['String']>;
   option1Name: Maybe<Scalars['String']>;
@@ -16844,7 +16638,6 @@ export type Dbt_Store_Exposed_Product_Variant_Min_Fields = {
   option2Name: Maybe<Scalars['String']>;
   option3: Maybe<Scalars['String']>;
   option3Name: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
   syncDate: Maybe<Scalars['date']>;
   title: Maybe<Scalars['String']>;
@@ -16876,9 +16669,7 @@ export type Dbt_Store_Exposed_Product_Variant_On_Conflict = {
 
 /** Ordering options when selecting data from "dbt.store_exposed_product_variant". */
 export type Dbt_Store_Exposed_Product_Variant_Order_By = {
-  compareAtPrice: InputMaybe<Order_By>;
   condition: InputMaybe<Order_By>;
-  inventoryQuantity: InputMaybe<Order_By>;
   inventory_quantity: InputMaybe<Order_By>;
   isRefurbished: InputMaybe<Order_By>;
   option1: InputMaybe<Order_By>;
@@ -16887,7 +16678,6 @@ export type Dbt_Store_Exposed_Product_Variant_Order_By = {
   option2Name: InputMaybe<Order_By>;
   option3: InputMaybe<Order_By>;
   option3Name: InputMaybe<Order_By>;
-  price: InputMaybe<Order_By>;
   requiresShipping: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
   syncDate: InputMaybe<Order_By>;
@@ -16904,8 +16694,6 @@ export type Dbt_Store_Exposed_Product_Variant_Pk_Columns_Input = {
 /** select columns of table "dbt.store_exposed_product_variant" */
 export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
   /** column name */
-  CompareAtPrice = 'compareAtPrice',
-  /** column name */
   Condition = 'condition',
   /** column name */
   InventoryQuantity = 'inventory_quantity',
@@ -16923,8 +16711,6 @@ export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
   Option3 = 'option3',
   /** column name */
   Option3Name = 'option3Name',
-  /** column name */
-  Price = 'price',
   /** column name */
   RequiresShipping = 'requiresShipping',
   /** column name */
@@ -16939,9 +16725,7 @@ export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Set_Input = {
-  compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
-  inventoryQuantity: InputMaybe<Scalars['bigint']>;
   inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
@@ -16950,7 +16734,6 @@ export type Dbt_Store_Exposed_Product_Variant_Set_Input = {
   option2Name: InputMaybe<Scalars['String']>;
   option3: InputMaybe<Scalars['String']>;
   option3Name: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
   requiresShipping: InputMaybe<Scalars['Boolean']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
   syncDate: InputMaybe<Scalars['date']>;
@@ -16961,30 +16744,21 @@ export type Dbt_Store_Exposed_Product_Variant_Set_Input = {
 /** aggregate stddev on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_pop_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_samp_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
@@ -16998,9 +16772,7 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
-  compareAtPrice: InputMaybe<Scalars['float8']>;
   condition: InputMaybe<Scalars['Condition']>;
-  inventoryQuantity: InputMaybe<Scalars['bigint']>;
   inventory_quantity: InputMaybe<Scalars['bigint']>;
   isRefurbished: InputMaybe<Scalars['Boolean']>;
   option1: InputMaybe<Scalars['String']>;
@@ -17009,7 +16781,6 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
   option2Name: InputMaybe<Scalars['String']>;
   option3: InputMaybe<Scalars['String']>;
   option3Name: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
   requiresShipping: InputMaybe<Scalars['Boolean']>;
   shopify_id: InputMaybe<Scalars['bigint']>;
   syncDate: InputMaybe<Scalars['date']>;
@@ -17020,17 +16791,12 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Dbt_Store_Exposed_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_sum_fields';
-  compareAtPrice: Maybe<Scalars['float8']>;
-  inventoryQuantity: Maybe<Scalars['bigint']>;
   inventory_quantity: Maybe<Scalars['bigint']>;
-  price: Maybe<Scalars['float8']>;
   shopify_id: Maybe<Scalars['bigint']>;
 };
 
 /** update columns of table "dbt.store_exposed_product_variant" */
 export enum Dbt_Store_Exposed_Product_Variant_Update_Column {
-  /** column name */
-  CompareAtPrice = 'compareAtPrice',
   /** column name */
   Condition = 'condition',
   /** column name */
@@ -17049,8 +16815,6 @@ export enum Dbt_Store_Exposed_Product_Variant_Update_Column {
   Option3 = 'option3',
   /** column name */
   Option3Name = 'option3Name',
-  /** column name */
-  Price = 'price',
   /** column name */
   RequiresShipping = 'requiresShipping',
   /** column name */
@@ -17075,30 +16839,21 @@ export type Dbt_Store_Exposed_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Exposed_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_pop_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Exposed_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_samp_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Exposed_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_variance_fields';
-  compareAtPrice: Maybe<Scalars['Float']>;
-  inventoryQuantity: Maybe<Scalars['Float']>;
   inventory_quantity: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
   shopify_id: Maybe<Scalars['Float']>;
 };
 
@@ -32514,8 +32269,8 @@ export type FetchConversationProductDetailsQuery = {
     vendorId: any;
     variants: Array<{
       __typename?: 'ProductVariant';
-      storeExposedVariant: {
-        __typename?: 'dbt_store_exposed_product_variant';
+      storeB2CVariant: {
+        __typename?: 'dbt_store_b2c_product_variant';
         price: any;
       } | null;
     }>;
@@ -32618,7 +32373,6 @@ export type FetchB2BProductQuery = {
         title: string;
         condition: any | null;
         inventory_quantity: any;
-        shopify_id: any;
       } | null;
       b2bVariant: {
         __typename?: 'dbt_store_b2b_product_variant';
@@ -32835,6 +32589,34 @@ export type ReviewsFieldsFragment = {
   };
 };
 
+export type FetchPriceOffersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchPriceOffersQuery = {
+  __typename?: 'query_root';
+  PriceOffer: Array<{
+    __typename?: 'PriceOffer';
+    id: string;
+    buyerId: any;
+    includedBuyerCommissionPercentage: any;
+    createdAt: any;
+    publicNote: string | null;
+    quantity: number;
+    status: any;
+    newPriceInCents: any;
+    productId: string;
+    product: {
+      __typename?: 'Product';
+      storeExposedProduct: {
+        __typename?: 'dbt_store_exposed_product';
+        brand: string | null;
+        productType: string;
+        size: string | null;
+        firstImage: string | null;
+      } | null;
+    };
+  }>;
+};
+
 export type FetchOnlineProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchOnlineProductsQuery = {
@@ -32943,34 +32725,6 @@ export type FetchOrderDataSubscription = {
         }>;
       } | null;
     }>;
-  }>;
-};
-
-export type FetchPriceOffersQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchPriceOffersQuery = {
-  __typename?: 'query_root';
-  PriceOffer: Array<{
-    __typename?: 'PriceOffer';
-    id: string;
-    buyerId: any;
-    includedBuyerCommissionPercentage: any;
-    createdAt: any;
-    publicNote: string | null;
-    quantity: number;
-    status: any;
-    newPriceInCents: any;
-    productId: string;
-    product: {
-      __typename?: 'Product';
-      storeExposedProduct: {
-        __typename?: 'dbt_store_exposed_product';
-        brand: string | null;
-        productType: string;
-        size: string | null;
-        firstImage: string | null;
-      } | null;
-    };
   }>;
 };
 
