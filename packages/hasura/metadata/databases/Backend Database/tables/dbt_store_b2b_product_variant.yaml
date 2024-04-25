@@ -6,7 +6,7 @@ object_relationships:
     using:
       manual_configuration:
         column_mapping:
-          shopify_id: shopify_id
+          id: id
         insertion_order: null
         remote_table:
           name: store_base_product_variant
@@ -17,6 +17,5 @@ select_permissions:
       columns:
         - compare_at_price
         - price
-        - shopify_id
       filter: {}
     comment: ""
