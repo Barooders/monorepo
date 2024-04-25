@@ -4,7 +4,7 @@ const TYPESENSE_API_KEY = 'y9qi4LerVoKw7vS6YS3qiXJDX8FWkZJg';
 const TYPESENSE_COLLECTION_NAME = 'product_models';
 const VENDOR_SHEET = 'Vendor';
 const PRIVATE_SHEET = 'Vendor';
-const MATCH_THRESHOLD = 1.3;
+const MATCH_THRESHOLD = 1.1;
 
 type ProductModel = {
   brand: string;
@@ -115,7 +115,7 @@ function retrieveInPim(
     brand: getValue(sheet, row, columns['Brand']),
     model: getValue(sheet, row, columns['Model']),
     year: '', // getValue(sheet, row, columns['Year']),
-    productType: '', // getValue(sheet, row, columns['Type de produit']),
+    productType: getValue(sheet, row, columns['Mapped category']),
   });
 
   const searchResult = multiSearchInTypesense([payload]).results[0].hits;
@@ -197,27 +197,16 @@ function getColumns(sheetName: string): Record<string, number> {
   return headersIndex;
 }
 
-function addProductToPim(row: number, vendorColumns: Record<string, number>) {
+function addProductToPim({
+  row,
+  textBody,
+  vendorColumns,
+}: {
+  row: number;
+  textBody: string;
+  vendorColumns: Record<string, number>;
+}) {
   var sheet = getSheetTab(VENDOR_SHEET);
-
-  const isPimModelKo =
-    getValue(sheet, row, vendorColumns['[PIM] ok'])?.toLowerCase() === 'ko';
-
-  if (!isPimModelKo) {
-    return;
-  }
-
-  const textBody = JSON.stringify({
-    name: getValue(sheet, row, vendorColumns['Model']),
-    manufacturer_suggested_retail_price:
-      getValue(sheet, row, vendorColumns['MSRP']) ?? undefined,
-    imageUrl: getValue(sheet, row, vendorColumns['Image']),
-    brand: {
-      name: getValue(sheet, row, vendorColumns['Brand']),
-    },
-    // year: Number(getValue(sheet, row, vendorColumns['Année'])),
-    // productType: getValue(sheet, row, vendorColumns['Category']),
-  });
 
   Logger.log('Adding product to PIM: ' + textBody);
 
@@ -234,8 +223,10 @@ function addProductToPim(row: number, vendorColumns: Record<string, number>) {
       },
     );
 
-    if (response.getResponseCode() !== 200) {
-      Logger.log('Cannot add product to PIM: ' + response.getContentText());
+    if (response.getResponseCode() >= 300) {
+      Logger.log(
+        `Cannot add product to PIM: ${response.getResponseCode()} - ${response.getContentText()}`,
+      );
     } else {
       Logger.log('Product has been added to PIM');
 
@@ -254,7 +245,34 @@ function addAllMissingProductToPim() {
   const dataRange = sheet.getDataRange();
   const values = dataRange.getValues();
 
+  const uniqueProductModelsToAdd = new Set<string>();
   for (var row = 2; row <= values.length; row++) {
-    addProductToPim(row, vendorColumns);
+    var sheet = getSheetTab(VENDOR_SHEET);
+
+    const isPimModelKo =
+      getValue(sheet, row, vendorColumns['[PIM] ok'])?.toLowerCase() === 'ko';
+
+    if (!isPimModelKo) {
+      return;
+    }
+
+    const textBody = JSON.stringify({
+      name: getValue(sheet, row, vendorColumns['Model']),
+      manufacturer_suggested_retail_price:
+        getValue(sheet, row, vendorColumns['MSRP']) ?? undefined,
+      imageUrl: getValue(sheet, row, vendorColumns['Image']),
+      brand: {
+        name: getValue(sheet, row, vendorColumns['Brand']),
+      },
+      // year: Number(getValue(sheet, row, vendorColumns['Année'])),
+      productType: getValue(sheet, row, vendorColumns['Mapped category']),
+    });
+
+    if (uniqueProductModelsToAdd.has(textBody)) {
+      continue;
+    }
+
+    addProductToPim({ row, textBody, vendorColumns });
+    uniqueProductModelsToAdd.add(textBody);
   }
 }
