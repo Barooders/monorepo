@@ -26,7 +26,7 @@ import fetch, { RequestInit } from 'node-fetch';
 
 type PaymentLinkDTO = {
   orderReference: string;
-  invoiceId: string;
+  invoiceId?: string;
   paymentUrls: {
     merchantBackUrl?: string;
     merchantNotifyUrl: string | null;
@@ -230,7 +230,6 @@ export class FloaPaymentProvider implements IPaymentProvider {
   ): Promise<string> {
     const payload: PaymentLinkDTO = {
       orderReference: paymentId.slice(0, ID_SIZE_LIMIT),
-      invoiceId: paymentId.slice(0, ID_SIZE_LIMIT),
       paymentUrls: {
         merchantReturnUrl: notifyUrl,
         merchantNotifyUrl: notifyUrl,
