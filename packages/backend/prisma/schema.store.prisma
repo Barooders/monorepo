@@ -118,6 +118,7 @@ model StoreBaseProductVariant {
   product                StoreBaseProduct            @relation(fields: [productId], references: [id])
   exposedProductVariant  StoreExposedProductVariant?
   storeB2BProductVariant StoreB2BProductVariant?
+  storeB2CProductVariant StoreB2CProductVariant?
 
   @@index([productId])
   @@index([id])
@@ -159,16 +160,7 @@ model StoreExposedProduct {
 
 model StoreB2BProduct {
   id                        String           @id
-  publishedAt               DateTime?        @map("published_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
-  productType               String           @map("product_type") @db.VarChar(256) // TODO: DEPRECATED: use exposed product
-  status                    ProductStatus // TODO: DEPRECATED: use exposed product
-  totalQuantity             BigInt           @default(0) @map("total_quantity")
   largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
-  title                     String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
-  brand                     String? // TODO: DEPRECATED: use exposed product
-  handle                    String           @db.VarChar(256) // TODO: DEPRECATED: use exposed product
-  syncDate                  DateTime         @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
-  firstImage                String?          @map("first_image") @db.VarChar(512) // TODO: DEPRECATED: use exposed product
   product                   StoreBaseProduct @relation(fields: [id], references: [id])
 
   @@index([id])
@@ -235,24 +227,21 @@ model StoreProductForAnalytics {
 }
 
 model StoreExposedProductVariant {
-  shopifyId          BigInt                  @id @map("shopify_id")
-  inventoryQuantity  BigInt
-  inventory_quantity BigInt                  @default(0)
-  syncDate           DateTime                @db.Date
-  price              Float // TODO: DEPRECATED: move this to B2C variant
-  compareAtPrice     Float?
-  option1Name        String?                 @db.VarChar(256)
-  option1            String?                 @db.VarChar(256)
-  option2Name        String?                 @db.VarChar(256)
-  option2            String?                 @db.VarChar(256)
-  option3Name        String?                 @db.VarChar(256)
-  option3            String?                 @db.VarChar(256)
-  condition          Condition?
-  isRefurbished      Boolean?
-  requiresShipping   Boolean?
-  title              String                  @db.VarChar(256)
-  updatedAt          DateTime                @db.Timestamptz(6)
-  variant            StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
+  shopifyId         BigInt                  @id @map("shopify_id")
+  inventoryQuantity BigInt                  @map("inventory_quantity") @default(0)
+  syncDate          DateTime                @db.Date
+  option1Name       String?                 @db.VarChar(256)
+  option1           String?                 @db.VarChar(256)
+  option2Name       String?                 @db.VarChar(256)
+  option2           String?                 @db.VarChar(256)
+  option3Name       String?                 @db.VarChar(256)
+  option3           String?                 @db.VarChar(256)
+  condition         Condition?
+  isRefurbished     Boolean?
+  requiresShipping  Boolean?
+  title             String                  @db.VarChar(256)
+  updatedAt         DateTime                @db.Timestamptz(6)
+  variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_exposed_product_variant")
@@ -260,15 +249,10 @@ model StoreExposedProductVariant {
 }
 
 model StoreB2BProductVariant {
-  shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt                  @map("inventory_quantity") // TODO: DEPRECATED: use exposed product
-  syncDate          DateTime                @map("sync_date") @db.Date // TODO: DEPRECATED: use exposed product
-  price             Float // TODO: DEPRECATED: use exposed product
-  compareAtPrice    Float?                  @map("compare_at_price") // TODO: DEPRECATED: use exposed product
-  title             String                  @db.VarChar(256) // TODO: DEPRECATED: use exposed product
-  condition         Condition? // TODO: DEPRECATED: use exposed product
-  updatedAt         DateTime                @map("updated_at") @db.Timestamptz(6) // TODO: DEPRECATED: use exposed product
-  variant           StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
+  shopifyId      BigInt                  @id @map("shopify_id")
+  price          Float
+  compareAtPrice Float?                  @map("compare_at_price")
+  variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_b2b_product_variant")
@@ -276,9 +260,10 @@ model StoreB2BProductVariant {
 }
 
 model StoreB2CProductVariant {
-  shopifyId      BigInt @id @map("shopify_id")
+  shopifyId      BigInt                  @id @map("shopify_id")
   price          Float
-  compareAtPrice Float? @map("compare_at_price")
+  compareAtPrice Float?                  @map("compare_at_price")
+  variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
 
   @@index([shopifyId])
   @@map("store_b2c_product_variant")

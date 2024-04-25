@@ -16,10 +16,7 @@ select_permissions:
     permission:
       columns:
         - compare_at_price
-        - condition
-        - inventory_quantity
         - price
         - shopify_id
-        - title
       filter: {}
     comment: ""

@@ -14,6 +14,8 @@ interface GraphQlProduct {
     variants: {
       variant: {
         condition: string | null;
+      } | null;
+      b2cVariant: {
         price?: number;
       } | null;
     }[];
@@ -29,7 +31,7 @@ export const mapProductFromGraphQl = ({
   size,
   firstImage,
 }: GraphQlProduct) => {
-  const firstVariant = product?.variants?.[0]?.variant;
+  const firstVariant = product?.variants?.[0];
 
   return {
     key: handle,
@@ -41,16 +43,16 @@ export const mapProductFromGraphQl = ({
         ? [`${dict.components.productCard.sizeLabel} ${size.toUpperCase()}`]
         : []),
       modelYear,
-      firstVariant?.condition
+      firstVariant?.variant?.condition
         ? dict.components.productCard.getConditionLabel(
-            firstVariant.condition as Condition,
+            firstVariant.variant.condition as Condition,
           )
         : undefined,
     ]
       .filter(Boolean)
       .join(' · '),
-    price: firstVariant?.price
-      ? `${Number(firstVariant.price).toFixed(2)} €`
+    price: firstVariant?.b2cVariant?.price
+      ? `${Number(firstVariant.b2cVariant.price).toFixed(2)} €`
       : '',
     imageSrc: firstImage,
   };

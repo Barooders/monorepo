@@ -31,9 +31,9 @@ const GET_PRODUCT_PRICE = gql`
     dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
       variants(
         limit: 1
-        where: { variant: { inventoryQuantity: { _gt: 0 } } }
+        where: { variant: { inventory_quantity: { _gt: 0 } } }
       ) {
-        variant {
+        b2cVariant {
           price
         }
       }
@@ -104,7 +104,7 @@ const Inbox: React.FC<Props> = ({
     const result = await fetchProductPrice({
       productShopifyId,
     });
-    return first(first(result.dbt_store_base_product)?.variants)?.variant
+    return first(first(result.dbt_store_base_product)?.variants)?.b2cVariant
       ?.price;
   }, []);
 

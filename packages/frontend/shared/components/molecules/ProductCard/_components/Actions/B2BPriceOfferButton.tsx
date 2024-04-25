@@ -16,22 +16,24 @@ const dict = getDictionary('fr');
 
 const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
   query fetchProductForNewOffer($productId: String!) {
-    dbt_store_b2b_product(where: { id: { _eq: $productId } }) {
-      product {
-        variants {
-          b2bVariant {
-            inventory_quantity
-            price
-            title
-          }
+    dbt_store_base_product(where: { id: { _eq: $productId } }) {
+      variants {
+        variant {
+          inventory_quantity
+          title
         }
-        bundlePrices {
-          unit_price_in_cents
-          min_quantity
+        b2bVariant {
+          price
         }
       }
-      total_quantity
-      title
+      bundlePrices {
+        unit_price_in_cents
+        min_quantity
+      }
+      exposedProduct: product {
+        title
+        total_quantity
+      }
     }
   }
 `;
@@ -73,13 +75,13 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
     );
   };
 
-  const product = value?.dbt_store_b2b_product[0];
+  const product = value?.dbt_store_base_product[0];
 
   const getBundleUnitPriceFromQuantity = (quantity: number) => {
-    const bundlePrices = product?.product?.bundlePrices;
+    const bundlePrices = product?.bundlePrices;
 
-    const firstVariantPrice = product?.product?.variants[0]?.b2bVariant?.price
-      ? Number(product.product.variants[0].b2bVariant.price)
+    const firstVariantPrice = product?.variants[0]?.b2bVariant?.price
+      ? Number(product.variants[0].b2bVariant.price)
       : 0;
 
     if (!bundlePrices || bundlePrices.length === 0) return firstVariantPrice;
@@ -104,14 +106,14 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
             userCanNegociate={userCanNegociate}
             closeModal={closeModal}
             productId={productId}
-            productName={product.title}
+            productName={product.exposedProduct?.title ?? ''}
             variants={
-              product.product?.variants.map(({ b2bVariant }) => ({
-                title: b2bVariant?.title ?? '',
-                quantity: b2bVariant?.inventory_quantity ?? 0,
+              product.variants.map(({ variant }) => ({
+                title: variant?.title ?? '',
+                quantity: variant?.inventory_quantity ?? 0,
               })) ?? []
             }
-            totalQuantity={product.total_quantity}
+            totalQuantity={product.exposedProduct?.total_quantity ?? 0}
             getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
           />
         ) : (
