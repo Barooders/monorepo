@@ -8,6 +8,7 @@
 
 select
     epv.shopify_id,
+    "0" as id,
     ppv."priceInCents" / 100 as price,
     ppv."compareAtPriceInCents" / 100 AS compare_at_price
 from {{ ref("store_exposed_product_variant") }} epv

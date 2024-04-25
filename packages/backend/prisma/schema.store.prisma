@@ -228,7 +228,8 @@ model StoreProductForAnalytics {
 
 model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  inventoryQuantity BigInt                  @map("inventory_quantity") @default(0)
+  id                String                  @default("0")
+  inventoryQuantity BigInt                  @default(0) @map("inventory_quantity")
   syncDate          DateTime                @db.Date
   option1Name       String?                 @db.VarChar(256)
   option1           String?                 @db.VarChar(256)
@@ -250,6 +251,7 @@ model StoreExposedProductVariant {
 
 model StoreB2BProductVariant {
   shopifyId      BigInt                  @id @map("shopify_id")
+  id             String                  @default("0")
   price          Float
   compareAtPrice Float?                  @map("compare_at_price")
   variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
@@ -261,6 +263,7 @@ model StoreB2BProductVariant {
 
 model StoreB2CProductVariant {
   shopifyId      BigInt                  @id @map("shopify_id")
+  id             String                  @default("0")
   price          Float
   compareAtPrice Float?                  @map("compare_at_price")
   variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
