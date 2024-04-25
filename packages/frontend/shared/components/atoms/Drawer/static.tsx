@@ -1,5 +1,5 @@
 import { MdClose } from 'react-icons/md';
-import { useKeyPressEvent } from 'react-use';
+import { useKeyPressEvent, useLockBodyScroll } from 'react-use';
 import { DrawerSide } from './types';
 
 type PropsType = {
@@ -16,6 +16,8 @@ const StaticDrawer: React.FC<PropsType> = ({
   side = DrawerSide.BOTTOM,
 }) => {
   useKeyPressEvent('Escape', closeMenu);
+  useLockBodyScroll(isOpen);
+
   const positionStyle = {
     [DrawerSide.BOTTOM]: {
       container: `bottom-0 left-0 right-0 ${
@@ -40,7 +42,7 @@ const StaticDrawer: React.FC<PropsType> = ({
   return (
     <>
       <div
-        className={`${positionStyle[side].container} fixed z-50 bg-white p-4 pt-8 transition-transform`}
+        className={`${positionStyle[side].container} fixed z-50 overflow-scroll bg-white p-4 pt-8 transition-transform`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
