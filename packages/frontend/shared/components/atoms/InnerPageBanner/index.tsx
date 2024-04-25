@@ -17,9 +17,9 @@ type BannerMessage = {
 
 const bannerMessages: BannerMessage[] = [
   {
-    label: '️Vendeur de la semaine - VéloRouen - -50€',
+    label: '️Vendeur de la semaine - HBVélos - -5%',
     icon: '⭐️',
-    link: '/collections/velo-rouen',
+    link: '/collections/hbvelos',
   },
   {
     label: `Tous nos vélos reconditionnés sont désormais éligible à la prime d’état : contactez-nous ! 💬`,
