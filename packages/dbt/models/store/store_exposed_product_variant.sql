@@ -1,7 +1,7 @@
 {{
     config(
         materialized="incremental",
-        unique_key="shopify_id",
+        unique_key="id",
         pre_hook="delete from {{this}}",
     )
 }}
@@ -16,7 +16,7 @@ with
 
 select
     bpv."shopify_id" as "shopify_id",
-    '0' as id,
+    bpv.id as id,
     ppv.quantity as "inventory_quantity",
     current_date as "syncDate",
     po1.name as "option1Name",

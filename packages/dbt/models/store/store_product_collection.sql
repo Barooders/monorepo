@@ -6,14 +6,12 @@
 
 WITH variant_data AS (
 	SELECT
-		bpv."productId" AS product_id,
-		min(epv.price) AS cheapest_variant_price,
-		max(epv.price) AS most_expensive_variant_price
+		ppv."productId" AS product_id,
+		min(ppv."priceInCents" / 100) AS cheapest_variant_price,
+		max(ppv."priceInCents" / 100) AS most_expensive_variant_price
 	FROM
-		fivetran_shopify.product_variant epv
-	LEFT JOIN {{ref('store_base_product_variant')}} bpv ON bpv.shopify_id = epv.id
-GROUP BY
-	bpv."productId"
+		public."ProductVariant" ppv
+	GROUP BY ppv."productId"
 ),
 collections_with_rules AS (
 	SELECT

@@ -110,8 +110,8 @@ model StoreBaseProduct {
 }
 
 model StoreBaseProductVariant {
-  id        String? //TODO: remove "?" once all variants are in database
-  shopifyId BigInt   @id @map("shopify_id")
+  id        String   @id
+  shopifyId BigInt   @unique @map("shopify_id")
   createdAt DateTime @db.Timestamptz(6)
   productId String
 
@@ -228,7 +228,7 @@ model StoreProductForAnalytics {
 
 model StoreExposedProductVariant {
   shopifyId         BigInt                  @id @map("shopify_id")
-  id                String                  @default("0")
+  id                String
   inventoryQuantity BigInt                  @default(0) @map("inventory_quantity")
   syncDate          DateTime                @db.Date
   option1Name       String?                 @db.VarChar(256)
@@ -251,7 +251,7 @@ model StoreExposedProductVariant {
 
 model StoreB2BProductVariant {
   shopifyId      BigInt                  @id @map("shopify_id")
-  id             String                  @default("0")
+  id             String
   price          Float
   compareAtPrice Float?                  @map("compare_at_price")
   variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
@@ -263,7 +263,7 @@ model StoreB2BProductVariant {
 
 model StoreB2CProductVariant {
   shopifyId      BigInt                  @id @map("shopify_id")
-  id             String                  @default("0")
+  id             String
   price          Float
   compareAtPrice Float?                  @map("compare_at_price")
   variant        StoreBaseProductVariant @relation(fields: [shopifyId], references: [shopifyId])
