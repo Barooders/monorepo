@@ -14,4 +14,15 @@ export class LeHollandaisMapper extends WooCommerceDefaultMapper {
       'occasion',
     ]);
   }
+
+  getVariantQuantity(
+    { stock_status }: WooCommerceProduct,
+    _variantQuantity: number | null,
+  ): number {
+    if (stock_status === undefined) {
+      return 0;
+    }
+
+    return ['instock', 'onbackorder'].includes(stock_status) ? 1 : 0;
+  }
 }
