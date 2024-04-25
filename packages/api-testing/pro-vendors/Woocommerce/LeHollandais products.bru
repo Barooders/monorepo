@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: https://lehollandaisvelo.fr/wp-json/wc/v3/products/7657
+  url: https://lehollandaisvelo.fr/wp-json/wc/v3/products/7657/variations/19807?consumer_key={{lehollandaisApiKey}}&consumer_secret={{lehollandaisApiSecret}}
   body: none
   auth: none
 }
@@ -13,7 +13,6 @@ get {
 query {
   consumer_key: {{lehollandaisApiKey}}
   consumer_secret: {{lehollandaisApiSecret}}
-  per_page: 2
   ~modified_after: 2023-06-03T15:00:00
   ~category: 793
   ~page: 1
