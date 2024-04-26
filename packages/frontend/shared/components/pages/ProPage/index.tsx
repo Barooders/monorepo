@@ -19,6 +19,7 @@ import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { gql, useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
+import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
 import B2BCollectionHeader from './_components/B2BCollectionHeader';
 import B2BSearchResults from './_components/B2BSearchResults';
 
@@ -123,6 +124,9 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
 
   return (
     <PageContainer includeVerticalPadding={false}>
+      {selectedProductId && (
+        <AdminProductBanner productInternalId={selectedProductId} />
+      )}
       <InstantSearchProvider
         collectionName={searchCollections.b2bProducts.main}
         filters={filters}

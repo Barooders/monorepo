@@ -38,7 +38,7 @@ const AdminProductBanner = ({
   productShopifyId,
   productInternalId,
 }: {
-  productShopifyId: string;
+  productShopifyId?: string;
   productInternalId: string;
 }) => {
   const { isAdmin } = useAuth();
@@ -87,7 +87,7 @@ const AdminProductBanner = ({
       <div className="flex items-center justify-center gap-2 text-xs">
         <div>
           <p>
-            ID: {productShopifyId} (created at:{' '}
+            ID: {productShopifyId ?? productInternalId} (created at:{' '}
             {new Date(
               value?.dbt_store_product_for_analytics[0].created_at,
             ).toLocaleDateString('fr-FR')}
@@ -95,12 +95,14 @@ const AdminProductBanner = ({
           </p>
           <p>
             source: {value?.Product[0]?.source ?? '-'} -{' '}
-            <a
-              className="font-semibold text-gray-500 underline"
-              href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
-            >
-              Perf
-            </a>
+            {productShopifyId && (
+              <a
+                className="font-semibold text-gray-500 underline"
+                href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
+              >
+                Perf
+              </a>
+            )}
           </p>
           {value?.Product[0]?.sourceUrl && (
             <a
@@ -113,18 +115,24 @@ const AdminProductBanner = ({
             </a>
           )}
         </div>
-        <Button
-          className="text-xs"
-          href={`/admin/products/${productShopifyId}`}
-        >
-          See
-        </Button>
-        <Button
-          className="text-xs"
-          onClick={() => doUpdateProduct({ status: ProductStatus.ARCHIVED })}
-        >
-          Archive
-        </Button>
+        {productShopifyId && (
+          <>
+            <Button
+              className="text-xs"
+              href={`/admin/products/${productShopifyId}`}
+            >
+              See
+            </Button>
+            <Button
+              className="text-xs"
+              onClick={() =>
+                doUpdateProduct({ status: ProductStatus.ARCHIVED })
+              }
+            >
+              Archive
+            </Button>
+          </>
+        )}
         <Select
           className="h-[33px] w-[140px]"
           buttonClassName="text-xs py-0 h-full"
