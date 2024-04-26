@@ -43,7 +43,13 @@ export class QueueClient implements IQueueClient {
     );
   }
 
-  @OnEvent('product.*', { async: true })
+  @OnEvent(
+    [
+      ProductCreatedDomainEvent.EVENT_NAME,
+      ProductUpdatedDomainEvent.EVENT_NAME,
+    ],
+    { async: true },
+  )
   async triggerProductIndexation({
     productInternalId,
   }: ProductCreatedDomainEvent | ProductUpdatedDomainEvent) {

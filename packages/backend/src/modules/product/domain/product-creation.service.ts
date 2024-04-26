@@ -212,7 +212,7 @@ export class ProductCreationService {
     });
 
     this.eventEmitter.emit(
-      'product.created',
+      ProductCreatedDomainEvent.EVENT_NAME,
       new ProductCreatedDomainEvent({
         aggregateId: vendorId,
         aggregateName: AggregateName.VENDOR,
@@ -259,7 +259,7 @@ export class ProductCreationService {
     });
 
     this.eventEmitter.emit(
-      'product.updated',
+      ProductUpdatedDomainEvent.EVENT_NAME,
       new ProductUpdatedDomainEvent({
         aggregateId: productVariantInDB.product.vendorId,
         aggregateName: AggregateName.VENDOR,

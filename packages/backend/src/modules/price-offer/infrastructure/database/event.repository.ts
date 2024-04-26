@@ -8,7 +8,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 export class EventRepository {
   constructor(private mainPrisma: PrismaMainClient) {}
 
-  @OnEvent('price-offer.updated', { async: true })
+  @OnEvent(PriceOfferUpdatedDomainEvent.EVENT_NAME, { async: true })
   async handlePriceOfferUpdated({
     aggregateId,
     aggregateName,
@@ -31,7 +31,7 @@ export class EventRepository {
     });
   }
 
-  @OnEvent('price-offer.created', { async: true })
+  @OnEvent(PriceOfferCreatedDomainEvent.EVENT_NAME, { async: true })
   async handlePriceOfferCreated({
     aggregateId,
     aggregateName,

@@ -73,7 +73,7 @@ export class SearchAlertService {
     });
 
     this.eventEmitter.emit(
-      'saved-search.created',
+      SavedSearchCreatedDomainEvent.EVENT_NAME,
       new SavedSearchCreatedDomainEvent({
         aggregateId: userId.uuid,
         aggregateName: AggregateName.CUSTOMER,
@@ -153,7 +153,7 @@ export class SearchAlertService {
     }
 
     this.eventEmitter.emit(
-      'saved-search.updated',
+      SavedSearchUpdatedDomainEvent.EVENT_NAME,
       new SavedSearchUpdatedDomainEvent({
         aggregateId: customerId,
         aggregateName: AggregateName.CUSTOMER,
@@ -175,7 +175,7 @@ export class SearchAlertService {
     });
 
     this.eventEmitter.emit(
-      'saved-search.deleted',
+      SavedSearchDeletedDomainEvent.EVENT_NAME,
       new SavedSearchDeletedDomainEvent({
         aggregateId: customerId,
         aggregateName: AggregateName.CUSTOMER,
@@ -290,7 +290,7 @@ export class SearchAlertService {
     );
 
     this.eventEmitter.emit(
-      'search-alert.sent',
+      SearchAlertSentDomainEvent.EVENT_NAME,
       new SearchAlertSentDomainEvent({
         aggregateId: savedSearch.customer.authUserId,
         aggregateName: AggregateName.CUSTOMER,

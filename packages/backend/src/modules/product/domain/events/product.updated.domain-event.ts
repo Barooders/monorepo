@@ -5,6 +5,7 @@ import {
 import { Author } from '@libs/domain/types';
 
 export class ProductUpdatedDomainEvent extends DomainEvent {
+  static readonly EVENT_NAME = 'product.updated';
   readonly productInternalId: string;
   readonly payload: Record<string, any>;
   readonly metadata: {

@@ -12,7 +12,7 @@ export class EventRepository {
 
   constructor(private mainPrisma: PrismaMainClient) {}
 
-  @OnEvent('search-alert.sent', { async: true })
+  @OnEvent(SearchAlertSentDomainEvent.EVENT_NAME, { async: true })
   async handleSentSearchAlert({
     aggregateId,
     aggregateName,
@@ -30,7 +30,7 @@ export class EventRepository {
     });
   }
 
-  @OnEvent('saved-search.updated', { async: true })
+  @OnEvent(SavedSearchUpdatedDomainEvent.EVENT_NAME, { async: true })
   async handleSavedSearchUpdated({
     aggregateId,
     aggregateName,
@@ -50,7 +50,7 @@ export class EventRepository {
     });
   }
 
-  @OnEvent('saved-search.created', { async: true })
+  @OnEvent(SavedSearchCreatedDomainEvent.EVENT_NAME, { async: true })
   async handleSavedSearchCreated({
     aggregateId,
     aggregateName,
@@ -68,7 +68,7 @@ export class EventRepository {
     });
   }
 
-  @OnEvent('saved-search.deleted', { async: true })
+  @OnEvent(SavedSearchDeletedDomainEvent.EVENT_NAME, { async: true })
   async handleSavedSearchDeleted({
     aggregateId,
     aggregateName,
