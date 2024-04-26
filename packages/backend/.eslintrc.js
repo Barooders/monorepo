@@ -73,5 +73,6 @@ module.exports = {
         ],
       },
     ],
+    'no-process-exit': 'error', // Restricts the use of process.exit() because it stops the node process before the logs are harvested by the new relic agent
   },
 };

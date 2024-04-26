@@ -1,11 +1,15 @@
 import 'dotenv.config';
 
 import envConfig from '@config/env/env.config';
-import { initClients } from '@libs/application/instrumentation/newrelic.config';
+import {
+  initClients,
+  shutDownNewRelic,
+} from '@libs/application/instrumentation/newrelic.config';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { SentryContext, initSentry } from '@libs/infrastructure/sentry';
 import { sendSlackMessage } from '@libs/infrastructure/slack/slack.base.client';
 import { BootstrapConsole } from 'nestjs-console';
+import { graceFullyShutdownWithError } from './common';
 import { ConsoleModule } from './console.module';
 
 initClients();
@@ -15,8 +19,6 @@ const bootstraper = new BootstrapConsole({
   useDecorators: true,
   contextOptions: { abortOnError: false },
 });
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const bootstrap = async () => {
   let app;
@@ -29,9 +31,6 @@ const bootstrap = async () => {
     initSentry(SentryContext.JOB);
 
     await bootstraper.boot();
-
-    // Wait for 10 seconds to make sure logs are sent to New Relic
-    await sleep(10000);
 
     await app.close();
   } catch (e) {
@@ -46,11 +45,10 @@ ${errorMessage}`,
     // eslint-disable-next-line no-console
     console.error(e);
 
-    // Wait for 10 seconds to make sure logs are sent to New Relic
-    await sleep(10000);
-
-    process.exit(1);
+    graceFullyShutdownWithError();
   }
+
+  shutDownNewRelic();
 };
 
 void bootstrap();

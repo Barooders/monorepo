@@ -7,3 +7,9 @@ export const initClients = () => {
   newrelic.instrumentLoadedModule('@prisma/client', MainClient);
   newrelic.instrumentLoadedModule('@prisma/client', StoreClient);
 };
+
+export const shutDownNewRelic = () => {
+  newrelic.shutdown({
+    collectPendingData: true,
+  });
+};

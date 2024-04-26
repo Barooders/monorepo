@@ -1,5 +1,6 @@
 import 'dotenv.config';
 
+import { shutDownNewRelic } from '@libs/application/instrumentation/newrelic.config';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { BootstrapConsole } from 'nestjs-console';
 import { ScriptsModule } from './scripts.module';
@@ -17,6 +18,8 @@ const bootstrap = async () => {
 
   await bootstraper.boot();
   await app.close();
+
+  shutDownNewRelic();
 };
 
 void bootstrap();
