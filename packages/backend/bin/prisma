@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source .env.local || true
+
+if [ -n $DATABASE_URL_LOCAL ];
+then
+	export DATABASE_URL=$DATABASE_URL_LOCAL
+fi
+
+if [ -z $DATABASE_STORE_URL ];
+then
+	export DATABASE_STORE_URL=$DATABASE_URL?schema=dbt
+fi
+
+yarn prisma "${@}"
