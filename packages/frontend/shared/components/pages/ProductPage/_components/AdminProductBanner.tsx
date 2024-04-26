@@ -168,13 +168,16 @@ const AdminProductBanner = ({
           <div className="ml-5 flex flex-col">
             <p>
               vendor_commission:{' '}
-              {productCommissionState.value?.vendorCommission.toFixed(0) ?? '-'}{' '}
+              {productCommissionState.value?.vendorCommission
+                ? (-1 * productCommissionState.value.vendorCommission).toFixed(
+                    0,
+                  )
+                : '-'}{' '}
               €
             </p>
             <p>
               vendor_shipping:{' '}
-              {productCommissionState.value?.vendorShipping.toFixed(0) ?? '-'}{' '}
-              €
+              {productCommissionState.value?.vendorShipping.toFixed(0) ?? '-'} €
             </p>
           </div>
         </div>
