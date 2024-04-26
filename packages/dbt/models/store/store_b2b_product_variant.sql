@@ -7,7 +7,6 @@
 }}
 
 select
-    bpv.shopify_id,
     bpv.id,
     (1 + get_global_b2b_buyer_commission() / 100) * ppv."priceInCents" / 100 as price,
     ppv."compareAtPriceInCents" / 100 AS compare_at_price
