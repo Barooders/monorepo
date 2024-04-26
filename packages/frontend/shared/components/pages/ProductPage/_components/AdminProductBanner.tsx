@@ -11,7 +11,8 @@ import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES } from 'shared-types';
 
 const PRODUCT_NOTATION_QUERY = gql`
@@ -37,9 +38,11 @@ const PRODUCT_NOTATION_QUERY = gql`
 const AdminProductBanner = ({
   productShopifyId,
   productInternalId,
+  showByDefault = true,
 }: {
   productShopifyId?: string;
   productInternalId: string;
+  showByDefault?: boolean;
 }) => {
   const { isAdmin } = useAuth();
   const fetchProductNotation = useHasura<FetchProductNotationQuery>(
@@ -81,6 +84,13 @@ const AdminProductBanner = ({
     doFetchProductNotation();
     fetchProductCommission();
   }, []);
+
+  const [shouldShow, setShouldShow] = useState(showByDefault);
+  useKeyPressEvent('?', () => {
+    setShouldShow(!shouldShow);
+  });
+
+  if (!shouldShow) return <></>;
 
   return (
     <AdminBanner>

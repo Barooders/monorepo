@@ -125,7 +125,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
   return (
     <PageContainer includeVerticalPadding={false}>
       {selectedProductId && (
-        <AdminProductBanner productInternalId={selectedProductId} />
+        <AdminProductBanner
+          productInternalId={selectedProductId}
+          showByDefault={false}
+        />
       )}
       <InstantSearchProvider
         collectionName={searchCollections.b2bProducts.main}

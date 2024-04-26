@@ -11,7 +11,7 @@ const AdminHitHelper = ({
   hit: SearchB2BVariantDocument;
 }) => {
   const { isAdmin } = useAuth();
-  const [shouldShow, setShouldShow] = useState(true);
+  const [shouldShow, setShouldShow] = useState(false);
   useKeyPressEvent('?', () => {
     setShouldShow(!shouldShow);
   });

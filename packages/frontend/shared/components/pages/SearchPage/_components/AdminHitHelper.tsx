@@ -59,7 +59,7 @@ const AdminHitHelper = ({
     },
   );
 
-  const [shouldShow, setShouldShow] = useState(true);
+  const [shouldShow, setShouldShow] = useState(false);
   useKeyPressEvent('?', () => {
     setShouldShow(!shouldShow);
   });
