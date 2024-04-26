@@ -7,12 +7,7 @@ import {
   NEW_PRODUCT_DEFAULT_DESCRIPTION,
   USED_PRODUCT_DEFAULT_DESCRIPTION,
 } from './constants';
-import {
-  AllBaseVendorsConfig,
-  BrandFilterAction,
-  CSVCatalogConfig,
-  VendorType,
-} from './types';
+import { AllBaseVendorsConfig, BrandFilterAction, VendorType } from './types';
 import vendorSecrets from './vendor.secret';
 
 export const DESIRED_BIKES_TAGS = [
@@ -1093,22 +1088,18 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     },
   },
   agava: AGAVA_CONFIG,
-  agava_b2b: {
-    ...AGAVA_CONFIG,
+  agava_b2b: merge(AGAVA_CONFIG, {
     slug: 'agava_b2b',
     catalog: {
-      ...AGAVA_CONFIG.catalog,
       common: {
-        ...AGAVA_CONFIG.catalog.common,
         minimumDiscount: 0.4,
         minimumQuantity: 5,
       },
       csv: {
-        ...(AGAVA_CONFIG.catalog.csv as CSVCatalogConfig),
         salesChannels: [SalesChannelName.B2B],
       },
     },
-  },
+  }),
   agava_parts: {
     slug: 'agava_parts',
     mappingKey: 'agava_parts',
@@ -1132,22 +1123,18 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     },
   },
   agava_presales: AGAVA_PRESALES_CONFIG,
-  agava_presales_b2b: {
-    ...AGAVA_PRESALES_CONFIG,
+  agava_presales_b2b: merge(AGAVA_PRESALES_CONFIG, {
     slug: 'agava_presales_b2b',
     catalog: {
-      ...AGAVA_PRESALES_CONFIG.catalog,
       common: {
-        ...AGAVA_PRESALES_CONFIG.catalog.common,
         minimumDiscount: 0.4,
         minimumQuantity: 5,
       },
       csv: {
-        ...(AGAVA_PRESALES_CONFIG.catalog.csv as CSVCatalogConfig),
         salesChannels: [SalesChannelName.B2B],
       },
     },
-  },
+  }),
   roue_liber: {
     slug: 'roue_liber',
     mappingKey: 'roue_liber',
