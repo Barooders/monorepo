@@ -1,12 +1,16 @@
 import 'dotenv.config';
 
 import envConfig from '@config/env/env.config';
-import { initClients } from '@libs/application/instrumentation/newrelic.config';
+import {
+  initClients,
+  shutDownNewRelic,
+} from '@libs/application/instrumentation/newrelic.config';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { SentryContext, initSentry } from '@libs/infrastructure/sentry';
 import { sendSlackMessage } from '@libs/infrastructure/slack/slack.base.client';
 import { NestFactory } from '@nestjs/core';
 import * as Sentry from '@sentry/node';
+import { graceFullyShutdownWithError } from './common';
 import { ConsumerModule } from './consumer.module';
 
 initClients();
@@ -34,8 +38,11 @@ ${errorMessage}`,
     );
     // eslint-disable-next-line no-console
     console.error(e);
-    process.exit(1);
+
+    graceFullyShutdownWithError();
   }
+
+  shutDownNewRelic();
 };
 
 void bootstrap();
