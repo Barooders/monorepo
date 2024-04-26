@@ -91,6 +91,7 @@ export const routesV1 = {
   },
   invoice: {
     previewPayout: '/invoice/preview-payout',
+    previewCommission: '/invoice/preview-commission',
     executePayout: '/invoice/payout',
   },
   deliveryProfile: {

@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
+import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { NotFoundException } from '@libs/domain/exceptions';
 import {
   PrismaMainClient,
@@ -65,6 +66,14 @@ class PreviewPayoutInputQuery {
     description: 'The id of the Shopify order line',
   })
   orderLineShopifyId!: string;
+}
+
+class PreviewCommissionInputQuery {
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'The internal id of the product',
+  })
+  productInternalId!: string;
 }
 
 @Controller(routesV1.version)
@@ -127,6 +136,39 @@ export class PayoutController {
         appliedDiscounts,
         orderPriceLines: orderPriceLines.lines,
       };
+    } catch (error: any) {
+      if (error instanceof NotFoundException) {
+        throw new HttpNotFoundException(error);
+      }
+
+      throw new BadRequestException(error);
+    }
+  }
+
+  @Get(routesV1.invoice.previewCommission)
+  @UseGuards(AdminGuard)
+  async previewCommission(
+    @Query()
+    { productInternalId }: PreviewCommissionInputQuery,
+  ): Promise<Commission> {
+    try {
+      const {
+        product: { productType, vendorId },
+        priceInCents,
+      } = await this.prisma.productVariant.findFirstOrThrow({
+        where: {
+          id: productInternalId,
+        },
+        include: {
+          product: true,
+        },
+      });
+      return await this.commissionService.getVendorCommission({
+        productType: productType ?? '',
+        price: Number(priceInCents ?? 0),
+        vendorId,
+        discount: 0,
+      });
     } catch (error: any) {
       if (error instanceof NotFoundException) {
         throw new HttpNotFoundException(error);
