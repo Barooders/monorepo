@@ -85,7 +85,7 @@ export class PriceOfferService implements IPriceOfferService {
     const priceOfferUUID = new UUID({ uuid: newPriceOffer.id });
 
     this.eventEmitter.emit(
-      'price-offer.created',
+      PriceOfferCreatedDomainEvent.EVENT_NAME,
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
@@ -177,7 +177,7 @@ export class PriceOfferService implements IPriceOfferService {
     });
 
     this.eventEmitter.emit(
-      'price-offer.created',
+      PriceOfferCreatedDomainEvent.EVENT_NAME,
       new PriceOfferCreatedDomainEvent({
         aggregateId: newPriceOffer.id,
         aggregateName: AggregateName.PRICE_OFFER,
@@ -243,7 +243,7 @@ export class PriceOfferService implements IPriceOfferService {
     });
 
     this.eventEmitter.emit(
-      'price-offer.updated',
+      PriceOfferUpdatedDomainEvent.EVENT_NAME,
       new PriceOfferUpdatedDomainEvent({
         updates,
         aggregateId: priceOfferId.uuid,
@@ -398,7 +398,7 @@ export class PriceOfferService implements IPriceOfferService {
     });
 
     this.eventEmitter.emit(
-      'price-offer.updated',
+      PriceOfferUpdatedDomainEvent.EVENT_NAME,
       new PriceOfferUpdatedDomainEvent({
         updates: { status, discountCode },
         aggregateId: priceOfferId.uuid,

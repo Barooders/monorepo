@@ -6,6 +6,7 @@ import { Author } from '@libs/domain/types';
 import { PriceOfferUpdates } from '../ports/price-offer';
 
 export class PriceOfferUpdatedDomainEvent extends DomainEvent {
+  static readonly EVENT_NAME = 'price-offer.updated';
   readonly updates: PriceOfferUpdates;
   readonly metadata: {
     author: Author;

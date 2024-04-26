@@ -76,7 +76,7 @@ export class ProductUpdateService {
     try {
       const vendor = await this.getVendorFromProductId(productId);
       this.eventEmitter.emit(
-        'product.updated',
+        ProductUpdatedDomainEvent.EVENT_NAME,
         new ProductUpdatedDomainEvent({
           aggregateId: vendor.authUserId,
           aggregateName: AggregateName.VENDOR,
@@ -161,7 +161,7 @@ export class ProductUpdateService {
     try {
       const vendor = await this.getVendorFromProductId(productId);
       this.eventEmitter.emit(
-        'product.updated',
+        ProductUpdatedDomainEvent.EVENT_NAME,
         new ProductUpdatedDomainEvent({
           aggregateId: vendor.authUserId,
           aggregateName: AggregateName.VENDOR,
@@ -203,7 +203,7 @@ export class ProductUpdateService {
       },
     });
     this.eventEmitter.emit(
-      'product.updated',
+      ProductUpdatedDomainEvent.EVENT_NAME,
       new ProductUpdatedDomainEvent({
         aggregateId: productVariantInDB.product.vendorId,
         aggregateName: AggregateName.VENDOR,
@@ -239,7 +239,7 @@ export class ProductUpdateService {
     });
 
     this.eventEmitter.emit(
-      'product.updated',
+      ProductUpdatedDomainEvent.EVENT_NAME,
       new ProductUpdatedDomainEvent({
         aggregateId: productVariantInDB.product.vendorId,
         aggregateName: AggregateName.VENDOR,
@@ -289,7 +289,7 @@ export class ProductUpdateService {
     try {
       const vendor = await this.getVendorFromProductId(productId);
       this.eventEmitter.emit(
-        'product.refused',
+        ProductRefusedDomainEvent.EVENT_NAME,
         new ProductRefusedDomainEvent({
           aggregateId: vendor.authUserId,
           aggregateName: AggregateName.VENDOR,

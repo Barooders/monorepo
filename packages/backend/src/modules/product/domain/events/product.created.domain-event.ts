@@ -5,6 +5,7 @@ import {
 import { Author } from '@libs/domain/types';
 
 export class ProductCreatedDomainEvent extends DomainEvent {
+  static readonly EVENT_NAME = 'product.created';
   readonly productInternalId: string;
   readonly productShopifyId: bigint;
   readonly metadata: { author: Author };

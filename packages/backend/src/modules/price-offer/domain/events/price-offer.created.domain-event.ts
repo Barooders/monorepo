@@ -5,6 +5,7 @@ import {
 import { Author } from '@libs/domain/types';
 
 export class PriceOfferCreatedDomainEvent extends DomainEvent {
+  static readonly EVENT_NAME = 'price-offer.created';
   readonly payload: Record<string, string>;
   readonly metadata: {
     author: Author;
