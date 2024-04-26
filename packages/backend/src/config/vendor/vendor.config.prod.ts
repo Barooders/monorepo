@@ -418,6 +418,13 @@ export const prodVendorConfig: EnvVendorsConfig = {
       { commandName: 'updateProductStatuses', cron: '50 */3 * * *' },
     ],
   },
+  agava_b2b: {
+    vendorId: '9fa2866d-ad2d-4ab8-b0f3-9de1e1e6f41e',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 5 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 */3 * * *' },
+    ],
+  },
   agava_parts: {
     vendorId: '9fa2866d-ad2d-4ab8-b0f3-9de1e1e6f41e',
     synchros: [

@@ -53,6 +53,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   ferrareis: DEFAULT_CONFIG,
   alpin_store: DEFAULT_CONFIG,
   agava: DEFAULT_CONFIG,
+  agava_b2b: DEFAULT_CONFIG,
   roue_liber: DEFAULT_CONFIG,
   agava_parts: DEFAULT_CONFIG,
   mvh_cycles: DEFAULT_CONFIG,

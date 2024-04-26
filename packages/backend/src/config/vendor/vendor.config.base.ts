@@ -120,6 +120,26 @@ const AGAVA_PRESALES_CONFIG: AllBaseVendorsConfig['agava_presales'] = {
   },
 };
 
+const AGAVA_CONFIG: AllBaseVendorsConfig['agava'] = {
+  slug: 'agava',
+  mappingKey: 'agava',
+  type: VendorType.CSV,
+  apiUrl:
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdIczC8BzwR-JzH6IAZKP0UrkVEL1-WYT2UWh2BlEJm7Et7lEFyCtO-rIXpgxkc93x4oKE1W2Wh_ow/pub?gid=1274531655&single=true&output=csv',
+  catalog: {
+    csv: {
+      columns: {
+        ...baseCsvConfig,
+        tags: [9, 10, 11, 13, 17, 18, 19, 20],
+        option1: 12,
+        option2: 16,
+        variantCondition: 14,
+        images: [15],
+      },
+    },
+  },
+};
+
 export const baseVendorConfig: AllBaseVendorsConfig = {
   tuvalum: {
     slug: 'tuvalum',
@@ -1072,22 +1092,20 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  agava: {
-    slug: 'agava',
-    mappingKey: 'agava',
-    type: VendorType.CSV,
-    apiUrl:
-      'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdIczC8BzwR-JzH6IAZKP0UrkVEL1-WYT2UWh2BlEJm7Et7lEFyCtO-rIXpgxkc93x4oKE1W2Wh_ow/pub?gid=1274531655&single=true&output=csv',
+  agava: AGAVA_CONFIG,
+  agava_b2b: {
+    ...AGAVA_CONFIG,
+    slug: 'agava_b2b',
     catalog: {
+      ...AGAVA_CONFIG.catalog,
+      common: {
+        ...AGAVA_CONFIG.catalog.common,
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
+      },
       csv: {
-        columns: {
-          ...baseCsvConfig,
-          tags: [9, 10, 11, 13, 17, 18, 19, 20],
-          option1: 12,
-          option2: 16,
-          variantCondition: 14,
-          images: [15],
-        },
+        ...(AGAVA_CONFIG.catalog.csv as CSVCatalogConfig),
+        salesChannels: [SalesChannelName.B2B],
       },
     },
   },

@@ -130,6 +130,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   alpin_store: DEFAULT_CONFIG,
   paname_bicis: DEFAULT_CONFIG,
   agava: DEFAULT_CONFIG,
+  agava_b2b: DEFAULT_CONFIG,
   milla_bikes: DEFAULT_CONFIG,
   agava_parts: DEFAULT_CONFIG,
   mvh_cycles: DEFAULT_CONFIG,

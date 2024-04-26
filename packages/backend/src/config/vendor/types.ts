@@ -18,6 +18,7 @@ export const enum VendorType {
 
 export type SynchronizedProVendor =
   | 'agava'
+  | 'agava_b2b'
   | 'agava_parts'
   | 'agava_presales'
   | 'agava_presales_b2b'
