@@ -1,6 +1,7 @@
 'use client';
 
 import { FetchProductNotationQuery } from '@/__generated/graphql';
+import { operations } from '@/__generated/rest-schema';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
@@ -14,14 +15,14 @@ import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 
 const PRODUCT_NOTATION_QUERY = gql`
-  query fetchProductNotation($productShopifyId: bigint) {
-    Product(where: { shopifyId: { _eq: $productShopifyId } }) {
+  query fetchProductNotation($productInternalId: String!) {
+    Product(where: { id: { _eq: $productInternalId } }) {
       manualNotation
       source
       sourceUrl
     }
     dbt_store_product_for_analytics(
-      where: { shopify_id: { _eq: $productShopifyId } }
+      where: { id: { _eq: $productInternalId } }
     ) {
       created_at
       vendor_notation
@@ -35,8 +36,10 @@ const PRODUCT_NOTATION_QUERY = gql`
 
 const AdminProductBanner = ({
   productShopifyId,
+  productInternalId,
 }: {
   productShopifyId: string;
+  productInternalId: string;
 }) => {
   const { isAdmin } = useAuth();
   const fetchProductNotation = useHasura<FetchProductNotationQuery>(
@@ -45,12 +48,7 @@ const AdminProductBanner = ({
   );
   const [{ value }, doFetchProductNotation] = useWrappedAsyncFn<
     () => Promise<FetchProductNotationQuery>
-  >(() => fetchProductNotation({ productShopifyId }));
-
-  useEffect(() => {
-    if (!isAdmin()) return;
-    doFetchProductNotation();
-  }, []);
+  >(() => fetchProductNotation({ productInternalId }));
 
   const { fetchAPI } = useBackend();
   const [, doUpdateProduct] = useWrappedAsyncFn(
@@ -67,6 +65,23 @@ const AdminProductBanner = ({
       }
     },
   );
+
+  const [productCommissionState, fetchProductCommission] = useWrappedAsyncFn(
+    async () => {
+      return await fetchAPI<
+        operations['PayoutController_previewCommission']['responses']['default']['content']['application/json']
+      >(
+        `/v1/invoice/preview-commission?productInternalId=${productInternalId}`,
+      );
+    },
+  );
+
+  useEffect(() => {
+    if (!isAdmin()) return;
+    doFetchProductNotation();
+    fetchProductCommission();
+  }, []);
+
   return (
     <AdminBanner>
       <div className="flex items-center justify-center gap-2 text-xs">
@@ -148,6 +163,18 @@ const AdminProductBanner = ({
             <p>
               favorites_count:{' '}
               {value?.dbt_store_product_for_analytics[0].favorites_count ?? '-'}
+            </p>
+          </div>
+          <div className="ml-5 flex flex-col">
+            <p>
+              vendor_commission:{' '}
+              {productCommissionState.value?.vendorCommission.toFixed(0) ?? '-'}{' '}
+              €
+            </p>
+            <p>
+              vendor_shipping:{' '}
+              {productCommissionState.value?.vendorShipping.toFixed(0) ?? '-'}{' '}
+              €
             </p>
           </div>
         </div>
