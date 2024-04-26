@@ -113,7 +113,7 @@ const splitPaymentSolutions: SplitPaymentSolution[] = [
 
       return !monthlyRate ? null : (price * (1 + monthlyRate)) / duration;
     },
-    priceRange: [200, 2800],
+    priceRange: [200, 3000],
     detailsComponent: (
       <Modal
         ButtonComponent={({ openModal }) => (
