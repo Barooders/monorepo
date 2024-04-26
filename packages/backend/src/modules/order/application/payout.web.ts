@@ -21,8 +21,14 @@ import { Author } from '@libs/domain/types';
 import { Amount as AmountObject } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Commission, CommissionService } from '../domain/commission.service';
 import {
   OrderValidation,
@@ -76,6 +82,17 @@ class PreviewCommissionInputQuery {
   productInternalId!: string;
 }
 
+class PreviewCommissionOutputDTO {
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({})
+  vendorCommission!: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({})
+  vendorShipping!: number;
+}
 @Controller(routesV1.version)
 export class PayoutController {
   private readonly logger: Logger = new Logger(PayoutController.name);
@@ -147,17 +164,20 @@ export class PayoutController {
 
   @Get(routesV1.invoice.previewCommission)
   @UseGuards(AdminGuard)
+  @ApiResponse({
+    type: PreviewCommissionOutputDTO,
+  })
   async previewCommission(
     @Query()
     { productInternalId }: PreviewCommissionInputQuery,
-  ): Promise<Commission> {
+  ): Promise<PreviewCommissionOutputDTO> {
     try {
       const {
         product: { productType, vendorId },
         priceInCents,
       } = await this.prisma.productVariant.findFirstOrThrow({
         where: {
-          id: productInternalId,
+          productId: productInternalId,
         },
         include: {
           product: true,

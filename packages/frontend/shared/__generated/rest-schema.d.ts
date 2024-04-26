@@ -68,6 +68,9 @@ export interface paths {
   '/v1/invoice/preview-payout': {
     get: operations['PayoutController_previewPayout'];
   };
+  '/v1/invoice/preview-commission': {
+    get: operations['PayoutController_previewCommission'];
+  };
   '/v1/invoice/payout': {
     post: operations['PayoutController_executePayout'];
   };
@@ -206,6 +209,10 @@ export interface components {
         | 'CANCELED'
         | 'RETURNED'
         | 'LABELED';
+    };
+    PreviewCommissionOutputDTO: {
+      vendorCommission: number;
+      vendorShipping: number;
     };
     PayoutInputQuery: {
       /** @description The Shopify id of the order line */
@@ -432,7 +439,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-24T09:58:17.068Z
+       * @example 2024-04-26T08:56:51.050Z
        */
       birthDate: string;
       /**
@@ -730,6 +737,21 @@ export interface operations {
     responses: {
       200: {
         content: never;
+      };
+    };
+  };
+  PayoutController_previewCommission: {
+    parameters: {
+      query: {
+        /** @description The internal id of the product */
+        productInternalId: string;
+      };
+    };
+    responses: {
+      default: {
+        content: {
+          'application/json': components['schemas']['PreviewCommissionOutputDTO'];
+        };
       };
     };
   };
