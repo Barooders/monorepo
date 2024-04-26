@@ -90,6 +90,13 @@ export const prodVendorConfig: EnvVendorsConfig = {
       { commandName: 'updateProductStatuses', cron: '30 */3 * * *' },
     ],
   },
+  agava_presales_b2b: {
+    vendorId: '7905706f-2bb2-43a5-b1fb-fb315139d3de',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 */3 * * *' },
+    ],
+  },
   funbike: {
     vendorId: '8ff695e6-f0f8-4710-9b6f-908bcef9cd06',
     synchros: [
@@ -404,6 +411,13 @@ export const prodVendorConfig: EnvVendorsConfig = {
     synchros: [],
   },
   agava: {
+    vendorId: '9fa2866d-ad2d-4ab8-b0f3-9de1e1e6f41e',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 5 * * *' },
+      { commandName: 'updateProductStatuses', cron: '50 */3 * * *' },
+    ],
+  },
+  agava_b2b: {
     vendorId: '9fa2866d-ad2d-4ab8-b0f3-9de1e1e6f41e',
     synchros: [
       { commandName: 'syncProducts', cron: '0 5 * * *' },

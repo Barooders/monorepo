@@ -92,6 +92,49 @@ const bewakConfig = {
   },
 };
 
+const AGAVA_PRESALES_CONFIG: AllBaseVendorsConfig['agava_presales'] = {
+  slug: 'agava_presales',
+  mappingKey: 'agava_presales',
+  type: VendorType.CSV,
+  apiUrl:
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVYXXPlSFGrt9bahdBOEz6odCp9MAJ6EJwIwQjzk-kmweRdgjt1BXrooyMmoaA1Jh1yyjDR-xQ_8RR/pub?gid=1274531655&single=true&output=csv',
+  catalog: {
+    common: {
+      defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
+    },
+    csv: {
+      columns: {
+        ...baseCsvConfig,
+        tags: [9, 10, 11, 13, 17, 18, 19, 20, 21],
+        option1: 12,
+        option2: 16,
+        variantCondition: 14,
+        images: [15],
+      },
+    },
+  },
+};
+
+const AGAVA_CONFIG: AllBaseVendorsConfig['agava'] = {
+  slug: 'agava',
+  mappingKey: 'agava',
+  type: VendorType.CSV,
+  apiUrl:
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdIczC8BzwR-JzH6IAZKP0UrkVEL1-WYT2UWh2BlEJm7Et7lEFyCtO-rIXpgxkc93x4oKE1W2Wh_ow/pub?gid=1274531655&single=true&output=csv',
+  catalog: {
+    csv: {
+      columns: {
+        ...baseCsvConfig,
+        tags: [9, 10, 11, 13, 17, 18, 19, 20],
+        option1: 12,
+        option2: 16,
+        variantCondition: 14,
+        images: [15],
+      },
+    },
+  },
+};
+
 export const baseVendorConfig: AllBaseVendorsConfig = {
   tuvalum: {
     slug: 'tuvalum',
@@ -1005,6 +1048,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKS-7U4OPGEZgW6ysQGYvDK5EF3PbEpuISJfc8-DNINMa1o-8YIi59JguugaaLIiR5A87MbldmbIiP/pub?gid=1274531655&single=true&output=csv',
     catalog: {
+      common: {
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
+      },
       csv: {
         columns: {
           ...baseCsvConfig,
@@ -1040,25 +1087,19 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  agava: {
-    slug: 'agava',
-    mappingKey: 'agava',
-    type: VendorType.CSV,
-    apiUrl:
-      'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdIczC8BzwR-JzH6IAZKP0UrkVEL1-WYT2UWh2BlEJm7Et7lEFyCtO-rIXpgxkc93x4oKE1W2Wh_ow/pub?gid=1274531655&single=true&output=csv',
+  agava: AGAVA_CONFIG,
+  agava_b2b: merge(AGAVA_CONFIG, {
+    slug: 'agava_b2b',
     catalog: {
+      common: {
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
+      },
       csv: {
-        columns: {
-          ...baseCsvConfig,
-          tags: [9, 10, 11, 13, 17, 18, 19, 20],
-          option1: 12,
-          option2: 16,
-          variantCondition: 14,
-          images: [15],
-        },
+        salesChannels: [SalesChannelName.B2B],
       },
     },
-  },
+  }),
   agava_parts: {
     slug: 'agava_parts',
     mappingKey: 'agava_parts',
@@ -1081,28 +1122,19 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  agava_presales: {
-    slug: 'agava_presales',
-    mappingKey: 'agava_presales',
-    type: VendorType.CSV,
-    apiUrl:
-      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVYXXPlSFGrt9bahdBOEz6odCp9MAJ6EJwIwQjzk-kmweRdgjt1BXrooyMmoaA1Jh1yyjDR-xQ_8RR/pub?gid=1274531655&single=true&output=csv',
+  agava_presales: AGAVA_PRESALES_CONFIG,
+  agava_presales_b2b: merge(AGAVA_PRESALES_CONFIG, {
+    slug: 'agava_presales_b2b',
     catalog: {
       common: {
-        defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
       },
       csv: {
-        columns: {
-          ...baseCsvConfig,
-          tags: [9, 10, 11, 13, 17, 18, 19, 20, 21],
-          option1: 12,
-          option2: 16,
-          variantCondition: 14,
-          images: [15],
-        },
+        salesChannels: [SalesChannelName.B2B],
       },
     },
-  },
+  }),
   roue_liber: {
     slug: 'roue_liber',
     mappingKey: 'roue_liber',
