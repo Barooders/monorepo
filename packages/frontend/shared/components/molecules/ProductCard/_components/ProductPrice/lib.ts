@@ -18,3 +18,9 @@ export const calculateTotalDiscountedPrice = (
       total - (calculateDiscountedPrice(discount, price) ?? 0),
     price,
   );
+
+export const calculateFinalPrice = (
+  discounts: Discount[],
+  price: number,
+  commissionAmount: number = 0,
+) => calculateTotalDiscountedPrice(discounts, price) + commissionAmount;

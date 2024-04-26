@@ -95,7 +95,7 @@ const splitPaymentSolutions: SplitPaymentSolution[] = [
     monthlyPayment(price: number, duration: number) {
       return price / duration;
     },
-    priceRange: [100, 3000],
+    priceRange: [100, 2920],
   },
   {
     durations: [10],

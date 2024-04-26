@@ -21,6 +21,7 @@ import ProductDescription from '../_components/ProductDescription';
 import ProductGallery from '../_components/ProductGallery';
 import ProductPrice from '../_components/ProductPrice';
 import DiscountLabel from '../_components/ProductPrice/DiscountLabel';
+import { calculateFinalPrice } from '../_components/ProductPrice/lib';
 import ProductViews from '../_components/ProductViews';
 import SplittedPayments from '../_components/SplittedPayments';
 import StickyBarPayment from '../_components/StickyBarPayment';
@@ -156,7 +157,11 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             componentSize="large"
             discounts={discounts}
           />
-          {price > 60 && <SplittedPayments price={price} />}
+          {price > 60 && (
+            <SplittedPayments
+              price={calculateFinalPrice(discounts, price, commissionAmount)}
+            />
+          )}
 
           {informativeComponent && (
             <Modal
