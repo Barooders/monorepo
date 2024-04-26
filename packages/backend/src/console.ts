@@ -16,6 +16,8 @@ const bootstraper = new BootstrapConsole({
   contextOptions: { abortOnError: false },
 });
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const bootstrap = async () => {
   let app;
   try {
@@ -27,6 +29,10 @@ const bootstrap = async () => {
     initSentry(SentryContext.JOB);
 
     await bootstraper.boot();
+
+    // Wait for 10 seconds to make sure logs are sent to New Relic
+    await sleep(10000);
+
     await app.close();
   } catch (e) {
     const parsedError = e as { message?: string };
@@ -39,6 +45,10 @@ ${errorMessage}`,
     );
     // eslint-disable-next-line no-console
     console.error(e);
+
+    // Wait for 10 seconds to make sure logs are sent to New Relic
+    await sleep(10000);
+
     process.exit(1);
   }
 };
