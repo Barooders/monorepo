@@ -138,7 +138,7 @@ export class CommissionService {
     return commission;
   }
 
-  private async getVendorCommission(
+  async getVendorCommission(
     { productType, vendorId, price, discount }: ProductVariant,
     options: { isFreeShipping?: boolean } = {},
   ): Promise<Commission> {
