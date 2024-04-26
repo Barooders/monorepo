@@ -16,7 +16,7 @@ const sharedConfig = {
     },
   ],
   apiKey: envConfig.externalServices.typesense.apiKey,
-  connectionTimeoutSeconds: 2,
+  connectionTimeoutSeconds: 10,
 };
 
 export type TypesensePublicVariantDocument = SearchPublicVariantDocument & {
