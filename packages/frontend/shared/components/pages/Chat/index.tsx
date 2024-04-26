@@ -7,7 +7,7 @@ import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { gql } from '@apollo/client';
-import { head } from 'lodash';
+import head from 'lodash/head';
 import { useEffect } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
 import { HASURA_ROLES } from 'shared-types';

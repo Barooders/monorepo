@@ -12,7 +12,7 @@ import useUser from '@/hooks/state/useUser';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
 import { useSubscription } from '@apollo/client';
-import { first } from 'lodash';
+import first from 'lodash/first';
 import React from 'react';
 import { ProductSingleVariant } from '../../types';
 
