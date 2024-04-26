@@ -20,6 +20,7 @@ export type SynchronizedProVendor =
   | 'agava'
   | 'agava_parts'
   | 'agava_presales'
+  | 'agava_presales_b2b'
   | 'all_cycles'
   | 'alpin_store'
   | 'alpin_store_orders'
@@ -118,6 +119,7 @@ export interface CommonCatalogConfig {
     filter?: (input: { isBike: boolean }) => boolean;
   }[];
   minimumDiscount?: number;
+  minimumQuantity?: number;
   defaultPublishedProductStatus?: ProductStatus;
   descriptionPrefix?: string;
   descriptionSuffix?: string;
@@ -168,7 +170,7 @@ interface XMLCatalogConfig {
   };
 }
 
-interface CSVCatalogConfig {
+export interface CSVCatalogConfig {
   textTransformer?: (input: string) => string;
   columns: {
     isActive?: number;

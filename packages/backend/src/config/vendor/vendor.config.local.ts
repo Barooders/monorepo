@@ -29,6 +29,7 @@ export const localVendorConfig: EnvVendorsConfig = {
   zyclora: DEFAULT_CONFIG,
   alpin_store_orders: DEFAULT_CONFIG_WITHOUT_ORDER,
   agava_presales: DEFAULT_CONFIG,
+  agava_presales_b2b: DEFAULT_CONFIG,
   montanini: DEFAULT_CONFIG,
   bicipedia: DEFAULT_CONFIG,
   bbbike: DEFAULT_CONFIG,

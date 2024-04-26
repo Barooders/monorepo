@@ -7,7 +7,12 @@ import {
   NEW_PRODUCT_DEFAULT_DESCRIPTION,
   USED_PRODUCT_DEFAULT_DESCRIPTION,
 } from './constants';
-import { AllBaseVendorsConfig, BrandFilterAction, VendorType } from './types';
+import {
+  AllBaseVendorsConfig,
+  BrandFilterAction,
+  CSVCatalogConfig,
+  VendorType,
+} from './types';
 import vendorSecrets from './vendor.secret';
 
 export const DESIRED_BIKES_TAGS = [
@@ -87,6 +92,29 @@ const bewakConfig = {
       orderStateId: '24',
       getShippingCost: () => {
         return 8.7;
+      },
+    },
+  },
+};
+
+const AGAVA_PRESALES_CONFIG: AllBaseVendorsConfig['agava_presales'] = {
+  slug: 'agava_presales',
+  mappingKey: 'agava_presales',
+  type: VendorType.CSV,
+  apiUrl:
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVYXXPlSFGrt9bahdBOEz6odCp9MAJ6EJwIwQjzk-kmweRdgjt1BXrooyMmoaA1Jh1yyjDR-xQ_8RR/pub?gid=1274531655&single=true&output=csv',
+  catalog: {
+    common: {
+      defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
+    },
+    csv: {
+      columns: {
+        ...baseCsvConfig,
+        tags: [9, 10, 11, 13, 17, 18, 19, 20, 21],
+        option1: 12,
+        option2: 16,
+        variantCondition: 14,
+        images: [15],
       },
     },
   },
@@ -1081,25 +1109,20 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
-  agava_presales: {
-    slug: 'agava_presales',
-    mappingKey: 'agava_presales',
-    type: VendorType.CSV,
-    apiUrl:
-      'https://docs.google.com/spreadsheets/d/e/2PACX-1vQVYXXPlSFGrt9bahdBOEz6odCp9MAJ6EJwIwQjzk-kmweRdgjt1BXrooyMmoaA1Jh1yyjDR-xQ_8RR/pub?gid=1274531655&single=true&output=csv',
+  agava_presales: AGAVA_PRESALES_CONFIG,
+  agava_presales_b2b: {
+    ...AGAVA_PRESALES_CONFIG,
+    slug: 'agava_presales_b2b',
     catalog: {
+      ...AGAVA_PRESALES_CONFIG.catalog,
       common: {
-        defaultDescription: NEW_PRODUCT_DEFAULT_DESCRIPTION,
+        ...AGAVA_PRESALES_CONFIG.catalog.common,
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
       },
       csv: {
-        columns: {
-          ...baseCsvConfig,
-          tags: [9, 10, 11, 13, 17, 18, 19, 20, 21],
-          option1: 12,
-          option2: 16,
-          variantCondition: 14,
-          images: [15],
-        },
+        ...(AGAVA_PRESALES_CONFIG.catalog.csv as CSVCatalogConfig),
+        salesChannels: [SalesChannelName.B2B],
       },
     },
   },

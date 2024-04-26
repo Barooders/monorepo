@@ -52,6 +52,7 @@ export const stagingVendorConfig: EnvVendorsConfig = {
   pilat: DEFAULT_CONFIG,
   bike_xtreme: DEFAULT_CONFIG,
   agava_presales: DEFAULT_CONFIG,
+  agava_presales_b2b: DEFAULT_CONFIG,
   alpin_store_orders: DEFAULT_CONFIG_WITHOUT_ORDER,
   dayak: DEFAULT_CONFIG,
   manufaktur: DEFAULT_CONFIG,

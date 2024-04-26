@@ -64,6 +64,12 @@ export class ProductMapper {
       catalogFeatures,
     );
 
+    this.checkMinimumQuantityForProduct({
+      productExternalId: mappedProduct.external_id,
+      filteredVariants,
+      catalogFeatures,
+    });
+
     const defaultProductCondition = catalogFeatures?.defaultProductCondition;
 
     return {
@@ -336,5 +342,31 @@ export class ProductMapper {
     return priceCorrection
       .filter(({ filter }) => filter === undefined || filter({ isBike }))
       .reduce((acc, { amount }) => amount + acc, 0);
+  }
+
+  private checkMinimumQuantityForProduct({
+    filteredVariants,
+    catalogFeatures,
+    productExternalId,
+  }: {
+    productExternalId: string;
+    filteredVariants: Variant[];
+    catalogFeatures: CommonCatalogConfig | undefined;
+  }) {
+    const minimumQuantity = catalogFeatures?.minimumQuantity;
+
+    if (!minimumQuantity) return;
+
+    const productQuantity = filteredVariants.reduce(
+      (acc, { inventory_quantity }) => acc + Number(inventory_quantity),
+      0,
+    );
+
+    if (productQuantity < minimumQuantity) {
+      throw new SkippedProductException(
+        productExternalId,
+        `Product quantity is too low: ${productQuantity} < ${minimumQuantity}`,
+      );
+    }
   }
 }

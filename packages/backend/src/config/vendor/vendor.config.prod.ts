@@ -90,6 +90,14 @@ export const prodVendorConfig: EnvVendorsConfig = {
       { commandName: 'updateProductStatuses', cron: '30 */3 * * *' },
     ],
   },
+  agava_presales_b2b: {
+    vendorId: '7905706f-2bb2-43a5-b1fb-fb315139d3de',
+    // Est-ce que ces synchros servent vraiment ou est-ce qu'on les lancent uniquement manuellement ?
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 0 * * *' },
+      { commandName: 'updateProductStatuses', cron: '30 */3 * * *' },
+    ],
+  },
   funbike: {
     vendorId: '8ff695e6-f0f8-4710-9b6f-908bcef9cd06',
     synchros: [
