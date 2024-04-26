@@ -185,7 +185,7 @@ export class PayoutController {
       });
       return await this.commissionService.getVendorCommission({
         productType: productType ?? '',
-        price: Number(priceInCents ?? 0),
+        price: Number(priceInCents ?? 0) / 100,
         vendorId,
         discount: 0,
       });
