@@ -1033,6 +1033,10 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     apiUrl:
       'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKS-7U4OPGEZgW6ysQGYvDK5EF3PbEpuISJfc8-DNINMa1o-8YIi59JguugaaLIiR5A87MbldmbIiP/pub?gid=1274531655&single=true&output=csv',
     catalog: {
+      common: {
+        minimumDiscount: 0.4,
+        minimumQuantity: 5,
+      },
       csv: {
         columns: {
           ...baseCsvConfig,
