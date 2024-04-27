@@ -1,4 +1,4 @@
-import { GetAvailableDiscountsQuery } from '@/__generated/graphql';
+import { AdminTypes } from '@/__generated/graphql.types';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { Discount } from '@/types';
@@ -24,7 +24,7 @@ const FETCH_DISCOUNTS = gql`
 `;
 
 const mapDiscount = (
-  discount: GetAvailableDiscountsQuery['dbt_store_discount'][0],
+  discount: AdminTypes.GetAvailableDiscountsQuery['dbt_store_discount'][0],
 ): Discount | null => {
   const discountTitle = discount.title ?? '';
   const valueType = discount.value_type;
@@ -58,7 +58,7 @@ const mapDiscount = (
 };
 
 export const fetchDiscountsByTitles = async (discountTitles: string[]) => {
-  const discounts = await fetchHasura<GetAvailableDiscountsQuery>(
+  const discounts = await fetchHasura<AdminTypes.GetAvailableDiscountsQuery>(
     FETCH_DISCOUNTS,
     {
       variables: { discountTitles },
