@@ -12,4 +12,4 @@ then
 	export DATABASE_STORE_URL=$DATABASE_URL?schema=dbt
 fi
 
-yarn prisma "${@}"
+yarn prisma "${@:2}" --schema=./prisma/$1/schema.prisma
