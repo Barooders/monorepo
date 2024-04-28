@@ -1,4 +1,5 @@
 import { fetchHasura } from '@/clients/hasura';
+import { gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 import { HASURA_ROLES } from 'shared-types';
 import { useHasuraToken } from './useHasuraToken';
@@ -27,3 +28,5 @@ export const useHasura = <
     });
   };
 };
+
+export const gql_public = gql;
