@@ -1,11 +1,11 @@
-import { AdminTypes } from '@/__generated/graphql.types';
+import { PublicTypes } from '@/__generated/graphql.types';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
+import { gql_public } from '@/hooks/useHasura';
 import { Discount } from '@/types';
-import { gql } from '@apollo/client';
 import compact from 'lodash/compact';
 
-const FETCH_DISCOUNTS = gql`
+const FETCH_DISCOUNTS = gql_public`
   query getAvailableDiscounts($discountTitles: [String!]) {
     dbt_store_discount(where: { title: { _in: $discountTitles } }) {
       collection {
@@ -24,7 +24,7 @@ const FETCH_DISCOUNTS = gql`
 `;
 
 const mapDiscount = (
-  discount: AdminTypes.GetAvailableDiscountsQuery['dbt_store_discount'][0],
+  discount: PublicTypes.GetAvailableDiscountsQuery['dbt_store_discount'][0],
 ): Discount | null => {
   const discountTitle = discount.title ?? '';
   const valueType = discount.value_type;
@@ -58,7 +58,7 @@ const mapDiscount = (
 };
 
 export const fetchDiscountsByTitles = async (discountTitles: string[]) => {
-  const discounts = await fetchHasura<AdminTypes.GetAvailableDiscountsQuery>(
+  const discounts = await fetchHasura<PublicTypes.GetAvailableDiscountsQuery>(
     FETCH_DISCOUNTS,
     {
       variables: { discountTitles },
