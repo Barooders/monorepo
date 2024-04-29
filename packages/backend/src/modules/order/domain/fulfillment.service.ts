@@ -58,7 +58,7 @@ export class FulfillmentService {
           this.logger.debug(
             `No external order id found for fulfillment order ${fulfillmentOrder.id}`,
           );
-          return;
+          continue;
         }
 
         const firstVendorId = first(fulfillmentOrder.orderLines)?.vendorId;
@@ -79,7 +79,7 @@ export class FulfillmentService {
           this.logger.debug(
             `No shipping details found for external order ${externalOrderId}`,
           );
-          return;
+          continue;
         }
 
         this.logger.debug(
