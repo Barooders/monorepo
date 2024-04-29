@@ -47,8 +47,6 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
 
 (async () => {
   Object.values(HASURA_ROLES).forEach(async (role) => {
-    if ([HASURA_ROLES.REGISTERED_USER_SPECIFIC].includes(role)) return;
-
     console.log(`Generating graphql types for role ${role}`);
     await generate(getConfigFromRole(role), true);
   });

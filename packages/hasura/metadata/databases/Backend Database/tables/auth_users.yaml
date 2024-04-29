@@ -150,42 +150,12 @@ select_permissions:
         - display_name
         - id
       filter: {}
-  - role: registered_user_specific
-    permission:
-      columns:
-        - active_mfa_type
-        - avatar_url
-        - created_at
-        - default_role
-        - disabled
-        - display_name
-        - email
-        - email_verified
-        - id
-        - is_anonymous
-        - locale
-        - metadata
-        - new_email
-        - phone_number
-        - phone_number_verified
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
 update_permissions:
   - role: registered_user
     permission:
       columns:
         - display_name
         - phone_number
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      check: null
-  - role: registered_user_specific
-    permission:
-      columns:
-        - email
-        - metadata
       filter:
         id:
           _eq: X-Hasura-User-Id
