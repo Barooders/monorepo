@@ -7,12 +7,12 @@ source .env.local || true > /dev/null 2>&1
 PRISMA_CLIENT_DIRECTORY=dist/src/__generated
 mkdir -p $PRISMA_CLIENT_DIRECTORY
 
-if [ ! -z $DATABASE_URL_LOCAL ];
+if [ ! -z ${DATABASE_URL_LOCAL:-} ];
 then
 	export DATABASE_URL=$DATABASE_URL_LOCAL
 fi
 
-if [ -z $DATABASE_STORE_URL ];
+if [ -z ${DATABASE_STORE_URL:-} ];
 then
 	export DATABASE_STORE_URL=$DATABASE_URL?schema=dbt
 fi
