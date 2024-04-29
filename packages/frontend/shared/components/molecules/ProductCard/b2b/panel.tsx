@@ -14,7 +14,6 @@ const dict = getDictionary('fr');
 
 const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
   id,
-  shopifyId,
   title,
   tags,
   productType,
@@ -58,7 +57,6 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
       <BundlePrice
         compareAtPrice={compareAtPrice}
         price={price}
-        shopifyId={shopifyId}
         largestBundlePrice={largestBundlePrice}
         stock={stock}
       />

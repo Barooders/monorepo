@@ -13,7 +13,6 @@ const B2BProductCard: React.FC<
   B2BProductCardProps & { openDetails: (productInternalId: string) => void }
 > = ({
   id,
-  shopifyId,
   title,
   tags,
   productType,
@@ -55,7 +54,6 @@ const B2BProductCard: React.FC<
           className="my-1"
           compareAtPrice={compareAtPrice}
           price={price}
-          shopifyId={shopifyId}
           largestBundlePrice={largestBundlePrice}
           stock={stock}
         />

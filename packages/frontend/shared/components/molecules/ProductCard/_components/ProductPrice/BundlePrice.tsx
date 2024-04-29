@@ -1,11 +1,10 @@
 import { getDictionary } from '@/i18n/translate';
-import ProductPrice from '.';
+import { formatCurrency } from '@/utils/currency';
 import ProductLabel from '../ProductLabel';
 
 const dict = getDictionary('fr');
 
 type PropsType = {
-  shopifyId: string;
   compareAtPrice: number;
   largestBundlePrice?: number;
   price: number;
@@ -14,7 +13,6 @@ type PropsType = {
 };
 
 const BundlePrice: React.FC<PropsType> = ({
-  shopifyId,
   compareAtPrice,
   largestBundlePrice,
   price,
@@ -22,6 +20,10 @@ const BundlePrice: React.FC<PropsType> = ({
   className,
 }) => {
   const bundlePrice = largestBundlePrice ?? price;
+  const publicPrice = Math.max(compareAtPrice, price);
+  const priceWithTaxes = bundlePrice * 1.2;
+  const discount = Math.round((1 - priceWithTaxes / publicPrice) * 100);
+  const shouldShowPublicPrice = discount > 10;
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -33,18 +35,24 @@ const BundlePrice: React.FC<PropsType> = ({
           />
         </div>
       </div>
-      <div className="flex flex-col">
-        <div className="flex items-center gap-1">
-          <span className="whitespace-nowrap font-bold">
-            {dict.b2b.productCard.price.unitBundlePrice} :
+      <div className="flex flex-col gap-1">
+        <div className="whitespace-nowrap">
+          {dict.b2b.productCard.price.priceStartsAt} :{' '}
+          <span className="font-bold">
+            {formatCurrency(bundlePrice)}€ {dict.b2b.productCard.price.dutyFree}{' '}
           </span>
-          <ProductPrice
-            productId={shopifyId}
-            discounts={[]}
-            compareAtPrice={Math.max(compareAtPrice, price)}
-            price={bundlePrice}
-            showPriceRecap={false}
-          />
+          / {dict.b2b.productCard.price.unit}
+        </div>
+        <div className="whitespace-nowrap text-xs font-light">
+          {shouldShowPublicPrice ? (
+            <>
+              {dict.b2b.productCard.price.publicPrice} :{' '}
+              {formatCurrency(publicPrice)}€{' '}
+              {dict.b2b.productCard.price.taxIncluded} (-{discount}%)
+            </>
+          ) : (
+            <>&nbsp;</>
+          )}
         </div>
       </div>
     </div>
