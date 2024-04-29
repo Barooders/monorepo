@@ -66,8 +66,10 @@ const Characteristics: React.FC<{
         {brand}{' '}
       </p>
       <p
-        className={`flex flex-wrap gap-1 tracking-tight text-gray-600 ${
-          componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'
+        className={`flex flex-wrap gap-1 overflow-hidden tracking-tight text-gray-600 ${
+          componentSize === 'large'
+            ? 'h-5 text-sm'
+            : 'h-4 text-xs lg:h-5 lg:text-sm'
         }`}
       >
         <span className="hidden">{' • '}</span>
@@ -81,7 +83,7 @@ const Characteristics: React.FC<{
             )}
             <span
               className={`block ${
-                componentSize === 'medium' ? 'max-w-[250px]' : ''
+                componentSize === 'medium' ? 'max-w-[200px]' : ''
               } overflow-hidden text-ellipsis whitespace-nowrap`}
             >
               {characteristic.value}
