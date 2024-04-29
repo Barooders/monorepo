@@ -84,6 +84,11 @@ export class FulfillmentService {
             return;
           }
 
+          this.logger.debug(
+            `Shipping details found for external order ${externalOrderId}`,
+            shippingDetails,
+          );
+
           await this.createFulfillment(fulfillmentOrder, shippingDetails, {
             type: 'backend',
           });
