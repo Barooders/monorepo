@@ -69,18 +69,10 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
         {hasOpenedPriceOffer ? (
           <ExistingOfferComponent className="flex-1" />
         ) : (
-          <>
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={false}
-              className="flex-1"
-            />
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={true}
-              className="flex-1"
-            />
-          </>
+          <B2BPriceOfferButton
+            className="flex-1"
+            productId={id}
+          />
         )}
       </div>
 

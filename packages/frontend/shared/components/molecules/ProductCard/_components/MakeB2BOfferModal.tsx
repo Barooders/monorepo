@@ -20,7 +20,7 @@ type Inputs = {
 };
 
 type PropsType = {
-  userCanNegociate: boolean;
+  userCanNegociate?: boolean;
   productId: string;
   productName: string;
   totalQuantity: number;
@@ -35,7 +35,7 @@ export enum Status {
 }
 
 const MakeB2BOfferModal: React.FC<PropsType> = ({
-  userCanNegociate,
+  userCanNegociate = false,
   productId,
   productName,
   totalQuantity,

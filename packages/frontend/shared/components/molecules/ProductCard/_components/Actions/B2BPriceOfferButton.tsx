@@ -53,15 +53,10 @@ const FETCH_PRODUCT_FOR_NEW_OFFER = gql_b2b_user`
 
 type PropsType = {
   productId: string;
-  userCanNegociate: boolean;
   className?: string;
 };
 
-const B2BPriceOfferButton: React.FC<PropsType> = ({
-  productId,
-  userCanNegociate,
-  className,
-}) => {
+const B2BPriceOfferButton: React.FC<PropsType> = ({ productId, className }) => {
   const fetchProductForNewOffer =
     useHasura<B2BUserTypes.FetchProductForNewOfferQuery>(
       FETCH_PRODUCT_FOR_NEW_OFFER,
@@ -77,16 +72,14 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   }> = ({ openModal }) => {
     return (
       <Button
-        intent={userCanNegociate ? 'tertiary' : 'secondary'}
+        intent="secondary"
         onClick={() => {
           openModal();
           doFetchProductHitData();
         }}
         className="w-full"
       >
-        {userCanNegociate
-          ? dict.b2b.productCard.makeAnOffer.openModal
-          : dict.b2b.productCard.makeAnOffer.buy}
+        {dict.b2b.productCard.makeAnOffer.openModal}
       </Button>
     );
   };
@@ -120,7 +113,6 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
             <Loader />
           ) : product ? (
             <MakeB2BOfferModal
-              userCanNegociate={userCanNegociate}
               closeModal={closeModal}
               productId={productId}
               productName={product.exposedProduct?.title ?? ''}

@@ -65,18 +65,10 @@ const B2BProductCard: React.FC<
         {hasOpenedPriceOffer ? (
           <ExistingOfferComponent className="flex-1" />
         ) : (
-          <>
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={false}
-              className="flex-1"
-            />
-            <B2BPriceOfferButton
-              productId={id}
-              userCanNegociate={true}
-              className="flex-1"
-            />
-          </>
+          <B2BPriceOfferButton
+            className="flex-1"
+            productId={id}
+          />
         )}
       </div>
     </div>
