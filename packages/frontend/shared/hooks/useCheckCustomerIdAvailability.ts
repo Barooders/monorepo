@@ -1,10 +1,9 @@
 import { CheckExistingCustomerQuery } from '@/__generated/graphql';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
-import { useHasura } from './useHasura';
+import { gql_registered_user, useHasura } from './useHasura';
 
-const EXISTING_CUSTOMER_QUERY = gql`
+const EXISTING_CUSTOMER_QUERY = gql_registered_user`
   query checkExistingCustomer($customerId: String) {
     Customer(where: { sellerName: { _eq: $customerId } }) {
       authUserId

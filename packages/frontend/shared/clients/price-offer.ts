@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { gql_registered_user } from '@/hooks/useHasura';
 
-export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = gql`
+export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = gql_registered_user`
   subscription subscribeToOpenedPriceOffer(
     $productInternalId: String
     $buyerInternalId: uuid

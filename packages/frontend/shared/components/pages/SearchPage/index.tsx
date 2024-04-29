@@ -18,9 +18,9 @@ import {
 import { searchCollections } from '@/config';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
 import useSearchPage from '@/hooks/state/useSearchPage';
+import { gql_public } from '@/hooks/useHasura';
 import useInitDiscounts from '@/hooks/useInitDiscounts';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import SavedSearchButton from '../../molecules/SavedSearchButton/index.mobile';
@@ -53,7 +53,7 @@ type ParentCollection =
   | null
   | undefined;
 
-const FETCH_COLLECTION_PAGE = gql`
+const FETCH_COLLECTION_PAGE = gql_public`
   ${REVIEWS_FRAGMENT}
 
   query fetchCollectionPageData(

@@ -6,11 +6,10 @@ import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import ChatPanel from '@/components/molecules/ChatPanel/container';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_registered_user, useHasura } from '@/hooks/useHasura';
 import useStartChatConversation from '@/hooks/useStartChatConversation';
 import { getDictionary } from '@/i18n/translate';
 import { ConversationType } from '@/types';
-import { gql } from '@apollo/client';
 import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
 import first from 'lodash/first';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -26,7 +25,7 @@ type Props = {
   initialConversationId?: string;
 };
 
-const GET_PRODUCT_PRICE = gql`
+const GET_PRODUCT_PRICE = gql_registered_user`
   query getProductPrice($productShopifyId: bigint) {
     dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
       variants(

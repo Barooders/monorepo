@@ -5,11 +5,10 @@ import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import { PRICE_OFFER_STATUS_COLORS } from './config';
@@ -58,7 +57,7 @@ type PriceOffer = {
   status: PriceOfferStatus;
 };
 
-const FETCH_PRICE_OFFERS = gql`
+const FETCH_PRICE_OFFERS = gql_b2b_user`
   query fetchPriceOffers {
     PriceOffer(order_by: { createdAt: desc }) {
       id

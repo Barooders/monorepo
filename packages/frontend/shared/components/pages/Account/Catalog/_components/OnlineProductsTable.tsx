@@ -8,11 +8,10 @@ import Modal from '@/components/atoms/Modal';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
 import useBackend from '@/hooks/useBackend';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_me_as_vendor, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { ProductStatus } from '@/types';
-import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { HASURA_ROLES } from 'shared-types';
@@ -46,7 +45,7 @@ type OnlineProduct = {
   }[];
 };
 
-const FETCH_ONLINE_PRODUCTS = gql`
+const FETCH_ONLINE_PRODUCTS = gql_me_as_vendor`
   query fetchOnlineProducts {
     Customer(limit: 1) {
       onlineProducts(

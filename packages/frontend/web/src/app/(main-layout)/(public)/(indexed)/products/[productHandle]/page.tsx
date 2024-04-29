@@ -9,9 +9,9 @@ import config from '@/config/env';
 import { BackendFailureException } from '@/exception/backend-failure.exception';
 import { ForbiddenPathException } from '@/exceptions/ForbiddenPathException';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
+import { gql_public } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
 import { AppRouterPage } from '@/types';
-import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { Metadata } from 'next';
 
@@ -35,7 +35,7 @@ export type ProductDTO = {
 
 const dict = getDictionary('fr');
 
-const FETCH_PRODUCT_METADATA = gql`
+const FETCH_PRODUCT_METADATA = gql_public`
   query fetchProductMetadata($productHandle: String) {
     shopify {
       product(handle: $productHandle) {

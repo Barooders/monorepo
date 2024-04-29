@@ -3,15 +3,13 @@
 import { FetchNegociationAgreementQuery } from '@/__generated/graphql';
 import Loader from '@/components/atoms/Loader';
 import useUser from '@/hooks/state/useUser';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_me_as_vendor, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import PersonalInfoForm from '.';
-
-const GET_VENDOR_NEGOCIATION_AGREEMENT = gql`
+const GET_VENDOR_NEGOCIATION_AGREEMENT = gql_me_as_vendor`
   query fetchNegociationAgreement($vendorId: uuid) {
     NegociationAgreement(where: { vendorId: { _eq: $vendorId } }) {
       id

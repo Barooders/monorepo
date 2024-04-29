@@ -8,18 +8,21 @@ import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
-import { useHasura } from '@/hooks/useHasura';
+import { useAuth } from '@/hooks/useAuth';
+import {
+  gql_me_as_customer,
+  gql_me_as_vendor,
+  useHasura,
+} from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { AccountSections } from '@/types';
-import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AccountMenu from './_components/AccountMenu';
 import { mapProductFromGraphQl } from './_helpers/map-product';
 import { MAX_PRODUCTS_PER_BLOCK, PRODUCTS_BY_SECTION } from './config';
 import { OrderStatus } from './types';
-import { useAuth } from '@/hooks/useAuth';
 
 const getDisplayedStatus = (status: string | null) => {
   if (!status) return dict.account.orderStatus.unknown.short;
@@ -32,8 +35,7 @@ const getDisplayedStatus = (status: string | null) => {
 
 const dict = getDictionary('fr');
 
-const STORE_PRODUCT_FRAGMENT = gql`
-  fragment StoreProductFields on dbt_store_exposed_product {
+const STORE_PRODUCT_FIELDS = `
     firstImage
     handle
     productType
@@ -51,11 +53,9 @@ const STORE_PRODUCT_FRAGMENT = gql`
         }
       }
     }
-  }
 `;
 
-const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql`
-  ${STORE_PRODUCT_FRAGMENT}
+const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql_me_as_customer`
   query fetchAccountPageCustomerData($maxItems: Int) {
     Customer(limit: 1) {
       lastName
@@ -76,7 +76,7 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql`
       ) {
         product {
           storeProduct: storeExposedProduct {
-            ...StoreProductFields
+            ${STORE_PRODUCT_FIELDS}
           }
         }
       }
@@ -95,8 +95,7 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql`
   }
 `;
 
-const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql`
-  ${STORE_PRODUCT_FRAGMENT}
+const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql_me_as_vendor`
   query fetchAccountPageVendorData($maxItems: Int) {
     Customer(limit: 1) {
       onlineProducts(
@@ -109,7 +108,7 @@ const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql`
         }
       ) {
         storeProduct: storeExposedProduct {
-          ...StoreProductFields
+          ${STORE_PRODUCT_FIELDS}
         }
       }
       vendorSoldOrderLines(

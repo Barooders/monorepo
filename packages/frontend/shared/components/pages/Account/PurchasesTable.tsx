@@ -5,10 +5,9 @@ import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_me_as_customer, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import { mapProductFromGraphQl } from './_helpers/map-product';
@@ -39,7 +38,7 @@ type Purchase = {
   status: OrderStatus;
 };
 
-const FETCH_PURCHASES = gql`
+const FETCH_PURCHASES = gql_me_as_customer`
   query fetchPurchases {
     Customer(limit: 1) {
       purchasedOrders(order_by: { createdAt: desc }) {

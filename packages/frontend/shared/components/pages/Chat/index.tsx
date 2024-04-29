@@ -3,10 +3,9 @@
 import { FetchCustomerQuery } from '@/__generated/graphql';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_me_as_customer, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import head from 'lodash/head';
 import { useEffect } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
@@ -20,7 +19,7 @@ type PropsType = {
   selectedConversationId?: string;
 };
 
-const GET_CUSTOMER = gql`
+const GET_CUSTOMER = gql_me_as_customer`
   query fetchCustomer {
     Customer {
       chatId
