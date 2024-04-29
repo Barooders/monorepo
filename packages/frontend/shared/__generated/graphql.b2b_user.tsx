@@ -25,18 +25,12 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  AggregateName: { input: any; output: any };
-  CollectionType: { input: any; output: any };
   Condition: { input: any; output: any };
-  EventName: { input: any; output: any };
-  PaymentSolutionCode: { input: any; output: any };
-  PaymentStatusType: { input: any; output: any };
+  PriceOfferStatus: { input: any; output: any };
   ProductStatus: { input: any; output: any };
-  ShipmentTimeframe: { input: any; output: any };
-  ShippingType: { input: any; output: any };
+  SalesChannelName: { input: any; output: any };
   bigint: { input: any; output: any };
   float8: { input: any; output: any };
-  jsonb: { input: any; output: any };
   shopify_Color: { input: any; output: any };
   shopify_DateTime: { input: any; output: any };
   shopify_Decimal: { input: any; output: any };
@@ -62,221 +56,58 @@ export type Boolean_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
-/** columns and relationships of "Checkout" */
-export type Checkout = {
-  __typename?: 'Checkout';
-  /** An array relationship */
-  Checkout_Payments: Array<Payment>;
-  id: Scalars['String']['output'];
-};
-
-/** columns and relationships of "Checkout" */
-export type CheckoutCheckout_PaymentsArgs = {
-  distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Payment_Order_By>>;
-  where: InputMaybe<Payment_Bool_Exp>;
-};
-
-/** Boolean expression to filter rows from the table "Checkout". All fields are combined with a logical 'AND'. */
-export type Checkout_Bool_Exp = {
-  Checkout_Payments: InputMaybe<Payment_Bool_Exp>;
-  _and: InputMaybe<Array<Checkout_Bool_Exp>>;
-  _not: InputMaybe<Checkout_Bool_Exp>;
-  _or: InputMaybe<Array<Checkout_Bool_Exp>>;
-  id: InputMaybe<String_Comparison_Exp>;
-};
-
-/** Ordering options when selecting data from "Checkout". */
-export type Checkout_Order_By = {
-  Checkout_Payments_aggregate: InputMaybe<Payment_Aggregate_Order_By>;
-  id: InputMaybe<Order_By>;
-};
-
-/** select columns of table "Checkout" */
-export enum Checkout_Select_Column {
-  /** column name */
-  Id = 'id',
-}
-
-/** Streaming cursor of the table "Checkout" */
-export type Checkout_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Checkout_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Checkout_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']['input']>;
-};
-
-/** columns and relationships of "Collection" */
-export type Collection = {
-  __typename?: 'Collection';
-  /** An array relationship */
-  childCollections: Array<Collection>;
-  description: Maybe<Scalars['String']['output']>;
-  featuredImageSrc: Maybe<Scalars['String']['output']>;
-  handle: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+/** columns and relationships of "BundlePrice" */
+export type BundlePrice = {
+  __typename?: 'BundlePrice';
+  minQuantity: Scalars['Int']['output'];
   /** An object relationship */
-  parentCollection: Maybe<Collection>;
-  parentCollectionId: Maybe<Scalars['String']['output']>;
-  seoDescription: Maybe<Scalars['String']['output']>;
-  seoTitle: Maybe<Scalars['String']['output']>;
-  shopifyCollection: Maybe<Shopify_Collection>;
-  shopifyId: Scalars['String']['output'];
-  shortName: Maybe<Scalars['String']['output']>;
-  title: Maybe<Scalars['String']['output']>;
-  type: Maybe<Scalars['CollectionType']['output']>;
+  product: Product;
+  productId: Scalars['String']['output'];
+  unitPriceInCents: Scalars['bigint']['output'];
 };
 
-/** columns and relationships of "Collection" */
-export type CollectionChildCollectionsArgs = {
-  distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Collection_Order_By>>;
-  where: InputMaybe<Collection_Bool_Exp>;
+/** Boolean expression to filter rows from the table "BundlePrice". All fields are combined with a logical 'AND'. */
+export type BundlePrice_Bool_Exp = {
+  _and: InputMaybe<Array<BundlePrice_Bool_Exp>>;
+  _not: InputMaybe<BundlePrice_Bool_Exp>;
+  _or: InputMaybe<Array<BundlePrice_Bool_Exp>>;
+  minQuantity: InputMaybe<Int_Comparison_Exp>;
+  product: InputMaybe<Product_Bool_Exp>;
+  productId: InputMaybe<String_Comparison_Exp>;
+  unitPriceInCents: InputMaybe<Bigint_Comparison_Exp>;
 };
 
-/** Boolean expression to compare columns of type "CollectionType". All fields are combined with logical 'AND'. */
-export type CollectionType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['CollectionType']['input']>;
-  _gt: InputMaybe<Scalars['CollectionType']['input']>;
-  _gte: InputMaybe<Scalars['CollectionType']['input']>;
-  _in: InputMaybe<Array<Scalars['CollectionType']['input']>>;
-  _is_null: InputMaybe<Scalars['Boolean']['input']>;
-  _lt: InputMaybe<Scalars['CollectionType']['input']>;
-  _lte: InputMaybe<Scalars['CollectionType']['input']>;
-  _neq: InputMaybe<Scalars['CollectionType']['input']>;
-  _nin: InputMaybe<Array<Scalars['CollectionType']['input']>>;
+/** Ordering options when selecting data from "BundlePrice". */
+export type BundlePrice_Order_By = {
+  minQuantity: InputMaybe<Order_By>;
+  product: InputMaybe<Product_Order_By>;
+  productId: InputMaybe<Order_By>;
+  unitPriceInCents: InputMaybe<Order_By>;
 };
 
-/** order by aggregate values of table "Collection" */
-export type Collection_Aggregate_Order_By = {
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<Collection_Max_Order_By>;
-  min: InputMaybe<Collection_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "Collection". All fields are combined with a logical 'AND'. */
-export type Collection_Bool_Exp = {
-  _and: InputMaybe<Array<Collection_Bool_Exp>>;
-  _not: InputMaybe<Collection_Bool_Exp>;
-  _or: InputMaybe<Array<Collection_Bool_Exp>>;
-  childCollections: InputMaybe<Collection_Bool_Exp>;
-  description: InputMaybe<String_Comparison_Exp>;
-  featuredImageSrc: InputMaybe<String_Comparison_Exp>;
-  handle: InputMaybe<String_Comparison_Exp>;
-  id: InputMaybe<String_Comparison_Exp>;
-  parentCollection: InputMaybe<Collection_Bool_Exp>;
-  parentCollectionId: InputMaybe<String_Comparison_Exp>;
-  seoDescription: InputMaybe<String_Comparison_Exp>;
-  seoTitle: InputMaybe<String_Comparison_Exp>;
-  shopifyId: InputMaybe<String_Comparison_Exp>;
-  shortName: InputMaybe<String_Comparison_Exp>;
-  title: InputMaybe<String_Comparison_Exp>;
-  type: InputMaybe<CollectionType_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "Collection" */
-export type Collection_Max_Order_By = {
-  description: InputMaybe<Order_By>;
-  featuredImageSrc: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  parentCollectionId: InputMaybe<Order_By>;
-  seoDescription: InputMaybe<Order_By>;
-  seoTitle: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  shortName: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  type: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "Collection" */
-export type Collection_Min_Order_By = {
-  description: InputMaybe<Order_By>;
-  featuredImageSrc: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  parentCollectionId: InputMaybe<Order_By>;
-  seoDescription: InputMaybe<Order_By>;
-  seoTitle: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  shortName: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  type: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "Collection". */
-export type Collection_Order_By = {
-  childCollections_aggregate: InputMaybe<Collection_Aggregate_Order_By>;
-  description: InputMaybe<Order_By>;
-  featuredImageSrc: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  parentCollection: InputMaybe<Collection_Order_By>;
-  parentCollectionId: InputMaybe<Order_By>;
-  seoDescription: InputMaybe<Order_By>;
-  seoTitle: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  shortName: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  type: InputMaybe<Order_By>;
-};
-
-/** select columns of table "Collection" */
-export enum Collection_Select_Column {
+/** select columns of table "BundlePrice" */
+export enum BundlePrice_Select_Column {
   /** column name */
-  Description = 'description',
+  MinQuantity = 'minQuantity',
   /** column name */
-  FeaturedImageSrc = 'featuredImageSrc',
+  ProductId = 'productId',
   /** column name */
-  Handle = 'handle',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ParentCollectionId = 'parentCollectionId',
-  /** column name */
-  SeoDescription = 'seoDescription',
-  /** column name */
-  SeoTitle = 'seoTitle',
-  /** column name */
-  ShopifyId = 'shopifyId',
-  /** column name */
-  ShortName = 'shortName',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  Type = 'type',
+  UnitPriceInCents = 'unitPriceInCents',
 }
 
-/** Streaming cursor of the table "Collection" */
-export type Collection_Stream_Cursor_Input = {
+/** Streaming cursor of the table "BundlePrice" */
+export type BundlePrice_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: Collection_Stream_Cursor_Value_Input;
+  initial_value: BundlePrice_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type Collection_Stream_Cursor_Value_Input = {
-  description: InputMaybe<Scalars['String']['input']>;
-  featuredImageSrc: InputMaybe<Scalars['String']['input']>;
-  handle: InputMaybe<Scalars['String']['input']>;
-  id: InputMaybe<Scalars['String']['input']>;
-  parentCollectionId: InputMaybe<Scalars['String']['input']>;
-  seoDescription: InputMaybe<Scalars['String']['input']>;
-  seoTitle: InputMaybe<Scalars['String']['input']>;
-  shopifyId: InputMaybe<Scalars['String']['input']>;
-  shortName: InputMaybe<Scalars['String']['input']>;
-  title: InputMaybe<Scalars['String']['input']>;
-  type: InputMaybe<Scalars['CollectionType']['input']>;
+export type BundlePrice_Stream_Cursor_Value_Input = {
+  minQuantity: InputMaybe<Scalars['Int']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  unitPriceInCents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** Boolean expression to compare columns of type "Condition". All fields are combined with logical 'AND'. */
@@ -292,214 +123,6 @@ export type Condition_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['Condition']['input']>>;
 };
 
-/** columns and relationships of "Customer" */
-export type Customer = {
-  __typename?: 'Customer';
-  /** An array relationship */
-  PublishedReviews: Array<Review>;
-  /** An array relationship */
-  VendorReviews: Array<VendorReview>;
-  authUserId: Scalars['uuid']['output'];
-  coverPictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['timestamp']['output'];
-  description: Maybe<Scalars['String']['output']>;
-  firstName: Maybe<Scalars['String']['output']>;
-  isPro: Scalars['Boolean']['output'];
-  lastName: Maybe<Scalars['String']['output']>;
-  /** An array relationship */
-  negociationAgreements: Array<NegociationAgreement>;
-  /** An array relationship */
-  onlineProducts: Array<Product>;
-  profilePictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
-  sellerName: Maybe<Scalars['String']['output']>;
-  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']['output']>;
-  shopifyId: Scalars['bigint']['output'];
-  updatedAt: Maybe<Scalars['timestamp']['output']>;
-  usedShipping: Scalars['ShippingType']['output'];
-  /** An object relationship */
-  user: Maybe<Users>;
-};
-
-/** columns and relationships of "Customer" */
-export type CustomerPublishedReviewsArgs = {
-  distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Review_Order_By>>;
-  where: InputMaybe<Review_Bool_Exp>;
-};
-
-/** columns and relationships of "Customer" */
-export type CustomerVendorReviewsArgs = {
-  distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<VendorReview_Order_By>>;
-  where: InputMaybe<VendorReview_Bool_Exp>;
-};
-
-/** columns and relationships of "Customer" */
-export type CustomerNegociationAgreementsArgs = {
-  distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
-  where: InputMaybe<NegociationAgreement_Bool_Exp>;
-};
-
-/** columns and relationships of "Customer" */
-export type CustomerOnlineProductsArgs = {
-  distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Product_Order_By>>;
-  where: InputMaybe<Product_Bool_Exp>;
-};
-
-/** Boolean expression to filter rows from the table "Customer". All fields are combined with a logical 'AND'. */
-export type Customer_Bool_Exp = {
-  PublishedReviews: InputMaybe<Review_Bool_Exp>;
-  VendorReviews: InputMaybe<VendorReview_Bool_Exp>;
-  _and: InputMaybe<Array<Customer_Bool_Exp>>;
-  _not: InputMaybe<Customer_Bool_Exp>;
-  _or: InputMaybe<Array<Customer_Bool_Exp>>;
-  authUserId: InputMaybe<Uuid_Comparison_Exp>;
-  coverPictureShopifyCdnUrl: InputMaybe<String_Comparison_Exp>;
-  createdAt: InputMaybe<Timestamp_Comparison_Exp>;
-  description: InputMaybe<String_Comparison_Exp>;
-  firstName: InputMaybe<String_Comparison_Exp>;
-  isPro: InputMaybe<Boolean_Comparison_Exp>;
-  lastName: InputMaybe<String_Comparison_Exp>;
-  negociationAgreements: InputMaybe<NegociationAgreement_Bool_Exp>;
-  onlineProducts: InputMaybe<Product_Bool_Exp>;
-  profilePictureShopifyCdnUrl: InputMaybe<String_Comparison_Exp>;
-  sellerName: InputMaybe<String_Comparison_Exp>;
-  shipmentTimeframe: InputMaybe<ShipmentTimeframe_Comparison_Exp>;
-  shopifyId: InputMaybe<Bigint_Comparison_Exp>;
-  updatedAt: InputMaybe<Timestamp_Comparison_Exp>;
-  usedShipping: InputMaybe<ShippingType_Comparison_Exp>;
-  user: InputMaybe<Users_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "Customer". */
-export type Customer_Order_By = {
-  PublishedReviews_aggregate: InputMaybe<Review_Aggregate_Order_By>;
-  VendorReviews_aggregate: InputMaybe<VendorReview_Aggregate_Order_By>;
-  authUserId: InputMaybe<Order_By>;
-  coverPictureShopifyCdnUrl: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  description: InputMaybe<Order_By>;
-  firstName: InputMaybe<Order_By>;
-  isPro: InputMaybe<Order_By>;
-  lastName: InputMaybe<Order_By>;
-  negociationAgreements_aggregate: InputMaybe<NegociationAgreement_Aggregate_Order_By>;
-  onlineProducts_aggregate: InputMaybe<Product_Aggregate_Order_By>;
-  profilePictureShopifyCdnUrl: InputMaybe<Order_By>;
-  sellerName: InputMaybe<Order_By>;
-  shipmentTimeframe: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  updatedAt: InputMaybe<Order_By>;
-  usedShipping: InputMaybe<Order_By>;
-  user: InputMaybe<Users_Order_By>;
-};
-
-/** select columns of table "Customer" */
-export enum Customer_Select_Column {
-  /** column name */
-  AuthUserId = 'authUserId',
-  /** column name */
-  CoverPictureShopifyCdnUrl = 'coverPictureShopifyCdnUrl',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  Description = 'description',
-  /** column name */
-  FirstName = 'firstName',
-  /** column name */
-  IsPro = 'isPro',
-  /** column name */
-  LastName = 'lastName',
-  /** column name */
-  ProfilePictureShopifyCdnUrl = 'profilePictureShopifyCdnUrl',
-  /** column name */
-  SellerName = 'sellerName',
-  /** column name */
-  ShipmentTimeframe = 'shipmentTimeframe',
-  /** column name */
-  ShopifyId = 'shopifyId',
-  /** column name */
-  UpdatedAt = 'updatedAt',
-  /** column name */
-  UsedShipping = 'usedShipping',
-}
-
-/** Streaming cursor of the table "Customer" */
-export type Customer_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Customer_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Customer_Stream_Cursor_Value_Input = {
-  authUserId: InputMaybe<Scalars['uuid']['input']>;
-  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
-  createdAt: InputMaybe<Scalars['timestamp']['input']>;
-  description: InputMaybe<Scalars['String']['input']>;
-  firstName: InputMaybe<Scalars['String']['input']>;
-  isPro: InputMaybe<Scalars['Boolean']['input']>;
-  lastName: InputMaybe<Scalars['String']['input']>;
-  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
-  sellerName: InputMaybe<Scalars['String']['input']>;
-  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  shopifyId: InputMaybe<Scalars['bigint']['input']>;
-  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
-  usedShipping: InputMaybe<Scalars['ShippingType']['input']>;
-};
-
-/** Boolean expression to filter rows from the table "Event". All fields are combined with a logical 'AND'. */
-export type Event_Bool_Exp = {
-  _and: InputMaybe<Array<Event_Bool_Exp>>;
-  _not: InputMaybe<Event_Bool_Exp>;
-  _or: InputMaybe<Array<Event_Bool_Exp>>;
-};
-
-/** unique or primary key constraints on table "Event" */
-export enum Event_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  EventPkey = 'Event_pkey',
-}
-
-/** input type for inserting data into table "Event" */
-export type Event_Insert_Input = {
-  aggregateId: InputMaybe<Scalars['String']['input']>;
-  aggregateName: InputMaybe<Scalars['AggregateName']['input']>;
-  metadata: InputMaybe<Scalars['jsonb']['input']>;
-  name: InputMaybe<Scalars['EventName']['input']>;
-  payload: InputMaybe<Scalars['jsonb']['input']>;
-};
-
-/** response of any mutation on the table "Event" */
-export type Event_Mutation_Response = {
-  __typename?: 'Event_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']['output'];
-};
-
-/** on_conflict condition type for table "Event" */
-export type Event_On_Conflict = {
-  constraint: Event_Constraint;
-  update_columns: Array<Event_Update_Column>;
-  where: InputMaybe<Event_Bool_Exp>;
-};
-
-/** placeholder for update columns of table "Event" (current role has no relevant permissions) */
-export enum Event_Update_Column {
-  /** placeholder (do not use) */
-  Placeholder = '_PLACEHOLDER',
-}
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq: InputMaybe<Scalars['Int']['input']>;
@@ -513,295 +136,152 @@ export type Int_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
-/** columns and relationships of "NegociationAgreement" */
-export type NegociationAgreement = {
-  __typename?: 'NegociationAgreement';
+/** columns and relationships of "PriceOffer" */
+export type PriceOffer = {
+  __typename?: 'PriceOffer';
+  buyerId: Scalars['uuid']['output'];
+  createdAt: Scalars['timestamp']['output'];
+  discountCode: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
-  maxAmountPercent: Scalars['Int']['output'];
-  priority: Scalars['Int']['output'];
-  productType: Maybe<Scalars['String']['output']>;
+  includedBuyerCommissionPercentage: Scalars['float8']['output'];
+  initiatedBy: Scalars['uuid']['output'];
+  name: Scalars['bigint']['output'];
+  newPriceInCents: Scalars['bigint']['output'];
   /** An object relationship */
-  vendor: Customer;
-  vendorId: Scalars['uuid']['output'];
+  product: Product;
+  productId: Scalars['String']['output'];
+  productVariantId: Maybe<Scalars['String']['output']>;
+  publicNote: Maybe<Scalars['String']['output']>;
+  quantity: Scalars['Int']['output'];
+  salesChannelName: Scalars['SalesChannelName']['output'];
+  status: Scalars['PriceOfferStatus']['output'];
 };
 
-/** order by aggregate values of table "NegociationAgreement" */
-export type NegociationAgreement_Aggregate_Order_By = {
-  avg: InputMaybe<NegociationAgreement_Avg_Order_By>;
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<NegociationAgreement_Max_Order_By>;
-  min: InputMaybe<NegociationAgreement_Min_Order_By>;
-  stddev: InputMaybe<NegociationAgreement_Stddev_Order_By>;
-  stddev_pop: InputMaybe<NegociationAgreement_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<NegociationAgreement_Stddev_Samp_Order_By>;
-  sum: InputMaybe<NegociationAgreement_Sum_Order_By>;
-  var_pop: InputMaybe<NegociationAgreement_Var_Pop_Order_By>;
-  var_samp: InputMaybe<NegociationAgreement_Var_Samp_Order_By>;
-  variance: InputMaybe<NegociationAgreement_Variance_Order_By>;
+/** Boolean expression to compare columns of type "PriceOfferStatus". All fields are combined with logical 'AND'. */
+export type PriceOfferStatus_Comparison_Exp = {
+  _eq: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _gt: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _gte: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['PriceOfferStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _lte: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _neq: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['PriceOfferStatus']['input']>>;
 };
 
-/** order by avg() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Avg_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "NegociationAgreement". All fields are combined with a logical 'AND'. */
-export type NegociationAgreement_Bool_Exp = {
-  _and: InputMaybe<Array<NegociationAgreement_Bool_Exp>>;
-  _not: InputMaybe<NegociationAgreement_Bool_Exp>;
-  _or: InputMaybe<Array<NegociationAgreement_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "PriceOffer". All fields are combined with a logical 'AND'. */
+export type PriceOffer_Bool_Exp = {
+  _and: InputMaybe<Array<PriceOffer_Bool_Exp>>;
+  _not: InputMaybe<PriceOffer_Bool_Exp>;
+  _or: InputMaybe<Array<PriceOffer_Bool_Exp>>;
+  buyerId: InputMaybe<Uuid_Comparison_Exp>;
+  createdAt: InputMaybe<Timestamp_Comparison_Exp>;
+  discountCode: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
-  maxAmountPercent: InputMaybe<Int_Comparison_Exp>;
-  priority: InputMaybe<Int_Comparison_Exp>;
-  productType: InputMaybe<String_Comparison_Exp>;
-  vendor: InputMaybe<Customer_Bool_Exp>;
-  vendorId: InputMaybe<Uuid_Comparison_Exp>;
+  includedBuyerCommissionPercentage: InputMaybe<Float8_Comparison_Exp>;
+  initiatedBy: InputMaybe<Uuid_Comparison_Exp>;
+  name: InputMaybe<Bigint_Comparison_Exp>;
+  newPriceInCents: InputMaybe<Bigint_Comparison_Exp>;
+  product: InputMaybe<Product_Bool_Exp>;
+  productId: InputMaybe<String_Comparison_Exp>;
+  productVariantId: InputMaybe<String_Comparison_Exp>;
+  publicNote: InputMaybe<String_Comparison_Exp>;
+  quantity: InputMaybe<Int_Comparison_Exp>;
+  salesChannelName: InputMaybe<SalesChannelName_Comparison_Exp>;
+  status: InputMaybe<PriceOfferStatus_Comparison_Exp>;
 };
 
-/** order by max() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Max_Order_By = {
+/** Ordering options when selecting data from "PriceOffer". */
+export type PriceOffer_Order_By = {
+  buyerId: InputMaybe<Order_By>;
+  createdAt: InputMaybe<Order_By>;
+  discountCode: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-  productType: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
+  includedBuyerCommissionPercentage: InputMaybe<Order_By>;
+  initiatedBy: InputMaybe<Order_By>;
+  name: InputMaybe<Order_By>;
+  newPriceInCents: InputMaybe<Order_By>;
+  product: InputMaybe<Product_Order_By>;
+  productId: InputMaybe<Order_By>;
+  productVariantId: InputMaybe<Order_By>;
+  publicNote: InputMaybe<Order_By>;
+  quantity: InputMaybe<Order_By>;
+  salesChannelName: InputMaybe<Order_By>;
+  status: InputMaybe<Order_By>;
 };
 
-/** order by min() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Min_Order_By = {
-  id: InputMaybe<Order_By>;
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-  productType: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "NegociationAgreement". */
-export type NegociationAgreement_Order_By = {
-  id: InputMaybe<Order_By>;
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-  productType: InputMaybe<Order_By>;
-  vendor: InputMaybe<Customer_Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** select columns of table "NegociationAgreement" */
-export enum NegociationAgreement_Select_Column {
+/** select columns of table "PriceOffer" */
+export enum PriceOffer_Select_Column {
+  /** column name */
+  BuyerId = 'buyerId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  DiscountCode = 'discountCode',
   /** column name */
   Id = 'id',
   /** column name */
-  MaxAmountPercent = 'maxAmountPercent',
+  IncludedBuyerCommissionPercentage = 'includedBuyerCommissionPercentage',
   /** column name */
-  Priority = 'priority',
+  InitiatedBy = 'initiatedBy',
   /** column name */
-  ProductType = 'productType',
+  Name = 'name',
   /** column name */
-  VendorId = 'vendorId',
-}
-
-/** order by stddev() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Stddev_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Stddev_Pop_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Stddev_Samp_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** Streaming cursor of the table "NegociationAgreement" */
-export type NegociationAgreement_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: NegociationAgreement_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type NegociationAgreement_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']['input']>;
-  maxAmountPercent: InputMaybe<Scalars['Int']['input']>;
-  priority: InputMaybe<Scalars['Int']['input']>;
-  productType: InputMaybe<Scalars['String']['input']>;
-  vendorId: InputMaybe<Scalars['uuid']['input']>;
-};
-
-/** order by sum() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Sum_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Var_Pop_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Var_Samp_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "NegociationAgreement" */
-export type NegociationAgreement_Variance_Order_By = {
-  maxAmountPercent: InputMaybe<Order_By>;
-  priority: InputMaybe<Order_By>;
-};
-
-/** columns and relationships of "Payment" */
-export type Payment = {
-  __typename?: 'Payment';
-  /** An object relationship */
-  Payment_Checkout: Checkout;
-  checkoutId: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  paymentSolutionCode: Scalars['PaymentSolutionCode']['output'];
-  status: Scalars['PaymentStatusType']['output'];
-  token: Maybe<Scalars['String']['output']>;
-};
-
-/** Boolean expression to compare columns of type "PaymentSolutionCode". All fields are combined with logical 'AND'. */
-export type PaymentSolutionCode_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _gt: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _gte: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _in: InputMaybe<Array<Scalars['PaymentSolutionCode']['input']>>;
-  _is_null: InputMaybe<Scalars['Boolean']['input']>;
-  _lt: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _lte: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _neq: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  _nin: InputMaybe<Array<Scalars['PaymentSolutionCode']['input']>>;
-};
-
-/** Boolean expression to compare columns of type "PaymentStatusType". All fields are combined with logical 'AND'. */
-export type PaymentStatusType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _gt: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _gte: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _in: InputMaybe<Array<Scalars['PaymentStatusType']['input']>>;
-  _is_null: InputMaybe<Scalars['Boolean']['input']>;
-  _lt: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _lte: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _neq: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  _nin: InputMaybe<Array<Scalars['PaymentStatusType']['input']>>;
-};
-
-/** order by aggregate values of table "Payment" */
-export type Payment_Aggregate_Order_By = {
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<Payment_Max_Order_By>;
-  min: InputMaybe<Payment_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "Payment". All fields are combined with a logical 'AND'. */
-export type Payment_Bool_Exp = {
-  Payment_Checkout: InputMaybe<Checkout_Bool_Exp>;
-  _and: InputMaybe<Array<Payment_Bool_Exp>>;
-  _not: InputMaybe<Payment_Bool_Exp>;
-  _or: InputMaybe<Array<Payment_Bool_Exp>>;
-  checkoutId: InputMaybe<String_Comparison_Exp>;
-  id: InputMaybe<String_Comparison_Exp>;
-  paymentSolutionCode: InputMaybe<PaymentSolutionCode_Comparison_Exp>;
-  status: InputMaybe<PaymentStatusType_Comparison_Exp>;
-  token: InputMaybe<String_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "Payment" */
-export type Payment_Max_Order_By = {
-  checkoutId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  paymentSolutionCode: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  token: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "Payment" */
-export type Payment_Min_Order_By = {
-  checkoutId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  paymentSolutionCode: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  token: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "Payment". */
-export type Payment_Order_By = {
-  Payment_Checkout: InputMaybe<Checkout_Order_By>;
-  checkoutId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  paymentSolutionCode: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  token: InputMaybe<Order_By>;
-};
-
-/** select columns of table "Payment" */
-export enum Payment_Select_Column {
+  NewPriceInCents = 'newPriceInCents',
   /** column name */
-  CheckoutId = 'checkoutId',
+  ProductId = 'productId',
   /** column name */
-  Id = 'id',
+  ProductVariantId = 'productVariantId',
   /** column name */
-  PaymentSolutionCode = 'paymentSolutionCode',
+  PublicNote = 'publicNote',
+  /** column name */
+  Quantity = 'quantity',
+  /** column name */
+  SalesChannelName = 'salesChannelName',
   /** column name */
   Status = 'status',
-  /** column name */
-  Token = 'token',
 }
 
-/** Streaming cursor of the table "Payment" */
-export type Payment_Stream_Cursor_Input = {
+/** Streaming cursor of the table "PriceOffer" */
+export type PriceOffer_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: Payment_Stream_Cursor_Value_Input;
+  initial_value: PriceOffer_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type Payment_Stream_Cursor_Value_Input = {
-  checkoutId: InputMaybe<Scalars['String']['input']>;
+export type PriceOffer_Stream_Cursor_Value_Input = {
+  buyerId: InputMaybe<Scalars['uuid']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountCode: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
-  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
-  status: InputMaybe<Scalars['PaymentStatusType']['input']>;
-  token: InputMaybe<Scalars['String']['input']>;
+  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']['input']>;
+  initiatedBy: InputMaybe<Scalars['uuid']['input']>;
+  name: InputMaybe<Scalars['bigint']['input']>;
+  newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  publicNote: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
+  status: InputMaybe<Scalars['PriceOfferStatus']['input']>;
 };
 
 /** columns and relationships of "Product" */
 export type Product = {
   __typename?: 'Product';
-  /** An object relationship */
-  Vendor: Customer;
+  EANCode: Maybe<Scalars['String']['output']>;
+  GTINCode: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['timestamp']['output'];
   handle: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
   productType: Maybe<Scalars['String']['output']>;
-  shopifyId: Scalars['bigint']['output'];
   status: Scalars['ProductStatus']['output'];
   /** An object relationship */
+  storeB2BProduct: Maybe<Dbt_Store_B2b_Product>;
+  /** An object relationship */
   storeExposedProduct: Maybe<Dbt_Store_Exposed_Product>;
-  /** An array relationship */
-  variants: Array<ProductVariant>;
-  vendorId: Scalars['uuid']['output'];
-};
-
-/** columns and relationships of "Product" */
-export type ProductVariantsArgs = {
-  distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<ProductVariant_Order_By>>;
-  where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "ProductStatus". All fields are combined with logical 'AND'. */
@@ -817,258 +297,48 @@ export type ProductStatus_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['ProductStatus']['input']>>;
 };
 
-/** columns and relationships of "ProductVariant" */
-export type ProductVariant = {
-  __typename?: 'ProductVariant';
-  condition: Maybe<Scalars['Condition']['output']>;
-  createdAt: Scalars['timestamp']['output'];
-  id: Scalars['String']['output'];
-  /** An object relationship */
-  product: Product;
-  productId: Scalars['String']['output'];
-  quantity: Scalars['Int']['output'];
-  /** An object relationship */
-  storeB2CVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
-  /** An object relationship */
-  storeExposedVariant: Maybe<Dbt_Store_Exposed_Product_Variant>;
-};
-
-/** order by aggregate values of table "ProductVariant" */
-export type ProductVariant_Aggregate_Order_By = {
-  avg: InputMaybe<ProductVariant_Avg_Order_By>;
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<ProductVariant_Max_Order_By>;
-  min: InputMaybe<ProductVariant_Min_Order_By>;
-  stddev: InputMaybe<ProductVariant_Stddev_Order_By>;
-  stddev_pop: InputMaybe<ProductVariant_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<ProductVariant_Stddev_Samp_Order_By>;
-  sum: InputMaybe<ProductVariant_Sum_Order_By>;
-  var_pop: InputMaybe<ProductVariant_Var_Pop_Order_By>;
-  var_samp: InputMaybe<ProductVariant_Var_Samp_Order_By>;
-  variance: InputMaybe<ProductVariant_Variance_Order_By>;
-};
-
-/** order by avg() on columns of table "ProductVariant" */
-export type ProductVariant_Avg_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "ProductVariant". All fields are combined with a logical 'AND'. */
-export type ProductVariant_Bool_Exp = {
-  _and: InputMaybe<Array<ProductVariant_Bool_Exp>>;
-  _not: InputMaybe<ProductVariant_Bool_Exp>;
-  _or: InputMaybe<Array<ProductVariant_Bool_Exp>>;
-  condition: InputMaybe<Condition_Comparison_Exp>;
-  createdAt: InputMaybe<Timestamp_Comparison_Exp>;
-  id: InputMaybe<String_Comparison_Exp>;
-  product: InputMaybe<Product_Bool_Exp>;
-  productId: InputMaybe<String_Comparison_Exp>;
-  quantity: InputMaybe<Int_Comparison_Exp>;
-  storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
-  storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
-};
-
-/** order by max() on columns of table "ProductVariant" */
-export type ProductVariant_Max_Order_By = {
-  condition: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "ProductVariant" */
-export type ProductVariant_Min_Order_By = {
-  condition: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
-  quantity: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "ProductVariant". */
-export type ProductVariant_Order_By = {
-  condition: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  product: InputMaybe<Product_Order_By>;
-  productId: InputMaybe<Order_By>;
-  quantity: InputMaybe<Order_By>;
-  storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
-  storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Order_By>;
-};
-
-/** select columns of table "ProductVariant" */
-export enum ProductVariant_Select_Column {
-  /** column name */
-  Condition = 'condition',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  ProductId = 'productId',
-  /** column name */
-  Quantity = 'quantity',
-}
-
-/** order by stddev() on columns of table "ProductVariant" */
-export type ProductVariant_Stddev_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "ProductVariant" */
-export type ProductVariant_Stddev_Pop_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "ProductVariant" */
-export type ProductVariant_Stddev_Samp_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** Streaming cursor of the table "ProductVariant" */
-export type ProductVariant_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: ProductVariant_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type ProductVariant_Stream_Cursor_Value_Input = {
-  condition: InputMaybe<Scalars['Condition']['input']>;
-  createdAt: InputMaybe<Scalars['timestamp']['input']>;
-  id: InputMaybe<Scalars['String']['input']>;
-  productId: InputMaybe<Scalars['String']['input']>;
-  quantity: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** order by sum() on columns of table "ProductVariant" */
-export type ProductVariant_Sum_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "ProductVariant" */
-export type ProductVariant_Var_Pop_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "ProductVariant" */
-export type ProductVariant_Var_Samp_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "ProductVariant" */
-export type ProductVariant_Variance_Order_By = {
-  quantity: InputMaybe<Order_By>;
-};
-
-/** order by aggregate values of table "Product" */
-export type Product_Aggregate_Order_By = {
-  avg: InputMaybe<Product_Avg_Order_By>;
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<Product_Max_Order_By>;
-  min: InputMaybe<Product_Min_Order_By>;
-  stddev: InputMaybe<Product_Stddev_Order_By>;
-  stddev_pop: InputMaybe<Product_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<Product_Stddev_Samp_Order_By>;
-  sum: InputMaybe<Product_Sum_Order_By>;
-  var_pop: InputMaybe<Product_Var_Pop_Order_By>;
-  var_samp: InputMaybe<Product_Var_Samp_Order_By>;
-  variance: InputMaybe<Product_Variance_Order_By>;
-};
-
-/** order by avg() on columns of table "Product" */
-export type Product_Avg_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
 /** Boolean expression to filter rows from the table "Product". All fields are combined with a logical 'AND'. */
 export type Product_Bool_Exp = {
-  Vendor: InputMaybe<Customer_Bool_Exp>;
+  EANCode: InputMaybe<String_Comparison_Exp>;
+  GTINCode: InputMaybe<String_Comparison_Exp>;
   _and: InputMaybe<Array<Product_Bool_Exp>>;
   _not: InputMaybe<Product_Bool_Exp>;
   _or: InputMaybe<Array<Product_Bool_Exp>>;
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   handle: InputMaybe<String_Comparison_Exp>;
-  id: InputMaybe<String_Comparison_Exp>;
   productType: InputMaybe<String_Comparison_Exp>;
-  shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   status: InputMaybe<ProductStatus_Comparison_Exp>;
+  storeB2BProduct: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
   storeExposedProduct: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
-  variants: InputMaybe<ProductVariant_Bool_Exp>;
-  vendorId: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "Product" */
-export type Product_Max_Order_By = {
-  createdAt: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  productType: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "Product" */
-export type Product_Min_Order_By = {
-  createdAt: InputMaybe<Order_By>;
-  handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  productType: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
-  status: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "Product". */
 export type Product_Order_By = {
-  Vendor: InputMaybe<Customer_Order_By>;
+  EANCode: InputMaybe<Order_By>;
+  GTINCode: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   handle: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
-  shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
+  storeB2BProduct: InputMaybe<Dbt_Store_B2b_Product_Order_By>;
   storeExposedProduct: InputMaybe<Dbt_Store_Exposed_Product_Order_By>;
-  variants_aggregate: InputMaybe<ProductVariant_Aggregate_Order_By>;
-  vendorId: InputMaybe<Order_By>;
 };
 
 /** select columns of table "Product" */
 export enum Product_Select_Column {
   /** column name */
+  EanCode = 'EANCode',
+  /** column name */
+  GtinCode = 'GTINCode',
+  /** column name */
   CreatedAt = 'createdAt',
   /** column name */
   Handle = 'handle',
   /** column name */
-  Id = 'id',
-  /** column name */
   ProductType = 'productType',
   /** column name */
-  ShopifyId = 'shopifyId',
-  /** column name */
   Status = 'status',
-  /** column name */
-  VendorId = 'vendorId',
 }
-
-/** order by stddev() on columns of table "Product" */
-export type Product_Stddev_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "Product" */
-export type Product_Stddev_Pop_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "Product" */
-export type Product_Stddev_Samp_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
 
 /** Streaming cursor of the table "Product" */
 export type Product_Stream_Cursor_Input = {
@@ -1080,235 +350,25 @@ export type Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Product_Stream_Cursor_Value_Input = {
+  EANCode: InputMaybe<Scalars['String']['input']>;
+  GTINCode: InputMaybe<Scalars['String']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   handle: InputMaybe<Scalars['String']['input']>;
-  id: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
-  shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['ProductStatus']['input']>;
-  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
-/** order by sum() on columns of table "Product" */
-export type Product_Sum_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "Product" */
-export type Product_Var_Pop_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "Product" */
-export type Product_Var_Samp_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "Product" */
-export type Product_Variance_Order_By = {
-  shopifyId: InputMaybe<Order_By>;
-};
-
-/** columns and relationships of "Review" */
-export type Review = {
-  __typename?: 'Review';
-  /** An object relationship */
-  Customer: Customer;
-  /** An array relationship */
-  VendorReview: Array<VendorReview>;
-  authorNickname: Maybe<Scalars['String']['output']>;
-  content: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['timestamp']['output'];
-  customerId: Scalars['uuid']['output'];
-  id: Scalars['String']['output'];
-  orderId: Maybe<Scalars['String']['output']>;
-  rating: Scalars['Int']['output'];
-  title: Scalars['String']['output'];
-};
-
-/** columns and relationships of "Review" */
-export type ReviewVendorReviewArgs = {
-  distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<VendorReview_Order_By>>;
-  where: InputMaybe<VendorReview_Bool_Exp>;
-};
-
-/** order by aggregate values of table "Review" */
-export type Review_Aggregate_Order_By = {
-  avg: InputMaybe<Review_Avg_Order_By>;
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<Review_Max_Order_By>;
-  min: InputMaybe<Review_Min_Order_By>;
-  stddev: InputMaybe<Review_Stddev_Order_By>;
-  stddev_pop: InputMaybe<Review_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<Review_Stddev_Samp_Order_By>;
-  sum: InputMaybe<Review_Sum_Order_By>;
-  var_pop: InputMaybe<Review_Var_Pop_Order_By>;
-  var_samp: InputMaybe<Review_Var_Samp_Order_By>;
-  variance: InputMaybe<Review_Variance_Order_By>;
-};
-
-/** order by avg() on columns of table "Review" */
-export type Review_Avg_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "Review". All fields are combined with a logical 'AND'. */
-export type Review_Bool_Exp = {
-  Customer: InputMaybe<Customer_Bool_Exp>;
-  VendorReview: InputMaybe<VendorReview_Bool_Exp>;
-  _and: InputMaybe<Array<Review_Bool_Exp>>;
-  _not: InputMaybe<Review_Bool_Exp>;
-  _or: InputMaybe<Array<Review_Bool_Exp>>;
-  authorNickname: InputMaybe<String_Comparison_Exp>;
-  content: InputMaybe<String_Comparison_Exp>;
-  createdAt: InputMaybe<Timestamp_Comparison_Exp>;
-  customerId: InputMaybe<Uuid_Comparison_Exp>;
-  id: InputMaybe<String_Comparison_Exp>;
-  orderId: InputMaybe<String_Comparison_Exp>;
-  rating: InputMaybe<Int_Comparison_Exp>;
-  title: InputMaybe<String_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "Review" */
-export type Review_Max_Order_By = {
-  authorNickname: InputMaybe<Order_By>;
-  content: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  customerId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  orderId: InputMaybe<Order_By>;
-  rating: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "Review" */
-export type Review_Min_Order_By = {
-  authorNickname: InputMaybe<Order_By>;
-  content: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  customerId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  orderId: InputMaybe<Order_By>;
-  rating: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "Review". */
-export type Review_Order_By = {
-  Customer: InputMaybe<Customer_Order_By>;
-  VendorReview_aggregate: InputMaybe<VendorReview_Aggregate_Order_By>;
-  authorNickname: InputMaybe<Order_By>;
-  content: InputMaybe<Order_By>;
-  createdAt: InputMaybe<Order_By>;
-  customerId: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  orderId: InputMaybe<Order_By>;
-  rating: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-};
-
-/** select columns of table "Review" */
-export enum Review_Select_Column {
-  /** column name */
-  AuthorNickname = 'authorNickname',
-  /** column name */
-  Content = 'content',
-  /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
-  CustomerId = 'customerId',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  OrderId = 'orderId',
-  /** column name */
-  Rating = 'rating',
-  /** column name */
-  Title = 'title',
-}
-
-/** order by stddev() on columns of table "Review" */
-export type Review_Stddev_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "Review" */
-export type Review_Stddev_Pop_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "Review" */
-export type Review_Stddev_Samp_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** Streaming cursor of the table "Review" */
-export type Review_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Review_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Review_Stream_Cursor_Value_Input = {
-  authorNickname: InputMaybe<Scalars['String']['input']>;
-  content: InputMaybe<Scalars['String']['input']>;
-  createdAt: InputMaybe<Scalars['timestamp']['input']>;
-  customerId: InputMaybe<Scalars['uuid']['input']>;
-  id: InputMaybe<Scalars['String']['input']>;
-  orderId: InputMaybe<Scalars['String']['input']>;
-  rating: InputMaybe<Scalars['Int']['input']>;
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** order by sum() on columns of table "Review" */
-export type Review_Sum_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "Review" */
-export type Review_Var_Pop_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "Review" */
-export type Review_Var_Samp_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "Review" */
-export type Review_Variance_Order_By = {
-  rating: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to compare columns of type "ShipmentTimeframe". All fields are combined with logical 'AND'. */
-export type ShipmentTimeframe_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _gt: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _gte: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _in: InputMaybe<Array<Scalars['ShipmentTimeframe']['input']>>;
+/** Boolean expression to compare columns of type "SalesChannelName". All fields are combined with logical 'AND'. */
+export type SalesChannelName_Comparison_Exp = {
+  _eq: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _gt: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _gte: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _in: InputMaybe<Array<Scalars['SalesChannelName']['input']>>;
   _is_null: InputMaybe<Scalars['Boolean']['input']>;
-  _lt: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _lte: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _neq: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
-  _nin: InputMaybe<Array<Scalars['ShipmentTimeframe']['input']>>;
-};
-
-/** Boolean expression to compare columns of type "ShippingType". All fields are combined with logical 'AND'. */
-export type ShippingType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ShippingType']['input']>;
-  _gt: InputMaybe<Scalars['ShippingType']['input']>;
-  _gte: InputMaybe<Scalars['ShippingType']['input']>;
-  _in: InputMaybe<Array<Scalars['ShippingType']['input']>>;
-  _is_null: InputMaybe<Scalars['Boolean']['input']>;
-  _lt: InputMaybe<Scalars['ShippingType']['input']>;
-  _lte: InputMaybe<Scalars['ShippingType']['input']>;
-  _neq: InputMaybe<Scalars['ShippingType']['input']>;
-  _nin: InputMaybe<Array<Scalars['ShippingType']['input']>>;
+  _lt: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _lte: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _neq: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _nin: InputMaybe<Array<Scalars['SalesChannelName']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -1344,85 +404,6 @@ export type String_Comparison_Exp = {
   _similar: InputMaybe<Scalars['String']['input']>;
 };
 
-/** columns and relationships of "VendorReview" */
-export type VendorReview = {
-  __typename?: 'VendorReview';
-  /** An object relationship */
-  Review: Review;
-  /** An object relationship */
-  Vendor: Customer;
-  orderId: Maybe<Scalars['String']['output']>;
-  reviewId: Scalars['String']['output'];
-  vendorId: Scalars['uuid']['output'];
-};
-
-/** order by aggregate values of table "VendorReview" */
-export type VendorReview_Aggregate_Order_By = {
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<VendorReview_Max_Order_By>;
-  min: InputMaybe<VendorReview_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "VendorReview". All fields are combined with a logical 'AND'. */
-export type VendorReview_Bool_Exp = {
-  Review: InputMaybe<Review_Bool_Exp>;
-  Vendor: InputMaybe<Customer_Bool_Exp>;
-  _and: InputMaybe<Array<VendorReview_Bool_Exp>>;
-  _not: InputMaybe<VendorReview_Bool_Exp>;
-  _or: InputMaybe<Array<VendorReview_Bool_Exp>>;
-  orderId: InputMaybe<String_Comparison_Exp>;
-  reviewId: InputMaybe<String_Comparison_Exp>;
-  vendorId: InputMaybe<Uuid_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "VendorReview" */
-export type VendorReview_Max_Order_By = {
-  orderId: InputMaybe<Order_By>;
-  reviewId: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "VendorReview" */
-export type VendorReview_Min_Order_By = {
-  orderId: InputMaybe<Order_By>;
-  reviewId: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "VendorReview". */
-export type VendorReview_Order_By = {
-  Review: InputMaybe<Review_Order_By>;
-  Vendor: InputMaybe<Customer_Order_By>;
-  orderId: InputMaybe<Order_By>;
-  reviewId: InputMaybe<Order_By>;
-  vendorId: InputMaybe<Order_By>;
-};
-
-/** select columns of table "VendorReview" */
-export enum VendorReview_Select_Column {
-  /** column name */
-  OrderId = 'orderId',
-  /** column name */
-  ReviewId = 'reviewId',
-  /** column name */
-  VendorId = 'vendorId',
-}
-
-/** Streaming cursor of the table "VendorReview" */
-export type VendorReview_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: VendorReview_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type VendorReview_Stream_Cursor_Value_Input = {
-  orderId: InputMaybe<Scalars['String']['input']>;
-  reviewId: InputMaybe<Scalars['String']['input']>;
-  vendorId: InputMaybe<Scalars['uuid']['input']>;
-};
-
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 export type Bigint_Comparison_Exp = {
   _eq: InputMaybe<Scalars['bigint']['input']>;
@@ -1444,50 +425,98 @@ export enum Cursor_Ordering {
   Desc = 'DESC',
 }
 
-/** columns and relationships of "dbt.store_b2c_product_variant" */
-export type Dbt_Store_B2c_Product_Variant = {
-  __typename?: 'dbt_store_b2c_product_variant';
+/** columns and relationships of "dbt.store_b2b_product" */
+export type Dbt_Store_B2b_Product = {
+  __typename?: 'dbt_store_b2b_product';
+  id: Scalars['String']['output'];
+  largest_bundle_price_in_cents: Maybe<Scalars['bigint']['output']>;
+  /** An object relationship */
+  product: Maybe<Dbt_Store_Base_Product>;
+};
+
+/** Boolean expression to filter rows from the table "dbt.store_b2b_product". All fields are combined with a logical 'AND'. */
+export type Dbt_Store_B2b_Product_Bool_Exp = {
+  _and: InputMaybe<Array<Dbt_Store_B2b_Product_Bool_Exp>>;
+  _not: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
+  _or: InputMaybe<Array<Dbt_Store_B2b_Product_Bool_Exp>>;
+  id: InputMaybe<String_Comparison_Exp>;
+  largest_bundle_price_in_cents: InputMaybe<Bigint_Comparison_Exp>;
+  product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "dbt.store_b2b_product". */
+export type Dbt_Store_B2b_Product_Order_By = {
+  id: InputMaybe<Order_By>;
+  largest_bundle_price_in_cents: InputMaybe<Order_By>;
+  product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
+};
+
+/** select columns of table "dbt.store_b2b_product" */
+export enum Dbt_Store_B2b_Product_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LargestBundlePriceInCents = 'largest_bundle_price_in_cents',
+}
+
+/** Streaming cursor of the table "dbt_store_b2b_product" */
+export type Dbt_Store_B2b_Product_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Dbt_Store_B2b_Product_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Dbt_Store_B2b_Product_Stream_Cursor_Value_Input = {
+  id: InputMaybe<Scalars['String']['input']>;
+  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** columns and relationships of "dbt.store_b2b_product_variant" */
+export type Dbt_Store_B2b_Product_Variant = {
+  __typename?: 'dbt_store_b2b_product_variant';
   compare_at_price: Maybe<Scalars['float8']['output']>;
   price: Scalars['float8']['output'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
 
-/** Boolean expression to filter rows from the table "dbt.store_b2c_product_variant". All fields are combined with a logical 'AND'. */
-export type Dbt_Store_B2c_Product_Variant_Bool_Exp = {
-  _and: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Bool_Exp>>;
-  _not: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
-  _or: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Bool_Exp>>;
+/** Boolean expression to filter rows from the table "dbt.store_b2b_product_variant". All fields are combined with a logical 'AND'. */
+export type Dbt_Store_B2b_Product_Variant_Bool_Exp = {
+  _and: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Bool_Exp>>;
+  _not: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
+  _or: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Bool_Exp>>;
   compare_at_price: InputMaybe<Float8_Comparison_Exp>;
   price: InputMaybe<Float8_Comparison_Exp>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
-/** Ordering options when selecting data from "dbt.store_b2c_product_variant". */
-export type Dbt_Store_B2c_Product_Variant_Order_By = {
+/** Ordering options when selecting data from "dbt.store_b2b_product_variant". */
+export type Dbt_Store_B2b_Product_Variant_Order_By = {
   compare_at_price: InputMaybe<Order_By>;
   price: InputMaybe<Order_By>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Order_By>;
 };
 
-/** select columns of table "dbt.store_b2c_product_variant" */
-export enum Dbt_Store_B2c_Product_Variant_Select_Column {
+/** select columns of table "dbt.store_b2b_product_variant" */
+export enum Dbt_Store_B2b_Product_Variant_Select_Column {
   /** column name */
   CompareAtPrice = 'compare_at_price',
   /** column name */
   Price = 'price',
 }
 
-/** Streaming cursor of the table "dbt_store_b2c_product_variant" */
-export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input = {
+/** Streaming cursor of the table "dbt_store_b2b_product_variant" */
+export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input;
+  initial_value: Dbt_Store_B2b_Product_Variant_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input = {
+export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Value_Input = {
   compare_at_price: InputMaybe<Scalars['float8']['input']>;
   price: InputMaybe<Scalars['float8']['input']>;
 };
@@ -1495,8 +524,10 @@ export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_Product = {
   __typename?: 'dbt_store_base_product';
+  /** An object relationship */
+  b2bProduct: Maybe<Dbt_Store_B2b_Product>;
   /** An array relationship */
-  collections: Array<Dbt_Store_Product_Collection>;
+  bundlePrices: Array<Dbt_Store_Bundle_Price>;
   createdAt: Scalars['timestamptz']['output'];
   id: Scalars['String']['output'];
   /** An array relationship */
@@ -1512,12 +543,12 @@ export type Dbt_Store_Base_Product = {
 };
 
 /** columns and relationships of "dbt.store_base_product" */
-export type Dbt_Store_Base_ProductCollectionsArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
+export type Dbt_Store_Base_ProductBundlePricesArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 /** columns and relationships of "dbt.store_base_product" */
@@ -1552,7 +583,8 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
   _and: InputMaybe<Array<Dbt_Store_Base_Product_Bool_Exp>>;
   _not: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_Base_Product_Bool_Exp>>;
-  collections: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
+  b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
+  bundlePrices: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
@@ -1565,7 +597,8 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
 
 /** Ordering options when selecting data from "dbt.store_base_product". */
 export type Dbt_Store_Base_Product_Order_By = {
-  collections_aggregate: InputMaybe<Dbt_Store_Product_Collection_Aggregate_Order_By>;
+  b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Order_By>;
+  bundlePrices_aggregate: InputMaybe<Dbt_Store_Bundle_Price_Aggregate_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   images_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Image_Aggregate_Order_By>;
@@ -1608,7 +641,7 @@ export type Dbt_Store_Base_Product_Stream_Cursor_Value_Input = {
 export type Dbt_Store_Base_Product_Variant = {
   __typename?: 'dbt_store_base_product_variant';
   /** An object relationship */
-  b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
+  b2bVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   createdAt: Scalars['timestamptz']['output'];
   id: Maybe<Scalars['String']['output']>;
   /** An object relationship */
@@ -1644,7 +677,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
   _and: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Bool_Exp>>;
   _not: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
   _or: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Bool_Exp>>;
-  b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
+  b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
@@ -1671,7 +704,7 @@ export type Dbt_Store_Base_Product_Variant_Min_Order_By = {
 
 /** Ordering options when selecting data from "dbt.store_base_product_variant". */
 export type Dbt_Store_Base_Product_Variant_Order_By = {
-  b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
+  b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
@@ -1743,212 +776,135 @@ export type Dbt_Store_Base_Product_Variant_Variance_Order_By = {
   shopify_id: InputMaybe<Order_By>;
 };
 
-/** columns and relationships of "dbt.store_discount" */
-export type Dbt_Store_Discount = {
-  __typename?: 'dbt_store_discount';
-  code: Maybe<Scalars['String']['output']>;
-  /** An array relationship */
-  collection: Array<Dbt_Store_Discount_Collection>;
-  ends_at: Maybe<Scalars['timestamptz']['output']>;
-  id: Scalars['bigint']['output'];
-  min_amount: Maybe<Scalars['float8']['output']>;
-  starts_at: Scalars['timestamptz']['output'];
-  title: Scalars['String']['output'];
-  value: Scalars['float8']['output'];
-  value_type: Scalars['String']['output'];
-};
-
-/** columns and relationships of "dbt.store_discount" */
-export type Dbt_Store_DiscountCollectionArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-};
-
-/** Boolean expression to filter rows from the table "dbt.store_discount". All fields are combined with a logical 'AND'. */
-export type Dbt_Store_Discount_Bool_Exp = {
-  _and: InputMaybe<Array<Dbt_Store_Discount_Bool_Exp>>;
-  _not: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
-  _or: InputMaybe<Array<Dbt_Store_Discount_Bool_Exp>>;
-  code: InputMaybe<String_Comparison_Exp>;
-  collection: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-  ends_at: InputMaybe<Timestamptz_Comparison_Exp>;
-  id: InputMaybe<Bigint_Comparison_Exp>;
-  min_amount: InputMaybe<Float8_Comparison_Exp>;
-  starts_at: InputMaybe<Timestamptz_Comparison_Exp>;
-  title: InputMaybe<String_Comparison_Exp>;
-  value: InputMaybe<Float8_Comparison_Exp>;
-  value_type: InputMaybe<String_Comparison_Exp>;
-};
-
-/** columns and relationships of "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection = {
-  __typename?: 'dbt_store_discount_collection';
-  collection_internal_id: Scalars['String']['output'];
+/** columns and relationships of "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price = {
+  __typename?: 'dbt_store_bundle_price';
+  min_quantity: Scalars['Int']['output'];
   /** An object relationship */
-  discount: Maybe<Dbt_Store_Discount>;
-  discount_id: Scalars['bigint']['output'];
+  product: Maybe<Dbt_Store_Base_Product>;
+  product_id: Scalars['String']['output'];
+  unit_price_in_cents: Scalars['bigint']['output'];
 };
 
-/** order by aggregate values of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Aggregate_Order_By = {
-  avg: InputMaybe<Dbt_Store_Discount_Collection_Avg_Order_By>;
+/** order by aggregate values of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Aggregate_Order_By = {
+  avg: InputMaybe<Dbt_Store_Bundle_Price_Avg_Order_By>;
   count: InputMaybe<Order_By>;
-  max: InputMaybe<Dbt_Store_Discount_Collection_Max_Order_By>;
-  min: InputMaybe<Dbt_Store_Discount_Collection_Min_Order_By>;
-  stddev: InputMaybe<Dbt_Store_Discount_Collection_Stddev_Order_By>;
-  stddev_pop: InputMaybe<Dbt_Store_Discount_Collection_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<Dbt_Store_Discount_Collection_Stddev_Samp_Order_By>;
-  sum: InputMaybe<Dbt_Store_Discount_Collection_Sum_Order_By>;
-  var_pop: InputMaybe<Dbt_Store_Discount_Collection_Var_Pop_Order_By>;
-  var_samp: InputMaybe<Dbt_Store_Discount_Collection_Var_Samp_Order_By>;
-  variance: InputMaybe<Dbt_Store_Discount_Collection_Variance_Order_By>;
+  max: InputMaybe<Dbt_Store_Bundle_Price_Max_Order_By>;
+  min: InputMaybe<Dbt_Store_Bundle_Price_Min_Order_By>;
+  stddev: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Order_By>;
+  stddev_pop: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Pop_Order_By>;
+  stddev_samp: InputMaybe<Dbt_Store_Bundle_Price_Stddev_Samp_Order_By>;
+  sum: InputMaybe<Dbt_Store_Bundle_Price_Sum_Order_By>;
+  var_pop: InputMaybe<Dbt_Store_Bundle_Price_Var_Pop_Order_By>;
+  var_samp: InputMaybe<Dbt_Store_Bundle_Price_Var_Samp_Order_By>;
+  variance: InputMaybe<Dbt_Store_Bundle_Price_Variance_Order_By>;
 };
 
-/** order by avg() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Avg_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by avg() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Avg_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** Boolean expression to filter rows from the table "dbt.store_discount_collection". All fields are combined with a logical 'AND'. */
-export type Dbt_Store_Discount_Collection_Bool_Exp = {
-  _and: InputMaybe<Array<Dbt_Store_Discount_Collection_Bool_Exp>>;
-  _not: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-  _or: InputMaybe<Array<Dbt_Store_Discount_Collection_Bool_Exp>>;
-  collection_internal_id: InputMaybe<String_Comparison_Exp>;
-  discount: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
-  discount_id: InputMaybe<Bigint_Comparison_Exp>;
+/** Boolean expression to filter rows from the table "dbt.store_bundle_price". All fields are combined with a logical 'AND'. */
+export type Dbt_Store_Bundle_Price_Bool_Exp = {
+  _and: InputMaybe<Array<Dbt_Store_Bundle_Price_Bool_Exp>>;
+  _not: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
+  _or: InputMaybe<Array<Dbt_Store_Bundle_Price_Bool_Exp>>;
+  min_quantity: InputMaybe<Int_Comparison_Exp>;
+  product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
+  product_id: InputMaybe<String_Comparison_Exp>;
+  unit_price_in_cents: InputMaybe<Bigint_Comparison_Exp>;
 };
 
-/** order by max() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Max_Order_By = {
-  collection_internal_id: InputMaybe<Order_By>;
-  discount_id: InputMaybe<Order_By>;
+/** order by max() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Max_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by min() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Min_Order_By = {
-  collection_internal_id: InputMaybe<Order_By>;
-  discount_id: InputMaybe<Order_By>;
+/** order by min() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Min_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** Ordering options when selecting data from "dbt.store_discount_collection". */
-export type Dbt_Store_Discount_Collection_Order_By = {
-  collection_internal_id: InputMaybe<Order_By>;
-  discount: InputMaybe<Dbt_Store_Discount_Order_By>;
-  discount_id: InputMaybe<Order_By>;
+/** Ordering options when selecting data from "dbt.store_bundle_price". */
+export type Dbt_Store_Bundle_Price_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
+  product_id: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** select columns of table "dbt.store_discount_collection" */
-export enum Dbt_Store_Discount_Collection_Select_Column {
+/** select columns of table "dbt.store_bundle_price" */
+export enum Dbt_Store_Bundle_Price_Select_Column {
   /** column name */
-  CollectionInternalId = 'collection_internal_id',
+  MinQuantity = 'min_quantity',
   /** column name */
-  DiscountId = 'discount_id',
+  ProductId = 'product_id',
+  /** column name */
+  UnitPriceInCents = 'unit_price_in_cents',
 }
 
-/** order by stddev() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Stddev_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by stddev() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by stddev_pop() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Stddev_Pop_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by stddev_pop() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Pop_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by stddev_samp() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Stddev_Samp_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by stddev_samp() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stddev_Samp_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** Streaming cursor of the table "dbt_store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Stream_Cursor_Input = {
+/** Streaming cursor of the table "dbt_store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Stream_Cursor_Input = {
   /** Stream column input with initial value */
-  initial_value: Dbt_Store_Discount_Collection_Stream_Cursor_Value_Input;
+  initial_value: Dbt_Store_Bundle_Price_Stream_Cursor_Value_Input;
   /** cursor ordering */
   ordering: InputMaybe<Cursor_Ordering>;
 };
 
 /** Initial value of the column from where the streaming should start */
-export type Dbt_Store_Discount_Collection_Stream_Cursor_Value_Input = {
-  collection_internal_id: InputMaybe<Scalars['String']['input']>;
-  discount_id: InputMaybe<Scalars['bigint']['input']>;
+export type Dbt_Store_Bundle_Price_Stream_Cursor_Value_Input = {
+  min_quantity: InputMaybe<Scalars['Int']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
-/** order by sum() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Sum_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by sum() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Sum_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by var_pop() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Var_Pop_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by var_pop() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Var_Pop_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by var_samp() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Var_Samp_Order_By = {
-  discount_id: InputMaybe<Order_By>;
+/** order by var_samp() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Var_Samp_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
-/** order by variance() on columns of table "dbt.store_discount_collection" */
-export type Dbt_Store_Discount_Collection_Variance_Order_By = {
-  discount_id: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "dbt.store_discount". */
-export type Dbt_Store_Discount_Order_By = {
-  code: InputMaybe<Order_By>;
-  collection_aggregate: InputMaybe<Dbt_Store_Discount_Collection_Aggregate_Order_By>;
-  ends_at: InputMaybe<Order_By>;
-  id: InputMaybe<Order_By>;
-  min_amount: InputMaybe<Order_By>;
-  starts_at: InputMaybe<Order_By>;
-  title: InputMaybe<Order_By>;
-  value: InputMaybe<Order_By>;
-  value_type: InputMaybe<Order_By>;
-};
-
-/** select columns of table "dbt.store_discount" */
-export enum Dbt_Store_Discount_Select_Column {
-  /** column name */
-  Code = 'code',
-  /** column name */
-  EndsAt = 'ends_at',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  MinAmount = 'min_amount',
-  /** column name */
-  StartsAt = 'starts_at',
-  /** column name */
-  Title = 'title',
-  /** column name */
-  Value = 'value',
-  /** column name */
-  ValueType = 'value_type',
-}
-
-/** Streaming cursor of the table "dbt_store_discount" */
-export type Dbt_Store_Discount_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Dbt_Store_Discount_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Dbt_Store_Discount_Stream_Cursor_Value_Input = {
-  code: InputMaybe<Scalars['String']['input']>;
-  ends_at: InputMaybe<Scalars['timestamptz']['input']>;
-  id: InputMaybe<Scalars['bigint']['input']>;
-  min_amount: InputMaybe<Scalars['float8']['input']>;
-  starts_at: InputMaybe<Scalars['timestamptz']['input']>;
-  title: InputMaybe<Scalars['String']['input']>;
-  value: InputMaybe<Scalars['float8']['input']>;
-  value_type: InputMaybe<Scalars['String']['input']>;
+/** order by variance() on columns of table "dbt.store_bundle_price" */
+export type Dbt_Store_Bundle_Price_Variance_Order_By = {
+  min_quantity: InputMaybe<Order_By>;
+  unit_price_in_cents: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "dbt.store_exposed_product" */
@@ -1970,6 +926,7 @@ export type Dbt_Store_Exposed_Product = {
   size: Maybe<Scalars['String']['output']>;
   status: Scalars['ProductStatus']['output'];
   title: Scalars['String']['output'];
+  total_quantity: Scalars['bigint']['output'];
   vendor: Scalars['String']['output'];
 };
 
@@ -1993,6 +950,7 @@ export type Dbt_Store_Exposed_Product_Bool_Exp = {
   size: InputMaybe<String_Comparison_Exp>;
   status: InputMaybe<ProductStatus_Comparison_Exp>;
   title: InputMaybe<String_Comparison_Exp>;
+  total_quantity: InputMaybe<Bigint_Comparison_Exp>;
   vendor: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -2188,6 +1146,7 @@ export type Dbt_Store_Exposed_Product_Order_By = {
   size: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
   title: InputMaybe<Order_By>;
+  total_quantity: InputMaybe<Order_By>;
   vendor: InputMaybe<Order_By>;
 };
 
@@ -2222,6 +1181,8 @@ export enum Dbt_Store_Exposed_Product_Select_Column {
   /** column name */
   Title = 'title',
   /** column name */
+  TotalQuantity = 'total_quantity',
+  /** column name */
   Vendor = 'vendor',
 }
 
@@ -2249,6 +1210,7 @@ export type Dbt_Store_Exposed_Product_Stream_Cursor_Value_Input = {
   size: InputMaybe<Scalars['String']['input']>;
   status: InputMaybe<Scalars['ProductStatus']['input']>;
   title: InputMaybe<Scalars['String']['input']>;
+  total_quantity: InputMaybe<Scalars['bigint']['input']>;
   vendor: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2439,69 +1401,6 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
   updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
-/** columns and relationships of "dbt.store_product_collection" */
-export type Dbt_Store_Product_Collection = {
-  __typename?: 'dbt_store_product_collection';
-  collection_id: Scalars['String']['output'];
-  product_id: Scalars['String']['output'];
-};
-
-/** order by aggregate values of table "dbt.store_product_collection" */
-export type Dbt_Store_Product_Collection_Aggregate_Order_By = {
-  count: InputMaybe<Order_By>;
-  max: InputMaybe<Dbt_Store_Product_Collection_Max_Order_By>;
-  min: InputMaybe<Dbt_Store_Product_Collection_Min_Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "dbt.store_product_collection". All fields are combined with a logical 'AND'. */
-export type Dbt_Store_Product_Collection_Bool_Exp = {
-  _and: InputMaybe<Array<Dbt_Store_Product_Collection_Bool_Exp>>;
-  _not: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
-  _or: InputMaybe<Array<Dbt_Store_Product_Collection_Bool_Exp>>;
-  collection_id: InputMaybe<String_Comparison_Exp>;
-  product_id: InputMaybe<String_Comparison_Exp>;
-};
-
-/** order by max() on columns of table "dbt.store_product_collection" */
-export type Dbt_Store_Product_Collection_Max_Order_By = {
-  collection_id: InputMaybe<Order_By>;
-  product_id: InputMaybe<Order_By>;
-};
-
-/** order by min() on columns of table "dbt.store_product_collection" */
-export type Dbt_Store_Product_Collection_Min_Order_By = {
-  collection_id: InputMaybe<Order_By>;
-  product_id: InputMaybe<Order_By>;
-};
-
-/** Ordering options when selecting data from "dbt.store_product_collection". */
-export type Dbt_Store_Product_Collection_Order_By = {
-  collection_id: InputMaybe<Order_By>;
-  product_id: InputMaybe<Order_By>;
-};
-
-/** select columns of table "dbt.store_product_collection" */
-export enum Dbt_Store_Product_Collection_Select_Column {
-  /** column name */
-  CollectionId = 'collection_id',
-  /** column name */
-  ProductId = 'product_id',
-}
-
-/** Streaming cursor of the table "dbt_store_product_collection" */
-export type Dbt_Store_Product_Collection_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Dbt_Store_Product_Collection_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Dbt_Store_Product_Collection_Stream_Cursor_Value_Input = {
-  collection_id: InputMaybe<Scalars['String']['input']>;
-  product_id: InputMaybe<Scalars['String']['input']>;
-};
-
 /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
 export type Float8_Comparison_Exp = {
   _eq: InputMaybe<Scalars['float8']['input']>;
@@ -2518,15 +1417,7 @@ export type Float8_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
-  /** insert data into the table: "Event" */
-  insert_Event: Maybe<Event_Mutation_Response>;
   shopify: Maybe<ShopifyMutation>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_EventArgs = {
-  objects: Array<Event_Insert_Input>;
-  on_conflict: InputMaybe<Event_On_Conflict>;
 };
 
 /** column ordering options */
@@ -2547,44 +1438,20 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "Checkout" */
-  Checkout: Array<Checkout>;
-  /** fetch data from the table: "Checkout" using primary key columns */
-  Checkout_by_pk: Maybe<Checkout>;
-  /** fetch data from the table: "Collection" */
-  Collection: Array<Collection>;
-  /** fetch data from the table: "Collection" using primary key columns */
-  Collection_by_pk: Maybe<Collection>;
-  /** fetch data from the table: "Customer" */
-  Customer: Array<Customer>;
-  /** fetch data from the table: "Customer" using primary key columns */
-  Customer_by_pk: Maybe<Customer>;
-  /** fetch data from the table: "NegociationAgreement" */
-  NegociationAgreement: Array<NegociationAgreement>;
-  /** fetch data from the table: "NegociationAgreement" using primary key columns */
-  NegociationAgreement_by_pk: Maybe<NegociationAgreement>;
-  /** fetch data from the table: "Payment" */
-  Payment: Array<Payment>;
-  /** fetch data from the table: "Payment" using primary key columns */
-  Payment_by_pk: Maybe<Payment>;
+  /** fetch data from the table: "BundlePrice" */
+  BundlePrice: Array<BundlePrice>;
+  /** fetch data from the table: "PriceOffer" */
+  PriceOffer: Array<PriceOffer>;
+  /** fetch data from the table: "PriceOffer" using primary key columns */
+  PriceOffer_by_pk: Maybe<PriceOffer>;
   /** fetch data from the table: "Product" */
   Product: Array<Product>;
-  /** fetch data from the table: "ProductVariant" */
-  ProductVariant: Array<ProductVariant>;
-  /** fetch data from the table: "ProductVariant" using primary key columns */
-  ProductVariant_by_pk: Maybe<ProductVariant>;
-  /** fetch data from the table: "Product" using primary key columns */
-  Product_by_pk: Maybe<Product>;
-  /** fetch data from the table: "Review" */
-  Review: Array<Review>;
-  /** fetch data from the table: "Review" using primary key columns */
-  Review_by_pk: Maybe<Review>;
-  /** An array relationship */
-  VendorReview: Array<VendorReview>;
-  /** fetch data from the table: "VendorReview" using primary key columns */
-  VendorReview_by_pk: Maybe<VendorReview>;
-  /** fetch data from the table: "dbt.store_b2c_product_variant" */
-  dbt_store_b2c_product_variant: Array<Dbt_Store_B2c_Product_Variant>;
+  /** fetch data from the table: "dbt.store_b2b_product" */
+  dbt_store_b2b_product: Array<Dbt_Store_B2b_Product>;
+  /** fetch data from the table: "dbt.store_b2b_product" using primary key columns */
+  dbt_store_b2b_product_by_pk: Maybe<Dbt_Store_B2b_Product>;
+  /** fetch data from the table: "dbt.store_b2b_product_variant" */
+  dbt_store_b2b_product_variant: Array<Dbt_Store_B2b_Product_Variant>;
   /** fetch data from the table: "dbt.store_base_product" */
   dbt_store_base_product: Array<Dbt_Store_Base_Product>;
   /** fetch data from the table: "dbt.store_base_product" using primary key columns */
@@ -2593,12 +1460,8 @@ export type Query_Root = {
   dbt_store_base_product_variant: Array<Dbt_Store_Base_Product_Variant>;
   /** fetch data from the table: "dbt.store_base_product_variant" using primary key columns */
   dbt_store_base_product_variant_by_pk: Maybe<Dbt_Store_Base_Product_Variant>;
-  /** fetch data from the table: "dbt.store_discount" */
-  dbt_store_discount: Array<Dbt_Store_Discount>;
-  /** fetch data from the table: "dbt.store_discount_collection" */
-  dbt_store_discount_collection: Array<Dbt_Store_Discount_Collection>;
-  /** fetch data from the table: "dbt.store_discount_collection" using primary key columns */
-  dbt_store_discount_collection_by_pk: Maybe<Dbt_Store_Discount_Collection>;
+  /** fetch data from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price: Array<Dbt_Store_Bundle_Price>;
   /** fetch data from the table: "dbt.store_exposed_product" */
   dbt_store_exposed_product: Array<Dbt_Store_Exposed_Product>;
   /** fetch data from the table: "dbt.store_exposed_product" using primary key columns */
@@ -2611,72 +1474,26 @@ export type Query_Root = {
   dbt_store_exposed_product_tag: Array<Dbt_Store_Exposed_Product_Tag>;
   /** fetch data from the table: "dbt.store_exposed_product_variant" */
   dbt_store_exposed_product_variant: Array<Dbt_Store_Exposed_Product_Variant>;
-  /** fetch data from the table: "dbt.store_product_collection" */
-  dbt_store_product_collection: Array<Dbt_Store_Product_Collection>;
-  /** fetch data from the table: "dbt.store_product_collection" using primary key columns */
-  dbt_store_product_collection_by_pk: Maybe<Dbt_Store_Product_Collection>;
   shopify: Maybe<ShopifyQueryRoot>;
-  /** fetch data from the table: "auth.users" */
-  users: Array<Users>;
 };
 
-export type Query_RootCheckoutArgs = {
-  distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
+export type Query_RootBundlePriceArgs = {
+  distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Checkout_Order_By>>;
-  where: InputMaybe<Checkout_Bool_Exp>;
+  order_by: InputMaybe<Array<BundlePrice_Order_By>>;
+  where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
-export type Query_RootCheckout_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Query_RootCollectionArgs = {
-  distinct_on: InputMaybe<Array<Collection_Select_Column>>;
+export type Query_RootPriceOfferArgs = {
+  distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Collection_Order_By>>;
-  where: InputMaybe<Collection_Bool_Exp>;
+  order_by: InputMaybe<Array<PriceOffer_Order_By>>;
+  where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
-export type Query_RootCollection_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Query_RootCustomerArgs = {
-  distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Customer_Order_By>>;
-  where: InputMaybe<Customer_Bool_Exp>;
-};
-
-export type Query_RootCustomer_By_PkArgs = {
-  authUserId: Scalars['uuid']['input'];
-};
-
-export type Query_RootNegociationAgreementArgs = {
-  distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
-  where: InputMaybe<NegociationAgreement_Bool_Exp>;
-};
-
-export type Query_RootNegociationAgreement_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Query_RootPaymentArgs = {
-  distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Payment_Order_By>>;
-  where: InputMaybe<Payment_Bool_Exp>;
-};
-
-export type Query_RootPayment_By_PkArgs = {
+export type Query_RootPriceOffer_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -2688,52 +1505,24 @@ export type Query_RootProductArgs = {
   where: InputMaybe<Product_Bool_Exp>;
 };
 
-export type Query_RootProductVariantArgs = {
-  distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
+export type Query_RootDbt_Store_B2b_ProductArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<ProductVariant_Order_By>>;
-  where: InputMaybe<ProductVariant_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
-export type Query_RootProductVariant_By_PkArgs = {
+export type Query_RootDbt_Store_B2b_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
-export type Query_RootProduct_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Query_RootReviewArgs = {
-  distinct_on: InputMaybe<Array<Review_Select_Column>>;
+export type Query_RootDbt_Store_B2b_Product_VariantArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Review_Order_By>>;
-  where: InputMaybe<Review_Bool_Exp>;
-};
-
-export type Query_RootReview_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Query_RootVendorReviewArgs = {
-  distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<VendorReview_Order_By>>;
-  where: InputMaybe<VendorReview_Bool_Exp>;
-};
-
-export type Query_RootVendorReview_By_PkArgs = {
-  reviewId: Scalars['String']['input'];
-};
-
-export type Query_RootDbt_Store_B2c_Product_VariantArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
-  where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Base_ProductArgs = {
@@ -2760,25 +1549,12 @@ export type Query_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
   shopify_id: Scalars['bigint']['input'];
 };
 
-export type Query_RootDbt_Store_DiscountArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
+export type Query_RootDbt_Store_Bundle_PriceArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
-  where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
-};
-
-export type Query_RootDbt_Store_Discount_CollectionArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-};
-
-export type Query_RootDbt_Store_Discount_Collection_By_PkArgs = {
-  collection_internal_id: Scalars['String']['input'];
-  discount_id: Scalars['bigint']['input'];
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_ProductArgs = {
@@ -2821,27 +1597,6 @@ export type Query_RootDbt_Store_Exposed_Product_VariantArgs = {
   offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
-};
-
-export type Query_RootDbt_Store_Product_CollectionArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
-};
-
-export type Query_RootDbt_Store_Product_Collection_By_PkArgs = {
-  collection_id: Scalars['String']['input'];
-  product_id: Scalars['String']['input'];
-};
-
-export type Query_RootUsersArgs = {
-  distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Users_Order_By>>;
-  where: InputMaybe<Users_Bool_Exp>;
 };
 
 export type ShopifyMutation = {
@@ -10485,64 +9240,30 @@ export enum Shopify_WeightUnit {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "Checkout" */
-  Checkout: Array<Checkout>;
-  /** fetch data from the table: "Checkout" using primary key columns */
-  Checkout_by_pk: Maybe<Checkout>;
-  /** fetch data from the table in a streaming manner: "Checkout" */
-  Checkout_stream: Array<Checkout>;
-  /** fetch data from the table: "Collection" */
-  Collection: Array<Collection>;
-  /** fetch data from the table: "Collection" using primary key columns */
-  Collection_by_pk: Maybe<Collection>;
-  /** fetch data from the table in a streaming manner: "Collection" */
-  Collection_stream: Array<Collection>;
-  /** fetch data from the table: "Customer" */
-  Customer: Array<Customer>;
-  /** fetch data from the table: "Customer" using primary key columns */
-  Customer_by_pk: Maybe<Customer>;
-  /** fetch data from the table in a streaming manner: "Customer" */
-  Customer_stream: Array<Customer>;
-  /** fetch data from the table: "NegociationAgreement" */
-  NegociationAgreement: Array<NegociationAgreement>;
-  /** fetch data from the table: "NegociationAgreement" using primary key columns */
-  NegociationAgreement_by_pk: Maybe<NegociationAgreement>;
-  /** fetch data from the table in a streaming manner: "NegociationAgreement" */
-  NegociationAgreement_stream: Array<NegociationAgreement>;
-  /** fetch data from the table: "Payment" */
-  Payment: Array<Payment>;
-  /** fetch data from the table: "Payment" using primary key columns */
-  Payment_by_pk: Maybe<Payment>;
-  /** fetch data from the table in a streaming manner: "Payment" */
-  Payment_stream: Array<Payment>;
+  /** fetch data from the table: "BundlePrice" */
+  BundlePrice: Array<BundlePrice>;
+  /** fetch data from the table in a streaming manner: "BundlePrice" */
+  BundlePrice_stream: Array<BundlePrice>;
+  /** fetch data from the table: "PriceOffer" */
+  PriceOffer: Array<PriceOffer>;
+  /** fetch data from the table: "PriceOffer" using primary key columns */
+  PriceOffer_by_pk: Maybe<PriceOffer>;
+  /** fetch data from the table in a streaming manner: "PriceOffer" */
+  PriceOffer_stream: Array<PriceOffer>;
   /** fetch data from the table: "Product" */
   Product: Array<Product>;
-  /** fetch data from the table: "ProductVariant" */
-  ProductVariant: Array<ProductVariant>;
-  /** fetch data from the table: "ProductVariant" using primary key columns */
-  ProductVariant_by_pk: Maybe<ProductVariant>;
-  /** fetch data from the table in a streaming manner: "ProductVariant" */
-  ProductVariant_stream: Array<ProductVariant>;
-  /** fetch data from the table: "Product" using primary key columns */
-  Product_by_pk: Maybe<Product>;
   /** fetch data from the table in a streaming manner: "Product" */
   Product_stream: Array<Product>;
-  /** fetch data from the table: "Review" */
-  Review: Array<Review>;
-  /** fetch data from the table: "Review" using primary key columns */
-  Review_by_pk: Maybe<Review>;
-  /** fetch data from the table in a streaming manner: "Review" */
-  Review_stream: Array<Review>;
-  /** An array relationship */
-  VendorReview: Array<VendorReview>;
-  /** fetch data from the table: "VendorReview" using primary key columns */
-  VendorReview_by_pk: Maybe<VendorReview>;
-  /** fetch data from the table in a streaming manner: "VendorReview" */
-  VendorReview_stream: Array<VendorReview>;
-  /** fetch data from the table: "dbt.store_b2c_product_variant" */
-  dbt_store_b2c_product_variant: Array<Dbt_Store_B2c_Product_Variant>;
-  /** fetch data from the table in a streaming manner: "dbt.store_b2c_product_variant" */
-  dbt_store_b2c_product_variant_stream: Array<Dbt_Store_B2c_Product_Variant>;
+  /** fetch data from the table: "dbt.store_b2b_product" */
+  dbt_store_b2b_product: Array<Dbt_Store_B2b_Product>;
+  /** fetch data from the table: "dbt.store_b2b_product" using primary key columns */
+  dbt_store_b2b_product_by_pk: Maybe<Dbt_Store_B2b_Product>;
+  /** fetch data from the table in a streaming manner: "dbt.store_b2b_product" */
+  dbt_store_b2b_product_stream: Array<Dbt_Store_B2b_Product>;
+  /** fetch data from the table: "dbt.store_b2b_product_variant" */
+  dbt_store_b2b_product_variant: Array<Dbt_Store_B2b_Product_Variant>;
+  /** fetch data from the table in a streaming manner: "dbt.store_b2b_product_variant" */
+  dbt_store_b2b_product_variant_stream: Array<Dbt_Store_B2b_Product_Variant>;
   /** fetch data from the table: "dbt.store_base_product" */
   dbt_store_base_product: Array<Dbt_Store_Base_Product>;
   /** fetch data from the table: "dbt.store_base_product" using primary key columns */
@@ -10555,16 +9276,10 @@ export type Subscription_Root = {
   dbt_store_base_product_variant_by_pk: Maybe<Dbt_Store_Base_Product_Variant>;
   /** fetch data from the table in a streaming manner: "dbt.store_base_product_variant" */
   dbt_store_base_product_variant_stream: Array<Dbt_Store_Base_Product_Variant>;
-  /** fetch data from the table: "dbt.store_discount" */
-  dbt_store_discount: Array<Dbt_Store_Discount>;
-  /** fetch data from the table: "dbt.store_discount_collection" */
-  dbt_store_discount_collection: Array<Dbt_Store_Discount_Collection>;
-  /** fetch data from the table: "dbt.store_discount_collection" using primary key columns */
-  dbt_store_discount_collection_by_pk: Maybe<Dbt_Store_Discount_Collection>;
-  /** fetch data from the table in a streaming manner: "dbt.store_discount_collection" */
-  dbt_store_discount_collection_stream: Array<Dbt_Store_Discount_Collection>;
-  /** fetch data from the table in a streaming manner: "dbt.store_discount" */
-  dbt_store_discount_stream: Array<Dbt_Store_Discount>;
+  /** fetch data from the table: "dbt.store_bundle_price" */
+  dbt_store_bundle_price: Array<Dbt_Store_Bundle_Price>;
+  /** fetch data from the table in a streaming manner: "dbt.store_bundle_price" */
+  dbt_store_bundle_price_stream: Array<Dbt_Store_Bundle_Price>;
   /** fetch data from the table: "dbt.store_exposed_product" */
   dbt_store_exposed_product: Array<Dbt_Store_Exposed_Product>;
   /** fetch data from the table: "dbt.store_exposed_product" using primary key columns */
@@ -10585,106 +9300,38 @@ export type Subscription_Root = {
   dbt_store_exposed_product_variant: Array<Dbt_Store_Exposed_Product_Variant>;
   /** fetch data from the table in a streaming manner: "dbt.store_exposed_product_variant" */
   dbt_store_exposed_product_variant_stream: Array<Dbt_Store_Exposed_Product_Variant>;
-  /** fetch data from the table: "dbt.store_product_collection" */
-  dbt_store_product_collection: Array<Dbt_Store_Product_Collection>;
-  /** fetch data from the table: "dbt.store_product_collection" using primary key columns */
-  dbt_store_product_collection_by_pk: Maybe<Dbt_Store_Product_Collection>;
-  /** fetch data from the table in a streaming manner: "dbt.store_product_collection" */
-  dbt_store_product_collection_stream: Array<Dbt_Store_Product_Collection>;
-  /** fetch data from the table: "auth.users" */
-  users: Array<Users>;
-  /** fetch data from the table in a streaming manner: "auth.users" */
-  users_stream: Array<Users>;
 };
 
-export type Subscription_RootCheckoutArgs = {
-  distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
+export type Subscription_RootBundlePriceArgs = {
+  distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Checkout_Order_By>>;
-  where: InputMaybe<Checkout_Bool_Exp>;
+  order_by: InputMaybe<Array<BundlePrice_Order_By>>;
+  where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
-export type Subscription_RootCheckout_By_PkArgs = {
+export type Subscription_RootBundlePrice_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<BundlePrice_Stream_Cursor_Input>>;
+  where: InputMaybe<BundlePrice_Bool_Exp>;
+};
+
+export type Subscription_RootPriceOfferArgs = {
+  distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
+  order_by: InputMaybe<Array<PriceOffer_Order_By>>;
+  where: InputMaybe<PriceOffer_Bool_Exp>;
+};
+
+export type Subscription_RootPriceOffer_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
-export type Subscription_RootCheckout_StreamArgs = {
+export type Subscription_RootPriceOffer_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Checkout_Stream_Cursor_Input>>;
-  where: InputMaybe<Checkout_Bool_Exp>;
-};
-
-export type Subscription_RootCollectionArgs = {
-  distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Collection_Order_By>>;
-  where: InputMaybe<Collection_Bool_Exp>;
-};
-
-export type Subscription_RootCollection_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Subscription_RootCollection_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Collection_Stream_Cursor_Input>>;
-  where: InputMaybe<Collection_Bool_Exp>;
-};
-
-export type Subscription_RootCustomerArgs = {
-  distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Customer_Order_By>>;
-  where: InputMaybe<Customer_Bool_Exp>;
-};
-
-export type Subscription_RootCustomer_By_PkArgs = {
-  authUserId: Scalars['uuid']['input'];
-};
-
-export type Subscription_RootCustomer_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Customer_Stream_Cursor_Input>>;
-  where: InputMaybe<Customer_Bool_Exp>;
-};
-
-export type Subscription_RootNegociationAgreementArgs = {
-  distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
-  where: InputMaybe<NegociationAgreement_Bool_Exp>;
-};
-
-export type Subscription_RootNegociationAgreement_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Subscription_RootNegociationAgreement_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<NegociationAgreement_Stream_Cursor_Input>>;
-  where: InputMaybe<NegociationAgreement_Bool_Exp>;
-};
-
-export type Subscription_RootPaymentArgs = {
-  distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Payment_Order_By>>;
-  where: InputMaybe<Payment_Bool_Exp>;
-};
-
-export type Subscription_RootPayment_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Subscription_RootPayment_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Payment_Stream_Cursor_Input>>;
-  where: InputMaybe<Payment_Bool_Exp>;
+  cursor: Array<InputMaybe<PriceOffer_Stream_Cursor_Input>>;
+  where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Subscription_RootProductArgs = {
@@ -10695,82 +9342,42 @@ export type Subscription_RootProductArgs = {
   where: InputMaybe<Product_Bool_Exp>;
 };
 
-export type Subscription_RootProductVariantArgs = {
-  distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<ProductVariant_Order_By>>;
-  where: InputMaybe<ProductVariant_Bool_Exp>;
-};
-
-export type Subscription_RootProductVariant_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type Subscription_RootProductVariant_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<ProductVariant_Stream_Cursor_Input>>;
-  where: InputMaybe<ProductVariant_Bool_Exp>;
-};
-
-export type Subscription_RootProduct_By_PkArgs = {
-  id: Scalars['String']['input'];
-};
-
 export type Subscription_RootProduct_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Product_Stream_Cursor_Input>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
-export type Subscription_RootReviewArgs = {
-  distinct_on: InputMaybe<Array<Review_Select_Column>>;
+export type Subscription_RootDbt_Store_B2b_ProductArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Review_Order_By>>;
-  where: InputMaybe<Review_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
-export type Subscription_RootReview_By_PkArgs = {
+export type Subscription_RootDbt_Store_B2b_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
-export type Subscription_RootReview_StreamArgs = {
+export type Subscription_RootDbt_Store_B2b_Product_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Review_Stream_Cursor_Input>>;
-  where: InputMaybe<Review_Bool_Exp>;
+  cursor: Array<InputMaybe<Dbt_Store_B2b_Product_Stream_Cursor_Input>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
-export type Subscription_RootVendorReviewArgs = {
-  distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
+export type Subscription_RootDbt_Store_B2b_Product_VariantArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<VendorReview_Order_By>>;
-  where: InputMaybe<VendorReview_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
-export type Subscription_RootVendorReview_By_PkArgs = {
-  reviewId: Scalars['String']['input'];
-};
-
-export type Subscription_RootVendorReview_StreamArgs = {
+export type Subscription_RootDbt_Store_B2b_Product_Variant_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<VendorReview_Stream_Cursor_Input>>;
-  where: InputMaybe<VendorReview_Bool_Exp>;
-};
-
-export type Subscription_RootDbt_Store_B2c_Product_VariantArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
-  where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
-};
-
-export type Subscription_RootDbt_Store_B2c_Product_Variant_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input>>;
-  where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
+  cursor: Array<InputMaybe<Dbt_Store_B2b_Product_Variant_Stream_Cursor_Input>>;
+  where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_ProductArgs = {
@@ -10809,37 +9416,18 @@ export type Subscription_RootDbt_Store_Base_Product_Variant_StreamArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
-export type Subscription_RootDbt_Store_DiscountArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
+export type Subscription_RootDbt_Store_Bundle_PriceArgs = {
+  distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
-  where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
+  order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
-export type Subscription_RootDbt_Store_Discount_CollectionArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-};
-
-export type Subscription_RootDbt_Store_Discount_Collection_By_PkArgs = {
-  collection_internal_id: Scalars['String']['input'];
-  discount_id: Scalars['bigint']['input'];
-};
-
-export type Subscription_RootDbt_Store_Discount_Collection_StreamArgs = {
+export type Subscription_RootDbt_Store_Bundle_Price_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Dbt_Store_Discount_Collection_Stream_Cursor_Input>>;
-  where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
-};
-
-export type Subscription_RootDbt_Store_Discount_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Dbt_Store_Discount_Stream_Cursor_Input>>;
-  where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
+  cursor: Array<InputMaybe<Dbt_Store_Bundle_Price_Stream_Cursor_Input>>;
+  where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_ProductArgs = {
@@ -10912,39 +9500,6 @@ export type Subscription_RootDbt_Store_Exposed_Product_Variant_StreamArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
 
-export type Subscription_RootDbt_Store_Product_CollectionArgs = {
-  distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
-  where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
-};
-
-export type Subscription_RootDbt_Store_Product_Collection_By_PkArgs = {
-  collection_id: Scalars['String']['input'];
-  product_id: Scalars['String']['input'];
-};
-
-export type Subscription_RootDbt_Store_Product_Collection_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Dbt_Store_Product_Collection_Stream_Cursor_Input>>;
-  where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
-};
-
-export type Subscription_RootUsersArgs = {
-  distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']['input']>;
-  offset: InputMaybe<Scalars['Int']['input']>;
-  order_by: InputMaybe<Array<Users_Order_By>>;
-  where: InputMaybe<Users_Bool_Exp>;
-};
-
-export type Subscription_RootUsers_StreamArgs = {
-  batch_size: Scalars['Int']['input'];
-  cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
-  where: InputMaybe<Users_Bool_Exp>;
-};
-
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
   _eq: InputMaybe<Scalars['timestamp']['input']>;
@@ -10971,54 +9526,6 @@ export type Timestamptz_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
-/** columns and relationships of "auth.users" */
-export type Users = {
-  __typename?: 'users';
-  avatarUrl: Scalars['String']['output'];
-  /** An object relationship */
-  customer: Maybe<Customer>;
-  displayName: Scalars['String']['output'];
-};
-
-/** Boolean expression to filter rows from the table "auth.users". All fields are combined with a logical 'AND'. */
-export type Users_Bool_Exp = {
-  _and: InputMaybe<Array<Users_Bool_Exp>>;
-  _not: InputMaybe<Users_Bool_Exp>;
-  _or: InputMaybe<Array<Users_Bool_Exp>>;
-  avatarUrl: InputMaybe<String_Comparison_Exp>;
-  customer: InputMaybe<Customer_Bool_Exp>;
-  displayName: InputMaybe<String_Comparison_Exp>;
-};
-
-/** Ordering options when selecting data from "auth.users". */
-export type Users_Order_By = {
-  avatarUrl: InputMaybe<Order_By>;
-  customer: InputMaybe<Customer_Order_By>;
-  displayName: InputMaybe<Order_By>;
-};
-
-/** select columns of table "auth.users" */
-export enum Users_Select_Column {
-  /** column name */
-  AvatarUrl = 'avatarUrl',
-  /** column name */
-  DisplayName = 'displayName',
-}
-
-/** Streaming cursor of the table "users" */
-export type Users_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Users_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Users_Stream_Cursor_Value_Input = {
-  avatarUrl: InputMaybe<Scalars['String']['input']>;
-  displayName: InputMaybe<Scalars['String']['input']>;
-};
-
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq: InputMaybe<Scalars['uuid']['input']>;
@@ -11032,66 +9539,79 @@ export type Uuid_Comparison_Exp = {
   _nin: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
-export type GetAvailableDiscountsQueryVariables = Exact<{
-  discountTitles: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+export type FetchProductForNewOfferQueryVariables = Exact<{
+  productId: Scalars['String']['input'];
 }>;
 
-export type GetAvailableDiscountsQuery = {
+export type FetchProductForNewOfferQuery = {
   __typename?: 'query_root';
-  dbt_store_discount: Array<{
-    __typename?: 'dbt_store_discount';
-    ends_at: any | null;
-    starts_at: any;
-    id: any;
-    value: any;
-    value_type: string;
-    code: string | null;
-    title: string;
-    min_amount: any | null;
-    collection: Array<{
-      __typename?: 'dbt_store_discount_collection';
-      collection_internal_id: string;
+  dbt_store_base_product: Array<{
+    __typename?: 'dbt_store_base_product';
+    variants: Array<{
+      __typename?: 'dbt_store_base_product_variant';
+      variant: {
+        __typename?: 'dbt_store_exposed_product_variant';
+        inventory_quantity: any;
+        title: string;
+      } | null;
+      b2bVariant: {
+        __typename?: 'dbt_store_b2b_product_variant';
+        price: any;
+      } | null;
     }>;
+    bundlePrices: Array<{
+      __typename?: 'dbt_store_bundle_price';
+      unit_price_in_cents: any;
+      min_quantity: number;
+    }>;
+    exposedProduct: {
+      __typename?: 'dbt_store_exposed_product';
+      title: string;
+      total_quantity: any;
+    } | null;
   }>;
 };
 
-export type ProductCardFieldsFragment = {
-  __typename?: 'dbt_store_exposed_product';
-  handle: string;
-  vendor: string;
-  title: string;
-  description: string | null;
-  productType: string;
-  numberOfViews: any;
-  status: any;
-  product: {
+export type FetchB2BProductQueryVariables = Exact<{
+  productInternalId: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type FetchB2BProductQuery = {
+  __typename?: 'query_root';
+  dbt_store_base_product: Array<{
     __typename?: 'dbt_store_base_product';
     id: string;
     shopifyId: any;
-    collections: Array<{
-      __typename?: 'dbt_store_product_collection';
-      collection_id: string;
+    vendorId: any;
+    exposedProduct: {
+      __typename?: 'dbt_store_exposed_product';
+      model: string | null;
+      description: string | null;
+      numberOfViews: any;
+      brand: string | null;
+      handle: string;
+      id: string;
+      productType: string;
+      title: string;
+    } | null;
+    b2bProduct: {
+      __typename?: 'dbt_store_b2b_product';
+      largest_bundle_price_in_cents: any | null;
+    } | null;
+    images: Array<{
+      __typename?: 'dbt_store_exposed_product_image';
+      src: string;
     }>;
     variants: Array<{
       __typename?: 'dbt_store_base_product_variant';
-      id: string | null;
-      shopifyId: any;
       exposedVariant: {
         __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: any;
-        option1Name: string | null;
-        option1: string | null;
-        option2Name: string | null;
-        option2: string | null;
-        option3Name: string | null;
-        option3: string | null;
+        title: string;
         condition: any | null;
-        isRefurbished: boolean | null;
+        inventory_quantity: any;
       } | null;
-      b2cVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
+      b2bVariant: {
+        __typename?: 'dbt_store_b2b_product_variant';
         price: any;
         compare_at_price: any | null;
       } | null;
@@ -11101,269 +9621,42 @@ export type ProductCardFieldsFragment = {
       tag: string;
       value: string;
     }>;
-    images: Array<{
-      __typename?: 'dbt_store_exposed_product_image';
-      alt: string | null;
-      src: string;
-      height: any;
-      width: any;
-    }>;
-  } | null;
-};
-
-export type VendorDetailsFragment = {
-  __typename?: 'Customer';
-  isPro: boolean;
-  sellerName: string | null;
-  shipmentTimeframe: any | null;
-  profilePictureShopifyCdnUrl: string | null;
-  createdAt: any;
-  authUserId: any;
-  VendorReviews: Array<{
-    __typename?: 'VendorReview';
-    Review: {
-      __typename?: 'Review';
-      content: string | null;
-      createdAt: any;
-      id: string;
-      rating: number;
-      title: string;
-      authorNickname: string | null;
-      Customer: {
-        __typename?: 'Customer';
-        createdAt: any;
-        sellerName: string | null;
-        profilePictureShopifyCdnUrl: string | null;
-      };
-    };
-  }>;
-  negociationAgreements: Array<{
-    __typename?: 'NegociationAgreement';
-    maxAmountPercent: number;
   }>;
 };
 
-export type FetchProductsQueryVariables = Exact<{
-  productIds: InputMaybe<
-    Array<Scalars['bigint']['input']> | Scalars['bigint']['input']
-  >;
-  productHandles: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
-}>;
+export type FetchPriceOffersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FetchProductsQuery = {
+export type FetchPriceOffersQuery = {
   __typename?: 'query_root';
-  Product: Array<{
-    __typename?: 'Product';
-    storeExposedProduct: {
-      __typename?: 'dbt_store_exposed_product';
-      handle: string;
-      vendor: string;
-      title: string;
-      description: string | null;
-      productType: string;
-      numberOfViews: any;
-      status: any;
-      product: {
-        __typename?: 'dbt_store_base_product';
-        id: string;
-        shopifyId: any;
-        collections: Array<{
-          __typename?: 'dbt_store_product_collection';
-          collection_id: string;
-        }>;
-        variants: Array<{
-          __typename?: 'dbt_store_base_product_variant';
-          id: string | null;
-          shopifyId: any;
-          exposedVariant: {
-            __typename?: 'dbt_store_exposed_product_variant';
-            inventory_quantity: any;
-            option1Name: string | null;
-            option1: string | null;
-            option2Name: string | null;
-            option2: string | null;
-            option3Name: string | null;
-            option3: string | null;
-            condition: any | null;
-            isRefurbished: boolean | null;
-          } | null;
-          b2cVariant: {
-            __typename?: 'dbt_store_b2c_product_variant';
-            price: any;
-            compare_at_price: any | null;
-          } | null;
-        }>;
-        tags: Array<{
-          __typename?: 'dbt_store_exposed_product_tag';
-          tag: string;
-          value: string;
-        }>;
-        images: Array<{
-          __typename?: 'dbt_store_exposed_product_image';
-          alt: string | null;
-          src: string;
-          height: any;
-          width: any;
-        }>;
-      } | null;
-    } | null;
-    Vendor: {
-      __typename?: 'Customer';
-      isPro: boolean;
-      sellerName: string | null;
-      shipmentTimeframe: any | null;
-      profilePictureShopifyCdnUrl: string | null;
-      createdAt: any;
-      authUserId: any;
-      VendorReviews: Array<{
-        __typename?: 'VendorReview';
-        Review: {
-          __typename?: 'Review';
-          content: string | null;
-          createdAt: any;
-          id: string;
-          rating: number;
-          title: string;
-          authorNickname: string | null;
-          Customer: {
-            __typename?: 'Customer';
-            createdAt: any;
-            sellerName: string | null;
-            profilePictureShopifyCdnUrl: string | null;
-          };
-        };
-      }>;
-      negociationAgreements: Array<{
-        __typename?: 'NegociationAgreement';
-        maxAmountPercent: number;
-      }>;
-    };
-  }>;
-};
-
-export type ReviewsFieldsFragment = {
-  __typename?: 'VendorReview';
-  Review: {
-    __typename?: 'Review';
-    content: string | null;
-    createdAt: any;
+  PriceOffer: Array<{
+    __typename?: 'PriceOffer';
     id: string;
-    rating: number;
-    title: string;
-    authorNickname: string | null;
-    Customer: {
-      __typename?: 'Customer';
-      createdAt: any;
-      sellerName: string | null;
-      profilePictureShopifyCdnUrl: string | null;
-    };
-  };
-};
-
-export type FetchCollectionPageDataQueryVariables = Exact<{
-  collectionHandle: Scalars['String']['input'];
-  vendorSellerName: Scalars['String']['input'];
-}>;
-
-export type FetchCollectionPageDataQuery = {
-  __typename?: 'query_root';
-  Collection: Array<{
-    __typename?: 'Collection';
-    shopifyId: string;
-    handle: string;
-    type: any | null;
-    description: string | null;
-    title: string | null;
-    featuredImageSrc: string | null;
-    seoTitle: string | null;
-    seoDescription: string | null;
-    parentCollection: {
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      shopifyId: string;
-      title: string | null;
-      childCollections: Array<{
-        __typename?: 'Collection';
-        handle: string;
-        shortName: string | null;
-        shopifyId: string;
-        title: string | null;
-      }>;
-      parentCollection: {
-        __typename?: 'Collection';
-        shortName: string | null;
-        handle: string;
-        shopifyId: string;
-        title: string | null;
-        parentCollection: {
-          __typename?: 'Collection';
-          shortName: string | null;
-          handle: string;
-          shopifyId: string;
-          title: string | null;
-        } | null;
-      } | null;
-    } | null;
-    childCollections: Array<{
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      title: string | null;
-      featuredImageSrc: string | null;
-    }>;
-  }>;
-  vendorData: Array<{
-    __typename?: 'Customer';
-    sellerName: string | null;
-    coverPictureShopifyCdnUrl: string | null;
-    description: string | null;
-    profilePictureShopifyCdnUrl: string | null;
-    VendorReviews: Array<{
-      __typename?: 'VendorReview';
-      Review: {
-        __typename?: 'Review';
-        content: string | null;
-        createdAt: any;
-        id: string;
-        rating: number;
-        title: string;
-        authorNickname: string | null;
-        Customer: {
-          __typename?: 'Customer';
-          createdAt: any;
-          sellerName: string | null;
-          profilePictureShopifyCdnUrl: string | null;
-        };
-      };
-    }>;
-  }>;
-};
-
-export type FetchProductMetadataQueryVariables = Exact<{
-  productHandle: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type FetchProductMetadataQuery = {
-  __typename?: 'query_root';
-  shopify: {
-    __typename?: 'shopifyQueryRoot';
+    buyerId: any;
+    includedBuyerCommissionPercentage: any;
+    createdAt: any;
+    publicNote: string | null;
+    quantity: number;
+    status: any;
+    newPriceInCents: any;
+    productId: string;
     product: {
-      __typename?: 'shopify_Product';
-      productType: string;
-      featuredImage: {
-        __typename?: 'shopify_Image';
-        src: any;
-        width: number | null;
-        height: number | null;
+      __typename?: 'Product';
+      storeExposedProduct: {
+        __typename?: 'dbt_store_exposed_product';
+        brand: string | null;
+        productType: string;
+        size: string | null;
+        firstImage: string | null;
       } | null;
-      seo: {
-        __typename?: 'shopify_SEO';
-        description: string | null;
-        title: string | null;
-      };
-    } | null;
-  } | null;
+    };
+  }>;
+};
+
+export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type SubscribeToOpenedB2BPriceOffersSubscription = {
+  __typename?: 'subscription_root';
+  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
 };
