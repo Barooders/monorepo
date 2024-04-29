@@ -3,14 +3,13 @@
 import { FetchProductHitDataQuery } from '@/__generated/graphql';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_admin, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
-const PRODUCT_HIT_QUERY = gql`
+const PRODUCT_HIT_QUERY = gql_admin`
   query fetchProductHitData($productId: String) {
     Product(where: { id: { _eq: $productId } }) {
       manualNotation

@@ -7,14 +7,13 @@ import PageContainer from '@/components/atoms/PageContainer';
 import { getFacetValueLabel } from '@/components/molecules/Filters/utils/getFacetLabel';
 import SearchAlertToggleButton from '@/components/molecules/SearchAlertToggleButton';
 import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_registered_user, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
 
-const FETCH_SAVED_SEARCHES = gql`
+const FETCH_SAVED_SEARCHES = gql_registered_user`
   query fetchSavedSearches {
     SavedSearch {
       id

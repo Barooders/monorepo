@@ -1,6 +1,6 @@
-import { Url } from '@/types';
 import { ReviewsFieldsFragment } from '@/__generated/graphql';
-import { gql } from '@apollo/client';
+import { gql_public } from '@/hooks/useHasura';
+import { Url } from '@/types';
 
 export const REVIEW_BLOCK_ANCHOR = 'product-reviews';
 
@@ -19,7 +19,7 @@ export type ReviewType = {
   authorNickname: string | null;
 };
 
-export const REVIEWS_FRAGMENT = gql`
+export const REVIEWS_FRAGMENT = gql_public`
   fragment ReviewsFields on VendorReview {
     Review {
       content

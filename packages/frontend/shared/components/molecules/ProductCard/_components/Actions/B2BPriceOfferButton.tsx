@@ -4,10 +4,9 @@ import { FetchProductForNewOfferQuery } from '@/__generated/graphql';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import React from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import MakeB2BOfferModal from '../MakeB2BOfferModal';
@@ -28,7 +27,7 @@ export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
   );
 };
 
-const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
+const FETCH_PRODUCT_FOR_NEW_OFFER = gql_b2b_user`
   query fetchProductForNewOffer($productId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productId } }) {
       variants {

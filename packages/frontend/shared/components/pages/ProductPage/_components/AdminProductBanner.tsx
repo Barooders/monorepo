@@ -7,15 +7,14 @@ import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_admin, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
-import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES } from 'shared-types';
 
-const PRODUCT_NOTATION_QUERY = gql`
+const PRODUCT_NOTATION_QUERY = gql_admin`
   query fetchProductNotation($productInternalId: String!) {
     Product(where: { id: { _eq: $productInternalId } }) {
       manualNotation

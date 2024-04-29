@@ -11,12 +11,12 @@ import {
 } from '@/components/molecules/Reviews/container';
 import { Condition } from '@/components/pages/SellingForm/types';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
+import { gql_public } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
 import { enrichTags } from '@/mappers/search';
 import { ImageType } from '@/types';
 import { roundCurrency } from '@/utils/currency';
 import { calculateAverageRatings } from '@/utils/rating';
-import { gql } from '@apollo/client';
 import compact from 'lodash/compact';
 import first from 'lodash/first';
 import { createVariantName, extractTags } from '../container';
@@ -31,7 +31,7 @@ export type ContainerPropsType = {
   intent?: ProductMultiVariants['intent'];
 };
 
-export const PRODUCT_CARD_FRAGMENT = gql`
+export const PRODUCT_CARD_FRAGMENT = gql_public`
   fragment ProductCardFields on dbt_store_exposed_product {
     product {
       id
@@ -79,7 +79,7 @@ export const PRODUCT_CARD_FRAGMENT = gql`
   }
 `;
 
-export const VENDOR_DETAILS_FRAGMENT = gql`
+export const VENDOR_DETAILS_FRAGMENT = gql_public`
   ${REVIEWS_FRAGMENT}
   fragment VendorDetails on Customer {
     isPro
@@ -97,9 +97,8 @@ export const VENDOR_DETAILS_FRAGMENT = gql`
   }
 `;
 
-export const FETCH_PRODUCTS = gql`
+export const FETCH_PRODUCTS = gql_public`
   ${VENDOR_DETAILS_FRAGMENT}
-
   ${PRODUCT_CARD_FRAGMENT}
 
   query fetchProducts($productIds: [bigint!], $productHandles: [String!]) {

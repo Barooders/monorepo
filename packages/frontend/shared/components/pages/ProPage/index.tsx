@@ -14,9 +14,13 @@ import InstantSearchProvider from '@/components/pages/SearchPage/_components/Ins
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
-import { useHasura } from '@/hooks/useHasura';
+import {
+  gql_b2b_user,
+  gql_registered_user,
+  useHasura,
+} from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
-import { gql, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
@@ -25,7 +29,7 @@ import B2BSearchResults from './_components/B2BSearchResults';
 
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
-const FETCH_B2B_SAVED_SEARCH = gql`
+const FETCH_B2B_SAVED_SEARCH = gql_registered_user`
   query FetchB2BSavedSearch {
     SavedSearch(
       limit: 1
@@ -50,7 +54,7 @@ const FETCH_B2B_SAVED_SEARCH = gql`
   }
 `;
 
-const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql`
+const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql_b2b_user`
   subscription subscribeToOpenedB2BPriceOffers {
     PriceOffer(
       where: {

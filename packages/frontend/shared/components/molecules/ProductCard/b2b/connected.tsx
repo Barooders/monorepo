@@ -1,10 +1,9 @@
 import { FetchB2BProductQuery } from '@/__generated/graphql';
 import Loader from '@/components/atoms/Loader';
-import { useHasura } from '@/hooks/useHasura';
+import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
 import { roundCurrency } from '@/utils/currency';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
@@ -17,7 +16,7 @@ export type ContainerPropsType = {
   hasOpenedPriceOffer: boolean;
 };
 
-export const FETCH_B2B_PRODUCT = gql`
+export const FETCH_B2B_PRODUCT = gql_b2b_user`
   query fetchB2BProduct($productInternalId: String) {
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
       id
