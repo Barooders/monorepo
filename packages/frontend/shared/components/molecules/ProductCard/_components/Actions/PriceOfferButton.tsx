@@ -1,6 +1,6 @@
 'use client';
 
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import { RegisteredUserTypes } from '@/__generated/hasura-role.config';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import Button, {
   PropsType as ButtonPropsType,

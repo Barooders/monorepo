@@ -1,5 +1,4 @@
-import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
-import { gql_public } from '@/hooks/useHasura';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { Url } from '@/types';
 
 export const REVIEW_BLOCK_ANCHOR = 'product-reviews';

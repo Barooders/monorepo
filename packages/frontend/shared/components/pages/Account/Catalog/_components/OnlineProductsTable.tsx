@@ -1,6 +1,9 @@
 'use client';
 
-import { MeAsVendorTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  MeAsVendorTypes,
+  gql_me_as_vendor,
+} from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
@@ -8,7 +11,7 @@ import Modal from '@/components/atoms/Modal';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
 import useBackend from '@/hooks/useBackend';
-import { gql_me_as_vendor, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { ProductStatus } from '@/types';

@@ -1,9 +1,9 @@
 'use client';
 
-import { AdminTypes } from '@/__generated/hasura-role-graphql.types';
+import { AdminTypes, gql_admin } from '@/__generated/hasura-role.config';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
-import { gql_admin, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';

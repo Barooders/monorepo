@@ -1,6 +1,9 @@
 'use client';
 
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
 import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -11,7 +14,7 @@ import InstantSearchProvider from '@/components/pages/SearchPage/_components/Ins
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
-import { gql_registered_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';

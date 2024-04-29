@@ -1,7 +1,10 @@
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import useUser from '@/hooks/state/useUser';
-import { gql_registered_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import {

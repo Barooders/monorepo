@@ -1,7 +1,10 @@
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql_registered_user, useHasura } from './useHasura';
+import { useHasura } from './useHasura';
 
 const EXISTING_CUSTOMER_QUERY = gql_registered_user`
   query checkExistingCustomer($customerId: String) {

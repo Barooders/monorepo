@@ -1,10 +1,10 @@
 'use client';
 
-import { B2BUserTypes } from '@/__generated/hasura-role-graphql.types';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
-import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import React from 'react';

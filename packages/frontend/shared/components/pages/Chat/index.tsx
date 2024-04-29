@@ -1,9 +1,12 @@
 'use client';
 
-import { MeAsCustomerTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  MeAsCustomerTypes,
+  gql_me_as_customer,
+} from '@/__generated/hasura-role.config';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
-import { gql_me_as_customer, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import head from 'lodash/head';

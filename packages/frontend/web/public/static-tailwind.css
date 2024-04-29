@@ -1467,6 +1467,10 @@ video {
   min-width: 260px;
 }
 
+.max-w-\[200px\] {
+  max-width: 200px;
+}
+
 .max-w-\[20rem\] {
   max-width: 20rem;
 }
@@ -2026,11 +2030,6 @@ video {
 .border-slate-300 {
   --tw-border-opacity: 1;
   border-color: rgb(203 213 225 / var(--tw-border-opacity));
-}
-
-.border-slate-50 {
-  --tw-border-opacity: 1;
-  border-color: rgb(248 250 252 / var(--tw-border-opacity));
 }
 
 .border-slate-800 {
@@ -3487,6 +3486,10 @@ video {
 
   .lg\:h-36 {
     height: 9rem;
+  }
+
+  .lg\:h-5 {
+    height: 1.25rem;
   }
 
   .lg\:h-9 {

@@ -1,6 +1,6 @@
-import { B2BUserTypes } from '@/__generated/hasura-role-graphql.types';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
-import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
 import { roundCurrency } from '@/utils/currency';

@@ -1,13 +1,13 @@
 'use client';
 
-import { AdminTypes } from '@/__generated/hasura-role-graphql.types';
+import { AdminTypes, gql_admin } from '@/__generated/hasura-role.config';
 import { operations } from '@/__generated/rest-schema';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
 import Select from '@/components/atoms/Select';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
-import { gql_admin, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
 import { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import { fetchProductByHandle } from '@/clients/products';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
@@ -9,7 +9,6 @@ import config from '@/config/env';
 import { BackendFailureException } from '@/exception/backend-failure.exception';
 import { ForbiddenPathException } from '@/exceptions/ForbiddenPathException';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
-import { gql_public } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
 import { AppRouterPage } from '@/types';
 import capitalize from 'lodash/capitalize';
