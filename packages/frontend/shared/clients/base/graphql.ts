@@ -1,14 +1,15 @@
+import { TypedDocumentNode } from '@apollo/client';
 import { getOperationName } from '@apollo/client/utilities';
 import * as Sentry from '@sentry/nextjs';
-import { DocumentNode, print } from 'graphql';
+import { print } from 'graphql';
 import uniqBy from 'lodash/uniqBy';
 
 export const createGraphQLClient =
   (baseUrl: string, defaultHeaders?: Headers) =>
-  async <ResponseType, VariablesType = Record<string, unknown>>(
-    query: DocumentNode,
-    { variables, headers }: { variables?: VariablesType; headers?: Headers },
-  ): Promise<ResponseType> => {
+  async <TResult, TVariables>(
+    query: TypedDocumentNode<TResult, TVariables>,
+    { variables, headers }: { variables?: TVariables; headers?: Headers },
+  ): Promise<TResult> => {
     const transaction = Sentry.getCurrentHub().getScope().getTransaction();
     let span;
     if (transaction) {
