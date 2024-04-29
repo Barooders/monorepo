@@ -123,6 +123,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
   const openedPriceOfferProductIds =
     priceOffersResult?.PriceOffer.map(({ productId }) => productId) ?? [];
 
+  const openDetails = (productInternalId: string) => {
+    addProductToUrl(productInternalId);
+    setSelectedProductId(productInternalId);
+  };
+
   return (
     <PageContainer includeVerticalPadding={false}>
       {selectedProductId && (
@@ -149,10 +154,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />
                 <B2BSearchResults
-                  openDetails={(productInternalId: string) => {
-                    addProductToUrl(productInternalId);
-                    setSelectedProductId(productInternalId);
-                  }}
+                  openDetails={openDetails}
                   openedPriceOfferProductIds={openedPriceOfferProductIds}
                 />
                 <Pagination />
@@ -170,6 +172,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
                 hasOpenedPriceOffer={openedPriceOfferProductIds.includes(
                   selectedProductId,
                 )}
+                openDetails={openDetails}
               />
             </div>
           ) : (
