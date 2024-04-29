@@ -1,5 +1,4 @@
 import { getDictionary } from '@/i18n/translate';
-import { formatCurrency } from '@/utils/currency';
 import ProductPrice from '.';
 import ProductLabel from '../ProductLabel';
 
@@ -22,9 +21,7 @@ const BundlePrice: React.FC<PropsType> = ({
   stock,
   className,
 }) => {
-  const shouldShowBothPrices =
-    largestBundlePrice && largestBundlePrice < 0.96 * price;
-  const bundlePrice = shouldShowBothPrices ? largestBundlePrice : price;
+  const bundlePrice = largestBundlePrice ?? price;
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
@@ -37,16 +34,6 @@ const BundlePrice: React.FC<PropsType> = ({
         </div>
       </div>
       <div className="flex flex-col">
-        <p className="whitespace-nowrap">
-          {shouldShowBothPrices ? (
-            <>
-              {dict.b2b.productCard.price.unitPrice} :{' '}
-              {formatCurrency(price, { round: true })}€
-            </>
-          ) : (
-            <>&nbsp;</>
-          )}
-        </p>
         <div className="flex items-center gap-1">
           <span className="whitespace-nowrap font-bold">
             {dict.b2b.productCard.price.unitBundlePrice} :
