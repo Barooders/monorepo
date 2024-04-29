@@ -50,7 +50,7 @@ export class FulfillmentService {
       },
     });
 
-    await fulfillmentOrders.forEach(
+    fulfillmentOrders.forEach(
       async ({ externalOrderId, ...fulfillmentOrder }) => {
         try {
           this.logger.debug(`Fulfilling external order ${externalOrderId}`);
