@@ -8,7 +8,7 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [citext, pgcrypto]
+  extensions = [citext(schema: "heroku_ext"), pgcrypto(schema: "heroku_ext")]
   schemas    = ["auth", "public"]
 }
 
@@ -595,7 +595,7 @@ model SalesChannel {
 }
 
 model ProductSalesChannel {
-  id               String          @id @default(dbgenerated("(gen_random_uuid())::text"))
+  id               String           @id @default(dbgenerated("(gen_random_uuid())::text"))
   salesChannelName SalesChannelName
   salesChannel     SalesChannel     @relation(fields: [salesChannelName], references: [name])
   productId        String
