@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 source .env.local || true
 
 PRISMA_CLIENT_DIRECTORY=dist/src/__generated
 mkdir -p $PRISMA_CLIENT_DIRECTORY
 
-if [ -n $DATABASE_URL_LOCAL ];
+if [ ! -z $DATABASE_URL_LOCAL ];
 then
 	export DATABASE_URL=$DATABASE_URL_LOCAL
 fi
