@@ -14,7 +14,7 @@ fi
 
 if [ -z ${DATABASE_STORE_URL:-} ];
 then
-	export DATABASE_STORE_URL=$DATABASE_URL?schema=dbt
+	export DATABASE_STORE_URL=${DATABASE_URL:-}?schema=dbt
 fi
 
 COMMAND_ARGS="${@:2}"
