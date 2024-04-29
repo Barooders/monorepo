@@ -105,7 +105,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
 
   const addProductToUrl = (productInternalId: string) => {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.append(PRODUCT_ID_QUERY_KEY, productInternalId);
+    if (newUrl.searchParams.has(PRODUCT_ID_QUERY_KEY)) {
+      newUrl.searchParams.set(PRODUCT_ID_QUERY_KEY, productInternalId);
+    } else {
+      newUrl.searchParams.append(PRODUCT_ID_QUERY_KEY, productInternalId);
+    }
 
     history.pushState({}, 'Open product', newUrl.toString());
   };
