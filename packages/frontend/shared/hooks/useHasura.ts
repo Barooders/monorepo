@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import { fetchHasura } from '@/clients/hasura';
 import { gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';

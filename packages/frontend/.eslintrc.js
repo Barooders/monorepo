@@ -10,6 +10,18 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: '@apollo/client',
+            importNames: ['gql'],
+            message: 'Please role-specific gql from useHasura.ts',
+          },
+        ],
+      },
+    ],
     'react-hooks/exhaustive-deps': [
       'warn',
       {
