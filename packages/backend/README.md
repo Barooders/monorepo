@@ -10,7 +10,7 @@ A software to handle all Barooders backend logic.
 To install and start all dependencies, run the following:
 
 ```
-cp .env.example .env
+cp .env.example .env.local
 yarn
 docker-compose up -d
 ```

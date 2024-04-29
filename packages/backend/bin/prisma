@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source .env.local || true > /dev/null 2>&1
+
+PRISMA_CLIENT_DIRECTORY=dist/src/__generated
+mkdir -p $PRISMA_CLIENT_DIRECTORY
+
+if [ ! -z ${DATABASE_URL_LOCAL:-} ];
+then
+	export DATABASE_URL=$DATABASE_URL_LOCAL
+fi
+
+if [ -z ${DATABASE_STORE_URL:-} ];
+then
+	export DATABASE_STORE_URL=${DATABASE_URL:-}?schema=dbt
+fi
+
+COMMAND_ARGS="${@:2}"
+SCHEMA_ARG=$1
+
+function executePrismaCommand() {
+	SCHEMA_NAME=$1
+
+	# Execute prisma command
+	yarn prisma:direct $COMMAND_ARGS --schema=./prisma/$SCHEMA_NAME/schema.prisma
+
+	# Move built client to build directory
+	cp -r src/__generated/$SCHEMA_NAME-client $PRISMA_CLIENT_DIRECTORY
+}
+
+if [ $SCHEMA_ARG = "all" ];
+then
+	executePrismaCommand store
+	executePrismaCommand main
+elif [ $SCHEMA_ARG = "store" ] || [ $SCHEMA_ARG = "main" ]
+then
+	executePrismaCommand $SCHEMA_ARG
+else
+	echo ""
+	echo "You should pass the schema name as first argument of keyword 'all'"
+	echo ""
+	exit 1
+fi

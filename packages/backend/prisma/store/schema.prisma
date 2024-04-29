@@ -1,0 +1,307 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["tracing", "postgresqlExtensions"]
+  binaryTargets   = ["native", "darwin"]
+  output          = "../../src/__generated/store-client"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_STORE_URL")
+  extensions   = [citext(schema: "heroku_ext"), pgcrypto(schema: "heroku_ext")]
+  relationMode = "prisma"
+}
+
+//  =============================
+//  ======  STORE FACADE  =======
+//  =============================
+
+model StoreDiscount {
+  id        BigInt    @unique
+  title     String    @db.VarChar(256)
+  startsAt  DateTime  @map("starts_at") @db.Timestamptz(6)
+  endsAt    DateTime? @map("ends_at") @db.Timestamptz(6)
+  value     Float
+  code      String?
+  valueType String    @map("value_type") @db.VarChar(256)
+  isPublic  Boolean   @map("is_public")
+  minAmount Float?    @map("min_amount")
+
+  @@map("store_discount")
+}
+
+model StoreDiscountCollection {
+  collectionInternalId String @map("collection_internal_id")
+  discountId           BigInt @map("discount_id")
+
+  @@id([collectionInternalId, discountId])
+  @@map("store_discount_collection")
+}
+
+model StoreCollection {
+  id        String                                        @id
+  shopifyId BigInt                                        @map("shopify_id")
+  title     String                                        @db.VarChar(256)
+  handle    String                                        @default("")
+  products  StoreProductCollectionWithManualCollections[]
+
+  @@map("store_collection")
+}
+
+model StoreProductCollection {
+  collectionId String   @map("collection_id")
+  productId    String   @map("product_id")
+  syncDate     DateTime @db.Date
+
+  @@id([collectionId, productId])
+  @@index([productId])
+  @@index([collectionId])
+  @@map("store_product_collection")
+}
+
+model StoreDiscountProduct {
+  discountTitle String   @map("discount_title")
+  productId     String   @map("product_id")
+  syncDate      DateTime @db.Date
+
+  @@id([discountTitle, productId])
+  @@index([productId])
+  @@index([discountTitle])
+  @@map("store_discount_product")
+}
+
+model StoreProductCollectionWithManualCollections {
+  collectionId String           @map("collection_id")
+  collection   StoreCollection  @relation(fields: [collectionId], references: [id])
+  productId    String           @map("product_id")
+  baseProduct  StoreBaseProduct @relation(fields: [productId], references: [id])
+  syncDate     DateTime         @db.Date
+
+  @@id([collectionId, productId])
+  @@index([productId])
+  @@index([collectionId])
+  @@map("store_product_collection_with_manual_collections")
+}
+
+model StoreBaseProduct {
+  id        String   @id
+  shopifyId BigInt   @unique
+  createdAt DateTime @db.Timestamptz(6)
+  vendorId  String   @db.Uuid
+
+  exposedImages            StoreExposedProductImage[]
+  exposedProduct           StoreExposedProduct?
+  exposedProductTags       StoreExposedProductTag[]
+  baseProductVariants      StoreBaseProductVariant[]
+  collections              StoreProductCollectionWithManualCollections[]
+  storeProductForAnalytics StoreProductForAnalytics?
+  storeProductForAdmin     StoreProductForAdmin?
+  storeB2BProduct          StoreB2BProduct?
+  storeBundlePrices        StoreBundlePrice[]
+
+  @@map("store_base_product")
+}
+
+model StoreBaseProductVariant {
+  id        String   @id
+  shopifyId BigInt   @unique @map("shopify_id")
+  createdAt DateTime @db.Timestamptz(6)
+  productId String
+
+  product                StoreBaseProduct            @relation(fields: [productId], references: [id])
+  exposedProductVariant  StoreExposedProductVariant?
+  storeB2BProductVariant StoreB2BProductVariant?
+  storeB2CProductVariant StoreB2CProductVariant?
+
+  @@index([productId])
+  @@index([id])
+  @@map("store_base_product_variant")
+}
+
+model StoreExposedProduct {
+  id            String           @id
+  publishedAt   DateTime?        @db.Timestamptz(6)
+  productType   String           @db.VarChar(256)
+  status        ProductStatus
+  title         String           @db.VarChar(256)
+  vendor        String           @db.VarChar(256)
+  description   String?          @db.VarChar(131072)
+  handle        String           @db.VarChar(256)
+  numberOfViews BigInt           @default(0)
+  totalQuantity BigInt           @default(0) @map("total_quantity")
+  brand         String?
+  size          String?
+  gender        String?
+  model         String?
+  modelYear     String?
+  syncDate      DateTime         @db.Date
+  firstImage    String?          @db.VarChar(512)
+  product       StoreBaseProduct @relation(fields: [id], references: [id])
+
+  @@index([handle])
+  @@index([id])
+  @@index([brand])
+  @@index([title])
+  @@index([model])
+  @@index([productType])
+  @@index([gender])
+  @@index([vendor])
+  @@map("store_exposed_product")
+}
+
+model StoreB2BProduct {
+  id                        String           @id
+  largestBundlePriceInCents BigInt?          @map("largest_bundle_price_in_cents")
+  product                   StoreBaseProduct @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_b2b_product")
+}
+
+model StoreBundlePrice {
+  id               String           @id
+  minQuantity      Int              @map("min_quantity")
+  unitPriceInCents BigInt           @map("unit_price_in_cents")
+  productId        String           @map("product_id")
+  product          StoreBaseProduct @relation(fields: [productId], references: [id])
+
+  @@index([id])
+  @@index([productId])
+  @@map("store_bundle_price")
+}
+
+model StoreProductForAdmin {
+  id        String           @id
+  sourceUrl String?          @map("source_url")
+  product   StoreBaseProduct @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_product_for_admin")
+}
+
+model StoreProductForAnalytics {
+  id                             String           @id @unique
+  createdAt                      DateTime         @map("created_at") @db.Timestamptz(6)
+  vendorId                       String           @map("vendor_id") @db.Uuid
+  shopifyId                      BigInt           @unique @map("shopify_id")
+  calculatedScoring              Float            @map("calculated_scoring")
+  source                         String?
+  manualNotation                 ProductNotation? @map("manual_notation")
+  vendorNotation                 ProductNotation? @map("vendor_notation")
+  calculatedNotation             ProductNotation? @map("calculated_notation")
+  calculatedNotationBeta         ProductNotation? @map("calculated_notation_beta")
+  notation                       ProductNotation? @map("notation")
+  viewsOnLast30Days              BigInt           @default(0) @map("views_last_30_days")
+  conditionFromVariants          Condition?       @map("condition_from_variants")
+  isNew                          Boolean?         @map("is_new")
+  EANCode                        String?          @map("ean_code")
+  isBike                         Boolean          @default(false) @map("is_bike")
+  imageCount                     Int              @default(0) @map("image_count")
+  ordersCount                    Int              @default(0) @map("orders_count")
+  favoritesCount                 Int              @default(0) @map("favorites_count")
+  highestDiscount                Float            @default(0) @map("highest_discount")
+  brand                          String?
+  brandRating                    BrandRating?     @map("brand_rating")
+  size                           String?
+  modelYear                      Int              @default(0) @map("model_year")
+  modelYearWithOverride          Int              @default(0) @map("model_year_with_override")
+  defaultVendorNotation          ProductNotation? @map("default_vendor_notation")
+  vendorOverridesProductNotation Boolean          @default(false) @map("vendor_overrides_product_scoring")
+  product                        StoreBaseProduct @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_product_for_analytics")
+}
+
+model StoreExposedProductVariant {
+  id                String                  @id
+  inventoryQuantity BigInt                  @default(0) @map("inventory_quantity")
+  syncDate          DateTime                @db.Date
+  option1Name       String?                 @db.VarChar(256)
+  option1           String?                 @db.VarChar(256)
+  option2Name       String?                 @db.VarChar(256)
+  option2           String?                 @db.VarChar(256)
+  option3Name       String?                 @db.VarChar(256)
+  option3           String?                 @db.VarChar(256)
+  condition         Condition?
+  isRefurbished     Boolean?
+  requiresShipping  Boolean?
+  title             String                  @db.VarChar(256)
+  updatedAt         DateTime                @db.Timestamptz(6)
+  variant           StoreBaseProductVariant @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_exposed_product_variant")
+}
+
+model StoreB2BProductVariant {
+  id             String                  @id
+  price          Float
+  compareAtPrice Float?                  @map("compare_at_price")
+  variant        StoreBaseProductVariant @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_b2b_product_variant")
+}
+
+model StoreB2CProductVariant {
+  id             String                  @id
+  price          Float
+  compareAtPrice Float?                  @map("compare_at_price")
+  variant        StoreBaseProductVariant @relation(fields: [id], references: [id])
+
+  @@index([id])
+  @@map("store_b2c_product_variant")
+}
+
+model StoreExposedProductImage {
+  shopifyId BigInt           @id @map("shopify_id")
+  productId String
+  syncDate  DateTime         @db.Date
+  src       String           @db.VarChar(512)
+  width     BigInt
+  height    BigInt
+  alt       String?          @db.VarChar(256)
+  position  BigInt
+  product   StoreBaseProduct @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+  @@map("store_exposed_product_image")
+}
+
+model StoreExposedProductTag {
+  productId String           @map("product_id")
+  tag       String
+  fullTag   String           @map("full_tag") @db.VarChar(256)
+  value     String
+  product   StoreBaseProduct @relation(fields: [productId], references: [id])
+
+  @@unique([productId, fullTag])
+  @@index([productId])
+  @@map("store_exposed_product_tag")
+}
+
+enum Condition {
+  REFURBISHED_AS_NEW
+  AS_NEW
+  VERY_GOOD
+  GOOD
+}
+
+enum ProductStatus {
+  ACTIVE
+  DRAFT
+  ARCHIVED
+}
+
+enum ProductNotation {
+  A
+  B
+  C
+}
+
+enum BrandRating {
+  TOP
+  MID
+  LOW
+}
