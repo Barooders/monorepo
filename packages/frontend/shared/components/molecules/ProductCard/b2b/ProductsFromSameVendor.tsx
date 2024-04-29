@@ -31,7 +31,7 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
 
   return (
     <>
-      <h3 className="mb-5 text-2xl font-semibold">
+      <h3 className="mt-2 text-2xl font-semibold">
         {dict.b2b.productCard.details.productsFromSameVendor}
       </h3>
       <HorizontalScroller
