@@ -1,6 +1,5 @@
-/* eslint-disable no-restricted-imports */
 import { fetchStorefront } from '@/clients/storefront';
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'; // eslint-disable-line no-restricted-imports
 import { DocumentNode } from 'graphql';
 
 const useStorefront = <ResponseType, VariablesType = Record<string, unknown>>(
