@@ -21,14 +21,15 @@ const Button: React.FC<PropsType> = ({
   disabled,
   size = 'medium',
 }) => {
+  const disabledStyle = 'bg-gray-200 text-gray-500';
   const getIntentStyle = (intent: string) => {
     switch (intent) {
       case 'primary':
         return `text-white ${
-          disabled ? 'bg-gray-200' : 'border-primary-600 bg-primary-600'
+          disabled ? disabledStyle : 'border-primary-600 bg-primary-600'
         }`;
       case 'secondary':
-        return `text-white ${disabled ? 'bg-gray-200' : 'border-black bg-black'}`;
+        return `text-white ${disabled ? disabledStyle : 'border-black bg-black'}`;
       case 'tertiary':
         return 'bg-gray-200 text-gray-500 font-semibold';
       default:
