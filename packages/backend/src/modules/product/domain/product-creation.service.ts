@@ -199,6 +199,9 @@ export class ProductCreationService {
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               priceInCents: variant.price ? toCents(variant.price) : 0,
+              compareAtPriceInCents: variant.compare_at_price
+                ? toCents(variant.compare_at_price)
+                : null,
               condition: variant.condition,
             })),
           },
