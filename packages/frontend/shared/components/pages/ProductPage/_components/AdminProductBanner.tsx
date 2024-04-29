@@ -48,7 +48,7 @@ const AdminProductBanner = ({
     PRODUCT_NOTATION_QUERY,
     HASURA_ROLES.ADMIN,
   );
-  const [{ value }, doFetchProductNotation] = useWrappedAsyncFn<
+  const [{ value: productValue }, doFetchProductNotation] = useWrappedAsyncFn<
     () => Promise<AdminTypes.FetchProductNotationQuery>
   >(() => fetchProductNotation({ productInternalId }));
 
@@ -68,15 +68,14 @@ const AdminProductBanner = ({
     },
   );
 
-  const [productCommissionState, fetchProductCommission] = useWrappedAsyncFn(
-    async () => {
+  const [{ value: commissionValue }, fetchProductCommission] =
+    useWrappedAsyncFn(async () => {
       return await fetchAPI<
         operations['PayoutController_previewCommission']['responses']['default']['content']['application/json']
       >(
         `/v1/invoice/preview-commission?productInternalId=${productInternalId}`,
       );
-    },
-  );
+    });
 
   useEffect(() => {
     if (!isAdmin()) return;
@@ -98,12 +97,12 @@ const AdminProductBanner = ({
           <p>
             ID: {productShopifyId ?? productInternalId} (created at:{' '}
             {new Date(
-              value?.dbt_store_product_for_analytics[0].created_at,
+              productValue?.dbt_store_product_for_analytics[0].created_at,
             ).toLocaleDateString('fr-FR')}
             )
           </p>
           <p>
-            source: {value?.Product[0]?.source ?? '-'} -{' '}
+            source: {productValue?.Product[0]?.source ?? '-'} -{' '}
             {productShopifyId && (
               <a
                 className="font-semibold text-gray-500 underline"
@@ -113,11 +112,11 @@ const AdminProductBanner = ({
               </a>
             )}
           </p>
-          {value?.Product[0]?.sourceUrl && (
+          {productValue?.Product[0]?.sourceUrl && (
             <a
               className="underline"
               target="_blank"
-              href={value?.Product[0]?.sourceUrl}
+              href={productValue?.Product[0]?.sourceUrl}
               rel="noreferrer"
             >
               source product
@@ -146,7 +145,7 @@ const AdminProductBanner = ({
           className="h-[33px] w-[140px]"
           buttonClassName="text-xs py-0 h-full"
           onSelect={(manualNotation) => doUpdateProduct({ manualNotation })}
-          selectedOptionValue={value?.Product[0]?.manualNotation ?? '-'}
+          selectedOptionValue={productValue?.Product[0]?.manualNotation ?? '-'}
           options={['-', 'A', 'B', 'C'].map((notation) => ({
             label: `Notation: ${notation}`,
             value: notation,
@@ -154,47 +153,54 @@ const AdminProductBanner = ({
         />
         <div className="flex">
           <div className="flex flex-col">
-            <p>manual_notation: {value?.Product[0]?.manualNotation ?? '-'}</p>
+            <p>
+              manual_notation: {productValue?.Product[0]?.manualNotation ?? '-'}
+            </p>
             <p>
               vendor_notation:{' '}
-              {value?.dbt_store_product_for_analytics[0].vendor_notation ?? '-'}
+              {productValue?.dbt_store_product_for_analytics[0]
+                .vendor_notation ?? '-'}
             </p>
           </div>
           <div className="ml-5 flex flex-col">
             <p>
               calculated_notation:{' '}
-              {value?.dbt_store_product_for_analytics[0].calculated_notation ??
-                '-'}
+              {productValue?.dbt_store_product_for_analytics[0]
+                .calculated_notation ?? '-'}
             </p>
             <p>
               calculated_notation_beta:{' '}
-              {value?.dbt_store_product_for_analytics[0]
+              {productValue?.dbt_store_product_for_analytics[0]
                 .calculated_notation_beta ?? '-'}
             </p>
           </div>
           <div className="ml-5 flex flex-col">
             <p>
               orders_count:{' '}
-              {value?.dbt_store_product_for_analytics[0].orders_count ?? '-'}
+              {productValue?.dbt_store_product_for_analytics[0].orders_count ??
+                '-'}
             </p>
             <p>
               favorites_count:{' '}
-              {value?.dbt_store_product_for_analytics[0].favorites_count ?? '-'}
+              {productValue?.dbt_store_product_for_analytics[0]
+                .favorites_count ?? '-'}
             </p>
           </div>
           <div className="ml-5 flex flex-col">
             <p>
-              vendor_commission:{' '}
-              {productCommissionState.value?.vendorCommission
-                ? (-1 * productCommissionState.value.vendorCommission).toFixed(
-                    0,
-                  )
+              commissions:{' '}
+              {commissionValue
+                ? (
+                    commissionValue.buyerCommission -
+                    commissionValue.vendorCommission
+                  ) //vendorCommission is a negative number
+                    .toFixed(0)
                 : '-'}{' '}
               €
             </p>
             <p>
               vendor_shipping:{' '}
-              {productCommissionState.value?.vendorShipping.toFixed(0) ?? '-'} €
+              {commissionValue?.vendorShipping.toFixed(0) ?? '-'} €
             </p>
           </div>
         </div>

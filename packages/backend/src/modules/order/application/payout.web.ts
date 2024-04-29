@@ -92,6 +92,11 @@ class PreviewCommissionOutputDTO {
   @IsNumber()
   @ApiProperty({})
   vendorShipping!: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({})
+  buyerCommission!: number;
 }
 @Controller(routesV1.version)
 export class PayoutController {

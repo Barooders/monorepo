@@ -213,6 +213,7 @@ export interface components {
     PreviewCommissionOutputDTO: {
       vendorCommission: number;
       vendorShipping: number;
+      buyerCommission: number;
     };
     PayoutInputQuery: {
       /** @description The Shopify id of the order line */
@@ -439,7 +440,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-26T08:56:51.050Z
+       * @example 2024-04-29T16:21:04.724Z
        */
       birthDate: string;
       /**
