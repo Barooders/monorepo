@@ -12,7 +12,7 @@ WITH variant_data AS (
             CASE
                 WHEN ppv."compareAtPriceInCents" IS NULL OR ppv."compareAtPriceInCents" = 0 THEN 0
                 WHEN ppv."priceInCents" IS NULL OR ppv."priceInCents" = 0 THEN 0
-                ELSE ((ppv."compareAtPriceInCents" - ppv."priceInCents") / ppv."compareAtPriceInCents") * 100
+                ELSE ((ppv."compareAtPriceInCents"::float - ppv."priceInCents"::float) / ppv."compareAtPriceInCents"::float) * 100
             END
         ) AS highest_discount
     FROM public."ProductVariant" ppv
