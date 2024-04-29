@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchProductNotationQuery } from '@/__generated/graphql';
+import { AdminTypes } from '@/__generated/hasura-role-graphql.types';
 import { operations } from '@/__generated/rest-schema';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
@@ -44,12 +44,12 @@ const AdminProductBanner = ({
   showByDefault?: boolean;
 }) => {
   const { isAdmin } = useAuth();
-  const fetchProductNotation = useHasura<FetchProductNotationQuery>(
+  const fetchProductNotation = useHasura<AdminTypes.FetchProductNotationQuery>(
     PRODUCT_NOTATION_QUERY,
     HASURA_ROLES.ADMIN,
   );
   const [{ value }, doFetchProductNotation] = useWrappedAsyncFn<
-    () => Promise<FetchProductNotationQuery>
+    () => Promise<AdminTypes.FetchProductNotationQuery>
   >(() => fetchProductNotation({ productInternalId }));
 
   const { fetchAPI } = useBackend();

@@ -1,4 +1,4 @@
-import { CheckExistingCustomerQuery } from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { gql_registered_user, useHasura } from './useHasura';
@@ -15,9 +15,10 @@ export const FORBIDDEN_SELLERNAME_REGEX =
   /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]|\s$/;
 
 export const useCheckCustomerIdAvailability = () => {
-  const checkCustomerIdAvailability = useHasura<CheckExistingCustomerQuery>(
-    EXISTING_CUSTOMER_QUERY,
-  );
+  const checkCustomerIdAvailability =
+    useHasura<RegisteredUserTypes.CheckExistingCustomerQuery>(
+      EXISTING_CUSTOMER_QUERY,
+    );
   const dictionnary = getDictionary('fr');
 
   return useWrappedAsyncFn(async (customerId: string): Promise<boolean> => {

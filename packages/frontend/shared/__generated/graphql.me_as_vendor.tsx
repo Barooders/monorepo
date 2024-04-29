@@ -11518,3 +11518,49 @@ export type FetchSoldOrderLinesQuery = {
     }>;
   }>;
 };
+
+export type FetchAccountPageVendorDataQueryVariables = Exact<{
+  maxItems: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type FetchAccountPageVendorDataQuery = {
+  __typename?: 'query_root';
+  Customer: Array<{
+    __typename?: 'Customer';
+    onlineProducts: Array<{
+      __typename?: 'Product';
+      storeProduct: {
+        __typename?: 'dbt_store_exposed_product';
+        firstImage: string | null;
+        handle: string;
+        productType: string;
+        size: string | null;
+        gender: string | null;
+        modelYear: string | null;
+        brand: string | null;
+        product: {
+          __typename?: 'dbt_store_base_product';
+          variants: Array<{
+            __typename?: 'dbt_store_base_product_variant';
+            variant: {
+              __typename?: 'dbt_store_exposed_product_variant';
+              condition: any | null;
+            } | null;
+            b2cVariant: {
+              __typename?: 'dbt_store_b2c_product_variant';
+              price: any;
+            } | null;
+          }>;
+        } | null;
+      } | null;
+    }>;
+    vendorSoldOrderLines: Array<{
+      __typename?: 'OrderLines';
+      priceInCents: any;
+      name: string;
+      productBrand: string | null;
+      productImage: string | null;
+      order: { __typename?: 'Order'; id: string; status: any; name: string };
+    }>;
+  }>;
+};

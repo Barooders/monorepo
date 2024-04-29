@@ -1,9 +1,4 @@
-import {
-  FetchConversationProductDetailsQuery,
-  FetchConversationUserDetailsQuery,
-  HandDeliveryOrderLineFragmentFragment,
-  SubscribeToOpenedPriceOfferSubscription,
-} from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import useUser from '@/hooks/state/useUser';
 import { gql_registered_user, useHasura } from '@/hooks/useHasura';
@@ -77,16 +72,16 @@ const FETCH_CONVERSATION_PRODUCT_DETAILS = gql_registered_user`
 `;
 
 const findAssociatedOrderLine = (
-  orderLines: HandDeliveryOrderLineFragmentFragment[],
+  orderLines: RegisteredUserTypes.HandDeliveryOrderLineFragmentFragment[],
   currentProductInternalId: string,
-): HandDeliveryOrderLineFragmentFragment | null =>
+): RegisteredUserTypes.HandDeliveryOrderLineFragmentFragment | null =>
   orderLines.find(
     (orderLine) =>
       orderLine.productVariant?.product.id === currentProductInternalId,
   ) ?? null;
 
 const extractAssociatedOrderLine = (
-  response: FetchConversationUserDetailsQuery,
+  response: RegisteredUserTypes.FetchConversationUserDetailsQuery,
   currentProductInternalId: string,
 ): AssociatedOrderLine | null => {
   const customer = first(response?.Customer);
@@ -110,7 +105,7 @@ const extractAssociatedOrderLine = (
 };
 
 const extractNegociationAgreement = (
-  response: FetchConversationProductDetailsQuery,
+  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
 ): NegociationAgreementType | null => {
   const rawNegociationAgreement = first(
     first(response.Product)?.Vendor.negociationAgreements,
@@ -125,7 +120,7 @@ const extractNegociationAgreement = (
 };
 
 const extractOriginalPrice = (
-  response: FetchConversationProductDetailsQuery,
+  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
 ): number => {
   const price = first(first(response.Product)?.variants)?.storeB2CVariant
     ?.price;
@@ -136,7 +131,7 @@ const extractOriginalPrice = (
 };
 
 const extractProductDetails = (
-  response: FetchConversationProductDetailsQuery,
+  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
 ): AssociatedProductDetails | null => {
   const product = first(response.Product);
   if (!product) return null;
@@ -150,7 +145,7 @@ const extractProductDetails = (
 };
 
 const extractPriceOffer = (
-  response: SubscribeToOpenedPriceOfferSubscription,
+  response: RegisteredUserTypes.SubscribeToOpenedPriceOfferSubscription,
 ): PriceOffer | null => {
   const rawPriceOffer = first(response.PriceOffer);
 
@@ -177,14 +172,16 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   const { extractTokenInfo } = useHasuraToken();
   const { hasuraToken } = useUser();
 
-  const fetchUserDetails = useHasura<FetchConversationUserDetailsQuery>(
-    FETCH_CONVERSATION_USER_DETAILS,
-    HASURA_ROLES.REGISTERED_USER,
-  );
-  const fetchProductDetails = useHasura<FetchConversationProductDetailsQuery>(
-    FETCH_CONVERSATION_PRODUCT_DETAILS,
-    HASURA_ROLES.REGISTERED_USER,
-  );
+  const fetchUserDetails =
+    useHasura<RegisteredUserTypes.FetchConversationUserDetailsQuery>(
+      FETCH_CONVERSATION_USER_DETAILS,
+      HASURA_ROLES.REGISTERED_USER,
+    );
+  const fetchProductDetails =
+    useHasura<RegisteredUserTypes.FetchConversationProductDetailsQuery>(
+      FETCH_CONVERSATION_PRODUCT_DETAILS,
+      HASURA_ROLES.REGISTERED_USER,
+    );
 
   const [productDetailsState, doFetchProduct] = useWrappedAsyncFn(
     async (productInternalId: string) =>
@@ -197,7 +194,7 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   );
 
   const { loading: priceOfferLoading, data: priceOfferResult } =
-    useSubscription<SubscribeToOpenedPriceOfferSubscription>(
+    useSubscription<RegisteredUserTypes.SubscribeToOpenedPriceOfferSubscription>(
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
         variables: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchPurchasesQuery } from '@/__generated/graphql';
+import { MeAsCustomerTypes } from '@/__generated/hasura-role-graphql.types';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
@@ -64,7 +64,7 @@ const FETCH_PURCHASES = gql_me_as_customer`
 `;
 
 const PurchasesTable = () => {
-  const fetchPurchases = useHasura<FetchPurchasesQuery>(
+  const fetchPurchases = useHasura<MeAsCustomerTypes.FetchPurchasesQuery>(
     FETCH_PURCHASES,
     HASURA_ROLES.ME_AS_CUSTOMER,
   );

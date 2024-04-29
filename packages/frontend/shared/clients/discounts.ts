@@ -1,4 +1,4 @@
-import { PublicTypes } from '@/__generated/graphql.types';
+import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { gql_public } from '@/hooks/useHasura';

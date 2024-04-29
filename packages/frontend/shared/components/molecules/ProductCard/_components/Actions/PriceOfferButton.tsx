@@ -1,6 +1,6 @@
 'use client';
 
-import { SubscribeToOpenedPriceOfferSubscription } from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import Button, {
   PropsType as ButtonPropsType,
@@ -53,7 +53,7 @@ const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
 ) => {
   const { productInternalId, className, size, buyerInternalId } = props;
   const { loading, data } =
-    useSubscription<SubscribeToOpenedPriceOfferSubscription>(
+    useSubscription<RegisteredUserTypes.SubscribeToOpenedPriceOfferSubscription>(
       SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
       {
         variables: {

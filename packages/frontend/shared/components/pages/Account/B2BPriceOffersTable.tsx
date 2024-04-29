@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchPriceOffersQuery } from '@/__generated/graphql';
+import { B2BUserTypes } from '@/__generated/hasura-role-graphql.types';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
@@ -83,7 +83,7 @@ const FETCH_PRICE_OFFERS = gql_b2b_user`
 
 const B2BPriceOffersTable = () => {
   const { user } = useHasuraToken();
-  const fetchPriceOffers = useHasura<FetchPriceOffersQuery>(
+  const fetchPriceOffers = useHasura<B2BUserTypes.FetchPriceOffersQuery>(
     FETCH_PRICE_OFFERS,
     HASURA_ROLES.B2B_USER,
   );

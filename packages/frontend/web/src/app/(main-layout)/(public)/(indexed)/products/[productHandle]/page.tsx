@@ -1,4 +1,4 @@
-import { FetchProductMetadataQuery } from '@/__generated/graphql';
+import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
 import { fetchHasura } from '@/clients/hasura';
 import { fetchProductByHandle } from '@/clients/products';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
@@ -101,7 +101,7 @@ export async function generateMetadata({
   };
   let featuredImage = null;
   try {
-    const result = await fetchHasura<FetchProductMetadataQuery>(
+    const result = await fetchHasura<PublicTypes.FetchProductMetadataQuery>(
       FETCH_PRODUCT_METADATA,
       {
         variables: { productHandle: params.productHandle },

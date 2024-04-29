@@ -1,6 +1,6 @@
 'use client';
 
-import { GetProductPriceQuery } from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
@@ -59,7 +59,8 @@ const Inbox: React.FC<Props> = ({
   const [panelHeight, setPanelHeight] = useState<number>(0);
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
-  const fetchProductPrice = useHasura<GetProductPriceQuery>(GET_PRODUCT_PRICE);
+  const fetchProductPrice =
+    useHasura<RegisteredUserTypes.GetProductPriceQuery>(GET_PRODUCT_PRICE);
   const canaryElRef = useRef<HTMLDivElement | null>(null);
 
   useInterval(() => {
