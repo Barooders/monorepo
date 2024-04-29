@@ -1,38 +1,56 @@
+import { CodegenConfig, generate } from '@graphql-codegen/cli';
 import dotenv from 'dotenv';
+import { HASURA_ROLES } from 'shared-types';
 
 dotenv.config();
 
 const getHasuraSecretKey = () =>
   process.env.HASURA_SECRET_KEY ?? 'myadminsecretkey';
 
-module.exports = {
-  schema: {
-    [process.env.NEXT_PUBLIC_HASURA_BASE_URL]: {
-      headers: {
-        'X-Hasura-Admin-Secret': getHasuraSecretKey(),
+const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
+  if (!process.env.NEXT_PUBLIC_HASURA_BASE_URL)
+    throw new Error('Missing HASURA_BASE_URL');
+
+  return {
+    schema: {
+      [process.env.NEXT_PUBLIC_HASURA_BASE_URL]: {
+        headers: {
+          'X-Hasura-Admin-Secret': getHasuraSecretKey(),
+          'X-Hasura-Role': role,
+        },
       },
     },
-  },
-  documents: [
-    './shared/**/*.tsx',
-    './shared/**/*.ts',
-    './web/**/*.tsx',
-    './web/**/*.ts',
-    '!./shared/hooks/useStorefront.ts',
-  ],
-  overwrite: true,
-  generates: {
-    './shared/__generated/graphql.tsx': {
-      plugins: ['typescript', 'typescript-operations'],
-      config: {
-        avoidOptionals: true,
-        skipTypename: false,
+    documents: [
+      './shared/**/*.tsx',
+      './shared/**/*.ts',
+      './web/**/*.tsx',
+      './web/**/*.ts',
+      '!./shared/hooks/useStorefront.ts',
+    ],
+    pluckConfig: {
+      globalGqlIdentifierName: `gql_${role}`,
+    },
+    generates: {
+      [`./shared/__generated/graphql.${role}.tsx`]: {
+        plugins: ['typescript', 'typescript-operations'],
+        config: {
+          avoidOptionals: true,
+          skipTypename: false,
+          scalars: {
+            bigint: 'number',
+          },
+        },
+      },
+      [`./shared/__generated/graphql.${role}.schema.json`]: {
+        plugins: ['introspection'],
       },
     },
-    './shared/__generated/graphql.schema.json': {
-      plugins: ['introspection'],
-    },
-  },
+  };
 };
 
-export {};
+(async () => {
+  Object.values(HASURA_ROLES).forEach(async (role) => {
+    console.log(`Generating graphql types for role ${role}`);
+    await generate(getConfigFromRole(role), true);
+  });
+})();

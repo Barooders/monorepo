@@ -9,106 +9,115 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  AggregateName: any;
-  BrandRating: any;
-  CheckoutStatus: any;
-  CollectionType: any;
-  Condition: any;
-  Currency: any;
-  CustomerScoring: any;
-  DisputeReason: any;
-  DisputeStatus: any;
-  EventName: any;
-  FulfillmentOrderStatus: any;
-  FulfillmentStatus: any;
-  OrderStatus: any;
-  PaymentAccountType: any;
-  PaymentProvider: any;
-  PaymentSolutionCode: any;
-  PaymentStatusType: any;
-  PriceOfferStatus: any;
-  ProductNotation: any;
-  ProductStatus: any;
-  ReturnStatus: any;
-  SalesChannelName: any;
-  SavedSearchType: any;
-  ShipmentTimeframe: any;
-  ShippingSolution: any;
-  ShippingType: any;
-  bigint: any;
-  bytea: any;
-  citext: any;
-  date: any;
-  float8: any;
-  jsonb: any;
-  shopify_Color: any;
-  shopify_DateTime: any;
-  shopify_Decimal: any;
-  shopify_HTML: any;
-  shopify_JSON: any;
-  shopify_URL: any;
-  shopify_UnsignedInt64: any;
-  timestamp: any;
-  timestamptz: any;
-  uuid: any;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  AggregateName: { input: any; output: any };
+  BrandRating: { input: any; output: any };
+  CheckoutStatus: { input: any; output: any };
+  CollectionType: { input: any; output: any };
+  Condition: { input: any; output: any };
+  Currency: { input: any; output: any };
+  CustomerScoring: { input: any; output: any };
+  DisputeReason: { input: any; output: any };
+  DisputeStatus: { input: any; output: any };
+  EventName: { input: any; output: any };
+  FulfillmentOrderStatus: { input: any; output: any };
+  FulfillmentStatus: { input: any; output: any };
+  OrderStatus: { input: any; output: any };
+  PaymentAccountType: { input: any; output: any };
+  PaymentProvider: { input: any; output: any };
+  PaymentSolutionCode: { input: any; output: any };
+  PaymentStatusType: { input: any; output: any };
+  PriceOfferStatus: { input: any; output: any };
+  ProductNotation: { input: any; output: any };
+  ProductStatus: { input: any; output: any };
+  ReturnStatus: { input: any; output: any };
+  SalesChannelName: { input: any; output: any };
+  SavedSearchType: { input: any; output: any };
+  ShipmentTimeframe: { input: any; output: any };
+  ShippingSolution: { input: any; output: any };
+  ShippingType: { input: any; output: any };
+  bigint: { input: number; output: number };
+  bytea: { input: any; output: any };
+  citext: { input: any; output: any };
+  date: { input: any; output: any };
+  float8: { input: any; output: any };
+  jsonb: { input: any; output: any };
+  shopify_Color: { input: any; output: any };
+  shopify_DateTime: { input: any; output: any };
+  shopify_Decimal: { input: any; output: any };
+  shopify_HTML: { input: any; output: any };
+  shopify_JSON: { input: any; output: any };
+  shopify_URL: { input: any; output: any };
+  shopify_UnsignedInt64: { input: any; output: any };
+  timestamp: { input: any; output: any };
+  timestamptz: { input: any; output: any };
+  uuid: { input: any; output: any };
 };
 
 /** Boolean expression to compare columns of type "AggregateName". All fields are combined with logical 'AND'. */
 export type AggregateName_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['AggregateName']>;
-  _gt: InputMaybe<Scalars['AggregateName']>;
-  _gte: InputMaybe<Scalars['AggregateName']>;
-  _in: InputMaybe<Array<Scalars['AggregateName']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['AggregateName']>;
-  _lte: InputMaybe<Scalars['AggregateName']>;
-  _neq: InputMaybe<Scalars['AggregateName']>;
-  _nin: InputMaybe<Array<Scalars['AggregateName']>>;
+  _eq: InputMaybe<Scalars['AggregateName']['input']>;
+  _gt: InputMaybe<Scalars['AggregateName']['input']>;
+  _gte: InputMaybe<Scalars['AggregateName']['input']>;
+  _in: InputMaybe<Array<Scalars['AggregateName']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['AggregateName']['input']>;
+  _lte: InputMaybe<Scalars['AggregateName']['input']>;
+  _neq: InputMaybe<Scalars['AggregateName']['input']>;
+  _nin: InputMaybe<Array<Scalars['AggregateName']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['Boolean']>;
-  _gt: InputMaybe<Scalars['Boolean']>;
-  _gte: InputMaybe<Scalars['Boolean']>;
-  _in: InputMaybe<Array<Scalars['Boolean']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['Boolean']>;
-  _lte: InputMaybe<Scalars['Boolean']>;
-  _neq: InputMaybe<Scalars['Boolean']>;
-  _nin: InputMaybe<Array<Scalars['Boolean']>>;
+  _eq: InputMaybe<Scalars['Boolean']['input']>;
+  _gt: InputMaybe<Scalars['Boolean']['input']>;
+  _gte: InputMaybe<Scalars['Boolean']['input']>;
+  _in: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['Boolean']['input']>;
+  _lte: InputMaybe<Scalars['Boolean']['input']>;
+  _neq: InputMaybe<Scalars['Boolean']['input']>;
+  _nin: InputMaybe<Array<Scalars['Boolean']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "BrandRating". All fields are combined with logical 'AND'. */
 export type BrandRating_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['BrandRating']>;
-  _gt: InputMaybe<Scalars['BrandRating']>;
-  _gte: InputMaybe<Scalars['BrandRating']>;
-  _in: InputMaybe<Array<Scalars['BrandRating']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['BrandRating']>;
-  _lte: InputMaybe<Scalars['BrandRating']>;
-  _neq: InputMaybe<Scalars['BrandRating']>;
-  _nin: InputMaybe<Array<Scalars['BrandRating']>>;
+  _eq: InputMaybe<Scalars['BrandRating']['input']>;
+  _gt: InputMaybe<Scalars['BrandRating']['input']>;
+  _gte: InputMaybe<Scalars['BrandRating']['input']>;
+  _in: InputMaybe<Array<Scalars['BrandRating']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['BrandRating']['input']>;
+  _lte: InputMaybe<Scalars['BrandRating']['input']>;
+  _neq: InputMaybe<Scalars['BrandRating']['input']>;
+  _nin: InputMaybe<Array<Scalars['BrandRating']['input']>>;
 };
 
 /** columns and relationships of "BundlePrice" */
 export type BundlePrice = {
   __typename?: 'BundlePrice';
-  createdAt: Scalars['timestamp'];
-  id: Scalars['String'];
-  minQuantity: Scalars['Int'];
+  createdAt: Scalars['timestamp']['output'];
+  id: Scalars['String']['output'];
+  minQuantity: Scalars['Int']['output'];
   /** An object relationship */
   product: Product;
-  productId: Scalars['String'];
-  unitPriceInCents: Scalars['bigint'];
+  productId: Scalars['String']['output'];
+  unitPriceInCents: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "BundlePrice" */
@@ -122,7 +131,7 @@ export type BundlePrice_Aggregate = {
 export type BundlePrice_Aggregate_Fields = {
   __typename?: 'BundlePrice_aggregate_fields';
   avg: Maybe<BundlePrice_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<BundlePrice_Max_Fields>;
   min: Maybe<BundlePrice_Min_Fields>;
   stddev: Maybe<BundlePrice_Stddev_Fields>;
@@ -137,14 +146,14 @@ export type BundlePrice_Aggregate_Fields = {
 /** aggregate fields of "BundlePrice" */
 export type BundlePrice_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<BundlePrice_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type BundlePrice_Avg_Fields = {
   __typename?: 'BundlePrice_avg_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "BundlePrice". All fields are combined with a logical 'AND'. */
@@ -168,45 +177,45 @@ export enum BundlePrice_Constraint {
 
 /** input type for incrementing numeric columns in table "BundlePrice" */
 export type BundlePrice_Inc_Input = {
-  minQuantity: InputMaybe<Scalars['Int']>;
-  unitPriceInCents: InputMaybe<Scalars['bigint']>;
+  minQuantity: InputMaybe<Scalars['Int']['input']>;
+  unitPriceInCents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "BundlePrice" */
 export type BundlePrice_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  minQuantity: InputMaybe<Scalars['Int']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  minQuantity: InputMaybe<Scalars['Int']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['String']>;
-  unitPriceInCents: InputMaybe<Scalars['bigint']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  unitPriceInCents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type BundlePrice_Max_Fields = {
   __typename?: 'BundlePrice_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  minQuantity: Maybe<Scalars['Int']>;
-  productId: Maybe<Scalars['String']>;
-  unitPriceInCents: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  minQuantity: Maybe<Scalars['Int']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  unitPriceInCents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregate min on columns */
 export type BundlePrice_Min_Fields = {
   __typename?: 'BundlePrice_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  minQuantity: Maybe<Scalars['Int']>;
-  productId: Maybe<Scalars['String']>;
-  unitPriceInCents: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  minQuantity: Maybe<Scalars['Int']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  unitPriceInCents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** response of any mutation on the table "BundlePrice" */
 export type BundlePrice_Mutation_Response = {
   __typename?: 'BundlePrice_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<BundlePrice>;
 };
@@ -230,7 +239,7 @@ export type BundlePrice_Order_By = {
 
 /** primary key columns input for table: BundlePrice */
 export type BundlePrice_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "BundlePrice" */
@@ -249,32 +258,32 @@ export enum BundlePrice_Select_Column {
 
 /** input type for updating data in table "BundlePrice" */
 export type BundlePrice_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  minQuantity: InputMaybe<Scalars['Int']>;
-  productId: InputMaybe<Scalars['String']>;
-  unitPriceInCents: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  minQuantity: InputMaybe<Scalars['Int']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  unitPriceInCents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type BundlePrice_Stddev_Fields = {
   __typename?: 'BundlePrice_stddev_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type BundlePrice_Stddev_Pop_Fields = {
   __typename?: 'BundlePrice_stddev_pop_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type BundlePrice_Stddev_Samp_Fields = {
   __typename?: 'BundlePrice_stddev_samp_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "BundlePrice" */
@@ -287,18 +296,18 @@ export type BundlePrice_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type BundlePrice_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  minQuantity: InputMaybe<Scalars['Int']>;
-  productId: InputMaybe<Scalars['String']>;
-  unitPriceInCents: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  minQuantity: InputMaybe<Scalars['Int']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  unitPriceInCents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type BundlePrice_Sum_Fields = {
   __typename?: 'BundlePrice_sum_fields';
-  minQuantity: Maybe<Scalars['Int']>;
-  unitPriceInCents: Maybe<Scalars['bigint']>;
+  minQuantity: Maybe<Scalars['Int']['output']>;
+  unitPriceInCents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "BundlePrice" */
@@ -327,22 +336,22 @@ export type BundlePrice_Updates = {
 /** aggregate var_pop on columns */
 export type BundlePrice_Var_Pop_Fields = {
   __typename?: 'BundlePrice_var_pop_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type BundlePrice_Var_Samp_Fields = {
   __typename?: 'BundlePrice_var_samp_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type BundlePrice_Variance_Fields = {
   __typename?: 'BundlePrice_variance_fields';
-  minQuantity: Maybe<Scalars['Float']>;
-  unitPriceInCents: Maybe<Scalars['Float']>;
+  minQuantity: Maybe<Scalars['Float']['output']>;
+  unitPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "Checkout" */
@@ -352,17 +361,17 @@ export type Checkout = {
   Checkout_Payments: Array<Payment>;
   /** An aggregate relationship */
   Checkout_Payments_aggregate: Payment_Aggregate;
-  createdAt: Scalars['timestamp'];
-  id: Scalars['String'];
-  status: Scalars['CheckoutStatus'];
-  storeId: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamp']['output'];
+  id: Scalars['String']['output'];
+  status: Scalars['CheckoutStatus']['output'];
+  storeId: Maybe<Scalars['String']['output']>;
 };
 
 /** columns and relationships of "Checkout" */
 export type CheckoutCheckout_PaymentsArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
@@ -370,23 +379,23 @@ export type CheckoutCheckout_PaymentsArgs = {
 /** columns and relationships of "Checkout" */
 export type CheckoutCheckout_Payments_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "CheckoutStatus". All fields are combined with logical 'AND'. */
 export type CheckoutStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['CheckoutStatus']>;
-  _gt: InputMaybe<Scalars['CheckoutStatus']>;
-  _gte: InputMaybe<Scalars['CheckoutStatus']>;
-  _in: InputMaybe<Array<Scalars['CheckoutStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['CheckoutStatus']>;
-  _lte: InputMaybe<Scalars['CheckoutStatus']>;
-  _neq: InputMaybe<Scalars['CheckoutStatus']>;
-  _nin: InputMaybe<Array<Scalars['CheckoutStatus']>>;
+  _eq: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _gt: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _gte: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['CheckoutStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _lte: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _neq: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['CheckoutStatus']['input']>>;
 };
 
 /** aggregated selection of "Checkout" */
@@ -399,7 +408,7 @@ export type Checkout_Aggregate = {
 /** aggregate fields of "Checkout" */
 export type Checkout_Aggregate_Fields = {
   __typename?: 'Checkout_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Checkout_Max_Fields>;
   min: Maybe<Checkout_Min_Fields>;
 };
@@ -407,7 +416,7 @@ export type Checkout_Aggregate_Fields = {
 /** aggregate fields of "Checkout" */
 export type Checkout_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Checkout_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "Checkout". All fields are combined with a logical 'AND'. */
@@ -432,35 +441,35 @@ export enum Checkout_Constraint {
 /** input type for inserting data into table "Checkout" */
 export type Checkout_Insert_Input = {
   Checkout_Payments: InputMaybe<Payment_Arr_Rel_Insert_Input>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['CheckoutStatus']>;
-  storeId: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  storeId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Checkout_Max_Fields = {
   __typename?: 'Checkout_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['CheckoutStatus']>;
-  storeId: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['CheckoutStatus']['output']>;
+  storeId: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Checkout_Min_Fields = {
   __typename?: 'Checkout_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['CheckoutStatus']>;
-  storeId: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['CheckoutStatus']['output']>;
+  storeId: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "Checkout" */
 export type Checkout_Mutation_Response = {
   __typename?: 'Checkout_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Checkout>;
 };
@@ -490,7 +499,7 @@ export type Checkout_Order_By = {
 
 /** primary key columns input for table: Checkout */
 export type Checkout_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Checkout" */
@@ -507,10 +516,10 @@ export enum Checkout_Select_Column {
 
 /** input type for updating data in table "Checkout" */
 export type Checkout_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['CheckoutStatus']>;
-  storeId: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  storeId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "Checkout" */
@@ -523,10 +532,10 @@ export type Checkout_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Checkout_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['CheckoutStatus']>;
-  storeId: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['CheckoutStatus']['input']>;
+  storeId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "Checkout" */
@@ -555,28 +564,28 @@ export type Collection = {
   childCollections: Array<Collection>;
   /** An aggregate relationship */
   childCollections_aggregate: Collection_Aggregate;
-  description: Maybe<Scalars['String']>;
-  featuredImageSrc: Maybe<Scalars['String']>;
-  handle: Scalars['String'];
-  id: Scalars['String'];
+  description: Maybe<Scalars['String']['output']>;
+  featuredImageSrc: Maybe<Scalars['String']['output']>;
+  handle: Scalars['String']['output'];
+  id: Scalars['String']['output'];
   /** An object relationship */
   parentCollection: Maybe<Collection>;
-  parentCollectionId: Maybe<Scalars['String']>;
-  rules: Maybe<Scalars['jsonb']>;
-  seoDescription: Maybe<Scalars['String']>;
-  seoTitle: Maybe<Scalars['String']>;
+  parentCollectionId: Maybe<Scalars['String']['output']>;
+  rules: Maybe<Scalars['jsonb']['output']>;
+  seoDescription: Maybe<Scalars['String']['output']>;
+  seoTitle: Maybe<Scalars['String']['output']>;
   shopifyCollection: Maybe<Shopify_Collection>;
-  shopifyId: Scalars['String'];
-  shortName: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['CollectionType']>;
+  shopifyId: Scalars['String']['output'];
+  shortName: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  type: Maybe<Scalars['CollectionType']['output']>;
 };
 
 /** columns and relationships of "Collection" */
 export type CollectionChildCollectionsArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
@@ -584,28 +593,28 @@ export type CollectionChildCollectionsArgs = {
 /** columns and relationships of "Collection" */
 export type CollectionChildCollections_AggregateArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 /** columns and relationships of "Collection" */
 export type CollectionRulesArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Boolean expression to compare columns of type "CollectionType". All fields are combined with logical 'AND'. */
 export type CollectionType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['CollectionType']>;
-  _gt: InputMaybe<Scalars['CollectionType']>;
-  _gte: InputMaybe<Scalars['CollectionType']>;
-  _in: InputMaybe<Array<Scalars['CollectionType']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['CollectionType']>;
-  _lte: InputMaybe<Scalars['CollectionType']>;
-  _neq: InputMaybe<Scalars['CollectionType']>;
-  _nin: InputMaybe<Array<Scalars['CollectionType']>>;
+  _eq: InputMaybe<Scalars['CollectionType']['input']>;
+  _gt: InputMaybe<Scalars['CollectionType']['input']>;
+  _gte: InputMaybe<Scalars['CollectionType']['input']>;
+  _in: InputMaybe<Array<Scalars['CollectionType']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['CollectionType']['input']>;
+  _lte: InputMaybe<Scalars['CollectionType']['input']>;
+  _neq: InputMaybe<Scalars['CollectionType']['input']>;
+  _nin: InputMaybe<Array<Scalars['CollectionType']['input']>>;
 };
 
 /** aggregated selection of "Collection" */
@@ -621,7 +630,7 @@ export type Collection_Aggregate_Bool_Exp = {
 
 export type Collection_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Collection_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -629,7 +638,7 @@ export type Collection_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "Collection" */
 export type Collection_Aggregate_Fields = {
   __typename?: 'Collection_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Collection_Max_Fields>;
   min: Maybe<Collection_Min_Fields>;
 };
@@ -637,7 +646,7 @@ export type Collection_Aggregate_Fields = {
 /** aggregate fields of "Collection" */
 export type Collection_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Collection" */
@@ -649,7 +658,7 @@ export type Collection_Aggregate_Order_By = {
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Collection_Append_Input = {
-  rules: InputMaybe<Scalars['jsonb']>;
+  rules: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** input type for inserting array relation for remote table "Collection" */
@@ -693,51 +702,51 @@ export enum Collection_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Collection_Delete_At_Path_Input = {
-  rules: InputMaybe<Array<Scalars['String']>>;
+  rules: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Collection_Delete_Elem_Input = {
-  rules: InputMaybe<Scalars['Int']>;
+  rules: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Collection_Delete_Key_Input = {
-  rules: InputMaybe<Scalars['String']>;
+  rules: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "Collection" */
 export type Collection_Insert_Input = {
   childCollections: InputMaybe<Collection_Arr_Rel_Insert_Input>;
-  description: InputMaybe<Scalars['String']>;
-  featuredImageSrc: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  featuredImageSrc: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   parentCollection: InputMaybe<Collection_Obj_Rel_Insert_Input>;
-  parentCollectionId: InputMaybe<Scalars['String']>;
-  rules: InputMaybe<Scalars['jsonb']>;
-  seoDescription: InputMaybe<Scalars['String']>;
-  seoTitle: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  shortName: InputMaybe<Scalars['String']>;
-  title: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['CollectionType']>;
+  parentCollectionId: InputMaybe<Scalars['String']['input']>;
+  rules: InputMaybe<Scalars['jsonb']['input']>;
+  seoDescription: InputMaybe<Scalars['String']['input']>;
+  seoTitle: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  shortName: InputMaybe<Scalars['String']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['CollectionType']['input']>;
 };
 
 /** aggregate max on columns */
 export type Collection_Max_Fields = {
   __typename?: 'Collection_max_fields';
-  description: Maybe<Scalars['String']>;
-  featuredImageSrc: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  parentCollectionId: Maybe<Scalars['String']>;
-  seoDescription: Maybe<Scalars['String']>;
-  seoTitle: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['String']>;
-  shortName: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['CollectionType']>;
+  description: Maybe<Scalars['String']['output']>;
+  featuredImageSrc: Maybe<Scalars['String']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  parentCollectionId: Maybe<Scalars['String']['output']>;
+  seoDescription: Maybe<Scalars['String']['output']>;
+  seoTitle: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  shortName: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  type: Maybe<Scalars['CollectionType']['output']>;
 };
 
 /** order by max() on columns of table "Collection" */
@@ -758,17 +767,17 @@ export type Collection_Max_Order_By = {
 /** aggregate min on columns */
 export type Collection_Min_Fields = {
   __typename?: 'Collection_min_fields';
-  description: Maybe<Scalars['String']>;
-  featuredImageSrc: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  parentCollectionId: Maybe<Scalars['String']>;
-  seoDescription: Maybe<Scalars['String']>;
-  seoTitle: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['String']>;
-  shortName: Maybe<Scalars['String']>;
-  title: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['CollectionType']>;
+  description: Maybe<Scalars['String']['output']>;
+  featuredImageSrc: Maybe<Scalars['String']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  parentCollectionId: Maybe<Scalars['String']['output']>;
+  seoDescription: Maybe<Scalars['String']['output']>;
+  seoTitle: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  shortName: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  type: Maybe<Scalars['CollectionType']['output']>;
 };
 
 /** order by min() on columns of table "Collection" */
@@ -790,7 +799,7 @@ export type Collection_Min_Order_By = {
 export type Collection_Mutation_Response = {
   __typename?: 'Collection_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Collection>;
 };
@@ -829,12 +838,12 @@ export type Collection_Order_By = {
 
 /** primary key columns input for table: Collection */
 export type Collection_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Collection_Prepend_Input = {
-  rules: InputMaybe<Scalars['jsonb']>;
+  rules: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "Collection" */
@@ -867,18 +876,18 @@ export enum Collection_Select_Column {
 
 /** input type for updating data in table "Collection" */
 export type Collection_Set_Input = {
-  description: InputMaybe<Scalars['String']>;
-  featuredImageSrc: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  parentCollectionId: InputMaybe<Scalars['String']>;
-  rules: InputMaybe<Scalars['jsonb']>;
-  seoDescription: InputMaybe<Scalars['String']>;
-  seoTitle: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  shortName: InputMaybe<Scalars['String']>;
-  title: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['CollectionType']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  featuredImageSrc: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  parentCollectionId: InputMaybe<Scalars['String']['input']>;
+  rules: InputMaybe<Scalars['jsonb']['input']>;
+  seoDescription: InputMaybe<Scalars['String']['input']>;
+  seoTitle: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  shortName: InputMaybe<Scalars['String']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['CollectionType']['input']>;
 };
 
 /** Streaming cursor of the table "Collection" */
@@ -891,18 +900,18 @@ export type Collection_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Collection_Stream_Cursor_Value_Input = {
-  description: InputMaybe<Scalars['String']>;
-  featuredImageSrc: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  parentCollectionId: InputMaybe<Scalars['String']>;
-  rules: InputMaybe<Scalars['jsonb']>;
-  seoDescription: InputMaybe<Scalars['String']>;
-  seoTitle: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  shortName: InputMaybe<Scalars['String']>;
-  title: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['CollectionType']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  featuredImageSrc: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  parentCollectionId: InputMaybe<Scalars['String']['input']>;
+  rules: InputMaybe<Scalars['jsonb']['input']>;
+  seoDescription: InputMaybe<Scalars['String']['input']>;
+  seoTitle: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  shortName: InputMaybe<Scalars['String']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['CollectionType']['input']>;
 };
 
 /** update columns of table "Collection" */
@@ -952,28 +961,28 @@ export type Collection_Updates = {
 
 /** Boolean expression to compare columns of type "Condition". All fields are combined with logical 'AND'. */
 export type Condition_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['Condition']>;
-  _gt: InputMaybe<Scalars['Condition']>;
-  _gte: InputMaybe<Scalars['Condition']>;
-  _in: InputMaybe<Array<Scalars['Condition']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['Condition']>;
-  _lte: InputMaybe<Scalars['Condition']>;
-  _neq: InputMaybe<Scalars['Condition']>;
-  _nin: InputMaybe<Array<Scalars['Condition']>>;
+  _eq: InputMaybe<Scalars['Condition']['input']>;
+  _gt: InputMaybe<Scalars['Condition']['input']>;
+  _gte: InputMaybe<Scalars['Condition']['input']>;
+  _in: InputMaybe<Array<Scalars['Condition']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['Condition']['input']>;
+  _lte: InputMaybe<Scalars['Condition']['input']>;
+  _neq: InputMaybe<Scalars['Condition']['input']>;
+  _nin: InputMaybe<Array<Scalars['Condition']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "Currency". All fields are combined with logical 'AND'. */
 export type Currency_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['Currency']>;
-  _gt: InputMaybe<Scalars['Currency']>;
-  _gte: InputMaybe<Scalars['Currency']>;
-  _in: InputMaybe<Array<Scalars['Currency']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['Currency']>;
-  _lte: InputMaybe<Scalars['Currency']>;
-  _neq: InputMaybe<Scalars['Currency']>;
-  _nin: InputMaybe<Array<Scalars['Currency']>>;
+  _eq: InputMaybe<Scalars['Currency']['input']>;
+  _gt: InputMaybe<Scalars['Currency']['input']>;
+  _gte: InputMaybe<Scalars['Currency']['input']>;
+  _in: InputMaybe<Array<Scalars['Currency']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['Currency']['input']>;
+  _lte: InputMaybe<Scalars['Currency']['input']>;
+  _neq: InputMaybe<Scalars['Currency']['input']>;
+  _nin: InputMaybe<Array<Scalars['Currency']['input']>>;
 };
 
 /** columns and relationships of "Customer" */
@@ -987,21 +996,21 @@ export type Customer = {
   VendorReviews: Array<VendorReview>;
   /** An aggregate relationship */
   VendorReviews_aggregate: VendorReview_Aggregate;
-  authUserId: Scalars['uuid'];
-  buyerCommissionRate: Scalars['Int'];
-  chatId: Scalars['String'];
-  coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  description: Maybe<Scalars['String']>;
+  authUserId: Scalars['uuid']['output'];
+  buyerCommissionRate: Scalars['Int']['output'];
+  chatId: Scalars['String']['output'];
+  coverPictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  description: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   favorites: Array<FavoriteProducts>;
   /** An aggregate relationship */
   favorites_aggregate: FavoriteProducts_Aggregate;
-  firstName: Maybe<Scalars['String']>;
-  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
-  isPro: Scalars['Boolean'];
-  isRefurbisher: Scalars['Boolean'];
-  lastName: Maybe<Scalars['String']>;
+  firstName: Maybe<Scalars['String']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']['output']>;
+  isPro: Scalars['Boolean']['output'];
+  isRefurbisher: Scalars['Boolean']['output'];
+  lastName: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   negociationAgreements: Array<NegociationAgreement>;
   /** An aggregate relationship */
@@ -1010,23 +1019,23 @@ export type Customer = {
   onlineProducts: Array<Product>;
   /** An aggregate relationship */
   onlineProducts_aggregate: Product_Aggregate;
-  overridesProductNotation: Scalars['Boolean'];
+  overridesProductNotation: Scalars['Boolean']['output'];
   /** An array relationship */
   paymentAccounts: Array<PaymentAccounts>;
   /** An aggregate relationship */
   paymentAccounts_aggregate: PaymentAccounts_Aggregate;
-  preferredPaymentProvider: Scalars['PaymentProvider'];
-  profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
+  preferredPaymentProvider: Scalars['PaymentProvider']['output'];
+  profilePictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   purchasedOrders: Array<Order>;
   /** An aggregate relationship */
   purchasedOrders_aggregate: Order_Aggregate;
-  scoring: Maybe<Scalars['CustomerScoring']>;
-  sellerName: Maybe<Scalars['String']>;
-  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: Scalars['bigint'];
-  updatedAt: Maybe<Scalars['timestamp']>;
-  usedShipping: Scalars['ShippingType'];
+  scoring: Maybe<Scalars['CustomerScoring']['output']>;
+  sellerName: Maybe<Scalars['String']['output']>;
+  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']['output']>;
+  shopifyId: Scalars['bigint']['output'];
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
+  usedShipping: Scalars['ShippingType']['output'];
   /** An object relationship */
   user: Maybe<Users>;
   /** An array relationship */
@@ -1038,8 +1047,8 @@ export type Customer = {
 /** columns and relationships of "Customer" */
 export type CustomerPublishedReviewsArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
@@ -1047,8 +1056,8 @@ export type CustomerPublishedReviewsArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerPublishedReviews_AggregateArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
@@ -1056,8 +1065,8 @@ export type CustomerPublishedReviews_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerVendorReviewsArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
@@ -1065,8 +1074,8 @@ export type CustomerVendorReviewsArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerVendorReviews_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
@@ -1074,8 +1083,8 @@ export type CustomerVendorReviews_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerFavoritesArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
@@ -1083,8 +1092,8 @@ export type CustomerFavoritesArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerFavorites_AggregateArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
@@ -1092,8 +1101,8 @@ export type CustomerFavorites_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerNegociationAgreementsArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
@@ -1101,8 +1110,8 @@ export type CustomerNegociationAgreementsArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerNegociationAgreements_AggregateArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
@@ -1110,8 +1119,8 @@ export type CustomerNegociationAgreements_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerOnlineProductsArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
@@ -1119,8 +1128,8 @@ export type CustomerOnlineProductsArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerOnlineProducts_AggregateArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
@@ -1128,8 +1137,8 @@ export type CustomerOnlineProducts_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerPaymentAccountsArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
@@ -1137,8 +1146,8 @@ export type CustomerPaymentAccountsArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerPaymentAccounts_AggregateArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
@@ -1146,8 +1155,8 @@ export type CustomerPaymentAccounts_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerPurchasedOrdersArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
@@ -1155,8 +1164,8 @@ export type CustomerPurchasedOrdersArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerPurchasedOrders_AggregateArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
@@ -1164,8 +1173,8 @@ export type CustomerPurchasedOrders_AggregateArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerVendorSoldOrderLinesArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
@@ -1173,23 +1182,23 @@ export type CustomerVendorSoldOrderLinesArgs = {
 /** columns and relationships of "Customer" */
 export type CustomerVendorSoldOrderLines_AggregateArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "CustomerScoring". All fields are combined with logical 'AND'. */
 export type CustomerScoring_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['CustomerScoring']>;
-  _gt: InputMaybe<Scalars['CustomerScoring']>;
-  _gte: InputMaybe<Scalars['CustomerScoring']>;
-  _in: InputMaybe<Array<Scalars['CustomerScoring']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['CustomerScoring']>;
-  _lte: InputMaybe<Scalars['CustomerScoring']>;
-  _neq: InputMaybe<Scalars['CustomerScoring']>;
-  _nin: InputMaybe<Array<Scalars['CustomerScoring']>>;
+  _eq: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _gt: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _gte: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _in: InputMaybe<Array<Scalars['CustomerScoring']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _lte: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _neq: InputMaybe<Scalars['CustomerScoring']['input']>;
+  _nin: InputMaybe<Array<Scalars['CustomerScoring']['input']>>;
 };
 
 /** aggregated selection of "Customer" */
@@ -1203,7 +1212,7 @@ export type Customer_Aggregate = {
 export type Customer_Aggregate_Fields = {
   __typename?: 'Customer_aggregate_fields';
   avg: Maybe<Customer_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Customer_Max_Fields>;
   min: Maybe<Customer_Min_Fields>;
   stddev: Maybe<Customer_Stddev_Fields>;
@@ -1218,15 +1227,15 @@ export type Customer_Aggregate_Fields = {
 /** aggregate fields of "Customer" */
 export type Customer_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Customer_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Customer_Avg_Fields = {
   __typename?: 'Customer_avg_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "Customer". All fields are combined with a logical 'AND'. */
@@ -1287,40 +1296,40 @@ export enum Customer_Constraint {
 
 /** input type for incrementing numeric columns in table "Customer" */
 export type Customer_Inc_Input = {
-  buyerCommissionRate: InputMaybe<Scalars['Int']>;
-  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  buyerCommissionRate: InputMaybe<Scalars['Int']['input']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "Customer" */
 export type Customer_Insert_Input = {
   PublishedReviews: InputMaybe<Review_Arr_Rel_Insert_Input>;
   VendorReviews: InputMaybe<VendorReview_Arr_Rel_Insert_Input>;
-  authUserId: InputMaybe<Scalars['uuid']>;
-  buyerCommissionRate: InputMaybe<Scalars['Int']>;
-  chatId: InputMaybe<Scalars['String']>;
-  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
+  authUserId: InputMaybe<Scalars['uuid']['input']>;
+  buyerCommissionRate: InputMaybe<Scalars['Int']['input']>;
+  chatId: InputMaybe<Scalars['String']['input']>;
+  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
   favorites: InputMaybe<FavoriteProducts_Arr_Rel_Insert_Input>;
-  firstName: InputMaybe<Scalars['String']>;
-  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
-  isPro: InputMaybe<Scalars['Boolean']>;
-  isRefurbisher: InputMaybe<Scalars['Boolean']>;
-  lastName: InputMaybe<Scalars['String']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']['input']>;
+  isPro: InputMaybe<Scalars['Boolean']['input']>;
+  isRefurbisher: InputMaybe<Scalars['Boolean']['input']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
   negociationAgreements: InputMaybe<NegociationAgreement_Arr_Rel_Insert_Input>;
   onlineProducts: InputMaybe<Product_Arr_Rel_Insert_Input>;
-  overridesProductNotation: InputMaybe<Scalars['Boolean']>;
+  overridesProductNotation: InputMaybe<Scalars['Boolean']['input']>;
   paymentAccounts: InputMaybe<PaymentAccounts_Arr_Rel_Insert_Input>;
-  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
-  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
+  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
   purchasedOrders: InputMaybe<Order_Arr_Rel_Insert_Input>;
-  scoring: InputMaybe<Scalars['CustomerScoring']>;
-  sellerName: InputMaybe<Scalars['String']>;
-  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  usedShipping: InputMaybe<Scalars['ShippingType']>;
+  scoring: InputMaybe<Scalars['CustomerScoring']['input']>;
+  sellerName: InputMaybe<Scalars['String']['input']>;
+  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  usedShipping: InputMaybe<Scalars['ShippingType']['input']>;
   user: InputMaybe<Users_Obj_Rel_Insert_Input>;
   vendorSoldOrderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
 };
@@ -1328,52 +1337,52 @@ export type Customer_Insert_Input = {
 /** aggregate max on columns */
 export type Customer_Max_Fields = {
   __typename?: 'Customer_max_fields';
-  authUserId: Maybe<Scalars['uuid']>;
-  buyerCommissionRate: Maybe<Scalars['Int']>;
-  chatId: Maybe<Scalars['String']>;
-  coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  description: Maybe<Scalars['String']>;
-  firstName: Maybe<Scalars['String']>;
-  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
-  lastName: Maybe<Scalars['String']>;
-  preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
-  profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
-  scoring: Maybe<Scalars['CustomerScoring']>;
-  sellerName: Maybe<Scalars['String']>;
-  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
-  usedShipping: Maybe<Scalars['ShippingType']>;
+  authUserId: Maybe<Scalars['uuid']['output']>;
+  buyerCommissionRate: Maybe<Scalars['Int']['output']>;
+  chatId: Maybe<Scalars['String']['output']>;
+  coverPictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  firstName: Maybe<Scalars['String']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']['output']>;
+  lastName: Maybe<Scalars['String']['output']>;
+  preferredPaymentProvider: Maybe<Scalars['PaymentProvider']['output']>;
+  profilePictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
+  scoring: Maybe<Scalars['CustomerScoring']['output']>;
+  sellerName: Maybe<Scalars['String']['output']>;
+  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
+  usedShipping: Maybe<Scalars['ShippingType']['output']>;
 };
 
 /** aggregate min on columns */
 export type Customer_Min_Fields = {
   __typename?: 'Customer_min_fields';
-  authUserId: Maybe<Scalars['uuid']>;
-  buyerCommissionRate: Maybe<Scalars['Int']>;
-  chatId: Maybe<Scalars['String']>;
-  coverPictureShopifyCdnUrl: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  description: Maybe<Scalars['String']>;
-  firstName: Maybe<Scalars['String']>;
-  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
-  lastName: Maybe<Scalars['String']>;
-  preferredPaymentProvider: Maybe<Scalars['PaymentProvider']>;
-  profilePictureShopifyCdnUrl: Maybe<Scalars['String']>;
-  scoring: Maybe<Scalars['CustomerScoring']>;
-  sellerName: Maybe<Scalars['String']>;
-  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
-  usedShipping: Maybe<Scalars['ShippingType']>;
+  authUserId: Maybe<Scalars['uuid']['output']>;
+  buyerCommissionRate: Maybe<Scalars['Int']['output']>;
+  chatId: Maybe<Scalars['String']['output']>;
+  coverPictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  firstName: Maybe<Scalars['String']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']['output']>;
+  lastName: Maybe<Scalars['String']['output']>;
+  preferredPaymentProvider: Maybe<Scalars['PaymentProvider']['output']>;
+  profilePictureShopifyCdnUrl: Maybe<Scalars['String']['output']>;
+  scoring: Maybe<Scalars['CustomerScoring']['output']>;
+  sellerName: Maybe<Scalars['String']['output']>;
+  shipmentTimeframe: Maybe<Scalars['ShipmentTimeframe']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
+  usedShipping: Maybe<Scalars['ShippingType']['output']>;
 };
 
 /** response of any mutation on the table "Customer" */
 export type Customer_Mutation_Response = {
   __typename?: 'Customer_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Customer>;
 };
@@ -1427,7 +1436,7 @@ export type Customer_Order_By = {
 
 /** primary key columns input for table: Customer */
 export type Customer_Pk_Columns_Input = {
-  authUserId: Scalars['uuid'];
+  authUserId: Scalars['uuid']['input'];
 };
 
 /** select columns of table "Customer" */
@@ -1476,50 +1485,50 @@ export enum Customer_Select_Column {
 
 /** input type for updating data in table "Customer" */
 export type Customer_Set_Input = {
-  authUserId: InputMaybe<Scalars['uuid']>;
-  buyerCommissionRate: InputMaybe<Scalars['Int']>;
-  chatId: InputMaybe<Scalars['String']>;
-  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
-  firstName: InputMaybe<Scalars['String']>;
-  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
-  isPro: InputMaybe<Scalars['Boolean']>;
-  isRefurbisher: InputMaybe<Scalars['Boolean']>;
-  lastName: InputMaybe<Scalars['String']>;
-  overridesProductNotation: InputMaybe<Scalars['Boolean']>;
-  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
-  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
-  scoring: InputMaybe<Scalars['CustomerScoring']>;
-  sellerName: InputMaybe<Scalars['String']>;
-  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  usedShipping: InputMaybe<Scalars['ShippingType']>;
+  authUserId: InputMaybe<Scalars['uuid']['input']>;
+  buyerCommissionRate: InputMaybe<Scalars['Int']['input']>;
+  chatId: InputMaybe<Scalars['String']['input']>;
+  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']['input']>;
+  isPro: InputMaybe<Scalars['Boolean']['input']>;
+  isRefurbisher: InputMaybe<Scalars['Boolean']['input']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
+  overridesProductNotation: InputMaybe<Scalars['Boolean']['input']>;
+  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
+  scoring: InputMaybe<Scalars['CustomerScoring']['input']>;
+  sellerName: InputMaybe<Scalars['String']['input']>;
+  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  usedShipping: InputMaybe<Scalars['ShippingType']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Customer_Stddev_Fields = {
   __typename?: 'Customer_stddev_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Customer_Stddev_Pop_Fields = {
   __typename?: 'Customer_stddev_pop_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Customer_Stddev_Samp_Fields = {
   __typename?: 'Customer_stddev_samp_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "Customer" */
@@ -1532,34 +1541,34 @@ export type Customer_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Customer_Stream_Cursor_Value_Input = {
-  authUserId: InputMaybe<Scalars['uuid']>;
-  buyerCommissionRate: InputMaybe<Scalars['Int']>;
-  chatId: InputMaybe<Scalars['String']>;
-  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
-  firstName: InputMaybe<Scalars['String']>;
-  forcedShippingPriceInCents: InputMaybe<Scalars['float8']>;
-  isPro: InputMaybe<Scalars['Boolean']>;
-  isRefurbisher: InputMaybe<Scalars['Boolean']>;
-  lastName: InputMaybe<Scalars['String']>;
-  overridesProductNotation: InputMaybe<Scalars['Boolean']>;
-  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']>;
-  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']>;
-  scoring: InputMaybe<Scalars['CustomerScoring']>;
-  sellerName: InputMaybe<Scalars['String']>;
-  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  usedShipping: InputMaybe<Scalars['ShippingType']>;
+  authUserId: InputMaybe<Scalars['uuid']['input']>;
+  buyerCommissionRate: InputMaybe<Scalars['Int']['input']>;
+  chatId: InputMaybe<Scalars['String']['input']>;
+  coverPictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
+  forcedShippingPriceInCents: InputMaybe<Scalars['float8']['input']>;
+  isPro: InputMaybe<Scalars['Boolean']['input']>;
+  isRefurbisher: InputMaybe<Scalars['Boolean']['input']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
+  overridesProductNotation: InputMaybe<Scalars['Boolean']['input']>;
+  preferredPaymentProvider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  profilePictureShopifyCdnUrl: InputMaybe<Scalars['String']['input']>;
+  scoring: InputMaybe<Scalars['CustomerScoring']['input']>;
+  sellerName: InputMaybe<Scalars['String']['input']>;
+  shipmentTimeframe: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  usedShipping: InputMaybe<Scalars['ShippingType']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Customer_Sum_Fields = {
   __typename?: 'Customer_sum_fields';
-  buyerCommissionRate: Maybe<Scalars['Int']>;
-  forcedShippingPriceInCents: Maybe<Scalars['float8']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  buyerCommissionRate: Maybe<Scalars['Int']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['float8']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "Customer" */
@@ -1618,25 +1627,25 @@ export type Customer_Updates = {
 /** aggregate var_pop on columns */
 export type Customer_Var_Pop_Fields = {
   __typename?: 'Customer_var_pop_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Customer_Var_Samp_Fields = {
   __typename?: 'Customer_var_samp_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Customer_Variance_Fields = {
   __typename?: 'Customer_variance_fields';
-  buyerCommissionRate: Maybe<Scalars['Float']>;
-  forcedShippingPriceInCents: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  buyerCommissionRate: Maybe<Scalars['Float']['output']>;
+  forcedShippingPriceInCents: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "Dispute" */
@@ -1648,29 +1657,29 @@ export type Dispute = {
   attachments_aggregate: DisputeAttachment_Aggregate;
   /** An object relationship */
   author: Customer;
-  authorId: Scalars['uuid'];
-  canceledAt: Maybe<Scalars['timestamp']>;
-  closedAt: Maybe<Scalars['timestamp']>;
-  createdAt: Scalars['timestamp'];
-  description: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  internalComment: Maybe<Scalars['String']>;
+  authorId: Scalars['uuid']['output'];
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  closedAt: Maybe<Scalars['timestamp']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  description: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  internalComment: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   orderLine: OrderLines;
-  orderLineId: Scalars['String'];
-  reason: Scalars['DisputeReason'];
+  orderLineId: Scalars['String']['output'];
+  reason: Scalars['DisputeReason']['output'];
   /** An array relationship */
   returns: Array<Return>;
   /** An aggregate relationship */
   returns_aggregate: Return_Aggregate;
-  status: Scalars['DisputeStatus'];
+  status: Scalars['DisputeStatus']['output'];
 };
 
 /** columns and relationships of "Dispute" */
 export type DisputeAttachmentsArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
@@ -1678,8 +1687,8 @@ export type DisputeAttachmentsArgs = {
 /** columns and relationships of "Dispute" */
 export type DisputeAttachments_AggregateArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
@@ -1687,8 +1696,8 @@ export type DisputeAttachments_AggregateArgs = {
 /** columns and relationships of "Dispute" */
 export type DisputeReturnsArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
@@ -1696,8 +1705,8 @@ export type DisputeReturnsArgs = {
 /** columns and relationships of "Dispute" */
 export type DisputeReturns_AggregateArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
@@ -1707,11 +1716,11 @@ export type DisputeAttachment = {
   __typename?: 'DisputeAttachment';
   /** An object relationship */
   author: Customer;
-  authorId: Scalars['uuid'];
-  disputeId: Scalars['String'];
-  filename: Scalars['String'];
-  id: Scalars['String'];
-  uploadedAt: Scalars['timestamp'];
+  authorId: Scalars['uuid']['output'];
+  disputeId: Scalars['String']['output'];
+  filename: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  uploadedAt: Scalars['timestamp']['output'];
 };
 
 /** aggregated selection of "DisputeAttachment" */
@@ -1727,7 +1736,7 @@ export type DisputeAttachment_Aggregate_Bool_Exp = {
 
 export type DisputeAttachment_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<DisputeAttachment_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -1735,7 +1744,7 @@ export type DisputeAttachment_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "DisputeAttachment" */
 export type DisputeAttachment_Aggregate_Fields = {
   __typename?: 'DisputeAttachment_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<DisputeAttachment_Max_Fields>;
   min: Maybe<DisputeAttachment_Min_Fields>;
 };
@@ -1743,7 +1752,7 @@ export type DisputeAttachment_Aggregate_Fields = {
 /** aggregate fields of "DisputeAttachment" */
 export type DisputeAttachment_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "DisputeAttachment" */
@@ -1782,21 +1791,21 @@ export enum DisputeAttachment_Constraint {
 /** input type for inserting data into table "DisputeAttachment" */
 export type DisputeAttachment_Insert_Input = {
   author: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  authorId: InputMaybe<Scalars['uuid']>;
-  disputeId: InputMaybe<Scalars['String']>;
-  filename: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  uploadedAt: InputMaybe<Scalars['timestamp']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  filename: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  uploadedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate max on columns */
 export type DisputeAttachment_Max_Fields = {
   __typename?: 'DisputeAttachment_max_fields';
-  authorId: Maybe<Scalars['uuid']>;
-  disputeId: Maybe<Scalars['String']>;
-  filename: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  uploadedAt: Maybe<Scalars['timestamp']>;
+  authorId: Maybe<Scalars['uuid']['output']>;
+  disputeId: Maybe<Scalars['String']['output']>;
+  filename: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  uploadedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by max() on columns of table "DisputeAttachment" */
@@ -1811,11 +1820,11 @@ export type DisputeAttachment_Max_Order_By = {
 /** aggregate min on columns */
 export type DisputeAttachment_Min_Fields = {
   __typename?: 'DisputeAttachment_min_fields';
-  authorId: Maybe<Scalars['uuid']>;
-  disputeId: Maybe<Scalars['String']>;
-  filename: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  uploadedAt: Maybe<Scalars['timestamp']>;
+  authorId: Maybe<Scalars['uuid']['output']>;
+  disputeId: Maybe<Scalars['String']['output']>;
+  filename: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  uploadedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by min() on columns of table "DisputeAttachment" */
@@ -1831,7 +1840,7 @@ export type DisputeAttachment_Min_Order_By = {
 export type DisputeAttachment_Mutation_Response = {
   __typename?: 'DisputeAttachment_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<DisputeAttachment>;
 };
@@ -1855,7 +1864,7 @@ export type DisputeAttachment_Order_By = {
 
 /** primary key columns input for table: DisputeAttachment */
 export type DisputeAttachment_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "DisputeAttachment" */
@@ -1874,11 +1883,11 @@ export enum DisputeAttachment_Select_Column {
 
 /** input type for updating data in table "DisputeAttachment" */
 export type DisputeAttachment_Set_Input = {
-  authorId: InputMaybe<Scalars['uuid']>;
-  disputeId: InputMaybe<Scalars['String']>;
-  filename: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  uploadedAt: InputMaybe<Scalars['timestamp']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  filename: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  uploadedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** Streaming cursor of the table "DisputeAttachment" */
@@ -1891,11 +1900,11 @@ export type DisputeAttachment_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type DisputeAttachment_Stream_Cursor_Value_Input = {
-  authorId: InputMaybe<Scalars['uuid']>;
-  disputeId: InputMaybe<Scalars['String']>;
-  filename: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  uploadedAt: InputMaybe<Scalars['timestamp']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  filename: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  uploadedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** update columns of table "DisputeAttachment" */
@@ -1921,28 +1930,28 @@ export type DisputeAttachment_Updates = {
 
 /** Boolean expression to compare columns of type "DisputeReason". All fields are combined with logical 'AND'. */
 export type DisputeReason_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['DisputeReason']>;
-  _gt: InputMaybe<Scalars['DisputeReason']>;
-  _gte: InputMaybe<Scalars['DisputeReason']>;
-  _in: InputMaybe<Array<Scalars['DisputeReason']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['DisputeReason']>;
-  _lte: InputMaybe<Scalars['DisputeReason']>;
-  _neq: InputMaybe<Scalars['DisputeReason']>;
-  _nin: InputMaybe<Array<Scalars['DisputeReason']>>;
+  _eq: InputMaybe<Scalars['DisputeReason']['input']>;
+  _gt: InputMaybe<Scalars['DisputeReason']['input']>;
+  _gte: InputMaybe<Scalars['DisputeReason']['input']>;
+  _in: InputMaybe<Array<Scalars['DisputeReason']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['DisputeReason']['input']>;
+  _lte: InputMaybe<Scalars['DisputeReason']['input']>;
+  _neq: InputMaybe<Scalars['DisputeReason']['input']>;
+  _nin: InputMaybe<Array<Scalars['DisputeReason']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "DisputeStatus". All fields are combined with logical 'AND'. */
 export type DisputeStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['DisputeStatus']>;
-  _gt: InputMaybe<Scalars['DisputeStatus']>;
-  _gte: InputMaybe<Scalars['DisputeStatus']>;
-  _in: InputMaybe<Array<Scalars['DisputeStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['DisputeStatus']>;
-  _lte: InputMaybe<Scalars['DisputeStatus']>;
-  _neq: InputMaybe<Scalars['DisputeStatus']>;
-  _nin: InputMaybe<Array<Scalars['DisputeStatus']>>;
+  _eq: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _gt: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _gte: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['DisputeStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _lte: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _neq: InputMaybe<Scalars['DisputeStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['DisputeStatus']['input']>>;
 };
 
 /** aggregated selection of "Dispute" */
@@ -1958,7 +1967,7 @@ export type Dispute_Aggregate_Bool_Exp = {
 
 export type Dispute_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dispute_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dispute_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -1966,7 +1975,7 @@ export type Dispute_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "Dispute" */
 export type Dispute_Aggregate_Fields = {
   __typename?: 'Dispute_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dispute_Max_Fields>;
   min: Maybe<Dispute_Min_Fields>;
 };
@@ -1974,7 +1983,7 @@ export type Dispute_Aggregate_Fields = {
 /** aggregate fields of "Dispute" */
 export type Dispute_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dispute_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Dispute" */
@@ -2024,33 +2033,33 @@ export enum Dispute_Constraint {
 export type Dispute_Insert_Input = {
   attachments: InputMaybe<DisputeAttachment_Arr_Rel_Insert_Input>;
   author: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  authorId: InputMaybe<Scalars['uuid']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  closedAt: InputMaybe<Scalars['timestamp']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalComment: InputMaybe<Scalars['String']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  closedAt: InputMaybe<Scalars['timestamp']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalComment: InputMaybe<Scalars['String']['input']>;
   orderLine: InputMaybe<OrderLines_Obj_Rel_Insert_Input>;
-  orderLineId: InputMaybe<Scalars['String']>;
-  reason: InputMaybe<Scalars['DisputeReason']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
+  reason: InputMaybe<Scalars['DisputeReason']['input']>;
   returns: InputMaybe<Return_Arr_Rel_Insert_Input>;
-  status: InputMaybe<Scalars['DisputeStatus']>;
+  status: InputMaybe<Scalars['DisputeStatus']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dispute_Max_Fields = {
   __typename?: 'Dispute_max_fields';
-  authorId: Maybe<Scalars['uuid']>;
-  canceledAt: Maybe<Scalars['timestamp']>;
-  closedAt: Maybe<Scalars['timestamp']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalComment: Maybe<Scalars['String']>;
-  orderLineId: Maybe<Scalars['String']>;
-  reason: Maybe<Scalars['DisputeReason']>;
-  status: Maybe<Scalars['DisputeStatus']>;
+  authorId: Maybe<Scalars['uuid']['output']>;
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  closedAt: Maybe<Scalars['timestamp']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalComment: Maybe<Scalars['String']['output']>;
+  orderLineId: Maybe<Scalars['String']['output']>;
+  reason: Maybe<Scalars['DisputeReason']['output']>;
+  status: Maybe<Scalars['DisputeStatus']['output']>;
 };
 
 /** order by max() on columns of table "Dispute" */
@@ -2070,16 +2079,16 @@ export type Dispute_Max_Order_By = {
 /** aggregate min on columns */
 export type Dispute_Min_Fields = {
   __typename?: 'Dispute_min_fields';
-  authorId: Maybe<Scalars['uuid']>;
-  canceledAt: Maybe<Scalars['timestamp']>;
-  closedAt: Maybe<Scalars['timestamp']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  description: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalComment: Maybe<Scalars['String']>;
-  orderLineId: Maybe<Scalars['String']>;
-  reason: Maybe<Scalars['DisputeReason']>;
-  status: Maybe<Scalars['DisputeStatus']>;
+  authorId: Maybe<Scalars['uuid']['output']>;
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  closedAt: Maybe<Scalars['timestamp']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalComment: Maybe<Scalars['String']['output']>;
+  orderLineId: Maybe<Scalars['String']['output']>;
+  reason: Maybe<Scalars['DisputeReason']['output']>;
+  status: Maybe<Scalars['DisputeStatus']['output']>;
 };
 
 /** order by min() on columns of table "Dispute" */
@@ -2100,7 +2109,7 @@ export type Dispute_Min_Order_By = {
 export type Dispute_Mutation_Response = {
   __typename?: 'Dispute_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dispute>;
 };
@@ -2139,7 +2148,7 @@ export type Dispute_Order_By = {
 
 /** primary key columns input for table: Dispute */
 export type Dispute_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Dispute" */
@@ -2168,16 +2177,16 @@ export enum Dispute_Select_Column {
 
 /** input type for updating data in table "Dispute" */
 export type Dispute_Set_Input = {
-  authorId: InputMaybe<Scalars['uuid']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  closedAt: InputMaybe<Scalars['timestamp']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalComment: InputMaybe<Scalars['String']>;
-  orderLineId: InputMaybe<Scalars['String']>;
-  reason: InputMaybe<Scalars['DisputeReason']>;
-  status: InputMaybe<Scalars['DisputeStatus']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  closedAt: InputMaybe<Scalars['timestamp']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalComment: InputMaybe<Scalars['String']['input']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
+  reason: InputMaybe<Scalars['DisputeReason']['input']>;
+  status: InputMaybe<Scalars['DisputeStatus']['input']>;
 };
 
 /** Streaming cursor of the table "Dispute" */
@@ -2190,16 +2199,16 @@ export type Dispute_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dispute_Stream_Cursor_Value_Input = {
-  authorId: InputMaybe<Scalars['uuid']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  closedAt: InputMaybe<Scalars['timestamp']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  description: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalComment: InputMaybe<Scalars['String']>;
-  orderLineId: InputMaybe<Scalars['String']>;
-  reason: InputMaybe<Scalars['DisputeReason']>;
-  status: InputMaybe<Scalars['DisputeStatus']>;
+  authorId: InputMaybe<Scalars['uuid']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  closedAt: InputMaybe<Scalars['timestamp']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalComment: InputMaybe<Scalars['String']['input']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
+  reason: InputMaybe<Scalars['DisputeReason']['input']>;
+  status: InputMaybe<Scalars['DisputeStatus']['input']>;
 };
 
 /** update columns of table "Dispute" */
@@ -2236,36 +2245,36 @@ export type Dispute_Updates = {
 /** columns and relationships of "Event" */
 export type Event = {
   __typename?: 'Event';
-  aggregateId: Scalars['String'];
-  aggregateName: Scalars['AggregateName'];
-  createdAt: Scalars['timestamp'];
-  id: Scalars['String'];
-  metadata: Maybe<Scalars['jsonb']>;
-  name: Scalars['EventName'];
-  payload: Maybe<Scalars['jsonb']>;
+  aggregateId: Scalars['String']['output'];
+  aggregateName: Scalars['AggregateName']['output'];
+  createdAt: Scalars['timestamp']['output'];
+  id: Scalars['String']['output'];
+  metadata: Maybe<Scalars['jsonb']['output']>;
+  name: Scalars['EventName']['output'];
+  payload: Maybe<Scalars['jsonb']['output']>;
 };
 
 /** columns and relationships of "Event" */
 export type EventMetadataArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** columns and relationships of "Event" */
 export type EventPayloadArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Boolean expression to compare columns of type "EventName". All fields are combined with logical 'AND'. */
 export type EventName_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['EventName']>;
-  _gt: InputMaybe<Scalars['EventName']>;
-  _gte: InputMaybe<Scalars['EventName']>;
-  _in: InputMaybe<Array<Scalars['EventName']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['EventName']>;
-  _lte: InputMaybe<Scalars['EventName']>;
-  _neq: InputMaybe<Scalars['EventName']>;
-  _nin: InputMaybe<Array<Scalars['EventName']>>;
+  _eq: InputMaybe<Scalars['EventName']['input']>;
+  _gt: InputMaybe<Scalars['EventName']['input']>;
+  _gte: InputMaybe<Scalars['EventName']['input']>;
+  _in: InputMaybe<Array<Scalars['EventName']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['EventName']['input']>;
+  _lte: InputMaybe<Scalars['EventName']['input']>;
+  _neq: InputMaybe<Scalars['EventName']['input']>;
+  _nin: InputMaybe<Array<Scalars['EventName']['input']>>;
 };
 
 /** aggregated selection of "Event" */
@@ -2278,7 +2287,7 @@ export type Event_Aggregate = {
 /** aggregate fields of "Event" */
 export type Event_Aggregate_Fields = {
   __typename?: 'Event_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Event_Max_Fields>;
   min: Maybe<Event_Min_Fields>;
 };
@@ -2286,13 +2295,13 @@ export type Event_Aggregate_Fields = {
 /** aggregate fields of "Event" */
 export type Event_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Event_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Event_Append_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
-  payload: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  payload: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "Event". All fields are combined with a logical 'AND'. */
@@ -2317,58 +2326,58 @@ export enum Event_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Event_Delete_At_Path_Input = {
-  metadata: InputMaybe<Array<Scalars['String']>>;
-  payload: InputMaybe<Array<Scalars['String']>>;
+  metadata: InputMaybe<Array<Scalars['String']['input']>>;
+  payload: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Event_Delete_Elem_Input = {
-  metadata: InputMaybe<Scalars['Int']>;
-  payload: InputMaybe<Scalars['Int']>;
+  metadata: InputMaybe<Scalars['Int']['input']>;
+  payload: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Event_Delete_Key_Input = {
-  metadata: InputMaybe<Scalars['String']>;
-  payload: InputMaybe<Scalars['String']>;
+  metadata: InputMaybe<Scalars['String']['input']>;
+  payload: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "Event" */
 export type Event_Insert_Input = {
-  aggregateId: InputMaybe<Scalars['String']>;
-  aggregateName: InputMaybe<Scalars['AggregateName']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  name: InputMaybe<Scalars['EventName']>;
-  payload: InputMaybe<Scalars['jsonb']>;
+  aggregateId: InputMaybe<Scalars['String']['input']>;
+  aggregateName: InputMaybe<Scalars['AggregateName']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  name: InputMaybe<Scalars['EventName']['input']>;
+  payload: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** aggregate max on columns */
 export type Event_Max_Fields = {
   __typename?: 'Event_max_fields';
-  aggregateId: Maybe<Scalars['String']>;
-  aggregateName: Maybe<Scalars['AggregateName']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['EventName']>;
+  aggregateId: Maybe<Scalars['String']['output']>;
+  aggregateName: Maybe<Scalars['AggregateName']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['EventName']['output']>;
 };
 
 /** aggregate min on columns */
 export type Event_Min_Fields = {
   __typename?: 'Event_min_fields';
-  aggregateId: Maybe<Scalars['String']>;
-  aggregateName: Maybe<Scalars['AggregateName']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['EventName']>;
+  aggregateId: Maybe<Scalars['String']['output']>;
+  aggregateName: Maybe<Scalars['AggregateName']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['EventName']['output']>;
 };
 
 /** response of any mutation on the table "Event" */
 export type Event_Mutation_Response = {
   __typename?: 'Event_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Event>;
 };
@@ -2393,13 +2402,13 @@ export type Event_Order_By = {
 
 /** primary key columns input for table: Event */
 export type Event_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Event_Prepend_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
-  payload: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  payload: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "Event" */
@@ -2422,13 +2431,13 @@ export enum Event_Select_Column {
 
 /** input type for updating data in table "Event" */
 export type Event_Set_Input = {
-  aggregateId: InputMaybe<Scalars['String']>;
-  aggregateName: InputMaybe<Scalars['AggregateName']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  name: InputMaybe<Scalars['EventName']>;
-  payload: InputMaybe<Scalars['jsonb']>;
+  aggregateId: InputMaybe<Scalars['String']['input']>;
+  aggregateName: InputMaybe<Scalars['AggregateName']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  name: InputMaybe<Scalars['EventName']['input']>;
+  payload: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Streaming cursor of the table "Event" */
@@ -2441,13 +2450,13 @@ export type Event_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Event_Stream_Cursor_Value_Input = {
-  aggregateId: InputMaybe<Scalars['String']>;
-  aggregateName: InputMaybe<Scalars['AggregateName']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  name: InputMaybe<Scalars['EventName']>;
-  payload: InputMaybe<Scalars['jsonb']>;
+  aggregateId: InputMaybe<Scalars['String']['input']>;
+  aggregateName: InputMaybe<Scalars['AggregateName']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  name: InputMaybe<Scalars['EventName']['input']>;
+  payload: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** update columns of table "Event" */
@@ -2490,11 +2499,11 @@ export type FacetFilter = {
   __typename?: 'FacetFilter';
   /** An object relationship */
   SavedSearch: SavedSearch;
-  facetName: Scalars['String'];
-  id: Scalars['String'];
-  label: Scalars['String'];
-  searchId: Scalars['String'];
-  value: Scalars['String'];
+  facetName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+  searchId: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "FacetFilter" */
@@ -2510,7 +2519,7 @@ export type FacetFilter_Aggregate_Bool_Exp = {
 
 export type FacetFilter_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<FacetFilter_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<FacetFilter_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -2518,7 +2527,7 @@ export type FacetFilter_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "FacetFilter" */
 export type FacetFilter_Aggregate_Fields = {
   __typename?: 'FacetFilter_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<FacetFilter_Max_Fields>;
   min: Maybe<FacetFilter_Min_Fields>;
 };
@@ -2526,7 +2535,7 @@ export type FacetFilter_Aggregate_Fields = {
 /** aggregate fields of "FacetFilter" */
 export type FacetFilter_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<FacetFilter_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "FacetFilter" */
@@ -2565,21 +2574,21 @@ export enum FacetFilter_Constraint {
 /** input type for inserting data into table "FacetFilter" */
 export type FacetFilter_Insert_Input = {
   SavedSearch: InputMaybe<SavedSearch_Obj_Rel_Insert_Input>;
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  label: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  label: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type FacetFilter_Max_Fields = {
   __typename?: 'FacetFilter_max_fields';
-  facetName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  label: Maybe<Scalars['String']>;
-  searchId: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  facetName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  label: Maybe<Scalars['String']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "FacetFilter" */
@@ -2594,11 +2603,11 @@ export type FacetFilter_Max_Order_By = {
 /** aggregate min on columns */
 export type FacetFilter_Min_Fields = {
   __typename?: 'FacetFilter_min_fields';
-  facetName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  label: Maybe<Scalars['String']>;
-  searchId: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  facetName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  label: Maybe<Scalars['String']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "FacetFilter" */
@@ -2614,7 +2623,7 @@ export type FacetFilter_Min_Order_By = {
 export type FacetFilter_Mutation_Response = {
   __typename?: 'FacetFilter_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<FacetFilter>;
 };
@@ -2638,7 +2647,7 @@ export type FacetFilter_Order_By = {
 
 /** primary key columns input for table: FacetFilter */
 export type FacetFilter_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "FacetFilter" */
@@ -2657,11 +2666,11 @@ export enum FacetFilter_Select_Column {
 
 /** input type for updating data in table "FacetFilter" */
 export type FacetFilter_Set_Input = {
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  label: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  label: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "FacetFilter" */
@@ -2674,11 +2683,11 @@ export type FacetFilter_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type FacetFilter_Stream_Cursor_Value_Input = {
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  label: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  label: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "FacetFilter" */
@@ -2705,12 +2714,12 @@ export type FacetFilter_Updates = {
 /** columns and relationships of "FavoriteProducts" */
 export type FavoriteProducts = {
   __typename?: 'FavoriteProducts';
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Scalars['String'];
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Product>;
-  productId: Scalars['bigint'];
+  productId: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "FavoriteProducts" */
@@ -2726,7 +2735,7 @@ export type FavoriteProducts_Aggregate_Bool_Exp = {
 
 export type FavoriteProducts_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<FavoriteProducts_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -2735,7 +2744,7 @@ export type FavoriteProducts_Aggregate_Bool_Exp_Count = {
 export type FavoriteProducts_Aggregate_Fields = {
   __typename?: 'FavoriteProducts_aggregate_fields';
   avg: Maybe<FavoriteProducts_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<FavoriteProducts_Max_Fields>;
   min: Maybe<FavoriteProducts_Min_Fields>;
   stddev: Maybe<FavoriteProducts_Stddev_Fields>;
@@ -2750,7 +2759,7 @@ export type FavoriteProducts_Aggregate_Fields = {
 /** aggregate fields of "FavoriteProducts" */
 export type FavoriteProducts_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "FavoriteProducts" */
@@ -2778,7 +2787,7 @@ export type FavoriteProducts_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type FavoriteProducts_Avg_Fields = {
   __typename?: 'FavoriteProducts_avg_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "FavoriteProducts" */
@@ -2806,25 +2815,25 @@ export enum FavoriteProducts_Constraint {
 
 /** input type for incrementing numeric columns in table "FavoriteProducts" */
 export type FavoriteProducts_Inc_Input = {
-  productId: InputMaybe<Scalars['bigint']>;
+  productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "FavoriteProducts" */
 export type FavoriteProducts_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['bigint']>;
+  productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type FavoriteProducts_Max_Fields = {
   __typename?: 'FavoriteProducts_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "FavoriteProducts" */
@@ -2838,10 +2847,10 @@ export type FavoriteProducts_Max_Order_By = {
 /** aggregate min on columns */
 export type FavoriteProducts_Min_Fields = {
   __typename?: 'FavoriteProducts_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "FavoriteProducts" */
@@ -2856,7 +2865,7 @@ export type FavoriteProducts_Min_Order_By = {
 export type FavoriteProducts_Mutation_Response = {
   __typename?: 'FavoriteProducts_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<FavoriteProducts>;
 };
@@ -2879,7 +2888,7 @@ export type FavoriteProducts_Order_By = {
 
 /** primary key columns input for table: FavoriteProducts */
 export type FavoriteProducts_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "FavoriteProducts" */
@@ -2896,16 +2905,16 @@ export enum FavoriteProducts_Select_Column {
 
 /** input type for updating data in table "FavoriteProducts" */
 export type FavoriteProducts_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type FavoriteProducts_Stddev_Fields = {
   __typename?: 'FavoriteProducts_stddev_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "FavoriteProducts" */
@@ -2916,7 +2925,7 @@ export type FavoriteProducts_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type FavoriteProducts_Stddev_Pop_Fields = {
   __typename?: 'FavoriteProducts_stddev_pop_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "FavoriteProducts" */
@@ -2927,7 +2936,7 @@ export type FavoriteProducts_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type FavoriteProducts_Stddev_Samp_Fields = {
   __typename?: 'FavoriteProducts_stddev_samp_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "FavoriteProducts" */
@@ -2945,16 +2954,16 @@ export type FavoriteProducts_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type FavoriteProducts_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type FavoriteProducts_Sum_Fields = {
   __typename?: 'FavoriteProducts_sum_fields';
-  productId: Maybe<Scalars['bigint']>;
+  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "FavoriteProducts" */
@@ -2986,7 +2995,7 @@ export type FavoriteProducts_Updates = {
 /** aggregate var_pop on columns */
 export type FavoriteProducts_Var_Pop_Fields = {
   __typename?: 'FavoriteProducts_var_pop_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "FavoriteProducts" */
@@ -2997,7 +3006,7 @@ export type FavoriteProducts_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type FavoriteProducts_Var_Samp_Fields = {
   __typename?: 'FavoriteProducts_var_samp_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "FavoriteProducts" */
@@ -3008,7 +3017,7 @@ export type FavoriteProducts_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type FavoriteProducts_Variance_Fields = {
   __typename?: 'FavoriteProducts_variance_fields';
-  productId: Maybe<Scalars['Float']>;
+  productId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "FavoriteProducts" */
@@ -3019,26 +3028,26 @@ export type FavoriteProducts_Variance_Order_By = {
 /** columns and relationships of "Fulfillment" */
 export type Fulfillment = {
   __typename?: 'Fulfillment';
-  createdAt: Scalars['timestamp'];
+  createdAt: Scalars['timestamp']['output'];
   /** An array relationship */
   fulfilledItems: Array<FulfillmentItem>;
   /** An aggregate relationship */
   fulfilledItems_aggregate: FulfillmentItem_Aggregate;
   /** An object relationship */
   fulfillmentOrder: Maybe<FulfillmentOrder>;
-  fulfillmentOrderId: Scalars['String'];
-  id: Scalars['String'];
-  shopifyId: Scalars['bigint'];
-  status: Scalars['FulfillmentStatus'];
-  trackingId: Maybe<Scalars['String']>;
-  trackingUrl: Scalars['String'];
+  fulfillmentOrderId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  shopifyId: Scalars['bigint']['output'];
+  status: Scalars['FulfillmentStatus']['output'];
+  trackingId: Maybe<Scalars['String']['output']>;
+  trackingUrl: Scalars['String']['output'];
 };
 
 /** columns and relationships of "Fulfillment" */
 export type FulfillmentFulfilledItemsArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
@@ -3046,8 +3055,8 @@ export type FulfillmentFulfilledItemsArgs = {
 /** columns and relationships of "Fulfillment" */
 export type FulfillmentFulfilledItems_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
@@ -3055,14 +3064,14 @@ export type FulfillmentFulfilledItems_AggregateArgs = {
 /** columns and relationships of "FulfillmentItem" */
 export type FulfillmentItem = {
   __typename?: 'FulfillmentItem';
-  createdAt: Scalars['timestamp'];
-  fulfillmentId: Scalars['String'];
-  id: Scalars['String'];
+  createdAt: Scalars['timestamp']['output'];
+  fulfillmentId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
   /** An object relationship */
   productVariant: Maybe<ProductVariant>;
-  productVariantId: Scalars['String'];
-  quantity: Scalars['Int'];
-  shopifyId: Scalars['bigint'];
+  productVariantId: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  shopifyId: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "FulfillmentItem" */
@@ -3078,7 +3087,7 @@ export type FulfillmentItem_Aggregate_Bool_Exp = {
 
 export type FulfillmentItem_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<FulfillmentItem_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -3087,7 +3096,7 @@ export type FulfillmentItem_Aggregate_Bool_Exp_Count = {
 export type FulfillmentItem_Aggregate_Fields = {
   __typename?: 'FulfillmentItem_aggregate_fields';
   avg: Maybe<FulfillmentItem_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<FulfillmentItem_Max_Fields>;
   min: Maybe<FulfillmentItem_Min_Fields>;
   stddev: Maybe<FulfillmentItem_Stddev_Fields>;
@@ -3102,7 +3111,7 @@ export type FulfillmentItem_Aggregate_Fields = {
 /** aggregate fields of "FulfillmentItem" */
 export type FulfillmentItem_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "FulfillmentItem" */
@@ -3130,8 +3139,8 @@ export type FulfillmentItem_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type FulfillmentItem_Avg_Fields = {
   __typename?: 'FulfillmentItem_avg_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "FulfillmentItem" */
@@ -3164,30 +3173,30 @@ export enum FulfillmentItem_Constraint {
 
 /** input type for incrementing numeric columns in table "FulfillmentItem" */
 export type FulfillmentItem_Inc_Input = {
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "FulfillmentItem" */
 export type FulfillmentItem_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   productVariant: InputMaybe<ProductVariant_Obj_Rel_Insert_Input>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type FulfillmentItem_Max_Fields = {
   __typename?: 'FulfillmentItem_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "FulfillmentItem" */
@@ -3203,12 +3212,12 @@ export type FulfillmentItem_Max_Order_By = {
 /** aggregate min on columns */
 export type FulfillmentItem_Min_Fields = {
   __typename?: 'FulfillmentItem_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "FulfillmentItem" */
@@ -3225,7 +3234,7 @@ export type FulfillmentItem_Min_Order_By = {
 export type FulfillmentItem_Mutation_Response = {
   __typename?: 'FulfillmentItem_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<FulfillmentItem>;
 };
@@ -3257,7 +3266,7 @@ export type FulfillmentItem_Order_By = {
 
 /** primary key columns input for table: FulfillmentItem */
 export type FulfillmentItem_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "FulfillmentItem" */
@@ -3278,19 +3287,19 @@ export enum FulfillmentItem_Select_Column {
 
 /** input type for updating data in table "FulfillmentItem" */
 export type FulfillmentItem_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type FulfillmentItem_Stddev_Fields = {
   __typename?: 'FulfillmentItem_stddev_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "FulfillmentItem" */
@@ -3302,8 +3311,8 @@ export type FulfillmentItem_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type FulfillmentItem_Stddev_Pop_Fields = {
   __typename?: 'FulfillmentItem_stddev_pop_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "FulfillmentItem" */
@@ -3315,8 +3324,8 @@ export type FulfillmentItem_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type FulfillmentItem_Stddev_Samp_Fields = {
   __typename?: 'FulfillmentItem_stddev_samp_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "FulfillmentItem" */
@@ -3335,19 +3344,19 @@ export type FulfillmentItem_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type FulfillmentItem_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type FulfillmentItem_Sum_Fields = {
   __typename?: 'FulfillmentItem_sum_fields';
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "FulfillmentItem" */
@@ -3384,8 +3393,8 @@ export type FulfillmentItem_Updates = {
 /** aggregate var_pop on columns */
 export type FulfillmentItem_Var_Pop_Fields = {
   __typename?: 'FulfillmentItem_var_pop_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "FulfillmentItem" */
@@ -3397,8 +3406,8 @@ export type FulfillmentItem_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type FulfillmentItem_Var_Samp_Fields = {
   __typename?: 'FulfillmentItem_var_samp_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "FulfillmentItem" */
@@ -3410,8 +3419,8 @@ export type FulfillmentItem_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type FulfillmentItem_Variance_Fields = {
   __typename?: 'FulfillmentItem_variance_fields';
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "FulfillmentItem" */
@@ -3423,28 +3432,28 @@ export type FulfillmentItem_Variance_Order_By = {
 /** columns and relationships of "FulfillmentOrder" */
 export type FulfillmentOrder = {
   __typename?: 'FulfillmentOrder';
-  externalOrderId: Maybe<Scalars['String']>;
+  externalOrderId: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   fulfillments: Array<Fulfillment>;
   /** An aggregate relationship */
   fulfillments_aggregate: Fulfillment_Aggregate;
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /** An object relationship */
   order: Maybe<Order>;
-  orderId: Scalars['String'];
+  orderId: Scalars['String']['output'];
   /** An array relationship */
   orderLines: Array<OrderLines>;
   /** An aggregate relationship */
   orderLines_aggregate: OrderLines_Aggregate;
-  shopifyId: Scalars['bigint'];
-  status: Scalars['FulfillmentOrderStatus'];
+  shopifyId: Scalars['bigint']['output'];
+  status: Scalars['FulfillmentOrderStatus']['output'];
 };
 
 /** columns and relationships of "FulfillmentOrder" */
 export type FulfillmentOrderFulfillmentsArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
@@ -3452,8 +3461,8 @@ export type FulfillmentOrderFulfillmentsArgs = {
 /** columns and relationships of "FulfillmentOrder" */
 export type FulfillmentOrderFulfillments_AggregateArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
@@ -3461,8 +3470,8 @@ export type FulfillmentOrderFulfillments_AggregateArgs = {
 /** columns and relationships of "FulfillmentOrder" */
 export type FulfillmentOrderOrderLinesArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
@@ -3470,23 +3479,23 @@ export type FulfillmentOrderOrderLinesArgs = {
 /** columns and relationships of "FulfillmentOrder" */
 export type FulfillmentOrderOrderLines_AggregateArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "FulfillmentOrderStatus". All fields are combined with logical 'AND'. */
 export type FulfillmentOrderStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _gt: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _gte: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _in: InputMaybe<Array<Scalars['FulfillmentOrderStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _lte: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _neq: InputMaybe<Scalars['FulfillmentOrderStatus']>;
-  _nin: InputMaybe<Array<Scalars['FulfillmentOrderStatus']>>;
+  _eq: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _gt: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _gte: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['FulfillmentOrderStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _lte: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _neq: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['FulfillmentOrderStatus']['input']>>;
 };
 
 /** aggregated selection of "FulfillmentOrder" */
@@ -3502,7 +3511,7 @@ export type FulfillmentOrder_Aggregate_Bool_Exp = {
 
 export type FulfillmentOrder_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<FulfillmentOrder_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -3511,7 +3520,7 @@ export type FulfillmentOrder_Aggregate_Bool_Exp_Count = {
 export type FulfillmentOrder_Aggregate_Fields = {
   __typename?: 'FulfillmentOrder_aggregate_fields';
   avg: Maybe<FulfillmentOrder_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<FulfillmentOrder_Max_Fields>;
   min: Maybe<FulfillmentOrder_Min_Fields>;
   stddev: Maybe<FulfillmentOrder_Stddev_Fields>;
@@ -3526,7 +3535,7 @@ export type FulfillmentOrder_Aggregate_Fields = {
 /** aggregate fields of "FulfillmentOrder" */
 export type FulfillmentOrder_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "FulfillmentOrder" */
@@ -3554,7 +3563,7 @@ export type FulfillmentOrder_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type FulfillmentOrder_Avg_Fields = {
   __typename?: 'FulfillmentOrder_avg_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "FulfillmentOrder" */
@@ -3589,29 +3598,29 @@ export enum FulfillmentOrder_Constraint {
 
 /** input type for incrementing numeric columns in table "FulfillmentOrder" */
 export type FulfillmentOrder_Inc_Input = {
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "FulfillmentOrder" */
 export type FulfillmentOrder_Insert_Input = {
-  externalOrderId: InputMaybe<Scalars['String']>;
+  externalOrderId: InputMaybe<Scalars['String']['input']>;
   fulfillments: InputMaybe<Fulfillment_Arr_Rel_Insert_Input>;
-  id: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
   order: InputMaybe<Order_Obj_Rel_Insert_Input>;
-  orderId: InputMaybe<Scalars['String']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
   orderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentOrderStatus']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
 };
 
 /** aggregate max on columns */
 export type FulfillmentOrder_Max_Fields = {
   __typename?: 'FulfillmentOrder_max_fields';
-  externalOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  status: Maybe<Scalars['FulfillmentOrderStatus']>;
+  externalOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  status: Maybe<Scalars['FulfillmentOrderStatus']['output']>;
 };
 
 /** order by max() on columns of table "FulfillmentOrder" */
@@ -3626,11 +3635,11 @@ export type FulfillmentOrder_Max_Order_By = {
 /** aggregate min on columns */
 export type FulfillmentOrder_Min_Fields = {
   __typename?: 'FulfillmentOrder_min_fields';
-  externalOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  status: Maybe<Scalars['FulfillmentOrderStatus']>;
+  externalOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  status: Maybe<Scalars['FulfillmentOrderStatus']['output']>;
 };
 
 /** order by min() on columns of table "FulfillmentOrder" */
@@ -3646,7 +3655,7 @@ export type FulfillmentOrder_Min_Order_By = {
 export type FulfillmentOrder_Mutation_Response = {
   __typename?: 'FulfillmentOrder_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<FulfillmentOrder>;
 };
@@ -3679,7 +3688,7 @@ export type FulfillmentOrder_Order_By = {
 
 /** primary key columns input for table: FulfillmentOrder */
 export type FulfillmentOrder_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "FulfillmentOrder" */
@@ -3698,17 +3707,17 @@ export enum FulfillmentOrder_Select_Column {
 
 /** input type for updating data in table "FulfillmentOrder" */
 export type FulfillmentOrder_Set_Input = {
-  externalOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentOrderStatus']>;
+  externalOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type FulfillmentOrder_Stddev_Fields = {
   __typename?: 'FulfillmentOrder_stddev_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "FulfillmentOrder" */
@@ -3719,7 +3728,7 @@ export type FulfillmentOrder_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type FulfillmentOrder_Stddev_Pop_Fields = {
   __typename?: 'FulfillmentOrder_stddev_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "FulfillmentOrder" */
@@ -3730,7 +3739,7 @@ export type FulfillmentOrder_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type FulfillmentOrder_Stddev_Samp_Fields = {
   __typename?: 'FulfillmentOrder_stddev_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "FulfillmentOrder" */
@@ -3748,17 +3757,17 @@ export type FulfillmentOrder_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type FulfillmentOrder_Stream_Cursor_Value_Input = {
-  externalOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentOrderStatus']>;
+  externalOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
 };
 
 /** aggregate sum on columns */
 export type FulfillmentOrder_Sum_Fields = {
   __typename?: 'FulfillmentOrder_sum_fields';
-  shopifyId: Maybe<Scalars['bigint']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "FulfillmentOrder" */
@@ -3792,7 +3801,7 @@ export type FulfillmentOrder_Updates = {
 /** aggregate var_pop on columns */
 export type FulfillmentOrder_Var_Pop_Fields = {
   __typename?: 'FulfillmentOrder_var_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "FulfillmentOrder" */
@@ -3803,7 +3812,7 @@ export type FulfillmentOrder_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type FulfillmentOrder_Var_Samp_Fields = {
   __typename?: 'FulfillmentOrder_var_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "FulfillmentOrder" */
@@ -3814,7 +3823,7 @@ export type FulfillmentOrder_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type FulfillmentOrder_Variance_Fields = {
   __typename?: 'FulfillmentOrder_variance_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "FulfillmentOrder" */
@@ -3824,15 +3833,15 @@ export type FulfillmentOrder_Variance_Order_By = {
 
 /** Boolean expression to compare columns of type "FulfillmentStatus". All fields are combined with logical 'AND'. */
 export type FulfillmentStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['FulfillmentStatus']>;
-  _gt: InputMaybe<Scalars['FulfillmentStatus']>;
-  _gte: InputMaybe<Scalars['FulfillmentStatus']>;
-  _in: InputMaybe<Array<Scalars['FulfillmentStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['FulfillmentStatus']>;
-  _lte: InputMaybe<Scalars['FulfillmentStatus']>;
-  _neq: InputMaybe<Scalars['FulfillmentStatus']>;
-  _nin: InputMaybe<Array<Scalars['FulfillmentStatus']>>;
+  _eq: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _gt: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _gte: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['FulfillmentStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _lte: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _neq: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['FulfillmentStatus']['input']>>;
 };
 
 /** aggregated selection of "Fulfillment" */
@@ -3848,7 +3857,7 @@ export type Fulfillment_Aggregate_Bool_Exp = {
 
 export type Fulfillment_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Fulfillment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Fulfillment_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -3857,7 +3866,7 @@ export type Fulfillment_Aggregate_Bool_Exp_Count = {
 export type Fulfillment_Aggregate_Fields = {
   __typename?: 'Fulfillment_aggregate_fields';
   avg: Maybe<Fulfillment_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Fulfillment_Max_Fields>;
   min: Maybe<Fulfillment_Min_Fields>;
   stddev: Maybe<Fulfillment_Stddev_Fields>;
@@ -3872,7 +3881,7 @@ export type Fulfillment_Aggregate_Fields = {
 /** aggregate fields of "Fulfillment" */
 export type Fulfillment_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Fulfillment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Fulfillment" */
@@ -3900,7 +3909,7 @@ export type Fulfillment_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Fulfillment_Avg_Fields = {
   __typename?: 'Fulfillment_avg_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Fulfillment" */
@@ -3935,32 +3944,32 @@ export enum Fulfillment_Constraint {
 
 /** input type for incrementing numeric columns in table "Fulfillment" */
 export type Fulfillment_Inc_Input = {
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "Fulfillment" */
 export type Fulfillment_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfilledItems: InputMaybe<FulfillmentItem_Arr_Rel_Insert_Input>;
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Obj_Rel_Insert_Input>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentStatus']>;
-  trackingId: InputMaybe<Scalars['String']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  trackingId: InputMaybe<Scalars['String']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Fulfillment_Max_Fields = {
   __typename?: 'Fulfillment_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  status: Maybe<Scalars['FulfillmentStatus']>;
-  trackingId: Maybe<Scalars['String']>;
-  trackingUrl: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  status: Maybe<Scalars['FulfillmentStatus']['output']>;
+  trackingId: Maybe<Scalars['String']['output']>;
+  trackingUrl: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "Fulfillment" */
@@ -3977,13 +3986,13 @@ export type Fulfillment_Max_Order_By = {
 /** aggregate min on columns */
 export type Fulfillment_Min_Fields = {
   __typename?: 'Fulfillment_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  status: Maybe<Scalars['FulfillmentStatus']>;
-  trackingId: Maybe<Scalars['String']>;
-  trackingUrl: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  status: Maybe<Scalars['FulfillmentStatus']['output']>;
+  trackingId: Maybe<Scalars['String']['output']>;
+  trackingUrl: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "Fulfillment" */
@@ -4001,7 +4010,7 @@ export type Fulfillment_Min_Order_By = {
 export type Fulfillment_Mutation_Response = {
   __typename?: 'Fulfillment_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Fulfillment>;
 };
@@ -4028,7 +4037,7 @@ export type Fulfillment_Order_By = {
 
 /** primary key columns input for table: Fulfillment */
 export type Fulfillment_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Fulfillment" */
@@ -4051,19 +4060,19 @@ export enum Fulfillment_Select_Column {
 
 /** input type for updating data in table "Fulfillment" */
 export type Fulfillment_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentStatus']>;
-  trackingId: InputMaybe<Scalars['String']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  trackingId: InputMaybe<Scalars['String']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Fulfillment_Stddev_Fields = {
   __typename?: 'Fulfillment_stddev_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Fulfillment" */
@@ -4074,7 +4083,7 @@ export type Fulfillment_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Fulfillment_Stddev_Pop_Fields = {
   __typename?: 'Fulfillment_stddev_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Fulfillment" */
@@ -4085,7 +4094,7 @@ export type Fulfillment_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Fulfillment_Stddev_Samp_Fields = {
   __typename?: 'Fulfillment_stddev_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Fulfillment" */
@@ -4103,19 +4112,19 @@ export type Fulfillment_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Fulfillment_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  status: InputMaybe<Scalars['FulfillmentStatus']>;
-  trackingId: InputMaybe<Scalars['String']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
+  trackingId: InputMaybe<Scalars['String']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Fulfillment_Sum_Fields = {
   __typename?: 'Fulfillment_sum_fields';
-  shopifyId: Maybe<Scalars['bigint']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "Fulfillment" */
@@ -4153,7 +4162,7 @@ export type Fulfillment_Updates = {
 /** aggregate var_pop on columns */
 export type Fulfillment_Var_Pop_Fields = {
   __typename?: 'Fulfillment_var_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Fulfillment" */
@@ -4164,7 +4173,7 @@ export type Fulfillment_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Fulfillment_Var_Samp_Fields = {
   __typename?: 'Fulfillment_var_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Fulfillment" */
@@ -4175,7 +4184,7 @@ export type Fulfillment_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Fulfillment_Variance_Fields = {
   __typename?: 'Fulfillment_variance_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Fulfillment" */
@@ -4185,27 +4194,27 @@ export type Fulfillment_Variance_Order_By = {
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['Int']>;
-  _gt: InputMaybe<Scalars['Int']>;
-  _gte: InputMaybe<Scalars['Int']>;
-  _in: InputMaybe<Array<Scalars['Int']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['Int']>;
-  _lte: InputMaybe<Scalars['Int']>;
-  _neq: InputMaybe<Scalars['Int']>;
-  _nin: InputMaybe<Array<Scalars['Int']>>;
+  _eq: InputMaybe<Scalars['Int']['input']>;
+  _gt: InputMaybe<Scalars['Int']['input']>;
+  _gte: InputMaybe<Scalars['Int']['input']>;
+  _in: InputMaybe<Array<Scalars['Int']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['Int']['input']>;
+  _lte: InputMaybe<Scalars['Int']['input']>;
+  _neq: InputMaybe<Scalars['Int']['input']>;
+  _nin: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 /** columns and relationships of "NegociationAgreement" */
 export type NegociationAgreement = {
   __typename?: 'NegociationAgreement';
-  id: Scalars['String'];
-  maxAmountPercent: Scalars['Int'];
-  priority: Scalars['Int'];
-  productType: Maybe<Scalars['String']>;
+  id: Scalars['String']['output'];
+  maxAmountPercent: Scalars['Int']['output'];
+  priority: Scalars['Int']['output'];
+  productType: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   vendor: Customer;
-  vendorId: Scalars['uuid'];
+  vendorId: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "NegociationAgreement" */
@@ -4221,7 +4230,7 @@ export type NegociationAgreement_Aggregate_Bool_Exp = {
 
 export type NegociationAgreement_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<NegociationAgreement_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -4230,7 +4239,7 @@ export type NegociationAgreement_Aggregate_Bool_Exp_Count = {
 export type NegociationAgreement_Aggregate_Fields = {
   __typename?: 'NegociationAgreement_aggregate_fields';
   avg: Maybe<NegociationAgreement_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<NegociationAgreement_Max_Fields>;
   min: Maybe<NegociationAgreement_Min_Fields>;
   stddev: Maybe<NegociationAgreement_Stddev_Fields>;
@@ -4245,7 +4254,7 @@ export type NegociationAgreement_Aggregate_Fields = {
 /** aggregate fields of "NegociationAgreement" */
 export type NegociationAgreement_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "NegociationAgreement" */
@@ -4273,8 +4282,8 @@ export type NegociationAgreement_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type NegociationAgreement_Avg_Fields = {
   __typename?: 'NegociationAgreement_avg_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "NegociationAgreement" */
@@ -4304,28 +4313,28 @@ export enum NegociationAgreement_Constraint {
 
 /** input type for incrementing numeric columns in table "NegociationAgreement" */
 export type NegociationAgreement_Inc_Input = {
-  maxAmountPercent: InputMaybe<Scalars['Int']>;
-  priority: InputMaybe<Scalars['Int']>;
+  maxAmountPercent: InputMaybe<Scalars['Int']['input']>;
+  priority: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "NegociationAgreement" */
 export type NegociationAgreement_Insert_Input = {
-  id: InputMaybe<Scalars['String']>;
-  maxAmountPercent: InputMaybe<Scalars['Int']>;
-  priority: InputMaybe<Scalars['Int']>;
-  productType: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  maxAmountPercent: InputMaybe<Scalars['Int']['input']>;
+  priority: InputMaybe<Scalars['Int']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
   vendor: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type NegociationAgreement_Max_Fields = {
   __typename?: 'NegociationAgreement_max_fields';
-  id: Maybe<Scalars['String']>;
-  maxAmountPercent: Maybe<Scalars['Int']>;
-  priority: Maybe<Scalars['Int']>;
-  productType: Maybe<Scalars['String']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  id: Maybe<Scalars['String']['output']>;
+  maxAmountPercent: Maybe<Scalars['Int']['output']>;
+  priority: Maybe<Scalars['Int']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "NegociationAgreement" */
@@ -4340,11 +4349,11 @@ export type NegociationAgreement_Max_Order_By = {
 /** aggregate min on columns */
 export type NegociationAgreement_Min_Fields = {
   __typename?: 'NegociationAgreement_min_fields';
-  id: Maybe<Scalars['String']>;
-  maxAmountPercent: Maybe<Scalars['Int']>;
-  priority: Maybe<Scalars['Int']>;
-  productType: Maybe<Scalars['String']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  id: Maybe<Scalars['String']['output']>;
+  maxAmountPercent: Maybe<Scalars['Int']['output']>;
+  priority: Maybe<Scalars['Int']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "NegociationAgreement" */
@@ -4360,7 +4369,7 @@ export type NegociationAgreement_Min_Order_By = {
 export type NegociationAgreement_Mutation_Response = {
   __typename?: 'NegociationAgreement_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<NegociationAgreement>;
 };
@@ -4384,7 +4393,7 @@ export type NegociationAgreement_Order_By = {
 
 /** primary key columns input for table: NegociationAgreement */
 export type NegociationAgreement_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "NegociationAgreement" */
@@ -4403,18 +4412,18 @@ export enum NegociationAgreement_Select_Column {
 
 /** input type for updating data in table "NegociationAgreement" */
 export type NegociationAgreement_Set_Input = {
-  id: InputMaybe<Scalars['String']>;
-  maxAmountPercent: InputMaybe<Scalars['Int']>;
-  priority: InputMaybe<Scalars['Int']>;
-  productType: InputMaybe<Scalars['String']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  maxAmountPercent: InputMaybe<Scalars['Int']['input']>;
+  priority: InputMaybe<Scalars['Int']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type NegociationAgreement_Stddev_Fields = {
   __typename?: 'NegociationAgreement_stddev_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "NegociationAgreement" */
@@ -4426,8 +4435,8 @@ export type NegociationAgreement_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type NegociationAgreement_Stddev_Pop_Fields = {
   __typename?: 'NegociationAgreement_stddev_pop_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "NegociationAgreement" */
@@ -4439,8 +4448,8 @@ export type NegociationAgreement_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type NegociationAgreement_Stddev_Samp_Fields = {
   __typename?: 'NegociationAgreement_stddev_samp_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "NegociationAgreement" */
@@ -4459,18 +4468,18 @@ export type NegociationAgreement_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type NegociationAgreement_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']>;
-  maxAmountPercent: InputMaybe<Scalars['Int']>;
-  priority: InputMaybe<Scalars['Int']>;
-  productType: InputMaybe<Scalars['String']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  maxAmountPercent: InputMaybe<Scalars['Int']['input']>;
+  priority: InputMaybe<Scalars['Int']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate sum on columns */
 export type NegociationAgreement_Sum_Fields = {
   __typename?: 'NegociationAgreement_sum_fields';
-  maxAmountPercent: Maybe<Scalars['Int']>;
-  priority: Maybe<Scalars['Int']>;
+  maxAmountPercent: Maybe<Scalars['Int']['output']>;
+  priority: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "NegociationAgreement" */
@@ -4505,8 +4514,8 @@ export type NegociationAgreement_Updates = {
 /** aggregate var_pop on columns */
 export type NegociationAgreement_Var_Pop_Fields = {
   __typename?: 'NegociationAgreement_var_pop_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "NegociationAgreement" */
@@ -4518,8 +4527,8 @@ export type NegociationAgreement_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type NegociationAgreement_Var_Samp_Fields = {
   __typename?: 'NegociationAgreement_var_samp_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "NegociationAgreement" */
@@ -4531,8 +4540,8 @@ export type NegociationAgreement_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type NegociationAgreement_Variance_Fields = {
   __typename?: 'NegociationAgreement_variance_fields';
-  maxAmountPercent: Maybe<Scalars['Float']>;
-  priority: Maybe<Scalars['Float']>;
+  maxAmountPercent: Maybe<Scalars['Float']['output']>;
+  priority: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "NegociationAgreement" */
@@ -4546,11 +4555,11 @@ export type NumericFilter = {
   __typename?: 'NumericFilter';
   /** An object relationship */
   SavedSearch: SavedSearch;
-  facetName: Scalars['String'];
-  id: Scalars['String'];
-  operator: Scalars['String'];
-  searchId: Scalars['String'];
-  value: Scalars['String'];
+  facetName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  operator: Scalars['String']['output'];
+  searchId: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "NumericFilter" */
@@ -4566,7 +4575,7 @@ export type NumericFilter_Aggregate_Bool_Exp = {
 
 export type NumericFilter_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<NumericFilter_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<NumericFilter_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -4574,7 +4583,7 @@ export type NumericFilter_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "NumericFilter" */
 export type NumericFilter_Aggregate_Fields = {
   __typename?: 'NumericFilter_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<NumericFilter_Max_Fields>;
   min: Maybe<NumericFilter_Min_Fields>;
 };
@@ -4582,7 +4591,7 @@ export type NumericFilter_Aggregate_Fields = {
 /** aggregate fields of "NumericFilter" */
 export type NumericFilter_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<NumericFilter_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "NumericFilter" */
@@ -4621,21 +4630,21 @@ export enum NumericFilter_Constraint {
 /** input type for inserting data into table "NumericFilter" */
 export type NumericFilter_Insert_Input = {
   SavedSearch: InputMaybe<SavedSearch_Obj_Rel_Insert_Input>;
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  operator: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  operator: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type NumericFilter_Max_Fields = {
   __typename?: 'NumericFilter_max_fields';
-  facetName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  operator: Maybe<Scalars['String']>;
-  searchId: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  facetName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  operator: Maybe<Scalars['String']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "NumericFilter" */
@@ -4650,11 +4659,11 @@ export type NumericFilter_Max_Order_By = {
 /** aggregate min on columns */
 export type NumericFilter_Min_Fields = {
   __typename?: 'NumericFilter_min_fields';
-  facetName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  operator: Maybe<Scalars['String']>;
-  searchId: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  facetName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  operator: Maybe<Scalars['String']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "NumericFilter" */
@@ -4670,7 +4679,7 @@ export type NumericFilter_Min_Order_By = {
 export type NumericFilter_Mutation_Response = {
   __typename?: 'NumericFilter_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<NumericFilter>;
 };
@@ -4694,7 +4703,7 @@ export type NumericFilter_Order_By = {
 
 /** primary key columns input for table: NumericFilter */
 export type NumericFilter_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "NumericFilter" */
@@ -4713,11 +4722,11 @@ export enum NumericFilter_Select_Column {
 
 /** input type for updating data in table "NumericFilter" */
 export type NumericFilter_Set_Input = {
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  operator: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  operator: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "NumericFilter" */
@@ -4730,11 +4739,11 @@ export type NumericFilter_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type NumericFilter_Stream_Cursor_Value_Input = {
-  facetName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  operator: InputMaybe<Scalars['String']>;
-  searchId: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  facetName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  operator: InputMaybe<Scalars['String']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "NumericFilter" */
@@ -4763,41 +4772,41 @@ export type Order = {
   __typename?: 'Order';
   /** An object relationship */
   buyerCustomer: Maybe<Customer>;
-  checkoutId: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  customerEmail: Scalars['String'];
-  customerId: Maybe<Scalars['uuid']>;
+  checkoutId: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  customerEmail: Scalars['String']['output'];
+  customerId: Maybe<Scalars['uuid']['output']>;
   /** An array relationship */
   fulfillmentOrders: Array<FulfillmentOrder>;
   /** An aggregate relationship */
   fulfillmentOrders_aggregate: FulfillmentOrder_Aggregate;
-  id: Scalars['String'];
-  name: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   /** An array relationship */
   orderLines: Array<OrderLines>;
   /** An aggregate relationship */
   orderLines_aggregate: OrderLines_Aggregate;
-  paidAt: Maybe<Scalars['timestamp']>;
-  shippingAddressAddress1: Scalars['String'];
-  shippingAddressAddress2: Maybe<Scalars['String']>;
-  shippingAddressCity: Scalars['String'];
-  shippingAddressCompany: Maybe<Scalars['String']>;
-  shippingAddressCountry: Scalars['String'];
-  shippingAddressFirstName: Maybe<Scalars['String']>;
-  shippingAddressLastName: Scalars['String'];
-  shippingAddressPhone: Scalars['String'];
-  shippingAddressZip: Scalars['String'];
-  shopifyId: Scalars['String'];
-  status: Scalars['OrderStatus'];
-  totalPriceCurrency: Scalars['Currency'];
-  totalPriceInCents: Scalars['float8'];
+  paidAt: Maybe<Scalars['timestamp']['output']>;
+  shippingAddressAddress1: Scalars['String']['output'];
+  shippingAddressAddress2: Maybe<Scalars['String']['output']>;
+  shippingAddressCity: Scalars['String']['output'];
+  shippingAddressCompany: Maybe<Scalars['String']['output']>;
+  shippingAddressCountry: Scalars['String']['output'];
+  shippingAddressFirstName: Maybe<Scalars['String']['output']>;
+  shippingAddressLastName: Scalars['String']['output'];
+  shippingAddressPhone: Scalars['String']['output'];
+  shippingAddressZip: Scalars['String']['output'];
+  shopifyId: Scalars['String']['output'];
+  status: Scalars['OrderStatus']['output'];
+  totalPriceCurrency: Scalars['Currency']['output'];
+  totalPriceInCents: Scalars['float8']['output'];
 };
 
 /** columns and relationships of "Order" */
 export type OrderFulfillmentOrdersArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
@@ -4805,8 +4814,8 @@ export type OrderFulfillmentOrdersArgs = {
 /** columns and relationships of "Order" */
 export type OrderFulfillmentOrders_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
@@ -4814,8 +4823,8 @@ export type OrderFulfillmentOrders_AggregateArgs = {
 /** columns and relationships of "Order" */
 export type OrderOrderLinesArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
@@ -4823,8 +4832,8 @@ export type OrderOrderLinesArgs = {
 /** columns and relationships of "Order" */
 export type OrderOrderLines_AggregateArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
@@ -4832,56 +4841,56 @@ export type OrderOrderLines_AggregateArgs = {
 /** columns and relationships of "OrderLines" */
 export type OrderLines = {
   __typename?: 'OrderLines';
-  buyerCommission: Maybe<Scalars['float8']>;
-  canceledAt: Maybe<Scalars['timestamp']>;
-  comment: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  deliveredAt: Maybe<Scalars['timestamp']>;
-  discountInCents: Scalars['float8'];
+  buyerCommission: Maybe<Scalars['float8']['output']>;
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  deliveredAt: Maybe<Scalars['timestamp']['output']>;
+  discountInCents: Scalars['float8']['output'];
   /** An array relationship */
   disputes: Array<Dispute>;
   /** An aggregate relationship */
   disputes_aggregate: Dispute_Aggregate;
   /** An object relationship */
   fulfillmentOrder: Maybe<FulfillmentOrder>;
-  fulfillmentOrderId: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  name: Scalars['String'];
+  fulfillmentOrderId: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
   /** An object relationship */
   order: Order;
-  orderId: Scalars['String'];
+  orderId: Scalars['String']['output'];
   /** An array relationship */
   payouts: Array<Payout>;
   /** An aggregate relationship */
   payouts_aggregate: Payout_Aggregate;
-  priceCurrency: Scalars['Currency'];
-  priceInCents: Scalars['float8'];
-  productBrand: Maybe<Scalars['String']>;
-  productGender: Maybe<Scalars['String']>;
-  productHandle: Scalars['String'];
-  productImage: Maybe<Scalars['String']>;
-  productModelYear: Maybe<Scalars['String']>;
-  productSize: Maybe<Scalars['String']>;
-  productType: Scalars['String'];
+  priceCurrency: Scalars['Currency']['output'];
+  priceInCents: Scalars['float8']['output'];
+  productBrand: Maybe<Scalars['String']['output']>;
+  productGender: Maybe<Scalars['String']['output']>;
+  productHandle: Scalars['String']['output'];
+  productImage: Maybe<Scalars['String']['output']>;
+  productModelYear: Maybe<Scalars['String']['output']>;
+  productSize: Maybe<Scalars['String']['output']>;
+  productType: Scalars['String']['output'];
   /** An object relationship */
   productVariant: Maybe<ProductVariant>;
-  productVariantId: Maybe<Scalars['String']>;
-  quantity: Scalars['Int'];
-  shippingSolution: Scalars['ShippingSolution'];
-  shopifyId: Scalars['String'];
-  variantCondition: Maybe<Scalars['Condition']>;
-  vendorCommission: Maybe<Scalars['float8']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  quantity: Scalars['Int']['output'];
+  shippingSolution: Scalars['ShippingSolution']['output'];
+  shopifyId: Scalars['String']['output'];
+  variantCondition: Maybe<Scalars['Condition']['output']>;
+  vendorCommission: Maybe<Scalars['float8']['output']>;
   /** An object relationship */
   vendorCustomer: Maybe<Customer>;
-  vendorId: Maybe<Scalars['uuid']>;
-  vendorShipping: Maybe<Scalars['float8']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
+  vendorShipping: Maybe<Scalars['float8']['output']>;
 };
 
 /** columns and relationships of "OrderLines" */
 export type OrderLinesDisputesArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
@@ -4889,8 +4898,8 @@ export type OrderLinesDisputesArgs = {
 /** columns and relationships of "OrderLines" */
 export type OrderLinesDisputes_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
@@ -4898,8 +4907,8 @@ export type OrderLinesDisputes_AggregateArgs = {
 /** columns and relationships of "OrderLines" */
 export type OrderLinesPayoutsArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
@@ -4907,8 +4916,8 @@ export type OrderLinesPayoutsArgs = {
 /** columns and relationships of "OrderLines" */
 export type OrderLinesPayouts_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
@@ -4934,14 +4943,14 @@ export type OrderLines_Aggregate_Bool_Exp = {
 
 export type OrderLines_Aggregate_Bool_Exp_Avg = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Avg_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Corr = {
   arguments: OrderLines_Aggregate_Bool_Exp_Corr_Arguments;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -4953,14 +4962,14 @@ export type OrderLines_Aggregate_Bool_Exp_Corr_Arguments = {
 
 export type OrderLines_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<OrderLines_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Covar_Samp = {
   arguments: OrderLines_Aggregate_Bool_Exp_Covar_Samp_Arguments;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -4972,35 +4981,35 @@ export type OrderLines_Aggregate_Bool_Exp_Covar_Samp_Arguments = {
 
 export type OrderLines_Aggregate_Bool_Exp_Max = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Max_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Min = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Min_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Stddev_Samp = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Stddev_Samp_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Sum = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Sum_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type OrderLines_Aggregate_Bool_Exp_Var_Samp = {
   arguments: OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Var_Samp_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<OrderLines_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -5009,7 +5018,7 @@ export type OrderLines_Aggregate_Bool_Exp_Var_Samp = {
 export type OrderLines_Aggregate_Fields = {
   __typename?: 'OrderLines_aggregate_fields';
   avg: Maybe<OrderLines_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<OrderLines_Max_Fields>;
   min: Maybe<OrderLines_Min_Fields>;
   stddev: Maybe<OrderLines_Stddev_Fields>;
@@ -5024,7 +5033,7 @@ export type OrderLines_Aggregate_Fields = {
 /** aggregate fields of "OrderLines" */
 export type OrderLines_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<OrderLines_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "OrderLines" */
@@ -5052,12 +5061,12 @@ export type OrderLines_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type OrderLines_Avg_Fields = {
   __typename?: 'OrderLines_avg_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "OrderLines" */
@@ -5122,81 +5131,81 @@ export enum OrderLines_Constraint {
 
 /** input type for incrementing numeric columns in table "OrderLines" */
 export type OrderLines_Inc_Input = {
-  buyerCommission: InputMaybe<Scalars['float8']>;
-  discountInCents: InputMaybe<Scalars['float8']>;
-  priceInCents: InputMaybe<Scalars['float8']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  vendorCommission: InputMaybe<Scalars['float8']>;
-  vendorShipping: InputMaybe<Scalars['float8']>;
+  buyerCommission: InputMaybe<Scalars['float8']['input']>;
+  discountInCents: InputMaybe<Scalars['float8']['input']>;
+  priceInCents: InputMaybe<Scalars['float8']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  vendorCommission: InputMaybe<Scalars['float8']['input']>;
+  vendorShipping: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** input type for inserting data into table "OrderLines" */
 export type OrderLines_Insert_Input = {
-  buyerCommission: InputMaybe<Scalars['float8']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  deliveredAt: InputMaybe<Scalars['timestamp']>;
-  discountInCents: InputMaybe<Scalars['float8']>;
+  buyerCommission: InputMaybe<Scalars['float8']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  deliveredAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountInCents: InputMaybe<Scalars['float8']['input']>;
   disputes: InputMaybe<Dispute_Arr_Rel_Insert_Input>;
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Obj_Rel_Insert_Input>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
   order: InputMaybe<Order_Obj_Rel_Insert_Input>;
-  orderId: InputMaybe<Scalars['String']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
   payouts: InputMaybe<Payout_Arr_Rel_Insert_Input>;
-  priceCurrency: InputMaybe<Scalars['Currency']>;
-  priceInCents: InputMaybe<Scalars['float8']>;
-  productBrand: InputMaybe<Scalars['String']>;
-  productGender: InputMaybe<Scalars['String']>;
-  productHandle: InputMaybe<Scalars['String']>;
-  productImage: InputMaybe<Scalars['String']>;
-  productModelYear: InputMaybe<Scalars['String']>;
-  productSize: InputMaybe<Scalars['String']>;
-  productType: InputMaybe<Scalars['String']>;
+  priceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  priceInCents: InputMaybe<Scalars['float8']['input']>;
+  productBrand: InputMaybe<Scalars['String']['input']>;
+  productGender: InputMaybe<Scalars['String']['input']>;
+  productHandle: InputMaybe<Scalars['String']['input']>;
+  productImage: InputMaybe<Scalars['String']['input']>;
+  productModelYear: InputMaybe<Scalars['String']['input']>;
+  productSize: InputMaybe<Scalars['String']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
   productVariant: InputMaybe<ProductVariant_Obj_Rel_Insert_Input>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shippingSolution: InputMaybe<Scalars['ShippingSolution']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  variantCondition: InputMaybe<Scalars['Condition']>;
-  vendorCommission: InputMaybe<Scalars['float8']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shippingSolution: InputMaybe<Scalars['ShippingSolution']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  variantCondition: InputMaybe<Scalars['Condition']['input']>;
+  vendorCommission: InputMaybe<Scalars['float8']['input']>;
   vendorCustomer: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  vendorId: InputMaybe<Scalars['uuid']>;
-  vendorShipping: InputMaybe<Scalars['float8']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
+  vendorShipping: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate max on columns */
 export type OrderLines_Max_Fields = {
   __typename?: 'OrderLines_max_fields';
-  buyerCommission: Maybe<Scalars['float8']>;
-  canceledAt: Maybe<Scalars['timestamp']>;
-  comment: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  deliveredAt: Maybe<Scalars['timestamp']>;
-  discountInCents: Maybe<Scalars['float8']>;
-  fulfillmentOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  priceCurrency: Maybe<Scalars['Currency']>;
-  priceInCents: Maybe<Scalars['float8']>;
-  productBrand: Maybe<Scalars['String']>;
-  productGender: Maybe<Scalars['String']>;
-  productHandle: Maybe<Scalars['String']>;
-  productImage: Maybe<Scalars['String']>;
-  productModelYear: Maybe<Scalars['String']>;
-  productSize: Maybe<Scalars['String']>;
-  productType: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shippingSolution: Maybe<Scalars['ShippingSolution']>;
-  shopifyId: Maybe<Scalars['String']>;
-  variantCondition: Maybe<Scalars['Condition']>;
-  vendorCommission: Maybe<Scalars['float8']>;
-  vendorId: Maybe<Scalars['uuid']>;
-  vendorShipping: Maybe<Scalars['float8']>;
+  buyerCommission: Maybe<Scalars['float8']['output']>;
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  deliveredAt: Maybe<Scalars['timestamp']['output']>;
+  discountInCents: Maybe<Scalars['float8']['output']>;
+  fulfillmentOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  priceCurrency: Maybe<Scalars['Currency']['output']>;
+  priceInCents: Maybe<Scalars['float8']['output']>;
+  productBrand: Maybe<Scalars['String']['output']>;
+  productGender: Maybe<Scalars['String']['output']>;
+  productHandle: Maybe<Scalars['String']['output']>;
+  productImage: Maybe<Scalars['String']['output']>;
+  productModelYear: Maybe<Scalars['String']['output']>;
+  productSize: Maybe<Scalars['String']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shippingSolution: Maybe<Scalars['ShippingSolution']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  variantCondition: Maybe<Scalars['Condition']['output']>;
+  vendorCommission: Maybe<Scalars['float8']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
+  vendorShipping: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by max() on columns of table "OrderLines" */
@@ -5233,33 +5242,33 @@ export type OrderLines_Max_Order_By = {
 /** aggregate min on columns */
 export type OrderLines_Min_Fields = {
   __typename?: 'OrderLines_min_fields';
-  buyerCommission: Maybe<Scalars['float8']>;
-  canceledAt: Maybe<Scalars['timestamp']>;
-  comment: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  deliveredAt: Maybe<Scalars['timestamp']>;
-  discountInCents: Maybe<Scalars['float8']>;
-  fulfillmentOrderId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  priceCurrency: Maybe<Scalars['Currency']>;
-  priceInCents: Maybe<Scalars['float8']>;
-  productBrand: Maybe<Scalars['String']>;
-  productGender: Maybe<Scalars['String']>;
-  productHandle: Maybe<Scalars['String']>;
-  productImage: Maybe<Scalars['String']>;
-  productModelYear: Maybe<Scalars['String']>;
-  productSize: Maybe<Scalars['String']>;
-  productType: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shippingSolution: Maybe<Scalars['ShippingSolution']>;
-  shopifyId: Maybe<Scalars['String']>;
-  variantCondition: Maybe<Scalars['Condition']>;
-  vendorCommission: Maybe<Scalars['float8']>;
-  vendorId: Maybe<Scalars['uuid']>;
-  vendorShipping: Maybe<Scalars['float8']>;
+  buyerCommission: Maybe<Scalars['float8']['output']>;
+  canceledAt: Maybe<Scalars['timestamp']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  deliveredAt: Maybe<Scalars['timestamp']['output']>;
+  discountInCents: Maybe<Scalars['float8']['output']>;
+  fulfillmentOrderId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  priceCurrency: Maybe<Scalars['Currency']['output']>;
+  priceInCents: Maybe<Scalars['float8']['output']>;
+  productBrand: Maybe<Scalars['String']['output']>;
+  productGender: Maybe<Scalars['String']['output']>;
+  productHandle: Maybe<Scalars['String']['output']>;
+  productImage: Maybe<Scalars['String']['output']>;
+  productModelYear: Maybe<Scalars['String']['output']>;
+  productSize: Maybe<Scalars['String']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shippingSolution: Maybe<Scalars['ShippingSolution']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  variantCondition: Maybe<Scalars['Condition']['output']>;
+  vendorCommission: Maybe<Scalars['float8']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
+  vendorShipping: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by min() on columns of table "OrderLines" */
@@ -5297,7 +5306,7 @@ export type OrderLines_Min_Order_By = {
 export type OrderLines_Mutation_Response = {
   __typename?: 'OrderLines_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<OrderLines>;
 };
@@ -5355,7 +5364,7 @@ export type OrderLines_Order_By = {
 
 /** primary key columns input for table: OrderLines */
 export type OrderLines_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "OrderLines" */
@@ -5530,44 +5539,44 @@ export enum OrderLines_Select_Column_OrderLines_Aggregate_Bool_Exp_Var_Samp_Argu
 
 /** input type for updating data in table "OrderLines" */
 export type OrderLines_Set_Input = {
-  buyerCommission: InputMaybe<Scalars['float8']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  deliveredAt: InputMaybe<Scalars['timestamp']>;
-  discountInCents: InputMaybe<Scalars['float8']>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  priceCurrency: InputMaybe<Scalars['Currency']>;
-  priceInCents: InputMaybe<Scalars['float8']>;
-  productBrand: InputMaybe<Scalars['String']>;
-  productGender: InputMaybe<Scalars['String']>;
-  productHandle: InputMaybe<Scalars['String']>;
-  productImage: InputMaybe<Scalars['String']>;
-  productModelYear: InputMaybe<Scalars['String']>;
-  productSize: InputMaybe<Scalars['String']>;
-  productType: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shippingSolution: InputMaybe<Scalars['ShippingSolution']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  variantCondition: InputMaybe<Scalars['Condition']>;
-  vendorCommission: InputMaybe<Scalars['float8']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
-  vendorShipping: InputMaybe<Scalars['float8']>;
+  buyerCommission: InputMaybe<Scalars['float8']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  deliveredAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountInCents: InputMaybe<Scalars['float8']['input']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  priceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  priceInCents: InputMaybe<Scalars['float8']['input']>;
+  productBrand: InputMaybe<Scalars['String']['input']>;
+  productGender: InputMaybe<Scalars['String']['input']>;
+  productHandle: InputMaybe<Scalars['String']['input']>;
+  productImage: InputMaybe<Scalars['String']['input']>;
+  productModelYear: InputMaybe<Scalars['String']['input']>;
+  productSize: InputMaybe<Scalars['String']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shippingSolution: InputMaybe<Scalars['ShippingSolution']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  variantCondition: InputMaybe<Scalars['Condition']['input']>;
+  vendorCommission: InputMaybe<Scalars['float8']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
+  vendorShipping: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type OrderLines_Stddev_Fields = {
   __typename?: 'OrderLines_stddev_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "OrderLines" */
@@ -5583,12 +5592,12 @@ export type OrderLines_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type OrderLines_Stddev_Pop_Fields = {
   __typename?: 'OrderLines_stddev_pop_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "OrderLines" */
@@ -5604,12 +5613,12 @@ export type OrderLines_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type OrderLines_Stddev_Samp_Fields = {
   __typename?: 'OrderLines_stddev_samp_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "OrderLines" */
@@ -5632,44 +5641,44 @@ export type OrderLines_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type OrderLines_Stream_Cursor_Value_Input = {
-  buyerCommission: InputMaybe<Scalars['float8']>;
-  canceledAt: InputMaybe<Scalars['timestamp']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  deliveredAt: InputMaybe<Scalars['timestamp']>;
-  discountInCents: InputMaybe<Scalars['float8']>;
-  fulfillmentOrderId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  priceCurrency: InputMaybe<Scalars['Currency']>;
-  priceInCents: InputMaybe<Scalars['float8']>;
-  productBrand: InputMaybe<Scalars['String']>;
-  productGender: InputMaybe<Scalars['String']>;
-  productHandle: InputMaybe<Scalars['String']>;
-  productImage: InputMaybe<Scalars['String']>;
-  productModelYear: InputMaybe<Scalars['String']>;
-  productSize: InputMaybe<Scalars['String']>;
-  productType: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shippingSolution: InputMaybe<Scalars['ShippingSolution']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  variantCondition: InputMaybe<Scalars['Condition']>;
-  vendorCommission: InputMaybe<Scalars['float8']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
-  vendorShipping: InputMaybe<Scalars['float8']>;
+  buyerCommission: InputMaybe<Scalars['float8']['input']>;
+  canceledAt: InputMaybe<Scalars['timestamp']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  deliveredAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountInCents: InputMaybe<Scalars['float8']['input']>;
+  fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  priceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  priceInCents: InputMaybe<Scalars['float8']['input']>;
+  productBrand: InputMaybe<Scalars['String']['input']>;
+  productGender: InputMaybe<Scalars['String']['input']>;
+  productHandle: InputMaybe<Scalars['String']['input']>;
+  productImage: InputMaybe<Scalars['String']['input']>;
+  productModelYear: InputMaybe<Scalars['String']['input']>;
+  productSize: InputMaybe<Scalars['String']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shippingSolution: InputMaybe<Scalars['ShippingSolution']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  variantCondition: InputMaybe<Scalars['Condition']['input']>;
+  vendorCommission: InputMaybe<Scalars['float8']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
+  vendorShipping: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate sum on columns */
 export type OrderLines_Sum_Fields = {
   __typename?: 'OrderLines_sum_fields';
-  buyerCommission: Maybe<Scalars['float8']>;
-  discountInCents: Maybe<Scalars['float8']>;
-  priceInCents: Maybe<Scalars['float8']>;
-  quantity: Maybe<Scalars['Int']>;
-  vendorCommission: Maybe<Scalars['float8']>;
-  vendorShipping: Maybe<Scalars['float8']>;
+  buyerCommission: Maybe<Scalars['float8']['output']>;
+  discountInCents: Maybe<Scalars['float8']['output']>;
+  priceInCents: Maybe<Scalars['float8']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  vendorCommission: Maybe<Scalars['float8']['output']>;
+  vendorShipping: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by sum() on columns of table "OrderLines" */
@@ -5752,12 +5761,12 @@ export type OrderLines_Updates = {
 /** aggregate var_pop on columns */
 export type OrderLines_Var_Pop_Fields = {
   __typename?: 'OrderLines_var_pop_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "OrderLines" */
@@ -5773,12 +5782,12 @@ export type OrderLines_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type OrderLines_Var_Samp_Fields = {
   __typename?: 'OrderLines_var_samp_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "OrderLines" */
@@ -5794,12 +5803,12 @@ export type OrderLines_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type OrderLines_Variance_Fields = {
   __typename?: 'OrderLines_variance_fields';
-  buyerCommission: Maybe<Scalars['Float']>;
-  discountInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  vendorCommission: Maybe<Scalars['Float']>;
-  vendorShipping: Maybe<Scalars['Float']>;
+  buyerCommission: Maybe<Scalars['Float']['output']>;
+  discountInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  vendorCommission: Maybe<Scalars['Float']['output']>;
+  vendorShipping: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "OrderLines" */
@@ -5814,15 +5823,15 @@ export type OrderLines_Variance_Order_By = {
 
 /** Boolean expression to compare columns of type "OrderStatus". All fields are combined with logical 'AND'. */
 export type OrderStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['OrderStatus']>;
-  _gt: InputMaybe<Scalars['OrderStatus']>;
-  _gte: InputMaybe<Scalars['OrderStatus']>;
-  _in: InputMaybe<Array<Scalars['OrderStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['OrderStatus']>;
-  _lte: InputMaybe<Scalars['OrderStatus']>;
-  _neq: InputMaybe<Scalars['OrderStatus']>;
-  _nin: InputMaybe<Array<Scalars['OrderStatus']>>;
+  _eq: InputMaybe<Scalars['OrderStatus']['input']>;
+  _gt: InputMaybe<Scalars['OrderStatus']['input']>;
+  _gte: InputMaybe<Scalars['OrderStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['OrderStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['OrderStatus']['input']>;
+  _lte: InputMaybe<Scalars['OrderStatus']['input']>;
+  _neq: InputMaybe<Scalars['OrderStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['OrderStatus']['input']>>;
 };
 
 /** aggregated selection of "Order" */
@@ -5846,14 +5855,14 @@ export type Order_Aggregate_Bool_Exp = {
 
 export type Order_Aggregate_Bool_Exp_Avg = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Avg_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Corr = {
   arguments: Order_Aggregate_Bool_Exp_Corr_Arguments;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -5865,14 +5874,14 @@ export type Order_Aggregate_Bool_Exp_Corr_Arguments = {
 
 export type Order_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Order_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Covar_Samp = {
   arguments: Order_Aggregate_Bool_Exp_Covar_Samp_Arguments;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -5884,35 +5893,35 @@ export type Order_Aggregate_Bool_Exp_Covar_Samp_Arguments = {
 
 export type Order_Aggregate_Bool_Exp_Max = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Max_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Min = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Min_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Stddev_Samp = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Stddev_Samp_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Sum = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Sum_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
 
 export type Order_Aggregate_Bool_Exp_Var_Samp = {
   arguments: Order_Select_Column_Order_Aggregate_Bool_Exp_Var_Samp_Arguments_Columns;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Order_Bool_Exp>;
   predicate: Float8_Comparison_Exp;
 };
@@ -5921,7 +5930,7 @@ export type Order_Aggregate_Bool_Exp_Var_Samp = {
 export type Order_Aggregate_Fields = {
   __typename?: 'Order_aggregate_fields';
   avg: Maybe<Order_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Order_Max_Fields>;
   min: Maybe<Order_Min_Fields>;
   stddev: Maybe<Order_Stddev_Fields>;
@@ -5936,7 +5945,7 @@ export type Order_Aggregate_Fields = {
 /** aggregate fields of "Order" */
 export type Order_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Order_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Order" */
@@ -5964,7 +5973,7 @@ export type Order_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Order_Avg_Fields = {
   __typename?: 'Order_avg_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Order" */
@@ -6016,59 +6025,59 @@ export enum Order_Constraint {
 
 /** input type for incrementing numeric columns in table "Order" */
 export type Order_Inc_Input = {
-  totalPriceInCents: InputMaybe<Scalars['float8']>;
+  totalPriceInCents: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** input type for inserting data into table "Order" */
 export type Order_Insert_Input = {
   buyerCustomer: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerEmail: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerEmail: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
   fulfillmentOrders: InputMaybe<FulfillmentOrder_Arr_Rel_Insert_Input>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
   orderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
-  paidAt: InputMaybe<Scalars['timestamp']>;
-  shippingAddressAddress1: InputMaybe<Scalars['String']>;
-  shippingAddressAddress2: InputMaybe<Scalars['String']>;
-  shippingAddressCity: InputMaybe<Scalars['String']>;
-  shippingAddressCompany: InputMaybe<Scalars['String']>;
-  shippingAddressCountry: InputMaybe<Scalars['String']>;
-  shippingAddressFirstName: InputMaybe<Scalars['String']>;
-  shippingAddressLastName: InputMaybe<Scalars['String']>;
-  shippingAddressPhone: InputMaybe<Scalars['String']>;
-  shippingAddressZip: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['OrderStatus']>;
-  totalPriceCurrency: InputMaybe<Scalars['Currency']>;
-  totalPriceInCents: InputMaybe<Scalars['float8']>;
+  paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
+  shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCity: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCompany: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCountry: InputMaybe<Scalars['String']['input']>;
+  shippingAddressFirstName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressLastName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressPhone: InputMaybe<Scalars['String']['input']>;
+  shippingAddressZip: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['OrderStatus']['input']>;
+  totalPriceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  totalPriceInCents: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate max on columns */
 export type Order_Max_Fields = {
   __typename?: 'Order_max_fields';
-  checkoutId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerEmail: Maybe<Scalars['String']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  paidAt: Maybe<Scalars['timestamp']>;
-  shippingAddressAddress1: Maybe<Scalars['String']>;
-  shippingAddressAddress2: Maybe<Scalars['String']>;
-  shippingAddressCity: Maybe<Scalars['String']>;
-  shippingAddressCompany: Maybe<Scalars['String']>;
-  shippingAddressCountry: Maybe<Scalars['String']>;
-  shippingAddressFirstName: Maybe<Scalars['String']>;
-  shippingAddressLastName: Maybe<Scalars['String']>;
-  shippingAddressPhone: Maybe<Scalars['String']>;
-  shippingAddressZip: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['OrderStatus']>;
-  totalPriceCurrency: Maybe<Scalars['Currency']>;
-  totalPriceInCents: Maybe<Scalars['float8']>;
+  checkoutId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerEmail: Maybe<Scalars['String']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  paidAt: Maybe<Scalars['timestamp']['output']>;
+  shippingAddressAddress1: Maybe<Scalars['String']['output']>;
+  shippingAddressAddress2: Maybe<Scalars['String']['output']>;
+  shippingAddressCity: Maybe<Scalars['String']['output']>;
+  shippingAddressCompany: Maybe<Scalars['String']['output']>;
+  shippingAddressCountry: Maybe<Scalars['String']['output']>;
+  shippingAddressFirstName: Maybe<Scalars['String']['output']>;
+  shippingAddressLastName: Maybe<Scalars['String']['output']>;
+  shippingAddressPhone: Maybe<Scalars['String']['output']>;
+  shippingAddressZip: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['OrderStatus']['output']>;
+  totalPriceCurrency: Maybe<Scalars['Currency']['output']>;
+  totalPriceInCents: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by max() on columns of table "Order" */
@@ -6098,26 +6107,26 @@ export type Order_Max_Order_By = {
 /** aggregate min on columns */
 export type Order_Min_Fields = {
   __typename?: 'Order_min_fields';
-  checkoutId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerEmail: Maybe<Scalars['String']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  paidAt: Maybe<Scalars['timestamp']>;
-  shippingAddressAddress1: Maybe<Scalars['String']>;
-  shippingAddressAddress2: Maybe<Scalars['String']>;
-  shippingAddressCity: Maybe<Scalars['String']>;
-  shippingAddressCompany: Maybe<Scalars['String']>;
-  shippingAddressCountry: Maybe<Scalars['String']>;
-  shippingAddressFirstName: Maybe<Scalars['String']>;
-  shippingAddressLastName: Maybe<Scalars['String']>;
-  shippingAddressPhone: Maybe<Scalars['String']>;
-  shippingAddressZip: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['OrderStatus']>;
-  totalPriceCurrency: Maybe<Scalars['Currency']>;
-  totalPriceInCents: Maybe<Scalars['float8']>;
+  checkoutId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerEmail: Maybe<Scalars['String']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  paidAt: Maybe<Scalars['timestamp']['output']>;
+  shippingAddressAddress1: Maybe<Scalars['String']['output']>;
+  shippingAddressAddress2: Maybe<Scalars['String']['output']>;
+  shippingAddressCity: Maybe<Scalars['String']['output']>;
+  shippingAddressCompany: Maybe<Scalars['String']['output']>;
+  shippingAddressCountry: Maybe<Scalars['String']['output']>;
+  shippingAddressFirstName: Maybe<Scalars['String']['output']>;
+  shippingAddressLastName: Maybe<Scalars['String']['output']>;
+  shippingAddressPhone: Maybe<Scalars['String']['output']>;
+  shippingAddressZip: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['OrderStatus']['output']>;
+  totalPriceCurrency: Maybe<Scalars['Currency']['output']>;
+  totalPriceInCents: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by min() on columns of table "Order" */
@@ -6148,7 +6157,7 @@ export type Order_Min_Order_By = {
 export type Order_Mutation_Response = {
   __typename?: 'Order_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Order>;
 };
@@ -6196,7 +6205,7 @@ export type Order_Order_By = {
 
 /** primary key columns input for table: Order */
 export type Order_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Order" */
@@ -6293,32 +6302,32 @@ export enum Order_Select_Column_Order_Aggregate_Bool_Exp_Var_Samp_Arguments_Colu
 
 /** input type for updating data in table "Order" */
 export type Order_Set_Input = {
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerEmail: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  paidAt: InputMaybe<Scalars['timestamp']>;
-  shippingAddressAddress1: InputMaybe<Scalars['String']>;
-  shippingAddressAddress2: InputMaybe<Scalars['String']>;
-  shippingAddressCity: InputMaybe<Scalars['String']>;
-  shippingAddressCompany: InputMaybe<Scalars['String']>;
-  shippingAddressCountry: InputMaybe<Scalars['String']>;
-  shippingAddressFirstName: InputMaybe<Scalars['String']>;
-  shippingAddressLastName: InputMaybe<Scalars['String']>;
-  shippingAddressPhone: InputMaybe<Scalars['String']>;
-  shippingAddressZip: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['OrderStatus']>;
-  totalPriceCurrency: InputMaybe<Scalars['Currency']>;
-  totalPriceInCents: InputMaybe<Scalars['float8']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerEmail: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
+  shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCity: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCompany: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCountry: InputMaybe<Scalars['String']['input']>;
+  shippingAddressFirstName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressLastName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressPhone: InputMaybe<Scalars['String']['input']>;
+  shippingAddressZip: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['OrderStatus']['input']>;
+  totalPriceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  totalPriceInCents: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Order_Stddev_Fields = {
   __typename?: 'Order_stddev_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Order" */
@@ -6329,7 +6338,7 @@ export type Order_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Order_Stddev_Pop_Fields = {
   __typename?: 'Order_stddev_pop_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Order" */
@@ -6340,7 +6349,7 @@ export type Order_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Order_Stddev_Samp_Fields = {
   __typename?: 'Order_stddev_samp_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Order" */
@@ -6358,32 +6367,32 @@ export type Order_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Order_Stream_Cursor_Value_Input = {
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerEmail: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  paidAt: InputMaybe<Scalars['timestamp']>;
-  shippingAddressAddress1: InputMaybe<Scalars['String']>;
-  shippingAddressAddress2: InputMaybe<Scalars['String']>;
-  shippingAddressCity: InputMaybe<Scalars['String']>;
-  shippingAddressCompany: InputMaybe<Scalars['String']>;
-  shippingAddressCountry: InputMaybe<Scalars['String']>;
-  shippingAddressFirstName: InputMaybe<Scalars['String']>;
-  shippingAddressLastName: InputMaybe<Scalars['String']>;
-  shippingAddressPhone: InputMaybe<Scalars['String']>;
-  shippingAddressZip: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['OrderStatus']>;
-  totalPriceCurrency: InputMaybe<Scalars['Currency']>;
-  totalPriceInCents: InputMaybe<Scalars['float8']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerEmail: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
+  shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCity: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCompany: InputMaybe<Scalars['String']['input']>;
+  shippingAddressCountry: InputMaybe<Scalars['String']['input']>;
+  shippingAddressFirstName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressLastName: InputMaybe<Scalars['String']['input']>;
+  shippingAddressPhone: InputMaybe<Scalars['String']['input']>;
+  shippingAddressZip: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['OrderStatus']['input']>;
+  totalPriceCurrency: InputMaybe<Scalars['Currency']['input']>;
+  totalPriceInCents: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Order_Sum_Fields = {
   __typename?: 'Order_sum_fields';
-  totalPriceInCents: Maybe<Scalars['float8']>;
+  totalPriceInCents: Maybe<Scalars['float8']['output']>;
 };
 
 /** order by sum() on columns of table "Order" */
@@ -6447,7 +6456,7 @@ export type Order_Updates = {
 /** aggregate var_pop on columns */
 export type Order_Var_Pop_Fields = {
   __typename?: 'Order_var_pop_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Order" */
@@ -6458,7 +6467,7 @@ export type Order_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Order_Var_Samp_Fields = {
   __typename?: 'Order_var_samp_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Order" */
@@ -6469,7 +6478,7 @@ export type Order_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Order_Variance_Fields = {
   __typename?: 'Order_variance_fields';
-  totalPriceInCents: Maybe<Scalars['Float']>;
+  totalPriceInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Order" */
@@ -6482,41 +6491,41 @@ export type Payment = {
   __typename?: 'Payment';
   /** An object relationship */
   Payment_Checkout: Checkout;
-  amountInCents: Scalars['Int'];
-  checkoutId: Scalars['String'];
-  createdAt: Scalars['timestamp'];
-  currency: Scalars['String'];
-  id: Scalars['String'];
-  paymentAccountId: Maybe<Scalars['String']>;
-  paymentSolutionCode: Scalars['PaymentSolutionCode'];
-  paymentUrl: Maybe<Scalars['String']>;
-  status: Scalars['PaymentStatusType'];
-  token: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  amountInCents: Scalars['Int']['output'];
+  checkoutId: Scalars['String']['output'];
+  createdAt: Scalars['timestamp']['output'];
+  currency: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  paymentAccountId: Maybe<Scalars['String']['output']>;
+  paymentSolutionCode: Scalars['PaymentSolutionCode']['output'];
+  paymentUrl: Maybe<Scalars['String']['output']>;
+  status: Scalars['PaymentStatusType']['output'];
+  token: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** Boolean expression to compare columns of type "PaymentAccountType". All fields are combined with logical 'AND'. */
 export type PaymentAccountType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentAccountType']>;
-  _gt: InputMaybe<Scalars['PaymentAccountType']>;
-  _gte: InputMaybe<Scalars['PaymentAccountType']>;
-  _in: InputMaybe<Array<Scalars['PaymentAccountType']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['PaymentAccountType']>;
-  _lte: InputMaybe<Scalars['PaymentAccountType']>;
-  _neq: InputMaybe<Scalars['PaymentAccountType']>;
-  _nin: InputMaybe<Array<Scalars['PaymentAccountType']>>;
+  _eq: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _gt: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _gte: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _in: InputMaybe<Array<Scalars['PaymentAccountType']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _lte: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _neq: InputMaybe<Scalars['PaymentAccountType']['input']>;
+  _nin: InputMaybe<Array<Scalars['PaymentAccountType']['input']>>;
 };
 
 /** columns and relationships of "PaymentAccounts" */
 export type PaymentAccounts = {
   __typename?: 'PaymentAccounts';
-  accountId: Scalars['String'];
-  customerId: Maybe<Scalars['uuid']>;
-  email: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  provider: Scalars['PaymentProvider'];
-  type: Scalars['PaymentAccountType'];
+  accountId: Scalars['String']['output'];
+  customerId: Maybe<Scalars['uuid']['output']>;
+  email: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  provider: Scalars['PaymentProvider']['output'];
+  type: Scalars['PaymentAccountType']['output'];
 };
 
 /** aggregated selection of "PaymentAccounts" */
@@ -6532,7 +6541,7 @@ export type PaymentAccounts_Aggregate_Bool_Exp = {
 
 export type PaymentAccounts_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<PaymentAccounts_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -6540,7 +6549,7 @@ export type PaymentAccounts_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "PaymentAccounts" */
 export type PaymentAccounts_Aggregate_Fields = {
   __typename?: 'PaymentAccounts_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<PaymentAccounts_Max_Fields>;
   min: Maybe<PaymentAccounts_Min_Fields>;
 };
@@ -6548,7 +6557,7 @@ export type PaymentAccounts_Aggregate_Fields = {
 /** aggregate fields of "PaymentAccounts" */
 export type PaymentAccounts_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "PaymentAccounts" */
@@ -6586,23 +6595,23 @@ export enum PaymentAccounts_Constraint {
 
 /** input type for inserting data into table "PaymentAccounts" */
 export type PaymentAccounts_Insert_Input = {
-  accountId: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  email: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  provider: InputMaybe<Scalars['PaymentProvider']>;
-  type: InputMaybe<Scalars['PaymentAccountType']>;
+  accountId: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  provider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  type: InputMaybe<Scalars['PaymentAccountType']['input']>;
 };
 
 /** aggregate max on columns */
 export type PaymentAccounts_Max_Fields = {
   __typename?: 'PaymentAccounts_max_fields';
-  accountId: Maybe<Scalars['String']>;
-  customerId: Maybe<Scalars['uuid']>;
-  email: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  provider: Maybe<Scalars['PaymentProvider']>;
-  type: Maybe<Scalars['PaymentAccountType']>;
+  accountId: Maybe<Scalars['String']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  email: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  provider: Maybe<Scalars['PaymentProvider']['output']>;
+  type: Maybe<Scalars['PaymentAccountType']['output']>;
 };
 
 /** order by max() on columns of table "PaymentAccounts" */
@@ -6618,12 +6627,12 @@ export type PaymentAccounts_Max_Order_By = {
 /** aggregate min on columns */
 export type PaymentAccounts_Min_Fields = {
   __typename?: 'PaymentAccounts_min_fields';
-  accountId: Maybe<Scalars['String']>;
-  customerId: Maybe<Scalars['uuid']>;
-  email: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  provider: Maybe<Scalars['PaymentProvider']>;
-  type: Maybe<Scalars['PaymentAccountType']>;
+  accountId: Maybe<Scalars['String']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  email: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  provider: Maybe<Scalars['PaymentProvider']['output']>;
+  type: Maybe<Scalars['PaymentAccountType']['output']>;
 };
 
 /** order by min() on columns of table "PaymentAccounts" */
@@ -6640,7 +6649,7 @@ export type PaymentAccounts_Min_Order_By = {
 export type PaymentAccounts_Mutation_Response = {
   __typename?: 'PaymentAccounts_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<PaymentAccounts>;
 };
@@ -6664,7 +6673,7 @@ export type PaymentAccounts_Order_By = {
 
 /** primary key columns input for table: PaymentAccounts */
 export type PaymentAccounts_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "PaymentAccounts" */
@@ -6685,12 +6694,12 @@ export enum PaymentAccounts_Select_Column {
 
 /** input type for updating data in table "PaymentAccounts" */
 export type PaymentAccounts_Set_Input = {
-  accountId: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  email: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  provider: InputMaybe<Scalars['PaymentProvider']>;
-  type: InputMaybe<Scalars['PaymentAccountType']>;
+  accountId: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  provider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  type: InputMaybe<Scalars['PaymentAccountType']['input']>;
 };
 
 /** Streaming cursor of the table "PaymentAccounts" */
@@ -6703,12 +6712,12 @@ export type PaymentAccounts_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type PaymentAccounts_Stream_Cursor_Value_Input = {
-  accountId: InputMaybe<Scalars['String']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  email: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  provider: InputMaybe<Scalars['PaymentProvider']>;
-  type: InputMaybe<Scalars['PaymentAccountType']>;
+  accountId: InputMaybe<Scalars['String']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  email: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  provider: InputMaybe<Scalars['PaymentProvider']['input']>;
+  type: InputMaybe<Scalars['PaymentAccountType']['input']>;
 };
 
 /** update columns of table "PaymentAccounts" */
@@ -6736,41 +6745,41 @@ export type PaymentAccounts_Updates = {
 
 /** Boolean expression to compare columns of type "PaymentProvider". All fields are combined with logical 'AND'. */
 export type PaymentProvider_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentProvider']>;
-  _gt: InputMaybe<Scalars['PaymentProvider']>;
-  _gte: InputMaybe<Scalars['PaymentProvider']>;
-  _in: InputMaybe<Array<Scalars['PaymentProvider']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['PaymentProvider']>;
-  _lte: InputMaybe<Scalars['PaymentProvider']>;
-  _neq: InputMaybe<Scalars['PaymentProvider']>;
-  _nin: InputMaybe<Array<Scalars['PaymentProvider']>>;
+  _eq: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _gt: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _gte: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _in: InputMaybe<Array<Scalars['PaymentProvider']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _lte: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _neq: InputMaybe<Scalars['PaymentProvider']['input']>;
+  _nin: InputMaybe<Array<Scalars['PaymentProvider']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "PaymentSolutionCode". All fields are combined with logical 'AND'. */
 export type PaymentSolutionCode_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _gt: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _gte: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _in: InputMaybe<Array<Scalars['PaymentSolutionCode']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _lte: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _neq: InputMaybe<Scalars['PaymentSolutionCode']>;
-  _nin: InputMaybe<Array<Scalars['PaymentSolutionCode']>>;
+  _eq: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _gt: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _gte: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _in: InputMaybe<Array<Scalars['PaymentSolutionCode']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _lte: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _neq: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  _nin: InputMaybe<Array<Scalars['PaymentSolutionCode']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "PaymentStatusType". All fields are combined with logical 'AND'. */
 export type PaymentStatusType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PaymentStatusType']>;
-  _gt: InputMaybe<Scalars['PaymentStatusType']>;
-  _gte: InputMaybe<Scalars['PaymentStatusType']>;
-  _in: InputMaybe<Array<Scalars['PaymentStatusType']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['PaymentStatusType']>;
-  _lte: InputMaybe<Scalars['PaymentStatusType']>;
-  _neq: InputMaybe<Scalars['PaymentStatusType']>;
-  _nin: InputMaybe<Array<Scalars['PaymentStatusType']>>;
+  _eq: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _gt: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _gte: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _in: InputMaybe<Array<Scalars['PaymentStatusType']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _lte: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _neq: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  _nin: InputMaybe<Array<Scalars['PaymentStatusType']['input']>>;
 };
 
 /** aggregated selection of "Payment" */
@@ -6786,7 +6795,7 @@ export type Payment_Aggregate_Bool_Exp = {
 
 export type Payment_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Payment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Payment_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -6795,7 +6804,7 @@ export type Payment_Aggregate_Bool_Exp_Count = {
 export type Payment_Aggregate_Fields = {
   __typename?: 'Payment_aggregate_fields';
   avg: Maybe<Payment_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Payment_Max_Fields>;
   min: Maybe<Payment_Min_Fields>;
   stddev: Maybe<Payment_Stddev_Fields>;
@@ -6810,7 +6819,7 @@ export type Payment_Aggregate_Fields = {
 /** aggregate fields of "Payment" */
 export type Payment_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Payment_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Payment" */
@@ -6838,7 +6847,7 @@ export type Payment_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Payment_Avg_Fields = {
   __typename?: 'Payment_avg_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Payment" */
@@ -6873,39 +6882,39 @@ export enum Payment_Constraint {
 
 /** input type for incrementing numeric columns in table "Payment" */
 export type Payment_Inc_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "Payment" */
 export type Payment_Insert_Input = {
   Payment_Checkout: InputMaybe<Checkout_Obj_Rel_Insert_Input>;
-  amountInCents: InputMaybe<Scalars['Int']>;
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  paymentAccountId: InputMaybe<Scalars['String']>;
-  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']>;
-  paymentUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['PaymentStatusType']>;
-  token: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  paymentAccountId: InputMaybe<Scalars['String']['input']>;
+  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  paymentUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  token: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate max on columns */
 export type Payment_Max_Fields = {
   __typename?: 'Payment_max_fields';
-  amountInCents: Maybe<Scalars['Int']>;
-  checkoutId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  currency: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  paymentAccountId: Maybe<Scalars['String']>;
-  paymentSolutionCode: Maybe<Scalars['PaymentSolutionCode']>;
-  paymentUrl: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['PaymentStatusType']>;
-  token: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
+  checkoutId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  currency: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  paymentAccountId: Maybe<Scalars['String']['output']>;
+  paymentSolutionCode: Maybe<Scalars['PaymentSolutionCode']['output']>;
+  paymentUrl: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['PaymentStatusType']['output']>;
+  token: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by max() on columns of table "Payment" */
@@ -6926,17 +6935,17 @@ export type Payment_Max_Order_By = {
 /** aggregate min on columns */
 export type Payment_Min_Fields = {
   __typename?: 'Payment_min_fields';
-  amountInCents: Maybe<Scalars['Int']>;
-  checkoutId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  currency: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  paymentAccountId: Maybe<Scalars['String']>;
-  paymentSolutionCode: Maybe<Scalars['PaymentSolutionCode']>;
-  paymentUrl: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['PaymentStatusType']>;
-  token: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
+  checkoutId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  currency: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  paymentAccountId: Maybe<Scalars['String']['output']>;
+  paymentSolutionCode: Maybe<Scalars['PaymentSolutionCode']['output']>;
+  paymentUrl: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['PaymentStatusType']['output']>;
+  token: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** order by min() on columns of table "Payment" */
@@ -6958,7 +6967,7 @@ export type Payment_Min_Order_By = {
 export type Payment_Mutation_Response = {
   __typename?: 'Payment_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Payment>;
 };
@@ -6988,7 +6997,7 @@ export type Payment_Order_By = {
 
 /** primary key columns input for table: Payment */
 export type Payment_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Payment" */
@@ -7019,23 +7028,23 @@ export enum Payment_Select_Column {
 
 /** input type for updating data in table "Payment" */
 export type Payment_Set_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  paymentAccountId: InputMaybe<Scalars['String']>;
-  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']>;
-  paymentUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['PaymentStatusType']>;
-  token: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  paymentAccountId: InputMaybe<Scalars['String']['input']>;
+  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  paymentUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  token: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Payment_Stddev_Fields = {
   __typename?: 'Payment_stddev_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Payment" */
@@ -7046,7 +7055,7 @@ export type Payment_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Payment_Stddev_Pop_Fields = {
   __typename?: 'Payment_stddev_pop_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Payment" */
@@ -7057,7 +7066,7 @@ export type Payment_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Payment_Stddev_Samp_Fields = {
   __typename?: 'Payment_stddev_samp_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Payment" */
@@ -7075,23 +7084,23 @@ export type Payment_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Payment_Stream_Cursor_Value_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
-  checkoutId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  paymentAccountId: InputMaybe<Scalars['String']>;
-  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']>;
-  paymentUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['PaymentStatusType']>;
-  token: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  checkoutId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  paymentAccountId: InputMaybe<Scalars['String']['input']>;
+  paymentSolutionCode: InputMaybe<Scalars['PaymentSolutionCode']['input']>;
+  paymentUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['PaymentStatusType']['input']>;
+  token: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Payment_Sum_Fields = {
   __typename?: 'Payment_sum_fields';
-  amountInCents: Maybe<Scalars['Int']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "Payment" */
@@ -7137,7 +7146,7 @@ export type Payment_Updates = {
 /** aggregate var_pop on columns */
 export type Payment_Var_Pop_Fields = {
   __typename?: 'Payment_var_pop_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Payment" */
@@ -7148,7 +7157,7 @@ export type Payment_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Payment_Var_Samp_Fields = {
   __typename?: 'Payment_var_samp_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Payment" */
@@ -7159,7 +7168,7 @@ export type Payment_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Payment_Variance_Fields = {
   __typename?: 'Payment_variance_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Payment" */
@@ -7170,13 +7179,13 @@ export type Payment_Variance_Order_By = {
 /** columns and relationships of "Payout" */
 export type Payout = {
   __typename?: 'Payout';
-  amountInCents: Scalars['Int'];
-  comment: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  currency: Scalars['Currency'];
-  destinationAccountId: Scalars['String'];
-  id: Scalars['String'];
-  orderLineId: Scalars['String'];
+  amountInCents: Scalars['Int']['output'];
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  currency: Scalars['Currency']['output'];
+  destinationAccountId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  orderLineId: Scalars['String']['output'];
 };
 
 /** aggregated selection of "Payout" */
@@ -7192,7 +7201,7 @@ export type Payout_Aggregate_Bool_Exp = {
 
 export type Payout_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Payout_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Payout_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -7201,7 +7210,7 @@ export type Payout_Aggregate_Bool_Exp_Count = {
 export type Payout_Aggregate_Fields = {
   __typename?: 'Payout_aggregate_fields';
   avg: Maybe<Payout_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Payout_Max_Fields>;
   min: Maybe<Payout_Min_Fields>;
   stddev: Maybe<Payout_Stddev_Fields>;
@@ -7216,7 +7225,7 @@ export type Payout_Aggregate_Fields = {
 /** aggregate fields of "Payout" */
 export type Payout_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Payout_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Payout" */
@@ -7244,7 +7253,7 @@ export type Payout_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Payout_Avg_Fields = {
   __typename?: 'Payout_avg_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Payout" */
@@ -7274,30 +7283,30 @@ export enum Payout_Constraint {
 
 /** input type for incrementing numeric columns in table "Payout" */
 export type Payout_Inc_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "Payout" */
 export type Payout_Insert_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['Currency']>;
-  destinationAccountId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  orderLineId: InputMaybe<Scalars['String']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['Currency']['input']>;
+  destinationAccountId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Payout_Max_Fields = {
   __typename?: 'Payout_max_fields';
-  amountInCents: Maybe<Scalars['Int']>;
-  comment: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  currency: Maybe<Scalars['Currency']>;
-  destinationAccountId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  orderLineId: Maybe<Scalars['String']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  currency: Maybe<Scalars['Currency']['output']>;
+  destinationAccountId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderLineId: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "Payout" */
@@ -7314,13 +7323,13 @@ export type Payout_Max_Order_By = {
 /** aggregate min on columns */
 export type Payout_Min_Fields = {
   __typename?: 'Payout_min_fields';
-  amountInCents: Maybe<Scalars['Int']>;
-  comment: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  currency: Maybe<Scalars['Currency']>;
-  destinationAccountId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  orderLineId: Maybe<Scalars['String']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
+  comment: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  currency: Maybe<Scalars['Currency']['output']>;
+  destinationAccountId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderLineId: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "Payout" */
@@ -7338,7 +7347,7 @@ export type Payout_Min_Order_By = {
 export type Payout_Mutation_Response = {
   __typename?: 'Payout_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Payout>;
 };
@@ -7363,7 +7372,7 @@ export type Payout_Order_By = {
 
 /** primary key columns input for table: Payout */
 export type Payout_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Payout" */
@@ -7386,19 +7395,19 @@ export enum Payout_Select_Column {
 
 /** input type for updating data in table "Payout" */
 export type Payout_Set_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['Currency']>;
-  destinationAccountId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  orderLineId: InputMaybe<Scalars['String']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['Currency']['input']>;
+  destinationAccountId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Payout_Stddev_Fields = {
   __typename?: 'Payout_stddev_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Payout" */
@@ -7409,7 +7418,7 @@ export type Payout_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Payout_Stddev_Pop_Fields = {
   __typename?: 'Payout_stddev_pop_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Payout" */
@@ -7420,7 +7429,7 @@ export type Payout_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Payout_Stddev_Samp_Fields = {
   __typename?: 'Payout_stddev_samp_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Payout" */
@@ -7438,19 +7447,19 @@ export type Payout_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Payout_Stream_Cursor_Value_Input = {
-  amountInCents: InputMaybe<Scalars['Int']>;
-  comment: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  currency: InputMaybe<Scalars['Currency']>;
-  destinationAccountId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  orderLineId: InputMaybe<Scalars['String']>;
+  amountInCents: InputMaybe<Scalars['Int']['input']>;
+  comment: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  currency: InputMaybe<Scalars['Currency']['input']>;
+  destinationAccountId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderLineId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Payout_Sum_Fields = {
   __typename?: 'Payout_sum_fields';
-  amountInCents: Maybe<Scalars['Int']>;
+  amountInCents: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "Payout" */
@@ -7488,7 +7497,7 @@ export type Payout_Updates = {
 /** aggregate var_pop on columns */
 export type Payout_Var_Pop_Fields = {
   __typename?: 'Payout_var_pop_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Payout" */
@@ -7499,7 +7508,7 @@ export type Payout_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Payout_Var_Samp_Fields = {
   __typename?: 'Payout_var_samp_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Payout" */
@@ -7510,7 +7519,7 @@ export type Payout_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Payout_Variance_Fields = {
   __typename?: 'Payout_variance_fields';
-  amountInCents: Maybe<Scalars['Float']>;
+  amountInCents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Payout" */
@@ -7523,40 +7532,40 @@ export type PriceOffer = {
   __typename?: 'PriceOffer';
   /** An object relationship */
   buyer: Customer;
-  buyerId: Scalars['uuid'];
-  createdAt: Scalars['timestamp'];
-  discountCode: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  includedBuyerCommissionPercentage: Scalars['float8'];
-  initiatedBy: Scalars['uuid'];
+  buyerId: Scalars['uuid']['output'];
+  createdAt: Scalars['timestamp']['output'];
+  discountCode: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  includedBuyerCommissionPercentage: Scalars['float8']['output'];
+  initiatedBy: Scalars['uuid']['output'];
   /** An object relationship */
   initiator: Customer;
-  internalNote: Maybe<Scalars['String']>;
-  name: Scalars['bigint'];
-  newPriceInCents: Scalars['bigint'];
+  internalNote: Maybe<Scalars['String']['output']>;
+  name: Scalars['bigint']['output'];
+  newPriceInCents: Scalars['bigint']['output'];
   /** An object relationship */
   product: Product;
-  productId: Scalars['String'];
+  productId: Scalars['String']['output'];
   /** An object relationship */
   productVariant: Maybe<ProductVariant>;
-  productVariantId: Maybe<Scalars['String']>;
-  publicNote: Maybe<Scalars['String']>;
-  quantity: Scalars['Int'];
-  salesChannelName: Scalars['SalesChannelName'];
-  status: Scalars['PriceOfferStatus'];
+  productVariantId: Maybe<Scalars['String']['output']>;
+  publicNote: Maybe<Scalars['String']['output']>;
+  quantity: Scalars['Int']['output'];
+  salesChannelName: Scalars['SalesChannelName']['output'];
+  status: Scalars['PriceOfferStatus']['output'];
 };
 
 /** Boolean expression to compare columns of type "PriceOfferStatus". All fields are combined with logical 'AND'. */
 export type PriceOfferStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['PriceOfferStatus']>;
-  _gt: InputMaybe<Scalars['PriceOfferStatus']>;
-  _gte: InputMaybe<Scalars['PriceOfferStatus']>;
-  _in: InputMaybe<Array<Scalars['PriceOfferStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['PriceOfferStatus']>;
-  _lte: InputMaybe<Scalars['PriceOfferStatus']>;
-  _neq: InputMaybe<Scalars['PriceOfferStatus']>;
-  _nin: InputMaybe<Array<Scalars['PriceOfferStatus']>>;
+  _eq: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _gt: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _gte: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['PriceOfferStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _lte: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _neq: InputMaybe<Scalars['PriceOfferStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['PriceOfferStatus']['input']>>;
 };
 
 /** aggregated selection of "PriceOffer" */
@@ -7570,7 +7579,7 @@ export type PriceOffer_Aggregate = {
 export type PriceOffer_Aggregate_Fields = {
   __typename?: 'PriceOffer_aggregate_fields';
   avg: Maybe<PriceOffer_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<PriceOffer_Max_Fields>;
   min: Maybe<PriceOffer_Min_Fields>;
   stddev: Maybe<PriceOffer_Stddev_Fields>;
@@ -7585,16 +7594,16 @@ export type PriceOffer_Aggregate_Fields = {
 /** aggregate fields of "PriceOffer" */
 export type PriceOffer_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<PriceOffer_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type PriceOffer_Avg_Fields = {
   __typename?: 'PriceOffer_avg_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "PriceOffer". All fields are combined with a logical 'AND'. */
@@ -7633,80 +7642,80 @@ export enum PriceOffer_Constraint {
 
 /** input type for incrementing numeric columns in table "PriceOffer" */
 export type PriceOffer_Inc_Input = {
-  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']>;
-  name: InputMaybe<Scalars['bigint']>;
-  newPriceInCents: InputMaybe<Scalars['bigint']>;
-  quantity: InputMaybe<Scalars['Int']>;
+  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']['input']>;
+  name: InputMaybe<Scalars['bigint']['input']>;
+  newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "PriceOffer" */
 export type PriceOffer_Insert_Input = {
   buyer: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  buyerId: InputMaybe<Scalars['uuid']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  discountCode: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']>;
-  initiatedBy: InputMaybe<Scalars['uuid']>;
+  buyerId: InputMaybe<Scalars['uuid']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountCode: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']['input']>;
+  initiatedBy: InputMaybe<Scalars['uuid']['input']>;
   initiator: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  internalNote: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['bigint']>;
-  newPriceInCents: InputMaybe<Scalars['bigint']>;
+  internalNote: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['bigint']['input']>;
+  newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['String']>;
+  productId: InputMaybe<Scalars['String']['input']>;
   productVariant: InputMaybe<ProductVariant_Obj_Rel_Insert_Input>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  publicNote: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
-  status: InputMaybe<Scalars['PriceOfferStatus']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  publicNote: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
+  status: InputMaybe<Scalars['PriceOfferStatus']['input']>;
 };
 
 /** aggregate max on columns */
 export type PriceOffer_Max_Fields = {
   __typename?: 'PriceOffer_max_fields';
-  buyerId: Maybe<Scalars['uuid']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  discountCode: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  includedBuyerCommissionPercentage: Maybe<Scalars['float8']>;
-  initiatedBy: Maybe<Scalars['uuid']>;
-  internalNote: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['bigint']>;
-  newPriceInCents: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  publicNote: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  salesChannelName: Maybe<Scalars['SalesChannelName']>;
-  status: Maybe<Scalars['PriceOfferStatus']>;
+  buyerId: Maybe<Scalars['uuid']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  discountCode: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['float8']['output']>;
+  initiatedBy: Maybe<Scalars['uuid']['output']>;
+  internalNote: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['bigint']['output']>;
+  newPriceInCents: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  publicNote: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
+  status: Maybe<Scalars['PriceOfferStatus']['output']>;
 };
 
 /** aggregate min on columns */
 export type PriceOffer_Min_Fields = {
   __typename?: 'PriceOffer_min_fields';
-  buyerId: Maybe<Scalars['uuid']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  discountCode: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  includedBuyerCommissionPercentage: Maybe<Scalars['float8']>;
-  initiatedBy: Maybe<Scalars['uuid']>;
-  internalNote: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['bigint']>;
-  newPriceInCents: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  productVariantId: Maybe<Scalars['String']>;
-  publicNote: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  salesChannelName: Maybe<Scalars['SalesChannelName']>;
-  status: Maybe<Scalars['PriceOfferStatus']>;
+  buyerId: Maybe<Scalars['uuid']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  discountCode: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['float8']['output']>;
+  initiatedBy: Maybe<Scalars['uuid']['output']>;
+  internalNote: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['bigint']['output']>;
+  newPriceInCents: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  productVariantId: Maybe<Scalars['String']['output']>;
+  publicNote: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
+  status: Maybe<Scalars['PriceOfferStatus']['output']>;
 };
 
 /** response of any mutation on the table "PriceOffer" */
 export type PriceOffer_Mutation_Response = {
   __typename?: 'PriceOffer_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<PriceOffer>;
 };
@@ -7743,7 +7752,7 @@ export type PriceOffer_Order_By = {
 
 /** primary key columns input for table: PriceOffer */
 export type PriceOffer_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "PriceOffer" */
@@ -7782,48 +7791,48 @@ export enum PriceOffer_Select_Column {
 
 /** input type for updating data in table "PriceOffer" */
 export type PriceOffer_Set_Input = {
-  buyerId: InputMaybe<Scalars['uuid']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  discountCode: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']>;
-  initiatedBy: InputMaybe<Scalars['uuid']>;
-  internalNote: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['bigint']>;
-  newPriceInCents: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  publicNote: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
-  status: InputMaybe<Scalars['PriceOfferStatus']>;
+  buyerId: InputMaybe<Scalars['uuid']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountCode: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']['input']>;
+  initiatedBy: InputMaybe<Scalars['uuid']['input']>;
+  internalNote: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['bigint']['input']>;
+  newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  publicNote: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
+  status: InputMaybe<Scalars['PriceOfferStatus']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type PriceOffer_Stddev_Fields = {
   __typename?: 'PriceOffer_stddev_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type PriceOffer_Stddev_Pop_Fields = {
   __typename?: 'PriceOffer_stddev_pop_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type PriceOffer_Stddev_Samp_Fields = {
   __typename?: 'PriceOffer_stddev_samp_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "PriceOffer" */
@@ -7836,30 +7845,30 @@ export type PriceOffer_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type PriceOffer_Stream_Cursor_Value_Input = {
-  buyerId: InputMaybe<Scalars['uuid']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  discountCode: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']>;
-  initiatedBy: InputMaybe<Scalars['uuid']>;
-  internalNote: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['bigint']>;
-  newPriceInCents: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  productVariantId: InputMaybe<Scalars['String']>;
-  publicNote: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
-  status: InputMaybe<Scalars['PriceOfferStatus']>;
+  buyerId: InputMaybe<Scalars['uuid']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  discountCode: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  includedBuyerCommissionPercentage: InputMaybe<Scalars['float8']['input']>;
+  initiatedBy: InputMaybe<Scalars['uuid']['input']>;
+  internalNote: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['bigint']['input']>;
+  newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  productVariantId: InputMaybe<Scalars['String']['input']>;
+  publicNote: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
+  status: InputMaybe<Scalars['PriceOfferStatus']['input']>;
 };
 
 /** aggregate sum on columns */
 export type PriceOffer_Sum_Fields = {
   __typename?: 'PriceOffer_sum_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['float8']>;
-  name: Maybe<Scalars['bigint']>;
-  newPriceInCents: Maybe<Scalars['bigint']>;
-  quantity: Maybe<Scalars['Int']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['float8']['output']>;
+  name: Maybe<Scalars['bigint']['output']>;
+  newPriceInCents: Maybe<Scalars['bigint']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "PriceOffer" */
@@ -7908,50 +7917,50 @@ export type PriceOffer_Updates = {
 /** aggregate var_pop on columns */
 export type PriceOffer_Var_Pop_Fields = {
   __typename?: 'PriceOffer_var_pop_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type PriceOffer_Var_Samp_Fields = {
   __typename?: 'PriceOffer_var_samp_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type PriceOffer_Variance_Fields = {
   __typename?: 'PriceOffer_variance_fields';
-  includedBuyerCommissionPercentage: Maybe<Scalars['Float']>;
-  name: Maybe<Scalars['Float']>;
-  newPriceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
+  includedBuyerCommissionPercentage: Maybe<Scalars['Float']['output']>;
+  name: Maybe<Scalars['Float']['output']>;
+  newPriceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "Product" */
 export type Product = {
   __typename?: 'Product';
-  EANCode: Maybe<Scalars['String']>;
-  GTINCode: Maybe<Scalars['String']>;
+  EANCode: Maybe<Scalars['String']['output']>;
+  GTINCode: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   Vendor: Customer;
-  createdAt: Scalars['timestamp'];
-  handle: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  manualNotation: Maybe<Scalars['ProductNotation']>;
-  productType: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamp']['output'];
+  handle: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   salesChannels: Array<ProductSalesChannel>;
   /** An aggregate relationship */
   salesChannels_aggregate: ProductSalesChannel_Aggregate;
-  shopifyId: Scalars['bigint'];
-  source: Maybe<Scalars['String']>;
-  sourceUrl: Maybe<Scalars['String']>;
-  status: Scalars['ProductStatus'];
+  shopifyId: Scalars['bigint']['output'];
+  source: Maybe<Scalars['String']['output']>;
+  sourceUrl: Maybe<Scalars['String']['output']>;
+  status: Scalars['ProductStatus']['output'];
   /** An object relationship */
   storeB2BProduct: Maybe<Dbt_Store_B2b_Product>;
   /** An object relationship */
@@ -7960,14 +7969,14 @@ export type Product = {
   variants: Array<ProductVariant>;
   /** An aggregate relationship */
   variants_aggregate: ProductVariant_Aggregate;
-  vendorId: Scalars['uuid'];
+  vendorId: Scalars['uuid']['output'];
 };
 
 /** columns and relationships of "Product" */
 export type ProductSalesChannelsArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
@@ -7975,8 +7984,8 @@ export type ProductSalesChannelsArgs = {
 /** columns and relationships of "Product" */
 export type ProductSalesChannels_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
@@ -7984,8 +7993,8 @@ export type ProductSalesChannels_AggregateArgs = {
 /** columns and relationships of "Product" */
 export type ProductVariantsArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
@@ -7993,34 +8002,34 @@ export type ProductVariantsArgs = {
 /** columns and relationships of "Product" */
 export type ProductVariants_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "ProductNotation". All fields are combined with logical 'AND'. */
 export type ProductNotation_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ProductNotation']>;
-  _gt: InputMaybe<Scalars['ProductNotation']>;
-  _gte: InputMaybe<Scalars['ProductNotation']>;
-  _in: InputMaybe<Array<Scalars['ProductNotation']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ProductNotation']>;
-  _lte: InputMaybe<Scalars['ProductNotation']>;
-  _neq: InputMaybe<Scalars['ProductNotation']>;
-  _nin: InputMaybe<Array<Scalars['ProductNotation']>>;
+  _eq: InputMaybe<Scalars['ProductNotation']['input']>;
+  _gt: InputMaybe<Scalars['ProductNotation']['input']>;
+  _gte: InputMaybe<Scalars['ProductNotation']['input']>;
+  _in: InputMaybe<Array<Scalars['ProductNotation']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ProductNotation']['input']>;
+  _lte: InputMaybe<Scalars['ProductNotation']['input']>;
+  _neq: InputMaybe<Scalars['ProductNotation']['input']>;
+  _nin: InputMaybe<Array<Scalars['ProductNotation']['input']>>;
 };
 
 /** columns and relationships of "ProductSalesChannel" */
 export type ProductSalesChannel = {
   __typename?: 'ProductSalesChannel';
-  createdAt: Scalars['timestamp'];
-  id: Scalars['String'];
+  createdAt: Scalars['timestamp']['output'];
+  id: Scalars['String']['output'];
   /** An object relationship */
   product: Product;
-  productId: Scalars['String'];
-  salesChannelName: Scalars['SalesChannelName'];
+  productId: Scalars['String']['output'];
+  salesChannelName: Scalars['SalesChannelName']['output'];
 };
 
 /** aggregated selection of "ProductSalesChannel" */
@@ -8036,7 +8045,7 @@ export type ProductSalesChannel_Aggregate_Bool_Exp = {
 
 export type ProductSalesChannel_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<ProductSalesChannel_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -8044,7 +8053,7 @@ export type ProductSalesChannel_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "ProductSalesChannel" */
 export type ProductSalesChannel_Aggregate_Fields = {
   __typename?: 'ProductSalesChannel_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<ProductSalesChannel_Max_Fields>;
   min: Maybe<ProductSalesChannel_Min_Fields>;
 };
@@ -8052,7 +8061,7 @@ export type ProductSalesChannel_Aggregate_Fields = {
 /** aggregate fields of "ProductSalesChannel" */
 export type ProductSalesChannel_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "ProductSalesChannel" */
@@ -8089,20 +8098,20 @@ export enum ProductSalesChannel_Constraint {
 
 /** input type for inserting data into table "ProductSalesChannel" */
 export type ProductSalesChannel_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['String']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
 };
 
 /** aggregate max on columns */
 export type ProductSalesChannel_Max_Fields = {
   __typename?: 'ProductSalesChannel_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['String']>;
-  salesChannelName: Maybe<Scalars['SalesChannelName']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
 };
 
 /** order by max() on columns of table "ProductSalesChannel" */
@@ -8116,10 +8125,10 @@ export type ProductSalesChannel_Max_Order_By = {
 /** aggregate min on columns */
 export type ProductSalesChannel_Min_Fields = {
   __typename?: 'ProductSalesChannel_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['String']>;
-  salesChannelName: Maybe<Scalars['SalesChannelName']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
 };
 
 /** order by min() on columns of table "ProductSalesChannel" */
@@ -8134,7 +8143,7 @@ export type ProductSalesChannel_Min_Order_By = {
 export type ProductSalesChannel_Mutation_Response = {
   __typename?: 'ProductSalesChannel_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<ProductSalesChannel>;
 };
@@ -8157,7 +8166,7 @@ export type ProductSalesChannel_Order_By = {
 
 /** primary key columns input for table: ProductSalesChannel */
 export type ProductSalesChannel_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "ProductSalesChannel" */
@@ -8174,10 +8183,10 @@ export enum ProductSalesChannel_Select_Column {
 
 /** input type for updating data in table "ProductSalesChannel" */
 export type ProductSalesChannel_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['String']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
 };
 
 /** Streaming cursor of the table "ProductSalesChannel" */
@@ -8190,10 +8199,10 @@ export type ProductSalesChannel_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type ProductSalesChannel_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['String']>;
-  salesChannelName: InputMaybe<Scalars['SalesChannelName']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
 };
 
 /** update columns of table "ProductSalesChannel" */
@@ -8217,30 +8226,30 @@ export type ProductSalesChannel_Updates = {
 
 /** Boolean expression to compare columns of type "ProductStatus". All fields are combined with logical 'AND'. */
 export type ProductStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ProductStatus']>;
-  _gt: InputMaybe<Scalars['ProductStatus']>;
-  _gte: InputMaybe<Scalars['ProductStatus']>;
-  _in: InputMaybe<Array<Scalars['ProductStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ProductStatus']>;
-  _lte: InputMaybe<Scalars['ProductStatus']>;
-  _neq: InputMaybe<Scalars['ProductStatus']>;
-  _nin: InputMaybe<Array<Scalars['ProductStatus']>>;
+  _eq: InputMaybe<Scalars['ProductStatus']['input']>;
+  _gt: InputMaybe<Scalars['ProductStatus']['input']>;
+  _gte: InputMaybe<Scalars['ProductStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['ProductStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ProductStatus']['input']>;
+  _lte: InputMaybe<Scalars['ProductStatus']['input']>;
+  _neq: InputMaybe<Scalars['ProductStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['ProductStatus']['input']>>;
 };
 
 /** columns and relationships of "ProductVariant" */
 export type ProductVariant = {
   __typename?: 'ProductVariant';
-  compareAtPriceInCents: Maybe<Scalars['bigint']>;
-  condition: Maybe<Scalars['Condition']>;
-  createdAt: Scalars['timestamp'];
-  id: Scalars['String'];
-  priceInCents: Maybe<Scalars['bigint']>;
+  compareAtPriceInCents: Maybe<Scalars['bigint']['output']>;
+  condition: Maybe<Scalars['Condition']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  id: Scalars['String']['output'];
+  priceInCents: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   product: Product;
-  productId: Scalars['String'];
-  quantity: Scalars['Int'];
-  shopifyId: Scalars['bigint'];
+  productId: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
+  shopifyId: Scalars['bigint']['output'];
   /** An object relationship */
   storeB2BVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   /** An object relationship */
@@ -8262,7 +8271,7 @@ export type ProductVariant_Aggregate_Bool_Exp = {
 
 export type ProductVariant_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<ProductVariant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<ProductVariant_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -8271,7 +8280,7 @@ export type ProductVariant_Aggregate_Bool_Exp_Count = {
 export type ProductVariant_Aggregate_Fields = {
   __typename?: 'ProductVariant_aggregate_fields';
   avg: Maybe<ProductVariant_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<ProductVariant_Max_Fields>;
   min: Maybe<ProductVariant_Min_Fields>;
   stddev: Maybe<ProductVariant_Stddev_Fields>;
@@ -8286,7 +8295,7 @@ export type ProductVariant_Aggregate_Fields = {
 /** aggregate fields of "ProductVariant" */
 export type ProductVariant_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<ProductVariant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "ProductVariant" */
@@ -8314,10 +8323,10 @@ export type ProductVariant_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type ProductVariant_Avg_Fields = {
   __typename?: 'ProductVariant_avg_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "ProductVariant" */
@@ -8357,23 +8366,23 @@ export enum ProductVariant_Constraint {
 
 /** input type for incrementing numeric columns in table "ProductVariant" */
 export type ProductVariant_Inc_Input = {
-  compareAtPriceInCents: InputMaybe<Scalars['bigint']>;
-  priceInCents: InputMaybe<Scalars['bigint']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  compareAtPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  priceInCents: InputMaybe<Scalars['bigint']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "ProductVariant" */
 export type ProductVariant_Insert_Input = {
-  compareAtPriceInCents: InputMaybe<Scalars['bigint']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  priceInCents: InputMaybe<Scalars['bigint']>;
+  compareAtPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  priceInCents: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
   storeB2BVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Obj_Rel_Insert_Input>;
   storeB2CVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input>;
   storeExposedVariant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Obj_Rel_Insert_Input>;
@@ -8382,14 +8391,14 @@ export type ProductVariant_Insert_Input = {
 /** aggregate max on columns */
 export type ProductVariant_Max_Fields = {
   __typename?: 'ProductVariant_max_fields';
-  compareAtPriceInCents: Maybe<Scalars['bigint']>;
-  condition: Maybe<Scalars['Condition']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  priceInCents: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  compareAtPriceInCents: Maybe<Scalars['bigint']['output']>;
+  condition: Maybe<Scalars['Condition']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  priceInCents: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "ProductVariant" */
@@ -8407,14 +8416,14 @@ export type ProductVariant_Max_Order_By = {
 /** aggregate min on columns */
 export type ProductVariant_Min_Fields = {
   __typename?: 'ProductVariant_min_fields';
-  compareAtPriceInCents: Maybe<Scalars['bigint']>;
-  condition: Maybe<Scalars['Condition']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  id: Maybe<Scalars['String']>;
-  priceInCents: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  compareAtPriceInCents: Maybe<Scalars['bigint']['output']>;
+  condition: Maybe<Scalars['Condition']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  priceInCents: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "ProductVariant" */
@@ -8433,7 +8442,7 @@ export type ProductVariant_Min_Order_By = {
 export type ProductVariant_Mutation_Response = {
   __typename?: 'ProductVariant_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<ProductVariant>;
 };
@@ -8470,7 +8479,7 @@ export type ProductVariant_Order_By = {
 
 /** primary key columns input for table: ProductVariant */
 export type ProductVariant_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "ProductVariant" */
@@ -8495,23 +8504,23 @@ export enum ProductVariant_Select_Column {
 
 /** input type for updating data in table "ProductVariant" */
 export type ProductVariant_Set_Input = {
-  compareAtPriceInCents: InputMaybe<Scalars['bigint']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  priceInCents: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  compareAtPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  priceInCents: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type ProductVariant_Stddev_Fields = {
   __typename?: 'ProductVariant_stddev_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "ProductVariant" */
@@ -8525,10 +8534,10 @@ export type ProductVariant_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type ProductVariant_Stddev_Pop_Fields = {
   __typename?: 'ProductVariant_stddev_pop_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "ProductVariant" */
@@ -8542,10 +8551,10 @@ export type ProductVariant_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type ProductVariant_Stddev_Samp_Fields = {
   __typename?: 'ProductVariant_stddev_samp_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "ProductVariant" */
@@ -8566,23 +8575,23 @@ export type ProductVariant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type ProductVariant_Stream_Cursor_Value_Input = {
-  compareAtPriceInCents: InputMaybe<Scalars['bigint']>;
-  condition: InputMaybe<Scalars['Condition']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  id: InputMaybe<Scalars['String']>;
-  priceInCents: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  compareAtPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  priceInCents: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type ProductVariant_Sum_Fields = {
   __typename?: 'ProductVariant_sum_fields';
-  compareAtPriceInCents: Maybe<Scalars['bigint']>;
-  priceInCents: Maybe<Scalars['bigint']>;
-  quantity: Maybe<Scalars['Int']>;
-  shopifyId: Maybe<Scalars['bigint']>;
+  compareAtPriceInCents: Maybe<Scalars['bigint']['output']>;
+  priceInCents: Maybe<Scalars['bigint']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "ProductVariant" */
@@ -8625,10 +8634,10 @@ export type ProductVariant_Updates = {
 /** aggregate var_pop on columns */
 export type ProductVariant_Var_Pop_Fields = {
   __typename?: 'ProductVariant_var_pop_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "ProductVariant" */
@@ -8642,10 +8651,10 @@ export type ProductVariant_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type ProductVariant_Var_Samp_Fields = {
   __typename?: 'ProductVariant_var_samp_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "ProductVariant" */
@@ -8659,10 +8668,10 @@ export type ProductVariant_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type ProductVariant_Variance_Fields = {
   __typename?: 'ProductVariant_variance_fields';
-  compareAtPriceInCents: Maybe<Scalars['Float']>;
-  priceInCents: Maybe<Scalars['Float']>;
-  quantity: Maybe<Scalars['Float']>;
-  shopifyId: Maybe<Scalars['Float']>;
+  compareAtPriceInCents: Maybe<Scalars['Float']['output']>;
+  priceInCents: Maybe<Scalars['Float']['output']>;
+  quantity: Maybe<Scalars['Float']['output']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "ProductVariant" */
@@ -8686,7 +8695,7 @@ export type Product_Aggregate_Bool_Exp = {
 
 export type Product_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Product_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Product_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -8695,7 +8704,7 @@ export type Product_Aggregate_Bool_Exp_Count = {
 export type Product_Aggregate_Fields = {
   __typename?: 'Product_aggregate_fields';
   avg: Maybe<Product_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Product_Max_Fields>;
   min: Maybe<Product_Min_Fields>;
   stddev: Maybe<Product_Stddev_Fields>;
@@ -8710,7 +8719,7 @@ export type Product_Aggregate_Fields = {
 /** aggregate fields of "Product" */
 export type Product_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Product_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Product" */
@@ -8738,7 +8747,7 @@ export type Product_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Product_Avg_Fields = {
   __typename?: 'Product_avg_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Product" */
@@ -8784,45 +8793,45 @@ export enum Product_Constraint {
 
 /** input type for incrementing numeric columns in table "Product" */
 export type Product_Inc_Input = {
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "Product" */
 export type Product_Insert_Input = {
-  EANCode: InputMaybe<Scalars['String']>;
-  GTINCode: InputMaybe<Scalars['String']>;
+  EANCode: InputMaybe<Scalars['String']['input']>;
+  GTINCode: InputMaybe<Scalars['String']['input']>;
   Vendor: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  manualNotation: InputMaybe<Scalars['ProductNotation']>;
-  productType: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
   salesChannels: InputMaybe<ProductSalesChannel_Arr_Rel_Insert_Input>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  source: InputMaybe<Scalars['String']>;
-  sourceUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  sourceUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
   storeB2BProduct: InputMaybe<Dbt_Store_B2b_Product_Obj_Rel_Insert_Input>;
   storeExposedProduct: InputMaybe<Dbt_Store_Exposed_Product_Obj_Rel_Insert_Input>;
   variants: InputMaybe<ProductVariant_Arr_Rel_Insert_Input>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Product_Max_Fields = {
   __typename?: 'Product_max_fields';
-  EANCode: Maybe<Scalars['String']>;
-  GTINCode: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  manualNotation: Maybe<Scalars['ProductNotation']>;
-  productType: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  source: Maybe<Scalars['String']>;
-  sourceUrl: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  EANCode: Maybe<Scalars['String']['output']>;
+  GTINCode: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  source: Maybe<Scalars['String']['output']>;
+  sourceUrl: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ProductStatus']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "Product" */
@@ -8844,18 +8853,18 @@ export type Product_Max_Order_By = {
 /** aggregate min on columns */
 export type Product_Min_Fields = {
   __typename?: 'Product_min_fields';
-  EANCode: Maybe<Scalars['String']>;
-  GTINCode: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  manualNotation: Maybe<Scalars['ProductNotation']>;
-  productType: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  source: Maybe<Scalars['String']>;
-  sourceUrl: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  EANCode: Maybe<Scalars['String']['output']>;
+  GTINCode: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  source: Maybe<Scalars['String']['output']>;
+  sourceUrl: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ProductStatus']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "Product" */
@@ -8878,7 +8887,7 @@ export type Product_Min_Order_By = {
 export type Product_Mutation_Response = {
   __typename?: 'Product_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Product>;
 };
@@ -8920,7 +8929,7 @@ export type Product_Order_By = {
 
 /** primary key columns input for table: Product */
 export type Product_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Product" */
@@ -8953,24 +8962,24 @@ export enum Product_Select_Column {
 
 /** input type for updating data in table "Product" */
 export type Product_Set_Input = {
-  EANCode: InputMaybe<Scalars['String']>;
-  GTINCode: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  manualNotation: InputMaybe<Scalars['ProductNotation']>;
-  productType: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  source: InputMaybe<Scalars['String']>;
-  sourceUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  EANCode: InputMaybe<Scalars['String']['input']>;
+  GTINCode: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  sourceUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Product_Stddev_Fields = {
   __typename?: 'Product_stddev_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Product" */
@@ -8981,7 +8990,7 @@ export type Product_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Product_Stddev_Pop_Fields = {
   __typename?: 'Product_stddev_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Product" */
@@ -8992,7 +9001,7 @@ export type Product_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Product_Stddev_Samp_Fields = {
   __typename?: 'Product_stddev_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Product" */
@@ -9010,24 +9019,24 @@ export type Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Product_Stream_Cursor_Value_Input = {
-  EANCode: InputMaybe<Scalars['String']>;
-  GTINCode: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  manualNotation: InputMaybe<Scalars['ProductNotation']>;
-  productType: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  source: InputMaybe<Scalars['String']>;
-  sourceUrl: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  EANCode: InputMaybe<Scalars['String']['input']>;
+  GTINCode: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  sourceUrl: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Product_Sum_Fields = {
   __typename?: 'Product_sum_fields';
-  shopifyId: Maybe<Scalars['bigint']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "Product" */
@@ -9075,7 +9084,7 @@ export type Product_Updates = {
 /** aggregate var_pop on columns */
 export type Product_Var_Pop_Fields = {
   __typename?: 'Product_var_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Product" */
@@ -9086,7 +9095,7 @@ export type Product_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Product_Var_Samp_Fields = {
   __typename?: 'Product_var_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Product" */
@@ -9097,7 +9106,7 @@ export type Product_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Product_Variance_Fields = {
   __typename?: 'Product_variance_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Product" */
@@ -9108,24 +9117,24 @@ export type Product_Variance_Order_By = {
 /** columns and relationships of "Return" */
 export type Return = {
   __typename?: 'Return';
-  createdAt: Scalars['timestamp'];
+  createdAt: Scalars['timestamp']['output'];
   /** An object relationship */
   dispute: Dispute;
-  disputeId: Scalars['String'];
-  id: Scalars['String'];
+  disputeId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
   /** An array relationship */
   returnItems: Array<ReturnItem>;
   /** An aggregate relationship */
   returnItems_aggregate: ReturnItem_Aggregate;
-  status: Scalars['ReturnStatus'];
-  trackingUrl: Maybe<Scalars['String']>;
+  status: Scalars['ReturnStatus']['output'];
+  trackingUrl: Maybe<Scalars['String']['output']>;
 };
 
 /** columns and relationships of "Return" */
 export type ReturnReturnItemsArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
@@ -9133,8 +9142,8 @@ export type ReturnReturnItemsArgs = {
 /** columns and relationships of "Return" */
 export type ReturnReturnItems_AggregateArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
@@ -9142,15 +9151,15 @@ export type ReturnReturnItems_AggregateArgs = {
 /** columns and relationships of "ReturnItem" */
 export type ReturnItem = {
   __typename?: 'ReturnItem';
-  createdAt: Scalars['timestamp'];
+  createdAt: Scalars['timestamp']['output'];
   /** An object relationship */
   fulfillmentItem: FulfillmentItem;
-  fulfillmentItemId: Scalars['String'];
-  id: Scalars['String'];
-  quantity: Scalars['Int'];
+  fulfillmentItemId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  quantity: Scalars['Int']['output'];
   /** An object relationship */
   return: Return;
-  returnId: Scalars['String'];
+  returnId: Scalars['String']['output'];
 };
 
 /** aggregated selection of "ReturnItem" */
@@ -9166,7 +9175,7 @@ export type ReturnItem_Aggregate_Bool_Exp = {
 
 export type ReturnItem_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<ReturnItem_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<ReturnItem_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -9175,7 +9184,7 @@ export type ReturnItem_Aggregate_Bool_Exp_Count = {
 export type ReturnItem_Aggregate_Fields = {
   __typename?: 'ReturnItem_aggregate_fields';
   avg: Maybe<ReturnItem_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<ReturnItem_Max_Fields>;
   min: Maybe<ReturnItem_Min_Fields>;
   stddev: Maybe<ReturnItem_Stddev_Fields>;
@@ -9190,7 +9199,7 @@ export type ReturnItem_Aggregate_Fields = {
 /** aggregate fields of "ReturnItem" */
 export type ReturnItem_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<ReturnItem_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "ReturnItem" */
@@ -9218,7 +9227,7 @@ export type ReturnItem_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type ReturnItem_Avg_Fields = {
   __typename?: 'ReturnItem_avg_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "ReturnItem" */
@@ -9248,28 +9257,28 @@ export enum ReturnItem_Constraint {
 
 /** input type for incrementing numeric columns in table "ReturnItem" */
 export type ReturnItem_Inc_Input = {
-  quantity: InputMaybe<Scalars['Int']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "ReturnItem" */
 export type ReturnItem_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentItem: InputMaybe<FulfillmentItem_Obj_Rel_Insert_Input>;
-  fulfillmentItemId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
+  fulfillmentItemId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
   return: InputMaybe<Return_Obj_Rel_Insert_Input>;
-  returnId: InputMaybe<Scalars['String']>;
+  returnId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type ReturnItem_Max_Fields = {
   __typename?: 'ReturnItem_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentItemId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  returnId: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentItemId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  returnId: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "ReturnItem" */
@@ -9284,11 +9293,11 @@ export type ReturnItem_Max_Order_By = {
 /** aggregate min on columns */
 export type ReturnItem_Min_Fields = {
   __typename?: 'ReturnItem_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  fulfillmentItemId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  quantity: Maybe<Scalars['Int']>;
-  returnId: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  fulfillmentItemId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  quantity: Maybe<Scalars['Int']['output']>;
+  returnId: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "ReturnItem" */
@@ -9304,7 +9313,7 @@ export type ReturnItem_Min_Order_By = {
 export type ReturnItem_Mutation_Response = {
   __typename?: 'ReturnItem_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<ReturnItem>;
 };
@@ -9329,7 +9338,7 @@ export type ReturnItem_Order_By = {
 
 /** primary key columns input for table: ReturnItem */
 export type ReturnItem_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "ReturnItem" */
@@ -9348,17 +9357,17 @@ export enum ReturnItem_Select_Column {
 
 /** input type for updating data in table "ReturnItem" */
 export type ReturnItem_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentItemId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  returnId: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentItemId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  returnId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type ReturnItem_Stddev_Fields = {
   __typename?: 'ReturnItem_stddev_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "ReturnItem" */
@@ -9369,7 +9378,7 @@ export type ReturnItem_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type ReturnItem_Stddev_Pop_Fields = {
   __typename?: 'ReturnItem_stddev_pop_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "ReturnItem" */
@@ -9380,7 +9389,7 @@ export type ReturnItem_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type ReturnItem_Stddev_Samp_Fields = {
   __typename?: 'ReturnItem_stddev_samp_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "ReturnItem" */
@@ -9398,17 +9407,17 @@ export type ReturnItem_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type ReturnItem_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  fulfillmentItemId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  quantity: InputMaybe<Scalars['Int']>;
-  returnId: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  fulfillmentItemId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
+  returnId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type ReturnItem_Sum_Fields = {
   __typename?: 'ReturnItem_sum_fields';
-  quantity: Maybe<Scalars['Int']>;
+  quantity: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "ReturnItem" */
@@ -9442,7 +9451,7 @@ export type ReturnItem_Updates = {
 /** aggregate var_pop on columns */
 export type ReturnItem_Var_Pop_Fields = {
   __typename?: 'ReturnItem_var_pop_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "ReturnItem" */
@@ -9453,7 +9462,7 @@ export type ReturnItem_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type ReturnItem_Var_Samp_Fields = {
   __typename?: 'ReturnItem_var_samp_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "ReturnItem" */
@@ -9464,7 +9473,7 @@ export type ReturnItem_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type ReturnItem_Variance_Fields = {
   __typename?: 'ReturnItem_variance_fields';
-  quantity: Maybe<Scalars['Float']>;
+  quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "ReturnItem" */
@@ -9474,15 +9483,15 @@ export type ReturnItem_Variance_Order_By = {
 
 /** Boolean expression to compare columns of type "ReturnStatus". All fields are combined with logical 'AND'. */
 export type ReturnStatus_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ReturnStatus']>;
-  _gt: InputMaybe<Scalars['ReturnStatus']>;
-  _gte: InputMaybe<Scalars['ReturnStatus']>;
-  _in: InputMaybe<Array<Scalars['ReturnStatus']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ReturnStatus']>;
-  _lte: InputMaybe<Scalars['ReturnStatus']>;
-  _neq: InputMaybe<Scalars['ReturnStatus']>;
-  _nin: InputMaybe<Array<Scalars['ReturnStatus']>>;
+  _eq: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _gt: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _gte: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _in: InputMaybe<Array<Scalars['ReturnStatus']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _lte: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _neq: InputMaybe<Scalars['ReturnStatus']['input']>;
+  _nin: InputMaybe<Array<Scalars['ReturnStatus']['input']>>;
 };
 
 /** aggregated selection of "Return" */
@@ -9498,7 +9507,7 @@ export type Return_Aggregate_Bool_Exp = {
 
 export type Return_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Return_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Return_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -9506,7 +9515,7 @@ export type Return_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "Return" */
 export type Return_Aggregate_Fields = {
   __typename?: 'Return_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Return_Max_Fields>;
   min: Maybe<Return_Min_Fields>;
 };
@@ -9514,7 +9523,7 @@ export type Return_Aggregate_Fields = {
 /** aggregate fields of "Return" */
 export type Return_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Return_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Return" */
@@ -9554,23 +9563,23 @@ export enum Return_Constraint {
 
 /** input type for inserting data into table "Return" */
 export type Return_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
   dispute: InputMaybe<Dispute_Obj_Rel_Insert_Input>;
-  disputeId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   returnItems: InputMaybe<ReturnItem_Arr_Rel_Insert_Input>;
-  status: InputMaybe<Scalars['ReturnStatus']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  status: InputMaybe<Scalars['ReturnStatus']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Return_Max_Fields = {
   __typename?: 'Return_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  disputeId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ReturnStatus']>;
-  trackingUrl: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  disputeId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ReturnStatus']['output']>;
+  trackingUrl: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "Return" */
@@ -9585,11 +9594,11 @@ export type Return_Max_Order_By = {
 /** aggregate min on columns */
 export type Return_Min_Fields = {
   __typename?: 'Return_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  disputeId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ReturnStatus']>;
-  trackingUrl: Maybe<Scalars['String']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  disputeId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ReturnStatus']['output']>;
+  trackingUrl: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "Return" */
@@ -9605,7 +9614,7 @@ export type Return_Min_Order_By = {
 export type Return_Mutation_Response = {
   __typename?: 'Return_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Return>;
 };
@@ -9637,7 +9646,7 @@ export type Return_Order_By = {
 
 /** primary key columns input for table: Return */
 export type Return_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Return" */
@@ -9656,11 +9665,11 @@ export enum Return_Select_Column {
 
 /** input type for updating data in table "Return" */
 export type Return_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  disputeId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ReturnStatus']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ReturnStatus']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "Return" */
@@ -9673,11 +9682,11 @@ export type Return_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Return_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  disputeId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ReturnStatus']>;
-  trackingUrl: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  disputeId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ReturnStatus']['input']>;
+  trackingUrl: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "Return" */
@@ -9712,21 +9721,21 @@ export type Review = {
   VendorReview: Array<VendorReview>;
   /** An aggregate relationship */
   VendorReview_aggregate: VendorReview_Aggregate;
-  authorNickname: Maybe<Scalars['String']>;
-  content: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  customerId: Scalars['uuid'];
-  id: Scalars['String'];
-  orderId: Maybe<Scalars['String']>;
-  rating: Scalars['Int'];
-  title: Scalars['String'];
+  authorNickname: Maybe<Scalars['String']['output']>;
+  content: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  customerId: Scalars['uuid']['output'];
+  id: Scalars['String']['output'];
+  orderId: Maybe<Scalars['String']['output']>;
+  rating: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
 };
 
 /** columns and relationships of "Review" */
 export type ReviewVendorReviewArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
@@ -9734,8 +9743,8 @@ export type ReviewVendorReviewArgs = {
 /** columns and relationships of "Review" */
 export type ReviewVendorReview_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
@@ -9753,7 +9762,7 @@ export type Review_Aggregate_Bool_Exp = {
 
 export type Review_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Review_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Review_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -9762,7 +9771,7 @@ export type Review_Aggregate_Bool_Exp_Count = {
 export type Review_Aggregate_Fields = {
   __typename?: 'Review_aggregate_fields';
   avg: Maybe<Review_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Review_Max_Fields>;
   min: Maybe<Review_Min_Fields>;
   stddev: Maybe<Review_Stddev_Fields>;
@@ -9777,7 +9786,7 @@ export type Review_Aggregate_Fields = {
 /** aggregate fields of "Review" */
 export type Review_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Review_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "Review" */
@@ -9805,7 +9814,7 @@ export type Review_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Review_Avg_Fields = {
   __typename?: 'Review_avg_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Review" */
@@ -9840,7 +9849,7 @@ export enum Review_Constraint {
 
 /** input type for incrementing numeric columns in table "Review" */
 export type Review_Inc_Input = {
-  rating: InputMaybe<Scalars['Int']>;
+  rating: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "Review" */
@@ -9848,27 +9857,27 @@ export type Review_Insert_Input = {
   Customer: InputMaybe<Customer_Obj_Rel_Insert_Input>;
   Order: InputMaybe<Order_Obj_Rel_Insert_Input>;
   VendorReview: InputMaybe<VendorReview_Arr_Rel_Insert_Input>;
-  authorNickname: InputMaybe<Scalars['String']>;
-  content: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  rating: InputMaybe<Scalars['Int']>;
-  title: InputMaybe<Scalars['String']>;
+  authorNickname: InputMaybe<Scalars['String']['input']>;
+  content: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  rating: InputMaybe<Scalars['Int']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Review_Max_Fields = {
   __typename?: 'Review_max_fields';
-  authorNickname: Maybe<Scalars['String']>;
-  content: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  rating: Maybe<Scalars['Int']>;
-  title: Maybe<Scalars['String']>;
+  authorNickname: Maybe<Scalars['String']['output']>;
+  content: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  rating: Maybe<Scalars['Int']['output']>;
+  title: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "Review" */
@@ -9886,14 +9895,14 @@ export type Review_Max_Order_By = {
 /** aggregate min on columns */
 export type Review_Min_Fields = {
   __typename?: 'Review_min_fields';
-  authorNickname: Maybe<Scalars['String']>;
-  content: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  orderId: Maybe<Scalars['String']>;
-  rating: Maybe<Scalars['Int']>;
-  title: Maybe<Scalars['String']>;
+  authorNickname: Maybe<Scalars['String']['output']>;
+  content: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  rating: Maybe<Scalars['Int']['output']>;
+  title: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "Review" */
@@ -9912,7 +9921,7 @@ export type Review_Min_Order_By = {
 export type Review_Mutation_Response = {
   __typename?: 'Review_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Review>;
 };
@@ -9948,7 +9957,7 @@ export type Review_Order_By = {
 
 /** primary key columns input for table: Review */
 export type Review_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "Review" */
@@ -9973,20 +9982,20 @@ export enum Review_Select_Column {
 
 /** input type for updating data in table "Review" */
 export type Review_Set_Input = {
-  authorNickname: InputMaybe<Scalars['String']>;
-  content: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  rating: InputMaybe<Scalars['Int']>;
-  title: InputMaybe<Scalars['String']>;
+  authorNickname: InputMaybe<Scalars['String']['input']>;
+  content: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  rating: InputMaybe<Scalars['Int']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Review_Stddev_Fields = {
   __typename?: 'Review_stddev_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Review" */
@@ -9997,7 +10006,7 @@ export type Review_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Review_Stddev_Pop_Fields = {
   __typename?: 'Review_stddev_pop_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Review" */
@@ -10008,7 +10017,7 @@ export type Review_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Review_Stddev_Samp_Fields = {
   __typename?: 'Review_stddev_samp_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Review" */
@@ -10026,20 +10035,20 @@ export type Review_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Review_Stream_Cursor_Value_Input = {
-  authorNickname: InputMaybe<Scalars['String']>;
-  content: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  orderId: InputMaybe<Scalars['String']>;
-  rating: InputMaybe<Scalars['Int']>;
-  title: InputMaybe<Scalars['String']>;
+  authorNickname: InputMaybe<Scalars['String']['input']>;
+  content: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  rating: InputMaybe<Scalars['Int']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Review_Sum_Fields = {
   __typename?: 'Review_sum_fields';
-  rating: Maybe<Scalars['Int']>;
+  rating: Maybe<Scalars['Int']['output']>;
 };
 
 /** order by sum() on columns of table "Review" */
@@ -10079,7 +10088,7 @@ export type Review_Updates = {
 /** aggregate var_pop on columns */
 export type Review_Var_Pop_Fields = {
   __typename?: 'Review_var_pop_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Review" */
@@ -10090,7 +10099,7 @@ export type Review_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Review_Var_Samp_Fields = {
   __typename?: 'Review_var_samp_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Review" */
@@ -10101,7 +10110,7 @@ export type Review_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Review_Variance_Fields = {
   __typename?: 'Review_variance_fields';
-  rating: Maybe<Scalars['Float']>;
+  rating: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Review" */
@@ -10111,15 +10120,15 @@ export type Review_Variance_Order_By = {
 
 /** Boolean expression to compare columns of type "SalesChannelName". All fields are combined with logical 'AND'. */
 export type SalesChannelName_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['SalesChannelName']>;
-  _gt: InputMaybe<Scalars['SalesChannelName']>;
-  _gte: InputMaybe<Scalars['SalesChannelName']>;
-  _in: InputMaybe<Array<Scalars['SalesChannelName']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['SalesChannelName']>;
-  _lte: InputMaybe<Scalars['SalesChannelName']>;
-  _neq: InputMaybe<Scalars['SalesChannelName']>;
-  _nin: InputMaybe<Array<Scalars['SalesChannelName']>>;
+  _eq: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _gt: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _gte: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _in: InputMaybe<Array<Scalars['SalesChannelName']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _lte: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _neq: InputMaybe<Scalars['SalesChannelName']['input']>;
+  _nin: InputMaybe<Array<Scalars['SalesChannelName']['input']>>;
 };
 
 /** columns and relationships of "SavedSearch" */
@@ -10139,22 +10148,22 @@ export type SavedSearch = {
   NumericFilters_aggregate: NumericFilter_Aggregate;
   /** An object relationship */
   SearchAlert: Maybe<SearchAlert>;
-  collectionId: Maybe<Scalars['String']>;
-  createdAt: Scalars['timestamp'];
-  customerId: Scalars['uuid'];
-  id: Scalars['String'];
-  name: Scalars['String'];
-  query: Maybe<Scalars['String']>;
-  resultsUrl: Scalars['String'];
-  type: Scalars['SavedSearchType'];
-  updatedAt: Maybe<Scalars['timestamp']>;
+  collectionId: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['timestamp']['output'];
+  customerId: Scalars['uuid']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  query: Maybe<Scalars['String']['output']>;
+  resultsUrl: Scalars['String']['output'];
+  type: Scalars['SavedSearchType']['output'];
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** columns and relationships of "SavedSearch" */
 export type SavedSearchFacetFiltersArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
@@ -10162,8 +10171,8 @@ export type SavedSearchFacetFiltersArgs = {
 /** columns and relationships of "SavedSearch" */
 export type SavedSearchFacetFilters_AggregateArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
@@ -10171,8 +10180,8 @@ export type SavedSearchFacetFilters_AggregateArgs = {
 /** columns and relationships of "SavedSearch" */
 export type SavedSearchNumericFiltersArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
@@ -10180,23 +10189,23 @@ export type SavedSearchNumericFiltersArgs = {
 /** columns and relationships of "SavedSearch" */
 export type SavedSearchNumericFilters_AggregateArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "SavedSearchType". All fields are combined with logical 'AND'. */
 export type SavedSearchType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['SavedSearchType']>;
-  _gt: InputMaybe<Scalars['SavedSearchType']>;
-  _gte: InputMaybe<Scalars['SavedSearchType']>;
-  _in: InputMaybe<Array<Scalars['SavedSearchType']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['SavedSearchType']>;
-  _lte: InputMaybe<Scalars['SavedSearchType']>;
-  _neq: InputMaybe<Scalars['SavedSearchType']>;
-  _nin: InputMaybe<Array<Scalars['SavedSearchType']>>;
+  _eq: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _gt: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _gte: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _in: InputMaybe<Array<Scalars['SavedSearchType']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _lte: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _neq: InputMaybe<Scalars['SavedSearchType']['input']>;
+  _nin: InputMaybe<Array<Scalars['SavedSearchType']['input']>>;
 };
 
 /** aggregated selection of "SavedSearch" */
@@ -10209,7 +10218,7 @@ export type SavedSearch_Aggregate = {
 /** aggregate fields of "SavedSearch" */
 export type SavedSearch_Aggregate_Fields = {
   __typename?: 'SavedSearch_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<SavedSearch_Max_Fields>;
   min: Maybe<SavedSearch_Min_Fields>;
 };
@@ -10217,7 +10226,7 @@ export type SavedSearch_Aggregate_Fields = {
 /** aggregate fields of "SavedSearch" */
 export type SavedSearch_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<SavedSearch_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "SavedSearch". All fields are combined with a logical 'AND'. */
@@ -10256,50 +10265,50 @@ export type SavedSearch_Insert_Input = {
   FacetFilters: InputMaybe<FacetFilter_Arr_Rel_Insert_Input>;
   NumericFilters: InputMaybe<NumericFilter_Arr_Rel_Insert_Input>;
   SearchAlert: InputMaybe<SearchAlert_Obj_Rel_Insert_Input>;
-  collectionId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  query: InputMaybe<Scalars['String']>;
-  resultsUrl: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['SavedSearchType']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  collectionId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  resultsUrl: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['SavedSearchType']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate max on columns */
 export type SavedSearch_Max_Fields = {
   __typename?: 'SavedSearch_max_fields';
-  collectionId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  query: Maybe<Scalars['String']>;
-  resultsUrl: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['SavedSearchType']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  collectionId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  query: Maybe<Scalars['String']['output']>;
+  resultsUrl: Maybe<Scalars['String']['output']>;
+  type: Maybe<Scalars['SavedSearchType']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** aggregate min on columns */
 export type SavedSearch_Min_Fields = {
   __typename?: 'SavedSearch_min_fields';
-  collectionId: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamp']>;
-  customerId: Maybe<Scalars['uuid']>;
-  id: Maybe<Scalars['String']>;
-  name: Maybe<Scalars['String']>;
-  query: Maybe<Scalars['String']>;
-  resultsUrl: Maybe<Scalars['String']>;
-  type: Maybe<Scalars['SavedSearchType']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  collectionId: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  customerId: Maybe<Scalars['uuid']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  query: Maybe<Scalars['String']['output']>;
+  resultsUrl: Maybe<Scalars['String']['output']>;
+  type: Maybe<Scalars['SavedSearchType']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** response of any mutation on the table "SavedSearch" */
 export type SavedSearch_Mutation_Response = {
   __typename?: 'SavedSearch_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<SavedSearch>;
 };
@@ -10338,7 +10347,7 @@ export type SavedSearch_Order_By = {
 
 /** primary key columns input for table: SavedSearch */
 export type SavedSearch_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "SavedSearch" */
@@ -10365,15 +10374,15 @@ export enum SavedSearch_Select_Column {
 
 /** input type for updating data in table "SavedSearch" */
 export type SavedSearch_Set_Input = {
-  collectionId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  query: InputMaybe<Scalars['String']>;
-  resultsUrl: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['SavedSearchType']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  collectionId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  resultsUrl: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['SavedSearchType']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** Streaming cursor of the table "SavedSearch" */
@@ -10386,15 +10395,15 @@ export type SavedSearch_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type SavedSearch_Stream_Cursor_Value_Input = {
-  collectionId: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  customerId: InputMaybe<Scalars['uuid']>;
-  id: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
-  query: InputMaybe<Scalars['String']>;
-  resultsUrl: InputMaybe<Scalars['String']>;
-  type: InputMaybe<Scalars['SavedSearchType']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  collectionId: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  customerId: InputMaybe<Scalars['uuid']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  name: InputMaybe<Scalars['String']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  resultsUrl: InputMaybe<Scalars['String']['input']>;
+  type: InputMaybe<Scalars['SavedSearchType']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** update columns of table "SavedSearch" */
@@ -10431,11 +10440,11 @@ export type SearchAlert = {
   __typename?: 'SearchAlert';
   /** An object relationship */
   SavedSearch: SavedSearch;
-  id: Scalars['String'];
-  isActive: Scalars['Boolean'];
-  latestResultsCount: Maybe<Scalars['Int']>;
-  latestRunAt: Maybe<Scalars['timestamp']>;
-  searchId: Scalars['String'];
+  id: Scalars['String']['output'];
+  isActive: Scalars['Boolean']['output'];
+  latestResultsCount: Maybe<Scalars['Int']['output']>;
+  latestRunAt: Maybe<Scalars['timestamp']['output']>;
+  searchId: Scalars['String']['output'];
 };
 
 /** aggregated selection of "SearchAlert" */
@@ -10449,7 +10458,7 @@ export type SearchAlert_Aggregate = {
 export type SearchAlert_Aggregate_Fields = {
   __typename?: 'SearchAlert_aggregate_fields';
   avg: Maybe<SearchAlert_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<SearchAlert_Max_Fields>;
   min: Maybe<SearchAlert_Min_Fields>;
   stddev: Maybe<SearchAlert_Stddev_Fields>;
@@ -10464,13 +10473,13 @@ export type SearchAlert_Aggregate_Fields = {
 /** aggregate fields of "SearchAlert" */
 export type SearchAlert_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<SearchAlert_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type SearchAlert_Avg_Fields = {
   __typename?: 'SearchAlert_avg_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "SearchAlert". All fields are combined with a logical 'AND'. */
@@ -10496,42 +10505,42 @@ export enum SearchAlert_Constraint {
 
 /** input type for incrementing numeric columns in table "SearchAlert" */
 export type SearchAlert_Inc_Input = {
-  latestResultsCount: InputMaybe<Scalars['Int']>;
+  latestResultsCount: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** input type for inserting data into table "SearchAlert" */
 export type SearchAlert_Insert_Input = {
   SavedSearch: InputMaybe<SavedSearch_Obj_Rel_Insert_Input>;
-  id: InputMaybe<Scalars['String']>;
-  isActive: InputMaybe<Scalars['Boolean']>;
-  latestResultsCount: InputMaybe<Scalars['Int']>;
-  latestRunAt: InputMaybe<Scalars['timestamp']>;
-  searchId: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  isActive: InputMaybe<Scalars['Boolean']['input']>;
+  latestResultsCount: InputMaybe<Scalars['Int']['input']>;
+  latestRunAt: InputMaybe<Scalars['timestamp']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type SearchAlert_Max_Fields = {
   __typename?: 'SearchAlert_max_fields';
-  id: Maybe<Scalars['String']>;
-  latestResultsCount: Maybe<Scalars['Int']>;
-  latestRunAt: Maybe<Scalars['timestamp']>;
-  searchId: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['String']['output']>;
+  latestResultsCount: Maybe<Scalars['Int']['output']>;
+  latestRunAt: Maybe<Scalars['timestamp']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type SearchAlert_Min_Fields = {
   __typename?: 'SearchAlert_min_fields';
-  id: Maybe<Scalars['String']>;
-  latestResultsCount: Maybe<Scalars['Int']>;
-  latestRunAt: Maybe<Scalars['timestamp']>;
-  searchId: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['String']['output']>;
+  latestResultsCount: Maybe<Scalars['Int']['output']>;
+  latestRunAt: Maybe<Scalars['timestamp']['output']>;
+  searchId: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "SearchAlert" */
 export type SearchAlert_Mutation_Response = {
   __typename?: 'SearchAlert_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<SearchAlert>;
 };
@@ -10562,7 +10571,7 @@ export type SearchAlert_Order_By = {
 
 /** primary key columns input for table: SearchAlert */
 export type SearchAlert_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "SearchAlert" */
@@ -10581,29 +10590,29 @@ export enum SearchAlert_Select_Column {
 
 /** input type for updating data in table "SearchAlert" */
 export type SearchAlert_Set_Input = {
-  id: InputMaybe<Scalars['String']>;
-  isActive: InputMaybe<Scalars['Boolean']>;
-  latestResultsCount: InputMaybe<Scalars['Int']>;
-  latestRunAt: InputMaybe<Scalars['timestamp']>;
-  searchId: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  isActive: InputMaybe<Scalars['Boolean']['input']>;
+  latestResultsCount: InputMaybe<Scalars['Int']['input']>;
+  latestRunAt: InputMaybe<Scalars['timestamp']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type SearchAlert_Stddev_Fields = {
   __typename?: 'SearchAlert_stddev_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type SearchAlert_Stddev_Pop_Fields = {
   __typename?: 'SearchAlert_stddev_pop_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type SearchAlert_Stddev_Samp_Fields = {
   __typename?: 'SearchAlert_stddev_samp_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "SearchAlert" */
@@ -10616,17 +10625,17 @@ export type SearchAlert_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type SearchAlert_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']>;
-  isActive: InputMaybe<Scalars['Boolean']>;
-  latestResultsCount: InputMaybe<Scalars['Int']>;
-  latestRunAt: InputMaybe<Scalars['timestamp']>;
-  searchId: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  isActive: InputMaybe<Scalars['Boolean']['input']>;
+  latestResultsCount: InputMaybe<Scalars['Int']['input']>;
+  latestRunAt: InputMaybe<Scalars['timestamp']['input']>;
+  searchId: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type SearchAlert_Sum_Fields = {
   __typename?: 'SearchAlert_sum_fields';
-  latestResultsCount: Maybe<Scalars['Int']>;
+  latestResultsCount: Maybe<Scalars['Int']['output']>;
 };
 
 /** update columns of table "SearchAlert" */
@@ -10655,109 +10664,109 @@ export type SearchAlert_Updates = {
 /** aggregate var_pop on columns */
 export type SearchAlert_Var_Pop_Fields = {
   __typename?: 'SearchAlert_var_pop_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type SearchAlert_Var_Samp_Fields = {
   __typename?: 'SearchAlert_var_samp_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type SearchAlert_Variance_Fields = {
   __typename?: 'SearchAlert_variance_fields';
-  latestResultsCount: Maybe<Scalars['Float']>;
+  latestResultsCount: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to compare columns of type "ShipmentTimeframe". All fields are combined with logical 'AND'. */
 export type ShipmentTimeframe_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _gt: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _gte: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _in: InputMaybe<Array<Scalars['ShipmentTimeframe']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _lte: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _neq: InputMaybe<Scalars['ShipmentTimeframe']>;
-  _nin: InputMaybe<Array<Scalars['ShipmentTimeframe']>>;
+  _eq: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _gt: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _gte: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _in: InputMaybe<Array<Scalars['ShipmentTimeframe']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _lte: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _neq: InputMaybe<Scalars['ShipmentTimeframe']['input']>;
+  _nin: InputMaybe<Array<Scalars['ShipmentTimeframe']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "ShippingSolution". All fields are combined with logical 'AND'. */
 export type ShippingSolution_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ShippingSolution']>;
-  _gt: InputMaybe<Scalars['ShippingSolution']>;
-  _gte: InputMaybe<Scalars['ShippingSolution']>;
-  _in: InputMaybe<Array<Scalars['ShippingSolution']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ShippingSolution']>;
-  _lte: InputMaybe<Scalars['ShippingSolution']>;
-  _neq: InputMaybe<Scalars['ShippingSolution']>;
-  _nin: InputMaybe<Array<Scalars['ShippingSolution']>>;
+  _eq: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _gt: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _gte: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _in: InputMaybe<Array<Scalars['ShippingSolution']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _lte: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _neq: InputMaybe<Scalars['ShippingSolution']['input']>;
+  _nin: InputMaybe<Array<Scalars['ShippingSolution']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "ShippingType". All fields are combined with logical 'AND'. */
 export type ShippingType_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['ShippingType']>;
-  _gt: InputMaybe<Scalars['ShippingType']>;
-  _gte: InputMaybe<Scalars['ShippingType']>;
-  _in: InputMaybe<Array<Scalars['ShippingType']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['ShippingType']>;
-  _lte: InputMaybe<Scalars['ShippingType']>;
-  _neq: InputMaybe<Scalars['ShippingType']>;
-  _nin: InputMaybe<Array<Scalars['ShippingType']>>;
+  _eq: InputMaybe<Scalars['ShippingType']['input']>;
+  _gt: InputMaybe<Scalars['ShippingType']['input']>;
+  _gte: InputMaybe<Scalars['ShippingType']['input']>;
+  _in: InputMaybe<Array<Scalars['ShippingType']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['ShippingType']['input']>;
+  _lte: InputMaybe<Scalars['ShippingType']['input']>;
+  _neq: InputMaybe<Scalars['ShippingType']['input']>;
+  _nin: InputMaybe<Array<Scalars['ShippingType']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['String']>;
-  _gt: InputMaybe<Scalars['String']>;
-  _gte: InputMaybe<Scalars['String']>;
+  _eq: InputMaybe<Scalars['String']['input']>;
+  _gt: InputMaybe<Scalars['String']['input']>;
+  _gte: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike: InputMaybe<Scalars['String']>;
-  _in: InputMaybe<Array<Scalars['String']>>;
+  _ilike: InputMaybe<Scalars['String']['input']>;
+  _in: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex: InputMaybe<Scalars['String']>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
+  _iregex: InputMaybe<Scalars['String']['input']>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like: InputMaybe<Scalars['String']>;
-  _lt: InputMaybe<Scalars['String']>;
-  _lte: InputMaybe<Scalars['String']>;
-  _neq: InputMaybe<Scalars['String']>;
+  _like: InputMaybe<Scalars['String']['input']>;
+  _lt: InputMaybe<Scalars['String']['input']>;
+  _lte: InputMaybe<Scalars['String']['input']>;
+  _neq: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike: InputMaybe<Scalars['String']>;
-  _nin: InputMaybe<Array<Scalars['String']>>;
+  _nilike: InputMaybe<Scalars['String']['input']>;
+  _nin: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex: InputMaybe<Scalars['String']>;
+  _niregex: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike: InputMaybe<Scalars['String']>;
+  _nlike: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex: InputMaybe<Scalars['String']>;
+  _nregex: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar: InputMaybe<Scalars['String']>;
+  _nsimilar: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex: InputMaybe<Scalars['String']>;
+  _regex: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar: InputMaybe<Scalars['String']>;
+  _similar: InputMaybe<Scalars['String']['input']>;
 };
 
 /** columns and relationships of "VendorProCategoryMapping" */
 export type VendorProCategoryMapping = {
   __typename?: 'VendorProCategoryMapping';
-  createdAt: Scalars['timestamp'];
-  externalCategoryId: Maybe<Scalars['String']>;
-  externalCategoryName: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  internalCategoryName: Maybe<Scalars['String']>;
-  mappingKey: Scalars['String'];
-  metadata: Maybe<Scalars['jsonb']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Scalars['timestamp']['output'];
+  externalCategoryId: Maybe<Scalars['String']['output']>;
+  externalCategoryName: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  internalCategoryName: Maybe<Scalars['String']['output']>;
+  mappingKey: Scalars['String']['output'];
+  metadata: Maybe<Scalars['jsonb']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** columns and relationships of "VendorProCategoryMapping" */
 export type VendorProCategoryMappingMetadataArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregated selection of "VendorProCategoryMapping" */
@@ -10770,7 +10779,7 @@ export type VendorProCategoryMapping_Aggregate = {
 /** aggregate fields of "VendorProCategoryMapping" */
 export type VendorProCategoryMapping_Aggregate_Fields = {
   __typename?: 'VendorProCategoryMapping_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<VendorProCategoryMapping_Max_Fields>;
   min: Maybe<VendorProCategoryMapping_Min_Fields>;
 };
@@ -10778,12 +10787,12 @@ export type VendorProCategoryMapping_Aggregate_Fields = {
 /** aggregate fields of "VendorProCategoryMapping" */
 export type VendorProCategoryMapping_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<VendorProCategoryMapping_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type VendorProCategoryMapping_Append_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "VendorProCategoryMapping". All fields are combined with a logical 'AND'. */
@@ -10809,60 +10818,60 @@ export enum VendorProCategoryMapping_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type VendorProCategoryMapping_Delete_At_Path_Input = {
-  metadata: InputMaybe<Array<Scalars['String']>>;
+  metadata: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type VendorProCategoryMapping_Delete_Elem_Input = {
-  metadata: InputMaybe<Scalars['Int']>;
+  metadata: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type VendorProCategoryMapping_Delete_Key_Input = {
-  metadata: InputMaybe<Scalars['String']>;
+  metadata: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "VendorProCategoryMapping" */
 export type VendorProCategoryMapping_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalCategoryId: InputMaybe<Scalars['String']>;
-  externalCategoryName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalCategoryName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalCategoryId: InputMaybe<Scalars['String']['input']>;
+  externalCategoryName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalCategoryName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate max on columns */
 export type VendorProCategoryMapping_Max_Fields = {
   __typename?: 'VendorProCategoryMapping_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalCategoryId: Maybe<Scalars['String']>;
-  externalCategoryName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalCategoryName: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalCategoryId: Maybe<Scalars['String']['output']>;
+  externalCategoryName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalCategoryName: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** aggregate min on columns */
 export type VendorProCategoryMapping_Min_Fields = {
   __typename?: 'VendorProCategoryMapping_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalCategoryId: Maybe<Scalars['String']>;
-  externalCategoryName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalCategoryName: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalCategoryId: Maybe<Scalars['String']['output']>;
+  externalCategoryName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalCategoryName: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** response of any mutation on the table "VendorProCategoryMapping" */
 export type VendorProCategoryMapping_Mutation_Response = {
   __typename?: 'VendorProCategoryMapping_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<VendorProCategoryMapping>;
 };
@@ -10888,12 +10897,12 @@ export type VendorProCategoryMapping_Order_By = {
 
 /** primary key columns input for table: VendorProCategoryMapping */
 export type VendorProCategoryMapping_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type VendorProCategoryMapping_Prepend_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "VendorProCategoryMapping" */
@@ -10918,14 +10927,14 @@ export enum VendorProCategoryMapping_Select_Column {
 
 /** input type for updating data in table "VendorProCategoryMapping" */
 export type VendorProCategoryMapping_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalCategoryId: InputMaybe<Scalars['String']>;
-  externalCategoryName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalCategoryName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalCategoryId: InputMaybe<Scalars['String']['input']>;
+  externalCategoryName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalCategoryName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** Streaming cursor of the table "VendorProCategoryMapping" */
@@ -10938,14 +10947,14 @@ export type VendorProCategoryMapping_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type VendorProCategoryMapping_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalCategoryId: InputMaybe<Scalars['String']>;
-  externalCategoryName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalCategoryName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalCategoryId: InputMaybe<Scalars['String']['input']>;
+  externalCategoryName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalCategoryName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** update columns of table "VendorProCategoryMapping" */
@@ -10988,14 +10997,14 @@ export type VendorProCategoryMapping_Updates = {
 /** columns and relationships of "VendorProTagMapping" */
 export type VendorProTagMapping = {
   __typename?: 'VendorProTagMapping';
-  createdAt: Scalars['timestamp'];
-  externalTagId: Maybe<Scalars['String']>;
-  externalTagName: Scalars['String'];
-  id: Scalars['String'];
-  internalTagName: Maybe<Scalars['String']>;
-  mappingKey: Scalars['String'];
-  updatedAt: Maybe<Scalars['timestamp']>;
-  useDefaultTagValues: Scalars['Boolean'];
+  createdAt: Scalars['timestamp']['output'];
+  externalTagId: Maybe<Scalars['String']['output']>;
+  externalTagName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  internalTagName: Maybe<Scalars['String']['output']>;
+  mappingKey: Scalars['String']['output'];
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
+  useDefaultTagValues: Scalars['Boolean']['output'];
 };
 
 /** aggregated selection of "VendorProTagMapping" */
@@ -11008,7 +11017,7 @@ export type VendorProTagMapping_Aggregate = {
 /** aggregate fields of "VendorProTagMapping" */
 export type VendorProTagMapping_Aggregate_Fields = {
   __typename?: 'VendorProTagMapping_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<VendorProTagMapping_Max_Fields>;
   min: Maybe<VendorProTagMapping_Min_Fields>;
 };
@@ -11016,7 +11025,7 @@ export type VendorProTagMapping_Aggregate_Fields = {
 /** aggregate fields of "VendorProTagMapping" */
 export type VendorProTagMapping_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<VendorProTagMapping_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "VendorProTagMapping". All fields are combined with a logical 'AND'. */
@@ -11042,45 +11051,45 @@ export enum VendorProTagMapping_Constraint {
 
 /** input type for inserting data into table "VendorProTagMapping" */
 export type VendorProTagMapping_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagId: InputMaybe<Scalars['String']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  useDefaultTagValues: InputMaybe<Scalars['Boolean']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagId: InputMaybe<Scalars['String']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  useDefaultTagValues: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate max on columns */
 export type VendorProTagMapping_Max_Fields = {
   __typename?: 'VendorProTagMapping_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalTagId: Maybe<Scalars['String']>;
-  externalTagName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalTagName: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalTagId: Maybe<Scalars['String']['output']>;
+  externalTagName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalTagName: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** aggregate min on columns */
 export type VendorProTagMapping_Min_Fields = {
   __typename?: 'VendorProTagMapping_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalTagId: Maybe<Scalars['String']>;
-  externalTagName: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalTagName: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalTagId: Maybe<Scalars['String']['output']>;
+  externalTagName: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalTagName: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** response of any mutation on the table "VendorProTagMapping" */
 export type VendorProTagMapping_Mutation_Response = {
   __typename?: 'VendorProTagMapping_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<VendorProTagMapping>;
 };
@@ -11106,7 +11115,7 @@ export type VendorProTagMapping_Order_By = {
 
 /** primary key columns input for table: VendorProTagMapping */
 export type VendorProTagMapping_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "VendorProTagMapping" */
@@ -11131,14 +11140,14 @@ export enum VendorProTagMapping_Select_Column {
 
 /** input type for updating data in table "VendorProTagMapping" */
 export type VendorProTagMapping_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagId: InputMaybe<Scalars['String']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  useDefaultTagValues: InputMaybe<Scalars['Boolean']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagId: InputMaybe<Scalars['String']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  useDefaultTagValues: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Streaming cursor of the table "VendorProTagMapping" */
@@ -11151,14 +11160,14 @@ export type VendorProTagMapping_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type VendorProTagMapping_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagId: InputMaybe<Scalars['String']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagName: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
-  useDefaultTagValues: InputMaybe<Scalars['Boolean']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagId: InputMaybe<Scalars['String']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagName: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
+  useDefaultTagValues: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** update columns of table "VendorProTagMapping" */
@@ -11191,20 +11200,20 @@ export type VendorProTagMapping_Updates = {
 /** columns and relationships of "VendorProTagValueMapping" */
 export type VendorProTagValueMapping = {
   __typename?: 'VendorProTagValueMapping';
-  createdAt: Scalars['timestamp'];
-  externalTagName: Scalars['String'];
-  externalTagValue: Scalars['String'];
-  externalTagValueId: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  internalTagValue: Maybe<Scalars['String']>;
-  mappingKey: Scalars['String'];
-  metadata: Maybe<Scalars['jsonb']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Scalars['timestamp']['output'];
+  externalTagName: Scalars['String']['output'];
+  externalTagValue: Scalars['String']['output'];
+  externalTagValueId: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  internalTagValue: Maybe<Scalars['String']['output']>;
+  mappingKey: Scalars['String']['output'];
+  metadata: Maybe<Scalars['jsonb']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** columns and relationships of "VendorProTagValueMapping" */
 export type VendorProTagValueMappingMetadataArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregated selection of "VendorProTagValueMapping" */
@@ -11217,7 +11226,7 @@ export type VendorProTagValueMapping_Aggregate = {
 /** aggregate fields of "VendorProTagValueMapping" */
 export type VendorProTagValueMapping_Aggregate_Fields = {
   __typename?: 'VendorProTagValueMapping_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<VendorProTagValueMapping_Max_Fields>;
   min: Maybe<VendorProTagValueMapping_Min_Fields>;
 };
@@ -11225,12 +11234,12 @@ export type VendorProTagValueMapping_Aggregate_Fields = {
 /** aggregate fields of "VendorProTagValueMapping" */
 export type VendorProTagValueMapping_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<VendorProTagValueMapping_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type VendorProTagValueMapping_Append_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "VendorProTagValueMapping". All fields are combined with a logical 'AND'. */
@@ -11257,63 +11266,63 @@ export enum VendorProTagValueMapping_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type VendorProTagValueMapping_Delete_At_Path_Input = {
-  metadata: InputMaybe<Array<Scalars['String']>>;
+  metadata: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type VendorProTagValueMapping_Delete_Elem_Input = {
-  metadata: InputMaybe<Scalars['Int']>;
+  metadata: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type VendorProTagValueMapping_Delete_Key_Input = {
-  metadata: InputMaybe<Scalars['String']>;
+  metadata: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "VendorProTagValueMapping" */
 export type VendorProTagValueMapping_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  externalTagValue: InputMaybe<Scalars['String']>;
-  externalTagValueId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagValue: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  externalTagValue: InputMaybe<Scalars['String']['input']>;
+  externalTagValueId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagValue: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** aggregate max on columns */
 export type VendorProTagValueMapping_Max_Fields = {
   __typename?: 'VendorProTagValueMapping_max_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalTagName: Maybe<Scalars['String']>;
-  externalTagValue: Maybe<Scalars['String']>;
-  externalTagValueId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalTagValue: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalTagName: Maybe<Scalars['String']['output']>;
+  externalTagValue: Maybe<Scalars['String']['output']>;
+  externalTagValueId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalTagValue: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** aggregate min on columns */
 export type VendorProTagValueMapping_Min_Fields = {
   __typename?: 'VendorProTagValueMapping_min_fields';
-  createdAt: Maybe<Scalars['timestamp']>;
-  externalTagName: Maybe<Scalars['String']>;
-  externalTagValue: Maybe<Scalars['String']>;
-  externalTagValueId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  internalTagValue: Maybe<Scalars['String']>;
-  mappingKey: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamp']>;
+  createdAt: Maybe<Scalars['timestamp']['output']>;
+  externalTagName: Maybe<Scalars['String']['output']>;
+  externalTagValue: Maybe<Scalars['String']['output']>;
+  externalTagValueId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  internalTagValue: Maybe<Scalars['String']['output']>;
+  mappingKey: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamp']['output']>;
 };
 
 /** response of any mutation on the table "VendorProTagValueMapping" */
 export type VendorProTagValueMapping_Mutation_Response = {
   __typename?: 'VendorProTagValueMapping_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<VendorProTagValueMapping>;
 };
@@ -11340,12 +11349,12 @@ export type VendorProTagValueMapping_Order_By = {
 
 /** primary key columns input for table: VendorProTagValueMapping */
 export type VendorProTagValueMapping_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type VendorProTagValueMapping_Prepend_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "VendorProTagValueMapping" */
@@ -11372,15 +11381,15 @@ export enum VendorProTagValueMapping_Select_Column {
 
 /** input type for updating data in table "VendorProTagValueMapping" */
 export type VendorProTagValueMapping_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  externalTagValue: InputMaybe<Scalars['String']>;
-  externalTagValueId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagValue: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  externalTagValue: InputMaybe<Scalars['String']['input']>;
+  externalTagValueId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagValue: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** Streaming cursor of the table "VendorProTagValueMapping" */
@@ -11393,15 +11402,15 @@ export type VendorProTagValueMapping_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type VendorProTagValueMapping_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamp']>;
-  externalTagName: InputMaybe<Scalars['String']>;
-  externalTagValue: InputMaybe<Scalars['String']>;
-  externalTagValueId: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  internalTagValue: InputMaybe<Scalars['String']>;
-  mappingKey: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  updatedAt: InputMaybe<Scalars['timestamp']>;
+  createdAt: InputMaybe<Scalars['timestamp']['input']>;
+  externalTagName: InputMaybe<Scalars['String']['input']>;
+  externalTagValue: InputMaybe<Scalars['String']['input']>;
+  externalTagValueId: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  internalTagValue: InputMaybe<Scalars['String']['input']>;
+  mappingKey: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamp']['input']>;
 };
 
 /** update columns of table "VendorProTagValueMapping" */
@@ -11452,9 +11461,9 @@ export type VendorReview = {
   Review: Review;
   /** An object relationship */
   Vendor: Customer;
-  orderId: Maybe<Scalars['String']>;
-  reviewId: Scalars['String'];
-  vendorId: Scalars['uuid'];
+  orderId: Maybe<Scalars['String']['output']>;
+  reviewId: Scalars['String']['output'];
+  vendorId: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "VendorReview" */
@@ -11470,7 +11479,7 @@ export type VendorReview_Aggregate_Bool_Exp = {
 
 export type VendorReview_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<VendorReview_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<VendorReview_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -11478,7 +11487,7 @@ export type VendorReview_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "VendorReview" */
 export type VendorReview_Aggregate_Fields = {
   __typename?: 'VendorReview_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<VendorReview_Max_Fields>;
   min: Maybe<VendorReview_Min_Fields>;
 };
@@ -11486,7 +11495,7 @@ export type VendorReview_Aggregate_Fields = {
 /** aggregate fields of "VendorReview" */
 export type VendorReview_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<VendorReview_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "VendorReview" */
@@ -11527,17 +11536,17 @@ export type VendorReview_Insert_Input = {
   Order: InputMaybe<Order_Obj_Rel_Insert_Input>;
   Review: InputMaybe<Review_Obj_Rel_Insert_Input>;
   Vendor: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  orderId: InputMaybe<Scalars['String']>;
-  reviewId: InputMaybe<Scalars['String']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  reviewId: InputMaybe<Scalars['String']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type VendorReview_Max_Fields = {
   __typename?: 'VendorReview_max_fields';
-  orderId: Maybe<Scalars['String']>;
-  reviewId: Maybe<Scalars['String']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  reviewId: Maybe<Scalars['String']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "VendorReview" */
@@ -11550,9 +11559,9 @@ export type VendorReview_Max_Order_By = {
 /** aggregate min on columns */
 export type VendorReview_Min_Fields = {
   __typename?: 'VendorReview_min_fields';
-  orderId: Maybe<Scalars['String']>;
-  reviewId: Maybe<Scalars['String']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  orderId: Maybe<Scalars['String']['output']>;
+  reviewId: Maybe<Scalars['String']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "VendorReview" */
@@ -11566,7 +11575,7 @@ export type VendorReview_Min_Order_By = {
 export type VendorReview_Mutation_Response = {
   __typename?: 'VendorReview_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<VendorReview>;
 };
@@ -11590,7 +11599,7 @@ export type VendorReview_Order_By = {
 
 /** primary key columns input for table: VendorReview */
 export type VendorReview_Pk_Columns_Input = {
-  reviewId: Scalars['String'];
+  reviewId: Scalars['String']['input'];
 };
 
 /** select columns of table "VendorReview" */
@@ -11605,9 +11614,9 @@ export enum VendorReview_Select_Column {
 
 /** input type for updating data in table "VendorReview" */
 export type VendorReview_Set_Input = {
-  orderId: InputMaybe<Scalars['String']>;
-  reviewId: InputMaybe<Scalars['String']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  reviewId: InputMaybe<Scalars['String']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "VendorReview" */
@@ -11620,9 +11629,9 @@ export type VendorReview_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type VendorReview_Stream_Cursor_Value_Input = {
-  orderId: InputMaybe<Scalars['String']>;
-  reviewId: InputMaybe<Scalars['String']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
+  reviewId: InputMaybe<Scalars['String']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "VendorReview" */
@@ -11645,13 +11654,13 @@ export type VendorReview_Updates = {
 /** columns and relationships of "auth.provider_requests" */
 export type AuthProviderRequests = {
   __typename?: 'authProviderRequests';
-  id: Scalars['uuid'];
-  options: Maybe<Scalars['jsonb']>;
+  id: Scalars['uuid']['output'];
+  options: Maybe<Scalars['jsonb']['output']>;
 };
 
 /** columns and relationships of "auth.provider_requests" */
 export type AuthProviderRequestsOptionsArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregated selection of "auth.provider_requests" */
@@ -11664,7 +11673,7 @@ export type AuthProviderRequests_Aggregate = {
 /** aggregate fields of "auth.provider_requests" */
 export type AuthProviderRequests_Aggregate_Fields = {
   __typename?: 'authProviderRequests_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<AuthProviderRequests_Max_Fields>;
   min: Maybe<AuthProviderRequests_Min_Fields>;
 };
@@ -11672,12 +11681,12 @@ export type AuthProviderRequests_Aggregate_Fields = {
 /** aggregate fields of "auth.provider_requests" */
 export type AuthProviderRequests_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<AuthProviderRequests_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type AuthProviderRequests_Append_Input = {
-  options: InputMaybe<Scalars['jsonb']>;
+  options: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "auth.provider_requests". All fields are combined with a logical 'AND'. */
@@ -11697,42 +11706,42 @@ export enum AuthProviderRequests_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type AuthProviderRequests_Delete_At_Path_Input = {
-  options: InputMaybe<Array<Scalars['String']>>;
+  options: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type AuthProviderRequests_Delete_Elem_Input = {
-  options: InputMaybe<Scalars['Int']>;
+  options: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type AuthProviderRequests_Delete_Key_Input = {
-  options: InputMaybe<Scalars['String']>;
+  options: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "auth.provider_requests" */
 export type AuthProviderRequests_Insert_Input = {
-  id: InputMaybe<Scalars['uuid']>;
-  options: InputMaybe<Scalars['jsonb']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  options: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** aggregate max on columns */
 export type AuthProviderRequests_Max_Fields = {
   __typename?: 'authProviderRequests_max_fields';
-  id: Maybe<Scalars['uuid']>;
+  id: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type AuthProviderRequests_Min_Fields = {
   __typename?: 'authProviderRequests_min_fields';
-  id: Maybe<Scalars['uuid']>;
+  id: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "auth.provider_requests" */
 export type AuthProviderRequests_Mutation_Response = {
   __typename?: 'authProviderRequests_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<AuthProviderRequests>;
 };
@@ -11752,12 +11761,12 @@ export type AuthProviderRequests_Order_By = {
 
 /** primary key columns input for table: auth.provider_requests */
 export type AuthProviderRequests_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type AuthProviderRequests_Prepend_Input = {
-  options: InputMaybe<Scalars['jsonb']>;
+  options: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "auth.provider_requests" */
@@ -11770,8 +11779,8 @@ export enum AuthProviderRequests_Select_Column {
 
 /** input type for updating data in table "auth.provider_requests" */
 export type AuthProviderRequests_Set_Input = {
-  id: InputMaybe<Scalars['uuid']>;
-  options: InputMaybe<Scalars['jsonb']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  options: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Streaming cursor of the table "authProviderRequests" */
@@ -11784,8 +11793,8 @@ export type AuthProviderRequests_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuthProviderRequests_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['uuid']>;
-  options: InputMaybe<Scalars['jsonb']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  options: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** update columns of table "auth.provider_requests" */
@@ -11816,7 +11825,7 @@ export type AuthProviderRequests_Updates = {
 /** columns and relationships of "auth.providers" */
 export type AuthProviders = {
   __typename?: 'authProviders';
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /** An array relationship */
   userProviders: Array<Auth_User_Providers>;
   /** An aggregate relationship */
@@ -11826,8 +11835,8 @@ export type AuthProviders = {
 /** columns and relationships of "auth.providers" */
 export type AuthProvidersUserProvidersArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
@@ -11835,8 +11844,8 @@ export type AuthProvidersUserProvidersArgs = {
 /** columns and relationships of "auth.providers" */
 export type AuthProvidersUserProviders_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
@@ -11851,7 +11860,7 @@ export type AuthProviders_Aggregate = {
 /** aggregate fields of "auth.providers" */
 export type AuthProviders_Aggregate_Fields = {
   __typename?: 'authProviders_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<AuthProviders_Max_Fields>;
   min: Maybe<AuthProviders_Min_Fields>;
 };
@@ -11859,7 +11868,7 @@ export type AuthProviders_Aggregate_Fields = {
 /** aggregate fields of "auth.providers" */
 export type AuthProviders_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<AuthProviders_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "auth.providers". All fields are combined with a logical 'AND'. */
@@ -11880,27 +11889,27 @@ export enum AuthProviders_Constraint {
 
 /** input type for inserting data into table "auth.providers" */
 export type AuthProviders_Insert_Input = {
-  id: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
   userProviders: InputMaybe<Auth_User_Providers_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type AuthProviders_Max_Fields = {
   __typename?: 'authProviders_max_fields';
-  id: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type AuthProviders_Min_Fields = {
   __typename?: 'authProviders_min_fields';
-  id: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "auth.providers" */
 export type AuthProviders_Mutation_Response = {
   __typename?: 'authProviders_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<AuthProviders>;
 };
@@ -11920,7 +11929,7 @@ export type AuthProviders_Order_By = {
 
 /** primary key columns input for table: auth.providers */
 export type AuthProviders_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "auth.providers" */
@@ -11931,7 +11940,7 @@ export enum AuthProviders_Select_Column {
 
 /** input type for updating data in table "auth.providers" */
 export type AuthProviders_Set_Input = {
-  id: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "authProviders" */
@@ -11944,7 +11953,7 @@ export type AuthProviders_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuthProviders_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']>;
+  id: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "auth.providers" */
@@ -11963,13 +11972,13 @@ export type AuthProviders_Updates = {
 /** columns and relationships of "auth.refresh_tokens" */
 export type AuthRefreshTokens = {
   __typename?: 'authRefreshTokens';
-  createdAt: Scalars['timestamptz'];
-  expiresAt: Scalars['timestamptz'];
-  refreshToken: Scalars['uuid'];
-  refresh_token_hash: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamptz']['output'];
+  expiresAt: Scalars['timestamptz']['output'];
+  refreshToken: Scalars['uuid']['output'];
+  refresh_token_hash: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   user: Users;
-  userId: Scalars['uuid'];
+  userId: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "auth.refresh_tokens" */
@@ -11985,7 +11994,7 @@ export type AuthRefreshTokens_Aggregate_Bool_Exp = {
 
 export type AuthRefreshTokens_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<AuthRefreshTokens_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -11993,7 +12002,7 @@ export type AuthRefreshTokens_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "auth.refresh_tokens" */
 export type AuthRefreshTokens_Aggregate_Fields = {
   __typename?: 'authRefreshTokens_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<AuthRefreshTokens_Max_Fields>;
   min: Maybe<AuthRefreshTokens_Min_Fields>;
 };
@@ -12001,7 +12010,7 @@ export type AuthRefreshTokens_Aggregate_Fields = {
 /** aggregate fields of "auth.refresh_tokens" */
 export type AuthRefreshTokens_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "auth.refresh_tokens" */
@@ -12039,21 +12048,21 @@ export enum AuthRefreshTokens_Constraint {
 
 /** input type for inserting data into table "auth.refresh_tokens" */
 export type AuthRefreshTokens_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  expiresAt: InputMaybe<Scalars['timestamptz']>;
-  refreshToken: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  expiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  refreshToken: InputMaybe<Scalars['uuid']['input']>;
   user: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  userId: InputMaybe<Scalars['uuid']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type AuthRefreshTokens_Max_Fields = {
   __typename?: 'authRefreshTokens_max_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  expiresAt: Maybe<Scalars['timestamptz']>;
-  refreshToken: Maybe<Scalars['uuid']>;
-  refresh_token_hash: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  expiresAt: Maybe<Scalars['timestamptz']['output']>;
+  refreshToken: Maybe<Scalars['uuid']['output']>;
+  refresh_token_hash: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "auth.refresh_tokens" */
@@ -12068,11 +12077,11 @@ export type AuthRefreshTokens_Max_Order_By = {
 /** aggregate min on columns */
 export type AuthRefreshTokens_Min_Fields = {
   __typename?: 'authRefreshTokens_min_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  expiresAt: Maybe<Scalars['timestamptz']>;
-  refreshToken: Maybe<Scalars['uuid']>;
-  refresh_token_hash: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  expiresAt: Maybe<Scalars['timestamptz']['output']>;
+  refreshToken: Maybe<Scalars['uuid']['output']>;
+  refresh_token_hash: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "auth.refresh_tokens" */
@@ -12088,7 +12097,7 @@ export type AuthRefreshTokens_Min_Order_By = {
 export type AuthRefreshTokens_Mutation_Response = {
   __typename?: 'authRefreshTokens_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<AuthRefreshTokens>;
 };
@@ -12112,7 +12121,7 @@ export type AuthRefreshTokens_Order_By = {
 
 /** primary key columns input for table: auth.refresh_tokens */
 export type AuthRefreshTokens_Pk_Columns_Input = {
-  refreshToken: Scalars['uuid'];
+  refreshToken: Scalars['uuid']['input'];
 };
 
 /** select columns of table "auth.refresh_tokens" */
@@ -12131,10 +12140,10 @@ export enum AuthRefreshTokens_Select_Column {
 
 /** input type for updating data in table "auth.refresh_tokens" */
 export type AuthRefreshTokens_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  expiresAt: InputMaybe<Scalars['timestamptz']>;
-  refreshToken: InputMaybe<Scalars['uuid']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  expiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  refreshToken: InputMaybe<Scalars['uuid']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "authRefreshTokens" */
@@ -12147,11 +12156,11 @@ export type AuthRefreshTokens_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuthRefreshTokens_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  expiresAt: InputMaybe<Scalars['timestamptz']>;
-  refreshToken: InputMaybe<Scalars['uuid']>;
-  refresh_token_hash: InputMaybe<Scalars['String']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  expiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  refreshToken: InputMaybe<Scalars['uuid']['input']>;
+  refresh_token_hash: InputMaybe<Scalars['String']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "auth.refresh_tokens" */
@@ -12176,14 +12185,14 @@ export type AuthRefreshTokens_Updates = {
 /** columns and relationships of "auth.user_roles" */
 export type AuthUserRoles = {
   __typename?: 'authUserRoles';
-  createdAt: Scalars['timestamptz'];
-  id: Scalars['uuid'];
-  role: Scalars['String'];
+  createdAt: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  role: Scalars['String']['output'];
   /** An object relationship */
   roleByRole: Auth_Roles;
   /** An object relationship */
   user: Users;
-  userId: Scalars['uuid'];
+  userId: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "auth.user_roles" */
@@ -12199,7 +12208,7 @@ export type AuthUserRoles_Aggregate_Bool_Exp = {
 
 export type AuthUserRoles_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<AuthUserRoles_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -12207,7 +12216,7 @@ export type AuthUserRoles_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "auth.user_roles" */
 export type AuthUserRoles_Aggregate_Fields = {
   __typename?: 'authUserRoles_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<AuthUserRoles_Max_Fields>;
   min: Maybe<AuthUserRoles_Min_Fields>;
 };
@@ -12215,7 +12224,7 @@ export type AuthUserRoles_Aggregate_Fields = {
 /** aggregate fields of "auth.user_roles" */
 export type AuthUserRoles_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "auth.user_roles" */
@@ -12255,21 +12264,21 @@ export enum AuthUserRoles_Constraint {
 
 /** input type for inserting data into table "auth.user_roles" */
 export type AuthUserRoles_Insert_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  role: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  role: InputMaybe<Scalars['String']['input']>;
   roleByRole: InputMaybe<Auth_Roles_Obj_Rel_Insert_Input>;
   user: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  userId: InputMaybe<Scalars['uuid']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type AuthUserRoles_Max_Fields = {
   __typename?: 'authUserRoles_max_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['uuid']>;
-  role: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  role: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "auth.user_roles" */
@@ -12283,10 +12292,10 @@ export type AuthUserRoles_Max_Order_By = {
 /** aggregate min on columns */
 export type AuthUserRoles_Min_Fields = {
   __typename?: 'authUserRoles_min_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['uuid']>;
-  role: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  role: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "auth.user_roles" */
@@ -12301,7 +12310,7 @@ export type AuthUserRoles_Min_Order_By = {
 export type AuthUserRoles_Mutation_Response = {
   __typename?: 'authUserRoles_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<AuthUserRoles>;
 };
@@ -12325,7 +12334,7 @@ export type AuthUserRoles_Order_By = {
 
 /** primary key columns input for table: auth.user_roles */
 export type AuthUserRoles_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "auth.user_roles" */
@@ -12342,10 +12351,10 @@ export enum AuthUserRoles_Select_Column {
 
 /** input type for updating data in table "auth.user_roles" */
 export type AuthUserRoles_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  role: InputMaybe<Scalars['String']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  role: InputMaybe<Scalars['String']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "authUserRoles" */
@@ -12358,10 +12367,10 @@ export type AuthUserRoles_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuthUserRoles_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  role: InputMaybe<Scalars['String']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  role: InputMaybe<Scalars['String']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "auth.user_roles" */
@@ -12386,15 +12395,15 @@ export type AuthUserRoles_Updates = {
 /** columns and relationships of "auth.user_security_keys" */
 export type AuthUserSecurityKeys = {
   __typename?: 'authUserSecurityKeys';
-  counter: Scalars['bigint'];
-  credentialId: Scalars['String'];
-  credentialPublicKey: Maybe<Scalars['bytea']>;
-  id: Scalars['uuid'];
-  nickname: Maybe<Scalars['String']>;
-  transports: Scalars['String'];
+  counter: Scalars['bigint']['output'];
+  credentialId: Scalars['String']['output'];
+  credentialPublicKey: Maybe<Scalars['bytea']['output']>;
+  id: Scalars['uuid']['output'];
+  nickname: Maybe<Scalars['String']['output']>;
+  transports: Scalars['String']['output'];
   /** An object relationship */
   user: Users;
-  userId: Scalars['uuid'];
+  userId: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "auth.user_security_keys" */
@@ -12410,7 +12419,7 @@ export type AuthUserSecurityKeys_Aggregate_Bool_Exp = {
 
 export type AuthUserSecurityKeys_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -12419,7 +12428,7 @@ export type AuthUserSecurityKeys_Aggregate_Bool_Exp_Count = {
 export type AuthUserSecurityKeys_Aggregate_Fields = {
   __typename?: 'authUserSecurityKeys_aggregate_fields';
   avg: Maybe<AuthUserSecurityKeys_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<AuthUserSecurityKeys_Max_Fields>;
   min: Maybe<AuthUserSecurityKeys_Min_Fields>;
   stddev: Maybe<AuthUserSecurityKeys_Stddev_Fields>;
@@ -12434,7 +12443,7 @@ export type AuthUserSecurityKeys_Aggregate_Fields = {
 /** aggregate fields of "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "auth.user_security_keys" */
@@ -12462,7 +12471,7 @@ export type AuthUserSecurityKeys_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type AuthUserSecurityKeys_Avg_Fields = {
   __typename?: 'authUserSecurityKeys_avg_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "auth.user_security_keys" */
@@ -12495,30 +12504,30 @@ export enum AuthUserSecurityKeys_Constraint {
 
 /** input type for incrementing numeric columns in table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Inc_Input = {
-  counter: InputMaybe<Scalars['bigint']>;
+  counter: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Insert_Input = {
-  counter: InputMaybe<Scalars['bigint']>;
-  credentialId: InputMaybe<Scalars['String']>;
-  credentialPublicKey: InputMaybe<Scalars['bytea']>;
-  id: InputMaybe<Scalars['uuid']>;
-  nickname: InputMaybe<Scalars['String']>;
-  transports: InputMaybe<Scalars['String']>;
+  counter: InputMaybe<Scalars['bigint']['input']>;
+  credentialId: InputMaybe<Scalars['String']['input']>;
+  credentialPublicKey: InputMaybe<Scalars['bytea']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  nickname: InputMaybe<Scalars['String']['input']>;
+  transports: InputMaybe<Scalars['String']['input']>;
   user: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  userId: InputMaybe<Scalars['uuid']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type AuthUserSecurityKeys_Max_Fields = {
   __typename?: 'authUserSecurityKeys_max_fields';
-  counter: Maybe<Scalars['bigint']>;
-  credentialId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['uuid']>;
-  nickname: Maybe<Scalars['String']>;
-  transports: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  counter: Maybe<Scalars['bigint']['output']>;
+  credentialId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  nickname: Maybe<Scalars['String']['output']>;
+  transports: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "auth.user_security_keys" */
@@ -12534,12 +12543,12 @@ export type AuthUserSecurityKeys_Max_Order_By = {
 /** aggregate min on columns */
 export type AuthUserSecurityKeys_Min_Fields = {
   __typename?: 'authUserSecurityKeys_min_fields';
-  counter: Maybe<Scalars['bigint']>;
-  credentialId: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['uuid']>;
-  nickname: Maybe<Scalars['String']>;
-  transports: Maybe<Scalars['String']>;
-  userId: Maybe<Scalars['uuid']>;
+  counter: Maybe<Scalars['bigint']['output']>;
+  credentialId: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  nickname: Maybe<Scalars['String']['output']>;
+  transports: Maybe<Scalars['String']['output']>;
+  userId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "auth.user_security_keys" */
@@ -12556,7 +12565,7 @@ export type AuthUserSecurityKeys_Min_Order_By = {
 export type AuthUserSecurityKeys_Mutation_Response = {
   __typename?: 'authUserSecurityKeys_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<AuthUserSecurityKeys>;
 };
@@ -12582,7 +12591,7 @@ export type AuthUserSecurityKeys_Order_By = {
 
 /** primary key columns input for table: auth.user_security_keys */
 export type AuthUserSecurityKeys_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "auth.user_security_keys" */
@@ -12605,19 +12614,19 @@ export enum AuthUserSecurityKeys_Select_Column {
 
 /** input type for updating data in table "auth.user_security_keys" */
 export type AuthUserSecurityKeys_Set_Input = {
-  counter: InputMaybe<Scalars['bigint']>;
-  credentialId: InputMaybe<Scalars['String']>;
-  credentialPublicKey: InputMaybe<Scalars['bytea']>;
-  id: InputMaybe<Scalars['uuid']>;
-  nickname: InputMaybe<Scalars['String']>;
-  transports: InputMaybe<Scalars['String']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  counter: InputMaybe<Scalars['bigint']['input']>;
+  credentialId: InputMaybe<Scalars['String']['input']>;
+  credentialPublicKey: InputMaybe<Scalars['bytea']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  nickname: InputMaybe<Scalars['String']['input']>;
+  transports: InputMaybe<Scalars['String']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type AuthUserSecurityKeys_Stddev_Fields = {
   __typename?: 'authUserSecurityKeys_stddev_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "auth.user_security_keys" */
@@ -12628,7 +12637,7 @@ export type AuthUserSecurityKeys_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type AuthUserSecurityKeys_Stddev_Pop_Fields = {
   __typename?: 'authUserSecurityKeys_stddev_pop_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "auth.user_security_keys" */
@@ -12639,7 +12648,7 @@ export type AuthUserSecurityKeys_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type AuthUserSecurityKeys_Stddev_Samp_Fields = {
   __typename?: 'authUserSecurityKeys_stddev_samp_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "auth.user_security_keys" */
@@ -12657,19 +12666,19 @@ export type AuthUserSecurityKeys_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuthUserSecurityKeys_Stream_Cursor_Value_Input = {
-  counter: InputMaybe<Scalars['bigint']>;
-  credentialId: InputMaybe<Scalars['String']>;
-  credentialPublicKey: InputMaybe<Scalars['bytea']>;
-  id: InputMaybe<Scalars['uuid']>;
-  nickname: InputMaybe<Scalars['String']>;
-  transports: InputMaybe<Scalars['String']>;
-  userId: InputMaybe<Scalars['uuid']>;
+  counter: InputMaybe<Scalars['bigint']['input']>;
+  credentialId: InputMaybe<Scalars['String']['input']>;
+  credentialPublicKey: InputMaybe<Scalars['bytea']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  nickname: InputMaybe<Scalars['String']['input']>;
+  transports: InputMaybe<Scalars['String']['input']>;
+  userId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate sum on columns */
 export type AuthUserSecurityKeys_Sum_Fields = {
   __typename?: 'authUserSecurityKeys_sum_fields';
-  counter: Maybe<Scalars['bigint']>;
+  counter: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "auth.user_security_keys" */
@@ -12707,7 +12716,7 @@ export type AuthUserSecurityKeys_Updates = {
 /** aggregate var_pop on columns */
 export type AuthUserSecurityKeys_Var_Pop_Fields = {
   __typename?: 'authUserSecurityKeys_var_pop_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "auth.user_security_keys" */
@@ -12718,7 +12727,7 @@ export type AuthUserSecurityKeys_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type AuthUserSecurityKeys_Var_Samp_Fields = {
   __typename?: 'authUserSecurityKeys_var_samp_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "auth.user_security_keys" */
@@ -12729,7 +12738,7 @@ export type AuthUserSecurityKeys_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type AuthUserSecurityKeys_Variance_Fields = {
   __typename?: 'authUserSecurityKeys_variance_fields';
-  counter: Maybe<Scalars['Float']>;
+  counter: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "auth.user_security_keys" */
@@ -12740,7 +12749,7 @@ export type AuthUserSecurityKeys_Variance_Order_By = {
 /** columns and relationships of "auth.roles" */
 export type Auth_Roles = {
   __typename?: 'auth_roles';
-  role: Scalars['String'];
+  role: Scalars['String']['output'];
 };
 
 /** aggregated selection of "auth.roles" */
@@ -12753,7 +12762,7 @@ export type Auth_Roles_Aggregate = {
 /** aggregate fields of "auth.roles" */
 export type Auth_Roles_Aggregate_Fields = {
   __typename?: 'auth_roles_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Auth_Roles_Max_Fields>;
   min: Maybe<Auth_Roles_Min_Fields>;
 };
@@ -12761,7 +12770,7 @@ export type Auth_Roles_Aggregate_Fields = {
 /** aggregate fields of "auth.roles" */
 export type Auth_Roles_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Auth_Roles_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "auth.roles". All fields are combined with a logical 'AND'. */
@@ -12780,26 +12789,26 @@ export enum Auth_Roles_Constraint {
 
 /** input type for inserting data into table "auth.roles" */
 export type Auth_Roles_Insert_Input = {
-  role: InputMaybe<Scalars['String']>;
+  role: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Auth_Roles_Max_Fields = {
   __typename?: 'auth_roles_max_fields';
-  role: Maybe<Scalars['String']>;
+  role: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Auth_Roles_Min_Fields = {
   __typename?: 'auth_roles_min_fields';
-  role: Maybe<Scalars['String']>;
+  role: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "auth.roles" */
 export type Auth_Roles_Mutation_Response = {
   __typename?: 'auth_roles_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Auth_Roles>;
 };
@@ -12825,7 +12834,7 @@ export type Auth_Roles_Order_By = {
 
 /** primary key columns input for table: auth.roles */
 export type Auth_Roles_Pk_Columns_Input = {
-  role: Scalars['String'];
+  role: Scalars['String']['input'];
 };
 
 /** select columns of table "auth.roles" */
@@ -12836,7 +12845,7 @@ export enum Auth_Roles_Select_Column {
 
 /** input type for updating data in table "auth.roles" */
 export type Auth_Roles_Set_Input = {
-  role: InputMaybe<Scalars['String']>;
+  role: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "auth_roles" */
@@ -12849,7 +12858,7 @@ export type Auth_Roles_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Auth_Roles_Stream_Cursor_Value_Input = {
-  role: InputMaybe<Scalars['String']>;
+  role: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "auth.roles" */
@@ -12868,14 +12877,14 @@ export type Auth_Roles_Updates = {
 /** columns and relationships of "auth.user_providers" */
 export type Auth_User_Providers = {
   __typename?: 'auth_user_providers';
-  access_token: Scalars['String'];
-  created_at: Scalars['timestamptz'];
-  id: Scalars['uuid'];
-  provider_id: Scalars['String'];
-  provider_user_id: Scalars['String'];
-  refresh_token: Maybe<Scalars['String']>;
-  updated_at: Scalars['timestamptz'];
-  user_id: Scalars['uuid'];
+  access_token: Scalars['String']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  provider_id: Scalars['String']['output'];
+  provider_user_id: Scalars['String']['output'];
+  refresh_token: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['timestamptz']['output'];
+  user_id: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "auth.user_providers" */
@@ -12891,7 +12900,7 @@ export type Auth_User_Providers_Aggregate_Bool_Exp = {
 
 export type Auth_User_Providers_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Auth_User_Providers_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -12899,7 +12908,7 @@ export type Auth_User_Providers_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "auth.user_providers" */
 export type Auth_User_Providers_Aggregate_Fields = {
   __typename?: 'auth_user_providers_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Auth_User_Providers_Max_Fields>;
   min: Maybe<Auth_User_Providers_Min_Fields>;
 };
@@ -12907,7 +12916,7 @@ export type Auth_User_Providers_Aggregate_Fields = {
 /** aggregate fields of "auth.user_providers" */
 export type Auth_User_Providers_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "auth.user_providers" */
@@ -12951,27 +12960,27 @@ export enum Auth_User_Providers_Constraint {
 
 /** input type for inserting data into table "auth.user_providers" */
 export type Auth_User_Providers_Insert_Input = {
-  access_token: InputMaybe<Scalars['String']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  provider_id: InputMaybe<Scalars['String']>;
-  provider_user_id: InputMaybe<Scalars['String']>;
-  refresh_token: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
-  user_id: InputMaybe<Scalars['uuid']>;
+  access_token: InputMaybe<Scalars['String']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  provider_id: InputMaybe<Scalars['String']['input']>;
+  provider_user_id: InputMaybe<Scalars['String']['input']>;
+  refresh_token: InputMaybe<Scalars['String']['input']>;
+  updated_at: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Auth_User_Providers_Max_Fields = {
   __typename?: 'auth_user_providers_max_fields';
-  access_token: Maybe<Scalars['String']>;
-  created_at: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['uuid']>;
-  provider_id: Maybe<Scalars['String']>;
-  provider_user_id: Maybe<Scalars['String']>;
-  refresh_token: Maybe<Scalars['String']>;
-  updated_at: Maybe<Scalars['timestamptz']>;
-  user_id: Maybe<Scalars['uuid']>;
+  access_token: Maybe<Scalars['String']['output']>;
+  created_at: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  provider_id: Maybe<Scalars['String']['output']>;
+  provider_user_id: Maybe<Scalars['String']['output']>;
+  refresh_token: Maybe<Scalars['String']['output']>;
+  updated_at: Maybe<Scalars['timestamptz']['output']>;
+  user_id: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "auth.user_providers" */
@@ -12989,14 +12998,14 @@ export type Auth_User_Providers_Max_Order_By = {
 /** aggregate min on columns */
 export type Auth_User_Providers_Min_Fields = {
   __typename?: 'auth_user_providers_min_fields';
-  access_token: Maybe<Scalars['String']>;
-  created_at: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['uuid']>;
-  provider_id: Maybe<Scalars['String']>;
-  provider_user_id: Maybe<Scalars['String']>;
-  refresh_token: Maybe<Scalars['String']>;
-  updated_at: Maybe<Scalars['timestamptz']>;
-  user_id: Maybe<Scalars['uuid']>;
+  access_token: Maybe<Scalars['String']['output']>;
+  created_at: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  provider_id: Maybe<Scalars['String']['output']>;
+  provider_user_id: Maybe<Scalars['String']['output']>;
+  refresh_token: Maybe<Scalars['String']['output']>;
+  updated_at: Maybe<Scalars['timestamptz']['output']>;
+  user_id: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "auth.user_providers" */
@@ -13015,7 +13024,7 @@ export type Auth_User_Providers_Min_Order_By = {
 export type Auth_User_Providers_Mutation_Response = {
   __typename?: 'auth_user_providers_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Auth_User_Providers>;
 };
@@ -13041,7 +13050,7 @@ export type Auth_User_Providers_Order_By = {
 
 /** primary key columns input for table: auth.user_providers */
 export type Auth_User_Providers_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** select columns of table "auth.user_providers" */
@@ -13066,14 +13075,14 @@ export enum Auth_User_Providers_Select_Column {
 
 /** input type for updating data in table "auth.user_providers" */
 export type Auth_User_Providers_Set_Input = {
-  access_token: InputMaybe<Scalars['String']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  provider_id: InputMaybe<Scalars['String']>;
-  provider_user_id: InputMaybe<Scalars['String']>;
-  refresh_token: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
-  user_id: InputMaybe<Scalars['uuid']>;
+  access_token: InputMaybe<Scalars['String']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  provider_id: InputMaybe<Scalars['String']['input']>;
+  provider_user_id: InputMaybe<Scalars['String']['input']>;
+  refresh_token: InputMaybe<Scalars['String']['input']>;
+  updated_at: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "auth_user_providers" */
@@ -13086,14 +13095,14 @@ export type Auth_User_Providers_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Auth_User_Providers_Stream_Cursor_Value_Input = {
-  access_token: InputMaybe<Scalars['String']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['uuid']>;
-  provider_id: InputMaybe<Scalars['String']>;
-  provider_user_id: InputMaybe<Scalars['String']>;
-  refresh_token: InputMaybe<Scalars['String']>;
-  updated_at: InputMaybe<Scalars['timestamptz']>;
-  user_id: InputMaybe<Scalars['uuid']>;
+  access_token: InputMaybe<Scalars['String']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  provider_id: InputMaybe<Scalars['String']['input']>;
+  provider_user_id: InputMaybe<Scalars['String']['input']>;
+  refresh_token: InputMaybe<Scalars['String']['input']>;
+  updated_at: InputMaybe<Scalars['timestamptz']['input']>;
+  user_id: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "auth.user_providers" */
@@ -13125,61 +13134,61 @@ export type Auth_User_Providers_Updates = {
 
 /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
 export type Bigint_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['bigint']>;
-  _gt: InputMaybe<Scalars['bigint']>;
-  _gte: InputMaybe<Scalars['bigint']>;
-  _in: InputMaybe<Array<Scalars['bigint']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['bigint']>;
-  _lte: InputMaybe<Scalars['bigint']>;
-  _neq: InputMaybe<Scalars['bigint']>;
-  _nin: InputMaybe<Array<Scalars['bigint']>>;
+  _eq: InputMaybe<Scalars['bigint']['input']>;
+  _gt: InputMaybe<Scalars['bigint']['input']>;
+  _gte: InputMaybe<Scalars['bigint']['input']>;
+  _in: InputMaybe<Array<Scalars['bigint']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['bigint']['input']>;
+  _lte: InputMaybe<Scalars['bigint']['input']>;
+  _neq: InputMaybe<Scalars['bigint']['input']>;
+  _nin: InputMaybe<Array<Scalars['bigint']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
 export type Bytea_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['bytea']>;
-  _gt: InputMaybe<Scalars['bytea']>;
-  _gte: InputMaybe<Scalars['bytea']>;
-  _in: InputMaybe<Array<Scalars['bytea']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['bytea']>;
-  _lte: InputMaybe<Scalars['bytea']>;
-  _neq: InputMaybe<Scalars['bytea']>;
-  _nin: InputMaybe<Array<Scalars['bytea']>>;
+  _eq: InputMaybe<Scalars['bytea']['input']>;
+  _gt: InputMaybe<Scalars['bytea']['input']>;
+  _gte: InputMaybe<Scalars['bytea']['input']>;
+  _in: InputMaybe<Array<Scalars['bytea']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['bytea']['input']>;
+  _lte: InputMaybe<Scalars['bytea']['input']>;
+  _neq: InputMaybe<Scalars['bytea']['input']>;
+  _nin: InputMaybe<Array<Scalars['bytea']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
 export type Citext_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['citext']>;
-  _gt: InputMaybe<Scalars['citext']>;
-  _gte: InputMaybe<Scalars['citext']>;
+  _eq: InputMaybe<Scalars['citext']['input']>;
+  _gt: InputMaybe<Scalars['citext']['input']>;
+  _gte: InputMaybe<Scalars['citext']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike: InputMaybe<Scalars['citext']>;
-  _in: InputMaybe<Array<Scalars['citext']>>;
+  _ilike: InputMaybe<Scalars['citext']['input']>;
+  _in: InputMaybe<Array<Scalars['citext']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex: InputMaybe<Scalars['citext']>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
+  _iregex: InputMaybe<Scalars['citext']['input']>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like: InputMaybe<Scalars['citext']>;
-  _lt: InputMaybe<Scalars['citext']>;
-  _lte: InputMaybe<Scalars['citext']>;
-  _neq: InputMaybe<Scalars['citext']>;
+  _like: InputMaybe<Scalars['citext']['input']>;
+  _lt: InputMaybe<Scalars['citext']['input']>;
+  _lte: InputMaybe<Scalars['citext']['input']>;
+  _neq: InputMaybe<Scalars['citext']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike: InputMaybe<Scalars['citext']>;
-  _nin: InputMaybe<Array<Scalars['citext']>>;
+  _nilike: InputMaybe<Scalars['citext']['input']>;
+  _nin: InputMaybe<Array<Scalars['citext']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex: InputMaybe<Scalars['citext']>;
+  _niregex: InputMaybe<Scalars['citext']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike: InputMaybe<Scalars['citext']>;
+  _nlike: InputMaybe<Scalars['citext']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex: InputMaybe<Scalars['citext']>;
+  _nregex: InputMaybe<Scalars['citext']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar: InputMaybe<Scalars['citext']>;
+  _nsimilar: InputMaybe<Scalars['citext']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex: InputMaybe<Scalars['citext']>;
+  _regex: InputMaybe<Scalars['citext']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar: InputMaybe<Scalars['citext']>;
+  _similar: InputMaybe<Scalars['citext']['input']>;
 };
 
 /** ordering argument of a cursor */
@@ -13192,22 +13201,22 @@ export enum Cursor_Ordering {
 
 /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
 export type Date_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['date']>;
-  _gt: InputMaybe<Scalars['date']>;
-  _gte: InputMaybe<Scalars['date']>;
-  _in: InputMaybe<Array<Scalars['date']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['date']>;
-  _lte: InputMaybe<Scalars['date']>;
-  _neq: InputMaybe<Scalars['date']>;
-  _nin: InputMaybe<Array<Scalars['date']>>;
+  _eq: InputMaybe<Scalars['date']['input']>;
+  _gt: InputMaybe<Scalars['date']['input']>;
+  _gte: InputMaybe<Scalars['date']['input']>;
+  _in: InputMaybe<Array<Scalars['date']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['date']['input']>;
+  _lte: InputMaybe<Scalars['date']['input']>;
+  _neq: InputMaybe<Scalars['date']['input']>;
+  _nin: InputMaybe<Array<Scalars['date']['input']>>;
 };
 
 /** columns and relationships of "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product = {
   __typename?: 'dbt_store_b2b_product';
-  id: Scalars['String'];
-  largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
+  id: Scalars['String']['output'];
+  largest_bundle_price_in_cents: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
 };
@@ -13223,7 +13232,7 @@ export type Dbt_Store_B2b_Product_Aggregate = {
 export type Dbt_Store_B2b_Product_Aggregate_Fields = {
   __typename?: 'dbt_store_b2b_product_aggregate_fields';
   avg: Maybe<Dbt_Store_B2b_Product_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_B2b_Product_Max_Fields>;
   min: Maybe<Dbt_Store_B2b_Product_Min_Fields>;
   stddev: Maybe<Dbt_Store_B2b_Product_Stddev_Fields>;
@@ -13238,13 +13247,13 @@ export type Dbt_Store_B2b_Product_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_B2b_Product_Avg_Fields = {
   __typename?: 'dbt_store_b2b_product_avg_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_b2b_product". All fields are combined with a logical 'AND'. */
@@ -13265,35 +13274,35 @@ export enum Dbt_Store_B2b_Product_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Inc_Input = {
-  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
+  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Insert_Input = {
-  id: InputMaybe<Scalars['String']>;
-  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_B2b_Product_Max_Fields = {
   __typename?: 'dbt_store_b2b_product_max_fields';
-  id: Maybe<Scalars['String']>;
-  largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
+  id: Maybe<Scalars['String']['output']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_B2b_Product_Min_Fields = {
   __typename?: 'dbt_store_b2b_product_min_fields';
-  id: Maybe<Scalars['String']>;
-  largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
+  id: Maybe<Scalars['String']['output']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Mutation_Response = {
   __typename?: 'dbt_store_b2b_product_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_B2b_Product>;
 };
@@ -13321,7 +13330,7 @@ export type Dbt_Store_B2b_Product_Order_By = {
 
 /** primary key columns input for table: dbt.store_b2b_product */
 export type Dbt_Store_B2b_Product_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_b2b_product" */
@@ -13334,26 +13343,26 @@ export enum Dbt_Store_B2b_Product_Select_Column {
 
 /** input type for updating data in table "dbt.store_b2b_product" */
 export type Dbt_Store_B2b_Product_Set_Input = {
-  id: InputMaybe<Scalars['String']>;
-  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_B2b_Product_Stddev_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_B2b_Product_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_pop_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_B2b_Product_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_stddev_samp_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_b2b_product" */
@@ -13366,14 +13375,14 @@ export type Dbt_Store_B2b_Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2b_Product_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']>;
-  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  largest_bundle_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_B2b_Product_Sum_Fields = {
   __typename?: 'dbt_store_b2b_product_sum_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['bigint']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_b2b_product" */
@@ -13396,28 +13405,28 @@ export type Dbt_Store_B2b_Product_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_B2b_Product_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_var_pop_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_B2b_Product_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_var_samp_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_B2b_Product_Variance_Fields = {
   __typename?: 'dbt_store_b2b_product_variance_fields';
-  largest_bundle_price_in_cents: Maybe<Scalars['Float']>;
+  largest_bundle_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant = {
   __typename?: 'dbt_store_b2b_product_variant';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Scalars['String'];
-  price: Scalars['float8'];
-  shopify_id: Scalars['bigint'];
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Scalars['String']['output'];
+  price: Scalars['float8']['output'];
+  shopify_id: Scalars['bigint']['output'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
@@ -13433,7 +13442,7 @@ export type Dbt_Store_B2b_Product_Variant_Aggregate = {
 export type Dbt_Store_B2b_Product_Variant_Aggregate_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_aggregate_fields';
   avg: Maybe<Dbt_Store_B2b_Product_Variant_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_B2b_Product_Variant_Max_Fields>;
   min: Maybe<Dbt_Store_B2b_Product_Variant_Min_Fields>;
   stddev: Maybe<Dbt_Store_B2b_Product_Variant_Stddev_Fields>;
@@ -13448,15 +13457,15 @@ export type Dbt_Store_B2b_Product_Variant_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_B2b_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_avg_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_b2b_product_variant". All fields are combined with a logical 'AND'. */
@@ -13479,43 +13488,43 @@ export enum Dbt_Store_B2b_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Inc_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Insert_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_B2b_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_max_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_B2b_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_min_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Mutation_Response = {
   __typename?: 'dbt_store_b2b_product_variant_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_B2b_Product_Variant>;
 };
@@ -13545,7 +13554,7 @@ export type Dbt_Store_B2b_Product_Variant_Order_By = {
 
 /** primary key columns input for table: dbt.store_b2b_product_variant */
 export type Dbt_Store_B2b_Product_Variant_Pk_Columns_Input = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_b2b_product_variant" */
@@ -13562,34 +13571,34 @@ export enum Dbt_Store_B2b_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_b2b_product_variant" */
 export type Dbt_Store_B2b_Product_Variant_Set_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_B2b_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_B2b_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_pop_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_B2b_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_stddev_samp_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_b2b_product_variant" */
@@ -13602,18 +13611,18 @@ export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2b_Product_Variant_Stream_Cursor_Value_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_B2b_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_sum_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_b2b_product_variant" */
@@ -13640,34 +13649,34 @@ export type Dbt_Store_B2b_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_B2b_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_var_pop_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_B2b_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_var_samp_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_B2b_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_b2b_product_variant_variance_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant = {
   __typename?: 'dbt_store_b2c_product_variant';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Scalars['String'];
-  price: Scalars['float8'];
-  shopify_id: Scalars['bigint'];
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Scalars['String']['output'];
+  price: Scalars['float8']['output'];
+  shopify_id: Scalars['bigint']['output'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
@@ -13683,7 +13692,7 @@ export type Dbt_Store_B2c_Product_Variant_Aggregate = {
 export type Dbt_Store_B2c_Product_Variant_Aggregate_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_aggregate_fields';
   avg: Maybe<Dbt_Store_B2c_Product_Variant_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_B2c_Product_Variant_Max_Fields>;
   min: Maybe<Dbt_Store_B2c_Product_Variant_Min_Fields>;
   stddev: Maybe<Dbt_Store_B2c_Product_Variant_Stddev_Fields>;
@@ -13698,15 +13707,15 @@ export type Dbt_Store_B2c_Product_Variant_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_B2c_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_avg_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_b2c_product_variant". All fields are combined with a logical 'AND'. */
@@ -13729,43 +13738,43 @@ export enum Dbt_Store_B2c_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Inc_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Insert_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_B2c_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_max_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_B2c_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_min_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Mutation_Response = {
   __typename?: 'dbt_store_b2c_product_variant_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_B2c_Product_Variant>;
 };
@@ -13795,7 +13804,7 @@ export type Dbt_Store_B2c_Product_Variant_Order_By = {
 
 /** primary key columns input for table: dbt.store_b2c_product_variant */
 export type Dbt_Store_B2c_Product_Variant_Pk_Columns_Input = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_b2c_product_variant" */
@@ -13812,34 +13821,34 @@ export enum Dbt_Store_B2c_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_b2c_product_variant" */
 export type Dbt_Store_B2c_Product_Variant_Set_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_pop_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_B2c_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_stddev_samp_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_b2c_product_variant" */
@@ -13852,18 +13861,18 @@ export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_B2c_Product_Variant_Stream_Cursor_Value_Input = {
-  compare_at_price: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['float8']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  compare_at_price: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  price: InputMaybe<Scalars['float8']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_B2c_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_sum_fields';
-  compare_at_price: Maybe<Scalars['float8']>;
-  price: Maybe<Scalars['float8']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  compare_at_price: Maybe<Scalars['float8']['output']>;
+  price: Maybe<Scalars['float8']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_b2c_product_variant" */
@@ -13890,25 +13899,25 @@ export type Dbt_Store_B2c_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_B2c_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_var_pop_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_B2c_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_var_samp_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_B2c_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_b2c_product_variant_variance_fields';
-  compare_at_price: Maybe<Scalars['Float']>;
-  price: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  compare_at_price: Maybe<Scalars['Float']['output']>;
+  price: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_base_product" */
@@ -13924,15 +13933,15 @@ export type Dbt_Store_Base_Product = {
   collections: Array<Dbt_Store_Product_Collection>;
   /** An aggregate relationship */
   collections_aggregate: Dbt_Store_Product_Collection_Aggregate;
-  createdAt: Scalars['timestamptz'];
-  id: Scalars['String'];
+  createdAt: Scalars['timestamptz']['output'];
+  id: Scalars['String']['output'];
   /** An array relationship */
   images: Array<Dbt_Store_Exposed_Product_Image>;
   /** An aggregate relationship */
   images_aggregate: Dbt_Store_Exposed_Product_Image_Aggregate;
   /** An object relationship */
   product: Maybe<Dbt_Store_Exposed_Product>;
-  shopifyId: Scalars['bigint'];
+  shopifyId: Scalars['bigint']['output'];
   /** An array relationship */
   tags: Array<Dbt_Store_Exposed_Product_Tag>;
   /** An aggregate relationship */
@@ -13941,14 +13950,14 @@ export type Dbt_Store_Base_Product = {
   variants: Array<Dbt_Store_Base_Product_Variant>;
   /** An aggregate relationship */
   variants_aggregate: Dbt_Store_Base_Product_Variant_Aggregate;
-  vendorId: Scalars['uuid'];
+  vendorId: Scalars['uuid']['output'];
 };
 
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductBundlePricesArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
@@ -13956,8 +13965,8 @@ export type Dbt_Store_Base_ProductBundlePricesArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductBundlePrices_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
@@ -13965,8 +13974,8 @@ export type Dbt_Store_Base_ProductBundlePrices_AggregateArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductCollectionsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
@@ -13974,8 +13983,8 @@ export type Dbt_Store_Base_ProductCollectionsArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductCollections_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
@@ -13983,8 +13992,8 @@ export type Dbt_Store_Base_ProductCollections_AggregateArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductImagesArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
@@ -13992,8 +14001,8 @@ export type Dbt_Store_Base_ProductImagesArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductImages_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
@@ -14001,8 +14010,8 @@ export type Dbt_Store_Base_ProductImages_AggregateArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductTagsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
@@ -14010,8 +14019,8 @@ export type Dbt_Store_Base_ProductTagsArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductTags_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
@@ -14019,8 +14028,8 @@ export type Dbt_Store_Base_ProductTags_AggregateArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductVariantsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
@@ -14028,8 +14037,8 @@ export type Dbt_Store_Base_ProductVariantsArgs = {
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductVariants_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
@@ -14045,7 +14054,7 @@ export type Dbt_Store_Base_Product_Aggregate = {
 export type Dbt_Store_Base_Product_Aggregate_Fields = {
   __typename?: 'dbt_store_base_product_aggregate_fields';
   avg: Maybe<Dbt_Store_Base_Product_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Base_Product_Max_Fields>;
   min: Maybe<Dbt_Store_Base_Product_Min_Fields>;
   stddev: Maybe<Dbt_Store_Base_Product_Stddev_Fields>;
@@ -14060,13 +14069,13 @@ export type Dbt_Store_Base_Product_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_base_product" */
 export type Dbt_Store_Base_Product_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_Base_Product_Avg_Fields = {
   __typename?: 'dbt_store_base_product_avg_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_base_product". All fields are combined with a logical 'AND'. */
@@ -14102,7 +14111,7 @@ export enum Dbt_Store_Base_Product_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_base_product" */
 export type Dbt_Store_Base_Product_Inc_Input = {
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_base_product" */
@@ -14110,39 +14119,39 @@ export type Dbt_Store_Base_Product_Insert_Input = {
   b2bProduct: InputMaybe<Dbt_Store_B2b_Product_Obj_Rel_Insert_Input>;
   bundlePrices: InputMaybe<Dbt_Store_Bundle_Price_Arr_Rel_Insert_Input>;
   collections: InputMaybe<Dbt_Store_Product_Collection_Arr_Rel_Insert_Input>;
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Arr_Rel_Insert_Input>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Obj_Rel_Insert_Input>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
   tags: InputMaybe<Dbt_Store_Exposed_Product_Tag_Arr_Rel_Insert_Input>;
   variants: InputMaybe<Dbt_Store_Base_Product_Variant_Arr_Rel_Insert_Input>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Base_Product_Max_Fields = {
   __typename?: 'dbt_store_base_product_max_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_Base_Product_Min_Fields = {
   __typename?: 'dbt_store_base_product_min_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['String']>;
-  shopifyId: Maybe<Scalars['bigint']>;
-  vendorId: Maybe<Scalars['uuid']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
+  vendorId: Maybe<Scalars['uuid']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_base_product" */
 export type Dbt_Store_Base_Product_Mutation_Response = {
   __typename?: 'dbt_store_base_product_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Base_Product>;
 };
@@ -14178,7 +14187,7 @@ export type Dbt_Store_Base_Product_Order_By = {
 
 /** primary key columns input for table: dbt.store_base_product */
 export type Dbt_Store_Base_Product_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_base_product" */
@@ -14195,28 +14204,28 @@ export enum Dbt_Store_Base_Product_Select_Column {
 
 /** input type for updating data in table "dbt.store_base_product" */
 export type Dbt_Store_Base_Product_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Base_Product_Stddev_Fields = {
   __typename?: 'dbt_store_base_product_stddev_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Base_Product_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_base_product_stddev_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Base_Product_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_base_product_stddev_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_base_product" */
@@ -14229,16 +14238,16 @@ export type Dbt_Store_Base_Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Base_Product_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
-  shopifyId: InputMaybe<Scalars['bigint']>;
-  vendorId: InputMaybe<Scalars['uuid']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  shopifyId: InputMaybe<Scalars['bigint']['input']>;
+  vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Base_Product_Sum_Fields = {
   __typename?: 'dbt_store_base_product_sum_fields';
-  shopifyId: Maybe<Scalars['bigint']>;
+  shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_base_product" */
@@ -14265,19 +14274,19 @@ export type Dbt_Store_Base_Product_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Base_Product_Var_Pop_Fields = {
   __typename?: 'dbt_store_base_product_var_pop_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Base_Product_Var_Samp_Fields = {
   __typename?: 'dbt_store_base_product_var_samp_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Base_Product_Variance_Fields = {
   __typename?: 'dbt_store_base_product_variance_fields';
-  shopifyId: Maybe<Scalars['Float']>;
+  shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_base_product_variant" */
@@ -14287,12 +14296,12 @@ export type Dbt_Store_Base_Product_Variant = {
   b2bVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   /** An object relationship */
   b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
-  createdAt: Scalars['timestamptz'];
-  id: Maybe<Scalars['String']>;
+  createdAt: Scalars['timestamptz']['output'];
+  id: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
-  productId: Scalars['String'];
-  shopify_id: Scalars['bigint'];
+  productId: Scalars['String']['output'];
+  shopify_id: Scalars['bigint']['output'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Exposed_Product_Variant>;
 };
@@ -14310,7 +14319,7 @@ export type Dbt_Store_Base_Product_Variant_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Base_Product_Variant_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -14319,7 +14328,7 @@ export type Dbt_Store_Base_Product_Variant_Aggregate_Bool_Exp_Count = {
 export type Dbt_Store_Base_Product_Variant_Aggregate_Fields = {
   __typename?: 'dbt_store_base_product_variant_aggregate_fields';
   avg: Maybe<Dbt_Store_Base_Product_Variant_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Base_Product_Variant_Max_Fields>;
   min: Maybe<Dbt_Store_Base_Product_Variant_Min_Fields>;
   stddev: Maybe<Dbt_Store_Base_Product_Variant_Stddev_Fields>;
@@ -14334,7 +14343,7 @@ export type Dbt_Store_Base_Product_Variant_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_base_product_variant" */
@@ -14362,7 +14371,7 @@ export type Dbt_Store_Base_Product_Variant_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Dbt_Store_Base_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_base_product_variant_avg_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "dbt.store_base_product_variant" */
@@ -14393,28 +14402,28 @@ export enum Dbt_Store_Base_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Inc_Input = {
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Insert_Input = {
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Obj_Rel_Insert_Input>;
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input>;
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
   variant: InputMaybe<Dbt_Store_Exposed_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Base_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_base_product_variant_max_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_base_product_variant" */
@@ -14428,10 +14437,10 @@ export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Base_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_base_product_variant_min_fields';
-  createdAt: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['String']>;
-  productId: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_base_product_variant" */
@@ -14446,7 +14455,7 @@ export type Dbt_Store_Base_Product_Variant_Min_Order_By = {
 export type Dbt_Store_Base_Product_Variant_Mutation_Response = {
   __typename?: 'dbt_store_base_product_variant_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Base_Product_Variant>;
 };
@@ -14479,7 +14488,7 @@ export type Dbt_Store_Base_Product_Variant_Order_By = {
 
 /** primary key columns input for table: dbt.store_base_product_variant */
 export type Dbt_Store_Base_Product_Variant_Pk_Columns_Input = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_base_product_variant" */
@@ -14496,16 +14505,16 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_base_product_variant" */
 export type Dbt_Store_Base_Product_Variant_Set_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Base_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_base_product_variant_stddev_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "dbt.store_base_product_variant" */
@@ -14516,7 +14525,7 @@ export type Dbt_Store_Base_Product_Variant_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Base_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_base_product_variant_stddev_pop_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "dbt.store_base_product_variant" */
@@ -14527,7 +14536,7 @@ export type Dbt_Store_Base_Product_Variant_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Base_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_base_product_variant_stddev_samp_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "dbt.store_base_product_variant" */
@@ -14545,16 +14554,16 @@ export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Value_Input = {
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['String']>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Base_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_base_product_variant_sum_fields';
-  shopify_id: Maybe<Scalars['bigint']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "dbt.store_base_product_variant" */
@@ -14586,7 +14595,7 @@ export type Dbt_Store_Base_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Base_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_base_product_variant_var_pop_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "dbt.store_base_product_variant" */
@@ -14597,7 +14606,7 @@ export type Dbt_Store_Base_Product_Variant_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Dbt_Store_Base_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_base_product_variant_var_samp_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "dbt.store_base_product_variant" */
@@ -14608,7 +14617,7 @@ export type Dbt_Store_Base_Product_Variant_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Dbt_Store_Base_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_base_product_variant_variance_fields';
-  shopify_id: Maybe<Scalars['Float']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "dbt.store_base_product_variant" */
@@ -14619,12 +14628,12 @@ export type Dbt_Store_Base_Product_Variant_Variance_Order_By = {
 /** columns and relationships of "dbt.store_bundle_price" */
 export type Dbt_Store_Bundle_Price = {
   __typename?: 'dbt_store_bundle_price';
-  id: Scalars['String'];
-  min_quantity: Scalars['Int'];
+  id: Scalars['String']['output'];
+  min_quantity: Scalars['Int']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
-  product_id: Scalars['String'];
-  unit_price_in_cents: Scalars['bigint'];
+  product_id: Scalars['String']['output'];
+  unit_price_in_cents: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "dbt.store_bundle_price" */
@@ -14640,7 +14649,7 @@ export type Dbt_Store_Bundle_Price_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Bundle_Price_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -14649,7 +14658,7 @@ export type Dbt_Store_Bundle_Price_Aggregate_Bool_Exp_Count = {
 export type Dbt_Store_Bundle_Price_Aggregate_Fields = {
   __typename?: 'dbt_store_bundle_price_aggregate_fields';
   avg: Maybe<Dbt_Store_Bundle_Price_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Bundle_Price_Max_Fields>;
   min: Maybe<Dbt_Store_Bundle_Price_Min_Fields>;
   stddev: Maybe<Dbt_Store_Bundle_Price_Stddev_Fields>;
@@ -14664,7 +14673,7 @@ export type Dbt_Store_Bundle_Price_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_bundle_price" */
 export type Dbt_Store_Bundle_Price_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_bundle_price" */
@@ -14692,8 +14701,8 @@ export type Dbt_Store_Bundle_Price_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Dbt_Store_Bundle_Price_Avg_Fields = {
   __typename?: 'dbt_store_bundle_price_avg_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "dbt.store_bundle_price" */
@@ -14722,26 +14731,26 @@ export enum Dbt_Store_Bundle_Price_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_bundle_price" */
 export type Dbt_Store_Bundle_Price_Inc_Input = {
-  min_quantity: InputMaybe<Scalars['Int']>;
-  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+  min_quantity: InputMaybe<Scalars['Int']['input']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_bundle_price" */
 export type Dbt_Store_Bundle_Price_Insert_Input = {
-  id: InputMaybe<Scalars['String']>;
-  min_quantity: InputMaybe<Scalars['Int']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  min_quantity: InputMaybe<Scalars['Int']['input']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
-  product_id: InputMaybe<Scalars['String']>;
-  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Bundle_Price_Max_Fields = {
   __typename?: 'dbt_store_bundle_price_max_fields';
-  id: Maybe<Scalars['String']>;
-  min_quantity: Maybe<Scalars['Int']>;
-  product_id: Maybe<Scalars['String']>;
-  unit_price_in_cents: Maybe<Scalars['bigint']>;
+  id: Maybe<Scalars['String']['output']>;
+  min_quantity: Maybe<Scalars['Int']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_bundle_price" */
@@ -14755,10 +14764,10 @@ export type Dbt_Store_Bundle_Price_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Bundle_Price_Min_Fields = {
   __typename?: 'dbt_store_bundle_price_min_fields';
-  id: Maybe<Scalars['String']>;
-  min_quantity: Maybe<Scalars['Int']>;
-  product_id: Maybe<Scalars['String']>;
-  unit_price_in_cents: Maybe<Scalars['bigint']>;
+  id: Maybe<Scalars['String']['output']>;
+  min_quantity: Maybe<Scalars['Int']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_bundle_price" */
@@ -14773,7 +14782,7 @@ export type Dbt_Store_Bundle_Price_Min_Order_By = {
 export type Dbt_Store_Bundle_Price_Mutation_Response = {
   __typename?: 'dbt_store_bundle_price_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Bundle_Price>;
 };
@@ -14796,7 +14805,7 @@ export type Dbt_Store_Bundle_Price_Order_By = {
 
 /** primary key columns input for table: dbt.store_bundle_price */
 export type Dbt_Store_Bundle_Price_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_bundle_price" */
@@ -14813,17 +14822,17 @@ export enum Dbt_Store_Bundle_Price_Select_Column {
 
 /** input type for updating data in table "dbt.store_bundle_price" */
 export type Dbt_Store_Bundle_Price_Set_Input = {
-  id: InputMaybe<Scalars['String']>;
-  min_quantity: InputMaybe<Scalars['Int']>;
-  product_id: InputMaybe<Scalars['String']>;
-  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  min_quantity: InputMaybe<Scalars['Int']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Bundle_Price_Stddev_Fields = {
   __typename?: 'dbt_store_bundle_price_stddev_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "dbt.store_bundle_price" */
@@ -14835,8 +14844,8 @@ export type Dbt_Store_Bundle_Price_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Bundle_Price_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_bundle_price_stddev_pop_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "dbt.store_bundle_price" */
@@ -14848,8 +14857,8 @@ export type Dbt_Store_Bundle_Price_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Bundle_Price_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_bundle_price_stddev_samp_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "dbt.store_bundle_price" */
@@ -14868,17 +14877,17 @@ export type Dbt_Store_Bundle_Price_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Bundle_Price_Stream_Cursor_Value_Input = {
-  id: InputMaybe<Scalars['String']>;
-  min_quantity: InputMaybe<Scalars['Int']>;
-  product_id: InputMaybe<Scalars['String']>;
-  unit_price_in_cents: InputMaybe<Scalars['bigint']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  min_quantity: InputMaybe<Scalars['Int']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  unit_price_in_cents: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Bundle_Price_Sum_Fields = {
   __typename?: 'dbt_store_bundle_price_sum_fields';
-  min_quantity: Maybe<Scalars['Int']>;
-  unit_price_in_cents: Maybe<Scalars['bigint']>;
+  min_quantity: Maybe<Scalars['Int']['output']>;
+  unit_price_in_cents: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "dbt.store_bundle_price" */
@@ -14911,8 +14920,8 @@ export type Dbt_Store_Bundle_Price_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Bundle_Price_Var_Pop_Fields = {
   __typename?: 'dbt_store_bundle_price_var_pop_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "dbt.store_bundle_price" */
@@ -14924,8 +14933,8 @@ export type Dbt_Store_Bundle_Price_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Dbt_Store_Bundle_Price_Var_Samp_Fields = {
   __typename?: 'dbt_store_bundle_price_var_samp_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "dbt.store_bundle_price" */
@@ -14937,8 +14946,8 @@ export type Dbt_Store_Bundle_Price_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Dbt_Store_Bundle_Price_Variance_Fields = {
   __typename?: 'dbt_store_bundle_price_variance_fields';
-  min_quantity: Maybe<Scalars['Float']>;
-  unit_price_in_cents: Maybe<Scalars['Float']>;
+  min_quantity: Maybe<Scalars['Float']['output']>;
+  unit_price_in_cents: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "dbt.store_bundle_price" */
@@ -14950,26 +14959,26 @@ export type Dbt_Store_Bundle_Price_Variance_Order_By = {
 /** columns and relationships of "dbt.store_discount" */
 export type Dbt_Store_Discount = {
   __typename?: 'dbt_store_discount';
-  code: Maybe<Scalars['String']>;
+  code: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   collection: Array<Dbt_Store_Discount_Collection>;
   /** An aggregate relationship */
   collection_aggregate: Dbt_Store_Discount_Collection_Aggregate;
-  ends_at: Maybe<Scalars['timestamptz']>;
-  id: Scalars['bigint'];
-  is_public: Scalars['Boolean'];
-  min_amount: Maybe<Scalars['float8']>;
-  starts_at: Scalars['timestamptz'];
-  title: Scalars['String'];
-  value: Scalars['float8'];
-  value_type: Scalars['String'];
+  ends_at: Maybe<Scalars['timestamptz']['output']>;
+  id: Scalars['bigint']['output'];
+  is_public: Scalars['Boolean']['output'];
+  min_amount: Maybe<Scalars['float8']['output']>;
+  starts_at: Scalars['timestamptz']['output'];
+  title: Scalars['String']['output'];
+  value: Scalars['float8']['output'];
+  value_type: Scalars['String']['output'];
 };
 
 /** columns and relationships of "dbt.store_discount" */
 export type Dbt_Store_DiscountCollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
@@ -14977,8 +14986,8 @@ export type Dbt_Store_DiscountCollectionArgs = {
 /** columns and relationships of "dbt.store_discount" */
 export type Dbt_Store_DiscountCollection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
@@ -14994,7 +15003,7 @@ export type Dbt_Store_Discount_Aggregate = {
 export type Dbt_Store_Discount_Aggregate_Fields = {
   __typename?: 'dbt_store_discount_aggregate_fields';
   avg: Maybe<Dbt_Store_Discount_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Discount_Max_Fields>;
   min: Maybe<Dbt_Store_Discount_Min_Fields>;
   stddev: Maybe<Dbt_Store_Discount_Stddev_Fields>;
@@ -15009,15 +15018,15 @@ export type Dbt_Store_Discount_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_discount" */
 export type Dbt_Store_Discount_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_Discount_Avg_Fields = {
   __typename?: 'dbt_store_discount_avg_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_discount". All fields are combined with a logical 'AND'. */
@@ -15041,10 +15050,10 @@ export type Dbt_Store_Discount_Bool_Exp = {
 /** columns and relationships of "dbt.store_discount_collection" */
 export type Dbt_Store_Discount_Collection = {
   __typename?: 'dbt_store_discount_collection';
-  collection_internal_id: Scalars['String'];
+  collection_internal_id: Scalars['String']['output'];
   /** An object relationship */
   discount: Maybe<Dbt_Store_Discount>;
-  discount_id: Scalars['bigint'];
+  discount_id: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "dbt.store_discount_collection" */
@@ -15060,7 +15069,7 @@ export type Dbt_Store_Discount_Collection_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Discount_Collection_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -15069,7 +15078,7 @@ export type Dbt_Store_Discount_Collection_Aggregate_Bool_Exp_Count = {
 export type Dbt_Store_Discount_Collection_Aggregate_Fields = {
   __typename?: 'dbt_store_discount_collection_aggregate_fields';
   avg: Maybe<Dbt_Store_Discount_Collection_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Discount_Collection_Max_Fields>;
   min: Maybe<Dbt_Store_Discount_Collection_Min_Fields>;
   stddev: Maybe<Dbt_Store_Discount_Collection_Stddev_Fields>;
@@ -15084,7 +15093,7 @@ export type Dbt_Store_Discount_Collection_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_discount_collection" */
 export type Dbt_Store_Discount_Collection_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_discount_collection" */
@@ -15112,7 +15121,7 @@ export type Dbt_Store_Discount_Collection_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Dbt_Store_Discount_Collection_Avg_Fields = {
   __typename?: 'dbt_store_discount_collection_avg_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "dbt.store_discount_collection" */
@@ -15138,21 +15147,21 @@ export enum Dbt_Store_Discount_Collection_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_discount_collection" */
 export type Dbt_Store_Discount_Collection_Inc_Input = {
-  discount_id: InputMaybe<Scalars['bigint']>;
+  discount_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_discount_collection" */
 export type Dbt_Store_Discount_Collection_Insert_Input = {
-  collection_internal_id: InputMaybe<Scalars['String']>;
+  collection_internal_id: InputMaybe<Scalars['String']['input']>;
   discount: InputMaybe<Dbt_Store_Discount_Obj_Rel_Insert_Input>;
-  discount_id: InputMaybe<Scalars['bigint']>;
+  discount_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Discount_Collection_Max_Fields = {
   __typename?: 'dbt_store_discount_collection_max_fields';
-  collection_internal_id: Maybe<Scalars['String']>;
-  discount_id: Maybe<Scalars['bigint']>;
+  collection_internal_id: Maybe<Scalars['String']['output']>;
+  discount_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_discount_collection" */
@@ -15164,8 +15173,8 @@ export type Dbt_Store_Discount_Collection_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Discount_Collection_Min_Fields = {
   __typename?: 'dbt_store_discount_collection_min_fields';
-  collection_internal_id: Maybe<Scalars['String']>;
-  discount_id: Maybe<Scalars['bigint']>;
+  collection_internal_id: Maybe<Scalars['String']['output']>;
+  discount_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_discount_collection" */
@@ -15178,7 +15187,7 @@ export type Dbt_Store_Discount_Collection_Min_Order_By = {
 export type Dbt_Store_Discount_Collection_Mutation_Response = {
   __typename?: 'dbt_store_discount_collection_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Discount_Collection>;
 };
@@ -15199,8 +15208,8 @@ export type Dbt_Store_Discount_Collection_Order_By = {
 
 /** primary key columns input for table: dbt.store_discount_collection */
 export type Dbt_Store_Discount_Collection_Pk_Columns_Input = {
-  collection_internal_id: Scalars['String'];
-  discount_id: Scalars['bigint'];
+  collection_internal_id: Scalars['String']['input'];
+  discount_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_discount_collection" */
@@ -15213,14 +15222,14 @@ export enum Dbt_Store_Discount_Collection_Select_Column {
 
 /** input type for updating data in table "dbt.store_discount_collection" */
 export type Dbt_Store_Discount_Collection_Set_Input = {
-  collection_internal_id: InputMaybe<Scalars['String']>;
-  discount_id: InputMaybe<Scalars['bigint']>;
+  collection_internal_id: InputMaybe<Scalars['String']['input']>;
+  discount_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Discount_Collection_Stddev_Fields = {
   __typename?: 'dbt_store_discount_collection_stddev_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "dbt.store_discount_collection" */
@@ -15231,7 +15240,7 @@ export type Dbt_Store_Discount_Collection_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Discount_Collection_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_discount_collection_stddev_pop_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "dbt.store_discount_collection" */
@@ -15242,7 +15251,7 @@ export type Dbt_Store_Discount_Collection_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Discount_Collection_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_discount_collection_stddev_samp_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "dbt.store_discount_collection" */
@@ -15260,14 +15269,14 @@ export type Dbt_Store_Discount_Collection_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Discount_Collection_Stream_Cursor_Value_Input = {
-  collection_internal_id: InputMaybe<Scalars['String']>;
-  discount_id: InputMaybe<Scalars['bigint']>;
+  collection_internal_id: InputMaybe<Scalars['String']['input']>;
+  discount_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Discount_Collection_Sum_Fields = {
   __typename?: 'dbt_store_discount_collection_sum_fields';
-  discount_id: Maybe<Scalars['bigint']>;
+  discount_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "dbt.store_discount_collection" */
@@ -15295,7 +15304,7 @@ export type Dbt_Store_Discount_Collection_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Discount_Collection_Var_Pop_Fields = {
   __typename?: 'dbt_store_discount_collection_var_pop_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "dbt.store_discount_collection" */
@@ -15306,7 +15315,7 @@ export type Dbt_Store_Discount_Collection_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Dbt_Store_Discount_Collection_Var_Samp_Fields = {
   __typename?: 'dbt_store_discount_collection_var_samp_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "dbt.store_discount_collection" */
@@ -15317,7 +15326,7 @@ export type Dbt_Store_Discount_Collection_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Dbt_Store_Discount_Collection_Variance_Fields = {
   __typename?: 'dbt_store_discount_collection_variance_fields';
-  discount_id: Maybe<Scalars['Float']>;
+  discount_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "dbt.store_discount_collection" */
@@ -15333,56 +15342,56 @@ export enum Dbt_Store_Discount_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_discount" */
 export type Dbt_Store_Discount_Inc_Input = {
-  id: InputMaybe<Scalars['bigint']>;
-  min_amount: InputMaybe<Scalars['float8']>;
-  value: InputMaybe<Scalars['float8']>;
+  id: InputMaybe<Scalars['bigint']['input']>;
+  min_amount: InputMaybe<Scalars['float8']['input']>;
+  value: InputMaybe<Scalars['float8']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_discount" */
 export type Dbt_Store_Discount_Insert_Input = {
-  code: InputMaybe<Scalars['String']>;
+  code: InputMaybe<Scalars['String']['input']>;
   collection: InputMaybe<Dbt_Store_Discount_Collection_Arr_Rel_Insert_Input>;
-  ends_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['bigint']>;
-  is_public: InputMaybe<Scalars['Boolean']>;
-  min_amount: InputMaybe<Scalars['float8']>;
-  starts_at: InputMaybe<Scalars['timestamptz']>;
-  title: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['float8']>;
-  value_type: InputMaybe<Scalars['String']>;
+  ends_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['bigint']['input']>;
+  is_public: InputMaybe<Scalars['Boolean']['input']>;
+  min_amount: InputMaybe<Scalars['float8']['input']>;
+  starts_at: InputMaybe<Scalars['timestamptz']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['float8']['input']>;
+  value_type: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Discount_Max_Fields = {
   __typename?: 'dbt_store_discount_max_fields';
-  code: Maybe<Scalars['String']>;
-  ends_at: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['bigint']>;
-  min_amount: Maybe<Scalars['float8']>;
-  starts_at: Maybe<Scalars['timestamptz']>;
-  title: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['float8']>;
-  value_type: Maybe<Scalars['String']>;
+  code: Maybe<Scalars['String']['output']>;
+  ends_at: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['bigint']['output']>;
+  min_amount: Maybe<Scalars['float8']['output']>;
+  starts_at: Maybe<Scalars['timestamptz']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['float8']['output']>;
+  value_type: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_Discount_Min_Fields = {
   __typename?: 'dbt_store_discount_min_fields';
-  code: Maybe<Scalars['String']>;
-  ends_at: Maybe<Scalars['timestamptz']>;
-  id: Maybe<Scalars['bigint']>;
-  min_amount: Maybe<Scalars['float8']>;
-  starts_at: Maybe<Scalars['timestamptz']>;
-  title: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['float8']>;
-  value_type: Maybe<Scalars['String']>;
+  code: Maybe<Scalars['String']['output']>;
+  ends_at: Maybe<Scalars['timestamptz']['output']>;
+  id: Maybe<Scalars['bigint']['output']>;
+  min_amount: Maybe<Scalars['float8']['output']>;
+  starts_at: Maybe<Scalars['timestamptz']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['float8']['output']>;
+  value_type: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_discount" */
 export type Dbt_Store_Discount_Mutation_Response = {
   __typename?: 'dbt_store_discount_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Discount>;
 };
@@ -15439,39 +15448,39 @@ export enum Dbt_Store_Discount_Select_Column {
 
 /** input type for updating data in table "dbt.store_discount" */
 export type Dbt_Store_Discount_Set_Input = {
-  code: InputMaybe<Scalars['String']>;
-  ends_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['bigint']>;
-  is_public: InputMaybe<Scalars['Boolean']>;
-  min_amount: InputMaybe<Scalars['float8']>;
-  starts_at: InputMaybe<Scalars['timestamptz']>;
-  title: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['float8']>;
-  value_type: InputMaybe<Scalars['String']>;
+  code: InputMaybe<Scalars['String']['input']>;
+  ends_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['bigint']['input']>;
+  is_public: InputMaybe<Scalars['Boolean']['input']>;
+  min_amount: InputMaybe<Scalars['float8']['input']>;
+  starts_at: InputMaybe<Scalars['timestamptz']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['float8']['input']>;
+  value_type: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Discount_Stddev_Fields = {
   __typename?: 'dbt_store_discount_stddev_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Discount_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_discount_stddev_pop_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Discount_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_discount_stddev_samp_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_discount" */
@@ -15484,23 +15493,23 @@ export type Dbt_Store_Discount_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Discount_Stream_Cursor_Value_Input = {
-  code: InputMaybe<Scalars['String']>;
-  ends_at: InputMaybe<Scalars['timestamptz']>;
-  id: InputMaybe<Scalars['bigint']>;
-  is_public: InputMaybe<Scalars['Boolean']>;
-  min_amount: InputMaybe<Scalars['float8']>;
-  starts_at: InputMaybe<Scalars['timestamptz']>;
-  title: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['float8']>;
-  value_type: InputMaybe<Scalars['String']>;
+  code: InputMaybe<Scalars['String']['input']>;
+  ends_at: InputMaybe<Scalars['timestamptz']['input']>;
+  id: InputMaybe<Scalars['bigint']['input']>;
+  is_public: InputMaybe<Scalars['Boolean']['input']>;
+  min_amount: InputMaybe<Scalars['float8']['input']>;
+  starts_at: InputMaybe<Scalars['timestamptz']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['float8']['input']>;
+  value_type: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Discount_Sum_Fields = {
   __typename?: 'dbt_store_discount_sum_fields';
-  id: Maybe<Scalars['bigint']>;
-  min_amount: Maybe<Scalars['float8']>;
-  value: Maybe<Scalars['float8']>;
+  id: Maybe<Scalars['bigint']['output']>;
+  min_amount: Maybe<Scalars['float8']['output']>;
+  value: Maybe<Scalars['float8']['output']>;
 };
 
 /** update columns of table "dbt.store_discount" */
@@ -15537,49 +15546,49 @@ export type Dbt_Store_Discount_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Discount_Var_Pop_Fields = {
   __typename?: 'dbt_store_discount_var_pop_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Discount_Var_Samp_Fields = {
   __typename?: 'dbt_store_discount_var_samp_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Discount_Variance_Fields = {
   __typename?: 'dbt_store_discount_variance_fields';
-  id: Maybe<Scalars['Float']>;
-  min_amount: Maybe<Scalars['Float']>;
-  value: Maybe<Scalars['Float']>;
+  id: Maybe<Scalars['Float']['output']>;
+  min_amount: Maybe<Scalars['Float']['output']>;
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product = {
   __typename?: 'dbt_store_exposed_product';
-  brand: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  firstImage: Maybe<Scalars['String']>;
-  gender: Maybe<Scalars['String']>;
-  handle: Scalars['String'];
-  id: Scalars['String'];
-  model: Maybe<Scalars['String']>;
-  modelYear: Maybe<Scalars['String']>;
-  numberOfViews: Scalars['bigint'];
+  brand: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  firstImage: Maybe<Scalars['String']['output']>;
+  gender: Maybe<Scalars['String']['output']>;
+  handle: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  model: Maybe<Scalars['String']['output']>;
+  modelYear: Maybe<Scalars['String']['output']>;
+  numberOfViews: Scalars['bigint']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
-  productType: Scalars['String'];
-  publishedAt: Maybe<Scalars['timestamptz']>;
-  size: Maybe<Scalars['String']>;
-  status: Scalars['ProductStatus'];
-  syncDate: Scalars['date'];
-  title: Scalars['String'];
-  total_quantity: Scalars['bigint'];
-  vendor: Scalars['String'];
+  productType: Scalars['String']['output'];
+  publishedAt: Maybe<Scalars['timestamptz']['output']>;
+  size: Maybe<Scalars['String']['output']>;
+  status: Scalars['ProductStatus']['output'];
+  syncDate: Scalars['date']['output'];
+  title: Scalars['String']['output'];
+  total_quantity: Scalars['bigint']['output'];
+  vendor: Scalars['String']['output'];
 };
 
 /** aggregated selection of "dbt.store_exposed_product" */
@@ -15593,7 +15602,7 @@ export type Dbt_Store_Exposed_Product_Aggregate = {
 export type Dbt_Store_Exposed_Product_Aggregate_Fields = {
   __typename?: 'dbt_store_exposed_product_aggregate_fields';
   avg: Maybe<Dbt_Store_Exposed_Product_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Exposed_Product_Max_Fields>;
   min: Maybe<Dbt_Store_Exposed_Product_Min_Fields>;
   stddev: Maybe<Dbt_Store_Exposed_Product_Stddev_Fields>;
@@ -15608,14 +15617,14 @@ export type Dbt_Store_Exposed_Product_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_Exposed_Product_Avg_Fields = {
   __typename?: 'dbt_store_exposed_product_avg_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_exposed_product". All fields are combined with a logical 'AND'. */
@@ -15652,14 +15661,14 @@ export enum Dbt_Store_Exposed_Product_Constraint {
 /** columns and relationships of "dbt.store_exposed_product_image" */
 export type Dbt_Store_Exposed_Product_Image = {
   __typename?: 'dbt_store_exposed_product_image';
-  alt: Maybe<Scalars['String']>;
-  height: Scalars['bigint'];
-  position: Scalars['bigint'];
-  productId: Scalars['String'];
-  shopify_id: Scalars['bigint'];
-  src: Scalars['String'];
-  syncDate: Scalars['date'];
-  width: Scalars['bigint'];
+  alt: Maybe<Scalars['String']['output']>;
+  height: Scalars['bigint']['output'];
+  position: Scalars['bigint']['output'];
+  productId: Scalars['String']['output'];
+  shopify_id: Scalars['bigint']['output'];
+  src: Scalars['String']['output'];
+  syncDate: Scalars['date']['output'];
+  width: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "dbt.store_exposed_product_image" */
@@ -15675,7 +15684,7 @@ export type Dbt_Store_Exposed_Product_Image_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Exposed_Product_Image_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -15684,7 +15693,7 @@ export type Dbt_Store_Exposed_Product_Image_Aggregate_Bool_Exp_Count = {
 export type Dbt_Store_Exposed_Product_Image_Aggregate_Fields = {
   __typename?: 'dbt_store_exposed_product_image_aggregate_fields';
   avg: Maybe<Dbt_Store_Exposed_Product_Image_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Exposed_Product_Image_Max_Fields>;
   min: Maybe<Dbt_Store_Exposed_Product_Image_Min_Fields>;
   stddev: Maybe<Dbt_Store_Exposed_Product_Image_Stddev_Fields>;
@@ -15699,7 +15708,7 @@ export type Dbt_Store_Exposed_Product_Image_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_exposed_product_image" */
 export type Dbt_Store_Exposed_Product_Image_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_exposed_product_image" */
@@ -15727,10 +15736,10 @@ export type Dbt_Store_Exposed_Product_Image_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Dbt_Store_Exposed_Product_Image_Avg_Fields = {
   __typename?: 'dbt_store_exposed_product_image_avg_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "dbt.store_exposed_product_image" */
@@ -15764,35 +15773,35 @@ export enum Dbt_Store_Exposed_Product_Image_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_exposed_product_image" */
 export type Dbt_Store_Exposed_Product_Image_Inc_Input = {
-  height: InputMaybe<Scalars['bigint']>;
-  position: InputMaybe<Scalars['bigint']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  width: InputMaybe<Scalars['bigint']>;
+  height: InputMaybe<Scalars['bigint']['input']>;
+  position: InputMaybe<Scalars['bigint']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  width: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_exposed_product_image" */
 export type Dbt_Store_Exposed_Product_Image_Insert_Input = {
-  alt: InputMaybe<Scalars['String']>;
-  height: InputMaybe<Scalars['bigint']>;
-  position: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  src: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  width: InputMaybe<Scalars['bigint']>;
+  alt: InputMaybe<Scalars['String']['input']>;
+  height: InputMaybe<Scalars['bigint']['input']>;
+  position: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  src: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  width: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Exposed_Product_Image_Max_Fields = {
   __typename?: 'dbt_store_exposed_product_image_max_fields';
-  alt: Maybe<Scalars['String']>;
-  height: Maybe<Scalars['bigint']>;
-  position: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  src: Maybe<Scalars['String']>;
-  syncDate: Maybe<Scalars['date']>;
-  width: Maybe<Scalars['bigint']>;
+  alt: Maybe<Scalars['String']['output']>;
+  height: Maybe<Scalars['bigint']['output']>;
+  position: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  src: Maybe<Scalars['String']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  width: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_exposed_product_image" */
@@ -15810,14 +15819,14 @@ export type Dbt_Store_Exposed_Product_Image_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Exposed_Product_Image_Min_Fields = {
   __typename?: 'dbt_store_exposed_product_image_min_fields';
-  alt: Maybe<Scalars['String']>;
-  height: Maybe<Scalars['bigint']>;
-  position: Maybe<Scalars['bigint']>;
-  productId: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  src: Maybe<Scalars['String']>;
-  syncDate: Maybe<Scalars['date']>;
-  width: Maybe<Scalars['bigint']>;
+  alt: Maybe<Scalars['String']['output']>;
+  height: Maybe<Scalars['bigint']['output']>;
+  position: Maybe<Scalars['bigint']['output']>;
+  productId: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  src: Maybe<Scalars['String']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  width: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_exposed_product_image" */
@@ -15836,7 +15845,7 @@ export type Dbt_Store_Exposed_Product_Image_Min_Order_By = {
 export type Dbt_Store_Exposed_Product_Image_Mutation_Response = {
   __typename?: 'dbt_store_exposed_product_image_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Exposed_Product_Image>;
 };
@@ -15862,7 +15871,7 @@ export type Dbt_Store_Exposed_Product_Image_Order_By = {
 
 /** primary key columns input for table: dbt.store_exposed_product_image */
 export type Dbt_Store_Exposed_Product_Image_Pk_Columns_Input = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_exposed_product_image" */
@@ -15887,23 +15896,23 @@ export enum Dbt_Store_Exposed_Product_Image_Select_Column {
 
 /** input type for updating data in table "dbt.store_exposed_product_image" */
 export type Dbt_Store_Exposed_Product_Image_Set_Input = {
-  alt: InputMaybe<Scalars['String']>;
-  height: InputMaybe<Scalars['bigint']>;
-  position: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  src: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  width: InputMaybe<Scalars['bigint']>;
+  alt: InputMaybe<Scalars['String']['input']>;
+  height: InputMaybe<Scalars['bigint']['input']>;
+  position: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  src: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  width: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Exposed_Product_Image_Stddev_Fields = {
   __typename?: 'dbt_store_exposed_product_image_stddev_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "dbt.store_exposed_product_image" */
@@ -15917,10 +15926,10 @@ export type Dbt_Store_Exposed_Product_Image_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Exposed_Product_Image_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_image_stddev_pop_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "dbt.store_exposed_product_image" */
@@ -15934,10 +15943,10 @@ export type Dbt_Store_Exposed_Product_Image_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Exposed_Product_Image_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_image_stddev_samp_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "dbt.store_exposed_product_image" */
@@ -15958,23 +15967,23 @@ export type Dbt_Store_Exposed_Product_Image_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Exposed_Product_Image_Stream_Cursor_Value_Input = {
-  alt: InputMaybe<Scalars['String']>;
-  height: InputMaybe<Scalars['bigint']>;
-  position: InputMaybe<Scalars['bigint']>;
-  productId: InputMaybe<Scalars['String']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  src: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  width: InputMaybe<Scalars['bigint']>;
+  alt: InputMaybe<Scalars['String']['input']>;
+  height: InputMaybe<Scalars['bigint']['input']>;
+  position: InputMaybe<Scalars['bigint']['input']>;
+  productId: InputMaybe<Scalars['String']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  src: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  width: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Exposed_Product_Image_Sum_Fields = {
   __typename?: 'dbt_store_exposed_product_image_sum_fields';
-  height: Maybe<Scalars['bigint']>;
-  position: Maybe<Scalars['bigint']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  width: Maybe<Scalars['bigint']>;
+  height: Maybe<Scalars['bigint']['output']>;
+  position: Maybe<Scalars['bigint']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  width: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "dbt.store_exposed_product_image" */
@@ -16017,10 +16026,10 @@ export type Dbt_Store_Exposed_Product_Image_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Exposed_Product_Image_Var_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_image_var_pop_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "dbt.store_exposed_product_image" */
@@ -16034,10 +16043,10 @@ export type Dbt_Store_Exposed_Product_Image_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type Dbt_Store_Exposed_Product_Image_Var_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_image_var_samp_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "dbt.store_exposed_product_image" */
@@ -16051,10 +16060,10 @@ export type Dbt_Store_Exposed_Product_Image_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type Dbt_Store_Exposed_Product_Image_Variance_Fields = {
   __typename?: 'dbt_store_exposed_product_image_variance_fields';
-  height: Maybe<Scalars['Float']>;
-  position: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  width: Maybe<Scalars['Float']>;
+  height: Maybe<Scalars['Float']['output']>;
+  position: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  width: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "dbt.store_exposed_product_image" */
@@ -16067,81 +16076,81 @@ export type Dbt_Store_Exposed_Product_Image_Variance_Order_By = {
 
 /** input type for incrementing numeric columns in table "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product_Inc_Input = {
-  numberOfViews: InputMaybe<Scalars['bigint']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
+  numberOfViews: InputMaybe<Scalars['bigint']['input']>;
+  total_quantity: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product_Insert_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  description: InputMaybe<Scalars['String']>;
-  firstImage: InputMaybe<Scalars['String']>;
-  gender: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  model: InputMaybe<Scalars['String']>;
-  modelYear: InputMaybe<Scalars['String']>;
-  numberOfViews: InputMaybe<Scalars['bigint']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  firstImage: InputMaybe<Scalars['String']['input']>;
+  gender: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  model: InputMaybe<Scalars['String']['input']>;
+  modelYear: InputMaybe<Scalars['String']['input']>;
+  numberOfViews: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
-  productType: InputMaybe<Scalars['String']>;
-  publishedAt: InputMaybe<Scalars['timestamptz']>;
-  size: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
-  vendor: InputMaybe<Scalars['String']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  publishedAt: InputMaybe<Scalars['timestamptz']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  total_quantity: InputMaybe<Scalars['bigint']['input']>;
+  vendor: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Exposed_Product_Max_Fields = {
   __typename?: 'dbt_store_exposed_product_max_fields';
-  brand: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  firstImage: Maybe<Scalars['String']>;
-  gender: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  model: Maybe<Scalars['String']>;
-  modelYear: Maybe<Scalars['String']>;
-  numberOfViews: Maybe<Scalars['bigint']>;
-  productType: Maybe<Scalars['String']>;
-  publishedAt: Maybe<Scalars['timestamptz']>;
-  size: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  syncDate: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  total_quantity: Maybe<Scalars['bigint']>;
-  vendor: Maybe<Scalars['String']>;
+  brand: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  firstImage: Maybe<Scalars['String']['output']>;
+  gender: Maybe<Scalars['String']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  model: Maybe<Scalars['String']['output']>;
+  modelYear: Maybe<Scalars['String']['output']>;
+  numberOfViews: Maybe<Scalars['bigint']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  publishedAt: Maybe<Scalars['timestamptz']['output']>;
+  size: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ProductStatus']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  total_quantity: Maybe<Scalars['bigint']['output']>;
+  vendor: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_Exposed_Product_Min_Fields = {
   __typename?: 'dbt_store_exposed_product_min_fields';
-  brand: Maybe<Scalars['String']>;
-  description: Maybe<Scalars['String']>;
-  firstImage: Maybe<Scalars['String']>;
-  gender: Maybe<Scalars['String']>;
-  handle: Maybe<Scalars['String']>;
-  id: Maybe<Scalars['String']>;
-  model: Maybe<Scalars['String']>;
-  modelYear: Maybe<Scalars['String']>;
-  numberOfViews: Maybe<Scalars['bigint']>;
-  productType: Maybe<Scalars['String']>;
-  publishedAt: Maybe<Scalars['timestamptz']>;
-  size: Maybe<Scalars['String']>;
-  status: Maybe<Scalars['ProductStatus']>;
-  syncDate: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  total_quantity: Maybe<Scalars['bigint']>;
-  vendor: Maybe<Scalars['String']>;
+  brand: Maybe<Scalars['String']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  firstImage: Maybe<Scalars['String']['output']>;
+  gender: Maybe<Scalars['String']['output']>;
+  handle: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  model: Maybe<Scalars['String']['output']>;
+  modelYear: Maybe<Scalars['String']['output']>;
+  numberOfViews: Maybe<Scalars['bigint']['output']>;
+  productType: Maybe<Scalars['String']['output']>;
+  publishedAt: Maybe<Scalars['timestamptz']['output']>;
+  size: Maybe<Scalars['String']['output']>;
+  status: Maybe<Scalars['ProductStatus']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  total_quantity: Maybe<Scalars['bigint']['output']>;
+  vendor: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product_Mutation_Response = {
   __typename?: 'dbt_store_exposed_product_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Exposed_Product>;
 };
@@ -16184,7 +16193,7 @@ export type Dbt_Store_Exposed_Product_Order_By = {
 
 /** primary key columns input for table: dbt.store_exposed_product */
 export type Dbt_Store_Exposed_Product_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_exposed_product" */
@@ -16227,44 +16236,44 @@ export enum Dbt_Store_Exposed_Product_Select_Column {
 
 /** input type for updating data in table "dbt.store_exposed_product" */
 export type Dbt_Store_Exposed_Product_Set_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  description: InputMaybe<Scalars['String']>;
-  firstImage: InputMaybe<Scalars['String']>;
-  gender: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  model: InputMaybe<Scalars['String']>;
-  modelYear: InputMaybe<Scalars['String']>;
-  numberOfViews: InputMaybe<Scalars['bigint']>;
-  productType: InputMaybe<Scalars['String']>;
-  publishedAt: InputMaybe<Scalars['timestamptz']>;
-  size: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
-  vendor: InputMaybe<Scalars['String']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  firstImage: InputMaybe<Scalars['String']['input']>;
+  gender: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  model: InputMaybe<Scalars['String']['input']>;
+  modelYear: InputMaybe<Scalars['String']['input']>;
+  numberOfViews: InputMaybe<Scalars['bigint']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  publishedAt: InputMaybe<Scalars['timestamptz']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  total_quantity: InputMaybe<Scalars['bigint']['input']>;
+  vendor: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Exposed_Product_Stddev_Fields = {
   __typename?: 'dbt_store_exposed_product_stddev_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Exposed_Product_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_stddev_pop_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Exposed_Product_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_stddev_samp_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_exposed_product" */
@@ -16277,39 +16286,39 @@ export type Dbt_Store_Exposed_Product_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Exposed_Product_Stream_Cursor_Value_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  description: InputMaybe<Scalars['String']>;
-  firstImage: InputMaybe<Scalars['String']>;
-  gender: InputMaybe<Scalars['String']>;
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['String']>;
-  model: InputMaybe<Scalars['String']>;
-  modelYear: InputMaybe<Scalars['String']>;
-  numberOfViews: InputMaybe<Scalars['bigint']>;
-  productType: InputMaybe<Scalars['String']>;
-  publishedAt: InputMaybe<Scalars['timestamptz']>;
-  size: InputMaybe<Scalars['String']>;
-  status: InputMaybe<Scalars['ProductStatus']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  total_quantity: InputMaybe<Scalars['bigint']>;
-  vendor: InputMaybe<Scalars['String']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  firstImage: InputMaybe<Scalars['String']['input']>;
+  gender: InputMaybe<Scalars['String']['input']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  model: InputMaybe<Scalars['String']['input']>;
+  modelYear: InputMaybe<Scalars['String']['input']>;
+  numberOfViews: InputMaybe<Scalars['bigint']['input']>;
+  productType: InputMaybe<Scalars['String']['input']>;
+  publishedAt: InputMaybe<Scalars['timestamptz']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  status: InputMaybe<Scalars['ProductStatus']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  total_quantity: InputMaybe<Scalars['bigint']['input']>;
+  vendor: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Exposed_Product_Sum_Fields = {
   __typename?: 'dbt_store_exposed_product_sum_fields';
-  numberOfViews: Maybe<Scalars['bigint']>;
-  total_quantity: Maybe<Scalars['bigint']>;
+  numberOfViews: Maybe<Scalars['bigint']['output']>;
+  total_quantity: Maybe<Scalars['bigint']['output']>;
 };
 
 /** columns and relationships of "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag = {
   __typename?: 'dbt_store_exposed_product_tag';
-  full_tag: Maybe<Scalars['String']>;
-  product_id: Scalars['String'];
-  tag: Scalars['String'];
-  value: Scalars['String'];
+  full_tag: Maybe<Scalars['String']['output']>;
+  product_id: Scalars['String']['output'];
+  tag: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 /** aggregated selection of "dbt.store_exposed_product_tag" */
@@ -16325,7 +16334,7 @@ export type Dbt_Store_Exposed_Product_Tag_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Exposed_Product_Tag_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -16333,7 +16342,7 @@ export type Dbt_Store_Exposed_Product_Tag_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Aggregate_Fields = {
   __typename?: 'dbt_store_exposed_product_tag_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Exposed_Product_Tag_Max_Fields>;
   min: Maybe<Dbt_Store_Exposed_Product_Tag_Min_Fields>;
 };
@@ -16341,7 +16350,7 @@ export type Dbt_Store_Exposed_Product_Tag_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_exposed_product_tag" */
@@ -16369,19 +16378,19 @@ export type Dbt_Store_Exposed_Product_Tag_Bool_Exp = {
 
 /** input type for inserting data into table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Insert_Input = {
-  full_tag: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  tag: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  full_tag: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  tag: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Exposed_Product_Tag_Max_Fields = {
   __typename?: 'dbt_store_exposed_product_tag_max_fields';
-  full_tag: Maybe<Scalars['String']>;
-  product_id: Maybe<Scalars['String']>;
-  tag: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  full_tag: Maybe<Scalars['String']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  tag: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_exposed_product_tag" */
@@ -16395,10 +16404,10 @@ export type Dbt_Store_Exposed_Product_Tag_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Exposed_Product_Tag_Min_Fields = {
   __typename?: 'dbt_store_exposed_product_tag_min_fields';
-  full_tag: Maybe<Scalars['String']>;
-  product_id: Maybe<Scalars['String']>;
-  tag: Maybe<Scalars['String']>;
-  value: Maybe<Scalars['String']>;
+  full_tag: Maybe<Scalars['String']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  tag: Maybe<Scalars['String']['output']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_exposed_product_tag" */
@@ -16413,7 +16422,7 @@ export type Dbt_Store_Exposed_Product_Tag_Min_Order_By = {
 export type Dbt_Store_Exposed_Product_Tag_Mutation_Response = {
   __typename?: 'dbt_store_exposed_product_tag_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Exposed_Product_Tag>;
 };
@@ -16440,10 +16449,10 @@ export enum Dbt_Store_Exposed_Product_Tag_Select_Column {
 
 /** input type for updating data in table "dbt.store_exposed_product_tag" */
 export type Dbt_Store_Exposed_Product_Tag_Set_Input = {
-  full_tag: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  tag: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  full_tag: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  tag: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "dbt_store_exposed_product_tag" */
@@ -16456,10 +16465,10 @@ export type Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Value_Input = {
-  full_tag: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  tag: InputMaybe<Scalars['String']>;
-  value: InputMaybe<Scalars['String']>;
+  full_tag: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  tag: InputMaybe<Scalars['String']['input']>;
+  value: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Dbt_Store_Exposed_Product_Tag_Updates = {
@@ -16519,42 +16528,42 @@ export type Dbt_Store_Exposed_Product_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Exposed_Product_Var_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_var_pop_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Exposed_Product_Var_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_var_samp_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Exposed_Product_Variance_Fields = {
   __typename?: 'dbt_store_exposed_product_variance_fields';
-  numberOfViews: Maybe<Scalars['Float']>;
-  total_quantity: Maybe<Scalars['Float']>;
+  numberOfViews: Maybe<Scalars['Float']['output']>;
+  total_quantity: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant = {
   __typename?: 'dbt_store_exposed_product_variant';
-  condition: Maybe<Scalars['Condition']>;
-  id: Scalars['String'];
-  inventory_quantity: Scalars['bigint'];
-  isRefurbished: Maybe<Scalars['Boolean']>;
-  option1: Maybe<Scalars['String']>;
-  option1Name: Maybe<Scalars['String']>;
-  option2: Maybe<Scalars['String']>;
-  option2Name: Maybe<Scalars['String']>;
-  option3: Maybe<Scalars['String']>;
-  option3Name: Maybe<Scalars['String']>;
-  requiresShipping: Maybe<Scalars['Boolean']>;
-  shopify_id: Scalars['bigint'];
-  syncDate: Scalars['date'];
-  title: Scalars['String'];
-  updatedAt: Scalars['timestamptz'];
+  condition: Maybe<Scalars['Condition']['output']>;
+  id: Scalars['String']['output'];
+  inventory_quantity: Scalars['bigint']['output'];
+  isRefurbished: Maybe<Scalars['Boolean']['output']>;
+  option1: Maybe<Scalars['String']['output']>;
+  option1Name: Maybe<Scalars['String']['output']>;
+  option2: Maybe<Scalars['String']['output']>;
+  option2Name: Maybe<Scalars['String']['output']>;
+  option3: Maybe<Scalars['String']['output']>;
+  option3Name: Maybe<Scalars['String']['output']>;
+  requiresShipping: Maybe<Scalars['Boolean']['output']>;
+  shopify_id: Scalars['bigint']['output'];
+  syncDate: Scalars['date']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
   /** An object relationship */
   variant: Maybe<Dbt_Store_Base_Product_Variant>;
 };
@@ -16570,7 +16579,7 @@ export type Dbt_Store_Exposed_Product_Variant_Aggregate = {
 export type Dbt_Store_Exposed_Product_Variant_Aggregate_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_aggregate_fields';
   avg: Maybe<Dbt_Store_Exposed_Product_Variant_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Exposed_Product_Variant_Max_Fields>;
   min: Maybe<Dbt_Store_Exposed_Product_Variant_Min_Fields>;
   stddev: Maybe<Dbt_Store_Exposed_Product_Variant_Stddev_Fields>;
@@ -16585,14 +16594,14 @@ export type Dbt_Store_Exposed_Product_Variant_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_Exposed_Product_Variant_Avg_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_avg_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_exposed_product_variant". All fields are combined with a logical 'AND'. */
@@ -16626,71 +16635,71 @@ export enum Dbt_Store_Exposed_Product_Variant_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Inc_Input = {
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Insert_Input = {
-  condition: InputMaybe<Scalars['Condition']>;
-  id: InputMaybe<Scalars['String']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
-  isRefurbished: InputMaybe<Scalars['Boolean']>;
-  option1: InputMaybe<Scalars['String']>;
-  option1Name: InputMaybe<Scalars['String']>;
-  option2: InputMaybe<Scalars['String']>;
-  option2Name: InputMaybe<Scalars['String']>;
-  option3: InputMaybe<Scalars['String']>;
-  option3Name: InputMaybe<Scalars['String']>;
-  requiresShipping: InputMaybe<Scalars['Boolean']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']['input']>;
+  isRefurbished: InputMaybe<Scalars['Boolean']['input']>;
+  option1: InputMaybe<Scalars['String']['input']>;
+  option1Name: InputMaybe<Scalars['String']['input']>;
+  option2: InputMaybe<Scalars['String']['input']>;
+  option2Name: InputMaybe<Scalars['String']['input']>;
+  option3: InputMaybe<Scalars['String']['input']>;
+  option3Name: InputMaybe<Scalars['String']['input']>;
+  requiresShipping: InputMaybe<Scalars['Boolean']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
   variant: InputMaybe<Dbt_Store_Base_Product_Variant_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Exposed_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_max_fields';
-  condition: Maybe<Scalars['Condition']>;
-  id: Maybe<Scalars['String']>;
-  inventory_quantity: Maybe<Scalars['bigint']>;
-  option1: Maybe<Scalars['String']>;
-  option1Name: Maybe<Scalars['String']>;
-  option2: Maybe<Scalars['String']>;
-  option2Name: Maybe<Scalars['String']>;
-  option3: Maybe<Scalars['String']>;
-  option3Name: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  syncDate: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamptz']>;
+  condition: Maybe<Scalars['Condition']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  inventory_quantity: Maybe<Scalars['bigint']['output']>;
+  option1: Maybe<Scalars['String']['output']>;
+  option1Name: Maybe<Scalars['String']['output']>;
+  option2: Maybe<Scalars['String']['output']>;
+  option2Name: Maybe<Scalars['String']['output']>;
+  option3: Maybe<Scalars['String']['output']>;
+  option3Name: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_Exposed_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_min_fields';
-  condition: Maybe<Scalars['Condition']>;
-  id: Maybe<Scalars['String']>;
-  inventory_quantity: Maybe<Scalars['bigint']>;
-  option1: Maybe<Scalars['String']>;
-  option1Name: Maybe<Scalars['String']>;
-  option2: Maybe<Scalars['String']>;
-  option2Name: Maybe<Scalars['String']>;
-  option3: Maybe<Scalars['String']>;
-  option3Name: Maybe<Scalars['String']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  syncDate: Maybe<Scalars['date']>;
-  title: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamptz']>;
+  condition: Maybe<Scalars['Condition']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  inventory_quantity: Maybe<Scalars['bigint']['output']>;
+  option1: Maybe<Scalars['String']['output']>;
+  option1Name: Maybe<Scalars['String']['output']>;
+  option2: Maybe<Scalars['String']['output']>;
+  option2Name: Maybe<Scalars['String']['output']>;
+  option3: Maybe<Scalars['String']['output']>;
+  option3Name: Maybe<Scalars['String']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
+  title: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Mutation_Response = {
   __typename?: 'dbt_store_exposed_product_variant_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Exposed_Product_Variant>;
 };
@@ -16731,7 +16740,7 @@ export type Dbt_Store_Exposed_Product_Variant_Order_By = {
 
 /** primary key columns input for table: dbt.store_exposed_product_variant */
 export type Dbt_Store_Exposed_Product_Variant_Pk_Columns_Input = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** select columns of table "dbt.store_exposed_product_variant" */
@@ -16770,42 +16779,42 @@ export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
 
 /** input type for updating data in table "dbt.store_exposed_product_variant" */
 export type Dbt_Store_Exposed_Product_Variant_Set_Input = {
-  condition: InputMaybe<Scalars['Condition']>;
-  id: InputMaybe<Scalars['String']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
-  isRefurbished: InputMaybe<Scalars['Boolean']>;
-  option1: InputMaybe<Scalars['String']>;
-  option1Name: InputMaybe<Scalars['String']>;
-  option2: InputMaybe<Scalars['String']>;
-  option2Name: InputMaybe<Scalars['String']>;
-  option3: InputMaybe<Scalars['String']>;
-  option3Name: InputMaybe<Scalars['String']>;
-  requiresShipping: InputMaybe<Scalars['Boolean']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']['input']>;
+  isRefurbished: InputMaybe<Scalars['Boolean']['input']>;
+  option1: InputMaybe<Scalars['String']['input']>;
+  option1Name: InputMaybe<Scalars['String']['input']>;
+  option2: InputMaybe<Scalars['String']['input']>;
+  option2Name: InputMaybe<Scalars['String']['input']>;
+  option3: InputMaybe<Scalars['String']['input']>;
+  option3Name: InputMaybe<Scalars['String']['input']>;
+  requiresShipping: InputMaybe<Scalars['Boolean']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_pop_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Exposed_Product_Variant_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_stddev_samp_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_exposed_product_variant" */
@@ -16818,28 +16827,28 @@ export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Value_Input = {
-  condition: InputMaybe<Scalars['Condition']>;
-  id: InputMaybe<Scalars['String']>;
-  inventory_quantity: InputMaybe<Scalars['bigint']>;
-  isRefurbished: InputMaybe<Scalars['Boolean']>;
-  option1: InputMaybe<Scalars['String']>;
-  option1Name: InputMaybe<Scalars['String']>;
-  option2: InputMaybe<Scalars['String']>;
-  option2Name: InputMaybe<Scalars['String']>;
-  option3: InputMaybe<Scalars['String']>;
-  option3Name: InputMaybe<Scalars['String']>;
-  requiresShipping: InputMaybe<Scalars['Boolean']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  syncDate: InputMaybe<Scalars['date']>;
-  title: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  condition: InputMaybe<Scalars['Condition']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  inventory_quantity: InputMaybe<Scalars['bigint']['input']>;
+  isRefurbished: InputMaybe<Scalars['Boolean']['input']>;
+  option1: InputMaybe<Scalars['String']['input']>;
+  option1Name: InputMaybe<Scalars['String']['input']>;
+  option2: InputMaybe<Scalars['String']['input']>;
+  option2Name: InputMaybe<Scalars['String']['input']>;
+  option3: InputMaybe<Scalars['String']['input']>;
+  option3Name: InputMaybe<Scalars['String']['input']>;
+  requiresShipping: InputMaybe<Scalars['Boolean']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
+  title: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Exposed_Product_Variant_Sum_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_sum_fields';
-  inventory_quantity: Maybe<Scalars['bigint']>;
-  shopify_id: Maybe<Scalars['bigint']>;
+  inventory_quantity: Maybe<Scalars['bigint']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_exposed_product_variant" */
@@ -16888,30 +16897,30 @@ export type Dbt_Store_Exposed_Product_Variant_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Exposed_Product_Variant_Var_Pop_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_pop_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Exposed_Product_Variant_Var_Samp_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_var_samp_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Exposed_Product_Variant_Variance_Fields = {
   __typename?: 'dbt_store_exposed_product_variant_variance_fields';
-  inventory_quantity: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
+  inventory_quantity: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
 };
 
 /** columns and relationships of "dbt.store_product_collection" */
 export type Dbt_Store_Product_Collection = {
   __typename?: 'dbt_store_product_collection';
-  collection_id: Scalars['String'];
-  product_id: Scalars['String'];
-  syncDate: Scalars['date'];
+  collection_id: Scalars['String']['output'];
+  product_id: Scalars['String']['output'];
+  syncDate: Scalars['date']['output'];
 };
 
 /** aggregated selection of "dbt.store_product_collection" */
@@ -16927,7 +16936,7 @@ export type Dbt_Store_Product_Collection_Aggregate_Bool_Exp = {
 
 export type Dbt_Store_Product_Collection_Aggregate_Bool_Exp_Count = {
   arguments: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
   filter: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
   predicate: Int_Comparison_Exp;
 };
@@ -16935,7 +16944,7 @@ export type Dbt_Store_Product_Collection_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "dbt.store_product_collection" */
 export type Dbt_Store_Product_Collection_Aggregate_Fields = {
   __typename?: 'dbt_store_product_collection_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Product_Collection_Max_Fields>;
   min: Maybe<Dbt_Store_Product_Collection_Min_Fields>;
 };
@@ -16943,7 +16952,7 @@ export type Dbt_Store_Product_Collection_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_product_collection" */
 export type Dbt_Store_Product_Collection_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** order by aggregate values of table "dbt.store_product_collection" */
@@ -16978,17 +16987,17 @@ export enum Dbt_Store_Product_Collection_Constraint {
 
 /** input type for inserting data into table "dbt.store_product_collection" */
 export type Dbt_Store_Product_Collection_Insert_Input = {
-  collection_id: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
+  collection_id: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Product_Collection_Max_Fields = {
   __typename?: 'dbt_store_product_collection_max_fields';
-  collection_id: Maybe<Scalars['String']>;
-  product_id: Maybe<Scalars['String']>;
-  syncDate: Maybe<Scalars['date']>;
+  collection_id: Maybe<Scalars['String']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
 };
 
 /** order by max() on columns of table "dbt.store_product_collection" */
@@ -17001,9 +17010,9 @@ export type Dbt_Store_Product_Collection_Max_Order_By = {
 /** aggregate min on columns */
 export type Dbt_Store_Product_Collection_Min_Fields = {
   __typename?: 'dbt_store_product_collection_min_fields';
-  collection_id: Maybe<Scalars['String']>;
-  product_id: Maybe<Scalars['String']>;
-  syncDate: Maybe<Scalars['date']>;
+  collection_id: Maybe<Scalars['String']['output']>;
+  product_id: Maybe<Scalars['String']['output']>;
+  syncDate: Maybe<Scalars['date']['output']>;
 };
 
 /** order by min() on columns of table "dbt.store_product_collection" */
@@ -17017,7 +17026,7 @@ export type Dbt_Store_Product_Collection_Min_Order_By = {
 export type Dbt_Store_Product_Collection_Mutation_Response = {
   __typename?: 'dbt_store_product_collection_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Product_Collection>;
 };
@@ -17038,8 +17047,8 @@ export type Dbt_Store_Product_Collection_Order_By = {
 
 /** primary key columns input for table: dbt.store_product_collection */
 export type Dbt_Store_Product_Collection_Pk_Columns_Input = {
-  collection_id: Scalars['String'];
-  product_id: Scalars['String'];
+  collection_id: Scalars['String']['input'];
+  product_id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_product_collection" */
@@ -17054,9 +17063,9 @@ export enum Dbt_Store_Product_Collection_Select_Column {
 
 /** input type for updating data in table "dbt.store_product_collection" */
 export type Dbt_Store_Product_Collection_Set_Input = {
-  collection_id: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
+  collection_id: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
 };
 
 /** Streaming cursor of the table "dbt_store_product_collection" */
@@ -17069,9 +17078,9 @@ export type Dbt_Store_Product_Collection_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Product_Collection_Stream_Cursor_Value_Input = {
-  collection_id: InputMaybe<Scalars['String']>;
-  product_id: InputMaybe<Scalars['String']>;
-  syncDate: InputMaybe<Scalars['date']>;
+  collection_id: InputMaybe<Scalars['String']['input']>;
+  product_id: InputMaybe<Scalars['String']['input']>;
+  syncDate: InputMaybe<Scalars['date']['input']>;
 };
 
 /** update columns of table "dbt.store_product_collection" */
@@ -17094,33 +17103,33 @@ export type Dbt_Store_Product_Collection_Updates = {
 /** columns and relationships of "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics = {
   __typename?: 'dbt_store_product_for_analytics';
-  brand: Maybe<Scalars['String']>;
-  brand_rating: Maybe<Scalars['BrandRating']>;
-  calculated_notation: Maybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: Maybe<Scalars['ProductNotation']>;
-  calculated_scoring: Scalars['float8'];
-  condition_from_variants: Maybe<Scalars['Condition']>;
-  created_at: Scalars['timestamptz'];
-  default_vendor_notation: Maybe<Scalars['ProductNotation']>;
-  ean_code: Maybe<Scalars['String']>;
-  favorites_count: Scalars['Int'];
-  highest_discount: Scalars['float8'];
-  id: Scalars['String'];
-  image_count: Scalars['Int'];
-  is_bike: Scalars['Boolean'];
-  is_new: Maybe<Scalars['Boolean']>;
-  manual_notation: Maybe<Scalars['ProductNotation']>;
-  model_year: Scalars['Int'];
-  model_year_with_override: Scalars['Int'];
-  notation: Maybe<Scalars['ProductNotation']>;
-  orders_count: Scalars['Int'];
-  shopify_id: Scalars['bigint'];
-  size: Maybe<Scalars['String']>;
-  source: Maybe<Scalars['String']>;
-  vendor_id: Scalars['uuid'];
-  vendor_notation: Maybe<Scalars['ProductNotation']>;
-  vendor_overrides_product_scoring: Scalars['Boolean'];
-  views_last_30_days: Scalars['bigint'];
+  brand: Maybe<Scalars['String']['output']>;
+  brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_scoring: Scalars['float8']['output'];
+  condition_from_variants: Maybe<Scalars['Condition']['output']>;
+  created_at: Scalars['timestamptz']['output'];
+  default_vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  ean_code: Maybe<Scalars['String']['output']>;
+  favorites_count: Scalars['Int']['output'];
+  highest_discount: Scalars['float8']['output'];
+  id: Scalars['String']['output'];
+  image_count: Scalars['Int']['output'];
+  is_bike: Scalars['Boolean']['output'];
+  is_new: Maybe<Scalars['Boolean']['output']>;
+  manual_notation: Maybe<Scalars['ProductNotation']['output']>;
+  model_year: Scalars['Int']['output'];
+  model_year_with_override: Scalars['Int']['output'];
+  notation: Maybe<Scalars['ProductNotation']['output']>;
+  orders_count: Scalars['Int']['output'];
+  shopify_id: Scalars['bigint']['output'];
+  size: Maybe<Scalars['String']['output']>;
+  source: Maybe<Scalars['String']['output']>;
+  vendor_id: Scalars['uuid']['output'];
+  vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  vendor_overrides_product_scoring: Scalars['Boolean']['output'];
+  views_last_30_days: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "dbt.store_product_for_analytics" */
@@ -17134,7 +17143,7 @@ export type Dbt_Store_Product_For_Analytics_Aggregate = {
 export type Dbt_Store_Product_For_Analytics_Aggregate_Fields = {
   __typename?: 'dbt_store_product_for_analytics_aggregate_fields';
   avg: Maybe<Dbt_Store_Product_For_Analytics_Avg_Fields>;
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Dbt_Store_Product_For_Analytics_Max_Fields>;
   min: Maybe<Dbt_Store_Product_For_Analytics_Min_Fields>;
   stddev: Maybe<Dbt_Store_Product_For_Analytics_Stddev_Fields>;
@@ -17149,21 +17158,21 @@ export type Dbt_Store_Product_For_Analytics_Aggregate_Fields = {
 /** aggregate fields of "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate avg on columns */
 export type Dbt_Store_Product_For_Analytics_Avg_Fields = {
   __typename?: 'dbt_store_product_for_analytics_avg_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to filter rows from the table "dbt.store_product_for_analytics". All fields are combined with a logical 'AND'. */
@@ -17212,111 +17221,111 @@ export enum Dbt_Store_Product_For_Analytics_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Inc_Input = {
-  calculated_scoring: InputMaybe<Scalars['float8']>;
-  favorites_count: InputMaybe<Scalars['Int']>;
-  highest_discount: InputMaybe<Scalars['float8']>;
-  image_count: InputMaybe<Scalars['Int']>;
-  model_year: InputMaybe<Scalars['Int']>;
-  model_year_with_override: InputMaybe<Scalars['Int']>;
-  orders_count: InputMaybe<Scalars['Int']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  views_last_30_days: InputMaybe<Scalars['bigint']>;
+  calculated_scoring: InputMaybe<Scalars['float8']['input']>;
+  favorites_count: InputMaybe<Scalars['Int']['input']>;
+  highest_discount: InputMaybe<Scalars['float8']['input']>;
+  image_count: InputMaybe<Scalars['Int']['input']>;
+  model_year: InputMaybe<Scalars['Int']['input']>;
+  model_year_with_override: InputMaybe<Scalars['Int']['input']>;
+  orders_count: InputMaybe<Scalars['Int']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  views_last_30_days: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Insert_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  brand_rating: InputMaybe<Scalars['BrandRating']>;
-  calculated_notation: InputMaybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']>;
-  calculated_scoring: InputMaybe<Scalars['float8']>;
-  condition_from_variants: InputMaybe<Scalars['Condition']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  default_vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  ean_code: InputMaybe<Scalars['String']>;
-  favorites_count: InputMaybe<Scalars['Int']>;
-  highest_discount: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  image_count: InputMaybe<Scalars['Int']>;
-  is_bike: InputMaybe<Scalars['Boolean']>;
-  is_new: InputMaybe<Scalars['Boolean']>;
-  manual_notation: InputMaybe<Scalars['ProductNotation']>;
-  model_year: InputMaybe<Scalars['Int']>;
-  model_year_with_override: InputMaybe<Scalars['Int']>;
-  notation: InputMaybe<Scalars['ProductNotation']>;
-  orders_count: InputMaybe<Scalars['Int']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  size: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
-  vendor_id: InputMaybe<Scalars['uuid']>;
-  vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']>;
-  views_last_30_days: InputMaybe<Scalars['bigint']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_scoring: InputMaybe<Scalars['float8']['input']>;
+  condition_from_variants: InputMaybe<Scalars['Condition']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  default_vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  ean_code: InputMaybe<Scalars['String']['input']>;
+  favorites_count: InputMaybe<Scalars['Int']['input']>;
+  highest_discount: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  image_count: InputMaybe<Scalars['Int']['input']>;
+  is_bike: InputMaybe<Scalars['Boolean']['input']>;
+  is_new: InputMaybe<Scalars['Boolean']['input']>;
+  manual_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  model_year: InputMaybe<Scalars['Int']['input']>;
+  model_year_with_override: InputMaybe<Scalars['Int']['input']>;
+  notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  orders_count: InputMaybe<Scalars['Int']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  vendor_id: InputMaybe<Scalars['uuid']['input']>;
+  vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
+  views_last_30_days: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type Dbt_Store_Product_For_Analytics_Max_Fields = {
   __typename?: 'dbt_store_product_for_analytics_max_fields';
-  brand: Maybe<Scalars['String']>;
-  brand_rating: Maybe<Scalars['BrandRating']>;
-  calculated_notation: Maybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: Maybe<Scalars['ProductNotation']>;
-  calculated_scoring: Maybe<Scalars['float8']>;
-  condition_from_variants: Maybe<Scalars['Condition']>;
-  created_at: Maybe<Scalars['timestamptz']>;
-  default_vendor_notation: Maybe<Scalars['ProductNotation']>;
-  ean_code: Maybe<Scalars['String']>;
-  favorites_count: Maybe<Scalars['Int']>;
-  highest_discount: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  image_count: Maybe<Scalars['Int']>;
-  manual_notation: Maybe<Scalars['ProductNotation']>;
-  model_year: Maybe<Scalars['Int']>;
-  model_year_with_override: Maybe<Scalars['Int']>;
-  notation: Maybe<Scalars['ProductNotation']>;
-  orders_count: Maybe<Scalars['Int']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  size: Maybe<Scalars['String']>;
-  source: Maybe<Scalars['String']>;
-  vendor_id: Maybe<Scalars['uuid']>;
-  vendor_notation: Maybe<Scalars['ProductNotation']>;
-  views_last_30_days: Maybe<Scalars['bigint']>;
+  brand: Maybe<Scalars['String']['output']>;
+  brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_scoring: Maybe<Scalars['float8']['output']>;
+  condition_from_variants: Maybe<Scalars['Condition']['output']>;
+  created_at: Maybe<Scalars['timestamptz']['output']>;
+  default_vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  ean_code: Maybe<Scalars['String']['output']>;
+  favorites_count: Maybe<Scalars['Int']['output']>;
+  highest_discount: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  image_count: Maybe<Scalars['Int']['output']>;
+  manual_notation: Maybe<Scalars['ProductNotation']['output']>;
+  model_year: Maybe<Scalars['Int']['output']>;
+  model_year_with_override: Maybe<Scalars['Int']['output']>;
+  notation: Maybe<Scalars['ProductNotation']['output']>;
+  orders_count: Maybe<Scalars['Int']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  size: Maybe<Scalars['String']['output']>;
+  source: Maybe<Scalars['String']['output']>;
+  vendor_id: Maybe<Scalars['uuid']['output']>;
+  vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  views_last_30_days: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregate min on columns */
 export type Dbt_Store_Product_For_Analytics_Min_Fields = {
   __typename?: 'dbt_store_product_for_analytics_min_fields';
-  brand: Maybe<Scalars['String']>;
-  brand_rating: Maybe<Scalars['BrandRating']>;
-  calculated_notation: Maybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: Maybe<Scalars['ProductNotation']>;
-  calculated_scoring: Maybe<Scalars['float8']>;
-  condition_from_variants: Maybe<Scalars['Condition']>;
-  created_at: Maybe<Scalars['timestamptz']>;
-  default_vendor_notation: Maybe<Scalars['ProductNotation']>;
-  ean_code: Maybe<Scalars['String']>;
-  favorites_count: Maybe<Scalars['Int']>;
-  highest_discount: Maybe<Scalars['float8']>;
-  id: Maybe<Scalars['String']>;
-  image_count: Maybe<Scalars['Int']>;
-  manual_notation: Maybe<Scalars['ProductNotation']>;
-  model_year: Maybe<Scalars['Int']>;
-  model_year_with_override: Maybe<Scalars['Int']>;
-  notation: Maybe<Scalars['ProductNotation']>;
-  orders_count: Maybe<Scalars['Int']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  size: Maybe<Scalars['String']>;
-  source: Maybe<Scalars['String']>;
-  vendor_id: Maybe<Scalars['uuid']>;
-  vendor_notation: Maybe<Scalars['ProductNotation']>;
-  views_last_30_days: Maybe<Scalars['bigint']>;
+  brand: Maybe<Scalars['String']['output']>;
+  brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
+  calculated_scoring: Maybe<Scalars['float8']['output']>;
+  condition_from_variants: Maybe<Scalars['Condition']['output']>;
+  created_at: Maybe<Scalars['timestamptz']['output']>;
+  default_vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  ean_code: Maybe<Scalars['String']['output']>;
+  favorites_count: Maybe<Scalars['Int']['output']>;
+  highest_discount: Maybe<Scalars['float8']['output']>;
+  id: Maybe<Scalars['String']['output']>;
+  image_count: Maybe<Scalars['Int']['output']>;
+  manual_notation: Maybe<Scalars['ProductNotation']['output']>;
+  model_year: Maybe<Scalars['Int']['output']>;
+  model_year_with_override: Maybe<Scalars['Int']['output']>;
+  notation: Maybe<Scalars['ProductNotation']['output']>;
+  orders_count: Maybe<Scalars['Int']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  size: Maybe<Scalars['String']['output']>;
+  source: Maybe<Scalars['String']['output']>;
+  vendor_id: Maybe<Scalars['uuid']['output']>;
+  vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
+  views_last_30_days: Maybe<Scalars['bigint']['output']>;
 };
 
 /** response of any mutation on the table "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Mutation_Response = {
   __typename?: 'dbt_store_product_for_analytics_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Dbt_Store_Product_For_Analytics>;
 };
@@ -17361,7 +17370,7 @@ export type Dbt_Store_Product_For_Analytics_Order_By = {
 
 /** primary key columns input for table: dbt.store_product_for_analytics */
 export type Dbt_Store_Product_For_Analytics_Pk_Columns_Input = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "dbt.store_product_for_analytics" */
@@ -17424,75 +17433,75 @@ export enum Dbt_Store_Product_For_Analytics_Select_Column {
 
 /** input type for updating data in table "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Set_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  brand_rating: InputMaybe<Scalars['BrandRating']>;
-  calculated_notation: InputMaybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']>;
-  calculated_scoring: InputMaybe<Scalars['float8']>;
-  condition_from_variants: InputMaybe<Scalars['Condition']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  default_vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  ean_code: InputMaybe<Scalars['String']>;
-  favorites_count: InputMaybe<Scalars['Int']>;
-  highest_discount: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  image_count: InputMaybe<Scalars['Int']>;
-  is_bike: InputMaybe<Scalars['Boolean']>;
-  is_new: InputMaybe<Scalars['Boolean']>;
-  manual_notation: InputMaybe<Scalars['ProductNotation']>;
-  model_year: InputMaybe<Scalars['Int']>;
-  model_year_with_override: InputMaybe<Scalars['Int']>;
-  notation: InputMaybe<Scalars['ProductNotation']>;
-  orders_count: InputMaybe<Scalars['Int']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  size: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
-  vendor_id: InputMaybe<Scalars['uuid']>;
-  vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']>;
-  views_last_30_days: InputMaybe<Scalars['bigint']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_scoring: InputMaybe<Scalars['float8']['input']>;
+  condition_from_variants: InputMaybe<Scalars['Condition']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  default_vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  ean_code: InputMaybe<Scalars['String']['input']>;
+  favorites_count: InputMaybe<Scalars['Int']['input']>;
+  highest_discount: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  image_count: InputMaybe<Scalars['Int']['input']>;
+  is_bike: InputMaybe<Scalars['Boolean']['input']>;
+  is_new: InputMaybe<Scalars['Boolean']['input']>;
+  manual_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  model_year: InputMaybe<Scalars['Int']['input']>;
+  model_year_with_override: InputMaybe<Scalars['Int']['input']>;
+  notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  orders_count: InputMaybe<Scalars['Int']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  vendor_id: InputMaybe<Scalars['uuid']['input']>;
+  vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
+  views_last_30_days: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_pop_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_samp_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** Streaming cursor of the table "dbt_store_product_for_analytics" */
@@ -17505,47 +17514,47 @@ export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Value_Input = {
-  brand: InputMaybe<Scalars['String']>;
-  brand_rating: InputMaybe<Scalars['BrandRating']>;
-  calculated_notation: InputMaybe<Scalars['ProductNotation']>;
-  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']>;
-  calculated_scoring: InputMaybe<Scalars['float8']>;
-  condition_from_variants: InputMaybe<Scalars['Condition']>;
-  created_at: InputMaybe<Scalars['timestamptz']>;
-  default_vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  ean_code: InputMaybe<Scalars['String']>;
-  favorites_count: InputMaybe<Scalars['Int']>;
-  highest_discount: InputMaybe<Scalars['float8']>;
-  id: InputMaybe<Scalars['String']>;
-  image_count: InputMaybe<Scalars['Int']>;
-  is_bike: InputMaybe<Scalars['Boolean']>;
-  is_new: InputMaybe<Scalars['Boolean']>;
-  manual_notation: InputMaybe<Scalars['ProductNotation']>;
-  model_year: InputMaybe<Scalars['Int']>;
-  model_year_with_override: InputMaybe<Scalars['Int']>;
-  notation: InputMaybe<Scalars['ProductNotation']>;
-  orders_count: InputMaybe<Scalars['Int']>;
-  shopify_id: InputMaybe<Scalars['bigint']>;
-  size: InputMaybe<Scalars['String']>;
-  source: InputMaybe<Scalars['String']>;
-  vendor_id: InputMaybe<Scalars['uuid']>;
-  vendor_notation: InputMaybe<Scalars['ProductNotation']>;
-  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']>;
-  views_last_30_days: InputMaybe<Scalars['bigint']>;
+  brand: InputMaybe<Scalars['String']['input']>;
+  brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
+  calculated_scoring: InputMaybe<Scalars['float8']['input']>;
+  condition_from_variants: InputMaybe<Scalars['Condition']['input']>;
+  created_at: InputMaybe<Scalars['timestamptz']['input']>;
+  default_vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  ean_code: InputMaybe<Scalars['String']['input']>;
+  favorites_count: InputMaybe<Scalars['Int']['input']>;
+  highest_discount: InputMaybe<Scalars['float8']['input']>;
+  id: InputMaybe<Scalars['String']['input']>;
+  image_count: InputMaybe<Scalars['Int']['input']>;
+  is_bike: InputMaybe<Scalars['Boolean']['input']>;
+  is_new: InputMaybe<Scalars['Boolean']['input']>;
+  manual_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  model_year: InputMaybe<Scalars['Int']['input']>;
+  model_year_with_override: InputMaybe<Scalars['Int']['input']>;
+  notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  orders_count: InputMaybe<Scalars['Int']['input']>;
+  shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  size: InputMaybe<Scalars['String']['input']>;
+  source: InputMaybe<Scalars['String']['input']>;
+  vendor_id: InputMaybe<Scalars['uuid']['input']>;
+  vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
+  vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
+  views_last_30_days: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Dbt_Store_Product_For_Analytics_Sum_Fields = {
   __typename?: 'dbt_store_product_for_analytics_sum_fields';
-  calculated_scoring: Maybe<Scalars['float8']>;
-  favorites_count: Maybe<Scalars['Int']>;
-  highest_discount: Maybe<Scalars['float8']>;
-  image_count: Maybe<Scalars['Int']>;
-  model_year: Maybe<Scalars['Int']>;
-  model_year_with_override: Maybe<Scalars['Int']>;
-  orders_count: Maybe<Scalars['Int']>;
-  shopify_id: Maybe<Scalars['bigint']>;
-  views_last_30_days: Maybe<Scalars['bigint']>;
+  calculated_scoring: Maybe<Scalars['float8']['output']>;
+  favorites_count: Maybe<Scalars['Int']['output']>;
+  highest_discount: Maybe<Scalars['float8']['output']>;
+  image_count: Maybe<Scalars['Int']['output']>;
+  model_year: Maybe<Scalars['Int']['output']>;
+  model_year_with_override: Maybe<Scalars['Int']['output']>;
+  orders_count: Maybe<Scalars['Int']['output']>;
+  shopify_id: Maybe<Scalars['bigint']['output']>;
+  views_last_30_days: Maybe<Scalars['bigint']['output']>;
 };
 
 /** update columns of table "dbt.store_product_for_analytics" */
@@ -17618,56 +17627,56 @@ export type Dbt_Store_Product_For_Analytics_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Product_For_Analytics_Var_Pop_Fields = {
   __typename?: 'dbt_store_product_for_analytics_var_pop_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Product_For_Analytics_Var_Samp_Fields = {
   __typename?: 'dbt_store_product_for_analytics_var_samp_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Product_For_Analytics_Variance_Fields = {
   __typename?: 'dbt_store_product_for_analytics_variance_fields';
-  calculated_scoring: Maybe<Scalars['Float']>;
-  favorites_count: Maybe<Scalars['Float']>;
-  highest_discount: Maybe<Scalars['Float']>;
-  image_count: Maybe<Scalars['Float']>;
-  model_year: Maybe<Scalars['Float']>;
-  model_year_with_override: Maybe<Scalars['Float']>;
-  orders_count: Maybe<Scalars['Float']>;
-  shopify_id: Maybe<Scalars['Float']>;
-  views_last_30_days: Maybe<Scalars['Float']>;
+  calculated_scoring: Maybe<Scalars['Float']['output']>;
+  favorites_count: Maybe<Scalars['Float']['output']>;
+  highest_discount: Maybe<Scalars['Float']['output']>;
+  image_count: Maybe<Scalars['Float']['output']>;
+  model_year: Maybe<Scalars['Float']['output']>;
+  model_year_with_override: Maybe<Scalars['Float']['output']>;
+  orders_count: Maybe<Scalars['Float']['output']>;
+  shopify_id: Maybe<Scalars['Float']['output']>;
+  views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
 export type Float8_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['float8']>;
-  _gt: InputMaybe<Scalars['float8']>;
-  _gte: InputMaybe<Scalars['float8']>;
-  _in: InputMaybe<Array<Scalars['float8']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['float8']>;
-  _lte: InputMaybe<Scalars['float8']>;
-  _neq: InputMaybe<Scalars['float8']>;
-  _nin: InputMaybe<Array<Scalars['float8']>>;
+  _eq: InputMaybe<Scalars['float8']['input']>;
+  _gt: InputMaybe<Scalars['float8']['input']>;
+  _gte: InputMaybe<Scalars['float8']['input']>;
+  _in: InputMaybe<Array<Scalars['float8']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['float8']['input']>;
+  _lte: InputMaybe<Scalars['float8']['input']>;
+  _neq: InputMaybe<Scalars['float8']['input']>;
+  _nin: InputMaybe<Array<Scalars['float8']['input']>>;
 };
 
 export type Jsonb_Cast_Exp = {
@@ -17678,24 +17687,24 @@ export type Jsonb_Cast_Exp = {
 export type Jsonb_Comparison_Exp = {
   _cast: InputMaybe<Jsonb_Cast_Exp>;
   /** is the column contained in the given json value */
-  _contained_in: InputMaybe<Scalars['jsonb']>;
+  _contained_in: InputMaybe<Scalars['jsonb']['input']>;
   /** does the column contain the given json value at the top level */
-  _contains: InputMaybe<Scalars['jsonb']>;
-  _eq: InputMaybe<Scalars['jsonb']>;
-  _gt: InputMaybe<Scalars['jsonb']>;
-  _gte: InputMaybe<Scalars['jsonb']>;
+  _contains: InputMaybe<Scalars['jsonb']['input']>;
+  _eq: InputMaybe<Scalars['jsonb']['input']>;
+  _gt: InputMaybe<Scalars['jsonb']['input']>;
+  _gte: InputMaybe<Scalars['jsonb']['input']>;
   /** does the string exist as a top-level key in the column */
-  _has_key: InputMaybe<Scalars['String']>;
+  _has_key: InputMaybe<Scalars['String']['input']>;
   /** do all of these strings exist as top-level keys in the column */
-  _has_keys_all: InputMaybe<Array<Scalars['String']>>;
+  _has_keys_all: InputMaybe<Array<Scalars['String']['input']>>;
   /** do any of these strings exist as top-level keys in the column */
-  _has_keys_any: InputMaybe<Array<Scalars['String']>>;
-  _in: InputMaybe<Array<Scalars['jsonb']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['jsonb']>;
-  _lte: InputMaybe<Scalars['jsonb']>;
-  _neq: InputMaybe<Scalars['jsonb']>;
-  _nin: InputMaybe<Array<Scalars['jsonb']>>;
+  _has_keys_any: InputMaybe<Array<Scalars['String']['input']>>;
+  _in: InputMaybe<Array<Scalars['jsonb']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['jsonb']['input']>;
+  _lte: InputMaybe<Scalars['jsonb']['input']>;
+  _neq: InputMaybe<Scalars['jsonb']['input']>;
+  _nin: InputMaybe<Array<Scalars['jsonb']['input']>>;
 };
 
 /** mutation root */
@@ -18518,12 +18527,12 @@ export type Mutation_Root = {
 
 /** mutation root */
 export type Mutation_RootDeleteAuthProviderArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDeleteAuthProviderRequestArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18538,7 +18547,7 @@ export type Mutation_RootDeleteAuthProvidersArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteAuthRefreshTokenArgs = {
-  refreshToken: Scalars['uuid'];
+  refreshToken: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18548,7 +18557,7 @@ export type Mutation_RootDeleteAuthRefreshTokensArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteAuthUserRoleArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18558,7 +18567,7 @@ export type Mutation_RootDeleteAuthUserRolesArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteAuthUserSecurityKeyArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18568,7 +18577,7 @@ export type Mutation_RootDeleteAuthUserSecurityKeysArgs = {
 
 /** mutation root */
 export type Mutation_RootDeleteUserArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18583,7 +18592,7 @@ export type Mutation_RootDelete_BundlePriceArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_BundlePrice_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18593,7 +18602,7 @@ export type Mutation_RootDelete_CheckoutArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Checkout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18603,7 +18612,7 @@ export type Mutation_RootDelete_CollectionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Collection_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18613,7 +18622,7 @@ export type Mutation_RootDelete_CustomerArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Customer_By_PkArgs = {
-  authUserId: Scalars['uuid'];
+  authUserId: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18628,12 +18637,12 @@ export type Mutation_RootDelete_DisputeAttachmentArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_DisputeAttachment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Dispute_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18643,7 +18652,7 @@ export type Mutation_RootDelete_EventArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Event_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18653,7 +18662,7 @@ export type Mutation_RootDelete_FacetFilterArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_FacetFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18663,7 +18672,7 @@ export type Mutation_RootDelete_FavoriteProductsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_FavoriteProducts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18678,7 +18687,7 @@ export type Mutation_RootDelete_FulfillmentItemArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_FulfillmentItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18688,12 +18697,12 @@ export type Mutation_RootDelete_FulfillmentOrderArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_FulfillmentOrder_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Fulfillment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18703,7 +18712,7 @@ export type Mutation_RootDelete_NegociationAgreementArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_NegociationAgreement_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18713,7 +18722,7 @@ export type Mutation_RootDelete_NumericFilterArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_NumericFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18728,12 +18737,12 @@ export type Mutation_RootDelete_OrderLinesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_OrderLines_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Order_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18748,12 +18757,12 @@ export type Mutation_RootDelete_PaymentAccountsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_PaymentAccounts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Payment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18763,7 +18772,7 @@ export type Mutation_RootDelete_PayoutArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Payout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18773,7 +18782,7 @@ export type Mutation_RootDelete_PriceOfferArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_PriceOffer_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18788,7 +18797,7 @@ export type Mutation_RootDelete_ProductSalesChannelArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_ProductSalesChannel_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18798,12 +18807,12 @@ export type Mutation_RootDelete_ProductVariantArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_ProductVariant_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18818,12 +18827,12 @@ export type Mutation_RootDelete_ReturnItemArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_ReturnItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Return_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18833,7 +18842,7 @@ export type Mutation_RootDelete_ReviewArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Review_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18843,7 +18852,7 @@ export type Mutation_RootDelete_SavedSearchArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_SavedSearch_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18853,7 +18862,7 @@ export type Mutation_RootDelete_SearchAlertArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_SearchAlert_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18863,7 +18872,7 @@ export type Mutation_RootDelete_VendorProCategoryMappingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_VendorProCategoryMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18873,7 +18882,7 @@ export type Mutation_RootDelete_VendorProTagMappingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_VendorProTagMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18883,7 +18892,7 @@ export type Mutation_RootDelete_VendorProTagValueMappingArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_VendorProTagValueMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18893,7 +18902,7 @@ export type Mutation_RootDelete_VendorReviewArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_VendorReview_By_PkArgs = {
-  reviewId: Scalars['String'];
+  reviewId: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18903,7 +18912,7 @@ export type Mutation_RootDelete_Auth_RolesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Auth_Roles_By_PkArgs = {
-  role: Scalars['String'];
+  role: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18913,7 +18922,7 @@ export type Mutation_RootDelete_Auth_User_ProvidersArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Auth_User_Providers_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** mutation root */
@@ -18923,7 +18932,7 @@ export type Mutation_RootDelete_Dbt_Store_B2b_ProductArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_B2b_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18933,7 +18942,7 @@ export type Mutation_RootDelete_Dbt_Store_B2b_Product_VariantArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_B2b_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -18943,7 +18952,7 @@ export type Mutation_RootDelete_Dbt_Store_B2c_Product_VariantArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_B2c_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -18953,7 +18962,7 @@ export type Mutation_RootDelete_Dbt_Store_Base_ProductArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Base_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18963,7 +18972,7 @@ export type Mutation_RootDelete_Dbt_Store_Base_Product_VariantArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Base_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -18973,7 +18982,7 @@ export type Mutation_RootDelete_Dbt_Store_Bundle_PriceArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Bundle_Price_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -18988,8 +18997,8 @@ export type Mutation_RootDelete_Dbt_Store_Discount_CollectionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Discount_Collection_By_PkArgs = {
-  collection_internal_id: Scalars['String'];
-  discount_id: Scalars['bigint'];
+  collection_internal_id: Scalars['String']['input'];
+  discount_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -18999,7 +19008,7 @@ export type Mutation_RootDelete_Dbt_Store_Exposed_ProductArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Exposed_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -19009,7 +19018,7 @@ export type Mutation_RootDelete_Dbt_Store_Exposed_Product_ImageArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Exposed_Product_Image_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -19024,7 +19033,7 @@ export type Mutation_RootDelete_Dbt_Store_Exposed_Product_VariantArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Exposed_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 /** mutation root */
@@ -19034,8 +19043,8 @@ export type Mutation_RootDelete_Dbt_Store_Product_CollectionArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Product_Collection_By_PkArgs = {
-  collection_id: Scalars['String'];
-  product_id: Scalars['String'];
+  collection_id: Scalars['String']['input'];
+  product_id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -19045,7 +19054,7 @@ export type Mutation_RootDelete_Dbt_Store_Product_For_AnalyticsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Dbt_Store_Product_For_Analytics_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 /** mutation root */
@@ -21062,993 +21071,993 @@ export type Query_Root = {
 
 export type Query_RootBundlePriceArgs = {
   distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<BundlePrice_Order_By>>;
   where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
 export type Query_RootBundlePrice_AggregateArgs = {
   distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<BundlePrice_Order_By>>;
   where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
 export type Query_RootBundlePrice_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootCheckoutArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Checkout_Order_By>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
 export type Query_RootCheckout_AggregateArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Checkout_Order_By>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
 export type Query_RootCheckout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootCollectionArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 export type Query_RootCollection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 export type Query_RootCollection_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootCustomerArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Customer_Order_By>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
 export type Query_RootCustomer_AggregateArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Customer_Order_By>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
 export type Query_RootCustomer_By_PkArgs = {
-  authUserId: Scalars['uuid'];
+  authUserId: Scalars['uuid']['input'];
 };
 
 export type Query_RootDisputeArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
 
 export type Query_RootDisputeAttachmentArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
 
 export type Query_RootDisputeAttachment_AggregateArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
 
 export type Query_RootDisputeAttachment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDispute_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
 
 export type Query_RootDispute_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootEventArgs = {
   distinct_on: InputMaybe<Array<Event_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Event_Order_By>>;
   where: InputMaybe<Event_Bool_Exp>;
 };
 
 export type Query_RootEvent_AggregateArgs = {
   distinct_on: InputMaybe<Array<Event_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Event_Order_By>>;
   where: InputMaybe<Event_Bool_Exp>;
 };
 
 export type Query_RootEvent_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootFacetFilterArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
 
 export type Query_RootFacetFilter_AggregateArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
 
 export type Query_RootFacetFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootFavoriteProductsArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
 
 export type Query_RootFavoriteProducts_AggregateArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
 
 export type Query_RootFavoriteProducts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootFulfillmentArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
 
 export type Query_RootFulfillmentItemArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
 
 export type Query_RootFulfillmentItem_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
 
 export type Query_RootFulfillmentItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootFulfillmentOrderArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
 
 export type Query_RootFulfillmentOrder_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
 
 export type Query_RootFulfillmentOrder_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootFulfillment_AggregateArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
 
 export type Query_RootFulfillment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootNegociationAgreementArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
 export type Query_RootNegociationAgreement_AggregateArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
 export type Query_RootNegociationAgreement_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootNumericFilterArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 export type Query_RootNumericFilter_AggregateArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 export type Query_RootNumericFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootOrderArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
 
 export type Query_RootOrderLinesArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 export type Query_RootOrderLines_AggregateArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 export type Query_RootOrderLines_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootOrder_AggregateArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
 
 export type Query_RootOrder_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootPaymentArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 export type Query_RootPaymentAccountsArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
 
 export type Query_RootPaymentAccounts_AggregateArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
 
 export type Query_RootPaymentAccounts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootPayment_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 export type Query_RootPayment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootPayoutArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
 
 export type Query_RootPayout_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
 
 export type Query_RootPayout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootPriceOfferArgs = {
   distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PriceOffer_Order_By>>;
   where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Query_RootPriceOffer_AggregateArgs = {
   distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PriceOffer_Order_By>>;
   where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Query_RootPriceOffer_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootProductArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
 export type Query_RootProductSalesChannelArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
 
 export type Query_RootProductSalesChannel_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
 
 export type Query_RootProductSalesChannel_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootProductVariantArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 export type Query_RootProductVariant_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 export type Query_RootProductVariant_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootProduct_AggregateArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
 export type Query_RootProduct_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootReturnArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
 
 export type Query_RootReturnItemArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
 
 export type Query_RootReturnItem_AggregateArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
 
 export type Query_RootReturnItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootReturn_AggregateArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
 
 export type Query_RootReturn_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootReviewArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
 
 export type Query_RootReview_AggregateArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
 
 export type Query_RootReview_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootSavedSearchArgs = {
   distinct_on: InputMaybe<Array<SavedSearch_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SavedSearch_Order_By>>;
   where: InputMaybe<SavedSearch_Bool_Exp>;
 };
 
 export type Query_RootSavedSearch_AggregateArgs = {
   distinct_on: InputMaybe<Array<SavedSearch_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SavedSearch_Order_By>>;
   where: InputMaybe<SavedSearch_Bool_Exp>;
 };
 
 export type Query_RootSavedSearch_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootSearchAlertArgs = {
   distinct_on: InputMaybe<Array<SearchAlert_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SearchAlert_Order_By>>;
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
 export type Query_RootSearchAlert_AggregateArgs = {
   distinct_on: InputMaybe<Array<SearchAlert_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SearchAlert_Order_By>>;
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
 export type Query_RootSearchAlert_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootVendorProCategoryMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProCategoryMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProCategoryMapping_Order_By>>;
   where: InputMaybe<VendorProCategoryMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProCategoryMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProCategoryMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProCategoryMapping_Order_By>>;
   where: InputMaybe<VendorProCategoryMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProCategoryMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootVendorProTagMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProTagMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagMapping_Order_By>>;
   where: InputMaybe<VendorProTagMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProTagMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProTagMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagMapping_Order_By>>;
   where: InputMaybe<VendorProTagMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProTagMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootVendorProTagValueMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProTagValueMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagValueMapping_Order_By>>;
   where: InputMaybe<VendorProTagValueMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProTagValueMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProTagValueMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagValueMapping_Order_By>>;
   where: InputMaybe<VendorProTagValueMapping_Bool_Exp>;
 };
 
 export type Query_RootVendorProTagValueMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootVendorReviewArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
 export type Query_RootVendorReview_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
 export type Query_RootVendorReview_By_PkArgs = {
-  reviewId: Scalars['String'];
+  reviewId: Scalars['String']['input'];
 };
 
 export type Query_RootAuthProviderArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootAuthProviderRequestArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Query_RootAuthProviderRequestsArgs = {
   distinct_on: InputMaybe<Array<AuthProviderRequests_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviderRequests_Order_By>>;
   where: InputMaybe<AuthProviderRequests_Bool_Exp>;
 };
 
 export type Query_RootAuthProviderRequestsAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthProviderRequests_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviderRequests_Order_By>>;
   where: InputMaybe<AuthProviderRequests_Bool_Exp>;
 };
 
 export type Query_RootAuthProvidersArgs = {
   distinct_on: InputMaybe<Array<AuthProviders_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviders_Order_By>>;
   where: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
 export type Query_RootAuthProvidersAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthProviders_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviders_Order_By>>;
   where: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
 export type Query_RootAuthRefreshTokenArgs = {
-  refreshToken: Scalars['uuid'];
+  refreshToken: Scalars['uuid']['input'];
 };
 
 export type Query_RootAuthRefreshTokensArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
 
 export type Query_RootAuthRefreshTokensAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
 
 export type Query_RootAuthUserRoleArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Query_RootAuthUserRolesArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
 export type Query_RootAuthUserRolesAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
 export type Query_RootAuthUserSecurityKeyArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Query_RootAuthUserSecurityKeysArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
 export type Query_RootAuthUserSecurityKeysAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
 export type Query_RootAuth_RolesArgs = {
   distinct_on: InputMaybe<Array<Auth_Roles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_Roles_Order_By>>;
   where: InputMaybe<Auth_Roles_Bool_Exp>;
 };
 
 export type Query_RootAuth_Roles_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_Roles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_Roles_Order_By>>;
   where: InputMaybe<Auth_Roles_Bool_Exp>;
 };
 
 export type Query_RootAuth_Roles_By_PkArgs = {
-  role: Scalars['String'];
+  role: Scalars['String']['input'];
 };
 
 export type Query_RootAuth_User_ProvidersArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
 
 export type Query_RootAuth_User_Providers_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
 
 export type Query_RootAuth_User_Providers_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Query_RootDbt_Store_B2b_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2b_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2b_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_B2b_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2b_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2b_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_B2c_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2c_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_B2c_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_Base_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Base_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Base_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_Base_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Base_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_Bundle_PriceArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Bundle_Price_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Bundle_Price_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_DiscountArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Discount_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Discount_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Discount_Collection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Discount_Collection_By_PkArgs = {
-  collection_internal_id: Scalars['String'];
-  discount_id: Scalars['bigint'];
+  collection_internal_id: Scalars['String']['input'];
+  discount_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_Exposed_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_Exposed_Product_ImageArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_Image_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_Image_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_Exposed_Product_TagArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_Tag_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
@@ -22057,8 +22066,8 @@ export type Query_RootDbt_Store_Exposed_Product_VariantArgs = {
   distinct_on: InputMaybe<
     Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
   >;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
@@ -22067,73 +22076,73 @@ export type Query_RootDbt_Store_Exposed_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<
     Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
   >;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Exposed_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Query_RootDbt_Store_Product_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Product_Collection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Product_Collection_By_PkArgs = {
-  collection_id: Scalars['String'];
-  product_id: Scalars['String'];
+  collection_id: Scalars['String']['input'];
+  product_id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_Product_For_AnalyticsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_For_Analytics_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Product_For_Analytics_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_For_Analytics_Bool_Exp>;
 };
 
 export type Query_RootDbt_Store_Product_For_Analytics_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootUserArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Query_RootUsersArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Users_Order_By>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
 
 export type Query_RootUsersAggregateArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Users_Order_By>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
@@ -22283,12 +22292,12 @@ export type ShopifyMutation = {
 
 export type ShopifyMutationCartAttributesUpdateArgs = {
   attributes: Array<Shopify_AttributeInput>;
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCartBuyerIdentityUpdateArgs = {
   buyerIdentity: Shopify_CartBuyerIdentityInput;
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCartCreateArgs = {
@@ -22296,22 +22305,22 @@ export type ShopifyMutationCartCreateArgs = {
 };
 
 export type ShopifyMutationCartDiscountCodesUpdateArgs = {
-  cartId: Scalars['ID'];
-  discountCodes: InputMaybe<Array<Scalars['String']>>;
+  cartId: Scalars['ID']['input'];
+  discountCodes: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type ShopifyMutationCartLinesAddArgs = {
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
   lines: Array<Shopify_CartLineInput>;
 };
 
 export type ShopifyMutationCartLinesRemoveArgs = {
-  cartId: Scalars['ID'];
-  lineIds: Array<Scalars['ID']>;
+  cartId: Scalars['ID']['input'];
+  lineIds: Array<Scalars['ID']['input']>;
 };
 
 export type ShopifyMutationCartLinesUpdateArgs = {
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
   lines: Array<Shopify_CartLineUpdateInput>;
 };
 
@@ -22324,110 +22333,110 @@ export type ShopifyMutationCartMetafieldsSetArgs = {
 };
 
 export type ShopifyMutationCartNoteUpdateArgs = {
-  cartId: Scalars['ID'];
-  note: InputMaybe<Scalars['String']>;
+  cartId: Scalars['ID']['input'];
+  note: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ShopifyMutationCartPaymentUpdateArgs = {
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
   payment: Shopify_CartPaymentInput;
 };
 
 export type ShopifyMutationCartSelectedDeliveryOptionsUpdateArgs = {
-  cartId: Scalars['ID'];
+  cartId: Scalars['ID']['input'];
   selectedDeliveryOptions: Array<Shopify_CartSelectedDeliveryOptionInput>;
 };
 
 export type ShopifyMutationCartSubmitForCompletionArgs = {
-  attemptToken: Scalars['String'];
-  cartId: Scalars['ID'];
+  attemptToken: Scalars['String']['input'];
+  cartId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCheckoutAttributesUpdateV2Args = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   input: Shopify_CheckoutAttributesUpdateV2Input;
 };
 
 export type ShopifyMutationCheckoutCompleteFreeArgs = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCheckoutCompleteWithCreditCardV2Args = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   payment: Shopify_CreditCardPaymentInputV2;
 };
 
 export type ShopifyMutationCheckoutCompleteWithTokenizedPaymentV3Args = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   payment: Shopify_TokenizedPaymentInputV3;
 };
 
 export type ShopifyMutationCheckoutCreateArgs = {
   input: Shopify_CheckoutCreateInput;
-  queueToken: InputMaybe<Scalars['String']>;
+  queueToken: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ShopifyMutationCheckoutCustomerAssociateV2Args = {
-  checkoutId: Scalars['ID'];
-  customerAccessToken: Scalars['String'];
+  checkoutId: Scalars['ID']['input'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCheckoutCustomerDisassociateV2Args = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCheckoutDiscountCodeApplyV2Args = {
-  checkoutId: Scalars['ID'];
-  discountCode: Scalars['String'];
+  checkoutId: Scalars['ID']['input'];
+  discountCode: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCheckoutDiscountCodeRemoveArgs = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCheckoutEmailUpdateV2Args = {
-  checkoutId: Scalars['ID'];
-  email: Scalars['String'];
+  checkoutId: Scalars['ID']['input'];
+  email: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCheckoutGiftCardRemoveV2Args = {
-  appliedGiftCardId: Scalars['ID'];
-  checkoutId: Scalars['ID'];
+  appliedGiftCardId: Scalars['ID']['input'];
+  checkoutId: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCheckoutGiftCardsAppendArgs = {
-  checkoutId: Scalars['ID'];
-  giftCardCodes: Array<Scalars['String']>;
+  checkoutId: Scalars['ID']['input'];
+  giftCardCodes: Array<Scalars['String']['input']>;
 };
 
 export type ShopifyMutationCheckoutLineItemsAddArgs = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemInput>;
 };
 
 export type ShopifyMutationCheckoutLineItemsRemoveArgs = {
-  checkoutId: Scalars['ID'];
-  lineItemIds: Array<Scalars['ID']>;
+  checkoutId: Scalars['ID']['input'];
+  lineItemIds: Array<Scalars['ID']['input']>;
 };
 
 export type ShopifyMutationCheckoutLineItemsReplaceArgs = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemInput>;
 };
 
 export type ShopifyMutationCheckoutLineItemsUpdateArgs = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemUpdateInput>;
 };
 
 export type ShopifyMutationCheckoutShippingAddressUpdateV2Args = {
-  checkoutId: Scalars['ID'];
+  checkoutId: Scalars['ID']['input'];
   shippingAddress: Shopify_MailingAddressInput;
 };
 
 export type ShopifyMutationCheckoutShippingLineUpdateArgs = {
-  checkoutId: Scalars['ID'];
-  shippingRateHandle: Scalars['String'];
+  checkoutId: Scalars['ID']['input'];
+  shippingRateHandle: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerAccessTokenCreateArgs = {
@@ -22435,41 +22444,41 @@ export type ShopifyMutationCustomerAccessTokenCreateArgs = {
 };
 
 export type ShopifyMutationCustomerAccessTokenCreateWithMultipassArgs = {
-  multipassToken: Scalars['String'];
+  multipassToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerAccessTokenDeleteArgs = {
-  customerAccessToken: Scalars['String'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerAccessTokenRenewArgs = {
-  customerAccessToken: Scalars['String'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerActivateArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: Shopify_CustomerActivateInput;
 };
 
 export type ShopifyMutationCustomerActivateByUrlArgs = {
-  activationUrl: Scalars['shopify_URL'];
-  password: Scalars['String'];
+  activationUrl: Scalars['shopify_URL']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerAddressCreateArgs = {
   address: Shopify_MailingAddressInput;
-  customerAccessToken: Scalars['String'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerAddressDeleteArgs = {
-  customerAccessToken: Scalars['String'];
-  id: Scalars['ID'];
+  customerAccessToken: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCustomerAddressUpdateArgs = {
   address: Shopify_MailingAddressInput;
-  customerAccessToken: Scalars['String'];
-  id: Scalars['ID'];
+  customerAccessToken: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
 };
 
 export type ShopifyMutationCustomerCreateArgs = {
@@ -22477,27 +22486,27 @@ export type ShopifyMutationCustomerCreateArgs = {
 };
 
 export type ShopifyMutationCustomerDefaultAddressUpdateArgs = {
-  addressId: Scalars['ID'];
-  customerAccessToken: Scalars['String'];
+  addressId: Scalars['ID']['input'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerRecoverArgs = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 export type ShopifyMutationCustomerResetArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: Shopify_CustomerResetInput;
 };
 
 export type ShopifyMutationCustomerResetByUrlArgs = {
-  password: Scalars['String'];
-  resetUrl: Scalars['shopify_URL'];
+  password: Scalars['String']['input'];
+  resetUrl: Scalars['shopify_URL']['input'];
 };
 
 export type ShopifyMutationCustomerUpdateArgs = {
   customer: Shopify_CustomerUpdateInput;
-  customerAccessToken: Scalars['String'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRoot = {
@@ -22595,187 +22604,187 @@ export type ShopifyQueryRoot = {
 };
 
 export type ShopifyQueryRootArticleArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type ShopifyQueryRootArticlesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ArticleSortKeys>;
 };
 
 export type ShopifyQueryRootBlogArgs = {
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['ID']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootBlogByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootBlogsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_BlogSortKeys>;
 };
 
 export type ShopifyQueryRootCartArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type ShopifyQueryRootCartCompletionAttemptArgs = {
-  attemptId: Scalars['String'];
+  attemptId: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootCollectionArgs = {
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['ID']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootCollectionByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootCollectionsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_CollectionSortKeys>;
 };
 
 export type ShopifyQueryRootCustomerArgs = {
-  customerAccessToken: Scalars['String'];
+  customerAccessToken: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootLocationsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
   near: InputMaybe<Shopify_GeoCoordinateInput>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_LocationSortKeys>;
 };
 
 export type ShopifyQueryRootMenuArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootMetaobjectArgs = {
   handle: InputMaybe<Shopify_MetaobjectHandleInput>;
-  id: InputMaybe<Scalars['ID']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootMetaobjectsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
-  sortKey: InputMaybe<Scalars['String']>;
-  type: Scalars['String'];
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  sortKey: InputMaybe<Scalars['String']['input']>;
+  type: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootNodeArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type ShopifyQueryRootNodesArgs = {
-  ids: Array<Scalars['ID']>;
+  ids: Array<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootPageArgs = {
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['ID']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootPageByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootPagesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_PageSortKeys>;
 };
 
 export type ShopifyQueryRootPredictiveSearchArgs = {
-  limit: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
   limitScope: InputMaybe<Shopify_PredictiveSearchLimitScope>;
-  query: Scalars['String'];
+  query: Scalars['String']['input'];
   searchableFields: InputMaybe<Array<Shopify_SearchableField>>;
   types: InputMaybe<Array<Shopify_PredictiveSearchType>>;
   unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
 };
 
 export type ShopifyQueryRootProductArgs = {
-  handle: InputMaybe<Scalars['String']>;
-  id: InputMaybe<Scalars['ID']>;
+  handle: InputMaybe<Scalars['String']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ShopifyQueryRootProductByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 export type ShopifyQueryRootProductRecommendationsArgs = {
   intent?: InputMaybe<Shopify_ProductRecommendationIntent>;
-  productId: Scalars['ID'];
+  productId: Scalars['ID']['input'];
 };
 
 export type ShopifyQueryRootProductTagsArgs = {
-  first: Scalars['Int'];
+  first: Scalars['Int']['input'];
 };
 
 export type ShopifyQueryRootProductTypesArgs = {
-  first: Scalars['Int'];
+  first: Scalars['Int']['input'];
 };
 
 export type ShopifyQueryRootProductsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductSortKeys>;
 };
 
 export type ShopifyQueryRootSearchArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
   prefix: InputMaybe<Shopify_SearchPrefixQueryType>;
   productFilters: InputMaybe<Array<Shopify_ProductFilter>>;
-  query: Scalars['String'];
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  query: Scalars['String']['input'];
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_SearchSortKeys>;
   types: InputMaybe<Array<Shopify_SearchType>>;
   unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
 };
 
 export type ShopifyQueryRootUrlRedirectsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -22786,11 +22795,11 @@ export type ShopifyQueryRootUrlRedirectsArgs = {
 export type Shopify_ApiVersion = {
   __typename?: 'shopify_ApiVersion';
   /** The human-readable name of the version. */
-  displayName: Scalars['String'];
+  displayName: Scalars['String']['output'];
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning). */
-  supported: Scalars['Boolean'];
+  supported: Scalars['Boolean']['output'];
 };
 
 /**
@@ -22801,15 +22810,15 @@ export type Shopify_ApplePayWalletContentInput = {
   /** The customer's billing address. */
   billingAddress: Shopify_MailingAddressInput;
   /** The data for the Apple Pay wallet. */
-  data: Scalars['String'];
+  data: Scalars['String']['input'];
   /** The header data for the Apple Pay wallet. */
   header: Shopify_ApplePayWalletHeaderInput;
   /** The last digits of the card used to create the payment. */
-  lastDigits: InputMaybe<Scalars['String']>;
+  lastDigits: InputMaybe<Scalars['String']['input']>;
   /** The signature for the Apple Pay wallet. */
-  signature: Scalars['String'];
+  signature: Scalars['String']['input'];
   /** The version for the Apple Pay wallet. */
-  version: Scalars['String'];
+  version: Scalars['String']['input'];
 };
 
 /**
@@ -22818,13 +22827,13 @@ export type Shopify_ApplePayWalletContentInput = {
  */
 export type Shopify_ApplePayWalletHeaderInput = {
   /** The application data for the Apple Pay wallet. */
-  applicationData: InputMaybe<Scalars['String']>;
+  applicationData: InputMaybe<Scalars['String']['input']>;
   /** The ephemeral public key for the Apple Pay wallet. */
-  ephemeralPublicKey: Scalars['String'];
+  ephemeralPublicKey: Scalars['String']['input'];
   /** The public key hash for the Apple Pay wallet. */
-  publicKeyHash: Scalars['String'];
+  publicKeyHash: Scalars['String']['input'];
   /** The transaction ID for the Apple Pay wallet. */
-  transactionId: Scalars['String'];
+  transactionId: Scalars['String']['input'];
 };
 
 /** Details about the gift card used on the checkout. */
@@ -22839,9 +22848,9 @@ export type Shopify_AppliedGiftCard = Shopify_Node & {
   /** The amount left on the gift card. */
   balanceV2: Shopify_MoneyV2;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The last characters of the gift card. */
-  lastCharacters: Scalars['String'];
+  lastCharacters: Scalars['String']['output'];
   /** The amount that was applied to the checkout in its currency. */
   presentmentAmountUsed: Shopify_MoneyV2;
 };
@@ -22861,17 +22870,17 @@ export type Shopify_Article = Shopify_HasMetafields &
     /** List of comments posted on the article. */
     comments: Shopify_CommentConnection;
     /** Stripped content of the article, single line with HTML tags removed. */
-    content: Scalars['String'];
+    content: Scalars['String']['output'];
     /** The content of the article, complete with HTML formatting. */
-    contentHtml: Scalars['shopify_HTML'];
+    contentHtml: Scalars['shopify_HTML']['output'];
     /** Stripped excerpt of the article, single line with HTML tags removed. */
-    excerpt: Maybe<Scalars['String']>;
+    excerpt: Maybe<Scalars['String']['output']>;
     /** The excerpt of the article, complete with HTML formatting. */
-    excerptHtml: Maybe<Scalars['shopify_HTML']>;
+    excerptHtml: Maybe<Scalars['shopify_HTML']['output']>;
     /** A human-friendly unique string for the Article automatically generated from its title. */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The image associated with the article. */
     image: Maybe<Shopify_Image>;
     /** Returns a metafield found by namespace and key. */
@@ -22879,45 +22888,45 @@ export type Shopify_Article = Shopify_HasMetafields &
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** The date and time when the article was published. */
-    publishedAt: Scalars['shopify_DateTime'];
+    publishedAt: Scalars['shopify_DateTime']['output'];
     /** The article’s SEO information. */
     seo: Maybe<Shopify_Seo>;
     /**
      * A categorization that a article can be tagged with.
      *
      */
-    tags: Array<Scalars['String']>;
+    tags: Array<Scalars['String']['output']>;
     /** The article’s name. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']>;
+    trackingParameters: Maybe<Scalars['String']['output']>;
   };
 
 /** An article in an online store blog. */
 export type Shopify_ArticleCommentsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** An article in an online store blog. */
 export type Shopify_ArticleContentArgs = {
-  truncateAt: InputMaybe<Scalars['Int']>;
+  truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** An article in an online store blog. */
 export type Shopify_ArticleExcerptArgs = {
-  truncateAt: InputMaybe<Scalars['Int']>;
+  truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** An article in an online store blog. */
 export type Shopify_ArticleMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** An article in an online store blog. */
@@ -22929,15 +22938,15 @@ export type Shopify_ArticleMetafieldsArgs = {
 export type Shopify_ArticleAuthor = {
   __typename?: 'shopify_ArticleAuthor';
   /** The author's bio. */
-  bio: Maybe<Scalars['String']>;
+  bio: Maybe<Scalars['String']['output']>;
   /** The author’s email. */
-  email: Scalars['String'];
+  email: Scalars['String']['output'];
   /** The author's first name. */
-  firstName: Scalars['String'];
+  firstName: Scalars['String']['output'];
   /** The author's last name. */
-  lastName: Scalars['String'];
+  lastName: Scalars['String']['output'];
   /** The author's full name. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 /**
@@ -22961,7 +22970,7 @@ export type Shopify_ArticleConnection = {
 export type Shopify_ArticleEdge = {
   __typename?: 'shopify_ArticleEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of ArticleEdge. */
   node: Shopify_Article;
 };
@@ -22992,17 +23001,17 @@ export enum Shopify_ArticleSortKeys {
 export type Shopify_Attribute = {
   __typename?: 'shopify_Attribute';
   /** Key or name of the attribute. */
-  key: Scalars['String'];
+  key: Scalars['String']['output'];
   /** Value of the attribute. */
-  value: Maybe<Scalars['String']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** The input fields for an attribute. */
 export type Shopify_AttributeInput = {
   /** Key or name of the attribute. */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /** Value of the attribute. */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /**
@@ -23019,7 +23028,7 @@ export type Shopify_AutomaticDiscountApplication =
     /** The type of line that the discount is applicable towards. */
     targetType: Shopify_DiscountApplicationTargetType;
     /** The title of the application. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** The value of the discount application. */
     value: Shopify_PricingValue;
   };
@@ -23033,7 +23042,7 @@ export type Shopify_AvailableShippingRates = {
    * This field should be polled until its value becomes `true`.
    *
    */
-  ready: Scalars['Boolean'];
+  ready: Scalars['Boolean']['output'];
   /** The fetched shipping rates. `null` until the `ready` field is `true`. */
   shippingRates: Maybe<Array<Shopify_ShippingRate>>;
 };
@@ -23051,18 +23060,18 @@ export type Shopify_BaseCartLine = {
   /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
   estimatedCost: Shopify_CartLineEstimatedCost;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The merchandise that the buyer intends to purchase. */
   merchandise: Shopify_Merchandise;
   /** The quantity of the merchandise that the customer intends to purchase. */
-  quantity: Scalars['Int'];
+  quantity: Scalars['Int']['output'];
   /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
   sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
 };
 
 /** Represents a cart line common fields. */
 export type Shopify_BaseCartLineAttributeArgs = {
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
 };
 
 /**
@@ -23086,7 +23095,7 @@ export type Shopify_BaseCartLineConnection = {
 export type Shopify_BaseCartLineEdge = {
   __typename?: 'shopify_BaseCartLineEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of BaseCartLineEdge. */
   node: Shopify_BaseCartLine;
 };
@@ -23106,41 +23115,41 @@ export type Shopify_Blog = Shopify_HasMetafields &
      * A human-friendly unique string for the Blog automatically generated from its title.
      *
      */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Returns a metafield found by namespace and key. */
     metafield: Maybe<Shopify_Metafield>;
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** The blog's SEO information. */
     seo: Maybe<Shopify_Seo>;
     /** The blogs’s title. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
   };
 
 /** An online store blog. */
 export type Shopify_BlogArticleByHandleArgs = {
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
 };
 
 /** An online store blog. */
 export type Shopify_BlogArticlesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ArticleSortKeys>;
 };
 
 /** An online store blog. */
 export type Shopify_BlogMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** An online store blog. */
@@ -23169,7 +23178,7 @@ export type Shopify_BlogConnection = {
 export type Shopify_BlogEdge = {
   __typename?: 'shopify_BlogEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of BlogEdge. */
   node: Shopify_Blog;
 };
@@ -23203,9 +23212,9 @@ export type Shopify_Brand = {
   /** The store's default logo. */
   logo: Maybe<Shopify_MediaImage>;
   /** The store's short description. */
-  shortDescription: Maybe<Scalars['String']>;
+  shortDescription: Maybe<Scalars['String']['output']>;
   /** The store's slogan. */
-  slogan: Maybe<Scalars['String']>;
+  slogan: Maybe<Scalars['String']['output']>;
   /** The store's preferred logo for square UI elements. */
   squareLogo: Maybe<Shopify_MediaImage>;
 };
@@ -23217,9 +23226,9 @@ export type Shopify_Brand = {
 export type Shopify_BrandColorGroup = {
   __typename?: 'shopify_BrandColorGroup';
   /** The background color. */
-  background: Maybe<Scalars['shopify_Color']>;
+  background: Maybe<Scalars['shopify_Color']['output']>;
   /** The foreground color. */
-  foreground: Maybe<Scalars['shopify_Color']>;
+  foreground: Maybe<Scalars['shopify_Color']['output']>;
 };
 
 /**
@@ -23267,11 +23276,11 @@ export type Shopify_Cart = Shopify_HasMetafields &
     /** Information about the buyer that's interacting with the cart. */
     buyerIdentity: Shopify_CartBuyerIdentity;
     /** The URL of the checkout for the cart. */
-    checkoutUrl: Scalars['shopify_URL'];
+    checkoutUrl: Scalars['shopify_URL']['output'];
     /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
     cost: Shopify_CartCost;
     /** The date and time when the cart was created. */
-    createdAt: Scalars['shopify_DateTime'];
+    createdAt: Scalars['shopify_DateTime']['output'];
     /**
      * The delivery groups available for the cart, based on the buyer identity default
      * delivery address preference or the default address of the logged-in customer.
@@ -23285,7 +23294,7 @@ export type Shopify_Cart = Shopify_HasMetafields &
     /** The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
     estimatedCost: Shopify_CartEstimatedCost;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** A list of lines containing information about the items the customer intends to purchase. */
     lines: Shopify_BaseCartLineConnection;
     /** Returns a metafield found by namespace and key. */
@@ -23293,11 +23302,11 @@ export type Shopify_Cart = Shopify_HasMetafields &
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** A note that's associated with the cart. For example, the note can be a personalized message to the buyer. */
-    note: Maybe<Scalars['String']>;
+    note: Maybe<Scalars['String']['output']>;
     /** The total number of items in the cart. */
-    totalQuantity: Scalars['Int'];
+    totalQuantity: Scalars['Int']['output'];
     /** The date and time when the cart was updated. */
-    updatedAt: Scalars['shopify_DateTime'];
+    updatedAt: Scalars['shopify_DateTime']['output'];
   };
 
 /**
@@ -23308,7 +23317,7 @@ export type Shopify_Cart = Shopify_HasMetafields &
  *
  */
 export type Shopify_CartAttributeArgs = {
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
 };
 
 /**
@@ -23319,11 +23328,11 @@ export type Shopify_CartAttributeArgs = {
  *
  */
 export type Shopify_CartDeliveryGroupsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -23334,11 +23343,11 @@ export type Shopify_CartDeliveryGroupsArgs = {
  *
  */
 export type Shopify_CartLinesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -23349,8 +23358,8 @@ export type Shopify_CartLinesArgs = {
  *
  */
 export type Shopify_CartMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /**
@@ -23380,7 +23389,7 @@ export type Shopify_CartAutomaticDiscountAllocation =
     /** The discounted amount that has been applied to the cart line. */
     discountedAmount: Shopify_MoneyV2;
     /** The title of the allocated discount. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
   };
 
 /** Represents information about the buyer that is interacting with the cart. */
@@ -23398,15 +23407,15 @@ export type Shopify_CartBuyerIdentity = {
    */
   deliveryAddressPreferences: Array<Shopify_DeliveryAddress>;
   /** The email address of the buyer that's interacting with the cart. */
-  email: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']['output']>;
   /** The phone number of the buyer that's interacting with the cart. */
-  phone: Maybe<Scalars['String']>;
+  phone: Maybe<Scalars['String']['output']>;
   /**
    * A set of wallet preferences tied to the buyer that is interacting with the cart.
    * Preferences can be used to populate relevant payment fields in the checkout flow.
    *
    */
-  walletPreferences: Array<Scalars['String']>;
+  walletPreferences: Array<Scalars['String']['output']>;
 };
 
 /**
@@ -23420,7 +23429,7 @@ export type Shopify_CartBuyerIdentityInput = {
   /** The country where the buyer is located. */
   countryCode: InputMaybe<Shopify_CountryCode>;
   /** The access token used to identify the customer associated with the cart. */
-  customerAccessToken: InputMaybe<Scalars['String']>;
+  customerAccessToken: InputMaybe<Scalars['String']['input']>;
   /**
    * An ordered set of delivery addresses tied to the buyer that is interacting with the cart.
    * The rank of the preferences is determined by the order of the addresses in the array. Preferences
@@ -23430,9 +23439,9 @@ export type Shopify_CartBuyerIdentityInput = {
    */
   deliveryAddressPreferences: InputMaybe<Array<Shopify_DeliveryAddressInput>>;
   /** The email address of the buyer that is interacting with the cart. */
-  email: InputMaybe<Scalars['String']>;
+  email: InputMaybe<Scalars['String']['input']>;
   /** The phone number of the buyer that is interacting with the cart. */
-  phone: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']['input']>;
   /**
    * A set of wallet preferences tied to the buyer that is interacting with the cart.
    * Preferences can be used to populate relevant payment fields in the checkout flow.
@@ -23440,7 +23449,7 @@ export type Shopify_CartBuyerIdentityInput = {
    *
    * The input must not contain more than `250` values.
    */
-  walletPreferences: InputMaybe<Array<Scalars['String']>>;
+  walletPreferences: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** Return type for `cartBuyerIdentityUpdate` mutation. */
@@ -23470,7 +23479,7 @@ export type Shopify_CartCodeDiscountAllocation =
   Shopify_CartDiscountAllocation & {
     __typename?: 'shopify_CartCodeDiscountAllocation';
     /** The code used to apply the discount. */
-    code: Scalars['String'];
+    code: Scalars['String']['output'];
     /** The discounted amount that has been applied to the cart line. */
     discountedAmount: Shopify_MoneyV2;
   };
@@ -23484,7 +23493,7 @@ export type Shopify_CartCompletionActionRequired = {
   /** The action required to complete the cart completion attempt. */
   action: Maybe<Shopify_CartCompletionAction>;
   /** The ID of the cart completion attempt. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
 };
 
 /** The result of a cart completion attempt. */
@@ -23500,29 +23509,29 @@ export type Shopify_CartCompletionFailed = {
   /** The errors that caused the checkout to fail. */
   errors: Array<Shopify_CompletionError>;
   /** The ID of the cart completion attempt. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
 };
 
 /** A cart checkout completion that's still processing. */
 export type Shopify_CartCompletionProcessing = {
   __typename?: 'shopify_CartCompletionProcessing';
   /** The ID of the cart completion attempt. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /** The number of milliseconds to wait before polling again. */
-  pollDelay: Scalars['Int'];
+  pollDelay: Scalars['Int']['output'];
 };
 
 /** A successful completion to checkout a cart and a created order. */
 export type Shopify_CartCompletionSuccess = {
   __typename?: 'shopify_CartCompletionSuccess';
   /** The date and time when the job completed. */
-  completedAt: Maybe<Scalars['shopify_DateTime']>;
+  completedAt: Maybe<Scalars['shopify_DateTime']['output']>;
   /** The ID of the cart completion attempt. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /** The ID of the order that's created in Shopify. */
-  orderId: Scalars['ID'];
+  orderId: Scalars['ID']['output'];
   /** The URL of the order confirmation in Shopify. */
-  orderUrl: Scalars['shopify_URL'];
+  orderUrl: Scalars['shopify_URL']['output'];
 };
 
 /**
@@ -23538,19 +23547,19 @@ export type Shopify_CartCost = {
   /** The amount, before taxes and cart-level discounts, for the customer to pay. */
   subtotalAmount: Shopify_MoneyV2;
   /** Whether the subtotal amount is estimated. */
-  subtotalAmountEstimated: Scalars['Boolean'];
+  subtotalAmountEstimated: Scalars['Boolean']['output'];
   /** The total amount for the customer to pay. */
   totalAmount: Shopify_MoneyV2;
   /** Whether the total amount is estimated. */
-  totalAmountEstimated: Scalars['Boolean'];
+  totalAmountEstimated: Scalars['Boolean']['output'];
   /** The duty amount for the customer to pay at checkout. */
   totalDutyAmount: Maybe<Shopify_MoneyV2>;
   /** Whether the total duty amount is estimated. */
-  totalDutyAmountEstimated: Scalars['Boolean'];
+  totalDutyAmountEstimated: Scalars['Boolean']['output'];
   /** The tax amount for the customer to pay at checkout. */
   totalTaxAmount: Maybe<Shopify_MoneyV2>;
   /** Whether the total tax amount is estimated. */
-  totalTaxAmountEstimated: Scalars['Boolean'];
+  totalTaxAmountEstimated: Scalars['Boolean']['output'];
 };
 
 /** Return type for `cartCreate` mutation. */
@@ -23569,7 +23578,7 @@ export type Shopify_CartCustomDiscountAllocation =
     /** The discounted amount that has been applied to the cart line. */
     discountedAmount: Shopify_MoneyV2;
     /** The title of the allocated discount. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
   };
 
 /** Information about the options available for one or more line items to be delivered to a specific address. */
@@ -23582,18 +23591,18 @@ export type Shopify_CartDeliveryGroup = {
   /** The delivery options available for the delivery group. */
   deliveryOptions: Array<Shopify_CartDeliveryOption>;
   /** The ID for the delivery group. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The selected delivery option for the delivery group. */
   selectedDeliveryOption: Maybe<Shopify_CartDeliveryOption>;
 };
 
 /** Information about the options available for one or more line items to be delivered to a specific address. */
 export type Shopify_CartDeliveryGroupCartLinesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -23617,7 +23626,7 @@ export type Shopify_CartDeliveryGroupConnection = {
 export type Shopify_CartDeliveryGroupEdge = {
   __typename?: 'shopify_CartDeliveryGroupEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of CartDeliveryGroupEdge. */
   node: Shopify_CartDeliveryGroup;
 };
@@ -23626,17 +23635,17 @@ export type Shopify_CartDeliveryGroupEdge = {
 export type Shopify_CartDeliveryOption = {
   __typename?: 'shopify_CartDeliveryOption';
   /** The code of the delivery option. */
-  code: Maybe<Scalars['String']>;
+  code: Maybe<Scalars['String']['output']>;
   /** The method for the delivery option. */
   deliveryMethodType: Shopify_DeliveryMethodType;
   /** The description of the delivery option. */
-  description: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The estimated cost for the delivery option. */
   estimatedCost: Shopify_MoneyV2;
   /** The unique identifier of the delivery option. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** The title of the delivery option. */
-  title: Maybe<Scalars['String']>;
+  title: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -23649,7 +23658,7 @@ export type Shopify_CartDirectPaymentMethodInput = {
   /** The source of the credit card payment. */
   cardSource: InputMaybe<Shopify_CartCardSource>;
   /** The session ID for the direct payment method used to create the payment. */
-  sessionId: Scalars['String'];
+  sessionId: Scalars['String']['input'];
 };
 
 /** The discounts that have been applied to the cart line. */
@@ -23662,9 +23671,9 @@ export type Shopify_CartDiscountAllocation = {
 export type Shopify_CartDiscountCode = {
   __typename?: 'shopify_CartDiscountCode';
   /** Whether the discount code is applicable to the cart's current contents. */
-  applicable: Scalars['Boolean'];
+  applicable: Scalars['Boolean']['output'];
   /** The code for the discount. */
-  code: Scalars['String'];
+  code: Scalars['String']['output'];
 };
 
 /** Return type for `cartDiscountCodesUpdate` mutation. */
@@ -23746,7 +23755,7 @@ export type Shopify_CartInput = {
    *
    * The input must not contain more than `250` values.
    */
-  discountCodes: InputMaybe<Array<Scalars['String']>>;
+  discountCodes: InputMaybe<Array<Scalars['String']['input']>>;
   /**
    * A list of merchandise lines to add to the cart.
    *
@@ -23763,24 +23772,24 @@ export type Shopify_CartInput = {
    * A note that's associated with the cart. For example, the note can be a personalized message to the buyer.
    *
    */
-  note: InputMaybe<Scalars['String']>;
+  note: InputMaybe<Scalars['String']['input']>;
 };
 
 /** The input fields for a cart metafield value to set. */
 export type Shopify_CartInputMetafieldInput = {
   /** The key name of the metafield. */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /**
    * The type of data that the cart metafield stores.
    * The type of data must be a [supported type](https://shopify.dev/apps/metafields/types).
    *
    */
-  type: Scalars['String'];
+  type: Scalars['String']['input'];
   /**
    * The data to store in the cart metafield. The data is always stored as a string, regardless of the metafield's type.
    *
    */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** Represents information about the merchandise in the cart. */
@@ -23798,18 +23807,18 @@ export type Shopify_CartLine = Shopify_BaseCartLine &
     /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
     estimatedCost: Shopify_CartLineEstimatedCost;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The merchandise that the buyer intends to purchase. */
     merchandise: Shopify_Merchandise;
     /** The quantity of the merchandise that the customer intends to purchase. */
-    quantity: Scalars['Int'];
+    quantity: Scalars['Int']['output'];
     /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
     sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
   };
 
 /** Represents information about the merchandise in the cart. */
 export type Shopify_CartLineAttributeArgs = {
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
 };
 
 /** The cost of the merchandise line that the buyer will pay at checkout. */
@@ -23850,11 +23859,11 @@ export type Shopify_CartLineInput = {
    */
   attributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The ID of the merchandise that the buyer intends to purchase. */
-  merchandiseId: Scalars['ID'];
+  merchandiseId: Scalars['ID']['input'];
   /** The quantity of the merchandise. */
-  quantity: InputMaybe<Scalars['Int']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the selling plan that the merchandise is being purchased with. */
-  sellingPlanId: InputMaybe<Scalars['ID']>;
+  sellingPlanId: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** The input fields to update a line item on a cart. */
@@ -23866,13 +23875,13 @@ export type Shopify_CartLineUpdateInput = {
    */
   attributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The ID of the merchandise line. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   /** The ID of the merchandise for the line item. */
-  merchandiseId: InputMaybe<Scalars['ID']>;
+  merchandiseId: InputMaybe<Scalars['ID']['input']>;
   /** The quantity of the line item. */
-  quantity: InputMaybe<Scalars['Int']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the selling plan that the merchandise is being purchased with. */
-  sellingPlanId: InputMaybe<Scalars['ID']>;
+  sellingPlanId: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** Return type for `cartLinesAdd` mutation. */
@@ -23909,16 +23918,16 @@ export type Shopify_CartMetafieldDeleteInput = {
    *  that relies on the default app-reserved namespace.
    *
    */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /** The ID of the cart resource. */
-  ownerId: Scalars['ID'];
+  ownerId: Scalars['ID']['input'];
 };
 
 /** Return type for `cartMetafieldDelete` mutation. */
 export type Shopify_CartMetafieldDeletePayload = {
   __typename?: 'shopify_CartMetafieldDeletePayload';
   /** The ID of the deleted cart metafield. */
-  deletedId: Maybe<Scalars['ID']>;
+  deletedId: Maybe<Scalars['ID']['output']>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<Shopify_MetafieldDeleteUserError>;
 };
@@ -23926,20 +23935,20 @@ export type Shopify_CartMetafieldDeletePayload = {
 /** The input fields for a cart metafield value to set. */
 export type Shopify_CartMetafieldsSetInput = {
   /** The key name of the cart metafield. */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /** The ID of the cart resource. */
-  ownerId: Scalars['ID'];
+  ownerId: Scalars['ID']['input'];
   /**
    * The type of data that the cart metafield stores.
    * The type of data must be a [supported type](https://shopify.dev/apps/metafields/types).
    *
    */
-  type: Scalars['String'];
+  type: Scalars['String']['input'];
   /**
    * The data to store in the cart metafield. The data is always stored as a string, regardless of the metafield's type.
    *
    */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** Return type for `cartMetafieldsSet` mutation. */
@@ -23983,7 +23992,7 @@ export type Shopify_CartPaymentInput = {
    * Note that this value doesn't correspond to the Shopify Order ID.
    *
    */
-  sourceIdentifier: InputMaybe<Scalars['String']>;
+  sourceIdentifier: InputMaybe<Scalars['String']['input']>;
   /**
    * The input fields to use when checking out a cart with a wallet payment method (like Shop Pay or Apple Pay).
    *
@@ -24006,9 +24015,9 @@ export type Shopify_CartPaymentUpdatePayload = {
  */
 export type Shopify_CartSelectedDeliveryOptionInput = {
   /** The ID of the cart delivery group. */
-  deliveryGroupId: Scalars['ID'];
+  deliveryGroupId: Scalars['ID']['input'];
   /** The handle of the selected delivery option. */
-  deliveryOptionHandle: Scalars['String'];
+  deliveryOptionHandle: Scalars['String']['input'];
 };
 
 /** Return type for `cartSelectedDeliveryOptionsUpdate` mutation. */
@@ -24042,9 +24051,9 @@ export type Shopify_CartUserError = Shopify_DisplayableError & {
   /** The error code. */
   code: Maybe<Shopify_CartErrorCode>;
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /**
@@ -24078,9 +24087,9 @@ export type Shopify_Checkout = Shopify_Node & {
   /** The identity of the customer associated with the checkout. */
   buyerIdentity: Shopify_CheckoutBuyerIdentity;
   /** The date and time when the checkout was completed. */
-  completedAt: Maybe<Scalars['shopify_DateTime']>;
+  completedAt: Maybe<Scalars['shopify_DateTime']['output']>;
   /** The date and time when the checkout was created. */
-  createdAt: Scalars['shopify_DateTime'];
+  createdAt: Scalars['shopify_DateTime']['output'];
   /** The currency code for the checkout. */
   currencyCode: Shopify_CurrencyCode;
   /** A list of extra information that's added to the checkout. */
@@ -24088,19 +24097,19 @@ export type Shopify_Checkout = Shopify_Node & {
   /** Discounts that have been applied on the checkout. */
   discountApplications: Shopify_DiscountApplicationConnection;
   /** The email attached to this checkout. */
-  email: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: Shopify_CheckoutLineItemConnection;
   /** The sum of all the prices of all the items in the checkout. Duties, taxes, shipping and discounts excluded. */
   lineItemsSubtotalPrice: Shopify_MoneyV2;
   /** The note associated with the checkout. */
-  note: Maybe<Scalars['String']>;
+  note: Maybe<Scalars['String']['output']>;
   /** The resulting order from a paid checkout. */
   order: Maybe<Shopify_Order>;
   /** The <b>Order status</b> page for this Checkout, null when checkout isn't completed. */
-  orderStatusUrl: Maybe<Scalars['shopify_URL']>;
+  orderStatusUrl: Maybe<Scalars['shopify_URL']['output']>;
   /** The amount left to be paid. This is equal to the cost of the line items, taxes, and shipping, minus discounts and gift cards. */
   paymentDue: Shopify_MoneyV2;
   /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes, and shipping, minus discounts and gift cards. */
@@ -24112,9 +24121,9 @@ export type Shopify_Checkout = Shopify_Node & {
    * date, polling is required until the value is true.
    *
    */
-  ready: Scalars['Boolean'];
+  ready: Scalars['Boolean']['output'];
   /** States whether or not the fulfillment requires shipping. */
-  requiresShipping: Scalars['Boolean'];
+  requiresShipping: Scalars['Boolean']['output'];
   /** The shipping address to where the line items will be shipped. */
   shippingAddress: Maybe<Shopify_MailingAddress>;
   /**
@@ -24129,9 +24138,9 @@ export type Shopify_Checkout = Shopify_Node & {
   /** The price at checkout before duties, shipping, and taxes. */
   subtotalPriceV2: Shopify_MoneyV2;
   /** Whether the checkout is tax exempt. */
-  taxExempt: Scalars['Boolean'];
+  taxExempt: Scalars['Boolean']['output'];
   /** Whether taxes are included in the line item and shipping line prices. */
-  taxesIncluded: Scalars['Boolean'];
+  taxesIncluded: Scalars['Boolean']['output'];
   /** The sum of all the duties applied to the line items in the checkout. */
   totalDuties: Maybe<Shopify_MoneyV2>;
   /** The sum of all the prices of all the items in the checkout, including taxes and duties. */
@@ -24143,9 +24152,9 @@ export type Shopify_Checkout = Shopify_Node & {
   /** The sum of all the taxes applied to the line items and shipping lines in the checkout. */
   totalTaxV2: Shopify_MoneyV2;
   /** The date and time when the checkout was last updated. */
-  updatedAt: Scalars['shopify_DateTime'];
+  updatedAt: Scalars['shopify_DateTime']['output'];
   /** The url pointing to the checkout accessible from the web. */
-  webUrl: Scalars['shopify_URL'];
+  webUrl: Scalars['shopify_URL']['output'];
 };
 
 /**
@@ -24155,11 +24164,11 @@ export type Shopify_Checkout = Shopify_Node & {
  *
  */
 export type Shopify_CheckoutDiscountApplicationsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -24169,11 +24178,11 @@ export type Shopify_CheckoutDiscountApplicationsArgs = {
  *
  */
 export type Shopify_CheckoutLineItemsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** The input fields required to update a checkout's attributes. */
@@ -24185,7 +24194,7 @@ export type Shopify_CheckoutAttributesUpdateV2Input = {
    * each operation.
    *
    */
-  allowPartialAddresses: InputMaybe<Scalars['Boolean']>;
+  allowPartialAddresses: InputMaybe<Scalars['Boolean']['input']>;
   /**
    * A list of extra information that's added to the checkout.
    *
@@ -24193,7 +24202,7 @@ export type Shopify_CheckoutAttributesUpdateV2Input = {
    */
   customAttributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The text of an optional note that a shop owner can attach to the checkout. */
-  note: InputMaybe<Scalars['String']>;
+  note: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Return type for `checkoutAttributesUpdateV2` mutation. */
@@ -24270,7 +24279,7 @@ export type Shopify_CheckoutCreateInput = {
    * Full validation of addresses is still done at completion time. Defaults to `null`.
    *
    */
-  allowPartialAddresses: InputMaybe<Scalars['Boolean']>;
+  allowPartialAddresses: InputMaybe<Scalars['Boolean']['input']>;
   /** The identity of the customer associated with the checkout. */
   buyerIdentity: InputMaybe<Shopify_CheckoutBuyerIdentityInput>;
   /**
@@ -24280,7 +24289,7 @@ export type Shopify_CheckoutCreateInput = {
    */
   customAttributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The email with which the customer wants to checkout. */
-  email: InputMaybe<Scalars['String']>;
+  email: InputMaybe<Scalars['String']['input']>;
   /**
    * A list of line item objects, each one containing information about an item in the checkout.
    *
@@ -24288,7 +24297,7 @@ export type Shopify_CheckoutCreateInput = {
    */
   lineItems: InputMaybe<Array<Shopify_CheckoutLineItemInput>>;
   /** The text of an optional note that a shop owner can attach to the checkout. */
-  note: InputMaybe<Scalars['String']>;
+  note: InputMaybe<Scalars['String']['input']>;
   /** The shipping address to where the line items will be shipped. */
   shippingAddress: InputMaybe<Shopify_MailingAddressInput>;
 };
@@ -24301,7 +24310,7 @@ export type Shopify_CheckoutCreatePayload = {
   /** The list of errors that occurred from executing the mutation. */
   checkoutUserErrors: Array<Shopify_CheckoutUserError>;
   /** The checkout queue token. Available only to selected stores. */
-  queueToken: Maybe<Scalars['String']>;
+  queueToken: Maybe<Scalars['String']['output']>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<Shopify_UserError>;
 };
@@ -24489,11 +24498,11 @@ export type Shopify_CheckoutLineItem = Shopify_Node & {
   /** The discounts that have been allocated onto the checkout line item by discount applications. */
   discountAllocations: Array<Shopify_DiscountAllocation>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The quantity of the line item. */
-  quantity: Scalars['Int'];
+  quantity: Scalars['Int']['output'];
   /** Title of the line item. Defaults to the product's title. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** Unit price of the line item. */
   unitPrice: Maybe<Shopify_MoneyV2>;
   /** Product variant of the line item. */
@@ -24521,7 +24530,7 @@ export type Shopify_CheckoutLineItemConnection = {
 export type Shopify_CheckoutLineItemEdge = {
   __typename?: 'shopify_CheckoutLineItemEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of CheckoutLineItemEdge. */
   node: Shopify_CheckoutLineItem;
 };
@@ -24535,9 +24544,9 @@ export type Shopify_CheckoutLineItemInput = {
    */
   customAttributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The quantity of the line item. */
-  quantity: Scalars['Int'];
+  quantity: Scalars['Int']['input'];
   /** The ID of the product variant for the line item. */
-  variantId: Scalars['ID'];
+  variantId: Scalars['ID']['input'];
 };
 
 /** The input fields to update a line item on the checkout. */
@@ -24549,11 +24558,11 @@ export type Shopify_CheckoutLineItemUpdateInput = {
    */
   customAttributes: InputMaybe<Array<Shopify_AttributeInput>>;
   /** The ID of the line item. */
-  id: InputMaybe<Scalars['ID']>;
+  id: InputMaybe<Scalars['ID']['input']>;
   /** The quantity of the line item. */
-  quantity: InputMaybe<Scalars['Int']>;
+  quantity: InputMaybe<Scalars['Int']['input']>;
   /** The variant ID of the line item. */
-  variantId: InputMaybe<Scalars['ID']>;
+  variantId: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** Return type for `checkoutLineItemsAdd` mutation. */
@@ -24626,9 +24635,9 @@ export type Shopify_CheckoutUserError = Shopify_DisplayableError & {
   /** The error code. */
   code: Maybe<Shopify_CheckoutErrorCode>;
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /**
@@ -24642,17 +24651,17 @@ export type Shopify_Collection = Shopify_HasMetafields &
   Shopify_Trackable & {
     __typename?: 'shopify_Collection';
     /** Stripped description of the collection, single line with HTML tags removed. */
-    description: Scalars['String'];
+    description: Scalars['String']['output'];
     /** The description of the collection, complete with HTML formatting. */
-    descriptionHtml: Scalars['shopify_HTML'];
+    descriptionHtml: Scalars['shopify_HTML']['output'];
     /**
      * A human-friendly unique string for the collection automatically generated from its title.
      * Limit of 255 characters.
      *
      */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Image associated with the collection. */
     image: Maybe<Shopify_Image>;
     /** Returns a metafield found by namespace and key. */
@@ -24660,17 +24669,17 @@ export type Shopify_Collection = Shopify_HasMetafields &
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** List of products in the collection. */
     products: Shopify_ProductConnection;
     /** The collection's SEO information. */
     seo: Shopify_Seo;
     /** The collection’s name. Limit of 255 characters. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']>;
+    trackingParameters: Maybe<Scalars['String']['output']>;
     /** The date and time when the collection was last modified. */
-    updatedAt: Scalars['shopify_DateTime'];
+    updatedAt: Scalars['shopify_DateTime']['output'];
   };
 
 /**
@@ -24679,7 +24688,7 @@ export type Shopify_Collection = Shopify_HasMetafields &
  *
  */
 export type Shopify_CollectionDescriptionArgs = {
-  truncateAt: InputMaybe<Scalars['Int']>;
+  truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
 /**
@@ -24688,8 +24697,8 @@ export type Shopify_CollectionDescriptionArgs = {
  *
  */
 export type Shopify_CollectionMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /**
@@ -24707,12 +24716,12 @@ export type Shopify_CollectionMetafieldsArgs = {
  *
  */
 export type Shopify_CollectionProductsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
   filters: InputMaybe<Array<Shopify_ProductFilter>>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductCollectionSortKeys>;
 };
 
@@ -24729,7 +24738,7 @@ export type Shopify_CollectionConnection = {
   /** Information to aid in pagination. */
   pageInfo: Shopify_PageInfo;
   /** The total count of Collections. */
-  totalCount: Scalars['shopify_UnsignedInt64'];
+  totalCount: Scalars['shopify_UnsignedInt64']['output'];
 };
 
 /**
@@ -24739,7 +24748,7 @@ export type Shopify_CollectionConnection = {
 export type Shopify_CollectionEdge = {
   __typename?: 'shopify_CollectionEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of CollectionEdge. */
   node: Shopify_Collection;
 };
@@ -24766,25 +24775,25 @@ export type Shopify_Comment = Shopify_Node & {
   /** The comment’s author. */
   author: Shopify_CommentAuthor;
   /** Stripped content of the comment, single line with HTML tags removed. */
-  content: Scalars['String'];
+  content: Scalars['String']['output'];
   /** The content of the comment, complete with HTML formatting. */
-  contentHtml: Scalars['shopify_HTML'];
+  contentHtml: Scalars['shopify_HTML']['output'];
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 /** A comment on an article. */
 export type Shopify_CommentContentArgs = {
-  truncateAt: InputMaybe<Scalars['Int']>;
+  truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** The author of a comment. */
 export type Shopify_CommentAuthor = {
   __typename?: 'shopify_CommentAuthor';
   /** The author's email. */
-  email: Scalars['String'];
+  email: Scalars['String']['output'];
   /** The author’s name. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 /**
@@ -24808,7 +24817,7 @@ export type Shopify_CommentConnection = {
 export type Shopify_CommentEdge = {
   __typename?: 'shopify_CommentEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of CommentEdge. */
   node: Shopify_Comment;
 };
@@ -24817,7 +24826,7 @@ export type Shopify_CommentEdge = {
 export type Shopify_CompletePaymentChallenge = {
   __typename?: 'shopify_CompletePaymentChallenge';
   /** The URL for the 3DS payment redirect. */
-  redirectUrl: Maybe<Scalars['shopify_URL']>;
+  redirectUrl: Maybe<Scalars['shopify_URL']['output']>;
 };
 
 /** An error that occurred during a cart completion attempt. */
@@ -24826,7 +24835,7 @@ export type Shopify_CompletionError = {
   /** The error code. */
   code: Shopify_CompletionErrorCode;
   /** The error message. */
-  message: Maybe<Scalars['String']>;
+  message: Maybe<Scalars['String']['output']>;
 };
 
 /** The code of the error that occurred during a cart completion attempt. */
@@ -24861,20 +24870,20 @@ export type Shopify_ComponentizableCartLine = Shopify_BaseCartLine &
     /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
     estimatedCost: Shopify_CartLineEstimatedCost;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The components of the line item. */
     lineComponents: Array<Shopify_CartLine>;
     /** The merchandise that the buyer intends to purchase. */
     merchandise: Shopify_Merchandise;
     /** The quantity of the merchandise that the customer intends to purchase. */
-    quantity: Scalars['Int'];
+    quantity: Scalars['Int']['output'];
     /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
     sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
   };
 
 /** Represents information about the grouped merchandise in the cart. */
 export type Shopify_ComponentizableCartLineAttributeArgs = {
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
 };
 
 /** A country. */
@@ -24889,7 +24898,7 @@ export type Shopify_Country = {
   /** The market that includes this country. */
   market: Maybe<Shopify_Market>;
   /** The name of the country. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The unit system used in the country. */
   unitSystem: Shopify_UnitSystem;
 };
@@ -25398,21 +25407,21 @@ export enum Shopify_CountryCode {
 export type Shopify_CreditCard = {
   __typename?: 'shopify_CreditCard';
   /** The brand of the credit card. */
-  brand: Maybe<Scalars['String']>;
+  brand: Maybe<Scalars['String']['output']>;
   /** The expiry month of the credit card. */
-  expiryMonth: Maybe<Scalars['Int']>;
+  expiryMonth: Maybe<Scalars['Int']['output']>;
   /** The expiry year of the credit card. */
-  expiryYear: Maybe<Scalars['Int']>;
+  expiryYear: Maybe<Scalars['Int']['output']>;
   /** The credit card's BIN number. */
-  firstDigits: Maybe<Scalars['String']>;
+  firstDigits: Maybe<Scalars['String']['output']>;
   /** The first name of the card holder. */
-  firstName: Maybe<Scalars['String']>;
+  firstName: Maybe<Scalars['String']['output']>;
   /** The last 4 digits of the credit card. */
-  lastDigits: Maybe<Scalars['String']>;
+  lastDigits: Maybe<Scalars['String']['output']>;
   /** The last name of the card holder. */
-  lastName: Maybe<Scalars['String']>;
+  lastName: Maybe<Scalars['String']['output']>;
   /** The masked credit card number with only the last 4 digits displayed. */
-  maskedNumber: Maybe<Scalars['String']>;
+  maskedNumber: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -25424,13 +25433,13 @@ export type Shopify_CreditCardPaymentInputV2 = {
   /** The billing address for the payment. */
   billingAddress: Shopify_MailingAddressInput;
   /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
-  idempotencyKey: Scalars['String'];
+  idempotencyKey: Scalars['String']['input'];
   /** The amount and currency of the payment. */
   paymentAmount: Shopify_MoneyInput;
   /** Executes the payment in test mode if possible. Defaults to `false`. */
-  test: InputMaybe<Scalars['Boolean']>;
+  test: InputMaybe<Scalars['Boolean']['input']>;
   /** The ID returned by Shopify's Card Vault. */
-  vaultId: Scalars['String'];
+  vaultId: Scalars['String']['input'];
 };
 
 /** The part of the image that should remain after cropping. */
@@ -25453,9 +25462,9 @@ export type Shopify_Currency = {
   /** The ISO code of the currency. */
   isoCode: Shopify_CurrencyCode;
   /** The name of the currency. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The symbol of the currency. */
-  symbol: Scalars['String'];
+  symbol: Scalars['String']['output'];
 };
 
 /**
@@ -25793,58 +25802,58 @@ export enum Shopify_CurrencyCode {
 export type Shopify_Customer = Shopify_HasMetafields & {
   __typename?: 'shopify_Customer';
   /** Indicates whether the customer has consented to be sent marketing material via email. */
-  acceptsMarketing: Scalars['Boolean'];
+  acceptsMarketing: Scalars['Boolean']['output'];
   /** A list of addresses for the customer. */
   addresses: Shopify_MailingAddressConnection;
   /** The date and time when the customer was created. */
-  createdAt: Scalars['shopify_DateTime'];
+  createdAt: Scalars['shopify_DateTime']['output'];
   /** The customer’s default address. */
   defaultAddress: Maybe<Shopify_MailingAddress>;
   /** The customer’s name, email or phone number. */
-  displayName: Scalars['String'];
+  displayName: Scalars['String']['output'];
   /** The customer’s email address. */
-  email: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']['output']>;
   /** The customer’s first name. */
-  firstName: Maybe<Scalars['String']>;
+  firstName: Maybe<Scalars['String']['output']>;
   /** A unique ID for the customer. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The customer's most recently updated, incomplete checkout. */
   lastIncompleteCheckout: Maybe<Shopify_Checkout>;
   /** The customer’s last name. */
-  lastName: Maybe<Scalars['String']>;
+  lastName: Maybe<Scalars['String']['output']>;
   /** Returns a metafield found by namespace and key. */
   metafield: Maybe<Shopify_Metafield>;
   /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
   metafields: Array<Maybe<Shopify_Metafield>>;
   /** The number of orders that the customer has made at the store in their lifetime. */
-  numberOfOrders: Scalars['shopify_UnsignedInt64'];
+  numberOfOrders: Scalars['shopify_UnsignedInt64']['output'];
   /** The orders associated with the customer. */
   orders: Shopify_OrderConnection;
   /** The customer’s phone number. */
-  phone: Maybe<Scalars['String']>;
+  phone: Maybe<Scalars['String']['output']>;
   /**
    * A comma separated list of tags that have been added to the customer.
    * Additional access scope required: unauthenticated_read_customer_tags.
    *
    */
-  tags: Array<Scalars['String']>;
+  tags: Array<Scalars['String']['output']>;
   /** The date and time when the customer information was updated. */
-  updatedAt: Scalars['shopify_DateTime'];
+  updatedAt: Scalars['shopify_DateTime']['output'];
 };
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerAddressesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
@@ -25854,12 +25863,12 @@ export type Shopify_CustomerMetafieldsArgs = {
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerOrdersArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  query: InputMaybe<Scalars['String']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  query: InputMaybe<Scalars['String']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_OrderSortKeys>;
 };
 
@@ -25867,17 +25876,17 @@ export type Shopify_CustomerOrdersArgs = {
 export type Shopify_CustomerAccessToken = {
   __typename?: 'shopify_CustomerAccessToken';
   /** The customer’s access token. */
-  accessToken: Scalars['String'];
+  accessToken: Scalars['String']['output'];
   /** The date and time when the customer access token expires. */
-  expiresAt: Scalars['shopify_DateTime'];
+  expiresAt: Scalars['shopify_DateTime']['output'];
 };
 
 /** The input fields required to create a customer access token. */
 export type Shopify_CustomerAccessTokenCreateInput = {
   /** The email associated to the customer. */
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
   /** The login password to be used by the customer. */
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
 };
 
 /** Return type for `customerAccessTokenCreate` mutation. */
@@ -25904,9 +25913,9 @@ export type Shopify_CustomerAccessTokenCreateWithMultipassPayload = {
 export type Shopify_CustomerAccessTokenDeletePayload = {
   __typename?: 'shopify_CustomerAccessTokenDeletePayload';
   /** The destroyed access token. */
-  deletedAccessToken: Maybe<Scalars['String']>;
+  deletedAccessToken: Maybe<Scalars['String']['output']>;
   /** ID of the destroyed customer access token. */
-  deletedCustomerAccessTokenId: Maybe<Scalars['String']>;
+  deletedCustomerAccessTokenId: Maybe<Scalars['String']['output']>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<Shopify_UserError>;
 };
@@ -25934,9 +25943,9 @@ export type Shopify_CustomerActivateByUrlPayload = {
 /** The input fields to activate a customer. */
 export type Shopify_CustomerActivateInput = {
   /** The activation token required to activate the customer. */
-  activationToken: Scalars['String'];
+  activationToken: Scalars['String']['input'];
   /** New password that will be set during activation. */
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
 };
 
 /** Return type for `customerActivate` mutation. */
@@ -25969,7 +25978,7 @@ export type Shopify_CustomerAddressDeletePayload = {
   /** The list of errors that occurred from executing the mutation. */
   customerUserErrors: Array<Shopify_CustomerUserError>;
   /** ID of the deleted customer address. */
-  deletedCustomerAddressId: Maybe<Scalars['String']>;
+  deletedCustomerAddressId: Maybe<Scalars['String']['output']>;
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<Shopify_UserError>;
 };
@@ -25988,22 +25997,22 @@ export type Shopify_CustomerAddressUpdatePayload = {
 /** The input fields to create a new customer. */
 export type Shopify_CustomerCreateInput = {
   /** Indicates whether the customer has consented to be sent marketing material via email. */
-  acceptsMarketing: InputMaybe<Scalars['Boolean']>;
+  acceptsMarketing: InputMaybe<Scalars['Boolean']['input']>;
   /** The customer’s email. */
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
   /** The customer’s first name. */
-  firstName: InputMaybe<Scalars['String']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
   /** The customer’s last name. */
-  lastName: InputMaybe<Scalars['String']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
   /** The login password used by the customer. */
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
   /**
    * A unique phone number for the customer.
    *
    * Formatted using E.164 standard. For example, _+16135551111_.
    *
    */
-  phone: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Return type for `customerCreate` mutation. */
@@ -26087,9 +26096,9 @@ export type Shopify_CustomerResetByUrlPayload = {
 /** The input fields to reset a customer's password. */
 export type Shopify_CustomerResetInput = {
   /** New password that will be set as part of the reset password process. */
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
   /** The reset token required to reset the customer’s password. */
-  resetToken: Scalars['String'];
+  resetToken: Scalars['String']['input'];
 };
 
 /** Return type for `customerReset` mutation. */
@@ -26108,22 +26117,22 @@ export type Shopify_CustomerResetPayload = {
 /** The input fields to update the Customer information. */
 export type Shopify_CustomerUpdateInput = {
   /** Indicates whether the customer has consented to be sent marketing material via email. */
-  acceptsMarketing: InputMaybe<Scalars['Boolean']>;
+  acceptsMarketing: InputMaybe<Scalars['Boolean']['input']>;
   /** The customer’s email. */
-  email: InputMaybe<Scalars['String']>;
+  email: InputMaybe<Scalars['String']['input']>;
   /** The customer’s first name. */
-  firstName: InputMaybe<Scalars['String']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
   /** The customer’s last name. */
-  lastName: InputMaybe<Scalars['String']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
   /** The login password used by the customer. */
-  password: InputMaybe<Scalars['String']>;
+  password: InputMaybe<Scalars['String']['input']>;
   /**
    * A unique phone number for the customer.
    *
    * Formatted using E.164 standard. For example, _+16135551111_. To remove the phone number, specify `null`.
    *
    */
-  phone: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Return type for `customerUpdate` mutation. */
@@ -26149,9 +26158,9 @@ export type Shopify_CustomerUserError = Shopify_DisplayableError & {
   /** The error code. */
   code: Maybe<Shopify_CustomerErrorCode>;
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** A delivery address of the buyer that is interacting with the cart. */
@@ -26166,7 +26175,7 @@ export type Shopify_DeliveryAddressInput = {
    * The ID of a customer address that is associated with the buyer that is interacting with the cart.
    *
    */
-  customerAddressId: InputMaybe<Scalars['ID']>;
+  customerAddressId: InputMaybe<Scalars['ID']['input']>;
   /** A delivery address preference of a buyer that is interacting with the cart. */
   deliveryAddress: InputMaybe<Shopify_MailingAddressInput>;
 };
@@ -26258,7 +26267,7 @@ export type Shopify_DiscountApplicationConnection = {
 export type Shopify_DiscountApplicationEdge = {
   __typename?: 'shopify_DiscountApplicationEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of DiscountApplicationEdge. */
   node: Shopify_DiscountApplication;
 };
@@ -26300,9 +26309,9 @@ export type Shopify_DiscountCodeApplication = Shopify_DiscountApplication & {
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: Shopify_DiscountApplicationAllocationMethod;
   /** Specifies whether the discount code was applied successfully. */
-  applicable: Scalars['Boolean'];
+  applicable: Scalars['Boolean']['output'];
   /** The string identifying the discount code that was used at the time of application. */
-  code: Scalars['String'];
+  code: Scalars['String']['output'];
   /** Which lines of targetType that the discount is allocated over. */
   targetSelection: Shopify_DiscountApplicationTargetSelection;
   /** The type of line that the discount is applicable towards. */
@@ -26314,20 +26323,20 @@ export type Shopify_DiscountCodeApplication = Shopify_DiscountApplication & {
 /** Represents an error in the input of a mutation. */
 export type Shopify_DisplayableError = {
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** Represents a web address. */
 export type Shopify_Domain = {
   __typename?: 'shopify_Domain';
   /** The host name of the domain (eg: `example.com`). */
-  host: Scalars['String'];
+  host: Scalars['String']['output'];
   /** Whether SSL is enabled or not. */
-  sslEnabled: Scalars['Boolean'];
+  sslEnabled: Scalars['Boolean']['output'];
   /** The URL of the domain (eg: `https://example.com`). */
-  url: Scalars['shopify_URL'];
+  url: Scalars['shopify_URL']['output'];
 };
 
 /** Represents a video hosted outside of Shopify. */
@@ -26335,19 +26344,19 @@ export type Shopify_ExternalVideo = Shopify_Media &
   Shopify_Node & {
     __typename?: 'shopify_ExternalVideo';
     /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']>;
+    alt: Maybe<Scalars['String']['output']>;
     /** The embed URL of the video for the respective host. */
-    embedUrl: Scalars['shopify_URL'];
+    embedUrl: Scalars['shopify_URL']['output'];
     /** The URL. */
-    embeddedUrl: Scalars['shopify_URL'];
+    embeddedUrl: Scalars['shopify_URL']['output'];
     /** The host of the external video. */
     host: Shopify_MediaHost;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The media content type. */
     mediaContentType: Shopify_MediaContentType;
     /** The origin URL of the video on the respective host. */
-    originUrl: Scalars['shopify_URL'];
+    originUrl: Scalars['shopify_URL']['output'];
     /** The presentation for a media. */
     presentation: Maybe<Shopify_MediaPresentation>;
     /** The preview image for the media. */
@@ -26358,9 +26367,9 @@ export type Shopify_ExternalVideo = Shopify_Media &
 export type Shopify_Filter = {
   __typename?: 'shopify_Filter';
   /** A unique identifier. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /** A human-friendly string for this filter. */
-  label: Scalars['String'];
+  label: Scalars['String']['output'];
   /** An enumeration that denotes the type of data this filter represents. */
   type: Shopify_FilterType;
   /** The list of values for this filter. */
@@ -26387,9 +26396,9 @@ export enum Shopify_FilterType {
 export type Shopify_FilterValue = {
   __typename?: 'shopify_FilterValue';
   /** The number of results that match this filter value. */
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   /** A unique identifier. */
-  id: Scalars['String'];
+  id: Scalars['String']['output'];
   /**
    * An input object that can be used to filter by this value on the parent field.
    *
@@ -26398,9 +26407,9 @@ export type Shopify_FilterValue = {
    * their respective `input` values to use in a subsequent query.
    *
    */
-  input: Scalars['shopify_JSON'];
+  input: Scalars['shopify_JSON']['output'];
   /** A human-friendly string for this filter value. */
-  label: Scalars['String'];
+  label: Scalars['String']['output'];
 };
 
 /** Represents a single fulfillment in an order. */
@@ -26409,7 +26418,7 @@ export type Shopify_Fulfillment = {
   /** List of the fulfillment's line items. */
   fulfillmentLineItems: Shopify_FulfillmentLineItemConnection;
   /** The name of the tracking company. */
-  trackingCompany: Maybe<Scalars['String']>;
+  trackingCompany: Maybe<Scalars['String']['output']>;
   /**
    * Tracking information associated with the fulfillment,
    * such as the tracking number and tracking URL.
@@ -26420,16 +26429,16 @@ export type Shopify_Fulfillment = {
 
 /** Represents a single fulfillment in an order. */
 export type Shopify_FulfillmentFulfillmentLineItemsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Represents a single fulfillment in an order. */
 export type Shopify_FulfillmentTrackingInfoArgs = {
-  first: InputMaybe<Scalars['Int']>;
+  first: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Represents a single line item in a fulfillment. There is at most one fulfillment line item for each order line item. */
@@ -26438,7 +26447,7 @@ export type Shopify_FulfillmentLineItem = {
   /** The associated order's line item. */
   lineItem: Shopify_OrderLineItem;
   /** The amount fulfilled in this fulfillment. */
-  quantity: Scalars['Int'];
+  quantity: Scalars['Int']['output'];
 };
 
 /**
@@ -26462,7 +26471,7 @@ export type Shopify_FulfillmentLineItemConnection = {
 export type Shopify_FulfillmentLineItemEdge = {
   __typename?: 'shopify_FulfillmentLineItemEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of FulfillmentLineItemEdge. */
   node: Shopify_FulfillmentLineItem;
 };
@@ -26471,34 +26480,34 @@ export type Shopify_FulfillmentLineItemEdge = {
 export type Shopify_FulfillmentTrackingInfo = {
   __typename?: 'shopify_FulfillmentTrackingInfo';
   /** The tracking number of the fulfillment. */
-  number: Maybe<Scalars['String']>;
+  number: Maybe<Scalars['String']['output']>;
   /** The URL to track the fulfillment. */
-  url: Maybe<Scalars['shopify_URL']>;
+  url: Maybe<Scalars['shopify_URL']['output']>;
 };
 
 /** The generic file resource lets you manage files in a merchant’s store. Generic files include any file that doesn’t fit into a designated type such as image or video. Example: PDF, JSON. */
 export type Shopify_GenericFile = Shopify_Node & {
   __typename?: 'shopify_GenericFile';
   /** A word or phrase to indicate the contents of a file. */
-  alt: Maybe<Scalars['String']>;
+  alt: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The MIME type of the file. */
-  mimeType: Maybe<Scalars['String']>;
+  mimeType: Maybe<Scalars['String']['output']>;
   /** The size of the original file in bytes. */
-  originalFileSize: Maybe<Scalars['Int']>;
+  originalFileSize: Maybe<Scalars['Int']['output']>;
   /** The preview image for the file. */
   previewImage: Maybe<Shopify_Image>;
   /** The URL of the file. */
-  url: Maybe<Scalars['shopify_URL']>;
+  url: Maybe<Scalars['shopify_URL']['output']>;
 };
 
 /** The input fields used to specify a geographical location. */
 export type Shopify_GeoCoordinateInput = {
   /** The coordinate's latitude value. */
-  latitude: Scalars['Float'];
+  latitude: Scalars['Float']['input'];
   /** The coordinate's longitude value. */
-  longitude: Scalars['Float'];
+  longitude: Scalars['Float']['input'];
 };
 
 /** Represents information about the metafields associated to the specified resource. */
@@ -26511,8 +26520,8 @@ export type Shopify_HasMetafields = {
 
 /** Represents information about the metafields associated to the specified resource. */
 export type Shopify_HasMetafieldsMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** Represents information about the metafields associated to the specified resource. */
@@ -26523,29 +26532,29 @@ export type Shopify_HasMetafieldsMetafieldsArgs = {
 /** The input fields to identify a metafield on an owner resource by namespace and key. */
 export type Shopify_HasMetafieldsIdentifier = {
   /** The identifier for the metafield. */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /** The container the metafield belongs to. */
-  namespace: Scalars['String'];
+  namespace: Scalars['String']['input'];
 };
 
 /** Represents an image resource. */
 export type Shopify_Image = {
   __typename?: 'shopify_Image';
   /** A word or phrase to share the nature or contents of an image. */
-  altText: Maybe<Scalars['String']>;
+  altText: Maybe<Scalars['String']['output']>;
   /** The original height of the image in pixels. Returns `null` if the image isn't hosted by Shopify. */
-  height: Maybe<Scalars['Int']>;
+  height: Maybe<Scalars['Int']['output']>;
   /** A unique ID for the image. */
-  id: Maybe<Scalars['ID']>;
+  id: Maybe<Scalars['ID']['output']>;
   /**
    * The location of the original image as a URL.
    *
    * If there are any existing transformations in the original source URL, they will remain and not be stripped.
    *
    */
-  originalSrc: Scalars['shopify_URL'];
+  originalSrc: Scalars['shopify_URL']['output'];
   /** The location of the image as a URL. */
-  src: Scalars['shopify_URL'];
+  src: Scalars['shopify_URL']['output'];
   /**
    * The location of the transformed image as a URL.
    *
@@ -26553,7 +26562,7 @@ export type Shopify_Image = {
    * Otherwise any transformations which an image type doesn't support will be ignored.
    *
    */
-  transformedSrc: Scalars['shopify_URL'];
+  transformedSrc: Scalars['shopify_URL']['output'];
   /**
    * The location of the image as a URL.
    *
@@ -26564,18 +26573,18 @@ export type Shopify_Image = {
    * If you need multiple variations of the same image, then you can use [GraphQL aliases](https://graphql.org/learn/queries/#aliases).
    *
    */
-  url: Scalars['shopify_URL'];
+  url: Scalars['shopify_URL']['output'];
   /** The original width of the image in pixels. Returns `null` if the image isn't hosted by Shopify. */
-  width: Maybe<Scalars['Int']>;
+  width: Maybe<Scalars['Int']['output']>;
 };
 
 /** Represents an image resource. */
 export type Shopify_ImageTransformedSrcArgs = {
   crop: InputMaybe<Shopify_CropRegion>;
-  maxHeight: InputMaybe<Scalars['Int']>;
-  maxWidth: InputMaybe<Scalars['Int']>;
+  maxHeight: InputMaybe<Scalars['Int']['input']>;
+  maxWidth: InputMaybe<Scalars['Int']['input']>;
   preferredContentType: InputMaybe<Shopify_ImageContentType>;
-  scale?: InputMaybe<Scalars['Int']>;
+  scale?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Represents an image resource. */
@@ -26614,7 +26623,7 @@ export enum Shopify_ImageContentType {
 export type Shopify_ImageEdge = {
   __typename?: 'shopify_ImageEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of ImageEdge. */
   node: Shopify_Image;
 };
@@ -26642,12 +26651,12 @@ export type Shopify_ImageTransformInput = {
    * Image height in pixels between 1 and 5760.
    *
    */
-  maxHeight: InputMaybe<Scalars['Int']>;
+  maxHeight: InputMaybe<Scalars['Int']['input']>;
   /**
    * Image width in pixels between 1 and 5760.
    *
    */
-  maxWidth: InputMaybe<Scalars['Int']>;
+  maxWidth: InputMaybe<Scalars['Int']['input']>;
   /**
    * Convert the source image into the preferred content type.
    * Supported conversions: `.svg` to `.png`, any file type to `.jpg`, and any file type to `.webp`.
@@ -26658,18 +26667,18 @@ export type Shopify_ImageTransformInput = {
    * Image size multiplier for high-resolution retina displays. Must be within 1..3.
    *
    */
-  scale: InputMaybe<Scalars['Int']>;
+  scale: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** A language. */
 export type Shopify_Language = {
   __typename?: 'shopify_Language';
   /** The name of the language in the language itself. If the language uses capitalization, it is capitalized for a mid-sentence position. */
-  endonymName: Scalars['String'];
+  endonymName: Scalars['String']['output'];
   /** The ISO code. */
   isoCode: Shopify_LanguageCode;
   /** The name of the language in the current language. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 /** ISO 639-1 language codes supported by Shopify. */
@@ -26986,19 +26995,19 @@ export type Shopify_Location = Shopify_HasMetafields &
     /** The address of the location. */
     address: Shopify_LocationAddress;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Returns a metafield found by namespace and key. */
     metafield: Maybe<Shopify_Metafield>;
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The name of the location. */
-    name: Scalars['String'];
+    name: Scalars['String']['output'];
   };
 
 /** Represents a location where product inventory is held. */
 export type Shopify_LocationMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** Represents a location where product inventory is held. */
@@ -27013,32 +27022,32 @@ export type Shopify_LocationMetafieldsArgs = {
 export type Shopify_LocationAddress = {
   __typename?: 'shopify_LocationAddress';
   /** The first line of the address for the location. */
-  address1: Maybe<Scalars['String']>;
+  address1: Maybe<Scalars['String']['output']>;
   /** The second line of the address for the location. */
-  address2: Maybe<Scalars['String']>;
+  address2: Maybe<Scalars['String']['output']>;
   /** The city of the location. */
-  city: Maybe<Scalars['String']>;
+  city: Maybe<Scalars['String']['output']>;
   /** The country of the location. */
-  country: Maybe<Scalars['String']>;
+  country: Maybe<Scalars['String']['output']>;
   /** The country code of the location. */
-  countryCode: Maybe<Scalars['String']>;
+  countryCode: Maybe<Scalars['String']['output']>;
   /** A formatted version of the address for the location. */
-  formatted: Array<Scalars['String']>;
+  formatted: Array<Scalars['String']['output']>;
   /** The latitude coordinates of the location. */
-  latitude: Maybe<Scalars['Float']>;
+  latitude: Maybe<Scalars['Float']['output']>;
   /** The longitude coordinates of the location. */
-  longitude: Maybe<Scalars['Float']>;
+  longitude: Maybe<Scalars['Float']['output']>;
   /** The phone number of the location. */
-  phone: Maybe<Scalars['String']>;
+  phone: Maybe<Scalars['String']['output']>;
   /** The province of the location. */
-  province: Maybe<Scalars['String']>;
+  province: Maybe<Scalars['String']['output']>;
   /**
    * The code for the province, state, or district of the address of the location.
    *
    */
-  provinceCode: Maybe<Scalars['String']>;
+  provinceCode: Maybe<Scalars['String']['output']>;
   /** The ZIP code of the location. */
-  zip: Maybe<Scalars['String']>;
+  zip: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -27062,7 +27071,7 @@ export type Shopify_LocationConnection = {
 export type Shopify_LocationEdge = {
   __typename?: 'shopify_LocationEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of LocationEdge. */
   node: Shopify_Location;
 };
@@ -27083,25 +27092,25 @@ export enum Shopify_LocationSortKeys {
 export type Shopify_MailingAddress = Shopify_Node & {
   __typename?: 'shopify_MailingAddress';
   /** The first line of the address. Typically the street address or PO Box number. */
-  address1: Maybe<Scalars['String']>;
+  address1: Maybe<Scalars['String']['output']>;
   /**
    * The second line of the address. Typically the number of the apartment, suite, or unit.
    *
    */
-  address2: Maybe<Scalars['String']>;
+  address2: Maybe<Scalars['String']['output']>;
   /** The name of the city, district, village, or town. */
-  city: Maybe<Scalars['String']>;
+  city: Maybe<Scalars['String']['output']>;
   /** The name of the customer's company or organization. */
-  company: Maybe<Scalars['String']>;
+  company: Maybe<Scalars['String']['output']>;
   /** The name of the country. */
-  country: Maybe<Scalars['String']>;
+  country: Maybe<Scalars['String']['output']>;
   /**
    * The two-letter code for the country of the address.
    *
    * For example, US.
    *
    */
-  countryCode: Maybe<Scalars['String']>;
+  countryCode: Maybe<Scalars['String']['output']>;
   /**
    * The two-letter code for the country of the address.
    *
@@ -27110,45 +27119,45 @@ export type Shopify_MailingAddress = Shopify_Node & {
    */
   countryCodeV2: Maybe<Shopify_CountryCode>;
   /** The first name of the customer. */
-  firstName: Maybe<Scalars['String']>;
+  firstName: Maybe<Scalars['String']['output']>;
   /** A formatted version of the address, customized by the provided arguments. */
-  formatted: Array<Scalars['String']>;
+  formatted: Array<Scalars['String']['output']>;
   /** A comma-separated list of the values for city, province, and country. */
-  formattedArea: Maybe<Scalars['String']>;
+  formattedArea: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The last name of the customer. */
-  lastName: Maybe<Scalars['String']>;
+  lastName: Maybe<Scalars['String']['output']>;
   /** The latitude coordinate of the customer address. */
-  latitude: Maybe<Scalars['Float']>;
+  latitude: Maybe<Scalars['Float']['output']>;
   /** The longitude coordinate of the customer address. */
-  longitude: Maybe<Scalars['Float']>;
+  longitude: Maybe<Scalars['Float']['output']>;
   /** The full name of the customer, based on firstName and lastName. */
-  name: Maybe<Scalars['String']>;
+  name: Maybe<Scalars['String']['output']>;
   /**
    * A unique phone number for the customer.
    *
    * Formatted using E.164 standard. For example, _+16135551111_.
    *
    */
-  phone: Maybe<Scalars['String']>;
+  phone: Maybe<Scalars['String']['output']>;
   /** The region of the address, such as the province, state, or district. */
-  province: Maybe<Scalars['String']>;
+  province: Maybe<Scalars['String']['output']>;
   /**
    * The two-letter code for the region.
    *
    * For example, ON.
    *
    */
-  provinceCode: Maybe<Scalars['String']>;
+  provinceCode: Maybe<Scalars['String']['output']>;
   /** The zip or postal code of the address. */
-  zip: Maybe<Scalars['String']>;
+  zip: Maybe<Scalars['String']['output']>;
 };
 
 /** Represents a mailing address for customers and shipping. */
 export type Shopify_MailingAddressFormattedArgs = {
-  withCompany?: InputMaybe<Scalars['Boolean']>;
-  withName?: InputMaybe<Scalars['Boolean']>;
+  withCompany?: InputMaybe<Scalars['Boolean']['input']>;
+  withName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -27172,7 +27181,7 @@ export type Shopify_MailingAddressConnection = {
 export type Shopify_MailingAddressEdge = {
   __typename?: 'shopify_MailingAddressEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of MailingAddressEdge. */
   node: Shopify_MailingAddress;
 };
@@ -27183,39 +27192,39 @@ export type Shopify_MailingAddressInput = {
    * The first line of the address. Typically the street address or PO Box number.
    *
    */
-  address1: InputMaybe<Scalars['String']>;
+  address1: InputMaybe<Scalars['String']['input']>;
   /**
    * The second line of the address. Typically the number of the apartment, suite, or unit.
    *
    */
-  address2: InputMaybe<Scalars['String']>;
+  address2: InputMaybe<Scalars['String']['input']>;
   /**
    * The name of the city, district, village, or town.
    *
    */
-  city: InputMaybe<Scalars['String']>;
+  city: InputMaybe<Scalars['String']['input']>;
   /**
    * The name of the customer's company or organization.
    *
    */
-  company: InputMaybe<Scalars['String']>;
+  company: InputMaybe<Scalars['String']['input']>;
   /** The name of the country. */
-  country: InputMaybe<Scalars['String']>;
+  country: InputMaybe<Scalars['String']['input']>;
   /** The first name of the customer. */
-  firstName: InputMaybe<Scalars['String']>;
+  firstName: InputMaybe<Scalars['String']['input']>;
   /** The last name of the customer. */
-  lastName: InputMaybe<Scalars['String']>;
+  lastName: InputMaybe<Scalars['String']['input']>;
   /**
    * A unique phone number for the customer.
    *
    * Formatted using E.164 standard. For example, _+16135551111_.
    *
    */
-  phone: InputMaybe<Scalars['String']>;
+  phone: InputMaybe<Scalars['String']['input']>;
   /** The region of the address, such as the province, state, or district. */
-  province: InputMaybe<Scalars['String']>;
+  province: InputMaybe<Scalars['String']['input']>;
   /** The zip or postal code of the address. */
-  zip: InputMaybe<Scalars['String']>;
+  zip: InputMaybe<Scalars['String']['input']>;
 };
 
 /**
@@ -27227,13 +27236,13 @@ export type Shopify_ManualDiscountApplication = Shopify_DiscountApplication & {
   /** The method by which the discount's value is allocated to its entitled items. */
   allocationMethod: Shopify_DiscountApplicationAllocationMethod;
   /** The description of the application. */
-  description: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']['output']>;
   /** Which lines of targetType that the discount is allocated over. */
   targetSelection: Shopify_DiscountApplicationTargetSelection;
   /** The type of line that the discount is applicable towards. */
   targetType: Shopify_DiscountApplicationTargetType;
   /** The title of the application. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** The value of the discount application. */
   value: Shopify_PricingValue;
 };
@@ -27246,9 +27255,9 @@ export type Shopify_Market = Shopify_HasMetafields &
      * A human-readable unique string for the market automatically generated from its title.
      *
      */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Returns a metafield found by namespace and key. */
     metafield: Maybe<Shopify_Metafield>;
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
@@ -27257,8 +27266,8 @@ export type Shopify_Market = Shopify_HasMetafields &
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
 export type Shopify_MarketMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
@@ -27269,9 +27278,9 @@ export type Shopify_MarketMetafieldsArgs = {
 /** Represents a media interface. */
 export type Shopify_Media = {
   /** A word or phrase to share the nature or contents of a media. */
-  alt: Maybe<Scalars['String']>;
+  alt: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The media content type. */
   mediaContentType: Shopify_MediaContentType;
   /** The presentation for a media. */
@@ -27313,7 +27322,7 @@ export enum Shopify_MediaContentType {
 export type Shopify_MediaEdge = {
   __typename?: 'shopify_MediaEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of MediaEdge. */
   node: Shopify_Media;
 };
@@ -27331,9 +27340,9 @@ export type Shopify_MediaImage = Shopify_Media &
   Shopify_Node & {
     __typename?: 'shopify_MediaImage';
     /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']>;
+    alt: Maybe<Scalars['String']['output']>;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The image for the media. */
     image: Maybe<Shopify_Image>;
     /** The media content type. */
@@ -27348,9 +27357,9 @@ export type Shopify_MediaImage = Shopify_Media &
 export type Shopify_MediaPresentation = Shopify_Node & {
   __typename?: 'shopify_MediaPresentation';
   /** A JSON object representing a presentation view. */
-  asJson: Maybe<Scalars['shopify_JSON']>;
+  asJson: Maybe<Scalars['shopify_JSON']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 /** A media presentation. */
@@ -27374,36 +27383,36 @@ export enum Shopify_MediaPresentationFormat {
 export type Shopify_Menu = Shopify_Node & {
   __typename?: 'shopify_Menu';
   /** The menu's handle. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The menu's child items. */
   items: Array<Shopify_MenuItem>;
   /** The count of items on the menu. */
-  itemsCount: Scalars['Int'];
+  itemsCount: Scalars['Int']['output'];
   /** The menu's title. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
 };
 
 /** A menu item within a parent menu. */
 export type Shopify_MenuItem = Shopify_Node & {
   __typename?: 'shopify_MenuItem';
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The menu item's child items. */
   items: Array<Shopify_MenuItem>;
   /** The linked resource. */
   resource: Maybe<Shopify_MenuItemResource>;
   /** The ID of the linked resource. */
-  resourceId: Maybe<Scalars['ID']>;
+  resourceId: Maybe<Scalars['ID']['output']>;
   /** The menu item's tags to filter a collection. */
-  tags: Array<Scalars['String']>;
+  tags: Array<Scalars['String']['output']>;
   /** The menu item's title. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** The menu item's type. */
   type: Shopify_MenuItemType;
   /** The menu item's URL. */
-  url: Maybe<Scalars['shopify_URL']>;
+  url: Maybe<Scalars['shopify_URL']['output']>;
 };
 
 /**
@@ -27455,15 +27464,15 @@ export type Shopify_Merchandise = Shopify_ProductVariant;
 export type Shopify_Metafield = Shopify_Node & {
   __typename?: 'shopify_Metafield';
   /** The date and time when the storefront metafield was created. */
-  createdAt: Scalars['shopify_DateTime'];
+  createdAt: Scalars['shopify_DateTime']['output'];
   /** The description of a metafield. */
-  description: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The unique identifier for the metafield within its namespace. */
-  key: Scalars['String'];
+  key: Scalars['String']['output'];
   /** The container for a group of metafields that the metafield is associated with. */
-  namespace: Scalars['String'];
+  namespace: Scalars['String']['output'];
   /** The type of resource that the metafield is attached to. */
   parentResource: Shopify_MetafieldParentResource;
   /** Returns a reference object if the metafield's type is a resource reference. */
@@ -27475,11 +27484,11 @@ export type Shopify_Metafield = Shopify_Node & {
    * Refer to the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
    *
    */
-  type: Scalars['String'];
+  type: Scalars['String']['output'];
   /** The date and time when the metafield was last updated. */
-  updatedAt: Scalars['shopify_DateTime'];
+  updatedAt: Scalars['shopify_DateTime']['output'];
   /** The data stored in the metafield. Always stored as a string, regardless of the metafield's type. */
-  value: Scalars['String'];
+  value: Scalars['String']['output'];
 };
 
 /**
@@ -27488,10 +27497,10 @@ export type Shopify_Metafield = Shopify_Node & {
  *
  */
 export type Shopify_MetafieldReferencesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Possible error codes that can be returned by `MetafieldDeleteUserError`. */
@@ -27508,9 +27517,9 @@ export type Shopify_MetafieldDeleteUserError = Shopify_DisplayableError & {
   /** The error code. */
   code: Maybe<Shopify_MetafieldDeleteErrorCode>;
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /**
@@ -27525,11 +27534,11 @@ export type Shopify_MetafieldDeleteUserError = Shopify_DisplayableError & {
  */
 export type Shopify_MetafieldFilter = {
   /** The key of the metafield to filter on. */
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
   /** The namespace of the metafield to filter on. */
-  namespace: Scalars['String'];
+  namespace: Scalars['String']['input'];
   /** The value of the metafield. */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** A resource that the metafield belongs to. */
@@ -27582,7 +27591,7 @@ export type Shopify_MetafieldReferenceConnection = {
 export type Shopify_MetafieldReferenceEdge = {
   __typename?: 'shopify_MetafieldReferenceEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of MetafieldReferenceEdge. */
   node: Shopify_MetafieldReference;
 };
@@ -27593,11 +27602,11 @@ export type Shopify_MetafieldsSetUserError = Shopify_DisplayableError & {
   /** The error code. */
   code: Maybe<Shopify_MetafieldsSetUserErrorCode>;
   /** The index of the array element that's causing the error. */
-  elementIndex: Maybe<Scalars['Int']>;
+  elementIndex: Maybe<Scalars['Int']['output']>;
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** Possible error codes that can be returned by `MetafieldsSetUserError`. */
@@ -27634,18 +27643,18 @@ export type Shopify_Metaobject = Shopify_Node & {
    */
   fields: Array<Shopify_MetaobjectField>;
   /** The unique handle of the metaobject. Useful as a custom ID. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The type of the metaobject. Defines the namespace of its associated metafields. */
-  type: Scalars['String'];
+  type: Scalars['String']['output'];
   /** The date and time when the metaobject was last updated. */
-  updatedAt: Scalars['shopify_DateTime'];
+  updatedAt: Scalars['shopify_DateTime']['output'];
 };
 
 /** An instance of a user-defined model based on a MetaobjectDefinition. */
 export type Shopify_MetaobjectFieldArgs = {
-  key: Scalars['String'];
+  key: Scalars['String']['input'];
 };
 
 /**
@@ -27669,7 +27678,7 @@ export type Shopify_MetaobjectConnection = {
 export type Shopify_MetaobjectEdge = {
   __typename?: 'shopify_MetaobjectEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of MetaobjectEdge. */
   node: Shopify_Metaobject;
 };
@@ -27678,7 +27687,7 @@ export type Shopify_MetaobjectEdge = {
 export type Shopify_MetaobjectField = {
   __typename?: 'shopify_MetaobjectField';
   /** The field key. */
-  key: Scalars['String'];
+  key: Scalars['String']['output'];
   /** A referenced object if the field type is a resource reference. */
   reference: Maybe<Shopify_MetafieldReference>;
   /** A list of referenced objects if the field type is a resource reference list. */
@@ -27688,25 +27697,25 @@ export type Shopify_MetaobjectField = {
    * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
    *
    */
-  type: Scalars['String'];
+  type: Scalars['String']['output'];
   /** The field value. */
-  value: Maybe<Scalars['String']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** Provides the value of a Metaobject field. */
 export type Shopify_MetaobjectFieldReferencesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** The input fields used to retrieve a metaobject by handle. */
 export type Shopify_MetaobjectHandleInput = {
   /** The handle of the metaobject. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['input'];
   /** The type of the metaobject. */
-  type: Scalars['String'];
+  type: Scalars['String']['input'];
 };
 
 /** Represents a Shopify hosted 3D model. */
@@ -27714,9 +27723,9 @@ export type Shopify_Model3d = Shopify_Media &
   Shopify_Node & {
     __typename?: 'shopify_Model3d';
     /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']>;
+    alt: Maybe<Scalars['String']['output']>;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The media content type. */
     mediaContentType: Shopify_MediaContentType;
     /** The presentation for a media. */
@@ -27731,19 +27740,19 @@ export type Shopify_Model3d = Shopify_Media &
 export type Shopify_Model3dSource = {
   __typename?: 'shopify_Model3dSource';
   /** The filesize of the 3d model. */
-  filesize: Scalars['Int'];
+  filesize: Scalars['Int']['output'];
   /** The format of the 3d model. */
-  format: Scalars['String'];
+  format: Scalars['String']['output'];
   /** The MIME type of the 3d model. */
-  mimeType: Scalars['String'];
+  mimeType: Scalars['String']['output'];
   /** The URL of the 3d model. */
-  url: Scalars['String'];
+  url: Scalars['String']['output'];
 };
 
 /** The input fields for a monetary value with currency. */
 export type Shopify_MoneyInput = {
   /** Decimal money amount. */
-  amount: Scalars['shopify_Decimal'];
+  amount: Scalars['shopify_Decimal']['input'];
   /** Currency of the money. */
   currencyCode: Shopify_CurrencyCode;
 };
@@ -27755,7 +27764,7 @@ export type Shopify_MoneyInput = {
 export type Shopify_MoneyV2 = {
   __typename?: 'shopify_MoneyV2';
   /** Decimal money amount. */
-  amount: Scalars['shopify_Decimal'];
+  amount: Scalars['shopify_Decimal']['output'];
   /** Currency of the money. */
   currencyCode: Shopify_CurrencyCode;
 };
@@ -27769,13 +27778,13 @@ export type Shopify_MoneyV2 = {
  */
 export type Shopify_Node = {
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
 };
 
 /** Represents a resource that can be published to the Online Store sales channel. */
 export type Shopify_OnlineStorePublishable = {
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-  onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
 };
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
@@ -27787,7 +27796,7 @@ export type Shopify_Order = Shopify_HasMetafields &
     /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
     cancelReason: Maybe<Shopify_OrderCancelReason>;
     /** The date and time when the order was canceled. Returns null if the order wasn't canceled. */
-    canceledAt: Maybe<Scalars['shopify_DateTime']>;
+    canceledAt: Maybe<Scalars['shopify_DateTime']['output']>;
     /** The code of the currency used for the payment. */
     currencyCode: Shopify_CurrencyCode;
     /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes aren't included unless the order is a taxes-included order. */
@@ -27801,21 +27810,21 @@ export type Shopify_Order = Shopify_HasMetafields &
     /** A list of the custom attributes added to the order. */
     customAttributes: Array<Shopify_Attribute>;
     /** The locale code in which this specific order happened. */
-    customerLocale: Maybe<Scalars['String']>;
+    customerLocale: Maybe<Scalars['String']['output']>;
     /** The unique URL that the customer can use to access the order. */
-    customerUrl: Maybe<Scalars['shopify_URL']>;
+    customerUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** Discounts that have been applied on the order. */
     discountApplications: Shopify_DiscountApplicationConnection;
     /** Whether the order has had any edits applied or not. */
-    edited: Scalars['Boolean'];
+    edited: Scalars['Boolean']['output'];
     /** The customer's email address. */
-    email: Maybe<Scalars['String']>;
+    email: Maybe<Scalars['String']['output']>;
     /** The financial status of the order. */
     financialStatus: Maybe<Shopify_OrderFinancialStatus>;
     /** The fulfillment status for the order. */
     fulfillmentStatus: Shopify_OrderFulfillmentStatus;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** List of the order’s line items. */
     lineItems: Shopify_OrderLineItemConnection;
     /** Returns a metafield found by namespace and key. */
@@ -27827,22 +27836,22 @@ export type Shopify_Order = Shopify_HasMetafields &
      * For example, _#1000_ or _Store1001.
      *
      */
-    name: Scalars['String'];
+    name: Scalars['String']['output'];
     /** A unique numeric identifier for the order for use by shop owner and customer. */
-    orderNumber: Scalars['Int'];
+    orderNumber: Scalars['Int']['output'];
     /** The total cost of duties charged at checkout. */
     originalTotalDuties: Maybe<Shopify_MoneyV2>;
     /** The total price of the order before any applied edits. */
     originalTotalPrice: Shopify_MoneyV2;
     /** The customer's phone number for receiving SMS notifications. */
-    phone: Maybe<Scalars['String']>;
+    phone: Maybe<Scalars['String']['output']>;
     /**
      * The date and time when the order was imported.
      * This value can be set to dates in the past when importing from other systems.
      * If no value is provided, it will be auto-generated based on current date and time.
      *
      */
-    processedAt: Scalars['shopify_DateTime'];
+    processedAt: Scalars['shopify_DateTime']['output'];
     /** The address to where the order will be shipped. */
     shippingAddress: Maybe<Shopify_MailingAddress>;
     /**
@@ -27851,7 +27860,7 @@ export type Shopify_Order = Shopify_HasMetafields &
      */
     shippingDiscountAllocations: Array<Shopify_DiscountAllocation>;
     /** The unique URL for the order's status page. */
-    statusUrl: Scalars['shopify_URL'];
+    statusUrl: Scalars['shopify_URL']['output'];
     /** Price of the order before shipping and taxes. */
     subtotalPrice: Maybe<Shopify_MoneyV2>;
     /** Price of the order before duties, shipping and taxes. */
@@ -27878,26 +27887,26 @@ export type Shopify_Order = Shopify_HasMetafields &
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderDiscountApplicationsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderLineItemsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
@@ -27907,7 +27916,7 @@ export type Shopify_OrderMetafieldsArgs = {
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderSuccessfulFulfillmentsArgs = {
-  first: InputMaybe<Scalars['Int']>;
+  first: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** Represents the reason for the order's cancellation. */
@@ -27937,7 +27946,7 @@ export type Shopify_OrderConnection = {
   /** Information to aid in pagination. */
   pageInfo: Shopify_PageInfo;
   /** The total count of Orders. */
-  totalCount: Scalars['shopify_UnsignedInt64'];
+  totalCount: Scalars['shopify_UnsignedInt64']['output'];
 };
 
 /**
@@ -27947,7 +27956,7 @@ export type Shopify_OrderConnection = {
 export type Shopify_OrderEdge = {
   __typename?: 'shopify_OrderEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of OrderEdge. */
   node: Shopify_Order;
 };
@@ -27996,7 +28005,7 @@ export enum Shopify_OrderFulfillmentStatus {
 export type Shopify_OrderLineItem = {
   __typename?: 'shopify_OrderLineItem';
   /** The number of entries associated to the line item minus the items that have been removed. */
-  currentQuantity: Scalars['Int'];
+  currentQuantity: Scalars['Int']['output'];
   /** List of custom attributes associated to the line item. */
   customAttributes: Array<Shopify_Attribute>;
   /** The discounts that have been allocated onto the order line item by discount applications. */
@@ -28006,9 +28015,9 @@ export type Shopify_OrderLineItem = {
   /** The total price of the line item, not including any discounts. The total price is calculated using the original unit price multiplied by the quantity, and it's displayed in the presentment currency. */
   originalTotalPrice: Shopify_MoneyV2;
   /** The number of products variants associated to the line item. */
-  quantity: Scalars['Int'];
+  quantity: Scalars['Int']['output'];
   /** The title of the product combined with title of the variant. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** The product variant object associated to the line item. */
   variant: Maybe<Shopify_ProductVariant>;
 };
@@ -28034,7 +28043,7 @@ export type Shopify_OrderLineItemConnection = {
 export type Shopify_OrderLineItemEdge = {
   __typename?: 'shopify_OrderLineItemEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of OrderLineItemEdge. */
   node: Shopify_OrderLineItem;
 };
@@ -28062,35 +28071,35 @@ export type Shopify_Page = Shopify_HasMetafields &
   Shopify_Trackable & {
     __typename?: 'shopify_Page';
     /** The description of the page, complete with HTML formatting. */
-    body: Scalars['shopify_HTML'];
+    body: Scalars['shopify_HTML']['output'];
     /** Summary of the page body. */
-    bodySummary: Scalars['String'];
+    bodySummary: Scalars['String']['output'];
     /** The timestamp of the page creation. */
-    createdAt: Scalars['shopify_DateTime'];
+    createdAt: Scalars['shopify_DateTime']['output'];
     /** A human-friendly unique string for the page automatically generated from its title. */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Returns a metafield found by namespace and key. */
     metafield: Maybe<Shopify_Metafield>;
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** The page's SEO information. */
     seo: Maybe<Shopify_Seo>;
     /** The title of the page. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']>;
+    trackingParameters: Maybe<Scalars['String']['output']>;
     /** The timestamp of the latest page update. */
-    updatedAt: Scalars['shopify_DateTime'];
+    updatedAt: Scalars['shopify_DateTime']['output'];
   };
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Shopify_PageMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
@@ -28119,7 +28128,7 @@ export type Shopify_PageConnection = {
 export type Shopify_PageEdge = {
   __typename?: 'shopify_PageEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of PageEdge. */
   node: Shopify_Page;
 };
@@ -28133,13 +28142,13 @@ export type Shopify_PageEdge = {
 export type Shopify_PageInfo = {
   __typename?: 'shopify_PageInfo';
   /** The cursor corresponding to the last node in edges. */
-  endCursor: Maybe<Scalars['String']>;
+  endCursor: Maybe<Scalars['String']['output']>;
   /** Whether there are more pages to fetch following the current page. */
-  hasNextPage: Scalars['Boolean'];
+  hasNextPage: Scalars['Boolean']['output'];
   /** Whether there are any pages prior to the current page. */
-  hasPreviousPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean']['output'];
   /** The cursor corresponding to the first node in edges. */
-  startCursor: Maybe<Scalars['String']>;
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
 /** The set of valid sort keys for the Page query. */
@@ -28172,22 +28181,22 @@ export type Shopify_Payment = Shopify_Node & {
   /** The credit card used for the payment in the case of direct payments. */
   creditCard: Maybe<Shopify_CreditCard>;
   /** A message describing a processing error during asynchronous processing. */
-  errorMessage: Maybe<Scalars['String']>;
+  errorMessage: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /**
    * A client-side generated token to identify a payment and perform idempotent operations.
    * For more information, refer to
    * [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
    *
    */
-  idempotencyKey: Maybe<Scalars['String']>;
+  idempotencyKey: Maybe<Scalars['String']['output']>;
   /** The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow. */
-  nextActionUrl: Maybe<Scalars['shopify_URL']>;
+  nextActionUrl: Maybe<Scalars['shopify_URL']['output']>;
   /** Whether the payment is still processing asynchronously. */
-  ready: Scalars['Boolean'];
+  ready: Scalars['Boolean']['output'];
   /** A flag to indicate if the payment is to be done in test mode for gateways that support it. */
-  test: Scalars['Boolean'];
+  test: Scalars['Boolean']['output'];
   /** The actual transaction recorded by Shopify after having processed the payment with the gateway. */
   transaction: Maybe<Shopify_Transaction>;
 };
@@ -28198,7 +28207,7 @@ export type Shopify_PaymentSettings = {
   /** List of the card brands which the shop accepts. */
   acceptedCardBrands: Array<Shopify_CardBrand>;
   /** The url pointing to the endpoint to vault credit cards. */
-  cardVaultUrl: Scalars['shopify_URL'];
+  cardVaultUrl: Scalars['shopify_URL']['output'];
   /** The country where the shop is located. */
   countryCode: Shopify_CountryCode;
   /** The three-letter code for the shop's primary currency. */
@@ -28210,7 +28219,7 @@ export type Shopify_PaymentSettings = {
    */
   enabledPresentmentCurrencies: Array<Shopify_CurrencyCode>;
   /** The shop’s Shopify Payments account ID. */
-  shopifyPaymentsAccountId: Maybe<Scalars['String']>;
+  shopifyPaymentsAccountId: Maybe<Scalars['String']['output']>;
   /** List of the digital wallets which the shop supports. */
   supportedDigitalWallets: Array<Shopify_DigitalWallet>;
 };
@@ -28276,16 +28285,16 @@ export enum Shopify_PredictiveSearchType {
  */
 export type Shopify_PriceRangeFilter = {
   /** The maximum price in the range. Empty indicates no max price. */
-  max: InputMaybe<Scalars['Float']>;
+  max: InputMaybe<Scalars['Float']['input']>;
   /** The minimum price in the range. Defaults to zero. */
-  min: InputMaybe<Scalars['Float']>;
+  min: InputMaybe<Scalars['Float']['input']>;
 };
 
 /** The value of the percentage pricing object. */
 export type Shopify_PricingPercentageValue = {
   __typename?: 'shopify_PricingPercentageValue';
   /** The percentage value of the object. */
-  percentage: Scalars['Float'];
+  percentage: Scalars['Float']['output'];
 };
 
 /** The price value (fixed or percentage) for a discount application. */
@@ -28306,17 +28315,17 @@ export type Shopify_Product = Shopify_HasMetafields &
   Shopify_Trackable & {
     __typename?: 'shopify_Product';
     /** Indicates if at least one product variant is available for sale. */
-    availableForSale: Scalars['Boolean'];
+    availableForSale: Scalars['Boolean']['output'];
     /** List of collections a product belongs to. */
     collections: Shopify_CollectionConnection;
     /** The compare at price of the product across all variants. */
     compareAtPriceRange: Shopify_ProductPriceRange;
     /** The date and time when the product was created. */
-    createdAt: Scalars['shopify_DateTime'];
+    createdAt: Scalars['shopify_DateTime']['output'];
     /** Stripped description of the product, single line with HTML tags removed. */
-    description: Scalars['String'];
+    description: Scalars['String']['output'];
     /** The description of the product, complete with HTML formatting. */
-    descriptionHtml: Scalars['shopify_HTML'];
+    descriptionHtml: Scalars['shopify_HTML']['output'];
     /**
      * The featured image for the product.
      *
@@ -28329,13 +28338,13 @@ export type Shopify_Product = Shopify_HasMetafields &
      * They are used by the Liquid templating language to refer to objects.
      *
      */
-    handle: Scalars['String'];
+    handle: Scalars['String']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** List of images associated with the product. */
     images: Shopify_ImageConnection;
     /** Whether the product is a gift card. */
-    isGiftCard: Scalars['Boolean'];
+    isGiftCard: Scalars['Boolean']['output'];
     /** The media associated with the product. */
     media: Shopify_MediaConnection;
     /** Returns a metafield found by namespace and key. */
@@ -28343,17 +28352,17 @@ export type Shopify_Product = Shopify_HasMetafields &
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']>;
+    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
     /** List of product options. */
     options: Array<Shopify_ProductOption>;
     /** The price range. */
     priceRange: Shopify_ProductPriceRange;
     /** A categorization that a product can be tagged with, commonly used for filtering and searching. */
-    productType: Scalars['String'];
+    productType: Scalars['String']['output'];
     /** The date and time when the product was published to the channel. */
-    publishedAt: Scalars['shopify_DateTime'];
+    publishedAt: Scalars['shopify_DateTime']['output'];
     /** Whether the product can only be purchased with a selling plan. */
-    requiresSellingPlan: Scalars['Boolean'];
+    requiresSellingPlan: Scalars['Boolean']['output'];
     /** A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
     sellingPlanGroups: Shopify_SellingPlanGroupConnection;
     /** The product's SEO information. */
@@ -28363,13 +28372,13 @@ export type Shopify_Product = Shopify_HasMetafields &
      * Additional access scope required for private apps: unauthenticated_read_product_tags.
      *
      */
-    tags: Array<Scalars['String']>;
+    tags: Array<Scalars['String']['output']>;
     /** The product’s title. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** The total quantity of inventory in stock for this Product. */
-    totalInventory: Maybe<Scalars['Int']>;
+    totalInventory: Maybe<Scalars['Int']['output']>;
     /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']>;
+    trackingParameters: Maybe<Scalars['String']['output']>;
     /**
      * The date and time when the product was last modified.
      * A product's `updatedAt` value can change for different reasons. For example, if an order
@@ -28377,7 +28386,7 @@ export type Shopify_Product = Shopify_HasMetafields &
      * is counted as an update.
      *
      */
-    updatedAt: Scalars['shopify_DateTime'];
+    updatedAt: Scalars['shopify_DateTime']['output'];
     /**
      * Find a product’s variant based on its selected options.
      * This is useful for converting a user’s selection of product options into a single matching variant.
@@ -28388,7 +28397,7 @@ export type Shopify_Product = Shopify_HasMetafields &
     /** List of the product’s variants. */
     variants: Shopify_ProductVariantConnection;
     /** The product’s vendor name. */
-    vendor: Scalars['String'];
+    vendor: Scalars['String']['output'];
   };
 
 /**
@@ -28399,11 +28408,11 @@ export type Shopify_Product = Shopify_HasMetafields &
  *
  */
 export type Shopify_ProductCollectionsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -28414,7 +28423,7 @@ export type Shopify_ProductCollectionsArgs = {
  *
  */
 export type Shopify_ProductDescriptionArgs = {
-  truncateAt: InputMaybe<Scalars['Int']>;
+  truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
 /**
@@ -28425,11 +28434,11 @@ export type Shopify_ProductDescriptionArgs = {
  *
  */
 export type Shopify_ProductImagesArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductImageSortKeys>;
 };
 
@@ -28441,11 +28450,11 @@ export type Shopify_ProductImagesArgs = {
  *
  */
 export type Shopify_ProductMediaArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductMediaSortKeys>;
 };
 
@@ -28457,8 +28466,8 @@ export type Shopify_ProductMediaArgs = {
  *
  */
 export type Shopify_ProductMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /**
@@ -28480,7 +28489,7 @@ export type Shopify_ProductMetafieldsArgs = {
  *
  */
 export type Shopify_ProductOptionsArgs = {
-  first: InputMaybe<Scalars['Int']>;
+  first: InputMaybe<Scalars['Int']['input']>;
 };
 
 /**
@@ -28491,11 +28500,11 @@ export type Shopify_ProductOptionsArgs = {
  *
  */
 export type Shopify_ProductSellingPlanGroupsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -28517,11 +28526,11 @@ export type Shopify_ProductVariantBySelectedOptionsArgs = {
  *
  */
 export type Shopify_ProductVariantsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductVariantSortKeys>;
 };
 
@@ -28572,7 +28581,7 @@ export type Shopify_ProductConnection = {
 export type Shopify_ProductEdge = {
   __typename?: 'shopify_ProductEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of ProductEdge. */
   node: Shopify_Product;
 };
@@ -28585,17 +28594,17 @@ export type Shopify_ProductEdge = {
  */
 export type Shopify_ProductFilter = {
   /** Filter on if the product is available for sale. */
-  available: InputMaybe<Scalars['Boolean']>;
+  available: InputMaybe<Scalars['Boolean']['input']>;
   /** A range of prices to filter with-in. */
   price: InputMaybe<Shopify_PriceRangeFilter>;
   /** A product metafield to filter on. */
   productMetafield: InputMaybe<Shopify_MetafieldFilter>;
   /** The product type to filter on. */
-  productType: InputMaybe<Scalars['String']>;
+  productType: InputMaybe<Scalars['String']['input']>;
   /** The product vendor to filter on. */
-  productVendor: InputMaybe<Scalars['String']>;
+  productVendor: InputMaybe<Scalars['String']['input']>;
   /** A product tag to filter on. */
-  tag: InputMaybe<Scalars['String']>;
+  tag: InputMaybe<Scalars['String']['input']>;
   /** A variant metafield to filter on. */
   variantMetafield: InputMaybe<Shopify_MetafieldFilter>;
   /** A variant option to filter on. */
@@ -28641,11 +28650,11 @@ export enum Shopify_ProductMediaSortKeys {
 export type Shopify_ProductOption = Shopify_Node & {
   __typename?: 'shopify_ProductOption';
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The product option’s name. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The corresponding value to the product option name. */
-  values: Array<Scalars['String']>;
+  values: Array<Scalars['String']['output']>;
 };
 
 /** The price range of the product. */
@@ -28703,17 +28712,17 @@ export type Shopify_ProductVariant = Shopify_HasMetafields &
   Shopify_Node & {
     __typename?: 'shopify_ProductVariant';
     /** Indicates if the product variant is available for sale. */
-    availableForSale: Scalars['Boolean'];
+    availableForSale: Scalars['Boolean']['output'];
     /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
-    barcode: Maybe<Scalars['String']>;
+    barcode: Maybe<Scalars['String']['output']>;
     /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`. */
     compareAtPrice: Maybe<Shopify_MoneyV2>;
     /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
     compareAtPriceV2: Maybe<Shopify_MoneyV2>;
     /** Whether a product is out of stock but still available for purchase (used for backorders). */
-    currentlyNotInStock: Scalars['Boolean'];
+    currentlyNotInStock: Scalars['Boolean']['output'];
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Image associated with the product variant. This field falls back to the product image if no image is available. */
     image: Maybe<Shopify_Image>;
     /** Returns a metafield found by namespace and key. */
@@ -28727,25 +28736,25 @@ export type Shopify_ProductVariant = Shopify_HasMetafields &
     /** The product object that the product variant belongs to. */
     product: Shopify_Product;
     /** The total sellable quantity of the variant for online sales channels. */
-    quantityAvailable: Maybe<Scalars['Int']>;
+    quantityAvailable: Maybe<Scalars['Int']['output']>;
     /** Whether a customer needs to provide a shipping address when placing an order for the product variant. */
-    requiresShipping: Scalars['Boolean'];
+    requiresShipping: Scalars['Boolean']['output'];
     /** List of product options applied to the variant. */
     selectedOptions: Array<Shopify_SelectedOption>;
     /** Represents an association between a variant and a selling plan. Selling plan allocations describe which selling plans are available for each variant, and what their impact is on pricing. */
     sellingPlanAllocations: Shopify_SellingPlanAllocationConnection;
     /** The SKU (stock keeping unit) associated with the variant. */
-    sku: Maybe<Scalars['String']>;
+    sku: Maybe<Scalars['String']['output']>;
     /** The in-store pickup availability of this variant by location. */
     storeAvailability: Shopify_StoreAvailabilityConnection;
     /** The product variant’s title. */
-    title: Scalars['String'];
+    title: Scalars['String']['output'];
     /** The unit price value for the variant based on the variant's measurement. */
     unitPrice: Maybe<Shopify_MoneyV2>;
     /** The unit price measurement for the variant. */
     unitPriceMeasurement: Maybe<Shopify_UnitPriceMeasurement>;
     /** The weight of the product variant in the unit system specified with `weight_unit`. */
-    weight: Maybe<Scalars['Float']>;
+    weight: Maybe<Scalars['Float']['output']>;
     /** Unit of measurement for weight. */
     weightUnit: Shopify_WeightUnit;
   };
@@ -28755,8 +28764,8 @@ export type Shopify_ProductVariant = Shopify_HasMetafields &
  *
  */
 export type Shopify_ProductVariantMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /**
@@ -28772,11 +28781,11 @@ export type Shopify_ProductVariantMetafieldsArgs = {
  *
  */
 export type Shopify_ProductVariantSellingPlanAllocationsArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -28784,12 +28793,12 @@ export type Shopify_ProductVariantSellingPlanAllocationsArgs = {
  *
  */
 export type Shopify_ProductVariantStoreAvailabilityArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
   near: InputMaybe<Shopify_GeoCoordinateInput>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -28813,7 +28822,7 @@ export type Shopify_ProductVariantConnection = {
 export type Shopify_ProductVariantEdge = {
   __typename?: 'shopify_ProductVariantEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of ProductVariantEdge. */
   node: Shopify_ProductVariant;
 };
@@ -28840,9 +28849,9 @@ export enum Shopify_ProductVariantSortKeys {
 export type Shopify_Seo = {
   __typename?: 'shopify_SEO';
   /** The meta description. */
-  description: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']['output']>;
   /** The SEO title. */
-  title: Maybe<Scalars['String']>;
+  title: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -28859,7 +28868,7 @@ export type Shopify_ScriptDiscountApplication = Shopify_DiscountApplication & {
   /** The type of line that the discount is applicable towards. */
   targetType: Shopify_DiscountApplicationTargetType;
   /** The title of the application as defined by the Script. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** The value of the discount application. */
   value: Shopify_PricingValue;
 };
@@ -28876,11 +28885,11 @@ export enum Shopify_SearchPrefixQueryType {
 export type Shopify_SearchQuerySuggestion = Shopify_Trackable & {
   __typename?: 'shopify_SearchQuerySuggestion';
   /** The text of the search query suggestion with highlighted HTML tags. */
-  styledText: Scalars['String'];
+  styledText: Scalars['String']['output'];
   /** The text of the search query suggestion. */
-  text: Scalars['String'];
+  text: Scalars['String']['output'];
   /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-  trackingParameters: Maybe<Scalars['String']>;
+  trackingParameters: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -28907,7 +28916,7 @@ export type Shopify_SearchResultItemConnection = {
   /** A list of available filters. */
   productFilters: Array<Shopify_Filter>;
   /** The total number of results. */
-  totalCount: Scalars['Int'];
+  totalCount: Scalars['Int']['output'];
 };
 
 /**
@@ -28917,7 +28926,7 @@ export type Shopify_SearchResultItemConnection = {
 export type Shopify_SearchResultItemEdge = {
   __typename?: 'shopify_SearchResultItemEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of SearchResultItemEdge. */
   node: Shopify_SearchResultItem;
 };
@@ -28980,17 +28989,17 @@ export enum Shopify_SearchableField {
 export type Shopify_SelectedOption = {
   __typename?: 'shopify_SelectedOption';
   /** The product option’s name. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The product option’s value. */
-  value: Scalars['String'];
+  value: Scalars['String']['output'];
 };
 
 /** The input fields required for a selected option. */
 export type Shopify_SelectedOptionInput = {
   /** The product option’s name. */
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
   /** The product option’s value. */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** Represents how products and variants can be sold and purchased. */
@@ -28999,17 +29008,17 @@ export type Shopify_SellingPlan = {
   /** The initial payment due for the purchase. */
   checkoutCharge: Shopify_SellingPlanCheckoutCharge;
   /** The description of the selling plan. */
-  description: Maybe<Scalars['String']>;
+  description: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing. */
   options: Array<Shopify_SellingPlanOption>;
   /** The price adjustments that a selling plan makes when a variant is purchased with a selling plan. */
   priceAdjustments: Array<Shopify_SellingPlanPriceAdjustment>;
   /** Whether purchasing the selling plan will result in multiple deliveries. */
-  recurringDeliveries: Scalars['Boolean'];
+  recurringDeliveries: Scalars['Boolean']['output'];
 };
 
 /** Represents an association between a variant and a selling plan. Selling plan allocations describe the options offered for each variant, and the price of the variant when purchased with a selling plan. */
@@ -29046,7 +29055,7 @@ export type Shopify_SellingPlanAllocationConnection = {
 export type Shopify_SellingPlanAllocationEdge = {
   __typename?: 'shopify_SellingPlanAllocationEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanAllocationEdge. */
   node: Shopify_SellingPlanAllocation;
 };
@@ -29077,7 +29086,7 @@ export type Shopify_SellingPlanCheckoutCharge = {
 export type Shopify_SellingPlanCheckoutChargePercentageValue = {
   __typename?: 'shopify_SellingPlanCheckoutChargePercentageValue';
   /** The percentage value of the price used for checkout charge. */
-  percentage: Scalars['Float'];
+  percentage: Scalars['Float']['output'];
 };
 
 /** The checkout charge when the full amount isn't charged at checkout. */
@@ -29114,7 +29123,7 @@ export type Shopify_SellingPlanConnection = {
 export type Shopify_SellingPlanEdge = {
   __typename?: 'shopify_SellingPlanEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanEdge. */
   node: Shopify_SellingPlan;
 };
@@ -29137,9 +29146,9 @@ export type Shopify_SellingPlanFixedPriceAdjustment = {
 export type Shopify_SellingPlanGroup = {
   __typename?: 'shopify_SellingPlanGroup';
   /** A display friendly name for the app that created the selling plan group. */
-  appName: Maybe<Scalars['String']>;
+  appName: Maybe<Scalars['String']['output']>;
   /** The name of the selling plan group. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** Represents the selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. */
   options: Array<Shopify_SellingPlanGroupOption>;
   /** A list of selling plans in a selling plan group. A selling plan is a representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'. */
@@ -29148,11 +29157,11 @@ export type Shopify_SellingPlanGroup = {
 
 /** Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
 export type Shopify_SellingPlanGroupSellingPlansArgs = {
-  after: InputMaybe<Scalars['String']>;
-  before: InputMaybe<Scalars['String']>;
-  first: InputMaybe<Scalars['Int']>;
-  last: InputMaybe<Scalars['Int']>;
-  reverse?: InputMaybe<Scalars['Boolean']>;
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /**
@@ -29176,7 +29185,7 @@ export type Shopify_SellingPlanGroupConnection = {
 export type Shopify_SellingPlanGroupEdge = {
   __typename?: 'shopify_SellingPlanGroupEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of SellingPlanGroupEdge. */
   node: Shopify_SellingPlanGroup;
 };
@@ -29189,25 +29198,25 @@ export type Shopify_SellingPlanGroupEdge = {
 export type Shopify_SellingPlanGroupOption = {
   __typename?: 'shopify_SellingPlanGroupOption';
   /** The name of the option. For example, 'Delivery every'. */
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   /** The values for the options specified by the selling plans in the selling plan group. For example, '1 week', '2 weeks', '3 weeks'. */
-  values: Array<Scalars['String']>;
+  values: Array<Scalars['String']['output']>;
 };
 
 /** An option provided by a Selling Plan. */
 export type Shopify_SellingPlanOption = {
   __typename?: 'shopify_SellingPlanOption';
   /** The name of the option (ie "Delivery every"). */
-  name: Maybe<Scalars['String']>;
+  name: Maybe<Scalars['String']['output']>;
   /** The value of the option (ie "Month"). */
-  value: Maybe<Scalars['String']>;
+  value: Maybe<Scalars['String']['output']>;
 };
 
 /** A percentage amount that's deducted from the original variant price. For example, 10% off. */
 export type Shopify_SellingPlanPercentagePriceAdjustment = {
   __typename?: 'shopify_SellingPlanPercentagePriceAdjustment';
   /** The percentage value of the price adjustment. */
-  adjustmentPercentage: Scalars['Int'];
+  adjustmentPercentage: Scalars['Int']['output'];
 };
 
 /** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. If a variant has multiple price adjustments, then the first price adjustment applies when the variant is initially purchased. The second price adjustment applies after a certain number of orders (specified by the `orderCount` field) are made. If a selling plan doesn't have any price adjustments, then the unadjusted price of the variant is the effective price. */
@@ -29216,7 +29225,7 @@ export type Shopify_SellingPlanPriceAdjustment = {
   /** The type of price adjustment. An adjustment value can have one of three types: percentage, amount off, or a new price. */
   adjustmentValue: Shopify_SellingPlanPriceAdjustmentValue;
   /** The number of orders that the price adjustment applies to. If the price adjustment always applies, then this field is `null`. */
-  orderCount: Maybe<Scalars['Int']>;
+  orderCount: Maybe<Scalars['Int']['output']>;
 };
 
 /** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. */
@@ -29229,13 +29238,13 @@ export type Shopify_SellingPlanPriceAdjustmentValue =
 export type Shopify_ShippingRate = {
   __typename?: 'shopify_ShippingRate';
   /** Human-readable unique identifier for this shipping rate. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** Price of this shipping rate. */
   price: Shopify_MoneyV2;
   /** Price of this shipping rate. */
   priceV2: Shopify_MoneyV2;
   /** Title of this shipping rate. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
 };
 
 /** Shop represents a collection of the general settings and information about the shop. */
@@ -29245,17 +29254,17 @@ export type Shopify_Shop = Shopify_HasMetafields &
     /** The shop's branding configuration. */
     brand: Maybe<Shopify_Brand>;
     /** A description of the shop. */
-    description: Maybe<Scalars['String']>;
+    description: Maybe<Scalars['String']['output']>;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** Returns a metafield found by namespace and key. */
     metafield: Maybe<Shopify_Metafield>;
     /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
     metafields: Array<Maybe<Shopify_Metafield>>;
     /** A string representing the way currency is formatted when the currency isn’t specified. */
-    moneyFormat: Scalars['String'];
+    moneyFormat: Scalars['String']['output'];
     /** The shop’s name. */
-    name: Scalars['String'];
+    name: Scalars['String']['output'];
     /** Settings related to payments. */
     paymentSettings: Shopify_PaymentSettings;
     /** The primary domain of the shop’s Online Store. */
@@ -29276,8 +29285,8 @@ export type Shopify_Shop = Shopify_HasMetafields &
 
 /** Shop represents a collection of the general settings and information about the shop. */
 export type Shopify_ShopMetafieldArgs = {
-  key: Scalars['String'];
-  namespace: Scalars['String'];
+  key: Scalars['String']['input'];
+  namespace: Scalars['String']['input'];
 };
 
 /** Shop represents a collection of the general settings and information about the shop. */
@@ -29293,22 +29302,22 @@ export type Shopify_ShopPayWalletContentInput = {
   /** The customer's billing address. */
   billingAddress: Shopify_MailingAddressInput;
   /** Session token for transaction. */
-  sessionToken: Scalars['String'];
+  sessionToken: Scalars['String']['input'];
 };
 
 /** Policy that a merchant has configured for their store, such as their refund or privacy policy. */
 export type Shopify_ShopPolicy = Shopify_Node & {
   __typename?: 'shopify_ShopPolicy';
   /** Policy text, maximum size of 64kb. */
-  body: Scalars['String'];
+  body: Scalars['String']['output'];
   /** Policy’s handle. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** A globally-unique ID. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** Policy’s title. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** Public URL to the policy. */
-  url: Scalars['shopify_URL'];
+  url: Scalars['shopify_URL']['output'];
 };
 
 /**
@@ -29320,15 +29329,15 @@ export type Shopify_ShopPolicy = Shopify_Node & {
 export type Shopify_ShopPolicyWithDefault = {
   __typename?: 'shopify_ShopPolicyWithDefault';
   /** The text of the policy. Maximum size: 64KB. */
-  body: Scalars['String'];
+  body: Scalars['String']['output'];
   /** The handle of the policy. */
-  handle: Scalars['String'];
+  handle: Scalars['String']['output'];
   /** The unique ID of the policy. A default policy doesn't have an ID. */
-  id: Maybe<Scalars['ID']>;
+  id: Maybe<Scalars['ID']['output']>;
   /** The title of the policy. */
-  title: Scalars['String'];
+  title: Scalars['String']['output'];
   /** Public URL to the policy. */
-  url: Scalars['shopify_URL'];
+  url: Scalars['shopify_URL']['output'];
 };
 
 /**
@@ -29339,13 +29348,13 @@ export type Shopify_ShopPolicyWithDefault = {
 export type Shopify_StoreAvailability = {
   __typename?: 'shopify_StoreAvailability';
   /** Whether the product variant is in-stock at this location. */
-  available: Scalars['Boolean'];
+  available: Scalars['Boolean']['output'];
   /** The location where this product variant is stocked at. */
   location: Shopify_Location;
   /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). */
-  pickUpTime: Scalars['String'];
+  pickUpTime: Scalars['String']['output'];
   /** The quantity of the product variant in-stock at this location. */
-  quantityAvailable: Scalars['Int'];
+  quantityAvailable: Scalars['Int']['output'];
 };
 
 /**
@@ -29369,7 +29378,7 @@ export type Shopify_StoreAvailabilityConnection = {
 export type Shopify_StoreAvailabilityEdge = {
   __typename?: 'shopify_StoreAvailabilityEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of StoreAvailabilityEdge. */
   node: Shopify_StoreAvailability;
 };
@@ -29393,9 +29402,9 @@ export type Shopify_StringConnection = {
 export type Shopify_StringEdge = {
   __typename?: 'shopify_StringEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of StringEdge. */
-  node: Scalars['String'];
+  node: Scalars['String']['output'];
 };
 
 /** An error that occurred during cart submit for completion. */
@@ -29404,7 +29413,7 @@ export type Shopify_SubmissionError = {
   /** The error code. */
   code: Shopify_SubmissionErrorCode;
   /** The error message. */
-  message: Maybe<Scalars['String']>;
+  message: Maybe<Scalars['String']['output']>;
 };
 
 /** The code of the error that occurred during cart submit for completion. */
@@ -29508,14 +29517,14 @@ export enum Shopify_SubmissionErrorCode {
 export type Shopify_SubmitAlreadyAccepted = {
   __typename?: 'shopify_SubmitAlreadyAccepted';
   /** The ID of the cart completion attempt that will be used for polling for the result. */
-  attemptId: Scalars['String'];
+  attemptId: Scalars['String']['output'];
 };
 
 /** Cart submit for checkout completion failed. */
 export type Shopify_SubmitFailed = {
   __typename?: 'shopify_SubmitFailed';
   /** The URL of the checkout for the cart. */
-  checkoutUrl: Maybe<Scalars['shopify_URL']>;
+  checkoutUrl: Maybe<Scalars['shopify_URL']['output']>;
   /** The list of errors that occurred from executing the mutation. */
   errors: Array<Shopify_SubmissionError>;
 };
@@ -29524,7 +29533,7 @@ export type Shopify_SubmitFailed = {
 export type Shopify_SubmitSuccess = {
   __typename?: 'shopify_SubmitSuccess';
   /** The ID of the cart completion attempt that will be used for polling for the result. */
-  attemptId: Scalars['String'];
+  attemptId: Scalars['String']['output'];
 };
 
 /** Cart submit for checkout completion is throttled. */
@@ -29536,7 +29545,7 @@ export type Shopify_SubmitThrottled = {
    * next poll request.
    *
    */
-  pollAfter: Scalars['shopify_DateTime'];
+  pollAfter: Scalars['shopify_DateTime']['output'];
 };
 
 /**
@@ -29548,15 +29557,15 @@ export type Shopify_TokenizedPaymentInputV3 = {
   /** The billing address for the payment. */
   billingAddress: Shopify_MailingAddressInput;
   /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
-  idempotencyKey: Scalars['String'];
+  idempotencyKey: Scalars['String']['input'];
   /** Public Hash Key used for AndroidPay payments only. */
-  identifier: InputMaybe<Scalars['String']>;
+  identifier: InputMaybe<Scalars['String']['input']>;
   /** The amount and currency of the payment. */
   paymentAmount: Shopify_MoneyInput;
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
-  paymentData: Scalars['String'];
+  paymentData: Scalars['String']['input'];
   /** Whether to execute the payment in test mode, if possible. Test mode isn't supported in production stores. Defaults to `false`. */
-  test: InputMaybe<Scalars['Boolean']>;
+  test: InputMaybe<Scalars['Boolean']['input']>;
   /** The type of payment token. */
   type: Shopify_PaymentTokenType;
 };
@@ -29564,7 +29573,7 @@ export type Shopify_TokenizedPaymentInputV3 = {
 /** Represents a resource that you can track the origin of the search traffic. */
 export type Shopify_Trackable = {
   /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-  trackingParameters: Maybe<Scalars['String']>;
+  trackingParameters: Maybe<Scalars['String']['output']>;
 };
 
 /** An object representing exchange of money for a product or service. */
@@ -29581,7 +29590,7 @@ export type Shopify_Transaction = {
   /** The status of the transaction. */
   statusV2: Maybe<Shopify_TransactionStatus>;
   /** Whether the transaction was done in test mode or not. */
-  test: Scalars['Boolean'];
+  test: Scalars['Boolean']['output'];
 };
 
 /** The different kinds of order transactions. */
@@ -29625,11 +29634,11 @@ export type Shopify_UnitPriceMeasurement = {
   /** The quantity unit for the unit price measurement. */
   quantityUnit: Maybe<Shopify_UnitPriceMeasurementMeasuredUnit>;
   /** The quantity value for the unit price measurement. */
-  quantityValue: Scalars['Float'];
+  quantityValue: Scalars['Float']['output'];
   /** The reference unit for the unit price measurement. */
   referenceUnit: Maybe<Shopify_UnitPriceMeasurementMeasuredUnit>;
   /** The reference value for the unit price measurement. */
-  referenceValue: Scalars['Int'];
+  referenceValue: Scalars['Int']['output'];
 };
 
 /** The accepted types of unit of measurement. */
@@ -29682,11 +29691,11 @@ export enum Shopify_UnitSystem {
 export type Shopify_UrlRedirect = Shopify_Node & {
   __typename?: 'shopify_UrlRedirect';
   /** The ID of the URL redirect. */
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   /** The old path to be redirected from. When the user visits this path, they'll be redirected to the target location. */
-  path: Scalars['String'];
+  path: Scalars['String']['output'];
   /** The target location where the user will be redirected to. */
-  target: Scalars['String'];
+  target: Scalars['String']['output'];
 };
 
 /**
@@ -29710,7 +29719,7 @@ export type Shopify_UrlRedirectConnection = {
 export type Shopify_UrlRedirectEdge = {
   __typename?: 'shopify_UrlRedirectEdge';
   /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   /** The item at the end of UrlRedirectEdge. */
   node: Shopify_UrlRedirect;
 };
@@ -29719,17 +29728,17 @@ export type Shopify_UrlRedirectEdge = {
 export type Shopify_UserError = Shopify_DisplayableError & {
   __typename?: 'shopify_UserError';
   /** The path to the input field that caused the error. */
-  field: Maybe<Array<Scalars['String']>>;
+  field: Maybe<Array<Scalars['String']['output']>>;
   /** The error message. */
-  message: Scalars['String'];
+  message: Scalars['String']['output'];
 };
 
 /** The input fields for a filter used to view a subset of products in a collection matching a specific variant option. */
 export type Shopify_VariantOptionFilter = {
   /** The name of the variant option to filter on. */
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
   /** The value of the variant option to filter on. */
-  value: Scalars['String'];
+  value: Scalars['String']['input'];
 };
 
 /** Represents a Shopify hosted video. */
@@ -29737,9 +29746,9 @@ export type Shopify_Video = Shopify_Media &
   Shopify_Node & {
     __typename?: 'shopify_Video';
     /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']>;
+    alt: Maybe<Scalars['String']['output']>;
     /** A globally-unique ID. */
-    id: Scalars['ID'];
+    id: Scalars['ID']['output'];
     /** The media content type. */
     mediaContentType: Shopify_MediaContentType;
     /** The presentation for a media. */
@@ -29754,15 +29763,15 @@ export type Shopify_Video = Shopify_Media &
 export type Shopify_VideoSource = {
   __typename?: 'shopify_VideoSource';
   /** The format of the video source. */
-  format: Scalars['String'];
+  format: Scalars['String']['output'];
   /** The height of the video. */
-  height: Scalars['Int'];
+  height: Scalars['Int']['output'];
   /** The video MIME type. */
-  mimeType: Scalars['String'];
+  mimeType: Scalars['String']['output'];
   /** The URL of the video. */
-  url: Scalars['String'];
+  url: Scalars['String']['output'];
   /** The width of the video. */
-  width: Scalars['Int'];
+  width: Scalars['Int']['output'];
 };
 
 /** Units of measurement for weight. */
@@ -30211,1265 +30220,1265 @@ export type Subscription_Root = {
 
 export type Subscription_RootBundlePriceArgs = {
   distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<BundlePrice_Order_By>>;
   where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
 export type Subscription_RootBundlePrice_AggregateArgs = {
   distinct_on: InputMaybe<Array<BundlePrice_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<BundlePrice_Order_By>>;
   where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
 export type Subscription_RootBundlePrice_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootBundlePrice_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<BundlePrice_Stream_Cursor_Input>>;
   where: InputMaybe<BundlePrice_Bool_Exp>;
 };
 
 export type Subscription_RootCheckoutArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Checkout_Order_By>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
 export type Subscription_RootCheckout_AggregateArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Checkout_Order_By>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
 export type Subscription_RootCheckout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootCheckout_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Checkout_Stream_Cursor_Input>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
 export type Subscription_RootCollectionArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 export type Subscription_RootCollection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Collection_Order_By>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 export type Subscription_RootCollection_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootCollection_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Collection_Stream_Cursor_Input>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
 export type Subscription_RootCustomerArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Customer_Order_By>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
 export type Subscription_RootCustomer_AggregateArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Customer_Order_By>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
 export type Subscription_RootCustomer_By_PkArgs = {
-  authUserId: Scalars['uuid'];
+  authUserId: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootCustomer_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Customer_Stream_Cursor_Input>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
 export type Subscription_RootDisputeArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
 
 export type Subscription_RootDisputeAttachmentArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
 
 export type Subscription_RootDisputeAttachment_AggregateArgs = {
   distinct_on: InputMaybe<Array<DisputeAttachment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<DisputeAttachment_Order_By>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
 
 export type Subscription_RootDisputeAttachment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDisputeAttachment_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<DisputeAttachment_Stream_Cursor_Input>>;
   where: InputMaybe<DisputeAttachment_Bool_Exp>;
 };
 
 export type Subscription_RootDispute_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dispute_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dispute_Order_By>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
 
 export type Subscription_RootDispute_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDispute_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dispute_Stream_Cursor_Input>>;
   where: InputMaybe<Dispute_Bool_Exp>;
 };
 
 export type Subscription_RootEventArgs = {
   distinct_on: InputMaybe<Array<Event_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Event_Order_By>>;
   where: InputMaybe<Event_Bool_Exp>;
 };
 
 export type Subscription_RootEvent_AggregateArgs = {
   distinct_on: InputMaybe<Array<Event_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Event_Order_By>>;
   where: InputMaybe<Event_Bool_Exp>;
 };
 
 export type Subscription_RootEvent_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootEvent_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Event_Stream_Cursor_Input>>;
   where: InputMaybe<Event_Bool_Exp>;
 };
 
 export type Subscription_RootFacetFilterArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
 
 export type Subscription_RootFacetFilter_AggregateArgs = {
   distinct_on: InputMaybe<Array<FacetFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FacetFilter_Order_By>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
 
 export type Subscription_RootFacetFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootFacetFilter_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<FacetFilter_Stream_Cursor_Input>>;
   where: InputMaybe<FacetFilter_Bool_Exp>;
 };
 
 export type Subscription_RootFavoriteProductsArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
 
 export type Subscription_RootFavoriteProducts_AggregateArgs = {
   distinct_on: InputMaybe<Array<FavoriteProducts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FavoriteProducts_Order_By>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
 
 export type Subscription_RootFavoriteProducts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootFavoriteProducts_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<FavoriteProducts_Stream_Cursor_Input>>;
   where: InputMaybe<FavoriteProducts_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentItemArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentItem_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentItem_Order_By>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootFulfillmentItem_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<FulfillmentItem_Stream_Cursor_Input>>;
   where: InputMaybe<FulfillmentItem_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentOrderArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentOrder_AggregateArgs = {
   distinct_on: InputMaybe<Array<FulfillmentOrder_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<FulfillmentOrder_Order_By>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillmentOrder_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootFulfillmentOrder_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<FulfillmentOrder_Stream_Cursor_Input>>;
   where: InputMaybe<FulfillmentOrder_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillment_AggregateArgs = {
   distinct_on: InputMaybe<Array<Fulfillment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Fulfillment_Order_By>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
 
 export type Subscription_RootFulfillment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootFulfillment_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Fulfillment_Stream_Cursor_Input>>;
   where: InputMaybe<Fulfillment_Bool_Exp>;
 };
 
 export type Subscription_RootNegociationAgreementArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
 export type Subscription_RootNegociationAgreement_AggregateArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
 export type Subscription_RootNegociationAgreement_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootNegociationAgreement_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<NegociationAgreement_Stream_Cursor_Input>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
 export type Subscription_RootNumericFilterArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 export type Subscription_RootNumericFilter_AggregateArgs = {
   distinct_on: InputMaybe<Array<NumericFilter_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<NumericFilter_Order_By>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 export type Subscription_RootNumericFilter_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootNumericFilter_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<NumericFilter_Stream_Cursor_Input>>;
   where: InputMaybe<NumericFilter_Bool_Exp>;
 };
 
 export type Subscription_RootOrderArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
 
 export type Subscription_RootOrderLinesArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 export type Subscription_RootOrderLines_AggregateArgs = {
   distinct_on: InputMaybe<Array<OrderLines_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<OrderLines_Order_By>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 export type Subscription_RootOrderLines_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootOrderLines_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<OrderLines_Stream_Cursor_Input>>;
   where: InputMaybe<OrderLines_Bool_Exp>;
 };
 
 export type Subscription_RootOrder_AggregateArgs = {
   distinct_on: InputMaybe<Array<Order_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Order_Order_By>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
 
 export type Subscription_RootOrder_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootOrder_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Order_Stream_Cursor_Input>>;
   where: InputMaybe<Order_Bool_Exp>;
 };
 
 export type Subscription_RootPaymentArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 export type Subscription_RootPaymentAccountsArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
 
 export type Subscription_RootPaymentAccounts_AggregateArgs = {
   distinct_on: InputMaybe<Array<PaymentAccounts_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PaymentAccounts_Order_By>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
 
 export type Subscription_RootPaymentAccounts_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootPaymentAccounts_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<PaymentAccounts_Stream_Cursor_Input>>;
   where: InputMaybe<PaymentAccounts_Bool_Exp>;
 };
 
 export type Subscription_RootPayment_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payment_Order_By>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 export type Subscription_RootPayment_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootPayment_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Payment_Stream_Cursor_Input>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
 export type Subscription_RootPayoutArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
 
 export type Subscription_RootPayout_AggregateArgs = {
   distinct_on: InputMaybe<Array<Payout_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Payout_Order_By>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
 
 export type Subscription_RootPayout_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootPayout_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Payout_Stream_Cursor_Input>>;
   where: InputMaybe<Payout_Bool_Exp>;
 };
 
 export type Subscription_RootPriceOfferArgs = {
   distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PriceOffer_Order_By>>;
   where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Subscription_RootPriceOffer_AggregateArgs = {
   distinct_on: InputMaybe<Array<PriceOffer_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<PriceOffer_Order_By>>;
   where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Subscription_RootPriceOffer_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootPriceOffer_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<PriceOffer_Stream_Cursor_Input>>;
   where: InputMaybe<PriceOffer_Bool_Exp>;
 };
 
 export type Subscription_RootProductArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
 export type Subscription_RootProductSalesChannelArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
 
 export type Subscription_RootProductSalesChannel_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductSalesChannel_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductSalesChannel_Order_By>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
 
 export type Subscription_RootProductSalesChannel_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootProductSalesChannel_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<ProductSalesChannel_Stream_Cursor_Input>>;
   where: InputMaybe<ProductSalesChannel_Bool_Exp>;
 };
 
 export type Subscription_RootProductVariantArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 export type Subscription_RootProductVariant_AggregateArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ProductVariant_Order_By>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 export type Subscription_RootProductVariant_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootProductVariant_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<ProductVariant_Stream_Cursor_Input>>;
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
 export type Subscription_RootProduct_AggregateArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Product_Order_By>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
 export type Subscription_RootProduct_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootProduct_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Product_Stream_Cursor_Input>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
 
 export type Subscription_RootReturnArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
 
 export type Subscription_RootReturnItemArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
 
 export type Subscription_RootReturnItem_AggregateArgs = {
   distinct_on: InputMaybe<Array<ReturnItem_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<ReturnItem_Order_By>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
 
 export type Subscription_RootReturnItem_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootReturnItem_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<ReturnItem_Stream_Cursor_Input>>;
   where: InputMaybe<ReturnItem_Bool_Exp>;
 };
 
 export type Subscription_RootReturn_AggregateArgs = {
   distinct_on: InputMaybe<Array<Return_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Return_Order_By>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
 
 export type Subscription_RootReturn_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootReturn_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Return_Stream_Cursor_Input>>;
   where: InputMaybe<Return_Bool_Exp>;
 };
 
 export type Subscription_RootReviewArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
 
 export type Subscription_RootReview_AggregateArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
 
 export type Subscription_RootReview_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootReview_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Review_Stream_Cursor_Input>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
 
 export type Subscription_RootSavedSearchArgs = {
   distinct_on: InputMaybe<Array<SavedSearch_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SavedSearch_Order_By>>;
   where: InputMaybe<SavedSearch_Bool_Exp>;
 };
 
 export type Subscription_RootSavedSearch_AggregateArgs = {
   distinct_on: InputMaybe<Array<SavedSearch_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SavedSearch_Order_By>>;
   where: InputMaybe<SavedSearch_Bool_Exp>;
 };
 
 export type Subscription_RootSavedSearch_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootSavedSearch_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<SavedSearch_Stream_Cursor_Input>>;
   where: InputMaybe<SavedSearch_Bool_Exp>;
 };
 
 export type Subscription_RootSearchAlertArgs = {
   distinct_on: InputMaybe<Array<SearchAlert_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SearchAlert_Order_By>>;
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
 export type Subscription_RootSearchAlert_AggregateArgs = {
   distinct_on: InputMaybe<Array<SearchAlert_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<SearchAlert_Order_By>>;
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
 export type Subscription_RootSearchAlert_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootSearchAlert_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<SearchAlert_Stream_Cursor_Input>>;
   where: InputMaybe<SearchAlert_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProCategoryMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProCategoryMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProCategoryMapping_Order_By>>;
   where: InputMaybe<VendorProCategoryMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProCategoryMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProCategoryMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProCategoryMapping_Order_By>>;
   where: InputMaybe<VendorProCategoryMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProCategoryMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootVendorProCategoryMapping_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<VendorProCategoryMapping_Stream_Cursor_Input>>;
   where: InputMaybe<VendorProCategoryMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProTagMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagMapping_Order_By>>;
   where: InputMaybe<VendorProTagMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProTagMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagMapping_Order_By>>;
   where: InputMaybe<VendorProTagMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootVendorProTagMapping_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<VendorProTagMapping_Stream_Cursor_Input>>;
   where: InputMaybe<VendorProTagMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagValueMappingArgs = {
   distinct_on: InputMaybe<Array<VendorProTagValueMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagValueMapping_Order_By>>;
   where: InputMaybe<VendorProTagValueMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagValueMapping_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorProTagValueMapping_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorProTagValueMapping_Order_By>>;
   where: InputMaybe<VendorProTagValueMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorProTagValueMapping_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootVendorProTagValueMapping_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<VendorProTagValueMapping_Stream_Cursor_Input>>;
   where: InputMaybe<VendorProTagValueMapping_Bool_Exp>;
 };
 
 export type Subscription_RootVendorReviewArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
 export type Subscription_RootVendorReview_AggregateArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<VendorReview_Order_By>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
 export type Subscription_RootVendorReview_By_PkArgs = {
-  reviewId: Scalars['String'];
+  reviewId: Scalars['String']['input'];
 };
 
 export type Subscription_RootVendorReview_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<VendorReview_Stream_Cursor_Input>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProviderArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootAuthProviderRequestArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootAuthProviderRequestsArgs = {
   distinct_on: InputMaybe<Array<AuthProviderRequests_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviderRequests_Order_By>>;
   where: InputMaybe<AuthProviderRequests_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProviderRequestsAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthProviderRequests_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviderRequests_Order_By>>;
   where: InputMaybe<AuthProviderRequests_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProviderRequests_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<AuthProviderRequests_Stream_Cursor_Input>>;
   where: InputMaybe<AuthProviderRequests_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProvidersArgs = {
   distinct_on: InputMaybe<Array<AuthProviders_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviders_Order_By>>;
   where: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProvidersAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthProviders_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthProviders_Order_By>>;
   where: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
 export type Subscription_RootAuthProviders_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<AuthProviders_Stream_Cursor_Input>>;
   where: InputMaybe<AuthProviders_Bool_Exp>;
 };
 
 export type Subscription_RootAuthRefreshTokenArgs = {
-  refreshToken: Scalars['uuid'];
+  refreshToken: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootAuthRefreshTokensArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
 
 export type Subscription_RootAuthRefreshTokensAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
 
 export type Subscription_RootAuthRefreshTokens_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<AuthRefreshTokens_Stream_Cursor_Input>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserRoleArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootAuthUserRolesArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserRolesAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserRoles_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<AuthUserRoles_Stream_Cursor_Input>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserSecurityKeyArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootAuthUserSecurityKeysArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserSecurityKeysAggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
 export type Subscription_RootAuthUserSecurityKeys_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<AuthUserSecurityKeys_Stream_Cursor_Input>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_RolesArgs = {
   distinct_on: InputMaybe<Array<Auth_Roles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_Roles_Order_By>>;
   where: InputMaybe<Auth_Roles_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_Roles_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_Roles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_Roles_Order_By>>;
   where: InputMaybe<Auth_Roles_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_Roles_By_PkArgs = {
-  role: Scalars['String'];
+  role: Scalars['String']['input'];
 };
 
 export type Subscription_RootAuth_Roles_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Auth_Roles_Stream_Cursor_Input>>;
   where: InputMaybe<Auth_Roles_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_User_ProvidersArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_User_Providers_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
 
 export type Subscription_RootAuth_User_Providers_By_PkArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootAuth_User_Providers_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Auth_User_Providers_Stream_Cursor_Input>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_B2b_Product_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2b_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_B2b_Product_Variant_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_B2b_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2c_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2c_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_B2c_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_B2c_Product_Variant_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Base_Product_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Base_Product_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Base_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Bundle_PriceArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Bundle_Price_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Bundle_Price_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Bundle_Price_Order_By>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Bundle_Price_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Bundle_Price_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Bundle_Price_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Bundle_Price_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_DiscountArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Discount_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Discount_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Discount_Collection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Discount_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Discount_Collection_By_PkArgs = {
-  collection_internal_id: Scalars['String'];
-  discount_id: Scalars['bigint'];
+  collection_internal_id: Scalars['String']['input'];
+  discount_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_Discount_Collection_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Discount_Collection_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Discount_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Discount_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_ImageArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Image_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Image_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Image_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<
     InputMaybe<Dbt_Store_Exposed_Product_Image_Stream_Cursor_Input>
   >;
@@ -31477,29 +31486,29 @@ export type Subscription_RootDbt_Store_Exposed_Product_Image_StreamArgs = {
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_TagArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Tag_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Tag_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
@@ -31508,8 +31517,8 @@ export type Subscription_RootDbt_Store_Exposed_Product_VariantArgs = {
   distinct_on: InputMaybe<
     Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
   >;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
@@ -31518,18 +31527,18 @@ export type Subscription_RootDbt_Store_Exposed_Product_Variant_AggregateArgs = {
   distinct_on: InputMaybe<
     Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
   >;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint'];
+  shopify_id: Scalars['bigint']['input'];
 };
 
 export type Subscription_RootDbt_Store_Exposed_Product_Variant_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<
     InputMaybe<Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Input>
   >;
@@ -31538,53 +31547,53 @@ export type Subscription_RootDbt_Store_Exposed_Product_Variant_StreamArgs = {
 
 export type Subscription_RootDbt_Store_Product_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Product_Collection_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Product_Collection_By_PkArgs = {
-  collection_id: Scalars['String'];
-  product_id: Scalars['String'];
+  collection_id: Scalars['String']['input'];
+  product_id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Product_Collection_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Product_Collection_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Product_For_AnalyticsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_For_Analytics_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Product_For_Analytics_AggregateArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_For_Analytics_Bool_Exp>;
 };
 
 export type Subscription_RootDbt_Store_Product_For_Analytics_By_PkArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Product_For_Analytics_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<
     InputMaybe<Dbt_Store_Product_For_Analytics_Stream_Cursor_Input>
   >;
@@ -31592,85 +31601,85 @@ export type Subscription_RootDbt_Store_Product_For_Analytics_StreamArgs = {
 };
 
 export type Subscription_RootUserArgs = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 export type Subscription_RootUsersArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Users_Order_By>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
 
 export type Subscription_RootUsersAggregateArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Users_Order_By>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
 
 export type Subscription_RootUsers_StreamArgs = {
-  batch_size: Scalars['Int'];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['timestamp']>;
-  _gt: InputMaybe<Scalars['timestamp']>;
-  _gte: InputMaybe<Scalars['timestamp']>;
-  _in: InputMaybe<Array<Scalars['timestamp']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['timestamp']>;
-  _lte: InputMaybe<Scalars['timestamp']>;
-  _neq: InputMaybe<Scalars['timestamp']>;
-  _nin: InputMaybe<Array<Scalars['timestamp']>>;
+  _eq: InputMaybe<Scalars['timestamp']['input']>;
+  _gt: InputMaybe<Scalars['timestamp']['input']>;
+  _gte: InputMaybe<Scalars['timestamp']['input']>;
+  _in: InputMaybe<Array<Scalars['timestamp']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['timestamp']['input']>;
+  _lte: InputMaybe<Scalars['timestamp']['input']>;
+  _neq: InputMaybe<Scalars['timestamp']['input']>;
+  _nin: InputMaybe<Array<Scalars['timestamp']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['timestamptz']>;
-  _gt: InputMaybe<Scalars['timestamptz']>;
-  _gte: InputMaybe<Scalars['timestamptz']>;
-  _in: InputMaybe<Array<Scalars['timestamptz']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['timestamptz']>;
-  _lte: InputMaybe<Scalars['timestamptz']>;
-  _neq: InputMaybe<Scalars['timestamptz']>;
-  _nin: InputMaybe<Array<Scalars['timestamptz']>>;
+  _eq: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte: InputMaybe<Scalars['timestamptz']['input']>;
+  _in: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
 /** columns and relationships of "auth.users" */
 export type Users = {
   __typename?: 'users';
-  activeMfaType: Maybe<Scalars['String']>;
-  avatarUrl: Scalars['String'];
-  createdAt: Scalars['timestamptz'];
-  currentChallenge: Maybe<Scalars['String']>;
+  activeMfaType: Maybe<Scalars['String']['output']>;
+  avatarUrl: Scalars['String']['output'];
+  createdAt: Scalars['timestamptz']['output'];
+  currentChallenge: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   customer: Maybe<Customer>;
-  defaultRole: Scalars['String'];
+  defaultRole: Scalars['String']['output'];
   /** An object relationship */
   defaultRoleByRole: Auth_Roles;
-  disabled: Scalars['Boolean'];
-  displayName: Scalars['String'];
-  email: Maybe<Scalars['citext']>;
-  emailVerified: Scalars['Boolean'];
-  id: Scalars['uuid'];
-  isAnonymous: Scalars['Boolean'];
-  lastSeen: Maybe<Scalars['timestamptz']>;
-  locale: Scalars['String'];
-  metadata: Maybe<Scalars['jsonb']>;
-  newEmail: Maybe<Scalars['citext']>;
-  otpHash: Maybe<Scalars['String']>;
-  otpHashExpiresAt: Scalars['timestamptz'];
-  otpMethodLastUsed: Maybe<Scalars['String']>;
-  passwordHash: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
-  phoneNumberVerified: Scalars['Boolean'];
+  disabled: Scalars['Boolean']['output'];
+  displayName: Scalars['String']['output'];
+  email: Maybe<Scalars['citext']['output']>;
+  emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['uuid']['output'];
+  isAnonymous: Scalars['Boolean']['output'];
+  lastSeen: Maybe<Scalars['timestamptz']['output']>;
+  locale: Scalars['String']['output'];
+  metadata: Maybe<Scalars['jsonb']['output']>;
+  newEmail: Maybe<Scalars['citext']['output']>;
+  otpHash: Maybe<Scalars['String']['output']>;
+  otpHashExpiresAt: Scalars['timestamptz']['output'];
+  otpMethodLastUsed: Maybe<Scalars['String']['output']>;
+  passwordHash: Maybe<Scalars['String']['output']>;
+  phoneNumber: Maybe<Scalars['String']['output']>;
+  phoneNumberVerified: Scalars['Boolean']['output'];
   /** An array relationship */
   refreshTokens: Array<AuthRefreshTokens>;
   /** An aggregate relationship */
@@ -31683,10 +31692,10 @@ export type Users = {
   securityKeys: Array<AuthUserSecurityKeys>;
   /** An aggregate relationship */
   securityKeys_aggregate: AuthUserSecurityKeys_Aggregate;
-  ticket: Maybe<Scalars['String']>;
-  ticketExpiresAt: Scalars['timestamptz'];
-  totpSecret: Maybe<Scalars['String']>;
-  updatedAt: Scalars['timestamptz'];
+  ticket: Maybe<Scalars['String']['output']>;
+  ticketExpiresAt: Scalars['timestamptz']['output'];
+  totpSecret: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['timestamptz']['output'];
   /** An array relationship */
   userProviders: Array<Auth_User_Providers>;
   /** An aggregate relationship */
@@ -31695,14 +31704,14 @@ export type Users = {
 
 /** columns and relationships of "auth.users" */
 export type UsersMetadataArgs = {
-  path: InputMaybe<Scalars['String']>;
+  path: InputMaybe<Scalars['String']['input']>;
 };
 
 /** columns and relationships of "auth.users" */
 export type UsersRefreshTokensArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
@@ -31710,8 +31719,8 @@ export type UsersRefreshTokensArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersRefreshTokens_AggregateArgs = {
   distinct_on: InputMaybe<Array<AuthRefreshTokens_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthRefreshTokens_Order_By>>;
   where: InputMaybe<AuthRefreshTokens_Bool_Exp>;
 };
@@ -31719,8 +31728,8 @@ export type UsersRefreshTokens_AggregateArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersRolesArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
@@ -31728,8 +31737,8 @@ export type UsersRolesArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersRoles_AggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserRoles_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserRoles_Order_By>>;
   where: InputMaybe<AuthUserRoles_Bool_Exp>;
 };
@@ -31737,8 +31746,8 @@ export type UsersRoles_AggregateArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersSecurityKeysArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
@@ -31746,8 +31755,8 @@ export type UsersSecurityKeysArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersSecurityKeys_AggregateArgs = {
   distinct_on: InputMaybe<Array<AuthUserSecurityKeys_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<AuthUserSecurityKeys_Order_By>>;
   where: InputMaybe<AuthUserSecurityKeys_Bool_Exp>;
 };
@@ -31755,8 +31764,8 @@ export type UsersSecurityKeys_AggregateArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersUserProvidersArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
@@ -31764,8 +31773,8 @@ export type UsersUserProvidersArgs = {
 /** columns and relationships of "auth.users" */
 export type UsersUserProviders_AggregateArgs = {
   distinct_on: InputMaybe<Array<Auth_User_Providers_Select_Column>>;
-  limit: InputMaybe<Scalars['Int']>;
-  offset: InputMaybe<Scalars['Int']>;
+  limit: InputMaybe<Scalars['Int']['input']>;
+  offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Auth_User_Providers_Order_By>>;
   where: InputMaybe<Auth_User_Providers_Bool_Exp>;
 };
@@ -31780,7 +31789,7 @@ export type Users_Aggregate = {
 /** aggregate fields of "auth.users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
-  count: Scalars['Int'];
+  count: Scalars['Int']['output'];
   max: Maybe<Users_Max_Fields>;
   min: Maybe<Users_Min_Fields>;
 };
@@ -31788,12 +31797,12 @@ export type Users_Aggregate_Fields = {
 /** aggregate fields of "auth.users" */
 export type Users_Aggregate_FieldsCountArgs = {
   columns: InputMaybe<Array<Users_Select_Column>>;
-  distinct: InputMaybe<Scalars['Boolean']>;
+  distinct: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Users_Append_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "auth.users". All fields are combined with a logical 'AND'. */
@@ -31848,109 +31857,109 @@ export enum Users_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Users_Delete_At_Path_Input = {
-  metadata: InputMaybe<Array<Scalars['String']>>;
+  metadata: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Users_Delete_Elem_Input = {
-  metadata: InputMaybe<Scalars['Int']>;
+  metadata: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Users_Delete_Key_Input = {
-  metadata: InputMaybe<Scalars['String']>;
+  metadata: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for inserting data into table "auth.users" */
 export type Users_Insert_Input = {
-  activeMfaType: InputMaybe<Scalars['String']>;
-  avatarUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  currentChallenge: InputMaybe<Scalars['String']>;
+  activeMfaType: InputMaybe<Scalars['String']['input']>;
+  avatarUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  currentChallenge: InputMaybe<Scalars['String']['input']>;
   customer: InputMaybe<Customer_Obj_Rel_Insert_Input>;
-  defaultRole: InputMaybe<Scalars['String']>;
+  defaultRole: InputMaybe<Scalars['String']['input']>;
   defaultRoleByRole: InputMaybe<Auth_Roles_Obj_Rel_Insert_Input>;
-  disabled: InputMaybe<Scalars['Boolean']>;
-  displayName: InputMaybe<Scalars['String']>;
-  email: InputMaybe<Scalars['citext']>;
-  emailVerified: InputMaybe<Scalars['Boolean']>;
-  id: InputMaybe<Scalars['uuid']>;
-  isAnonymous: InputMaybe<Scalars['Boolean']>;
-  lastSeen: InputMaybe<Scalars['timestamptz']>;
-  locale: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  newEmail: InputMaybe<Scalars['citext']>;
-  otpHash: InputMaybe<Scalars['String']>;
-  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  otpMethodLastUsed: InputMaybe<Scalars['String']>;
-  passwordHash: InputMaybe<Scalars['String']>;
-  phoneNumber: InputMaybe<Scalars['String']>;
-  phoneNumberVerified: InputMaybe<Scalars['Boolean']>;
+  disabled: InputMaybe<Scalars['Boolean']['input']>;
+  displayName: InputMaybe<Scalars['String']['input']>;
+  email: InputMaybe<Scalars['citext']['input']>;
+  emailVerified: InputMaybe<Scalars['Boolean']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  isAnonymous: InputMaybe<Scalars['Boolean']['input']>;
+  lastSeen: InputMaybe<Scalars['timestamptz']['input']>;
+  locale: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  newEmail: InputMaybe<Scalars['citext']['input']>;
+  otpHash: InputMaybe<Scalars['String']['input']>;
+  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  otpMethodLastUsed: InputMaybe<Scalars['String']['input']>;
+  passwordHash: InputMaybe<Scalars['String']['input']>;
+  phoneNumber: InputMaybe<Scalars['String']['input']>;
+  phoneNumberVerified: InputMaybe<Scalars['Boolean']['input']>;
   refreshTokens: InputMaybe<AuthRefreshTokens_Arr_Rel_Insert_Input>;
   roles: InputMaybe<AuthUserRoles_Arr_Rel_Insert_Input>;
   securityKeys: InputMaybe<AuthUserSecurityKeys_Arr_Rel_Insert_Input>;
-  ticket: InputMaybe<Scalars['String']>;
-  ticketExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  totpSecret: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  ticket: InputMaybe<Scalars['String']['input']>;
+  ticketExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  totpSecret: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
   userProviders: InputMaybe<Auth_User_Providers_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
   __typename?: 'users_max_fields';
-  activeMfaType: Maybe<Scalars['String']>;
-  avatarUrl: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamptz']>;
-  currentChallenge: Maybe<Scalars['String']>;
-  defaultRole: Maybe<Scalars['String']>;
-  displayName: Maybe<Scalars['String']>;
-  email: Maybe<Scalars['citext']>;
-  id: Maybe<Scalars['uuid']>;
-  lastSeen: Maybe<Scalars['timestamptz']>;
-  locale: Maybe<Scalars['String']>;
-  newEmail: Maybe<Scalars['citext']>;
-  otpHash: Maybe<Scalars['String']>;
-  otpHashExpiresAt: Maybe<Scalars['timestamptz']>;
-  otpMethodLastUsed: Maybe<Scalars['String']>;
-  passwordHash: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
-  ticket: Maybe<Scalars['String']>;
-  ticketExpiresAt: Maybe<Scalars['timestamptz']>;
-  totpSecret: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamptz']>;
+  activeMfaType: Maybe<Scalars['String']['output']>;
+  avatarUrl: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  currentChallenge: Maybe<Scalars['String']['output']>;
+  defaultRole: Maybe<Scalars['String']['output']>;
+  displayName: Maybe<Scalars['String']['output']>;
+  email: Maybe<Scalars['citext']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  lastSeen: Maybe<Scalars['timestamptz']['output']>;
+  locale: Maybe<Scalars['String']['output']>;
+  newEmail: Maybe<Scalars['citext']['output']>;
+  otpHash: Maybe<Scalars['String']['output']>;
+  otpHashExpiresAt: Maybe<Scalars['timestamptz']['output']>;
+  otpMethodLastUsed: Maybe<Scalars['String']['output']>;
+  passwordHash: Maybe<Scalars['String']['output']>;
+  phoneNumber: Maybe<Scalars['String']['output']>;
+  ticket: Maybe<Scalars['String']['output']>;
+  ticketExpiresAt: Maybe<Scalars['timestamptz']['output']>;
+  totpSecret: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
   __typename?: 'users_min_fields';
-  activeMfaType: Maybe<Scalars['String']>;
-  avatarUrl: Maybe<Scalars['String']>;
-  createdAt: Maybe<Scalars['timestamptz']>;
-  currentChallenge: Maybe<Scalars['String']>;
-  defaultRole: Maybe<Scalars['String']>;
-  displayName: Maybe<Scalars['String']>;
-  email: Maybe<Scalars['citext']>;
-  id: Maybe<Scalars['uuid']>;
-  lastSeen: Maybe<Scalars['timestamptz']>;
-  locale: Maybe<Scalars['String']>;
-  newEmail: Maybe<Scalars['citext']>;
-  otpHash: Maybe<Scalars['String']>;
-  otpHashExpiresAt: Maybe<Scalars['timestamptz']>;
-  otpMethodLastUsed: Maybe<Scalars['String']>;
-  passwordHash: Maybe<Scalars['String']>;
-  phoneNumber: Maybe<Scalars['String']>;
-  ticket: Maybe<Scalars['String']>;
-  ticketExpiresAt: Maybe<Scalars['timestamptz']>;
-  totpSecret: Maybe<Scalars['String']>;
-  updatedAt: Maybe<Scalars['timestamptz']>;
+  activeMfaType: Maybe<Scalars['String']['output']>;
+  avatarUrl: Maybe<Scalars['String']['output']>;
+  createdAt: Maybe<Scalars['timestamptz']['output']>;
+  currentChallenge: Maybe<Scalars['String']['output']>;
+  defaultRole: Maybe<Scalars['String']['output']>;
+  displayName: Maybe<Scalars['String']['output']>;
+  email: Maybe<Scalars['citext']['output']>;
+  id: Maybe<Scalars['uuid']['output']>;
+  lastSeen: Maybe<Scalars['timestamptz']['output']>;
+  locale: Maybe<Scalars['String']['output']>;
+  newEmail: Maybe<Scalars['citext']['output']>;
+  otpHash: Maybe<Scalars['String']['output']>;
+  otpHashExpiresAt: Maybe<Scalars['timestamptz']['output']>;
+  otpMethodLastUsed: Maybe<Scalars['String']['output']>;
+  passwordHash: Maybe<Scalars['String']['output']>;
+  phoneNumber: Maybe<Scalars['String']['output']>;
+  ticket: Maybe<Scalars['String']['output']>;
+  ticketExpiresAt: Maybe<Scalars['timestamptz']['output']>;
+  totpSecret: Maybe<Scalars['String']['output']>;
+  updatedAt: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** response of any mutation on the table "auth.users" */
 export type Users_Mutation_Response = {
   __typename?: 'users_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Users>;
 };
@@ -32006,12 +32015,12 @@ export type Users_Order_By = {
 
 /** primary key columns input for table: auth.users */
 export type Users_Pk_Columns_Input = {
-  id: Scalars['uuid'];
+  id: Scalars['uuid']['input'];
 };
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Users_Prepend_Input = {
-  metadata: InputMaybe<Scalars['jsonb']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
 };
 
 /** select columns of table "auth.users" */
@@ -32070,31 +32079,31 @@ export enum Users_Select_Column {
 
 /** input type for updating data in table "auth.users" */
 export type Users_Set_Input = {
-  activeMfaType: InputMaybe<Scalars['String']>;
-  avatarUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  currentChallenge: InputMaybe<Scalars['String']>;
-  defaultRole: InputMaybe<Scalars['String']>;
-  disabled: InputMaybe<Scalars['Boolean']>;
-  displayName: InputMaybe<Scalars['String']>;
-  email: InputMaybe<Scalars['citext']>;
-  emailVerified: InputMaybe<Scalars['Boolean']>;
-  id: InputMaybe<Scalars['uuid']>;
-  isAnonymous: InputMaybe<Scalars['Boolean']>;
-  lastSeen: InputMaybe<Scalars['timestamptz']>;
-  locale: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  newEmail: InputMaybe<Scalars['citext']>;
-  otpHash: InputMaybe<Scalars['String']>;
-  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  otpMethodLastUsed: InputMaybe<Scalars['String']>;
-  passwordHash: InputMaybe<Scalars['String']>;
-  phoneNumber: InputMaybe<Scalars['String']>;
-  phoneNumberVerified: InputMaybe<Scalars['Boolean']>;
-  ticket: InputMaybe<Scalars['String']>;
-  ticketExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  totpSecret: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  activeMfaType: InputMaybe<Scalars['String']['input']>;
+  avatarUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  currentChallenge: InputMaybe<Scalars['String']['input']>;
+  defaultRole: InputMaybe<Scalars['String']['input']>;
+  disabled: InputMaybe<Scalars['Boolean']['input']>;
+  displayName: InputMaybe<Scalars['String']['input']>;
+  email: InputMaybe<Scalars['citext']['input']>;
+  emailVerified: InputMaybe<Scalars['Boolean']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  isAnonymous: InputMaybe<Scalars['Boolean']['input']>;
+  lastSeen: InputMaybe<Scalars['timestamptz']['input']>;
+  locale: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  newEmail: InputMaybe<Scalars['citext']['input']>;
+  otpHash: InputMaybe<Scalars['String']['input']>;
+  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  otpMethodLastUsed: InputMaybe<Scalars['String']['input']>;
+  passwordHash: InputMaybe<Scalars['String']['input']>;
+  phoneNumber: InputMaybe<Scalars['String']['input']>;
+  phoneNumberVerified: InputMaybe<Scalars['Boolean']['input']>;
+  ticket: InputMaybe<Scalars['String']['input']>;
+  ticketExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  totpSecret: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** Streaming cursor of the table "users" */
@@ -32107,31 +32116,31 @@ export type Users_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Users_Stream_Cursor_Value_Input = {
-  activeMfaType: InputMaybe<Scalars['String']>;
-  avatarUrl: InputMaybe<Scalars['String']>;
-  createdAt: InputMaybe<Scalars['timestamptz']>;
-  currentChallenge: InputMaybe<Scalars['String']>;
-  defaultRole: InputMaybe<Scalars['String']>;
-  disabled: InputMaybe<Scalars['Boolean']>;
-  displayName: InputMaybe<Scalars['String']>;
-  email: InputMaybe<Scalars['citext']>;
-  emailVerified: InputMaybe<Scalars['Boolean']>;
-  id: InputMaybe<Scalars['uuid']>;
-  isAnonymous: InputMaybe<Scalars['Boolean']>;
-  lastSeen: InputMaybe<Scalars['timestamptz']>;
-  locale: InputMaybe<Scalars['String']>;
-  metadata: InputMaybe<Scalars['jsonb']>;
-  newEmail: InputMaybe<Scalars['citext']>;
-  otpHash: InputMaybe<Scalars['String']>;
-  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  otpMethodLastUsed: InputMaybe<Scalars['String']>;
-  passwordHash: InputMaybe<Scalars['String']>;
-  phoneNumber: InputMaybe<Scalars['String']>;
-  phoneNumberVerified: InputMaybe<Scalars['Boolean']>;
-  ticket: InputMaybe<Scalars['String']>;
-  ticketExpiresAt: InputMaybe<Scalars['timestamptz']>;
-  totpSecret: InputMaybe<Scalars['String']>;
-  updatedAt: InputMaybe<Scalars['timestamptz']>;
+  activeMfaType: InputMaybe<Scalars['String']['input']>;
+  avatarUrl: InputMaybe<Scalars['String']['input']>;
+  createdAt: InputMaybe<Scalars['timestamptz']['input']>;
+  currentChallenge: InputMaybe<Scalars['String']['input']>;
+  defaultRole: InputMaybe<Scalars['String']['input']>;
+  disabled: InputMaybe<Scalars['Boolean']['input']>;
+  displayName: InputMaybe<Scalars['String']['input']>;
+  email: InputMaybe<Scalars['citext']['input']>;
+  emailVerified: InputMaybe<Scalars['Boolean']['input']>;
+  id: InputMaybe<Scalars['uuid']['input']>;
+  isAnonymous: InputMaybe<Scalars['Boolean']['input']>;
+  lastSeen: InputMaybe<Scalars['timestamptz']['input']>;
+  locale: InputMaybe<Scalars['String']['input']>;
+  metadata: InputMaybe<Scalars['jsonb']['input']>;
+  newEmail: InputMaybe<Scalars['citext']['input']>;
+  otpHash: InputMaybe<Scalars['String']['input']>;
+  otpHashExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  otpMethodLastUsed: InputMaybe<Scalars['String']['input']>;
+  passwordHash: InputMaybe<Scalars['String']['input']>;
+  phoneNumber: InputMaybe<Scalars['String']['input']>;
+  phoneNumberVerified: InputMaybe<Scalars['Boolean']['input']>;
+  ticket: InputMaybe<Scalars['String']['input']>;
+  ticketExpiresAt: InputMaybe<Scalars['timestamptz']['input']>;
+  totpSecret: InputMaybe<Scalars['String']['input']>;
+  updatedAt: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** update columns of table "auth.users" */
@@ -32207,822 +32216,19 @@ export type Users_Updates = {
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
-  _eq: InputMaybe<Scalars['uuid']>;
-  _gt: InputMaybe<Scalars['uuid']>;
-  _gte: InputMaybe<Scalars['uuid']>;
-  _in: InputMaybe<Array<Scalars['uuid']>>;
-  _is_null: InputMaybe<Scalars['Boolean']>;
-  _lt: InputMaybe<Scalars['uuid']>;
-  _lte: InputMaybe<Scalars['uuid']>;
-  _neq: InputMaybe<Scalars['uuid']>;
-  _nin: InputMaybe<Array<Scalars['uuid']>>;
-};
-
-export type GetAvailableDiscountsQueryVariables = Exact<{
-  discountTitles: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-}>;
-
-export type GetAvailableDiscountsQuery = {
-  __typename?: 'query_root';
-  dbt_store_discount: Array<{
-    __typename?: 'dbt_store_discount';
-    ends_at: any | null;
-    starts_at: any;
-    id: any;
-    value: any;
-    value_type: string;
-    code: string | null;
-    title: string;
-    min_amount: any | null;
-    collection: Array<{
-      __typename?: 'dbt_store_discount_collection';
-      collection_internal_id: string;
-    }>;
-  }>;
-};
-
-export type SubscribeToOpenedPriceOfferSubscriptionVariables = Exact<{
-  productInternalId: InputMaybe<Scalars['String']>;
-  buyerInternalId: InputMaybe<Scalars['uuid']>;
-}>;
-
-export type SubscribeToOpenedPriceOfferSubscription = {
-  __typename?: 'subscription_root';
-  PriceOffer: Array<{
-    __typename?: 'PriceOffer';
-    newPriceInCents: any;
-    id: string;
-    initiatedBy: any;
-    status: any;
-    discountCode: string | null;
-    product: { __typename?: 'Product'; shopifyId: any };
-  }>;
-};
-
-export type HandDeliveryOrderLineFragmentFragment = {
-  __typename?: 'OrderLines';
-  shippingSolution: any;
-  order: { __typename?: 'Order'; shopifyId: string };
-  productVariant: {
-    __typename?: 'ProductVariant';
-    product: { __typename?: 'Product'; id: string };
-  } | null;
-};
-
-export type FetchConversationUserDetailsQueryVariables = Exact<{
-  userInternalId: InputMaybe<Scalars['uuid']>;
-}>;
-
-export type FetchConversationUserDetailsQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    purchasedOrders: Array<{
-      __typename?: 'Order';
-      orderLines: Array<{
-        __typename?: 'OrderLines';
-        shippingSolution: any;
-        order: { __typename?: 'Order'; shopifyId: string };
-        productVariant: {
-          __typename?: 'ProductVariant';
-          product: { __typename?: 'Product'; id: string };
-        } | null;
-      }>;
-    }>;
-    vendorSoldOrderLines: Array<{
-      __typename?: 'OrderLines';
-      shippingSolution: any;
-      order: { __typename?: 'Order'; shopifyId: string };
-      productVariant: {
-        __typename?: 'ProductVariant';
-        product: { __typename?: 'Product'; id: string };
-      } | null;
-    }>;
-    onlineProducts: Array<{ __typename?: 'Product'; id: string }>;
-  }>;
-};
-
-export type FetchConversationProductDetailsQueryVariables = Exact<{
-  productInternalId: InputMaybe<Scalars['String']>;
-}>;
-
-export type FetchConversationProductDetailsQuery = {
-  __typename?: 'query_root';
-  Product: Array<{
-    __typename?: 'Product';
-    id: string;
-    handle: string | null;
-    vendorId: any;
-    variants: Array<{
-      __typename?: 'ProductVariant';
-      storeB2CVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
-        price: any;
-      } | null;
-    }>;
-    Vendor: {
-      __typename?: 'Customer';
-      negociationAgreements: Array<{
-        __typename?: 'NegociationAgreement';
-        maxAmountPercent: number;
-        priority: number;
-        productType: string | null;
-      }>;
-    };
-  }>;
-};
-
-export type FetchNegociationAgreementQueryVariables = Exact<{
-  vendorId: InputMaybe<Scalars['uuid']>;
-}>;
-
-export type FetchNegociationAgreementQuery = {
-  __typename?: 'query_root';
-  NegociationAgreement: Array<{
-    __typename?: 'NegociationAgreement';
-    id: string;
-    maxAmountPercent: number;
-  }>;
-  Customer: Array<{
-    __typename?: 'Customer';
-    user: { __typename?: 'users'; phoneNumber: string | null } | null;
-  }>;
-};
-
-export type FetchProductForNewOfferQueryVariables = Exact<{
-  productId: Scalars['String'];
-}>;
-
-export type FetchProductForNewOfferQuery = {
-  __typename?: 'query_root';
-  dbt_store_base_product: Array<{
-    __typename?: 'dbt_store_base_product';
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      variant: {
-        __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: any;
-        title: string;
-      } | null;
-      b2bVariant: {
-        __typename?: 'dbt_store_b2b_product_variant';
-        price: any;
-      } | null;
-    }>;
-    bundlePrices: Array<{
-      __typename?: 'dbt_store_bundle_price';
-      unit_price_in_cents: any;
-      min_quantity: number;
-    }>;
-    exposedProduct: {
-      __typename?: 'dbt_store_exposed_product';
-      title: string;
-      total_quantity: any;
-    } | null;
-  }>;
-};
-
-export type FetchB2BProductQueryVariables = Exact<{
-  productInternalId: InputMaybe<Scalars['String']>;
-}>;
-
-export type FetchB2BProductQuery = {
-  __typename?: 'query_root';
-  dbt_store_base_product: Array<{
-    __typename?: 'dbt_store_base_product';
-    id: string;
-    shopifyId: any;
-    vendorId: any;
-    exposedProduct: {
-      __typename?: 'dbt_store_exposed_product';
-      model: string | null;
-      description: string | null;
-      numberOfViews: any;
-      brand: string | null;
-      handle: string;
-      id: string;
-      productType: string;
-      title: string;
-    } | null;
-    b2bProduct: {
-      __typename?: 'dbt_store_b2b_product';
-      largest_bundle_price_in_cents: any | null;
-    } | null;
-    images: Array<{
-      __typename?: 'dbt_store_exposed_product_image';
-      src: string;
-    }>;
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      exposedVariant: {
-        __typename?: 'dbt_store_exposed_product_variant';
-        title: string;
-        condition: any | null;
-        inventory_quantity: any;
-      } | null;
-      b2bVariant: {
-        __typename?: 'dbt_store_b2b_product_variant';
-        price: any;
-        compare_at_price: any | null;
-      } | null;
-    }>;
-    tags: Array<{
-      __typename?: 'dbt_store_exposed_product_tag';
-      tag: string;
-      value: string;
-    }>;
-  }>;
-};
-
-export type ProductCardFieldsFragment = {
-  __typename?: 'dbt_store_exposed_product';
-  handle: string;
-  vendor: string;
-  title: string;
-  description: string | null;
-  productType: string;
-  numberOfViews: any;
-  status: any;
-  product: {
-    __typename?: 'dbt_store_base_product';
-    id: string;
-    shopifyId: any;
-    collections: Array<{
-      __typename?: 'dbt_store_product_collection';
-      collection_id: string;
-    }>;
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      id: string | null;
-      shopifyId: any;
-      exposedVariant: {
-        __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: any;
-        option1Name: string | null;
-        option1: string | null;
-        option2Name: string | null;
-        option2: string | null;
-        option3Name: string | null;
-        option3: string | null;
-        condition: any | null;
-        isRefurbished: boolean | null;
-      } | null;
-      b2cVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
-        price: any;
-        compare_at_price: any | null;
-      } | null;
-    }>;
-    tags: Array<{
-      __typename?: 'dbt_store_exposed_product_tag';
-      tag: string;
-      value: string;
-    }>;
-    images: Array<{
-      __typename?: 'dbt_store_exposed_product_image';
-      alt: string | null;
-      src: string;
-      height: any;
-      width: any;
-    }>;
-  } | null;
-};
-
-export type VendorDetailsFragment = {
-  __typename?: 'Customer';
-  isPro: boolean;
-  sellerName: string | null;
-  shipmentTimeframe: any | null;
-  profilePictureShopifyCdnUrl: string | null;
-  createdAt: any;
-  authUserId: any;
-  VendorReviews: Array<{
-    __typename?: 'VendorReview';
-    Review: {
-      __typename?: 'Review';
-      content: string | null;
-      createdAt: any;
-      id: string;
-      rating: number;
-      title: string;
-      authorNickname: string | null;
-      Customer: {
-        __typename?: 'Customer';
-        createdAt: any;
-        sellerName: string | null;
-        profilePictureShopifyCdnUrl: string | null;
-      };
-    };
-  }>;
-  negociationAgreements: Array<{
-    __typename?: 'NegociationAgreement';
-    maxAmountPercent: number;
-  }>;
-};
-
-export type FetchProductsQueryVariables = Exact<{
-  productIds: InputMaybe<Array<Scalars['bigint']> | Scalars['bigint']>;
-  productHandles: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-}>;
-
-export type FetchProductsQuery = {
-  __typename?: 'query_root';
-  Product: Array<{
-    __typename?: 'Product';
-    storeExposedProduct: {
-      __typename?: 'dbt_store_exposed_product';
-      handle: string;
-      vendor: string;
-      title: string;
-      description: string | null;
-      productType: string;
-      numberOfViews: any;
-      status: any;
-      product: {
-        __typename?: 'dbt_store_base_product';
-        id: string;
-        shopifyId: any;
-        collections: Array<{
-          __typename?: 'dbt_store_product_collection';
-          collection_id: string;
-        }>;
-        variants: Array<{
-          __typename?: 'dbt_store_base_product_variant';
-          id: string | null;
-          shopifyId: any;
-          exposedVariant: {
-            __typename?: 'dbt_store_exposed_product_variant';
-            inventory_quantity: any;
-            option1Name: string | null;
-            option1: string | null;
-            option2Name: string | null;
-            option2: string | null;
-            option3Name: string | null;
-            option3: string | null;
-            condition: any | null;
-            isRefurbished: boolean | null;
-          } | null;
-          b2cVariant: {
-            __typename?: 'dbt_store_b2c_product_variant';
-            price: any;
-            compare_at_price: any | null;
-          } | null;
-        }>;
-        tags: Array<{
-          __typename?: 'dbt_store_exposed_product_tag';
-          tag: string;
-          value: string;
-        }>;
-        images: Array<{
-          __typename?: 'dbt_store_exposed_product_image';
-          alt: string | null;
-          src: string;
-          height: any;
-          width: any;
-        }>;
-      } | null;
-    } | null;
-    Vendor: {
-      __typename?: 'Customer';
-      isPro: boolean;
-      sellerName: string | null;
-      shipmentTimeframe: any | null;
-      profilePictureShopifyCdnUrl: string | null;
-      createdAt: any;
-      authUserId: any;
-      VendorReviews: Array<{
-        __typename?: 'VendorReview';
-        Review: {
-          __typename?: 'Review';
-          content: string | null;
-          createdAt: any;
-          id: string;
-          rating: number;
-          title: string;
-          authorNickname: string | null;
-          Customer: {
-            __typename?: 'Customer';
-            createdAt: any;
-            sellerName: string | null;
-            profilePictureShopifyCdnUrl: string | null;
-          };
-        };
-      }>;
-      negociationAgreements: Array<{
-        __typename?: 'NegociationAgreement';
-        maxAmountPercent: number;
-      }>;
-    };
-  }>;
-};
-
-export type ReviewsFieldsFragment = {
-  __typename?: 'VendorReview';
-  Review: {
-    __typename?: 'Review';
-    content: string | null;
-    createdAt: any;
-    id: string;
-    rating: number;
-    title: string;
-    authorNickname: string | null;
-    Customer: {
-      __typename?: 'Customer';
-      createdAt: any;
-      sellerName: string | null;
-      profilePictureShopifyCdnUrl: string | null;
-    };
-  };
-};
-
-export type FetchPriceOffersQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchPriceOffersQuery = {
-  __typename?: 'query_root';
-  PriceOffer: Array<{
-    __typename?: 'PriceOffer';
-    id: string;
-    buyerId: any;
-    includedBuyerCommissionPercentage: any;
-    createdAt: any;
-    publicNote: string | null;
-    quantity: number;
-    status: any;
-    newPriceInCents: any;
-    productId: string;
-    product: {
-      __typename?: 'Product';
-      storeExposedProduct: {
-        __typename?: 'dbt_store_exposed_product';
-        brand: string | null;
-        productType: string;
-        size: string | null;
-        firstImage: string | null;
-      } | null;
-    };
-  }>;
-};
-
-export type FetchOnlineProductsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchOnlineProductsQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    onlineProducts: Array<{
-      __typename?: 'Product';
-      status: any;
-      shopifyId: any;
-      storeProduct: {
-        __typename?: 'dbt_store_exposed_product';
-        handle: string;
-        productType: string;
-        numberOfViews: any;
-        size: string | null;
-        gender: string | null;
-        modelYear: string | null;
-        brand: string | null;
-        firstImage: string | null;
-        product: {
-          __typename?: 'dbt_store_base_product';
-          variants: Array<{
-            __typename?: 'dbt_store_base_product_variant';
-            variant: {
-              __typename?: 'dbt_store_exposed_product_variant';
-              condition: any | null;
-            } | null;
-            b2cVariant: {
-              __typename?: 'dbt_store_b2c_product_variant';
-              price: any;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    }>;
-  }>;
-};
-
-export type FetchSoldOrderLinesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchSoldOrderLinesQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    vendorSoldOrderLines: Array<{
-      __typename?: 'OrderLines';
-      priceInCents: any;
-      productType: string;
-      productImage: string | null;
-      brand: string | null;
-      handle: string;
-      size: string | null;
-      condition: any | null;
-      gender: string | null;
-      modelYear: string | null;
-      order: {
-        __typename?: 'Order';
-        id: string;
-        status: any;
-        name: string;
-        createdAt: any;
-      };
-    }>;
-  }>;
-};
-
-export type FetchOrderDataSubscriptionVariables = Exact<{
-  orderId: InputMaybe<Scalars['String']>;
-}>;
-
-export type FetchOrderDataSubscription = {
-  __typename?: 'subscription_root';
-  Order: Array<{
-    __typename?: 'Order';
-    name: string;
-    createdAt: any;
-    shippingAddressAddress1: string;
-    shippingAddressAddress2: string | null;
-    shippingAddressCity: string;
-    shippingAddressCountry: string;
-    shippingAddressPhone: string;
-    shippingAddressFirstName: string | null;
-    shippingAddressLastName: string;
-    shippingAddressZip: string;
-    status: any;
-    orderLines: Array<{
-      __typename?: 'OrderLines';
-      productType: string;
-      productImage: string | null;
-      priceInCents: any;
-      shippingSolution: any;
-      id: string;
-      brand: string | null;
-      variantName: string;
-      modelYear: string | null;
-      size: string | null;
-      condition: any | null;
-      handle: string;
-      fulfillmentOrder: {
-        __typename?: 'FulfillmentOrder';
-        status: any;
-        fulfillments: Array<{
-          __typename?: 'Fulfillment';
-          trackingUrl: string;
-        }>;
-      } | null;
-    }>;
-  }>;
-};
-
-export type FetchPurchasesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchPurchasesQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    purchasedOrders: Array<{
-      __typename?: 'Order';
-      id: string;
-      name: string;
-      status: any;
-      createdAt: any;
-      totalPriceInCents: any;
-      orderLines: Array<{
-        __typename?: 'OrderLines';
-        productType: string;
-        name: string;
-        productImage: string | null;
-        brand: string | null;
-        handle: string;
-        size: string | null;
-        condition: any | null;
-        gender: string | null;
-        modelYear: string | null;
-      }>;
-    }>;
-  }>;
-};
-
-export type FetchSavedSearchesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchSavedSearchesQuery = {
-  __typename?: 'query_root';
-  SavedSearch: Array<{
-    __typename?: 'SavedSearch';
-    id: string;
-    name: string;
-    type: any;
-    resultsUrl: string;
-    FacetFilters: Array<{
-      __typename?: 'FacetFilter';
-      facetName: string;
-      label: string;
-      value: string;
-    }>;
-    NumericFilters: Array<{
-      __typename?: 'NumericFilter';
-      facetName: string;
-      operator: string;
-      value: string;
-    }>;
-    SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
-  }>;
-};
-
-export type StoreProductFieldsFragment = {
-  __typename?: 'dbt_store_exposed_product';
-  firstImage: string | null;
-  handle: string;
-  productType: string;
-  size: string | null;
-  gender: string | null;
-  modelYear: string | null;
-  brand: string | null;
-  product: {
-    __typename?: 'dbt_store_base_product';
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      variant: {
-        __typename?: 'dbt_store_exposed_product_variant';
-        condition: any | null;
-      } | null;
-      b2cVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
-        price: any;
-      } | null;
-    }>;
-  } | null;
-};
-
-export type FetchAccountPageCustomerDataQueryVariables = Exact<{
-  maxItems: InputMaybe<Scalars['Int']>;
-}>;
-
-export type FetchAccountPageCustomerDataQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    lastName: string | null;
-    firstName: string | null;
-    sellerName: string | null;
-    isPro: boolean;
-    profilePictureShopifyCdnUrl: string | null;
-    createdAt: any;
-    favorites: Array<{
-      __typename?: 'FavoriteProducts';
-      product: {
-        __typename?: 'Product';
-        storeProduct: {
-          __typename?: 'dbt_store_exposed_product';
-          firstImage: string | null;
-          handle: string;
-          productType: string;
-          size: string | null;
-          gender: string | null;
-          modelYear: string | null;
-          brand: string | null;
-          product: {
-            __typename?: 'dbt_store_base_product';
-            variants: Array<{
-              __typename?: 'dbt_store_base_product_variant';
-              variant: {
-                __typename?: 'dbt_store_exposed_product_variant';
-                condition: any | null;
-              } | null;
-              b2cVariant: {
-                __typename?: 'dbt_store_b2c_product_variant';
-                price: any;
-              } | null;
-            }>;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-    purchasedOrders: Array<{
-      __typename?: 'Order';
-      id: string;
-      totalPriceInCents: any;
-      name: string;
-      status: any;
-      orderLines: Array<{
-        __typename?: 'OrderLines';
-        name: string;
-        productBrand: string | null;
-        productImage: string | null;
-      }>;
-    }>;
-  }>;
-};
-
-export type FetchAccountPageVendorDataQueryVariables = Exact<{
-  maxItems: InputMaybe<Scalars['Int']>;
-}>;
-
-export type FetchAccountPageVendorDataQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    onlineProducts: Array<{
-      __typename?: 'Product';
-      storeProduct: {
-        __typename?: 'dbt_store_exposed_product';
-        firstImage: string | null;
-        handle: string;
-        productType: string;
-        size: string | null;
-        gender: string | null;
-        modelYear: string | null;
-        brand: string | null;
-        product: {
-          __typename?: 'dbt_store_base_product';
-          variants: Array<{
-            __typename?: 'dbt_store_base_product_variant';
-            variant: {
-              __typename?: 'dbt_store_exposed_product_variant';
-              condition: any | null;
-            } | null;
-            b2cVariant: {
-              __typename?: 'dbt_store_b2c_product_variant';
-              price: any;
-            } | null;
-          }>;
-        } | null;
-      } | null;
-    }>;
-    vendorSoldOrderLines: Array<{
-      __typename?: 'OrderLines';
-      priceInCents: any;
-      name: string;
-      productBrand: string | null;
-      productImage: string | null;
-      order: { __typename?: 'Order'; id: string; status: any; name: string };
-    }>;
-  }>;
-};
-
-export type GetProductPriceQueryVariables = Exact<{
-  productShopifyId: InputMaybe<Scalars['bigint']>;
-}>;
-
-export type GetProductPriceQuery = {
-  __typename?: 'query_root';
-  dbt_store_base_product: Array<{
-    __typename?: 'dbt_store_base_product';
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      b2cVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
-        price: any;
-      } | null;
-    }>;
-  }>;
-};
-
-export type FetchCustomerQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchCustomerQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{
-    __typename?: 'Customer';
-    chatId: string;
-    sellerName: string | null;
-  }>;
-};
-
-export type FetchB2BSavedSearchQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchB2BSavedSearchQuery = {
-  __typename?: 'query_root';
-  SavedSearch: Array<{
-    __typename?: 'SavedSearch';
-    id: string;
-    query: string | null;
-    FacetFilters: Array<{
-      __typename?: 'FacetFilter';
-      value: string;
-      facetName: string;
-    }>;
-    NumericFilters: Array<{
-      __typename?: 'NumericFilter';
-      facetName: string;
-      operator: string;
-      value: string;
-    }>;
-    SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
-  }>;
-};
-
-export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type SubscribeToOpenedB2BPriceOffersSubscription = {
-  __typename?: 'subscription_root';
-  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
+  _eq: InputMaybe<Scalars['uuid']['input']>;
+  _gt: InputMaybe<Scalars['uuid']['input']>;
+  _gte: InputMaybe<Scalars['uuid']['input']>;
+  _in: InputMaybe<Array<Scalars['uuid']['input']>>;
+  _is_null: InputMaybe<Scalars['Boolean']['input']>;
+  _lt: InputMaybe<Scalars['uuid']['input']>;
+  _lte: InputMaybe<Scalars['uuid']['input']>;
+  _neq: InputMaybe<Scalars['uuid']['input']>;
+  _nin: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
 
 export type FetchProductNotationQueryVariables = Exact<{
-  productInternalId: Scalars['String'];
+  productInternalId: Scalars['String']['input'];
 }>;
 
 export type FetchProductNotationQuery = {
@@ -33045,7 +32251,7 @@ export type FetchProductNotationQuery = {
 };
 
 export type FetchProductHitDataQueryVariables = Exact<{
-  productId: InputMaybe<Scalars['String']>;
+  productId: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type FetchProductHitDataQuery = {
@@ -33058,181 +32264,4 @@ export type FetchProductHitDataQuery = {
     created_at: any;
     calculated_scoring: any;
   }>;
-};
-
-export type FetchCollectionPageDataQueryVariables = Exact<{
-  collectionHandle: Scalars['String'];
-  vendorSellerName: Scalars['String'];
-}>;
-
-export type FetchCollectionPageDataQuery = {
-  __typename?: 'query_root';
-  Collection: Array<{
-    __typename?: 'Collection';
-    shopifyId: string;
-    handle: string;
-    type: any | null;
-    description: string | null;
-    title: string | null;
-    featuredImageSrc: string | null;
-    seoTitle: string | null;
-    seoDescription: string | null;
-    parentCollection: {
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      shopifyId: string;
-      title: string | null;
-      childCollections: Array<{
-        __typename?: 'Collection';
-        handle: string;
-        shortName: string | null;
-        shopifyId: string;
-        title: string | null;
-      }>;
-      parentCollection: {
-        __typename?: 'Collection';
-        shortName: string | null;
-        handle: string;
-        shopifyId: string;
-        title: string | null;
-        parentCollection: {
-          __typename?: 'Collection';
-          shortName: string | null;
-          handle: string;
-          shopifyId: string;
-          title: string | null;
-        } | null;
-      } | null;
-    } | null;
-    childCollections: Array<{
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      title: string | null;
-      featuredImageSrc: string | null;
-    }>;
-  }>;
-  vendorData: Array<{
-    __typename?: 'Customer';
-    sellerName: string | null;
-    coverPictureShopifyCdnUrl: string | null;
-    description: string | null;
-    profilePictureShopifyCdnUrl: string | null;
-    VendorReviews: Array<{
-      __typename?: 'VendorReview';
-      Review: {
-        __typename?: 'Review';
-        content: string | null;
-        createdAt: any;
-        id: string;
-        rating: number;
-        title: string;
-        authorNickname: string | null;
-        Customer: {
-          __typename?: 'Customer';
-          createdAt: any;
-          sellerName: string | null;
-          profilePictureShopifyCdnUrl: string | null;
-        };
-      };
-    }>;
-  }>;
-};
-
-export type CheckExistingCustomerQueryVariables = Exact<{
-  customerId: InputMaybe<Scalars['String']>;
-}>;
-
-export type CheckExistingCustomerQuery = {
-  __typename?: 'query_root';
-  Customer: Array<{ __typename?: 'Customer'; authUserId: any }>;
-};
-
-export type FetchFavoriteProductsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type FetchFavoriteProductsQuery = {
-  __typename?: 'query_root';
-  FavoriteProducts: Array<{ __typename?: 'FavoriteProducts'; productId: any }>;
-};
-
-export type AddFavoriteProductMutationVariables = Exact<{
-  customerId: Scalars['uuid'];
-  productId: InputMaybe<Scalars['bigint']>;
-}>;
-
-export type AddFavoriteProductMutation = {
-  __typename?: 'mutation_root';
-  insert_FavoriteProducts_one: {
-    __typename?: 'FavoriteProducts';
-    id: string;
-  } | null;
-};
-
-export type RemoveFavoriteProductsMutationVariables = Exact<{
-  customerId: Scalars['uuid'];
-  productId: InputMaybe<Scalars['bigint']>;
-}>;
-
-export type RemoveFavoriteProductsMutation = {
-  __typename?: 'mutation_root';
-  delete_FavoriteProducts: {
-    __typename?: 'FavoriteProducts_mutation_response';
-    affected_rows: number;
-  } | null;
-};
-
-export type UpdateCustomerInfoMutationVariables = Exact<{
-  userId: Scalars['uuid'];
-  lastName: Scalars['String'];
-  firstName: Scalars['String'];
-  sellerName: Scalars['String'];
-  phoneNumber: Scalars['String'];
-}>;
-
-export type UpdateCustomerInfoMutation = {
-  __typename?: 'mutation_root';
-  update_Customer_by_pk: { __typename?: 'Customer'; authUserId: any } | null;
-  updateUser: { __typename?: 'users'; id: any } | null;
-};
-
-export type UpdateDisplayNameMutationVariables = Exact<{
-  userId: InputMaybe<Scalars['uuid']>;
-  displayName: Scalars['String'];
-}>;
-
-export type UpdateDisplayNameMutation = {
-  __typename?: 'mutation_root';
-  updateUsers: {
-    __typename?: 'users_mutation_response';
-    affected_rows: number;
-  } | null;
-};
-
-export type FetchProductMetadataQueryVariables = Exact<{
-  productHandle: InputMaybe<Scalars['String']>;
-}>;
-
-export type FetchProductMetadataQuery = {
-  __typename?: 'query_root';
-  shopify: {
-    __typename?: 'shopifyQueryRoot';
-    product: {
-      __typename?: 'shopify_Product';
-      productType: string;
-      featuredImage: {
-        __typename?: 'shopify_Image';
-        src: any;
-        width: number | null;
-        height: number | null;
-      } | null;
-      seo: {
-        __typename?: 'shopify_SEO';
-        description: string | null;
-        title: string | null;
-      };
-    } | null;
-  } | null;
 };

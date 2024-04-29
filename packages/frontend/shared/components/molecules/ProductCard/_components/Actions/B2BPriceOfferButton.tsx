@@ -1,13 +1,12 @@
 'use client';
 
-import { FetchProductForNewOfferQuery } from '@/__generated/graphql';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import React from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import MakeB2BOfferModal from '../MakeB2BOfferModal';
@@ -28,7 +27,7 @@ export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
   );
 };
 
-const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
+const FETCH_PRODUCT_FOR_NEW_OFFER = gql_b2b_user`
   query fetchProductForNewOffer($productId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productId } }) {
       variants {
@@ -63,13 +62,14 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   userCanNegociate,
   className,
 }) => {
-  const fetchProductForNewOffer = useHasura<FetchProductForNewOfferQuery>(
-    FETCH_PRODUCT_FOR_NEW_OFFER,
-    HASURA_ROLES.B2B_USER,
-  );
+  const fetchProductForNewOffer =
+    useHasura<B2BUserTypes.FetchProductForNewOfferQuery>(
+      FETCH_PRODUCT_FOR_NEW_OFFER,
+      HASURA_ROLES.B2B_USER,
+    );
 
   const [{ loading, value }, doFetchProductHitData] = useWrappedAsyncFn<
-    () => Promise<FetchProductForNewOfferQuery>
+    () => Promise<B2BUserTypes.FetchProductForNewOfferQuery>
   >(() => fetchProductForNewOffer({ productId }));
 
   const MakeOfferButton: React.FC<{

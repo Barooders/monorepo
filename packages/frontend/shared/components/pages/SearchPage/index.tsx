@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import Collapse from '@/components/atoms/Collapse';
 import InnerPageBanner from '@/components/atoms/InnerPageBanner';
@@ -20,7 +20,6 @@ import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException'
 import useSearchPage from '@/hooks/state/useSearchPage';
 import useInitDiscounts from '@/hooks/useInitDiscounts';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import SavedSearchButton from '../../molecules/SavedSearchButton/index.mobile';
@@ -53,7 +52,7 @@ type ParentCollection =
   | null
   | undefined;
 
-const FETCH_COLLECTION_PAGE = gql`
+const FETCH_COLLECTION_PAGE = gql_public`
   ${REVIEWS_FRAGMENT}
 
   query fetchCollectionPageData(
@@ -134,12 +133,15 @@ export const getData = async ({
 
   const [collectionPageData, highlightedProduct, menuData] = await Promise.all([
     collectionHandle
-      ? fetchHasura<FetchCollectionPageDataQuery>(FETCH_COLLECTION_PAGE, {
-          variables: {
-            collectionHandle,
-            vendorSellerName,
+      ? fetchHasura<PublicTypes.FetchCollectionPageDataQuery>(
+          FETCH_COLLECTION_PAGE,
+          {
+            variables: {
+              collectionHandle,
+              vendorSellerName,
+            },
           },
-        })
+        )
       : Promise.resolve(),
     (async () => {
       if (productHandle && productVariant) {

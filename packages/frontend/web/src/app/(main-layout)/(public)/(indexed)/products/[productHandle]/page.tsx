@@ -1,4 +1,4 @@
-import { FetchProductMetadataQuery } from '@/__generated/graphql';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import { fetchProductByHandle } from '@/clients/products';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
@@ -11,7 +11,6 @@ import { ForbiddenPathException } from '@/exceptions/ForbiddenPathException';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
 import { getDictionary } from '@/i18n/translate';
 import { AppRouterPage } from '@/types';
-import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { Metadata } from 'next';
 
@@ -35,7 +34,7 @@ export type ProductDTO = {
 
 const dict = getDictionary('fr');
 
-const FETCH_PRODUCT_METADATA = gql`
+const FETCH_PRODUCT_METADATA = gql_public`
   query fetchProductMetadata($productHandle: String) {
     shopify {
       product(handle: $productHandle) {
@@ -101,7 +100,7 @@ export async function generateMetadata({
   };
   let featuredImage = null;
   try {
-    const result = await fetchHasura<FetchProductMetadataQuery>(
+    const result = await fetchHasura<PublicTypes.FetchProductMetadataQuery>(
       FETCH_PRODUCT_METADATA,
       {
         variables: { productHandle: params.productHandle },

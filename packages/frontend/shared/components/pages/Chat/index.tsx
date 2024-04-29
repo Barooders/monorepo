@@ -1,12 +1,14 @@
 'use client';
 
-import { FetchCustomerQuery } from '@/__generated/graphql';
+import {
+  MeAsCustomerTypes,
+  gql_me_as_customer,
+} from '@/__generated/hasura-role.config';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import head from 'lodash/head';
 import { useEffect } from 'react';
 import { FaCircleExclamation } from 'react-icons/fa6';
@@ -20,7 +22,7 @@ type PropsType = {
   selectedConversationId?: string;
 };
 
-const GET_CUSTOMER = gql`
+const GET_CUSTOMER = gql_me_as_customer`
   query fetchCustomer {
     Customer {
       chatId
@@ -30,7 +32,7 @@ const GET_CUSTOMER = gql`
 `;
 
 const Chat: React.FC<PropsType> = ({ productId, selectedConversationId }) => {
-  const fetchCustomer = useHasura<FetchCustomerQuery>(
+  const fetchCustomer = useHasura<MeAsCustomerTypes.FetchCustomerQuery>(
     GET_CUSTOMER,
     HASURA_ROLES.ME_AS_CUSTOMER,
   );

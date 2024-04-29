@@ -1,10 +1,9 @@
-import { FetchB2BProductQuery } from '@/__generated/graphql';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
 import { roundCurrency } from '@/utils/currency';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
@@ -17,7 +16,7 @@ export type ContainerPropsType = {
   hasOpenedPriceOffer: boolean;
 };
 
-export const FETCH_B2B_PRODUCT = gql`
+export const FETCH_B2B_PRODUCT = gql_b2b_user`
   query fetchB2BProduct($productInternalId: String) {
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
       id
@@ -59,7 +58,7 @@ export const FETCH_B2B_PRODUCT = gql`
 `;
 
 export const mapToProps = (
-  productResponse: FetchB2BProductQuery,
+  productResponse: B2BUserTypes.FetchB2BProductQuery,
   hasOpenedPriceOffer: boolean,
 ): B2BProductPanelProps => {
   const rawProduct = first(productResponse.dbt_store_base_product);
@@ -69,7 +68,7 @@ export const mapToProps = (
   }
 
   const availableVariants = rawProduct.variants.filter(
-    (variant) => variant.exposedVariant?.inventory_quantity > 0,
+    (variant) => variant.exposedVariant?.inventory_quantity ?? 0 > 0,
   );
 
   const mainVariantRaw = first(
@@ -91,22 +90,22 @@ export const mapToProps = (
     0,
   );
 
-  const largestBundlePrice = rawProduct.b2bProduct.largest_bundle_price_in_cents
-    ? roundCurrency(rawProduct.b2bProduct.largest_bundle_price_in_cents / 100)
-    : undefined;
-
   return {
     compareAtPrice: mainVariant.compare_at_price,
     handle: rawProduct.exposedProduct.handle,
     id: rawProduct.id,
     productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
-    shopifyId: rawProduct.shopifyId,
+    shopifyId: rawProduct.shopifyId.toString(),
     stock,
     title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),
     variantCondition: mainVariant.condition,
-    largestBundlePrice,
+    ...(rawProduct.b2bProduct.largest_bundle_price_in_cents && {
+      largestBundlePrice: roundCurrency(
+        rawProduct.b2bProduct.largest_bundle_price_in_cents / 100,
+      ),
+    }),
     images: rawProduct.images.map((image) => image.src),
     description: rawProduct.exposedProduct.description ?? '',
     isSoldOut: stock === 0,
@@ -119,7 +118,7 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   productInternalId,
   hasOpenedPriceOffer,
 }) => {
-  const fetchB2BProduct = useHasura<FetchB2BProductQuery>(
+  const fetchB2BProduct = useHasura<B2BUserTypes.FetchB2BProductQuery>(
     FETCH_B2B_PRODUCT,
     HASURA_ROLES.B2B_USER,
   );

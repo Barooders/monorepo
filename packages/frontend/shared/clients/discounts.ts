@@ -1,11 +1,10 @@
-import { GetAvailableDiscountsQuery } from '@/__generated/graphql';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { Discount } from '@/types';
-import { gql } from '@apollo/client';
 import compact from 'lodash/compact';
 
-const FETCH_DISCOUNTS = gql`
+const FETCH_DISCOUNTS = gql_public`
   query getAvailableDiscounts($discountTitles: [String!]) {
     dbt_store_discount(where: { title: { _in: $discountTitles } }) {
       collection {
@@ -24,7 +23,7 @@ const FETCH_DISCOUNTS = gql`
 `;
 
 const mapDiscount = (
-  discount: GetAvailableDiscountsQuery['dbt_store_discount'][0],
+  discount: PublicTypes.GetAvailableDiscountsQuery['dbt_store_discount'][0],
 ): Discount | null => {
   const discountTitle = discount.title ?? '';
   const valueType = discount.value_type;
@@ -48,7 +47,7 @@ const mapDiscount = (
     value: discount.value,
     valueType,
     code: discount.code ?? undefined,
-    id: discount.id,
+    id: discount.id.toString(),
     label: discountConfig?.label ?? discountTitle,
     hideReduction: !!discountConfig?.hideReduction,
     minAmount:
@@ -58,7 +57,7 @@ const mapDiscount = (
 };
 
 export const fetchDiscountsByTitles = async (discountTitles: string[]) => {
-  const discounts = await fetchHasura<GetAvailableDiscountsQuery>(
+  const discounts = await fetchHasura<PublicTypes.GetAvailableDiscountsQuery>(
     FETCH_DISCOUNTS,
     {
       variables: { discountTitles },

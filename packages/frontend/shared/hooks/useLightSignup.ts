@@ -1,10 +1,10 @@
+import { gql_registered_user } from '@/__generated/hasura-role.config';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { gql } from '@apollo/client';
 import useUser from './state/useUser';
 import { useAuth } from './useAuth';
 import { useHasura } from './useHasura';
 
-const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql`
+const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql_registered_user`
   mutation updateCustomerInfo(
     $userId: uuid!
     $lastName: String!
@@ -31,7 +31,7 @@ const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql`
   }
 `;
 
-const LIGHT_SIGNUP_AUTH_MUTATION = gql`
+const LIGHT_SIGNUP_AUTH_MUTATION = gql_registered_user`
   mutation updateDisplayName($userId: uuid, $displayName: String!) {
     updateUsers(
       where: { id: { _eq: $userId } }

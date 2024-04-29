@@ -1,10 +1,13 @@
 'use client';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
+import Button from '@/components/atoms/Button';
 import ContactCard from '@/components/atoms/ContactCard';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
-/* eslint-disable @next/next/no-img-element */
-import Button from '@/components/atoms/Button';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import useBackend from '@/hooks/useBackend';
@@ -13,7 +16,7 @@ import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { AccountSections, CurrencyCode } from '@/types';
 import { getTimeAgoSentence } from '@/utils/date';
-import { gql, useSubscription } from '@apollo/client';
+import { useSubscription } from '@apollo/client';
 import { useEffect } from 'react';
 import { FaCheck, FaSearch } from 'react-icons/fa';
 import CancelOrderForm from './_components/CancelOrderForm';
@@ -21,7 +24,6 @@ import ShippingLabelButton from './_components/ShippingLabelButton';
 import TrackingURLForm from './_components/TrackingURLForm';
 import { ORDER_STATUS_COLORS } from './config';
 import { FulfillmentOrderStatus, OrderStatus, ShippingSolution } from './types';
-import { FetchOrderDataSubscription } from '@/__generated/graphql';
 
 const dict = getDictionary('fr');
 const roundedCard = 'mt-4 rounded-lg border border-zinc-200';
@@ -90,7 +92,7 @@ const getContactLabels = (viewer: AccountPageOrder['viewer']) => {
   }
 };
 
-const FETCH_ORDER_DATA = gql`
+const FETCH_ORDER_DATA = gql_registered_user`
   subscription fetchOrderData($orderId: String) {
     Order(where: { id: { _eq: $orderId } }) {
       name
@@ -131,7 +133,9 @@ type PropsType = {
   orderId: string;
 };
 
-const mapOrderFromHasura = (data: FetchOrderDataSubscription['Order']) => {
+const mapOrderFromHasura = (
+  data: RegisteredUserTypes.FetchOrderDataSubscription['Order'],
+) => {
   const order = data[0];
 
   if (!order.orderLines || order.orderLines.length === 0) {
@@ -235,11 +239,14 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
     loading: hasuraLoading,
     error: hasuraError,
     data: rawHasuraValue,
-  } = useSubscription<FetchOrderDataSubscription>(FETCH_ORDER_DATA, {
-    variables: {
-      orderId,
+  } = useSubscription<RegisteredUserTypes.FetchOrderDataSubscription>(
+    FETCH_ORDER_DATA,
+    {
+      variables: {
+        orderId,
+      },
     },
-  });
+  );
   const { fetchAPI } = useBackend();
 
   const hasuraValue = rawHasuraValue?.Order

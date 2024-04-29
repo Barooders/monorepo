@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchPriceOffersQuery } from '@/__generated/graphql';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
@@ -9,7 +9,6 @@ import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import { PRICE_OFFER_STATUS_COLORS } from './config';
@@ -58,7 +57,7 @@ type PriceOffer = {
   status: PriceOfferStatus;
 };
 
-const FETCH_PRICE_OFFERS = gql`
+const FETCH_PRICE_OFFERS = gql_b2b_user`
   query fetchPriceOffers {
     PriceOffer(order_by: { createdAt: desc }) {
       id
@@ -84,7 +83,7 @@ const FETCH_PRICE_OFFERS = gql`
 
 const B2BPriceOffersTable = () => {
   const { user } = useHasuraToken();
-  const fetchPriceOffers = useHasura<FetchPriceOffersQuery>(
+  const fetchPriceOffers = useHasura<B2BUserTypes.FetchPriceOffersQuery>(
     FETCH_PRICE_OFFERS,
     HASURA_ROLES.B2B_USER,
   );

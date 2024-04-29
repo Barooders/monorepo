@@ -1,6 +1,9 @@
 'use client';
 
-import { GetProductPriceQuery } from '@/__generated/graphql';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
@@ -10,7 +13,6 @@ import { useHasura } from '@/hooks/useHasura';
 import useStartChatConversation from '@/hooks/useStartChatConversation';
 import { getDictionary } from '@/i18n/translate';
 import { ConversationType } from '@/types';
-import { gql } from '@apollo/client';
 import { HtmlPanel, Session, Inbox as TalkJSInbox } from '@talkjs/react';
 import first from 'lodash/first';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -26,7 +28,7 @@ type Props = {
   initialConversationId?: string;
 };
 
-const GET_PRODUCT_PRICE = gql`
+const GET_PRODUCT_PRICE = gql_registered_user`
   query getProductPrice($productShopifyId: bigint) {
     dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
       variants(
@@ -60,7 +62,8 @@ const Inbox: React.FC<Props> = ({
   const [panelHeight, setPanelHeight] = useState<number>(0);
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
-  const fetchProductPrice = useHasura<GetProductPriceQuery>(GET_PRODUCT_PRICE);
+  const fetchProductPrice =
+    useHasura<RegisteredUserTypes.GetProductPriceQuery>(GET_PRODUCT_PRICE);
   const canaryElRef = useRef<HTMLDivElement | null>(null);
 
   useInterval(() => {

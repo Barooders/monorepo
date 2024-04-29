@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchProductNotationQuery } from '@/__generated/graphql';
+import { AdminTypes, gql_admin } from '@/__generated/hasura-role.config';
 import { operations } from '@/__generated/rest-schema';
 import AdminBanner from '@/components/atoms/ActionsBanner/AdminBanner';
 import Button from '@/components/atoms/Button';
@@ -10,12 +10,11 @@ import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { ProductStatus } from '@/types';
-import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES } from 'shared-types';
 
-const PRODUCT_NOTATION_QUERY = gql`
+const PRODUCT_NOTATION_QUERY = gql_admin`
   query fetchProductNotation($productInternalId: String!) {
     Product(where: { id: { _eq: $productInternalId } }) {
       manualNotation
@@ -45,12 +44,12 @@ const AdminProductBanner = ({
   showByDefault?: boolean;
 }) => {
   const { isAdmin } = useAuth();
-  const fetchProductNotation = useHasura<FetchProductNotationQuery>(
+  const fetchProductNotation = useHasura<AdminTypes.FetchProductNotationQuery>(
     PRODUCT_NOTATION_QUERY,
     HASURA_ROLES.ADMIN,
   );
   const [{ value }, doFetchProductNotation] = useWrappedAsyncFn<
-    () => Promise<FetchProductNotationQuery>
+    () => Promise<AdminTypes.FetchProductNotationQuery>
   >(() => fetchProductNotation({ productInternalId }));
 
   const { fetchAPI } = useBackend();

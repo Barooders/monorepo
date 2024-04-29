@@ -1,6 +1,9 @@
 'use client';
 
-import { FetchSavedSearchesQuery } from '@/__generated/graphql';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -10,11 +13,10 @@ import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
 
-const FETCH_SAVED_SEARCHES = gql`
+const FETCH_SAVED_SEARCHES = gql_registered_user`
   query fetchSavedSearches {
     SavedSearch {
       id
@@ -41,11 +43,13 @@ const FETCH_SAVED_SEARCHES = gql`
 const SavedSearches = () => {
   const [, removeSavedSearch] = useDeleteSavedSearch();
   const fetchSavedSearches =
-    useHasura<FetchSavedSearchesQuery>(FETCH_SAVED_SEARCHES);
-  const [fetchState, doFetchSavedSearches] =
-    useWrappedAsyncFn<() => Promise<FetchSavedSearchesQuery>>(
-      fetchSavedSearches,
+    useHasura<RegisteredUserTypes.FetchSavedSearchesQuery>(
+      FETCH_SAVED_SEARCHES,
     );
+  const [fetchState, doFetchSavedSearches] =
+    useWrappedAsyncFn<
+      () => Promise<RegisteredUserTypes.FetchSavedSearchesQuery>
+    >(fetchSavedSearches);
 
   const doRemoveSavedSearch = async (searchId: string) => {
     await removeSavedSearch(searchId);

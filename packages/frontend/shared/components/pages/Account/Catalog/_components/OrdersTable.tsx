@@ -1,13 +1,15 @@
 'use client';
 
-import { FetchSoldOrderLinesQuery } from '@/__generated/graphql';
+import {
+  MeAsVendorTypes,
+  gql_me_as_vendor,
+} from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import { mapProductFromGraphQl } from '../../_helpers/map-product';
@@ -38,7 +40,7 @@ type Order = {
   status: OrderStatus;
 };
 
-const FETCH_SOLD_ORDER_LINES = gql`
+const FETCH_SOLD_ORDER_LINES = gql_me_as_vendor`
   query fetchSoldOrderLines {
     Customer(limit: 1) {
       vendorSoldOrderLines(
@@ -66,10 +68,11 @@ const FETCH_SOLD_ORDER_LINES = gql`
 `;
 
 const OrdersTables = () => {
-  const fetchSoldOrderLines = useHasura<FetchSoldOrderLinesQuery>(
-    FETCH_SOLD_ORDER_LINES,
-    HASURA_ROLES.ME_AS_VENDOR,
-  );
+  const fetchSoldOrderLines =
+    useHasura<MeAsVendorTypes.FetchSoldOrderLinesQuery>(
+      FETCH_SOLD_ORDER_LINES,
+      HASURA_ROLES.ME_AS_VENDOR,
+    );
 
   const [{ loading, error, value }, doFetchOrders] = useWrappedAsyncFn<
     () => Promise<Order[]>

@@ -1,17 +1,18 @@
 'use client';
 
-import { FetchNegociationAgreementQuery } from '@/__generated/graphql';
+import {
+  MeAsVendorTypes,
+  gql_me_as_vendor,
+} from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
 import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { gql } from '@apollo/client';
 import first from 'lodash/first';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import PersonalInfoForm from '.';
-
-const GET_VENDOR_NEGOCIATION_AGREEMENT = gql`
+const GET_VENDOR_NEGOCIATION_AGREEMENT = gql_me_as_vendor`
   query fetchNegociationAgreement($vendorId: uuid) {
     NegociationAgreement(where: { vendorId: { _eq: $vendorId } }) {
       id
@@ -30,10 +31,11 @@ type PropsType = {
 };
 
 const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
-  const fetchVendorNegoAgreement = useHasura<FetchNegociationAgreementQuery>(
-    GET_VENDOR_NEGOCIATION_AGREEMENT,
-    HASURA_ROLES.ME_AS_VENDOR,
-  );
+  const fetchVendorNegoAgreement =
+    useHasura<MeAsVendorTypes.FetchNegociationAgreementQuery>(
+      GET_VENDOR_NEGOCIATION_AGREEMENT,
+      HASURA_ROLES.ME_AS_VENDOR,
+    );
   const { hasuraToken } = useUser();
 
   const [initState, doFetch] = useWrappedAsyncFn(fetchVendorNegoAgreement);
