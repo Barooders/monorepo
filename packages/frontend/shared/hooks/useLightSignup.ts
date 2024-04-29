@@ -1,7 +1,8 @@
+import { gql_registered_user } from '@/__generated/hasura-role.config';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import useUser from './state/useUser';
 import { useAuth } from './useAuth';
-import { gql_registered_user, useHasura } from './useHasura';
+import { useHasura } from './useHasura';
 
 const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql_registered_user`
   mutation updateCustomerInfo(

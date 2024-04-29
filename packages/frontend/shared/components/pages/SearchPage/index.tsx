@@ -1,6 +1,6 @@
 'use client';
 
-import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import Collapse from '@/components/atoms/Collapse';
 import InnerPageBanner from '@/components/atoms/InnerPageBanner';
@@ -18,7 +18,6 @@ import {
 import { searchCollections } from '@/config';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
 import useSearchPage from '@/hooks/state/useSearchPage';
-import { gql_public } from '@/hooks/useHasura';
 import useInitDiscounts from '@/hooks/useInitDiscounts';
 import { getDictionary } from '@/i18n/translate';
 import first from 'lodash/first';

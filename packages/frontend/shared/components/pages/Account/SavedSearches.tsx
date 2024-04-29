@@ -1,13 +1,16 @@
 'use client';
 
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import { getFacetValueLabel } from '@/components/molecules/Filters/utils/getFacetLabel';
 import SearchAlertToggleButton from '@/components/molecules/SearchAlertToggleButton';
 import useDeleteSavedSearch from '@/hooks/useDeleteSavedSearch';
-import { gql_registered_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import capitalize from 'lodash/capitalize';

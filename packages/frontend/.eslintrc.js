@@ -22,7 +22,7 @@ module.exports = {
           {
             name: '@/__generated/graphql.*',
             message:
-              'Please use role-specific types from @/__generated/hasura-role-graphql.types',
+              'Please use role-specific types from @/__generated/hasura-role.config',
           },
         ],
       },

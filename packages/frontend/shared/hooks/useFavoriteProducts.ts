@@ -1,6 +1,9 @@
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import useUser from './state/useUser';
-import { gql_registered_user, useHasura } from './useHasura';
+import { useHasura } from './useHasura';
 import { useHasuraToken } from './useHasuraToken';
 import useIsLoggedIn from './useIsLoggedIn';
 

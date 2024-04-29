@@ -1,7 +1,6 @@
-import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
-import { gql_public } from '@/hooks/useHasura';
 import { Discount } from '@/types';
 import compact from 'lodash/compact';
 

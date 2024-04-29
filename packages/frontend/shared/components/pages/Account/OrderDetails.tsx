@@ -1,5 +1,8 @@
 'use client';
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import Button from '@/components/atoms/Button';
 import ContactCard from '@/components/atoms/ContactCard';
@@ -9,7 +12,6 @@ import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import useBackend from '@/hooks/useBackend';
 import useFlag from '@/hooks/useFlag';
-import { gql_registered_user } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { AccountSections, CurrencyCode } from '@/types';

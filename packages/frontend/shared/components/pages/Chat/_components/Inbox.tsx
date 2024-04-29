@@ -1,12 +1,15 @@
 'use client';
 
-import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
+import {
+  RegisteredUserTypes,
+  gql_registered_user,
+} from '@/__generated/hasura-role.config';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import ChatPanel from '@/components/molecules/ChatPanel/container';
-import { gql_registered_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useStartChatConversation from '@/hooks/useStartChatConversation';
 import { getDictionary } from '@/i18n/translate';
 import { ConversationType } from '@/types';

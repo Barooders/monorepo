@@ -2,17 +2,15 @@
 import {
   MeAsCustomerTypes,
   MeAsVendorTypes,
-} from '@/__generated/hasura-role-graphql.types';
+  gql_me_as_customer,
+  gql_me_as_vendor,
+} from '@/__generated/hasura-role.config';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  gql_me_as_customer,
-  gql_me_as_vendor,
-  useHasura,
-} from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { AccountSections } from '@/types';

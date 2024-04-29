@@ -1,4 +1,4 @@
-import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
+import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
 import { fetchCommission } from '@/clients/commission';
 import { fetchHasura } from '@/clients/hasura';
 import {
@@ -7,7 +7,6 @@ import {
 } from '@/components/molecules/Reviews/container';
 import { Condition } from '@/components/pages/SellingForm/types';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
-import { gql_public } from '@/hooks/useHasura';
 import { getDictionary } from '@/i18n/translate';
 import { enrichTags } from '@/mappers/search';
 import { ImageType } from '@/types';

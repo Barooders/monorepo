@@ -1,11 +1,11 @@
 'use client';
 
-import { B2BUserTypes } from '@/__generated/hasura-role-graphql.types';
+import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
-import { gql_b2b_user, useHasura } from '@/hooks/useHasura';
+import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';

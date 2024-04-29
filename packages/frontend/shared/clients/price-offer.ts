@@ -1,4 +1,4 @@
-import { gql_registered_user } from '@/hooks/useHasura';
+import { gql_registered_user } from '@/__generated/hasura-role.config';
 
 export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = gql_registered_user`
   subscription subscribeToOpenedPriceOffer(
