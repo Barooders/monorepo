@@ -6,6 +6,7 @@ import {
 import { ProductCardProps } from '@/components/pages/ProductPage';
 import { Condition } from '@/components/pages/SellingForm/types';
 import {
+  b2bVariantsCollection,
   publicVariantsCollection,
   typesenseInstantsearchAdapter,
 } from '@/config';
@@ -277,4 +278,36 @@ export const mapCurrentSearchToString = (
   ]
     .map(capitalize)
     .join('・');
+};
+
+export const fetchB2BProductsFromSameVendor = async (vendorId: string) => {
+  const filterQuery = ['inventory_quantity:> 0', `vendor_id:=${vendorId}`].join(
+    ' && ',
+  );
+  const maxResults = 20;
+
+  const { grouped_hits } = await typesenseInstantsearchAdapter.typesenseClient
+    .collections<SearchB2BVariantDocument>(b2bVariantsCollection)
+    .documents()
+    .search(
+      {
+        q: '*',
+        preset: SearchPreset.B2B,
+        filter_by: filterQuery,
+        group_by: 'product_internal_id',
+        group_limit: maxResults,
+        per_page: maxResults,
+      },
+      {},
+    );
+
+  return (
+    (grouped_hits ?? [])
+      .map(({ hits }) => hits[0])
+      // We need to force the type because Typesense lib is typing the document as object
+      // See: typesense/lib/Typesense/SearchClient.d.ts
+      .map(({ document }) =>
+        fromSearchToB2BProductCard(document as SearchB2BVariantDocument),
+      )
+  );
 };

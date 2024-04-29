@@ -1229,7 +1229,9 @@ const fr = {
         total: 'Total',
       },
       existingOffer: 'Vous avez une offre en cours',
-      details: 'Détails',
+      details: {
+        productsFromSameVendor: 'Produits du même vendeur',
+      },
       price: {
         quantities: 'Quantité',
         priceStartsAt: 'A partir de',
