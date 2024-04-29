@@ -53,7 +53,7 @@
     "prisma:direct": "prisma",
     "shopify:dev": "shopify app dev",
     "shopify:deploy": "shopify app deploy",
-    "update:dev": "yarn install && yarn prisma:migrate:dev",
+    "update:dev": "yarn install && yarn prisma all migrate dev",
     "isomake:shopify": "node -r tsconfig-paths/register -r ts-node/register isomaker",
     "isomake:db": "node -r tsconfig-paths/register -r ts-node/register isomaker/syncCollectionsToDB"
   },
