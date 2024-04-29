@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import { fetchStorefront } from '@/clients/storefront';
 import { gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
