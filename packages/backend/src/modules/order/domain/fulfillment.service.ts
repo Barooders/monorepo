@@ -1,6 +1,7 @@
 import {
   AggregateName,
   EventName,
+  FulfillmentOrder,
   FulfillmentOrderStatus,
   FulfillmentStatus,
   OrderLines,
@@ -50,50 +51,8 @@ export class FulfillmentService {
       },
     });
 
-    for (const { externalOrderId, ...fulfillmentOrder } of fulfillmentOrders) {
-      try {
-        this.logger.debug(`Fulfilling external order ${externalOrderId}`);
-
-        if (!externalOrderId) {
-          this.logger.debug(
-            `No external order id found for fulfillment order ${fulfillmentOrder.id}`,
-          );
-          continue;
-        }
-
-        const firstVendorId = first(fulfillmentOrder.orderLines)?.vendorId;
-
-        if (!firstVendorId) {
-          throw new Error(
-            `No vendor id found in first order line of fulfillment order ${fulfillmentOrder.id}`,
-          );
-        }
-
-        //TODO: order-sync service should return shipping details and variants+quantities that have been shipped
-        const shippingDetails = await this.orderSyncService.getShippingDetails(
-          firstVendorId,
-          externalOrderId,
-        );
-
-        if (!shippingDetails) {
-          this.logger.debug(
-            `No shipping details found for external order ${externalOrderId}`,
-          );
-          continue;
-        }
-
-        this.logger.debug(
-          `Shipping details found for external order ${externalOrderId}`,
-          shippingDetails,
-        );
-
-        await this.createFulfillment(fulfillmentOrder, shippingDetails, {
-          type: 'backend',
-        });
-      } catch (error: any) {
-        this.logger.error(error.message, error);
-        Sentry.captureException(error);
-      }
+    for (const fulfillmentOrder of fulfillmentOrders) {
+      await this.fulfillIfShipped(fulfillmentOrder);
     }
   }
 
@@ -246,6 +205,55 @@ export class FulfillmentService {
       },
       author,
     );
+  }
+
+  private async fulfillIfShipped({
+    externalOrderId,
+    ...fulfillmentOrder
+  }: FulfillmentOrder & { orderLines: OrderLines[] }) {
+    try {
+      this.logger.debug(`Fulfilling external order ${externalOrderId}`);
+
+      if (!externalOrderId) {
+        this.logger.debug(
+          `No external order id found for fulfillment order ${fulfillmentOrder.id}`,
+        );
+        return;
+      }
+
+      const firstVendorId = first(fulfillmentOrder.orderLines)?.vendorId;
+
+      if (!firstVendorId) {
+        throw new Error(
+          `No vendor id found in first order line of fulfillment order ${fulfillmentOrder.id}`,
+        );
+      }
+
+      //TODO: order-sync service should return shipping details and variants+quantities that have been shipped
+      const shippingDetails = await this.orderSyncService.getShippingDetails(
+        firstVendorId,
+        externalOrderId,
+      );
+
+      if (!shippingDetails) {
+        this.logger.debug(
+          `No shipping details found for external order ${externalOrderId}`,
+        );
+        return;
+      }
+
+      this.logger.debug(
+        `Shipping details found for external order ${externalOrderId}`,
+        shippingDetails,
+      );
+
+      await this.createFulfillment(fulfillmentOrder, shippingDetails, {
+        type: 'backend',
+      });
+    } catch (error: any) {
+      this.logger.error(error.message, error);
+      Sentry.captureException(error);
+    }
   }
 
   private async createFulfillment(
