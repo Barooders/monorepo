@@ -1,6 +1,5 @@
-/* eslint-disable no-restricted-imports */
 import { fetchHasura } from '@/clients/hasura';
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'; // eslint-disable-line no-restricted-imports
 import { DocumentNode } from 'graphql';
 import { HASURA_ROLES } from 'shared-types';
 import { useHasuraToken } from './useHasuraToken';
