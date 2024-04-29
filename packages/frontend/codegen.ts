@@ -27,6 +27,12 @@ module.exports = {
       config: {
         avoidOptionals: true,
         skipTypename: false,
+        scalars: {
+          bigint: {
+            input: 'number',
+            output: 'number',
+          },
+        },
       },
     },
     './shared/__generated/graphql.schema.json': {
