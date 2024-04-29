@@ -37,7 +37,7 @@ export type Scalars = {
   SavedSearchType: { input: any; output: any };
   ShipmentTimeframe: { input: any; output: any };
   ShippingSolution: { input: any; output: any };
-  bigint: { input: any; output: any };
+  bigint: { input: number; output: number };
   float8: { input: any; output: any };
   shopify_Color: { input: any; output: any };
   shopify_DateTime: { input: any; output: any };
@@ -12258,12 +12258,12 @@ export type SubscribeToOpenedPriceOfferSubscription = {
   __typename?: 'subscription_root';
   PriceOffer: Array<{
     __typename?: 'PriceOffer';
-    newPriceInCents: any;
+    newPriceInCents: number;
     id: string;
     initiatedBy: any;
     status: any;
     discountCode: string | null;
-    product: { __typename?: 'Product'; shopifyId: any };
+    product: { __typename?: 'Product'; shopifyId: number };
   }>;
 };
 
@@ -12475,7 +12475,10 @@ export type FetchFavoriteProductsQueryVariables = Exact<{
 
 export type FetchFavoriteProductsQuery = {
   __typename?: 'query_root';
-  FavoriteProducts: Array<{ __typename?: 'FavoriteProducts'; productId: any }>;
+  FavoriteProducts: Array<{
+    __typename?: 'FavoriteProducts';
+    productId: number;
+  }>;
 };
 
 export type AddFavoriteProductMutationVariables = Exact<{

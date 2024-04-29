@@ -51,7 +51,7 @@ export type Scalars = {
   ShipmentTimeframe: { input: any; output: any };
   ShippingSolution: { input: any; output: any };
   ShippingType: { input: any; output: any };
-  bigint: { input: any; output: any };
+  bigint: { input: number; output: number };
   bytea: { input: any; output: any };
   citext: { input: any; output: any };
   date: { input: any; output: any };

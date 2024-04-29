@@ -34,7 +34,7 @@ export type Scalars = {
   ProductStatus: { input: any; output: any };
   ShipmentTimeframe: { input: any; output: any };
   ShippingType: { input: any; output: any };
-  bigint: { input: any; output: any };
+  bigint: { input: number; output: number };
   float8: { input: any; output: any };
   jsonb: { input: any; output: any };
   shopify_Color: { input: any; output: any };
@@ -11044,7 +11044,7 @@ export type GetAvailableDiscountsQuery = {
     __typename?: 'dbt_store_discount';
     ends_at: any | null;
     starts_at: any;
-    id: any;
+    id: number;
     value: any;
     value_type: string;
     code: string | null;
@@ -11064,12 +11064,12 @@ export type ProductCardFieldsFragment = {
   title: string;
   description: string | null;
   productType: string;
-  numberOfViews: any;
+  numberOfViews: number;
   status: any;
   product: {
     __typename?: 'dbt_store_base_product';
     id: string;
-    shopifyId: any;
+    shopifyId: number;
     collections: Array<{
       __typename?: 'dbt_store_product_collection';
       collection_id: string;
@@ -11077,10 +11077,10 @@ export type ProductCardFieldsFragment = {
     variants: Array<{
       __typename?: 'dbt_store_base_product_variant';
       id: string | null;
-      shopifyId: any;
+      shopifyId: number;
       exposedVariant: {
         __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: any;
+        inventory_quantity: number;
         option1Name: string | null;
         option1: string | null;
         option2Name: string | null;
@@ -11105,8 +11105,8 @@ export type ProductCardFieldsFragment = {
       __typename?: 'dbt_store_exposed_product_image';
       alt: string | null;
       src: string;
-      height: any;
-      width: any;
+      height: number;
+      width: number;
     }>;
   } | null;
 };
@@ -11163,12 +11163,12 @@ export type FetchProductsQuery = {
       title: string;
       description: string | null;
       productType: string;
-      numberOfViews: any;
+      numberOfViews: number;
       status: any;
       product: {
         __typename?: 'dbt_store_base_product';
         id: string;
-        shopifyId: any;
+        shopifyId: number;
         collections: Array<{
           __typename?: 'dbt_store_product_collection';
           collection_id: string;
@@ -11176,10 +11176,10 @@ export type FetchProductsQuery = {
         variants: Array<{
           __typename?: 'dbt_store_base_product_variant';
           id: string | null;
-          shopifyId: any;
+          shopifyId: number;
           exposedVariant: {
             __typename?: 'dbt_store_exposed_product_variant';
-            inventory_quantity: any;
+            inventory_quantity: number;
             option1Name: string | null;
             option1: string | null;
             option2Name: string | null;
@@ -11204,8 +11204,8 @@ export type FetchProductsQuery = {
           __typename?: 'dbt_store_exposed_product_image';
           alt: string | null;
           src: string;
-          height: any;
-          width: any;
+          height: number;
+          width: number;
         }>;
       } | null;
     } | null;

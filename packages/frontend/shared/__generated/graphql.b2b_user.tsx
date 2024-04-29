@@ -29,7 +29,7 @@ export type Scalars = {
   PriceOfferStatus: { input: any; output: any };
   ProductStatus: { input: any; output: any };
   SalesChannelName: { input: any; output: any };
-  bigint: { input: any; output: any };
+  bigint: { input: number; output: number };
   float8: { input: any; output: any };
   shopify_Color: { input: any; output: any };
   shopify_DateTime: { input: any; output: any };
@@ -9551,7 +9551,7 @@ export type FetchProductForNewOfferQuery = {
       __typename?: 'dbt_store_base_product_variant';
       variant: {
         __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: any;
+        inventory_quantity: number;
         title: string;
       } | null;
       b2bVariant: {
@@ -9561,13 +9561,13 @@ export type FetchProductForNewOfferQuery = {
     }>;
     bundlePrices: Array<{
       __typename?: 'dbt_store_bundle_price';
-      unit_price_in_cents: any;
+      unit_price_in_cents: number;
       min_quantity: number;
     }>;
     exposedProduct: {
       __typename?: 'dbt_store_exposed_product';
       title: string;
-      total_quantity: any;
+      total_quantity: number;
     } | null;
   }>;
 };
@@ -9581,13 +9581,13 @@ export type FetchB2BProductQuery = {
   dbt_store_base_product: Array<{
     __typename?: 'dbt_store_base_product';
     id: string;
-    shopifyId: any;
+    shopifyId: number;
     vendorId: any;
     exposedProduct: {
       __typename?: 'dbt_store_exposed_product';
       model: string | null;
       description: string | null;
-      numberOfViews: any;
+      numberOfViews: number;
       brand: string | null;
       handle: string;
       id: string;
@@ -9596,7 +9596,7 @@ export type FetchB2BProductQuery = {
     } | null;
     b2bProduct: {
       __typename?: 'dbt_store_b2b_product';
-      largest_bundle_price_in_cents: any | null;
+      largest_bundle_price_in_cents: number | null;
     } | null;
     images: Array<{
       __typename?: 'dbt_store_exposed_product_image';
@@ -9608,7 +9608,7 @@ export type FetchB2BProductQuery = {
         __typename?: 'dbt_store_exposed_product_variant';
         title: string;
         condition: any | null;
-        inventory_quantity: any;
+        inventory_quantity: number;
       } | null;
       b2bVariant: {
         __typename?: 'dbt_store_b2b_product_variant';
@@ -9637,7 +9637,7 @@ export type FetchPriceOffersQuery = {
     publicNote: string | null;
     quantity: number;
     status: any;
-    newPriceInCents: any;
+    newPriceInCents: number;
     productId: string;
     product: {
       __typename?: 'Product';

@@ -47,7 +47,7 @@ const mapDiscount = (
     value: discount.value,
     valueType,
     code: discount.code ?? undefined,
-    id: discount.id,
+    id: discount.id.toString(),
     label: discountConfig?.label ?? discountTitle,
     hideReduction: !!discountConfig?.hideReduction,
     minAmount:

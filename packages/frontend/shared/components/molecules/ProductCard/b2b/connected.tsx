@@ -68,7 +68,7 @@ export const mapToProps = (
   }
 
   const availableVariants = rawProduct.variants.filter(
-    (variant) => variant.exposedVariant?.inventory_quantity > 0,
+    (variant) => variant.exposedVariant?.inventory_quantity ?? 0 > 0,
   );
 
   const mainVariantRaw = first(
@@ -90,22 +90,22 @@ export const mapToProps = (
     0,
   );
 
-  const largestBundlePrice = rawProduct.b2bProduct.largest_bundle_price_in_cents
-    ? roundCurrency(rawProduct.b2bProduct.largest_bundle_price_in_cents / 100)
-    : undefined;
-
   return {
     compareAtPrice: mainVariant.compare_at_price,
     handle: rawProduct.exposedProduct.handle,
     id: rawProduct.id,
     productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
-    shopifyId: rawProduct.shopifyId,
+    shopifyId: rawProduct.shopifyId.toString(),
     stock,
     title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),
     variantCondition: mainVariant.condition,
-    largestBundlePrice,
+    ...(rawProduct.b2bProduct.largest_bundle_price_in_cents && {
+      largestBundlePrice: roundCurrency(
+        rawProduct.b2bProduct.largest_bundle_price_in_cents / 100,
+      ),
+    }),
     images: rawProduct.images.map((image) => image.src),
     description: rawProduct.exposedProduct.description ?? '',
     isSoldOut: stock === 0,

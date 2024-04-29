@@ -36,6 +36,9 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
         config: {
           avoidOptionals: true,
           skipTypename: false,
+          scalars: {
+            bigint: 'number',
+          },
         },
       },
       [`./shared/__generated/graphql.${role}.schema.json`]: {
