@@ -19,6 +19,11 @@ module.exports = {
             importNames: ['gql'],
             message: 'Please role-specific gql from useHasura.ts',
           },
+          {
+            name: '@/__generated/graphql.*',
+            message:
+              'Please use role-specific types from @/__generated/hasura-role-graphql.types',
+          },
         ],
       },
     ],
