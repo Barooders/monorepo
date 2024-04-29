@@ -2,7 +2,7 @@
 
 set -e
 
-source .env.local || true > /dev/null
+source .env.local || true > /dev/null 2>&1
 
 PRISMA_CLIENT_DIRECTORY=dist/src/__generated
 mkdir -p $PRISMA_CLIENT_DIRECTORY
