@@ -1,7 +1,8 @@
-import Button from '@/components/atoms/Button';
 import { getDictionary } from '@/i18n/translate';
 import first from 'lodash/first';
-import B2BPriceOfferButton from '../_components/Actions/B2BPriceOfferButton';
+import B2BPriceOfferButton, {
+  ExistingOfferComponent,
+} from '../_components/Actions/B2BPriceOfferButton';
 import Characteristics from '../_components/Characteristics';
 import ProductDescription from '../_components/ProductDescription';
 import ProductImage from '../_components/ProductImage';
@@ -10,18 +11,6 @@ import ProductViews from '../_components/ProductViews';
 import { B2BProductPanelProps } from '../types';
 
 const dict = getDictionary('fr');
-
-const ExistingOfferComponent: React.FC = () => {
-  return (
-    <Button
-      disabled={true}
-      intent="secondary"
-      className="mt-2"
-    >
-      {dict.b2b.productCard.existingOffer}
-    </Button>
-  );
-};
 
 const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
   id,
@@ -76,20 +65,24 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
 
       <ProductViews numberOfViews={numberOfViews} />
 
-      {hasOpenedPriceOffer ? (
-        <ExistingOfferComponent />
-      ) : (
-        <div className="flex gap-2">
-          <B2BPriceOfferButton
-            productId={id}
-            userCanNegociate={false}
-          />
-          <B2BPriceOfferButton
-            productId={id}
-            userCanNegociate={true}
-          />
-        </div>
-      )}
+      <div className="flex w-full gap-2">
+        {hasOpenedPriceOffer ? (
+          <ExistingOfferComponent className="flex-1" />
+        ) : (
+          <>
+            <B2BPriceOfferButton
+              productId={id}
+              userCanNegociate={false}
+              className="flex-1"
+            />
+            <B2BPriceOfferButton
+              productId={id}
+              userCanNegociate={true}
+              className="flex-1"
+            />
+          </>
+        )}
+      </div>
 
       <ProductDescription
         tags={tags}

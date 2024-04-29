@@ -14,6 +14,20 @@ import MakeB2BOfferModal from '../MakeB2BOfferModal';
 
 const dict = getDictionary('fr');
 
+export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
+  className,
+}) => {
+  return (
+    <Button
+      disabled={true}
+      intent="secondary"
+      className={`mt-2 ${className}`}
+    >
+      {dict.b2b.productCard.existingOffer}
+    </Button>
+  );
+};
+
 const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
   query fetchProductForNewOffer($productId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productId } }) {
@@ -41,11 +55,13 @@ const FETCH_PRODUCT_FOR_NEW_OFFER = gql`
 type PropsType = {
   productId: string;
   userCanNegociate: boolean;
+  className?: string;
 };
 
 const B2BPriceOfferButton: React.FC<PropsType> = ({
   productId,
   userCanNegociate,
+  className,
 }) => {
   const fetchProductForNewOffer = useHasura<FetchProductForNewOfferQuery>(
     FETCH_PRODUCT_FOR_NEW_OFFER,
@@ -96,31 +112,33 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   };
 
   return (
-    <Modal
-      ButtonComponent={MakeOfferButton}
-      ContentComponent={({ closeModal }) =>
-        loading ? (
-          <Loader />
-        ) : product ? (
-          <MakeB2BOfferModal
-            userCanNegociate={userCanNegociate}
-            closeModal={closeModal}
-            productId={productId}
-            productName={product.exposedProduct?.title ?? ''}
-            variants={
-              product.variants.map(({ variant }) => ({
-                title: variant?.title ?? '',
-                quantity: variant?.inventory_quantity ?? 0,
-              })) ?? []
-            }
-            totalQuantity={product.exposedProduct?.total_quantity ?? 0}
-            getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
-          />
-        ) : (
-          <></>
-        )
-      }
-    />
+    <div className={className}>
+      <Modal
+        ButtonComponent={MakeOfferButton}
+        ContentComponent={({ closeModal }) =>
+          loading ? (
+            <Loader />
+          ) : product ? (
+            <MakeB2BOfferModal
+              userCanNegociate={userCanNegociate}
+              closeModal={closeModal}
+              productId={productId}
+              productName={product.exposedProduct?.title ?? ''}
+              variants={
+                product.variants.map(({ variant }) => ({
+                  title: variant?.title ?? '',
+                  quantity: variant?.inventory_quantity ?? 0,
+                })) ?? []
+              }
+              totalQuantity={product.exposedProduct?.total_quantity ?? 0}
+              getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
+            />
+          ) : (
+            <></>
+          )
+        }
+      />
+    </div>
   );
 };
 
