@@ -1,9 +1,8 @@
 'use client';
-/* eslint-disable @next/next/no-img-element */
 import {
-  FetchAccountPageCustomerDataQuery,
-  FetchAccountPageVendorDataQuery,
-} from '@/__generated/graphql';
+  MeAsCustomerTypes,
+  MeAsVendorTypes,
+} from '@/__generated/hasura-role-graphql.types';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -35,26 +34,6 @@ const getDisplayedStatus = (status: string | null) => {
 
 const dict = getDictionary('fr');
 
-const STORE_PRODUCT_FIELDS = `
-    firstImage
-    handle
-    productType
-    size
-    gender
-    modelYear
-    brand
-    product {
-      variants(order_by: { b2cVariant: { price: asc } }, limit: 1) {
-        variant {
-          condition
-        }
-        b2cVariant {
-          price
-        }
-      }
-    }
-`;
-
 const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql_me_as_customer`
   query fetchAccountPageCustomerData($maxItems: Int) {
     Customer(limit: 1) {
@@ -76,7 +55,23 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql_me_as_customer`
       ) {
         product {
           storeProduct: storeExposedProduct {
-            ${STORE_PRODUCT_FIELDS}
+            firstImage
+            handle
+            productType
+            size
+            gender
+            modelYear
+            brand
+            product {
+              variants(order_by: { b2cVariant: { price: asc } }, limit: 1) {
+                variant {
+                  condition
+                }
+                b2cVariant {
+                  price
+                }
+              }
+            }
           }
         }
       }
@@ -108,7 +103,23 @@ const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql_me_as_vendor`
         }
       ) {
         storeProduct: storeExposedProduct {
-          ${STORE_PRODUCT_FIELDS}
+          firstImage
+          handle
+          productType
+          size
+          gender
+          modelYear
+          brand
+          product {
+            variants(order_by: { b2cVariant: { price: asc } }, limit: 1) {
+              variant {
+                condition
+              }
+              b2cVariant {
+                price
+              }
+            }
+          }
         }
       }
       vendorSoldOrderLines(
@@ -157,15 +168,16 @@ interface AccountPageData {
 const Account = () => {
   const { isB2BUser } = useAuth();
   const fetchAccountPageCustomerData =
-    useHasura<FetchAccountPageCustomerDataQuery>(
+    useHasura<MeAsCustomerTypes.FetchAccountPageCustomerDataQuery>(
       FETCH_ACCOUNT_PAGE_CUSTOMER_DATA,
       HASURA_ROLES.ME_AS_CUSTOMER,
     );
 
-  const fetchAccountPageVendorData = useHasura<FetchAccountPageVendorDataQuery>(
-    FETCH_ACCOUNT_PAGE_VENDOR_DATA,
-    HASURA_ROLES.ME_AS_VENDOR,
-  );
+  const fetchAccountPageVendorData =
+    useHasura<MeAsVendorTypes.FetchAccountPageVendorDataQuery>(
+      FETCH_ACCOUNT_PAGE_VENDOR_DATA,
+      HASURA_ROLES.ME_AS_VENDOR,
+    );
 
   const [{ loading, error, value }, doFetchAccountPageData] = useWrappedAsyncFn<
     () => Promise<AccountPageData>
@@ -216,7 +228,7 @@ const Account = () => {
               productImage,
               priceInCents,
               name,
-            }: FetchAccountPageVendorDataQuery['Customer'][0]['vendorSoldOrderLines'][0],
+            }: MeAsVendorTypes.FetchAccountPageVendorDataQuery['Customer'][0]['vendorSoldOrderLines'][0],
           ) => {
             if (!order) return acc;
 
@@ -246,7 +258,7 @@ const Account = () => {
               status,
               id,
               orderLines,
-            }: FetchAccountPageCustomerDataQuery['Customer'][0]['purchasedOrders'][0],
+            }: MeAsCustomerTypes.FetchAccountPageCustomerDataQuery['Customer'][0]['purchasedOrders'][0],
           ) => {
             if (orderLines.length === 0) return acc;
             const firstProduct = orderLines[0];

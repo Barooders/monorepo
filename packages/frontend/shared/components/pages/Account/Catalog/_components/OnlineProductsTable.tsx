@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchOnlineProductsQuery } from '@/__generated/graphql';
+import { MeAsVendorTypes } from '@/__generated/hasura-role-graphql.types';
 import Button from '@/components/atoms/Button';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
@@ -88,10 +88,11 @@ type OnlineProductState = Record<number, OnlineProduct>;
 const OnlineProductsTable = () => {
   const [onlineProductsState, setOnlineProductsState] =
     useState<OnlineProductState>([]);
-  const fetchOnlineProducts = useHasura<FetchOnlineProductsQuery>(
-    FETCH_ONLINE_PRODUCTS,
-    HASURA_ROLES.ME_AS_VENDOR,
-  );
+  const fetchOnlineProducts =
+    useHasura<MeAsVendorTypes.FetchOnlineProductsQuery>(
+      FETCH_ONLINE_PRODUCTS,
+      HASURA_ROLES.ME_AS_VENDOR,
+    );
   const { fetchAPI } = useBackend();
   const getActionsFromStatus = (status: string | null, shopifyId: number) => {
     return [

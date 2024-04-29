@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  FetchB2BSavedSearchQuery,
-  SubscribeToOpenedB2BPriceOffersSubscription,
-} from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
 import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -14,11 +11,7 @@ import InstantSearchProvider from '@/components/pages/SearchPage/_components/Ins
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
-import {
-  gql_b2b_user,
-  gql_registered_user,
-  useHasura,
-} from '@/hooks/useHasura';
+import { gql_registered_user, useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
@@ -54,7 +47,7 @@ const FETCH_B2B_SAVED_SEARCH = gql_registered_user`
   }
 `;
 
-const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql_b2b_user`
+const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql_registered_user`
   subscription subscribeToOpenedB2BPriceOffers {
     PriceOffer(
       where: {
@@ -83,13 +76,14 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
     null,
   );
 
-  const fetchB2BSavedSearch = useHasura<FetchB2BSavedSearchQuery>(
-    FETCH_B2B_SAVED_SEARCH,
-    HASURA_ROLES.REGISTERED_USER,
-  );
+  const fetchB2BSavedSearch =
+    useHasura<RegisteredUserTypes.FetchB2BSavedSearchQuery>(
+      FETCH_B2B_SAVED_SEARCH,
+      HASURA_ROLES.REGISTERED_USER,
+    );
 
   const { data: priceOffersResult } =
-    useSubscription<SubscribeToOpenedB2BPriceOffersSubscription>(
+    useSubscription<RegisteredUserTypes.SubscribeToOpenedB2BPriceOffersSubscription>(
       SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
     );
 

@@ -12451,6 +12451,15 @@ export type FetchB2BSavedSearchQuery = {
   }>;
 };
 
+export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type SubscribeToOpenedB2BPriceOffersSubscription = {
+  __typename?: 'subscription_root';
+  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
+};
+
 export type CheckExistingCustomerQueryVariables = Exact<{
   customerId: InputMaybe<Scalars['String']['input']>;
 }>;

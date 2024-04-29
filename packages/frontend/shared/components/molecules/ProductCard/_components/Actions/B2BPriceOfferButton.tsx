@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchProductForNewOfferQuery } from '@/__generated/graphql';
+import { B2BUserTypes } from '@/__generated/hasura-role-graphql.types';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
@@ -62,13 +62,14 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   userCanNegociate,
   className,
 }) => {
-  const fetchProductForNewOffer = useHasura<FetchProductForNewOfferQuery>(
-    FETCH_PRODUCT_FOR_NEW_OFFER,
-    HASURA_ROLES.B2B_USER,
-  );
+  const fetchProductForNewOffer =
+    useHasura<B2BUserTypes.FetchProductForNewOfferQuery>(
+      FETCH_PRODUCT_FOR_NEW_OFFER,
+      HASURA_ROLES.B2B_USER,
+    );
 
   const [{ loading, value }, doFetchProductHitData] = useWrappedAsyncFn<
-    () => Promise<FetchProductForNewOfferQuery>
+    () => Promise<B2BUserTypes.FetchProductForNewOfferQuery>
   >(() => fetchProductForNewOffer({ productId }));
 
   const MakeOfferButton: React.FC<{

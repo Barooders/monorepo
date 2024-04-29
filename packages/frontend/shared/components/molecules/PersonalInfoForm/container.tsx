@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchNegociationAgreementQuery } from '@/__generated/graphql';
+import { MeAsVendorTypes } from '@/__generated/hasura-role-graphql.types';
 import Loader from '@/components/atoms/Loader';
 import useUser from '@/hooks/state/useUser';
 import { gql_me_as_vendor, useHasura } from '@/hooks/useHasura';
@@ -28,10 +28,11 @@ type PropsType = {
 };
 
 const WrappedPersonalInfoForm: React.FC<PropsType> = (props) => {
-  const fetchVendorNegoAgreement = useHasura<FetchNegociationAgreementQuery>(
-    GET_VENDOR_NEGOCIATION_AGREEMENT,
-    HASURA_ROLES.ME_AS_VENDOR,
-  );
+  const fetchVendorNegoAgreement =
+    useHasura<MeAsVendorTypes.FetchNegociationAgreementQuery>(
+      GET_VENDOR_NEGOCIATION_AGREEMENT,
+      HASURA_ROLES.ME_AS_VENDOR,
+    );
   const { hasuraToken } = useUser();
 
   const [initState, doFetch] = useWrappedAsyncFn(fetchVendorNegoAgreement);

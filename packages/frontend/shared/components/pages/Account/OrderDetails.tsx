@@ -1,11 +1,10 @@
 'use client';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
+import Button from '@/components/atoms/Button';
 import ContactCard from '@/components/atoms/ContactCard';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
-/* eslint-disable @next/next/no-img-element */
-import { FetchOrderDataSubscription } from '@/__generated/graphql';
-import Button from '@/components/atoms/Button';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import useBackend from '@/hooks/useBackend';
@@ -132,7 +131,9 @@ type PropsType = {
   orderId: string;
 };
 
-const mapOrderFromHasura = (data: FetchOrderDataSubscription['Order']) => {
+const mapOrderFromHasura = (
+  data: RegisteredUserTypes.FetchOrderDataSubscription['Order'],
+) => {
   const order = data[0];
 
   if (!order.orderLines || order.orderLines.length === 0) {
@@ -236,11 +237,14 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
     loading: hasuraLoading,
     error: hasuraError,
     data: rawHasuraValue,
-  } = useSubscription<FetchOrderDataSubscription>(FETCH_ORDER_DATA, {
-    variables: {
-      orderId,
+  } = useSubscription<RegisteredUserTypes.FetchOrderDataSubscription>(
+    FETCH_ORDER_DATA,
+    {
+      variables: {
+        orderId,
+      },
     },
-  });
+  );
   const { fetchAPI } = useBackend();
 
   const hasuraValue = rawHasuraValue?.Order

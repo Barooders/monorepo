@@ -11172,6 +11172,66 @@ export type FetchPurchasesQuery = {
   }>;
 };
 
+export type FetchAccountPageCustomerDataQueryVariables = Exact<{
+  maxItems: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type FetchAccountPageCustomerDataQuery = {
+  __typename?: 'query_root';
+  Customer: Array<{
+    __typename?: 'Customer';
+    lastName: string | null;
+    firstName: string | null;
+    sellerName: string | null;
+    isPro: boolean;
+    profilePictureShopifyCdnUrl: string | null;
+    createdAt: any;
+    favorites: Array<{
+      __typename?: 'FavoriteProducts';
+      product: {
+        __typename?: 'Product';
+        storeProduct: {
+          __typename?: 'dbt_store_exposed_product';
+          firstImage: string | null;
+          handle: string;
+          productType: string;
+          size: string | null;
+          gender: string | null;
+          modelYear: string | null;
+          brand: string | null;
+          product: {
+            __typename?: 'dbt_store_base_product';
+            variants: Array<{
+              __typename?: 'dbt_store_base_product_variant';
+              variant: {
+                __typename?: 'dbt_store_exposed_product_variant';
+                condition: any | null;
+              } | null;
+              b2cVariant: {
+                __typename?: 'dbt_store_b2c_product_variant';
+                price: any;
+              } | null;
+            }>;
+          } | null;
+        } | null;
+      } | null;
+    }>;
+    purchasedOrders: Array<{
+      __typename?: 'Order';
+      id: string;
+      totalPriceInCents: any;
+      name: string;
+      status: any;
+      orderLines: Array<{
+        __typename?: 'OrderLines';
+        name: string;
+        productBrand: string | null;
+        productImage: string | null;
+      }>;
+    }>;
+  }>;
+};
+
 export type FetchCustomerQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchCustomerQuery = {

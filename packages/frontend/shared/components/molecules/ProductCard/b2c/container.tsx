@@ -1,8 +1,4 @@
-import {
-  FetchProductsQuery,
-  ProductCardFieldsFragment,
-  VendorDetailsFragment,
-} from '@/__generated/graphql';
+import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
 import { fetchCommission } from '@/clients/commission';
 import { fetchHasura } from '@/clients/hasura';
 import {
@@ -122,9 +118,9 @@ export const FETCH_PRODUCTS = gql_public`
 `;
 
 export const createProductFromFragment = (
-  productFromDBT: ProductCardFieldsFragment,
+  productFromDBT: PublicTypes.ProductCardFieldsFragment,
   variantId?: string,
-  vendorDetails?: VendorDetailsFragment,
+  vendorDetails?: PublicTypes.VendorDetailsFragment,
   commissionAmount?: number,
 ): ProductMultiVariants => {
   if (productFromDBT.product === null)
@@ -234,7 +230,7 @@ export const getMultipleProductsData = async (
   productProps: ContainerPropsType[],
 ) => {
   const getFindVariantFromProduct = (
-    product: ProductCardFieldsFragment,
+    product: PublicTypes.ProductCardFieldsFragment,
     productProps: ContainerPropsType[],
   ) =>
     productProps.find(
@@ -247,9 +243,12 @@ export const getMultipleProductsData = async (
   const productHandles = compact(
     productProps.map(({ productHandle }) => productHandle),
   );
-  const products = await fetchHasura<FetchProductsQuery>(FETCH_PRODUCTS, {
-    variables: { productIds, productHandles },
-  });
+  const products = await fetchHasura<PublicTypes.FetchProductsQuery>(
+    FETCH_PRODUCTS,
+    {
+      variables: { productIds, productHandles },
+    },
+  );
 
   return compact(
     products.Product.map(
@@ -273,12 +272,15 @@ export const getData = async ({
     throw new Error('Should pass either productId or productHandle');
   }
 
-  const productFetchPromise = fetchHasura<FetchProductsQuery>(FETCH_PRODUCTS, {
-    variables: {
-      productIds: compact([productId]),
-      productHandles: compact([productHandle]),
+  const productFetchPromise = fetchHasura<PublicTypes.FetchProductsQuery>(
+    FETCH_PRODUCTS,
+    {
+      variables: {
+        productIds: compact([productId]),
+        productHandles: compact([productHandle]),
+      },
     },
-  });
+  );
 
   let productResponse = null;
   let commissionAmount = null;

@@ -1,8 +1,4 @@
-import {
-  AddFavoriteProductMutation,
-  FetchFavoriteProductsQuery,
-  RemoveFavoriteProductsMutation,
-} from '@/__generated/graphql';
+import { RegisteredUserTypes } from '@/__generated/hasura-role-graphql.types';
 import useUser from './state/useUser';
 import { gql_registered_user, useHasura } from './useHasura';
 import { useHasuraToken } from './useHasuraToken';
@@ -43,14 +39,18 @@ const REMOVE_FAVORITE_PRODUCT = gql_registered_user`
 
 const useFavoriteProducts = () => {
   const { needsLogin, isLoggedIn } = useIsLoggedIn();
-  const fetchFavoriteProducts = useHasura<FetchFavoriteProductsQuery>(
-    FETCH_FAVORITE_PRODUCT,
-  );
+  const fetchFavoriteProducts =
+    useHasura<RegisteredUserTypes.FetchFavoriteProductsQuery>(
+      FETCH_FAVORITE_PRODUCT,
+    );
   const addFavoriteProduct =
-    useHasura<AddFavoriteProductMutation>(ADD_FAVORITE_PRODUCT);
-  const removeFavoriteProduct = useHasura<RemoveFavoriteProductsMutation>(
-    REMOVE_FAVORITE_PRODUCT,
-  );
+    useHasura<RegisteredUserTypes.AddFavoriteProductMutation>(
+      ADD_FAVORITE_PRODUCT,
+    );
+  const removeFavoriteProduct =
+    useHasura<RegisteredUserTypes.RemoveFavoriteProductsMutation>(
+      REMOVE_FAVORITE_PRODUCT,
+    );
   const { extractTokenInfo } = useHasuraToken();
   const {
     setFavoriteProducts,

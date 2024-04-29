@@ -9651,12 +9651,3 @@ export type FetchPriceOffersQuery = {
     };
   }>;
 };
-
-export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type SubscribeToOpenedB2BPriceOffersSubscription = {
-  __typename?: 'subscription_root';
-  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
-};

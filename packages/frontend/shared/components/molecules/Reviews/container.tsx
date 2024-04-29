@@ -1,4 +1,4 @@
-import { ReviewsFieldsFragment } from '@/__generated/graphql';
+import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
 import { gql_public } from '@/hooks/useHasura';
 import { Url } from '@/types';
 
@@ -37,7 +37,9 @@ export const REVIEWS_FRAGMENT = gql_public`
   }
 `;
 
-export const mapReviewsFromFragment = (reviews: ReviewsFieldsFragment[]) =>
+export const mapReviewsFromFragment = (
+  reviews: PublicTypes.ReviewsFieldsFragment[],
+) =>
   reviews.map(({ Review }) => ({
     author: {
       name: Review.Customer.sellerName ?? '',

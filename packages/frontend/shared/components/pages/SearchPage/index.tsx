@@ -1,6 +1,6 @@
 'use client';
 
-import { FetchCollectionPageDataQuery } from '@/__generated/graphql';
+import { PublicTypes } from '@/__generated/hasura-role-graphql.types';
 import { fetchHasura } from '@/clients/hasura';
 import Collapse from '@/components/atoms/Collapse';
 import InnerPageBanner from '@/components/atoms/InnerPageBanner';
@@ -134,12 +134,15 @@ export const getData = async ({
 
   const [collectionPageData, highlightedProduct, menuData] = await Promise.all([
     collectionHandle
-      ? fetchHasura<FetchCollectionPageDataQuery>(FETCH_COLLECTION_PAGE, {
-          variables: {
-            collectionHandle,
-            vendorSellerName,
+      ? fetchHasura<PublicTypes.FetchCollectionPageDataQuery>(
+          FETCH_COLLECTION_PAGE,
+          {
+            variables: {
+              collectionHandle,
+              vendorSellerName,
+            },
           },
-        })
+        )
       : Promise.resolve(),
     (async () => {
       if (productHandle && productVariant) {
