@@ -1,5 +1,5 @@
+import { browserTracingIntegration, replayIntegration } from '@sentry/browser';
 import { SamplingContext } from '@sentry/types';
-import * as Sentry from '@sentry/nextjs';
 
 const environment = process.env.NEXT_PUBLIC_BAROODERS_ENV ?? 'local';
 
@@ -31,12 +31,12 @@ export const getClientConfig = () => ({
     'ResizeObserver loop completed with undelivered notifications',
   ],
   integrations: [
-    new Sentry.BrowserTracing({
+    browserTracingIntegration({
       shouldCreateSpanForRequest: (url: string) => {
         return !url.startsWith(process.env.NEXT_PUBLIC_HASURA_BASE_URL);
       },
     }),
-    new Sentry.Replay({
+    replayIntegration({
       // Additional Replay configuration goes in here, for example:
       maskAllText: true,
       blockAllMedia: true,
