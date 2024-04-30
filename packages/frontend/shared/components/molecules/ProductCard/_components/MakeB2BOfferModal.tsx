@@ -3,10 +3,11 @@ import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Input from '@/components/molecules/FormInput';
 import TextArea from '@/components/molecules/FormTextArea';
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
 import ProductLabel from './ProductLabel';
@@ -43,8 +44,15 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
   variants,
   closeModal,
 }) => {
-  const [status, setStatus] = useState<Status>(Status.BEFORE_SEND);
+  const { hasOpenedPriceOffer, addOpenedPriceOfferProductId } =
+    useOpenedOffersState();
   const { fetchAPI } = useBackend();
+
+  const status = useMemo(
+    () =>
+      hasOpenedPriceOffer(productId) ? Status.AFTER_SEND : Status.BEFORE_SEND,
+    [productId, hasOpenedPriceOffer],
+  );
 
   const formMethods = useForm<Inputs>({
     mode: 'onBlur',
@@ -95,7 +103,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
-    setStatus(Status.AFTER_SEND);
+    addOpenedPriceOfferProductId(productId);
   };
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);

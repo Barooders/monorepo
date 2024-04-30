@@ -1,5 +1,6 @@
 import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
@@ -13,7 +14,6 @@ import ProductPanel from './panel';
 
 export type ContainerPropsType = {
   productInternalId: string;
-  hasOpenedPriceOffer: boolean;
   openDetails: (productInternalId: string) => void;
 };
 
@@ -118,7 +118,6 @@ export const mapToProps = (
 
 const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   productInternalId,
-  hasOpenedPriceOffer,
   openDetails,
 }) => {
   const fetchB2BProduct = useHasura<B2BUserTypes.FetchB2BProductQuery>(
@@ -126,6 +125,7 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
     HASURA_ROLES.B2B_USER,
   );
   const [{ value, loading }, doGetData] = useWrappedAsyncFn(fetchB2BProduct);
+  const { hasOpenedPriceOffer } = useOpenedOffersState();
 
   useEffect(() => {
     doGetData({
@@ -134,7 +134,7 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   }, [productInternalId]);
 
   const productCardProps = value
-    ? mapToProps(value, hasOpenedPriceOffer)
+    ? mapToProps(value, hasOpenedPriceOffer(productInternalId))
     : null;
 
   return (

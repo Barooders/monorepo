@@ -48,7 +48,6 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
             >
               <B2BProductCard
                 {...productCardProps}
-                hasOpenedPriceOffer={false}
                 openDetails={openDetails}
               />
             </ErrorBoundary>

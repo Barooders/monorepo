@@ -1,3 +1,4 @@
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import B2BPriceOfferButton, {
   ExistingOfferComponent,
 } from '../_components/Actions/B2BPriceOfferButton';
@@ -19,9 +20,9 @@ const B2BProductCard: React.FC<
   largestBundlePrice,
   image,
   stock,
-  hasOpenedPriceOffer,
   openDetails,
 }) => {
+  const { hasOpenedPriceOffer } = useOpenedOffersState();
   return (
     <div className="flex w-full flex-col gap-2">
       <div
@@ -53,16 +54,15 @@ const B2BProductCard: React.FC<
         />
       </div>
 
-      <div className="flex w-full gap-2">
-        {hasOpenedPriceOffer ? (
-          <ExistingOfferComponent className="flex-1" />
-        ) : (
-          <B2BPriceOfferButton
-            className="flex-1"
-            productId={id}
-          />
-        )}
-      </div>
+      {hasOpenedPriceOffer(id) ? (
+        <ExistingOfferComponent className="flex-1" />
+      ) : (
+        <></>
+      )}
+      <B2BPriceOfferButton
+        className="flex-1"
+        productId={id}
+      />
     </div>
   );
 };
