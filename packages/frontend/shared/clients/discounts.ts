@@ -1,11 +1,11 @@
-import { graphql } from '@/__generated/public';
-import { GetAvailableDiscountsQuery } from '@/__generated/public/graphql';
+import { graphql } from '@/__generated/gql/public';
+import { GetAvailableDiscountsQuery } from '@/__generated/gql/public/graphql';
 import { fetchHasura } from '@/clients/hasura';
 import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { Discount } from '@/types';
 import compact from 'lodash/compact';
 
-const FETCH_DISCOUNTS = graphql(/* GraphQL */ `
+const FETCH_DISCOUNTS = /* GraphQL */ /* gql_public */ `
   query getAvailableDiscounts($discountTitles: [String!]) {
     dbt_store_discount(where: { title: { _in: $discountTitles } }) {
       collection {
@@ -21,7 +21,7 @@ const FETCH_DISCOUNTS = graphql(/* GraphQL */ `
       min_amount
     }
   }
-`);
+`;
 
 const mapDiscount = (
   discount: GetAvailableDiscountsQuery['dbt_store_discount'][0],
@@ -58,12 +58,9 @@ const mapDiscount = (
 };
 
 export const fetchDiscountsByTitles = async (discountTitles: string[]) => {
-  const discounts = await fetchHasura(
-    FETCH_DISCOUNTS,
-    {
-      variables: { discountTitles },
-    },
-  );
+  const discounts = await fetchHasura(graphql(FETCH_DISCOUNTS), {
+    variables: { discountTitles },
+  });
 
   return compact(discounts.dbt_store_discount.map(mapDiscount));
 };
