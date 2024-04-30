@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -16,7 +13,7 @@ import { getDictionary } from '@/i18n/translate';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
 
-const FETCH_SAVED_SEARCHES = gql_registered_user`
+const FETCH_SAVED_SEARCHES = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchSavedSearches {
     SavedSearch {
       id
@@ -42,14 +39,9 @@ const FETCH_SAVED_SEARCHES = gql_registered_user`
 
 const SavedSearches = () => {
   const [, removeSavedSearch] = useDeleteSavedSearch();
-  const fetchSavedSearches =
-    useHasura<RegisteredUserTypes.FetchSavedSearchesQuery>(
-      FETCH_SAVED_SEARCHES,
-    );
+  const fetchSavedSearches = useHasura(graphql(FETCH_SAVED_SEARCHES));
   const [fetchState, doFetchSavedSearches] =
-    useWrappedAsyncFn<
-      () => Promise<RegisteredUserTypes.FetchSavedSearchesQuery>
-    >(fetchSavedSearches);
+    useWrappedAsyncFn(fetchSavedSearches);
 
   const doRemoveSavedSearch = async (searchId: string) => {
     await removeSavedSearch(searchId);

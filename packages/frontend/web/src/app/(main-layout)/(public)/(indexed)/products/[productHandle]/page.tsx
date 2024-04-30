@@ -1,4 +1,4 @@
-import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/public';
 import { fetchHasura } from '@/clients/hasura';
 import { fetchProductByHandle } from '@/clients/products';
 import ErrorPanel from '@/components/atoms/ErrorPanel';
@@ -34,7 +34,7 @@ export type ProductDTO = {
 
 const dict = getDictionary('fr');
 
-const FETCH_PRODUCT_METADATA = gql_public`
+const FETCH_PRODUCT_METADATA = /* GraphQL */ /* typed_for_public */ `
   query fetchProductMetadata($productHandle: String) {
     shopify {
       product(handle: $productHandle) {
@@ -100,12 +100,9 @@ export async function generateMetadata({
   };
   let featuredImage = null;
   try {
-    const result = await fetchHasura<PublicTypes.FetchProductMetadataQuery>(
-      FETCH_PRODUCT_METADATA,
-      {
-        variables: { productHandle: params.productHandle },
-      },
-    );
+    const result = await fetchHasura(graphql(FETCH_PRODUCT_METADATA), {
+      variables: { productHandle: params.productHandle },
+    });
 
     const productMetadata = result.shopify?.product;
     shouldIndex = productMetadata?.productType !== COMMISSION_PRODUCT_TYPE;

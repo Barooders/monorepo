@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import { sendOpenNewConversation } from '@/analytics';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
@@ -28,7 +25,7 @@ type Props = {
   initialConversationId?: string;
 };
 
-const GET_PRODUCT_PRICE = gql_registered_user`
+const GET_PRODUCT_PRICE = /* GraphQL */ /* typed_for_registered_user */ `
   query getProductPrice($productShopifyId: bigint) {
     dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
       variants(
@@ -62,8 +59,7 @@ const Inbox: React.FC<Props> = ({
   const [panelHeight, setPanelHeight] = useState<number>(0);
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
-  const fetchProductPrice =
-    useHasura<RegisteredUserTypes.GetProductPriceQuery>(GET_PRODUCT_PRICE);
+  const fetchProductPrice = useHasura(graphql(GET_PRODUCT_PRICE));
   const canaryElRef = useRef<HTMLDivElement | null>(null);
 
   useInterval(() => {

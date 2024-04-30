@@ -1,4 +1,5 @@
-import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/b2b_user';
+import { FetchB2BProductQuery } from '@/__generated/gql/b2b_user/graphql';
 import Loader from '@/components/atoms/Loader';
 import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import { useHasura } from '@/hooks/useHasura';
@@ -17,7 +18,7 @@ export type ContainerPropsType = {
   openDetails: (productInternalId: string) => void;
 };
 
-export const FETCH_B2B_PRODUCT = gql_b2b_user`
+export const FETCH_B2B_PRODUCT = /* GraphQL */ /* typed_for_b2b_user */ `
   query fetchB2BProduct($productInternalId: String) {
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
       id
@@ -59,7 +60,7 @@ export const FETCH_B2B_PRODUCT = gql_b2b_user`
 `;
 
 export const mapToProps = (
-  productResponse: B2BUserTypes.FetchB2BProductQuery,
+  productResponse: FetchB2BProductQuery,
   hasOpenedPriceOffer: boolean,
 ): Omit<B2BProductPanelProps, 'openDetails'> => {
   const rawProduct = first(productResponse.dbt_store_base_product);
@@ -120,8 +121,8 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   productInternalId,
   openDetails,
 }) => {
-  const fetchB2BProduct = useHasura<B2BUserTypes.FetchB2BProductQuery>(
-    FETCH_B2B_PRODUCT,
+  const fetchB2BProduct = useHasura(
+    graphql(FETCH_B2B_PRODUCT),
     HASURA_ROLES.B2B_USER,
   );
   const [{ value, loading }, doGetData] = useWrappedAsyncFn(fetchB2BProduct);

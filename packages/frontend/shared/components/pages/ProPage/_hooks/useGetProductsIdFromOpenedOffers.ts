@@ -1,13 +1,10 @@
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import { useHasura } from '@/hooks/useHasura';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import useOpenedOffersState from '../_state/useOpenedOffersState';
 
-const FETCH_OPENED_B2B_PRICE_OFFERS = gql_registered_user`
+const FETCH_OPENED_B2B_PRICE_OFFERS = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchOpenedB2BPriceOffers {
     PriceOffer(
       where: {
@@ -29,11 +26,10 @@ const useGetProductsIdFromOpenedOffers = () => {
   const { openedPriceOfferProductIds, setOpenedPriceOfferProductIds } =
     useOpenedOffersState();
 
-  const fetchOpenedOffers =
-    useHasura<RegisteredUserTypes.FetchOpenedB2BPriceOffersQuery>(
-      FETCH_OPENED_B2B_PRICE_OFFERS,
-      HASURA_ROLES.REGISTERED_USER,
-    );
+  const fetchOpenedOffers = useHasura(
+    graphql(FETCH_OPENED_B2B_PRICE_OFFERS),
+    HASURA_ROLES.REGISTERED_USER,
+  );
 
   useEffect(() => {
     (async () => {

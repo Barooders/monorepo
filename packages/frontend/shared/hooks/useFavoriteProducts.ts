@@ -1,13 +1,10 @@
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import useUser from './state/useUser';
 import { useHasura } from './useHasura';
 import { useHasuraToken } from './useHasuraToken';
 import useIsLoggedIn from './useIsLoggedIn';
 
-const FETCH_FAVORITE_PRODUCT = gql_registered_user`
+const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchFavoriteProducts {
     FavoriteProducts {
       productId
@@ -15,7 +12,7 @@ const FETCH_FAVORITE_PRODUCT = gql_registered_user`
   }
 `;
 
-const ADD_FAVORITE_PRODUCT = gql_registered_user`
+const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   mutation addFavoriteProduct($customerId: uuid!, $productId: bigint) {
     insert_FavoriteProducts_one(
       object: { customerId: $customerId, productId: $productId }
@@ -25,7 +22,7 @@ const ADD_FAVORITE_PRODUCT = gql_registered_user`
   }
 `;
 
-const REMOVE_FAVORITE_PRODUCT = gql_registered_user`
+const REMOVE_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   mutation removeFavoriteProducts($customerId: uuid!, $productId: bigint) {
     delete_FavoriteProducts(
       where: {
@@ -42,18 +39,9 @@ const REMOVE_FAVORITE_PRODUCT = gql_registered_user`
 
 const useFavoriteProducts = () => {
   const { needsLogin, isLoggedIn } = useIsLoggedIn();
-  const fetchFavoriteProducts =
-    useHasura<RegisteredUserTypes.FetchFavoriteProductsQuery>(
-      FETCH_FAVORITE_PRODUCT,
-    );
-  const addFavoriteProduct =
-    useHasura<RegisteredUserTypes.AddFavoriteProductMutation>(
-      ADD_FAVORITE_PRODUCT,
-    );
-  const removeFavoriteProduct =
-    useHasura<RegisteredUserTypes.RemoveFavoriteProductsMutation>(
-      REMOVE_FAVORITE_PRODUCT,
-    );
+  const fetchFavoriteProducts = useHasura(graphql(FETCH_FAVORITE_PRODUCT));
+  const addFavoriteProduct = useHasura(graphql(ADD_FAVORITE_PRODUCT));
+  const removeFavoriteProduct = useHasura(graphql(REMOVE_FAVORITE_PRODUCT));
   const { extractTokenInfo } = useHasuraToken();
   const {
     setFavoriteProducts,

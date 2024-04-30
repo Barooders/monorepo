@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  MeAsVendorTypes,
-  gql_me_as_vendor,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/me_as_vendor';
 import Loader from '@/components/atoms/Loader';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
@@ -40,7 +37,7 @@ type Order = {
   status: OrderStatus;
 };
 
-const FETCH_SOLD_ORDER_LINES = gql_me_as_vendor`
+const FETCH_SOLD_ORDER_LINES = /* GraphQL */ /* typed_for_me_as_vendor */ `
   query fetchSoldOrderLines {
     Customer(limit: 1) {
       vendorSoldOrderLines(
@@ -68,60 +65,59 @@ const FETCH_SOLD_ORDER_LINES = gql_me_as_vendor`
 `;
 
 const OrdersTables = () => {
-  const fetchSoldOrderLines =
-    useHasura<MeAsVendorTypes.FetchSoldOrderLinesQuery>(
-      FETCH_SOLD_ORDER_LINES,
-      HASURA_ROLES.ME_AS_VENDOR,
-    );
+  const fetchSoldOrderLines = useHasura(
+    graphql(FETCH_SOLD_ORDER_LINES),
+    HASURA_ROLES.ME_AS_VENDOR,
+  );
 
-  const [{ loading, error, value }, doFetchOrders] = useWrappedAsyncFn<
-    () => Promise<Order[]>
-  >(async () => {
-    const { Customer } = await fetchSoldOrderLines();
-    if (Customer.length === 0) return [];
+  const [{ loading, error, value }, doFetchOrders] = useWrappedAsyncFn(
+    async () => {
+      const { Customer } = await fetchSoldOrderLines();
+      if (Customer.length === 0) return [];
 
-    const { vendorSoldOrderLines } = Customer[0];
-    return vendorSoldOrderLines.reduce(
-      (
-        acc: Order[],
-        { priceInCents, order, productImage, condition, ...restOfProduct },
-      ) => {
-        if (!order || !restOfProduct.productType) return acc;
+      const { vendorSoldOrderLines } = Customer[0];
+      return vendorSoldOrderLines.reduce(
+        (
+          acc: Order[],
+          { priceInCents, order, productImage, condition, ...restOfProduct },
+        ) => {
+          if (!order || !restOfProduct.productType) return acc;
 
-        return [
-          ...acc,
-          {
-            product: mapProductFromGraphQl({
-              ...restOfProduct,
-              product: {
-                variants: [
-                  {
-                    variant: {
-                      condition,
+          return [
+            ...acc,
+            {
+              product: mapProductFromGraphQl({
+                ...restOfProduct,
+                product: {
+                  variants: [
+                    {
+                      variant: {
+                        condition,
+                      },
+                      b2cVariant: {},
                     },
-                    b2cVariant: {},
-                  },
-                ],
-              },
-              firstImage: productImage,
-            }),
-            price: priceInCents
-              ? `${(Number(priceInCents) / 100).toFixed(2)} €`
-              : '',
-            orderDate: new Date(order.createdAt).toLocaleDateString('fr-FR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            }),
-            orderName: order.name ?? '',
-            orderLink: `/account/order/${order.id}`,
-            status: order.status as OrderStatus,
-          },
-        ];
-      },
-      [],
-    );
-  });
+                  ],
+                },
+                firstImage: productImage,
+              }),
+              price: priceInCents
+                ? `${(Number(priceInCents) / 100).toFixed(2)} €`
+                : '',
+              orderDate: new Date(order.createdAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              }),
+              orderName: order.name ?? '',
+              orderLink: `/account/order/${order.id}`,
+              status: order.status as OrderStatus,
+            },
+          ];
+        },
+        [],
+      );
+    },
+  );
 
   useEffect(() => {
     doFetchOrders();

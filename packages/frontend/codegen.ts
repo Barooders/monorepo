@@ -27,12 +27,13 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
       './web/**/*.ts',
       '!./shared/hooks/useStorefront.ts',
     ],
+    ignoreNoDocuments: true,
     pluckConfig: {
-      globalGqlIdentifierName: `gql_${role}`,
+      gqlMagicComment: `typed_for_${role}`,
     },
     generates: {
-      [`./shared/__generated/graphql.${role}.tsx`]: {
-        plugins: ['typescript', 'typescript-operations'],
+      [`./shared/__generated/gql/${role}/`]: {
+        preset: 'client',
         config: {
           avoidOptionals: true,
           skipTypename: false,
@@ -40,17 +41,17 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
             bigint: 'number',
           },
         },
-      },
-      [`./shared/__generated/graphql.${role}.schema.json`]: {
-        plugins: ['introspection'],
+        presetConfig: {
+          fragmentMasking: false,
+        },
       },
     },
   };
 };
 
 (async () => {
-  Object.values(HASURA_ROLES).forEach(async (role) => {
+  for (const role of Object.values(HASURA_ROLES)) {
     console.log(`Generating graphql types for role ${role}`);
     await generate(getConfigFromRole(role), true);
-  });
+  }
 })();

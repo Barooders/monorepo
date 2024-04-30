@@ -1,10 +1,11 @@
-import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/public';
+import {
+  ProductCardFieldsFragment,
+  VendorDetailsFragment,
+} from '@/__generated/gql/public/graphql';
 import { fetchCommission } from '@/clients/commission';
 import { fetchHasura } from '@/clients/hasura';
-import {
-  REVIEWS_FRAGMENT,
-  mapReviewsFromFragment,
-} from '@/components/molecules/Reviews/container';
+import { mapReviewsFromFragment } from '@/components/molecules/Reviews/container';
 import { Condition } from '@/components/pages/SellingForm/types';
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
 import { getDictionary } from '@/i18n/translate';
@@ -26,7 +27,7 @@ export type ContainerPropsType = {
   intent?: ProductMultiVariants['intent'];
 };
 
-export const PRODUCT_CARD_FRAGMENT = gql_public`
+export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
   fragment ProductCardFields on dbt_store_exposed_product {
     product {
       id
@@ -74,8 +75,7 @@ export const PRODUCT_CARD_FRAGMENT = gql_public`
   }
 `;
 
-export const VENDOR_DETAILS_FRAGMENT = gql_public`
-  ${REVIEWS_FRAGMENT}
+export const VENDOR_DETAILS_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
   fragment VendorDetails on Customer {
     isPro
     sellerName
@@ -92,10 +92,7 @@ export const VENDOR_DETAILS_FRAGMENT = gql_public`
   }
 `;
 
-export const FETCH_PRODUCTS = gql_public`
-  ${VENDOR_DETAILS_FRAGMENT}
-  ${PRODUCT_CARD_FRAGMENT}
-
+export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
   query fetchProducts($productIds: [bigint!], $productHandles: [String!]) {
     Product(
       where: {
@@ -117,12 +114,12 @@ export const FETCH_PRODUCTS = gql_public`
 `;
 
 export const createProductFromFragment = (
-  productFromDBT: PublicTypes.ProductCardFieldsFragment,
+  productFromDBT: ProductCardFieldsFragment,
   variantId?: string,
-  vendorDetails?: PublicTypes.VendorDetailsFragment,
+  vendorDetails?: VendorDetailsFragment,
   commissionAmount?: number,
 ): ProductMultiVariants => {
-  if (productFromDBT.product === null)
+  if (!productFromDBT.product)
     throw new Error(`Product ${productFromDBT.handle} is incomplete`);
 
   const tags = extractTags(productFromDBT.product.tags);
@@ -219,9 +216,10 @@ export const createProductFromFragment = (
     isSoldOut:
       !variants.some(({ available }) => available) ||
       productFromDBT.status?.toLowerCase() !== 'active',
-    collections: productFromDBT.product.collections.map(
-      ({ collection_id: id }) => id.toString(),
-    ),
+    collections:
+      productFromDBT.product?.collections.map(({ collection_id: id }) =>
+        id.toString(),
+      ) ?? [],
   };
 };
 
@@ -229,7 +227,7 @@ export const getMultipleProductsData = async (
   productProps: ContainerPropsType[],
 ) => {
   const getFindVariantFromProduct = (
-    product: PublicTypes.ProductCardFieldsFragment,
+    product: ProductCardFieldsFragment,
     productProps: ContainerPropsType[],
   ) =>
     productProps.find(
@@ -238,16 +236,15 @@ export const getMultipleProductsData = async (
         productHandle === product.handle,
     )?.productVariant;
 
-  const productIds = compact(productProps.map(({ productId }) => productId));
+  const productIds = compact(
+    productProps.map(({ productId }) => productId),
+  ).map(Number);
   const productHandles = compact(
     productProps.map(({ productHandle }) => productHandle),
   );
-  const products = await fetchHasura<PublicTypes.FetchProductsQuery>(
-    FETCH_PRODUCTS,
-    {
-      variables: { productIds, productHandles },
-    },
-  );
+  const products = await fetchHasura(graphql(FETCH_PRODUCTS), {
+    variables: { productIds, productHandles },
+  });
 
   return compact(
     products.Product.map(
@@ -271,15 +268,12 @@ export const getData = async ({
     throw new Error('Should pass either productId or productHandle');
   }
 
-  const productFetchPromise = fetchHasura<PublicTypes.FetchProductsQuery>(
-    FETCH_PRODUCTS,
-    {
-      variables: {
-        productIds: compact([productId]),
-        productHandles: compact([productHandle]),
-      },
+  const productFetchPromise = fetchHasura(graphql(FETCH_PRODUCTS), {
+    variables: {
+      productIds: compact([productId]).map(Number),
+      productHandles: compact([productHandle]),
     },
-  );
+  });
 
   let productResponse = null;
   let commissionAmount = null;

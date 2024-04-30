@@ -1,7 +1,10 @@
+import { graphql } from '@/__generated/gql/registered_user';
 import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+  FetchConversationProductDetailsQuery,
+  FetchConversationUserDetailsQuery,
+  HandDeliveryOrderLineFragmentFragment,
+  SubscribeToOpenedPriceOfferSubscription,
+} from '@/__generated/gql/registered_user/graphql';
 import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import useUser from '@/hooks/state/useUser';
 import { useHasura } from '@/hooks/useHasura';
@@ -18,7 +21,7 @@ import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
-const ORDER_LINE_FRAGMENT = gql_registered_user`
+export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* typed_for_registered_user */ `
   fragment HandDeliveryOrderLineFragment on OrderLines {
     order {
       shopifyId
@@ -32,9 +35,7 @@ const ORDER_LINE_FRAGMENT = gql_registered_user`
   }
 `;
 
-const FETCH_CONVERSATION_USER_DETAILS = gql_registered_user`
-  ${ORDER_LINE_FRAGMENT}
-
+const FETCH_CONVERSATION_USER_DETAILS = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchConversationUserDetails($userInternalId: uuid) {
     Customer(where: { authUserId: { _eq: $userInternalId } }) {
       purchasedOrders {
@@ -52,7 +53,7 @@ const FETCH_CONVERSATION_USER_DETAILS = gql_registered_user`
   }
 `;
 
-const FETCH_CONVERSATION_PRODUCT_DETAILS = gql_registered_user`
+const FETCH_CONVERSATION_PRODUCT_DETAILS = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchConversationProductDetails($productInternalId: String) {
     Product(where: { id: { _eq: $productInternalId } }) {
       id
@@ -75,16 +76,16 @@ const FETCH_CONVERSATION_PRODUCT_DETAILS = gql_registered_user`
 `;
 
 const findAssociatedOrderLine = (
-  orderLines: RegisteredUserTypes.HandDeliveryOrderLineFragmentFragment[],
+  orderLines: HandDeliveryOrderLineFragmentFragment[],
   currentProductInternalId: string,
-): RegisteredUserTypes.HandDeliveryOrderLineFragmentFragment | null =>
+): HandDeliveryOrderLineFragmentFragment | null =>
   orderLines.find(
     (orderLine) =>
       orderLine.productVariant?.product.id === currentProductInternalId,
   ) ?? null;
 
 const extractAssociatedOrderLine = (
-  response: RegisteredUserTypes.FetchConversationUserDetailsQuery,
+  response: FetchConversationUserDetailsQuery,
   currentProductInternalId: string,
 ): AssociatedOrderLine | null => {
   const customer = first(response?.Customer);
@@ -108,7 +109,7 @@ const extractAssociatedOrderLine = (
 };
 
 const extractNegociationAgreement = (
-  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
+  response: FetchConversationProductDetailsQuery,
 ): NegociationAgreementType | null => {
   const rawNegociationAgreement = first(
     first(response.Product)?.Vendor.negociationAgreements,
@@ -118,12 +119,12 @@ const extractNegociationAgreement = (
 
   return {
     maxAmountPercent: rawNegociationAgreement.maxAmountPercent,
-    productType: rawNegociationAgreement.productType,
+    productType: rawNegociationAgreement.productType ?? null,
   };
 };
 
 const extractOriginalPrice = (
-  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
+  response: FetchConversationProductDetailsQuery,
 ): number => {
   const price = first(first(response.Product)?.variants)?.storeB2CVariant
     ?.price;
@@ -134,7 +135,7 @@ const extractOriginalPrice = (
 };
 
 const extractProductDetails = (
-  response: RegisteredUserTypes.FetchConversationProductDetailsQuery,
+  response: FetchConversationProductDetailsQuery,
 ): AssociatedProductDetails | null => {
   const product = first(response.Product);
   if (!product) return null;
@@ -148,7 +149,7 @@ const extractProductDetails = (
 };
 
 const extractPriceOffer = (
-  response: RegisteredUserTypes.SubscribeToOpenedPriceOfferSubscription,
+  response: SubscribeToOpenedPriceOfferSubscription,
 ): PriceOffer | null => {
   const rawPriceOffer = first(response.PriceOffer);
 
@@ -175,16 +176,14 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   const { extractTokenInfo } = useHasuraToken();
   const { hasuraToken } = useUser();
 
-  const fetchUserDetails =
-    useHasura<RegisteredUserTypes.FetchConversationUserDetailsQuery>(
-      FETCH_CONVERSATION_USER_DETAILS,
-      HASURA_ROLES.REGISTERED_USER,
-    );
-  const fetchProductDetails =
-    useHasura<RegisteredUserTypes.FetchConversationProductDetailsQuery>(
-      FETCH_CONVERSATION_PRODUCT_DETAILS,
-      HASURA_ROLES.REGISTERED_USER,
-    );
+  const fetchUserDetails = useHasura(
+    graphql(FETCH_CONVERSATION_USER_DETAILS),
+    HASURA_ROLES.REGISTERED_USER,
+  );
+  const fetchProductDetails = useHasura(
+    graphql(FETCH_CONVERSATION_PRODUCT_DETAILS),
+    HASURA_ROLES.REGISTERED_USER,
+  );
 
   const [productDetailsState, doFetchProduct] = useWrappedAsyncFn(
     async (productInternalId: string) =>
@@ -197,15 +196,12 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   );
 
   const { loading: priceOfferLoading, data: priceOfferResult } =
-    useSubscription<RegisteredUserTypes.SubscribeToOpenedPriceOfferSubscription>(
-      SUBSCRIBE_TO_OPENED_PRICE_OFFERS,
-      {
-        variables: {
-          productInternalId: conversation.productInternalId,
-          buyerInternalId: conversation.customerInternalId,
-        },
+    useSubscription(graphql(SUBSCRIBE_TO_OPENED_PRICE_OFFERS), {
+      variables: {
+        productInternalId: conversation.productInternalId,
+        buyerInternalId: conversation.customerInternalId,
       },
-    );
+    });
 
   useEffect(() => {
     (async () => {

@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
 import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -24,7 +21,7 @@ import B2BSearchResults from './_components/B2BSearchResults';
 
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
-const FETCH_B2B_SAVED_SEARCH = gql_registered_user`
+const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
   query FetchB2BSavedSearch {
     SavedSearch(
       limit: 1
@@ -60,11 +57,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
     null,
   );
 
-  const fetchB2BSavedSearch =
-    useHasura<RegisteredUserTypes.FetchB2BSavedSearchQuery>(
-      FETCH_B2B_SAVED_SEARCH,
-      HASURA_ROLES.REGISTERED_USER,
-    );
+  const fetchB2BSavedSearch = useHasura(
+    graphql(FETCH_B2B_SAVED_SEARCH),
+    HASURA_ROLES.REGISTERED_USER,
+  );
 
   useEffect(() => {
     if (productInternalId) {
