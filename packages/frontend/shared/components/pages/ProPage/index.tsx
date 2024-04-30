@@ -16,7 +16,6 @@ import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
-import { useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
@@ -50,24 +49,6 @@ const FETCH_B2B_SAVED_SEARCH = gql_registered_user`
   }
 `;
 
-const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = gql_registered_user`
-  subscription subscribeToOpenedB2BPriceOffers {
-    PriceOffer(
-      where: {
-        _and: {
-          salesChannelName: { _eq: "B2B" }
-          _or: [
-            { status: { _eq: "PROPOSED" } }
-            { status: { _eq: "ACCEPTED" } }
-          ]
-        }
-      }
-    ) {
-      productId
-    }
-  }
-`;
-
 type PropsType = {
   productInternalId: string | null;
 };
@@ -85,11 +66,6 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
       HASURA_ROLES.REGISTERED_USER,
     );
 
-  const { data: priceOffersResult } =
-    useSubscription<RegisteredUserTypes.SubscribeToOpenedB2BPriceOffersSubscription>(
-      SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS,
-    );
-
   useEffect(() => {
     if (productInternalId) {
       setSelectedProductId(productInternalId);
@@ -105,7 +81,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
 
   const addProductToUrl = (productInternalId: string) => {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.append(PRODUCT_ID_QUERY_KEY, productInternalId);
+    if (newUrl.searchParams.has(PRODUCT_ID_QUERY_KEY)) {
+      newUrl.searchParams.set(PRODUCT_ID_QUERY_KEY, productInternalId);
+    } else {
+      newUrl.searchParams.append(PRODUCT_ID_QUERY_KEY, productInternalId);
+    }
 
     history.pushState({}, 'Open product', newUrl.toString());
   };
@@ -120,8 +100,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
   if (!user) return <></>;
 
   const filters = [`total_quantity:> 0`, `vendor_id:!=${user.id}`];
-  const openedPriceOfferProductIds =
-    priceOffersResult?.PriceOffer.map(({ productId }) => productId) ?? [];
+
+  const openDetails = (productInternalId: string) => {
+    addProductToUrl(productInternalId);
+    setSelectedProductId(productInternalId);
+  };
 
   return (
     <PageContainer includeVerticalPadding={false}>
@@ -148,13 +131,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />
-                <B2BSearchResults
-                  openDetails={(productInternalId: string) => {
-                    addProductToUrl(productInternalId);
-                    setSelectedProductId(productInternalId);
-                  }}
-                  openedPriceOfferProductIds={openedPriceOfferProductIds}
-                />
+                <B2BSearchResults openDetails={openDetails} />
                 <Pagination />
               </div>
             </div>
@@ -167,9 +144,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
             <div className="w-[360px] md:w-[400px] lg:w-[450px]">
               <B2BProductPanel
                 productInternalId={selectedProductId}
-                hasOpenedPriceOffer={openedPriceOfferProductIds.includes(
-                  selectedProductId,
-                )}
+                openDetails={openDetails}
               />
             </div>
           ) : (

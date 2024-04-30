@@ -2043,7 +2043,7 @@ export type Dbt_Store_Base_Product_Variant = {
   /** An object relationship */
   b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
   createdAt: Scalars['timestamptz']['output'];
-  id: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
@@ -2982,7 +2982,7 @@ export type Query_RootDbt_Store_Base_Product_VariantArgs = {
 };
 
 export type Query_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint']['input'];
+  id: Scalars['String']['input'];
 };
 
 export type Query_RootDbt_Store_Exposed_ProductArgs = {
@@ -11006,7 +11006,7 @@ export type Subscription_RootDbt_Store_Base_Product_VariantArgs = {
 };
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
-  shopify_id: Scalars['bigint']['input'];
+  id: Scalars['String']['input'];
 };
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_StreamArgs = {

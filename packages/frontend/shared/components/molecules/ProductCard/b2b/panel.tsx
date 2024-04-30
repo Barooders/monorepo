@@ -9,6 +9,7 @@ import ProductImage from '../_components/ProductImage';
 import BundlePrice from '../_components/ProductPrice/BundlePrice';
 import ProductViews from '../_components/ProductViews';
 import { B2BProductPanelProps } from '../types';
+import B2BProductsFromSameVendor from './ProductsFromSameVendor';
 
 const dict = getDictionary('fr');
 
@@ -26,6 +27,8 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
   description,
   numberOfViews,
   hasOpenedPriceOffer,
+  vendorId,
+  openDetails,
 }) => {
   const firstImage = first(images);
   return (
@@ -63,22 +66,29 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
 
       <ProductViews numberOfViews={numberOfViews} />
 
-      <div className="flex w-full gap-2">
-        {hasOpenedPriceOffer ? (
-          <ExistingOfferComponent className="flex-1" />
-        ) : (
-          <B2BPriceOfferButton
-            className="flex-1"
-            productId={id}
-          />
-        )}
-      </div>
+      {hasOpenedPriceOffer ? (
+        <ExistingOfferComponent className="flex-1" />
+      ) : (
+        <> </>
+      )}
+      <B2BPriceOfferButton
+        className="flex-1"
+        productId={id}
+        vendorId={vendorId}
+        openDetails={openDetails}
+      />
 
       <ProductDescription
         tags={tags}
         variantCondition={variantCondition}
         description={description}
         isTitle={false}
+      />
+
+      <B2BProductsFromSameVendor
+        vendorId={vendorId}
+        productId={id}
+        openDetails={openDetails}
       />
     </div>
   );

@@ -1,3 +1,4 @@
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import B2BPriceOfferButton, {
   ExistingOfferComponent,
 } from '../_components/Actions/B2BPriceOfferButton';
@@ -10,6 +11,7 @@ const B2BProductCard: React.FC<
   B2BProductCardProps & { openDetails: (productInternalId: string) => void }
 > = ({
   id,
+  vendorId,
   title,
   tags,
   productType,
@@ -19,16 +21,19 @@ const B2BProductCard: React.FC<
   largestBundlePrice,
   image,
   stock,
-  hasOpenedPriceOffer,
   openDetails,
+  intent = 'card',
 }) => {
+  const { hasOpenedPriceOffer } = useOpenedOffersState();
   return (
     <div className="flex w-full flex-col gap-2">
       <div
         onClick={() => openDetails(id)}
         className="flex cursor-pointer flex-col gap-1"
       >
-        <div className="relative h-40 w-full sm:h-64 xs:h-52">
+        <div
+          className={`relative ${intent === 'card' ? 'h-40 sm:h-64 xs:h-52' : 'h-32'} w-full`}
+        >
           {image && (
             <ProductImage
               image={image}
@@ -53,16 +58,17 @@ const B2BProductCard: React.FC<
         />
       </div>
 
-      <div className="flex w-full gap-2">
-        {hasOpenedPriceOffer ? (
-          <ExistingOfferComponent className="flex-1" />
-        ) : (
-          <B2BPriceOfferButton
-            className="flex-1"
-            productId={id}
-          />
-        )}
-      </div>
+      {hasOpenedPriceOffer(id) ? (
+        <ExistingOfferComponent className="flex-1" />
+      ) : (
+        <></>
+      )}
+      <B2BPriceOfferButton
+        className="flex-1"
+        productId={id}
+        vendorId={vendorId}
+        openDetails={openDetails}
+      />
     </div>
   );
 };

@@ -9,7 +9,6 @@ const dict = getDictionary('fr');
 
 type PropsType = {
   openDetails: (productInternalId: string) => void;
-  openedPriceOfferProductIds: string[];
 };
 
 const NoResultsBoundary: React.FC<{
@@ -41,10 +40,7 @@ function NoResults() {
   );
 }
 
-const B2BSearchResults: React.FC<PropsType> = ({
-  openDetails,
-  openedPriceOfferProductIds,
-}) => {
+const B2BSearchResults: React.FC<PropsType> = ({ openDetails }) => {
   return (
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
@@ -58,11 +54,6 @@ const B2BSearchResults: React.FC<PropsType> = ({
               <AdminHitHelper hit={hit} />
               <B2BProductCard
                 {...productCardProps}
-                hasOpenedPriceOffer={
-                  !!openedPriceOfferProductIds.find(
-                    (productId) => productId === hit.product_internal_id,
-                  )
-                }
                 openDetails={openDetails}
               />
             </>

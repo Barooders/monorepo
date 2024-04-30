@@ -21992,9 +21992,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -30078,14 +30082,14 @@
             "description": "fetch data from the table: \"dbt.store_base_product_variant\" using primary key columns",
             "args": [
               {
-                "name": "shopify_id",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "bigint",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -69271,14 +69275,14 @@
             "description": "fetch data from the table: \"dbt.store_base_product_variant\" using primary key columns",
             "args": [
               {
-                "name": "shopify_id",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "bigint",
+                    "name": "String",
                     "ofType": null
                   }
                 },

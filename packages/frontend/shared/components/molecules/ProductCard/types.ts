@@ -75,7 +75,6 @@ export type ProductSingleVariant = ProductMultiVariants & {
 };
 
 export type B2BProductCardProps = {
-  hasOpenedPriceOffer: boolean;
   tags: Record<string, string>;
   variantCondition: Condition;
   image?: ImageType;
@@ -88,6 +87,8 @@ export type B2BProductCardProps = {
   handle: string;
   shopifyId: string;
   id: string;
+  vendorId: string;
+  intent?: 'card' | 'small-card';
 };
 
 export type B2BProductPanelProps = {
@@ -107,4 +108,6 @@ export type B2BProductPanelProps = {
   isSoldOut: boolean;
   numberOfViews: number;
   hasOpenedPriceOffer: boolean;
+  vendorId: string;
+  openDetails: (productInternalId: string) => void;
 };

@@ -1,5 +1,6 @@
 import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Loader from '@/components/atoms/Loader';
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { enrichTags } from '@/mappers/search';
@@ -13,7 +14,7 @@ import ProductPanel from './panel';
 
 export type ContainerPropsType = {
   productInternalId: string;
-  hasOpenedPriceOffer: boolean;
+  openDetails: (productInternalId: string) => void;
 };
 
 export const FETCH_B2B_PRODUCT = gql_b2b_user`
@@ -60,7 +61,7 @@ export const FETCH_B2B_PRODUCT = gql_b2b_user`
 export const mapToProps = (
   productResponse: B2BUserTypes.FetchB2BProductQuery,
   hasOpenedPriceOffer: boolean,
-): B2BProductPanelProps => {
+): Omit<B2BProductPanelProps, 'openDetails'> => {
   const rawProduct = first(productResponse.dbt_store_base_product);
 
   if (!rawProduct) {
@@ -111,18 +112,20 @@ export const mapToProps = (
     isSoldOut: stock === 0,
     numberOfViews: rawProduct.exposedProduct.numberOfViews,
     hasOpenedPriceOffer,
+    vendorId: rawProduct.vendorId,
   };
 };
 
 const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   productInternalId,
-  hasOpenedPriceOffer,
+  openDetails,
 }) => {
   const fetchB2BProduct = useHasura<B2BUserTypes.FetchB2BProductQuery>(
     FETCH_B2B_PRODUCT,
     HASURA_ROLES.B2B_USER,
   );
   const [{ value, loading }, doGetData] = useWrappedAsyncFn(fetchB2BProduct);
+  const { hasOpenedPriceOffer } = useOpenedOffersState();
 
   useEffect(() => {
     doGetData({
@@ -131,7 +134,7 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
   }, [productInternalId]);
 
   const productCardProps = value
-    ? mapToProps(value, hasOpenedPriceOffer)
+    ? mapToProps(value, hasOpenedPriceOffer(productInternalId))
     : null;
 
   return (
@@ -139,7 +142,12 @@ const ProductPanelWithContainer: React.FC<ContainerPropsType> = ({
       {loading ? (
         <Loader />
       ) : (
-        productCardProps && <ProductPanel {...productCardProps} />
+        productCardProps && (
+          <ProductPanel
+            {...productCardProps}
+            openDetails={openDetails}
+          />
+        )
       )}
     </>
   );
