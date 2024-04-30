@@ -25,7 +25,7 @@ const B2BProductSmallCard: React.FC<
 }) => {
   const { hasOpenedPriceOffer } = useOpenedOffersState();
   return (
-    <div className="h-full w-36 shrink-0 flex-col gap-2 sm:w-52 lg:w-72">
+    <div className="h-full w-36 shrink-0 flex-col gap-2 lg:w-52">
       <div
         onClick={() => openDetails(id)}
         className="flex cursor-pointer flex-col gap-1"
