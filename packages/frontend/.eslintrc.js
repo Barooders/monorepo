@@ -17,12 +17,8 @@ module.exports = {
           {
             name: '@apollo/client',
             importNames: ['gql'],
-            message: 'Please role-specific gql from useHasura.ts',
-          },
-          {
-            name: '@/__generated/graphql.*',
             message:
-              'Please use role-specific types from @/__generated/hasura-role.config',
+              'Please role-specific graphql from "@/__generated/gql/{role}"',
           },
         ],
       },
