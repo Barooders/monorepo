@@ -8,6 +8,7 @@ set +o allexport
 
 PRISMA_CLIENT_DIRECTORY=dist/src/__generated
 mkdir -p $PRISMA_CLIENT_DIRECTORY
+DATABASE_URL=${DATABASE_URL:-}
 
 if [ ! -z ${DATABASE_URL_LOCAL:-} ];
 then
