@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import PersonalInfoForm from '.';
 
-const GET_VENDOR_NEGOCIATION_AGREEMENT = /* GraphQL */ /* gql_me_as_vendor */ `
+const GET_VENDOR_NEGOCIATION_AGREEMENT = /* GraphQL */ /* typed_for_me_as_vendor */ `
   query fetchNegociationAgreement($vendorId: uuid) {
     NegociationAgreement(where: { vendorId: { _eq: $vendorId } }) {
       id

@@ -29,7 +29,7 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
     ],
     ignoreNoDocuments: true,
     pluckConfig: {
-      gqlMagicComment: `gql_${role}`,
+      gqlMagicComment: `typed_for_${role}`,
     },
     generates: {
       [`./shared/__generated/gql/${role}/`]: {

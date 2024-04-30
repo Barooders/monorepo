@@ -28,7 +28,7 @@ export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
   );
 };
 
-const FETCH_PRODUCT_FOR_NEW_OFFER = /* GraphQL */ /* gql_b2b_user */ `
+const FETCH_PRODUCT_FOR_NEW_OFFER = /* GraphQL */ /* typed_for_b2b_user */ `
   query fetchProductForNewOffer($productId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productId } }) {
       variants {

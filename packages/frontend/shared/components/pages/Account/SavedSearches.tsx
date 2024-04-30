@@ -13,7 +13,7 @@ import { getDictionary } from '@/i18n/translate';
 import capitalize from 'lodash/capitalize';
 import { useEffect } from 'react';
 
-const FETCH_SAVED_SEARCHES = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_SAVED_SEARCHES = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchSavedSearches {
     SavedSearch {
       id

@@ -27,7 +27,7 @@ export type ContainerPropsType = {
   intent?: ProductMultiVariants['intent'];
 };
 
-export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* gql_public */ `
+export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
   fragment ProductCardFields on dbt_store_exposed_product {
     product {
       id
@@ -75,7 +75,7 @@ export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* gql_public */ `
   }
 `;
 
-export const VENDOR_DETAILS_FRAGMENT = /* GraphQL */ /* gql_public */ `
+export const VENDOR_DETAILS_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
   fragment VendorDetails on Customer {
     isPro
     sellerName
@@ -92,7 +92,7 @@ export const VENDOR_DETAILS_FRAGMENT = /* GraphQL */ /* gql_public */ `
   }
 `;
 
-export const FETCH_PRODUCTS = /* GraphQL */ /* gql_public */ `
+export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
   query fetchProducts($productIds: [bigint!], $productHandles: [String!]) {
     Product(
       where: {

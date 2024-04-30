@@ -90,7 +90,7 @@ const getContactLabels = (viewer: AccountPageOrder['viewer']) => {
   }
 };
 
-const FETCH_ORDER_DATA = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_ORDER_DATA = /* GraphQL */ /* typed_for_registered_user */ `
   subscription fetchOrderData($orderId: String) {
     Order(where: { id: { _eq: $orderId } }) {
       name

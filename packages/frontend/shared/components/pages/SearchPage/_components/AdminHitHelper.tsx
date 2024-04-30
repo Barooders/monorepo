@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
-const PRODUCT_HIT_QUERY = /* GraphQL */ /* gql_admin */ `
+const PRODUCT_HIT_QUERY = /* GraphQL */ /* typed_for_admin */ `
   query fetchProductHitData($productId: String) {
     Product(where: { id: { _eq: $productId } }) {
       manualNotation

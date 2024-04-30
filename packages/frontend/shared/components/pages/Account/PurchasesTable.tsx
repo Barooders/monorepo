@@ -38,7 +38,7 @@ type Purchase = {
   status: OrderStatus;
 };
 
-const FETCH_PURCHASES = /* GraphQL */ /* gql_me_as_customer */ `
+const FETCH_PURCHASES = /* GraphQL */ /* typed_for_me_as_customer */ `
   query fetchPurchases {
     Customer(limit: 1) {
       purchasedOrders(order_by: { createdAt: desc }) {

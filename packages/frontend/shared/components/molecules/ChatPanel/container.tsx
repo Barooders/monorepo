@@ -21,7 +21,7 @@ import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
-export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* gql_registered_user */ `
+export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* typed_for_registered_user */ `
   fragment HandDeliveryOrderLineFragment on OrderLines {
     order {
       shopifyId
@@ -35,7 +35,7 @@ export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* gql_registered_user */ `
   }
 `;
 
-const FETCH_CONVERSATION_USER_DETAILS = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_CONVERSATION_USER_DETAILS = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchConversationUserDetails($userInternalId: uuid) {
     Customer(where: { authUserId: { _eq: $userInternalId } }) {
       purchasedOrders {
@@ -53,7 +53,7 @@ const FETCH_CONVERSATION_USER_DETAILS = /* GraphQL */ /* gql_registered_user */ 
   }
 `;
 
-const FETCH_CONVERSATION_PRODUCT_DETAILS = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_CONVERSATION_PRODUCT_DETAILS = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchConversationProductDetails($productInternalId: String) {
     Product(where: { id: { _eq: $productInternalId } }) {
       id
