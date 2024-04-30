@@ -107,6 +107,7 @@ class UpdateSavedSearchDTO {
   refinements?: RefinementDTO[];
 
   @ApiProperty({ required: false })
+  @IsOptional()
   @IsBoolean()
   shouldTriggerAlerts?: boolean;
 }
