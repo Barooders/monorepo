@@ -348,6 +348,7 @@ const fr = {
     menu: {
       backbone: 'Sports',
       myAccount: 'Mon compte',
+      pro: 'Espace Pro',
       mySpace: 'Mon espace',
       categories: 'Catégories',
       messages: 'Messagerie',

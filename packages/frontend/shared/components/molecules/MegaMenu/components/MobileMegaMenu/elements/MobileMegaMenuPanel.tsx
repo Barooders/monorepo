@@ -1,33 +1,35 @@
-import { useState } from 'react';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 import Button from '@/components/molecules/MegaMenu/elements/UI/Button';
+import {
+  Icon,
+  IconContainer,
+} from '@/components/molecules/MegaMenu/elements/UI/Icon';
 import {
   ArrowToLeft,
   Close,
 } from '@/components/molecules/MegaMenu/elements/UI/Icons';
-import {
-  IconContainer,
-  Icon,
-} from '@/components/molecules/MegaMenu/elements/UI/Icon';
 
 import MobileMegaMenuCard from './MobileMegaMenuCard';
 import MobileMegaMenuItem from './MobileMegaMenuItem';
 
+import SellButton from '@/components/atoms/SellButton';
 import {
-  MegaMenuItem,
   MegaMenuCardType,
+  MegaMenuItem,
 } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
+import { useAuth } from '@/hooks/useAuth';
 import { getDictionary } from '@/i18n/translate';
+import { Url } from '@/types';
 import {
-  MdOutlineAccountCircle,
-  MdOutlineMailOutline,
   MdFavoriteBorder,
   MdNotificationsNone,
+  MdOutlineAccountCircle,
+  MdOutlineMailOutline,
   MdOutlineSell,
+  MdVerified,
 } from 'react-icons/md';
-import { Url } from '@/types';
-import SellButton from '@/components/atoms/SellButton';
 
 const dict = getDictionary('fr');
 
@@ -42,7 +44,7 @@ type Props = {
   onClose?: () => void;
 };
 
-const profileLinks: { link: Url; label: string; Icon: React.FC }[] = [
+const baseProfileLinks: { link: Url; label: string; Icon: React.FC }[] = [
   {
     link: '/account',
     label: dict.header.menu.myAccount,
@@ -80,6 +82,8 @@ const MobileMegaMenuPanel = ({
   onGoBack,
   onClose,
 }: Props) => {
+  const { isB2BUser } = useAuth();
+
   const [activeSiblingPanelId, setActiveSiblingPanelId] = useState<
     number | undefined
   >(undefined);
@@ -115,6 +119,19 @@ const MobileMegaMenuPanel = ({
     // Close active sibling panel
     closeSiblingPanel();
   };
+
+  const profileLinks = [
+    ...(isB2BUser()
+      ? [
+          {
+            link: '/pro',
+            label: dict.header.menu.pro,
+            Icon: MdVerified,
+          },
+        ]
+      : []),
+    ...baseProfileLinks,
+  ];
 
   const isMainTab = !onGoBack;
 
