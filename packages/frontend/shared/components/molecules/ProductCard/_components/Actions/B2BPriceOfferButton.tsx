@@ -4,6 +4,7 @@ import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
+import useOpenedOffersState from '@/components/pages/ProPage/_state/useOpenedOffersState';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
@@ -20,7 +21,7 @@ export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
     <Button
       disabled={true}
       intent="secondary"
-      className={`mt-2 ${className}`}
+      className={`w-full ${className}`}
     >
       {dict.b2b.productCard.existingOffer}
     </Button>
@@ -70,7 +71,11 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({ productId, className }) => {
   const MakeOfferButton: React.FC<{
     openModal: () => void;
   }> = ({ openModal }) => {
-    return (
+    const { hasOpenedPriceOffer } = useOpenedOffersState();
+
+    return hasOpenedPriceOffer(productId) ? (
+      <></>
+    ) : (
       <Button
         intent="secondary"
         onClick={() => {
