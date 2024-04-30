@@ -1016,7 +1016,7 @@ const fr = {
     customerService: 'Une question ? Contactez notre service client',
     newPricePlaceholder: '€',
     newPriceLabel: 'Prix proposé',
-    ongoinPriceOffer: 'Vous avez une offre en cours',
+    ongoinPriceOffer: 'Offre en cours',
     seePriceOffer: "Voir l'offre",
     maxPriceError:
       "Vous ne pouvez pas faire une offre au dessus du prix d'achat",
@@ -1229,7 +1229,7 @@ const fr = {
         sellerOffer: 'Prix vendeur',
         total: 'Total',
       },
-      existingOffer: 'Vous avez une offre en cours',
+      existingOffer: 'Offre en cours',
       details: {
         productsFromSameVendor: 'Produits du même vendeur',
       },
