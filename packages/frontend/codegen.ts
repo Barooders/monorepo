@@ -34,6 +34,13 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
     generates: {
       [`./shared/__generated/gql/${role}/`]: {
         preset: 'client',
+        config: {
+          avoidOptionals: true,
+          skipTypename: false,
+          scalars: {
+            bigint: 'number',
+          },
+        },
         presetConfig: {
           fragmentMasking: false,
         },
