@@ -21,8 +21,7 @@ import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ORDER_LINE_FRAGMENT = /* GraphQL */ /* gql_registered_user */ `
+export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* gql_registered_user */ `
   fragment HandDeliveryOrderLineFragment on OrderLines {
     order {
       shopifyId

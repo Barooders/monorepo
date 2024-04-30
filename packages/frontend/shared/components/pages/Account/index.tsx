@@ -1,10 +1,8 @@
 'use client';
-import {
-  MeAsCustomerTypes,
-  MeAsVendorTypes,
-  gql_me_as_customer,
-  gql_me_as_vendor,
-} from '@/__generated/hasura-role.config';
+import { graphql as graphqlMeAsCustomer } from '@/__generated/gql/me_as_customer';
+import { FetchAccountPageCustomerDataQuery } from '@/__generated/gql/me_as_customer/graphql';
+import { graphql as graphqlMeAsVendor } from '@/__generated/gql/me_as_vendor';
+import { FetchAccountPageVendorDataQuery } from '@/__generated/gql/me_as_vendor/graphql';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
@@ -13,7 +11,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useHasura } from '@/hooks/useHasura';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { AccountSections } from '@/types';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AccountMenu from './_components/AccountMenu';
@@ -32,7 +29,7 @@ const getDisplayedStatus = (status: string | null) => {
 
 const dict = getDictionary('fr');
 
-const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql_me_as_customer`
+const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = /* GraphQL */ /* gql_me_as_customer */ `
   query fetchAccountPageCustomerData($maxItems: Int) {
     Customer(limit: 1) {
       lastName
@@ -88,7 +85,7 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = gql_me_as_customer`
   }
 `;
 
-const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql_me_as_vendor`
+const FETCH_ACCOUNT_PAGE_VENDOR_DATA = /* GraphQL */ /* gql_me_as_vendor */ `
   query fetchAccountPageVendorData($maxItems: Int) {
     Customer(limit: 1) {
       onlineProducts(
@@ -140,162 +137,150 @@ const FETCH_ACCOUNT_PAGE_VENDOR_DATA = gql_me_as_vendor`
 `;
 
 interface SectionCardProps {
-  key: string | null;
+  key: string;
   link: string;
-  tag: string | null;
-  title: string | undefined | null;
+  tag: string;
+  title: string;
   description: string;
   price: string;
   imageSrc: string | null;
 }
 
-interface CustomerProps {
-  firstName: string | null;
-  isPro: boolean;
-  lastName: string | null;
-  sellerName: string | null;
-  profilePictureShopifyCdnUrl: string | null;
-  createdAt: string | null;
-}
-
-interface AccountPageData {
-  customer: CustomerProps;
-  sections: Record<AccountSections, SectionCardProps[]>;
-}
-
 const Account = () => {
   const { isB2BUser } = useAuth();
-  const fetchAccountPageCustomerData =
-    useHasura<MeAsCustomerTypes.FetchAccountPageCustomerDataQuery>(
-      FETCH_ACCOUNT_PAGE_CUSTOMER_DATA,
-      HASURA_ROLES.ME_AS_CUSTOMER,
-    );
+  const fetchAccountPageCustomerData = useHasura(
+    graphqlMeAsCustomer(FETCH_ACCOUNT_PAGE_CUSTOMER_DATA),
+    HASURA_ROLES.ME_AS_CUSTOMER,
+  );
 
-  const fetchAccountPageVendorData =
-    useHasura<MeAsVendorTypes.FetchAccountPageVendorDataQuery>(
-      FETCH_ACCOUNT_PAGE_VENDOR_DATA,
-      HASURA_ROLES.ME_AS_VENDOR,
-    );
+  const fetchAccountPageVendorData = useHasura(
+    graphqlMeAsVendor(FETCH_ACCOUNT_PAGE_VENDOR_DATA),
+    HASURA_ROLES.ME_AS_VENDOR,
+  );
 
-  const [{ loading, error, value }, doFetchAccountPageData] = useWrappedAsyncFn<
-    () => Promise<AccountPageData>
-  >(async () => {
-    const [
-      {
-        Customer: [
-          {
-            firstName,
-            lastName,
-            isPro,
-            sellerName,
-            profilePictureShopifyCdnUrl,
-            createdAt,
-            favorites,
-            purchasedOrders,
-          },
-        ],
-      },
-      {
-        Customer: [{ vendorSoldOrderLines, onlineProducts }],
-      },
-    ] = await Promise.all([
-      fetchAccountPageCustomerData({
-        maxItems: MAX_PRODUCTS_PER_BLOCK,
-      }),
-      fetchAccountPageVendorData({
-        maxItems: MAX_PRODUCTS_PER_BLOCK,
-      }),
-    ]);
-
-    return {
-      customer: {
-        firstName,
-        lastName,
-        isPro,
-        sellerName,
-        profilePictureShopifyCdnUrl,
-        createdAt,
-      },
-      sections: {
-        orders: vendorSoldOrderLines.reduce(
-          (
-            acc: SectionCardProps[],
+  const [{ loading, error, value }, doFetchAccountPageData] = useWrappedAsyncFn(
+    async () => {
+      const [
+        {
+          Customer: [
             {
-              order,
-              productBrand,
-              productImage,
-              priceInCents,
-              name,
-            }: MeAsVendorTypes.FetchAccountPageVendorDataQuery['Customer'][0]['vendorSoldOrderLines'][0],
-          ) => {
-            if (!order) return acc;
+              firstName,
+              lastName,
+              isPro,
+              sellerName,
+              profilePictureShopifyCdnUrl,
+              createdAt,
+              favorites,
+              purchasedOrders,
+            },
+          ],
+        },
+        {
+          Customer: [{ vendorSoldOrderLines, onlineProducts }],
+        },
+      ] = await Promise.all([
+        fetchAccountPageCustomerData({
+          maxItems: MAX_PRODUCTS_PER_BLOCK,
+        }),
+        fetchAccountPageVendorData({
+          maxItems: MAX_PRODUCTS_PER_BLOCK,
+        }),
+      ]);
 
-            return [
-              ...acc,
+      return {
+        customer: {
+          firstName,
+          lastName,
+          isPro,
+          sellerName,
+          profilePictureShopifyCdnUrl,
+          createdAt,
+        },
+        sections: {
+          orders: vendorSoldOrderLines.reduce(
+            (
+              acc: SectionCardProps[],
               {
-                key: order.name,
-                link: `/account/order/${order.id}`,
-                tag: getDisplayedStatus(order.status),
-                title: order.name,
-                description: [productBrand, name].filter(Boolean).join(' - '),
-                price: priceInCents
-                  ? `${(Number(priceInCents) / 100).toFixed(2)} €`
-                  : '',
-                imageSrc: productImage,
-              },
-            ];
-          },
-          [],
-        ),
-        purchases: purchasedOrders.reduce(
-          (
-            acc: SectionCardProps[],
-            {
-              totalPriceInCents,
-              name: orderName,
-              status,
-              id,
-              orderLines,
-            }: MeAsCustomerTypes.FetchAccountPageCustomerDataQuery['Customer'][0]['purchasedOrders'][0],
-          ) => {
-            if (orderLines.length === 0) return acc;
-            const firstProduct = orderLines[0];
-            if (!firstProduct) return acc;
+                order,
+                productBrand,
+                productImage,
+                priceInCents,
+                name,
+              }: FetchAccountPageVendorDataQuery['Customer'][0]['vendorSoldOrderLines'][0],
+            ) => {
+              if (!order) return acc;
 
-            const { productBrand, name, productImage: imageSrc } = firstProduct;
-
-            return [
-              ...acc,
+              return [
+                ...acc,
+                {
+                  key: order.name,
+                  link: `/account/order/${order.id}`,
+                  tag: getDisplayedStatus(order.status),
+                  title: order.name,
+                  description: [productBrand, name].filter(Boolean).join(' - '),
+                  price: priceInCents
+                    ? `${(Number(priceInCents) / 100).toFixed(2)} €`
+                    : '',
+                  imageSrc: productImage,
+                },
+              ];
+            },
+            [],
+          ),
+          purchases: purchasedOrders.reduce(
+            (
+              acc: SectionCardProps[],
               {
-                key: orderName,
-                link: `/account/order/${id}`,
-                tag: getDisplayedStatus(status),
-                title: orderName,
-                description: [productBrand, name].filter(Boolean).join(' - '),
-                price: totalPriceInCents
-                  ? `${(Number(totalPriceInCents) / 100).toFixed(2)} €`
-                  : '',
-                imageSrc,
-              },
-            ];
-          },
-          [],
-        ),
-        favorites: favorites
-          .flatMap((product) =>
-            product?.product?.storeProduct
-              ? [product.product.storeProduct]
-              : [],
-          )
-          .map(mapProductFromGraphQl),
-        onlineProducts: onlineProducts
-          .flatMap((product) =>
-            product.storeProduct ? [product.storeProduct] : [],
-          )
-          .map(mapProductFromGraphQl),
-      },
-    };
-  });
+                totalPriceInCents,
+                name: orderName,
+                status,
+                id,
+                orderLines,
+              }: FetchAccountPageCustomerDataQuery['Customer'][0]['purchasedOrders'][0],
+            ) => {
+              if (orderLines.length === 0) return acc;
+              const firstProduct = orderLines[0];
+              if (!firstProduct) return acc;
+
+              const {
+                productBrand,
+                name,
+                productImage: imageSrc,
+              } = firstProduct;
+
+              return [
+                ...acc,
+                {
+                  key: orderName,
+                  link: `/account/order/${id}`,
+                  tag: getDisplayedStatus(status),
+                  title: orderName,
+                  description: [productBrand, name].filter(Boolean).join(' - '),
+                  price: totalPriceInCents
+                    ? `${(Number(totalPriceInCents) / 100).toFixed(2)} €`
+                    : '',
+                  imageSrc,
+                },
+              ];
+            },
+            [],
+          ),
+          favorites: favorites
+            .flatMap((product) =>
+              product?.product?.storeProduct
+                ? [product.product.storeProduct]
+                : [],
+            )
+            .map(mapProductFromGraphQl),
+          onlineProducts: onlineProducts
+            .flatMap((product) =>
+              product.storeProduct ? [product.storeProduct] : [],
+            )
+            .map(mapProductFromGraphQl),
+        },
+      };
+    },
+  );
 
   useEffect(() => {
     doFetchAccountPageData();

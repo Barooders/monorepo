@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  MeAsCustomerTypes,
-  gql_me_as_customer,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/me_as_customer';
 import Modal from '@/components/atoms/Modal';
 import PageContainer from '@/components/atoms/PageContainer';
 import { useHasura } from '@/hooks/useHasura';
@@ -22,7 +19,7 @@ type PropsType = {
   selectedConversationId?: string;
 };
 
-const GET_CUSTOMER = gql_me_as_customer`
+const GET_CUSTOMER = /* GraphQL */ /* gql_me_as_customer */ `
   query fetchCustomer {
     Customer {
       chatId
@@ -32,8 +29,8 @@ const GET_CUSTOMER = gql_me_as_customer`
 `;
 
 const Chat: React.FC<PropsType> = ({ productId, selectedConversationId }) => {
-  const fetchCustomer = useHasura<MeAsCustomerTypes.FetchCustomerQuery>(
-    GET_CUSTOMER,
+  const fetchCustomer = useHasura(
+    graphql(GET_CUSTOMER),
     HASURA_ROLES.ME_AS_CUSTOMER,
   );
   const [customerState, doFetchCustomer] = useWrappedAsyncFn(

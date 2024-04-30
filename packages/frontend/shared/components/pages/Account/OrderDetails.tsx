@@ -1,8 +1,6 @@
 'use client';
-import {
-  RegisteredUserTypes,
-  gql_registered_user,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
+import { FetchOrderDataSubscription } from '@/__generated/gql/registered_user/graphql';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import Button from '@/components/atoms/Button';
 import ContactCard from '@/components/atoms/ContactCard';
@@ -92,7 +90,7 @@ const getContactLabels = (viewer: AccountPageOrder['viewer']) => {
   }
 };
 
-const FETCH_ORDER_DATA = gql_registered_user`
+const FETCH_ORDER_DATA = /* GraphQL */ /* gql_registered_user */ `
   subscription fetchOrderData($orderId: String) {
     Order(where: { id: { _eq: $orderId } }) {
       name
@@ -133,9 +131,7 @@ type PropsType = {
   orderId: string;
 };
 
-const mapOrderFromHasura = (
-  data: RegisteredUserTypes.FetchOrderDataSubscription['Order'],
-) => {
+const mapOrderFromHasura = (data: FetchOrderDataSubscription['Order']) => {
   const order = data[0];
 
   if (!order.orderLines || order.orderLines.length === 0) {
@@ -239,14 +235,11 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
     loading: hasuraLoading,
     error: hasuraError,
     data: rawHasuraValue,
-  } = useSubscription<RegisteredUserTypes.FetchOrderDataSubscription>(
-    FETCH_ORDER_DATA,
-    {
-      variables: {
-        orderId,
-      },
+  } = useSubscription(graphql(FETCH_ORDER_DATA), {
+    variables: {
+      orderId,
     },
-  );
+  });
   const { fetchAPI } = useBackend();
 
   const hasuraValue = rawHasuraValue?.Order
