@@ -12485,6 +12485,15 @@ export type GetProductPriceQuery = {
   }>;
 };
 
+export type FetchOpenedB2BPriceOffersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type FetchOpenedB2BPriceOffersQuery = {
+  __typename?: 'query_root';
+  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
+};
+
 export type FetchB2BSavedSearchQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchB2BSavedSearchQuery = {
@@ -12506,15 +12515,6 @@ export type FetchB2BSavedSearchQuery = {
     }>;
     SearchAlert: { __typename?: 'SearchAlert'; isActive: boolean } | null;
   }>;
-};
-
-export type SubscribeToOpenedB2BPriceOffersSubscriptionVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type SubscribeToOpenedB2BPriceOffersSubscription = {
-  __typename?: 'subscription_root';
-  PriceOffer: Array<{ __typename?: 'PriceOffer'; productId: string }>;
 };
 
 export type CheckExistingCustomerQueryVariables = Exact<{
@@ -13520,6 +13520,133 @@ export const GetProductPriceDocument = {
   GetProductPriceQuery,
   GetProductPriceQueryVariables
 >;
+export const FetchOpenedB2BPriceOffersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'fetchOpenedB2BPriceOffers' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'PriceOffer' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: '_and' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'salesChannelName' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: '_eq' },
+                                  value: {
+                                    kind: 'StringValue',
+                                    value: 'B2B',
+                                    block: false,
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: '_or' },
+                            value: {
+                              kind: 'ListValue',
+                              values: [
+                                {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: 'status' },
+                                      value: {
+                                        kind: 'ObjectValue',
+                                        fields: [
+                                          {
+                                            kind: 'ObjectField',
+                                            name: {
+                                              kind: 'Name',
+                                              value: '_eq',
+                                            },
+                                            value: {
+                                              kind: 'StringValue',
+                                              value: 'PROPOSED',
+                                              block: false,
+                                            },
+                                          },
+                                        ],
+                                      },
+                                    },
+                                  ],
+                                },
+                                {
+                                  kind: 'ObjectValue',
+                                  fields: [
+                                    {
+                                      kind: 'ObjectField',
+                                      name: { kind: 'Name', value: 'status' },
+                                      value: {
+                                        kind: 'ObjectValue',
+                                        fields: [
+                                          {
+                                            kind: 'ObjectField',
+                                            name: {
+                                              kind: 'Name',
+                                              value: '_eq',
+                                            },
+                                            value: {
+                                              kind: 'StringValue',
+                                              value: 'ACCEPTED',
+                                              block: false,
+                                            },
+                                          },
+                                        ],
+                                      },
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'productId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  FetchOpenedB2BPriceOffersQuery,
+  FetchOpenedB2BPriceOffersQueryVariables
+>;
 export const FetchB2BSavedSearchDocument = {
   kind: 'Document',
   definitions: [
@@ -13641,133 +13768,6 @@ export const FetchB2BSavedSearchDocument = {
 } as unknown as DocumentNode<
   FetchB2BSavedSearchQuery,
   FetchB2BSavedSearchQueryVariables
->;
-export const SubscribeToOpenedB2BPriceOffersDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'subscription',
-      name: { kind: 'Name', value: 'subscribeToOpenedB2BPriceOffers' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'PriceOffer' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: '_and' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'salesChannelName' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: '_eq' },
-                                  value: {
-                                    kind: 'StringValue',
-                                    value: 'B2B',
-                                    block: false,
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_or' },
-                            value: {
-                              kind: 'ListValue',
-                              values: [
-                                {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: 'status' },
-                                      value: {
-                                        kind: 'ObjectValue',
-                                        fields: [
-                                          {
-                                            kind: 'ObjectField',
-                                            name: {
-                                              kind: 'Name',
-                                              value: '_eq',
-                                            },
-                                            value: {
-                                              kind: 'StringValue',
-                                              value: 'PROPOSED',
-                                              block: false,
-                                            },
-                                          },
-                                        ],
-                                      },
-                                    },
-                                  ],
-                                },
-                                {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: 'status' },
-                                      value: {
-                                        kind: 'ObjectValue',
-                                        fields: [
-                                          {
-                                            kind: 'ObjectField',
-                                            name: {
-                                              kind: 'Name',
-                                              value: '_eq',
-                                            },
-                                            value: {
-                                              kind: 'StringValue',
-                                              value: 'ACCEPTED',
-                                              block: false,
-                                            },
-                                          },
-                                        ],
-                                      },
-                                    },
-                                  ],
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'productId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  SubscribeToOpenedB2BPriceOffersSubscription,
-  SubscribeToOpenedB2BPriceOffersSubscriptionVariables
 >;
 export const CheckExistingCustomerDocument = {
   kind: 'Document',

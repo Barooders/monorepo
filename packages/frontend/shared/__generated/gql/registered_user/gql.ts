@@ -27,10 +27,10 @@ const documents = {
     types.FetchSavedSearchesDocument,
   '\n  query getProductPrice($productShopifyId: bigint) {\n    dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {\n      variants(\n        limit: 1\n        where: { variant: { inventory_quantity: { _gt: 0 } } }\n      ) {\n        b2cVariant {\n          price\n        }\n      }\n    }\n  }\n':
     types.GetProductPriceDocument,
+  '\n  query fetchOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n':
+    types.FetchOpenedB2BPriceOffersDocument,
   '\n  query FetchB2BSavedSearch {\n    SavedSearch(\n      limit: 1\n      order_by: { createdAt: desc }\n      where: { type: { _eq: "B2B_MAIN_PAGE" } }\n    ) {\n      id\n      FacetFilters {\n        value\n        facetName\n      }\n      NumericFilters {\n        facetName\n        operator\n        value\n      }\n      query\n      SearchAlert {\n        isActive\n      }\n    }\n  }\n':
     types.FetchB2BSavedSearchDocument,
-  '\n  subscription subscribeToOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n':
-    types.SubscribeToOpenedB2BPriceOffersDocument,
   '\n  query checkExistingCustomer($customerId: String) {\n    Customer(where: { sellerName: { _eq: $customerId } }) {\n      authUserId\n    }\n  }\n':
     types.CheckExistingCustomerDocument,
   '\n  query fetchFavoriteProducts {\n    FavoriteProducts {\n      productId\n    }\n  }\n':
@@ -105,14 +105,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query FetchB2BSavedSearch {\n    SavedSearch(\n      limit: 1\n      order_by: { createdAt: desc }\n      where: { type: { _eq: "B2B_MAIN_PAGE" } }\n    ) {\n      id\n      FacetFilters {\n        value\n        facetName\n      }\n      NumericFilters {\n        facetName\n        operator\n        value\n      }\n      query\n      SearchAlert {\n        isActive\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query FetchB2BSavedSearch {\n    SavedSearch(\n      limit: 1\n      order_by: { createdAt: desc }\n      where: { type: { _eq: "B2B_MAIN_PAGE" } }\n    ) {\n      id\n      FacetFilters {\n        value\n        facetName\n      }\n      NumericFilters {\n        facetName\n        operator\n        value\n      }\n      query\n      SearchAlert {\n        isActive\n      }\n    }\n  }\n'];
+  source: '\n  query fetchOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n',
+): (typeof documents)['\n  query fetchOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  subscription subscribeToOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n',
-): (typeof documents)['\n  subscription subscribeToOpenedB2BPriceOffers {\n    PriceOffer(\n      where: {\n        _and: {\n          salesChannelName: { _eq: "B2B" }\n          _or: [\n            { status: { _eq: "PROPOSED" } }\n            { status: { _eq: "ACCEPTED" } }\n          ]\n        }\n      }\n    ) {\n      productId\n    }\n  }\n'];
+  source: '\n  query FetchB2BSavedSearch {\n    SavedSearch(\n      limit: 1\n      order_by: { createdAt: desc }\n      where: { type: { _eq: "B2B_MAIN_PAGE" } }\n    ) {\n      id\n      FacetFilters {\n        value\n        facetName\n      }\n      NumericFilters {\n        facetName\n        operator\n        value\n      }\n      query\n      SearchAlert {\n        isActive\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query FetchB2BSavedSearch {\n    SavedSearch(\n      limit: 1\n      order_by: { createdAt: desc }\n      where: { type: { _eq: "B2B_MAIN_PAGE" } }\n    ) {\n      id\n      FacetFilters {\n        value\n        facetName\n      }\n      NumericFilters {\n        facetName\n        operator\n        value\n      }\n      query\n      SearchAlert {\n        isActive\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
