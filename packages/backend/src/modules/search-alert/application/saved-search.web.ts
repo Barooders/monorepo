@@ -17,7 +17,6 @@ import {
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
-  ArrayMinSize,
   IsBoolean,
   IsEnum,
   IsOptional,
@@ -72,8 +71,7 @@ class CreateSavedSearchDTO {
   @IsOptional()
   query?: string;
 
-  @ApiProperty({ isArray: true, minItems: 1, type: RefinementDTO })
-  @ArrayMinSize(1)
+  @ApiProperty({ isArray: true, type: RefinementDTO })
   @ValidateNested({ each: true })
   @Type(() => RefinementDTO)
   refinements!: RefinementDTO[];
@@ -97,10 +95,8 @@ class UpdateSavedSearchDTO {
   @ApiProperty({
     isArray: true,
     required: false,
-    minItems: 1,
     type: RefinementDTO,
   })
-  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => RefinementDTO)
   @IsOptional()
