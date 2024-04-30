@@ -23,7 +23,7 @@ const BundlePrice: React.FC<PropsType> = ({
   const publicPrice = Math.max(compareAtPrice, price);
   const priceWithTaxes = bundlePrice * 1.2;
   const discount = Math.round((1 - priceWithTaxes / publicPrice) * 100);
-  const shouldShowPublicPrice = discount > 10;
+  const shouldShowPublicPrice = discount > 1;
 
   return (
     <div className={`flex flex-col gap-2 text-sm md:text-base ${className}`}>
