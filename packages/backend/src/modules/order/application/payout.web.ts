@@ -248,7 +248,7 @@ export class PayoutController {
         throw new HttpNotFoundException(error);
       }
 
-      throw new BadRequestException(error);
+      throw new BadRequestException(error, error.message);
     }
   }
 }
