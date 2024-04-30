@@ -12,22 +12,24 @@ const dict = getDictionary('fr');
 
 type PropsType = {
   vendorId: string;
+  productId: string;
   openDetails: (productInternalId: string) => void;
 };
 
 const B2BProductsFromSameVendor: React.FC<PropsType> = ({
   openDetails,
   vendorId,
+  productId,
 }) => {
   const [fetchState, fetchProductsFromSameVendor] = useWrappedAsyncFn(
-    async (vendorId: string) => {
-      return fetchB2BProductsFromSameVendor(vendorId);
+    async (vendorId: string, productId: string) => {
+      return fetchB2BProductsFromSameVendor(vendorId, productId);
     },
   );
 
   useEffect(() => {
-    fetchProductsFromSameVendor(vendorId);
-  }, [vendorId, fetchProductsFromSameVendor]);
+    fetchProductsFromSameVendor(vendorId, productId);
+  }, []);
 
   return (
     <>
@@ -49,6 +51,7 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
               <B2BProductCard
                 {...productCardProps}
                 openDetails={openDetails}
+                intent="small-card"
               />
             </ErrorBoundary>
           ))

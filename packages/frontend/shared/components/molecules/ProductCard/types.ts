@@ -88,6 +88,7 @@ export type B2BProductCardProps = {
   shopifyId: string;
   id: string;
   vendorId: string;
+  intent?: 'card' | 'small-card';
 };
 
 export type B2BProductPanelProps = {
