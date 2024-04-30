@@ -1,5 +1,4 @@
 import { Discount } from '@/types';
-import dayjs from 'dayjs';
 
 export type DynamicDiscountConfig = {
   title: string;
@@ -23,31 +22,15 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    title: 'RADRUNNER100',
-    label: 'RadRunner',
-    type: 'dynamic',
-  },
-  {
-    // Ends on 25/04
-    title: 'VELOROUEN50',
-    label: 'Vélo Rouen',
-    type: 'dynamic',
-  },
-  {
-    title: 'AGPPRO',
-    label: 'Vente privée',
-    type: 'static',
-    collections: ['dea8bd50-7334-4943-ba1c-4f4863bdefbc'],
-    valueType: 'custom',
-    description: "Vélo disponible jusqu'au 07/04",
-    endsAt: dayjs('2024-04-07T20:00:00').toDate(),
-    value: null,
-    hideReduction: true,
-  },
-  {
     // Ends on 02/05
     title: 'HBVELOS5',
     label: 'HBVélos',
+    type: 'dynamic',
+  },
+  {
+    // Ends on 08/05
+    title: 'TSWHEELS5',
+    label: 'TSWheels',
     type: 'dynamic',
   },
 ];
