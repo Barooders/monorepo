@@ -18,7 +18,9 @@ const B2BCollectionHeader: React.FC = () => {
           personnalisée 🚴
         </div>
       </div>
-      <B2BGuarantees />
+      <div className="hidden md:block">
+        <B2BGuarantees />
+      </div>
       <div className="mt-5 flex items-end gap-2">
         <h1 className="text-xl font-semibold tracking-tight lg:text-3xl">
           {dict.b2b.proPage.title}

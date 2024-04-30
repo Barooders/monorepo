@@ -38,7 +38,9 @@ const Button: React.FC<PropsType> = ({
   };
 
   const sizeStyle =
-    size === 'medium' ? 'py-2 px-4 text-base' : 'py-1 px-2 text-sm';
+    size === 'medium'
+      ? 'py-2 px-4 text-sm sm:text-base'
+      : 'py-1 px-2 text-xs sm:text-sm';
 
   const ButtonTag = href ? Link : 'button';
 

@@ -40,7 +40,7 @@ const ProHeader: React.FC = () => {
                 <BaroodersLogo className="fill-red-600" />
               </Link>
             </div>
-            <div className="hidden gap-1 lg:flex">
+            <div className="absolute right-2 flex gap-1">
               <HeaderButton
                 href="/pro/account"
                 title={dictionnary.header.icons.account}

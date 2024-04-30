@@ -26,8 +26,8 @@ const BundlePrice: React.FC<PropsType> = ({
   const shouldShowPublicPrice = discount > 10;
 
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <div className="flex gap-1">
+    <div className={`flex flex-col gap-2 text-sm md:text-base ${className}`}>
+      <div className="flex flex-wrap gap-1">
         <p>{dict.b2b.productCard.price.quantities}:</p>
         <div className="w-fit">
           <ProductLabel
@@ -35,20 +35,22 @@ const BundlePrice: React.FC<PropsType> = ({
           />
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <div className="whitespace-nowrap">
-          {dict.b2b.productCard.price.priceStartsAt} :{' '}
-          <span className="font-bold">
+      <div className="flex flex-col gap-1 overflow-hidden">
+        <div className="flex flex-wrap gap-1 whitespace-nowrap md:flex-nowrap">
+          <div>{dict.b2b.productCard.price.priceStartsAt} :</div>
+          <div className="w-full font-bold">
             {formatCurrency(bundlePrice)}€ {dict.b2b.productCard.price.dutyFree}{' '}
-          </span>
-          / {dict.b2b.productCard.price.unit}
+            / {dict.b2b.productCard.price.unit}
+          </div>
         </div>
-        <div className="whitespace-nowrap text-xs font-light">
+        <div className="flex flex-wrap gap-1 whitespace-nowrap text-xs font-light md:flex-nowrap md:text-sm">
           {shouldShowPublicPrice ? (
             <>
-              {dict.b2b.productCard.price.publicPrice} :{' '}
-              {formatCurrency(publicPrice)}€{' '}
-              {dict.b2b.productCard.price.taxIncluded} (-{discount}%)
+              <div>{dict.b2b.productCard.price.publicPrice} :</div>
+              <div>
+                {formatCurrency(publicPrice)}€{' '}
+                {dict.b2b.productCard.price.taxIncluded} (-{discount}%)
+              </div>
             </>
           ) : (
             <>&nbsp;</>

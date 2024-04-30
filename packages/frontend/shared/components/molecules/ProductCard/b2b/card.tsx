@@ -31,7 +31,7 @@ const B2BProductCard: React.FC<
         onClick={() => openDetails(id)}
         className="flex cursor-pointer flex-col gap-1"
       >
-        <div className="relative h-52 w-full sm:h-64">
+        <div className="relative h-40 w-full sm:h-64 xs:h-52">
           {image && (
             <ProductImage
               image={image}
