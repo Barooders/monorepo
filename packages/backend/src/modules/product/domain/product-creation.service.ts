@@ -174,6 +174,7 @@ export class ProductCreationService {
         vendorId,
         shopifyId: createdProduct.id,
         status: productStatus,
+        description: product.body_html,
         handle: createdProduct.handle,
         productType,
         EANCode: product.EANCode,
