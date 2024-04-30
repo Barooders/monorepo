@@ -48,6 +48,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest-e2e.config.ts",
     "prisma": "./bin/prisma",
+    "prisma:migrate:dev": "yarn prisma all migrate dev",
     "prisma:migrate": "yarn prisma all migrate deploy",
     "prisma:generate": "yarn prisma all generate",
     "prisma:direct": "prisma",

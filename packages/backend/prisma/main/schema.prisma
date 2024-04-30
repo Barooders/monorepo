@@ -387,6 +387,7 @@ model Product {
   vendorId             String                @db.Uuid
   shopifyId            BigInt                @unique
   status               ProductStatus
+  description          String?
   manualNotation       ProductNotation?
   handle               String?               @unique
   productType          String?

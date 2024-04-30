@@ -369,6 +369,7 @@ export class ProductUpdateService {
   private async updateProductInDatabase(
     { id }: EntityId,
     {
+      body_html,
       status,
       manualNotation,
       EANCode,
@@ -377,6 +378,7 @@ export class ProductUpdateService {
       vendorId,
       product_type: productType,
     }: {
+      body_html?: string;
       status?: ProductStatus;
       manualNotation?: ProductNotation | null;
       EANCode?: string | null;
@@ -394,6 +396,7 @@ export class ProductUpdateService {
       ...(source && { source }),
       ...(vendorId && { vendorId }),
       ...(productType && { productType }),
+      ...(body_html && { description: body_html }),
     };
 
     if (Object.keys(concreteUpdates).length === 0) return;
