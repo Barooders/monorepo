@@ -87,6 +87,7 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
 
       <B2BProductsFromSameVendor
         vendorId={vendorId}
+        productId={id}
         openDetails={openDetails}
       />
     </div>

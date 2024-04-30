@@ -281,10 +281,15 @@ export const mapCurrentSearchToString = (
     .join('・');
 };
 
-export const fetchB2BProductsFromSameVendor = async (vendorId: string) => {
-  const filterQuery = ['inventory_quantity:> 0', `vendor_id:=${vendorId}`].join(
-    ' && ',
-  );
+export const fetchB2BProductsFromSameVendor = async (
+  vendorId: string,
+  product_internal_id: string,
+) => {
+  const filterQuery = [
+    'inventory_quantity:> 0',
+    `vendor_id:=${vendorId}`,
+    `product_internal_id:!=${product_internal_id}`,
+  ].join(' && ');
   const maxResults = 20;
 
   const { grouped_hits } = await typesenseInstantsearchAdapter.typesenseClient

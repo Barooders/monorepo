@@ -270,6 +270,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
       ) : (
         <>
           <ProductsFromSameVendor
+            productId={productId}
             vendorId={vendorId}
             openDetails={openDetails}
           />
