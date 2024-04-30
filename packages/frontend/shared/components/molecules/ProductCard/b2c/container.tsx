@@ -236,7 +236,9 @@ export const getMultipleProductsData = async (
         productHandle === product.handle,
     )?.productVariant;
 
-  const productIds = compact(productProps.map(({ productId }) => productId));
+  const productIds = compact(
+    productProps.map(({ productId }) => productId),
+  ).map(Number);
   const productHandles = compact(
     productProps.map(({ productHandle }) => productHandle),
   );
@@ -268,7 +270,7 @@ export const getData = async ({
 
   const productFetchPromise = fetchHasura(graphql(FETCH_PRODUCTS), {
     variables: {
-      productIds: compact([productId]),
+      productIds: compact([productId]).map(Number),
       productHandles: compact([productHandle]),
     },
   });
