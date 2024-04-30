@@ -4,7 +4,7 @@ import { useHasura } from './useHasura';
 import { useHasuraToken } from './useHasuraToken';
 import useIsLoggedIn from './useIsLoggedIn';
 
-const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchFavoriteProducts {
     FavoriteProducts {
       productId
@@ -12,7 +12,7 @@ const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* gql_registered_user */ `
   }
 `;
 
-const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* gql_registered_user */ `
+const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   mutation addFavoriteProduct($customerId: uuid!, $productId: bigint) {
     insert_FavoriteProducts_one(
       object: { customerId: $customerId, productId: $productId }
@@ -22,7 +22,7 @@ const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* gql_registered_user */ `
   }
 `;
 
-const REMOVE_FAVORITE_PRODUCT = /* GraphQL */ /* gql_registered_user */ `
+const REMOVE_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   mutation removeFavoriteProducts($customerId: uuid!, $productId: bigint) {
     delete_FavoriteProducts(
       where: {

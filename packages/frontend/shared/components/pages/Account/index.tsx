@@ -29,7 +29,7 @@ const getDisplayedStatus = (status: string | null) => {
 
 const dict = getDictionary('fr');
 
-const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = /* GraphQL */ /* gql_me_as_customer */ `
+const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = /* GraphQL */ /* typed_for_me_as_customer */ `
   query fetchAccountPageCustomerData($maxItems: Int) {
     Customer(limit: 1) {
       lastName
@@ -85,7 +85,7 @@ const FETCH_ACCOUNT_PAGE_CUSTOMER_DATA = /* GraphQL */ /* gql_me_as_customer */ 
   }
 `;
 
-const FETCH_ACCOUNT_PAGE_VENDOR_DATA = /* GraphQL */ /* gql_me_as_vendor */ `
+const FETCH_ACCOUNT_PAGE_VENDOR_DATA = /* GraphQL */ /* typed_for_me_as_vendor */ `
   query fetchAccountPageVendorData($maxItems: Int) {
     Customer(limit: 1) {
       onlineProducts(

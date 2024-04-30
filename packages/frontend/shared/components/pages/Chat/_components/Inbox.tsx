@@ -25,7 +25,7 @@ type Props = {
   initialConversationId?: string;
 };
 
-const GET_PRODUCT_PRICE = /* GraphQL */ /* gql_registered_user */ `
+const GET_PRODUCT_PRICE = /* GraphQL */ /* typed_for_registered_user */ `
   query getProductPrice($productShopifyId: bigint) {
     dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
       variants(

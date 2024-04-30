@@ -3,7 +3,7 @@ import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { useHasura } from './useHasura';
 
-const EXISTING_CUSTOMER_QUERY = /* GraphQL */ /* gql_registered_user */ `
+const EXISTING_CUSTOMER_QUERY = /* GraphQL */ /* typed_for_registered_user */ `
   query checkExistingCustomer($customerId: String) {
     Customer(where: { sellerName: { _eq: $customerId } }) {
       authUserId

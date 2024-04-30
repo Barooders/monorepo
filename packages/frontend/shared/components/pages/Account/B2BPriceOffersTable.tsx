@@ -44,7 +44,7 @@ const getDisplayedStatus = (status: PriceOfferStatus) => {
   );
 };
 
-const FETCH_PRICE_OFFERS = /* GraphQL */ /* gql_b2b_user */ `
+const FETCH_PRICE_OFFERS = /* GraphQL */ /* typed_for_b2b_user */ `
   query fetchPriceOffers {
     PriceOffer(order_by: { createdAt: desc }) {
       id
@@ -75,42 +75,44 @@ const B2BPriceOffersTable = () => {
     HASURA_ROLES.B2B_USER,
   );
 
-  const [{ loading, error, value }, doFetchPriceOffers] = useWrappedAsyncFn(async () => {
-    const { PriceOffer: priceOffers } = await fetchPriceOffers();
+  const [{ loading, error, value }, doFetchPriceOffers] = useWrappedAsyncFn(
+    async () => {
+      const { PriceOffer: priceOffers } = await fetchPriceOffers();
 
-    return priceOffers.map(
-      ({
-        status,
-        product,
-        quantity,
-        newPriceInCents,
-        includedBuyerCommissionPercentage,
-        buyerId,
-        createdAt,
-        publicNote,
-      }) => ({
-        product: {
-          title: product?.storeExposedProduct?.brand ?? '',
-          tag: product?.storeExposedProduct?.productType ?? '',
-          imageSrc: product?.storeExposedProduct?.firstImage ?? '',
-        },
-        price: getPrice(
+      return priceOffers.map(
+        ({
+          status,
+          product,
+          quantity,
           newPriceInCents,
           includedBuyerCommissionPercentage,
           buyerId,
-          user?.id,
-        ),
-        quantity: String(quantity),
-        createdAtDate: new Date(createdAt).toLocaleDateString('fr-FR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
+          createdAt,
+          publicNote,
+        }) => ({
+          product: {
+            title: product?.storeExposedProduct?.brand ?? '',
+            tag: product?.storeExposedProduct?.productType ?? '',
+            imageSrc: product?.storeExposedProduct?.firstImage ?? '',
+          },
+          price: getPrice(
+            newPriceInCents,
+            includedBuyerCommissionPercentage,
+            buyerId,
+            user?.id,
+          ),
+          quantity: String(quantity),
+          createdAtDate: new Date(createdAt).toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }),
+          note: publicNote ?? '',
+          status: status as PriceOfferStatus,
         }),
-        note: publicNote ?? '',
-        status: status as PriceOfferStatus,
-      }),
-    );
-  });
+      );
+    },
+  );
 
   useEffect(() => {
     doFetchPriceOffers();

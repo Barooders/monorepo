@@ -18,7 +18,7 @@ export type ReviewType = {
   authorNickname: string | null;
 };
 
-export const REVIEWS_FRAGMENT = /* GraphQL */ /* gql_public */ `
+export const REVIEWS_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
   fragment ReviewsFields on VendorReview {
     Review {
       content

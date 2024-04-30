@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES } from 'shared-types';
 
-const PRODUCT_NOTATION_QUERY = /* GraphQL */ /* gql_admin */ `
+const PRODUCT_NOTATION_QUERY = /* GraphQL */ /* typed_for_admin */ `
   query fetchProductNotation($productInternalId: String!) {
     Product(where: { id: { _eq: $productInternalId } }) {
       manualNotation

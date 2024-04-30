@@ -19,7 +19,7 @@ type PropsType = {
   selectedConversationId?: string;
 };
 
-const GET_CUSTOMER = /* GraphQL */ /* gql_me_as_customer */ `
+const GET_CUSTOMER = /* GraphQL */ /* typed_for_me_as_customer */ `
   query fetchCustomer {
     Customer {
       chatId

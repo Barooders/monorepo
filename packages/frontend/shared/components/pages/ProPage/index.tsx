@@ -22,7 +22,7 @@ import B2BSearchResults from './_components/B2BSearchResults';
 
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
-const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* gql_registered_user */ `
+const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
   query FetchB2BSavedSearch {
     SavedSearch(
       limit: 1
@@ -47,7 +47,7 @@ const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* gql_registered_user */ `
   }
 `;
 
-const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = /* GraphQL */ /* gql_registered_user */ `
+const SUBSCRIBE_TO_OPENED_B2B_PRICE_OFFERS = /* GraphQL */ /* typed_for_registered_user */ `
   subscription subscribeToOpenedB2BPriceOffers {
     PriceOffer(
       where: {

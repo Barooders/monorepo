@@ -51,7 +51,7 @@ type ParentCollection =
   | null
   | undefined;
 
-const FETCH_COLLECTION_PAGE = /* GraphQL */ /* gql_public */ `
+const FETCH_COLLECTION_PAGE = /* GraphQL */ /* typed_for_public */ `
   query fetchCollectionPageData(
     $collectionHandle: String!
     $vendorSellerName: String!

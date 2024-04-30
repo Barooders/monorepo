@@ -37,7 +37,7 @@ type Order = {
   status: OrderStatus;
 };
 
-const FETCH_SOLD_ORDER_LINES = /* GraphQL */ /* gql_me_as_vendor */ `
+const FETCH_SOLD_ORDER_LINES = /* GraphQL */ /* typed_for_me_as_vendor */ `
   query fetchSoldOrderLines {
     Customer(limit: 1) {
       vendorSoldOrderLines(

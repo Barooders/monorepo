@@ -45,7 +45,7 @@ type OnlineProduct = {
   }[];
 };
 
-const FETCH_ONLINE_PRODUCTS = /* GraphQL */ /* gql_me_as_vendor */ `
+const FETCH_ONLINE_PRODUCTS = /* GraphQL */ /* typed_for_me_as_vendor */ `
   query fetchOnlineProducts {
     Customer(limit: 1) {
       onlineProducts(

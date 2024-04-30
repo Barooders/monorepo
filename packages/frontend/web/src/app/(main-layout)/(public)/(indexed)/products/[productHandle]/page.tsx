@@ -34,7 +34,7 @@ export type ProductDTO = {
 
 const dict = getDictionary('fr');
 
-const FETCH_PRODUCT_METADATA = /* GraphQL */ /* gql_public */ `
+const FETCH_PRODUCT_METADATA = /* GraphQL */ /* typed_for_public */ `
   query fetchProductMetadata($productHandle: String) {
     shopify {
       product(handle: $productHandle) {

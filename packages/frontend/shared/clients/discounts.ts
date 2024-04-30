@@ -5,7 +5,7 @@ import { DISCOUNTS_CONFIG } from '@/config/discounts';
 import { Discount } from '@/types';
 import compact from 'lodash/compact';
 
-const FETCH_DISCOUNTS = /* GraphQL */ /* gql_public */ `
+const FETCH_DISCOUNTS = /* GraphQL */ /* typed_for_public */ `
   query getAvailableDiscounts($discountTitles: [String!]) {
     dbt_store_discount(where: { title: { _in: $discountTitles } }) {
       collection {

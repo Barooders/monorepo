@@ -17,7 +17,7 @@ export type ContainerPropsType = {
   hasOpenedPriceOffer: boolean;
 };
 
-export const FETCH_B2B_PRODUCT = /* GraphQL */ /* gql_b2b_user */ `
+export const FETCH_B2B_PRODUCT = /* GraphQL */ /* typed_for_b2b_user */ `
   query fetchB2BProduct($productInternalId: String) {
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
       id

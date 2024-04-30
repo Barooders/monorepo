@@ -4,7 +4,7 @@ import useUser from './state/useUser';
 import { useAuth } from './useAuth';
 import { useHasura } from './useHasura';
 
-const LIGHT_SIGNUP_CUSTOMER_MUTATION = /* GraphQL */ /* gql_registered_user */ `
+const LIGHT_SIGNUP_CUSTOMER_MUTATION = /* GraphQL */ /* typed_for_registered_user */ `
   mutation updateCustomerInfo(
     $userId: uuid!
     $lastName: String!
@@ -31,7 +31,7 @@ const LIGHT_SIGNUP_CUSTOMER_MUTATION = /* GraphQL */ /* gql_registered_user */ `
   }
 `;
 
-const LIGHT_SIGNUP_AUTH_MUTATION = /* GraphQL */ /* gql_registered_user */ `
+const LIGHT_SIGNUP_AUTH_MUTATION = /* GraphQL */ /* typed_for_registered_user */ `
   mutation updateDisplayName($userId: uuid, $displayName: String!) {
     updateUsers(
       where: { id: { _eq: $userId } }
