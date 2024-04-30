@@ -11,6 +11,7 @@ const B2BProductCard: React.FC<
   B2BProductCardProps & { openDetails: (productInternalId: string) => void }
 > = ({
   id,
+  vendorId,
   title,
   tags,
   productType,
@@ -62,6 +63,8 @@ const B2BProductCard: React.FC<
       <B2BPriceOfferButton
         className="flex-1"
         productId={id}
+        vendorId={vendorId}
+        openDetails={openDetails}
       />
     </div>
   );

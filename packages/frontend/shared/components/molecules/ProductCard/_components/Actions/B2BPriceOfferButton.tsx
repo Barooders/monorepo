@@ -54,10 +54,17 @@ const FETCH_PRODUCT_FOR_NEW_OFFER = gql_b2b_user`
 
 type PropsType = {
   productId: string;
+  vendorId: string;
   className?: string;
+  openDetails: (productInternalId: string) => void;
 };
 
-const B2BPriceOfferButton: React.FC<PropsType> = ({ productId, className }) => {
+const B2BPriceOfferButton: React.FC<PropsType> = ({
+  productId,
+  vendorId,
+  className,
+  openDetails,
+}) => {
   const fetchProductForNewOffer =
     useHasura<B2BUserTypes.FetchProductForNewOfferQuery>(
       FETCH_PRODUCT_FOR_NEW_OFFER,
@@ -119,6 +126,8 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({ productId, className }) => {
           ) : product ? (
             <MakeB2BOfferModal
               closeModal={closeModal}
+              openDetails={openDetails}
+              vendorId={vendorId}
               productId={productId}
               productName={product.exposedProduct?.title ?? ''}
               variants={

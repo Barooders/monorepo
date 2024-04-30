@@ -87,6 +87,7 @@ export type B2BProductCardProps = {
   handle: string;
   shopifyId: string;
   id: string;
+  vendorId: string;
 };
 
 export type B2BProductPanelProps = {

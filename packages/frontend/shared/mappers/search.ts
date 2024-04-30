@@ -179,6 +179,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     handle: hit.handle,
     shopifyId: hit.product_shopify_id.toString(),
     id: hit.product_internal_id,
+    vendorId: hit.vendor_id,
   };
 };
 

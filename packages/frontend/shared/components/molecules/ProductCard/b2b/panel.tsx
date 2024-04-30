@@ -66,16 +66,17 @@ const B2BProductPanel: React.FC<B2BProductPanelProps> = ({
 
       <ProductViews numberOfViews={numberOfViews} />
 
-      <div className="flex w-full gap-2">
-        {hasOpenedPriceOffer ? (
-          <ExistingOfferComponent className="flex-1" />
-        ) : (
-          <B2BPriceOfferButton
-            className="flex-1"
-            productId={id}
-          />
-        )}
-      </div>
+      {hasOpenedPriceOffer ? (
+        <ExistingOfferComponent className="flex-1" />
+      ) : (
+        <> </>
+      )}
+      <B2BPriceOfferButton
+        className="flex-1"
+        productId={id}
+        vendorId={vendorId}
+        openDetails={openDetails}
+      />
 
       <ProductDescription
         tags={tags}
