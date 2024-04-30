@@ -10,6 +10,7 @@ import { getDictionary } from '@/i18n/translate';
 import { useMemo } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MdOutlineCheck } from 'react-icons/md';
+import ProductsFromSameVendor from '../b2b/ProductsFromSameVendor';
 import ProductLabel from './ProductLabel';
 
 const dict = getDictionary('fr');
@@ -25,9 +26,11 @@ type PropsType = {
   productId: string;
   productName: string;
   totalQuantity: number;
+  vendorId: string;
   getBundleUnitPriceFromQuantity: (quantity: number) => number;
   variants: { title: string; quantity: number }[];
   closeModal?: () => void;
+  openDetails: (productInternalId: string) => void;
 };
 
 export enum Status {
@@ -38,6 +41,8 @@ export enum Status {
 const MakeB2BOfferModal: React.FC<PropsType> = ({
   userCanNegociate = false,
   productId,
+  vendorId,
+  openDetails,
   productName,
   totalQuantity,
   getBundleUnitPriceFromQuantity,
@@ -263,15 +268,21 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
           </form>
         </FormProvider>
       ) : (
-        <div className="flex justify-center gap-2">
-          <Button
-            onClick={closeModal}
-            intent={'secondary'}
-            className="text-sm"
-          >
-            {dict.makeOffer.backToSite}
-          </Button>
-        </div>
+        <>
+          <ProductsFromSameVendor
+            vendorId={vendorId}
+            openDetails={openDetails}
+          />
+          <div className="flex justify-center gap-2">
+            <Button
+              onClick={closeModal}
+              intent={'secondary'}
+              className="text-sm"
+            >
+              {dict.makeOffer.backToSite}
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );
