@@ -6,7 +6,7 @@ import { getDictionary } from '@/i18n/translate';
 import { fetchB2BProductsFromSameVendor } from '@/mappers/search';
 import { ErrorBoundary } from '@sentry/nextjs';
 import { useEffect } from 'react';
-import B2BProductCard from './card';
+import B2BProductSmallCard from './small';
 
 const dict = getDictionary('fr');
 
@@ -31,6 +31,11 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
     fetchProductsFromSameVendor(vendorId, productId);
   }, []);
 
+  const productsFromSameVendor = fetchState.value;
+
+  if (!productsFromSameVendor || productsFromSameVendor.length === 0)
+    return <></>;
+
   return (
     <>
       <h3 className="mt-2 text-2xl font-semibold">
@@ -40,22 +45,17 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
         isLoading={fetchState.loading}
         className="min-h-[160px]"
       >
-        {!fetchState.value ? (
-          <></>
-        ) : (
-          fetchState.value.map((productCardProps) => (
-            <ErrorBoundary
-              key={productCardProps.shopifyId}
-              showDialog={false}
-            >
-              <B2BProductCard
-                {...productCardProps}
-                openDetails={openDetails}
-                intent="small-card"
-              />
-            </ErrorBoundary>
-          ))
-        )}
+        {productsFromSameVendor.map((productCardProps) => (
+          <ErrorBoundary
+            key={productCardProps.shopifyId}
+            showDialog={false}
+          >
+            <B2BProductSmallCard
+              {...productCardProps}
+              openDetails={openDetails}
+            />
+          </ErrorBoundary>
+        ))}
       </HorizontalScroller>
     </>
   );
