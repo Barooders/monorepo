@@ -1,4 +1,3 @@
-import { getDictionary } from '@/i18n/translate';
 import B2BPriceOfferButton, {
   ExistingOfferComponent,
 } from '../_components/Actions/B2BPriceOfferButton';
@@ -6,8 +5,6 @@ import Characteristics from '../_components/Characteristics';
 import ProductImage from '../_components/ProductImage';
 import BundlePrice from '../_components/ProductPrice/BundlePrice';
 import { B2BProductCardProps } from '../types';
-
-const dict = getDictionary('fr');
 
 const B2BProductCard: React.FC<
   B2BProductCardProps & { openDetails: (productInternalId: string) => void }
@@ -46,9 +43,6 @@ const B2BProductCard: React.FC<
           productType={productType}
           variantCondition={variantCondition}
           componentSize="medium"
-          extraTagKeys={[
-            { key: 'couleur', label: dict.components.productCard.colorLabel },
-          ]}
         />
         <BundlePrice
           className="my-1"
