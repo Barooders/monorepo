@@ -119,7 +119,7 @@ feed_gmc as (
     left JOIN {{ref('breadcrumbs')}} as bc on bc.product_type = p.product_type
     left JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.id as string) and snap.date = date_sub(current_date, interval 1 day)
     left join barooders_backend_public.customer as c on cast(c.shopifyid as string) = cast(p.vendor_id as string)
-    left join barooders_backend_public.productsaleschannel ON productsaleschannel.productid = p.id
+    left join barooders_backend_public.productsaleschannel ON productsaleschannel.productid = p.internal_id
     where
         (
             (p.status = 'active' AND v.inventory_quantity > 0)
