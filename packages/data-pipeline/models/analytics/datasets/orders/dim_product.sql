@@ -71,7 +71,8 @@ with
                 then pv.inventory_quantity
                 else former_p.inventory_quantity
             end as former_quantity,
-            date_diff(o.created_at, p.created_at, day) as product_lifetime
+            date_diff(o.created_at, p.created_at, day) as product_lifetime,
+						cat.name AS parent_category
 
         from shopify.product p
 
@@ -145,6 +146,9 @@ with
             on ol.product_id = p.id
             and ol.fulfillment_status = 'fulfilled'
         left join shopify.order o on o.id = ol.order_id and o.financial_status = 'paid'
+        left join strapi_public.pim_product_types ppt on ppt.name = p.product_type
+        left join strapi_public.pim_product_types_categories_links ppt_cat on ppt_cat.pim_product_type_id = ppt.id
+				left join strapi_public.pim_categories cat on ppt_cat.pim_category_id = cat.id
 
         where p.`_fivetran_deleted` is false
     ),
