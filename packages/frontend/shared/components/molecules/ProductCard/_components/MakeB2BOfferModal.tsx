@@ -35,7 +35,7 @@ export enum Status {
 }
 
 const MakeB2BOfferModal: React.FC<PropsType> = ({
-  userCanNegociate = false,
+  userCanNegociate = true,
   productId,
   productName,
   totalQuantity,
