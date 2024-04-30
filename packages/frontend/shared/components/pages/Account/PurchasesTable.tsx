@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  MeAsCustomerTypes,
-  gql_me_as_customer,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/me_as_customer';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
@@ -28,10 +25,10 @@ const getDisplayedStatus = (status: OrderStatus) => {
 
 type Purchase = {
   product: {
-    title: string | null;
+    title?: string | null;
     tag: string | null;
     description: string;
-    imageSrc: string | null;
+    imageSrc?: string | null;
     link: string;
   };
   price: string;
@@ -41,7 +38,7 @@ type Purchase = {
   status: OrderStatus;
 };
 
-const FETCH_PURCHASES = gql_me_as_customer`
+const FETCH_PURCHASES = /* GraphQL */ /* gql_me_as_customer */ `
   query fetchPurchases {
     Customer(limit: 1) {
       purchasedOrders(order_by: { createdAt: desc }) {
@@ -67,52 +64,52 @@ const FETCH_PURCHASES = gql_me_as_customer`
 `;
 
 const PurchasesTable = () => {
-  const fetchPurchases = useHasura<MeAsCustomerTypes.FetchPurchasesQuery>(
-    FETCH_PURCHASES,
+  const fetchPurchases = useHasura(
+    graphql(FETCH_PURCHASES),
     HASURA_ROLES.ME_AS_CUSTOMER,
   );
 
-  const [{ loading, error, value }, doFetchPurchases] = useWrappedAsyncFn<
-    () => Promise<Purchase[]>
-  >(async () => {
-    const { Customer } = await fetchPurchases();
-    if (Customer.length === 0) return [];
+  const [{ loading, error, value }, doFetchPurchases] = useWrappedAsyncFn(
+    async () => {
+      const { Customer } = await fetchPurchases();
+      if (Customer.length === 0) return [];
 
-    const { purchasedOrders } = Customer[0];
-    return purchasedOrders.reduce(
-      (
-        acc: Purchase[],
-        { name, orderLines, totalPriceInCents, createdAt, status, id },
-      ) => {
-        if (!orderLines || orderLines.length === 0) return acc;
-        const firstProduct = orderLines[0];
-        if (!firstProduct) return acc;
+      const { purchasedOrders } = Customer[0];
+      return purchasedOrders.reduce(
+        (
+          acc: Purchase[],
+          { name, orderLines, totalPriceInCents, createdAt, status, id },
+        ) => {
+          if (!orderLines || orderLines.length === 0) return acc;
+          const firstProduct = orderLines[0];
+          if (!firstProduct) return acc;
 
-        const { productImage, ...restOfProduct } = firstProduct;
-        return [
-          ...acc,
-          {
-            product: mapProductFromGraphQl({
-              ...restOfProduct,
-              firstImage: productImage,
-            }),
-            price: totalPriceInCents
-              ? `${(Number(totalPriceInCents) / 100).toFixed(2)} €`
-              : '',
-            orderDate: new Date(createdAt).toLocaleDateString('fr-FR', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            }),
-            orderName: name ?? '',
-            orderLink: `/account/order/${id}`,
-            status: status as OrderStatus,
-          },
-        ];
-      },
-      [],
-    );
-  });
+          const { productImage, ...restOfProduct } = firstProduct;
+          return [
+            ...acc,
+            {
+              product: mapProductFromGraphQl({
+                ...restOfProduct,
+                firstImage: productImage,
+              }),
+              price: totalPriceInCents
+                ? `${(Number(totalPriceInCents) / 100).toFixed(2)} €`
+                : '',
+              orderDate: new Date(createdAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              }),
+              orderName: name ?? '',
+              orderLink: `/account/order/${id}`,
+              status: status as OrderStatus,
+            },
+          ];
+        },
+        [],
+      );
+    },
+  );
 
   useEffect(() => {
     doFetchPurchases();
@@ -146,7 +143,7 @@ const PurchasesTable = () => {
                     title={product.title}
                     tag={product.tag}
                     description={product.description}
-                    imageSrc={product.imageSrc}
+                    imageSrc={product.imageSrc ?? null}
                     link={orderLink}
                   />
                 ),

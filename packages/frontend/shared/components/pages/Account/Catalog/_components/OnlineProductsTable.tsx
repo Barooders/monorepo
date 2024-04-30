@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  MeAsVendorTypes,
-  gql_me_as_vendor,
-} from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/me_as_vendor';
 import Button from '@/components/atoms/Button';
 import Link from '@/components/atoms/Link';
 import Loader from '@/components/atoms/Loader';
@@ -48,7 +45,7 @@ type OnlineProduct = {
   }[];
 };
 
-const FETCH_ONLINE_PRODUCTS = gql_me_as_vendor`
+const FETCH_ONLINE_PRODUCTS = /* GraphQL */ /* gql_me_as_vendor */ `
   query fetchOnlineProducts {
     Customer(limit: 1) {
       onlineProducts(
@@ -91,11 +88,10 @@ type OnlineProductState = Record<number, OnlineProduct>;
 const OnlineProductsTable = () => {
   const [onlineProductsState, setOnlineProductsState] =
     useState<OnlineProductState>([]);
-  const fetchOnlineProducts =
-    useHasura<MeAsVendorTypes.FetchOnlineProductsQuery>(
-      FETCH_ONLINE_PRODUCTS,
-      HASURA_ROLES.ME_AS_VENDOR,
-    );
+  const fetchOnlineProducts = useHasura(
+    graphql(FETCH_ONLINE_PRODUCTS),
+    HASURA_ROLES.ME_AS_VENDOR,
+  );
   const { fetchAPI } = useBackend();
   const getActionsFromStatus = (status: string | null, shopifyId: number) => {
     return [
@@ -155,38 +151,38 @@ const OnlineProductsTable = () => {
     }
   };
 
-  const [{ loading, error, value }, doFetchOnlineProducts] = useWrappedAsyncFn<
-    () => Promise<OnlineProductState>
-  >(async () => {
-    const { Customer } = await fetchOnlineProducts();
-    if (Customer.length === 0) return {};
+  const [{ loading, error, value }, doFetchOnlineProducts] = useWrappedAsyncFn(
+    async () => {
+      const { Customer } = await fetchOnlineProducts();
+      if (Customer.length === 0) return {};
 
-    const { onlineProducts } = Customer[0];
+      const { onlineProducts } = Customer[0];
 
-    return onlineProducts.reduce((acc: OnlineProductState, product) => {
-      if (!product.storeProduct) return acc;
+      return onlineProducts.reduce((acc: OnlineProductState, product) => {
+        if (!product.storeProduct) return acc;
 
-      const { status, storeProduct } = product;
+        const { status, storeProduct } = product;
 
-      const { title, tag, description, imageSrc, price, link } =
-        mapProductFromGraphQl(storeProduct);
+        const { title, tag, description, imageSrc, price, link } =
+          mapProductFromGraphQl(storeProduct);
 
-      return {
-        ...acc,
-        [product.shopifyId]: {
-          title,
-          tag,
-          description,
-          imageSrc,
-          link,
-          price,
-          status,
-          numberOfViews: storeProduct.numberOfViews,
-          actions: getActionsFromStatus(status, product.shopifyId),
-        },
-      };
-    }, {});
-  });
+        return {
+          ...acc,
+          [product.shopifyId]: {
+            title,
+            tag,
+            description,
+            imageSrc,
+            link,
+            price,
+            status,
+            numberOfViews: storeProduct.numberOfViews,
+            actions: getActionsFromStatus(status, product.shopifyId),
+          },
+        };
+      }, {});
+    },
+  );
 
   useEffect(() => {
     doFetchOnlineProducts();

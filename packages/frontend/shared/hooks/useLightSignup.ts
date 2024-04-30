@@ -1,10 +1,10 @@
-import { gql_registered_user } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/registered_user';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import useUser from './state/useUser';
 import { useAuth } from './useAuth';
 import { useHasura } from './useHasura';
 
-const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql_registered_user`
+const LIGHT_SIGNUP_CUSTOMER_MUTATION = /* GraphQL */ /* gql_registered_user */ `
   mutation updateCustomerInfo(
     $userId: uuid!
     $lastName: String!
@@ -31,7 +31,7 @@ const LIGHT_SIGNUP_CUSTOMER_MUTATION = gql_registered_user`
   }
 `;
 
-const LIGHT_SIGNUP_AUTH_MUTATION = gql_registered_user`
+const LIGHT_SIGNUP_AUTH_MUTATION = /* GraphQL */ /* gql_registered_user */ `
   mutation updateDisplayName($userId: uuid, $displayName: String!) {
     updateUsers(
       where: { id: { _eq: $userId } }
@@ -45,8 +45,8 @@ const LIGHT_SIGNUP_AUTH_MUTATION = gql_registered_user`
 const useLightSignup = () => {
   const { loginWithToken } = useAuth();
   const { hasuraToken } = useUser.getState();
-  const updateCustomer = useHasura(LIGHT_SIGNUP_CUSTOMER_MUTATION);
-  const updateAuthUser = useHasura(LIGHT_SIGNUP_AUTH_MUTATION);
+  const updateCustomer = useHasura(graphql(LIGHT_SIGNUP_CUSTOMER_MUTATION));
+  const updateAuthUser = useHasura(graphql(LIGHT_SIGNUP_AUTH_MUTATION));
 
   return useWrappedAsyncFn(
     async (variables: {

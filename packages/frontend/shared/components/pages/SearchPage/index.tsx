@@ -1,6 +1,6 @@
 'use client';
 
-import { PublicTypes, gql_public } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/public';
 import { fetchHasura } from '@/clients/hasura';
 import Collapse from '@/components/atoms/Collapse';
 import InnerPageBanner from '@/components/atoms/InnerPageBanner';
@@ -11,7 +11,6 @@ import { getData as getProductData } from '@/components/molecules/ProductCard/b2
 import { ProductMultiVariants as ProductCardPropsType } from '@/components/molecules/ProductCard/types';
 import Reviews from '@/components/molecules/Reviews';
 import {
-  REVIEWS_FRAGMENT,
   REVIEW_BLOCK_ANCHOR,
   mapReviewsFromFragment,
 } from '@/components/molecules/Reviews/container';
@@ -52,9 +51,7 @@ type ParentCollection =
   | null
   | undefined;
 
-const FETCH_COLLECTION_PAGE = gql_public`
-  ${REVIEWS_FRAGMENT}
-
+const FETCH_COLLECTION_PAGE = /* GraphQL */ /* gql_public */ `
   query fetchCollectionPageData(
     $collectionHandle: String!
     $vendorSellerName: String!
@@ -133,15 +130,12 @@ export const getData = async ({
 
   const [collectionPageData, highlightedProduct, menuData] = await Promise.all([
     collectionHandle
-      ? fetchHasura<PublicTypes.FetchCollectionPageDataQuery>(
-          FETCH_COLLECTION_PAGE,
-          {
-            variables: {
-              collectionHandle,
-              vendorSellerName,
-            },
+      ? fetchHasura(graphql(FETCH_COLLECTION_PAGE), {
+          variables: {
+            collectionHandle,
+            vendorSellerName,
           },
-        )
+        })
       : Promise.resolve(),
     (async () => {
       if (productHandle && productVariant) {
