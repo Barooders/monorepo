@@ -40,7 +40,7 @@ const useGetProductsIdFromOpenedOffers = () => {
       const { PriceOffer } = await fetchOpenedOffers();
       setOpenedPriceOfferProductIds(PriceOffer.map((po) => po.productId));
     })();
-  }, []);
+  }, [fetchOpenedOffers, setOpenedPriceOfferProductIds]);
 
   return { openedPriceOfferProductIds };
 };
