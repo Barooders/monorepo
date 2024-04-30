@@ -1,13 +1,10 @@
 import { fetchHasura } from '@/clients/hasura';
-import { DocumentNode } from 'graphql';
+import { TypedDocumentNode } from '@apollo/client';
 import { HASURA_ROLES } from 'shared-types';
 import { useHasuraToken } from './useHasuraToken';
 
-export const useHasura = <
-  ResponseType,
-  VariablesType = Record<string, unknown>,
->(
-  query: DocumentNode,
+export const useHasura = <ResponseType, VariablesType>(
+  query: TypedDocumentNode<ResponseType, VariablesType>,
   role?: HASURA_ROLES,
 ): ((variables?: VariablesType) => Promise<ResponseType>) => {
   const { getUpToDateHasuraToken } = useHasuraToken();
@@ -21,7 +18,7 @@ export const useHasura = <
       headers.append('X-Hasura-role', role ?? HASURA_ROLES.REGISTERED_USER);
     }
 
-    return await fetchHasura<ResponseType, VariablesType>(query, {
+    return await fetchHasura(query, {
       variables: variables,
       headers,
     });

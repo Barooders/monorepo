@@ -1,6 +1,6 @@
 'use client';
 
-import { AdminTypes, gql_admin } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/admin';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
-const PRODUCT_HIT_QUERY = gql_admin`
+const PRODUCT_HIT_QUERY = /* GraphQL */ /* gql_admin */ `
   query fetchProductHitData($productId: String) {
     Product(where: { id: { _eq: $productId } }) {
       manualNotation
@@ -29,13 +29,13 @@ const AdminHitHelper = ({
   hit: SearchPublicVariantDocument;
 }) => {
   const { isAdmin } = useAuth();
-  const fetchProductHitData = useHasura<AdminTypes.FetchProductHitDataQuery>(
-    PRODUCT_HIT_QUERY,
+  const fetchProductHitData = useHasura(
+    graphql(PRODUCT_HIT_QUERY),
     HASURA_ROLES.ADMIN,
   );
-  const [{ value }, doFetchProductHitData] = useWrappedAsyncFn<
-    () => Promise<AdminTypes.FetchProductHitDataQuery>
-  >(() => fetchProductHitData({ productId }));
+  const [{ value }, doFetchProductHitData] = useWrappedAsyncFn(() =>
+    fetchProductHitData({ productId }),
+  );
 
   useEffect(() => {
     if (!isAdmin()) return;

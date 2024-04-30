@@ -12,7 +12,7 @@ export type {
   MeAsCustomerTypes,
   MeAsVendorTypes,
   PublicTypes,
-  RegisteredUserTypes,
+  RegisteredUserTypes
 };
 
 export const gql_admin = gql;

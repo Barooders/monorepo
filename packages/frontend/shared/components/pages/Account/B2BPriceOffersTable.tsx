@@ -1,6 +1,6 @@
 'use client';
 
-import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/b2b_user';
 import Loader from '@/components/atoms/Loader';
 import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
@@ -44,20 +44,7 @@ const getDisplayedStatus = (status: PriceOfferStatus) => {
   );
 };
 
-type PriceOffer = {
-  product: {
-    title: string | null;
-    tag: string | null;
-    imageSrc: string | null;
-  };
-  price: string;
-  quantity: string;
-  createdAtDate: string;
-  note: string;
-  status: PriceOfferStatus;
-};
-
-const FETCH_PRICE_OFFERS = gql_b2b_user`
+const FETCH_PRICE_OFFERS = /* GraphQL */ /* gql_b2b_user */ `
   query fetchPriceOffers {
     PriceOffer(order_by: { createdAt: desc }) {
       id
@@ -83,14 +70,12 @@ const FETCH_PRICE_OFFERS = gql_b2b_user`
 
 const B2BPriceOffersTable = () => {
   const { user } = useHasuraToken();
-  const fetchPriceOffers = useHasura<B2BUserTypes.FetchPriceOffersQuery>(
-    FETCH_PRICE_OFFERS,
+  const fetchPriceOffers = useHasura(
+    graphql(FETCH_PRICE_OFFERS),
     HASURA_ROLES.B2B_USER,
   );
 
-  const [{ loading, error, value }, doFetchPriceOffers] = useWrappedAsyncFn<
-    () => Promise<PriceOffer[]>
-  >(async () => {
+  const [{ loading, error, value }, doFetchPriceOffers] = useWrappedAsyncFn(async () => {
     const { PriceOffer: priceOffers } = await fetchPriceOffers();
 
     return priceOffers.map(

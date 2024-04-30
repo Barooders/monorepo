@@ -1,6 +1,6 @@
 'use client';
 
-import { B2BUserTypes, gql_b2b_user } from '@/__generated/hasura-role.config';
+import { graphql } from '@/__generated/gql/b2b_user';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
@@ -28,7 +28,7 @@ export const ExistingOfferComponent: React.FC<{ className?: string }> = ({
   );
 };
 
-const FETCH_PRODUCT_FOR_NEW_OFFER = gql_b2b_user`
+const FETCH_PRODUCT_FOR_NEW_OFFER = /* GraphQL */ /* gql_b2b_user */ `
   query fetchProductForNewOffer($productId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productId } }) {
       variants {
@@ -65,15 +65,14 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   className,
   openDetails,
 }) => {
-  const fetchProductForNewOffer =
-    useHasura<B2BUserTypes.FetchProductForNewOfferQuery>(
-      FETCH_PRODUCT_FOR_NEW_OFFER,
-      HASURA_ROLES.B2B_USER,
-    );
+  const fetchProductForNewOffer = useHasura(
+    graphql(FETCH_PRODUCT_FOR_NEW_OFFER),
+    HASURA_ROLES.B2B_USER,
+  );
 
-  const [{ loading, value }, doFetchProductHitData] = useWrappedAsyncFn<
-    () => Promise<B2BUserTypes.FetchProductForNewOfferQuery>
-  >(() => fetchProductForNewOffer({ productId }));
+  const [{ loading, value }, doFetchProductHitData] = useWrappedAsyncFn(() =>
+    fetchProductForNewOffer({ productId }),
+  );
 
   const MakeOfferButton: React.FC<{
     openModal: () => void;
