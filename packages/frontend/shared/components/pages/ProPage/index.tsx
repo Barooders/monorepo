@@ -112,6 +112,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
         <AdminProductBanner
           productInternalId={selectedProductId}
           showByDefault={false}
+          market="B2B"
         />
       )}
       <InstantSearchProvider

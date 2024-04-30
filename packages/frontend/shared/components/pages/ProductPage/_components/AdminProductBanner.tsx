@@ -38,10 +38,12 @@ const AdminProductBanner = ({
   productShopifyId,
   productInternalId,
   showByDefault = true,
+  market = 'PUBLIC',
 }: {
   productShopifyId?: string;
   productInternalId: string;
   showByDefault?: boolean;
+  market?: 'PUBLIC' | 'B2B';
 }) => {
   const { isAdmin } = useAuth();
   const fetchProductNotation = useHasura<AdminTypes.FetchProductNotationQuery>(
@@ -206,7 +208,7 @@ const AdminProductBanner = ({
         </div>
         <Button
           className="ml-10 text-xs"
-          href="https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management"
+          href={`https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management?product_id=${productInternalId}&market=${market}`}
         >
           Retool Product
         </Button>
