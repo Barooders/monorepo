@@ -249,7 +249,7 @@ const MakeB2BOfferModal: React.FC<PropsType> = ({
               ) : userCanNegociate ? (
                 dict.makeOffer.send
               ) : (
-                dict.b2b.productCard.makeAnOffer.buy
+                dict.b2b.productCard.makeAnOffer.send
               )}
             </Button>
           </form>

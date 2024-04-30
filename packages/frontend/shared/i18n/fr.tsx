@@ -1207,7 +1207,7 @@ const fr = {
     productCard: {
       makeAnOffer: {
         openModal: 'Faire une offre',
-        buy: 'Acheter',
+        send: 'Envoyer',
         addManyDetails:
           'Ajoutez un maximum de détails à propos de votre demande dans le champs textuel.',
         changeQuantityToUpdatePrice:
