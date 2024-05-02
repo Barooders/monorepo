@@ -249,9 +249,13 @@ const fr = {
         reviews: 'avis',
         seeReviews: 'Voir les avis',
       },
-      discount: {
+      price: {
         remaining: 'Plus que ',
         mainPrice: 'Prix Barooders',
+        unitPrice: "Prix à l'unité",
+        bundlePrice: 'Prix en lot',
+        bundleTotalPrice: 'Prix total du lot',
+        taxIncluded: 'Prix TTC',
         reduction: 'Réduction',
         commission: 'Garantie Acheteur',
         total: 'Montant Total',

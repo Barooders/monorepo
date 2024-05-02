@@ -16,7 +16,7 @@ const buildLabelContent = (discount: Discount, displayDetails: boolean) => {
   }
 
   if (displayDetails && discount.code) {
-    return `${dict.components.productCard.discount.discountCode} : ${discount.code}`;
+    return `${dict.components.productCard.price.discountCode} : ${discount.code}`;
   }
 
   if (!discount.hideReduction)
