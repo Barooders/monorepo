@@ -20,7 +20,7 @@ const FIELD_ARRAY_NAME = 'requests';
 
 const B2BClientRequestItemForm: React.FC<PropsType> = ({ index }) => {
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
+    <div className="mb-4 flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
       <div className="text-base font-semibold">
         {dict.b2b.proPage.clientRequests.form.need} {index + 1}
       </div>

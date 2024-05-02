@@ -30,7 +30,7 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
     },
   });
 
-  const { fields } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control: formMethods.control,
     name: 'requests',
   });
@@ -61,6 +61,18 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
             index={index}
           />
         ))}
+        <div className="mt-4 flex gap-2 rounded-lg border border-gray-300 px-3 py-2">
+          <span className="mr-5 flex items-center text-base font-semibold">
+            {dict.b2b.proPage.clientRequests.form.need} {fields.length + 1}
+          </span>
+          <Button
+            onClick={() => append({} as B2BClientRequestItemFormInputs)}
+            className="w-[200px] shadow-md"
+            intent="secondary"
+          >
+            +
+          </Button>
+        </div>
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
         )}
