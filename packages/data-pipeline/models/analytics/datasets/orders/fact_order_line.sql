@@ -35,15 +35,15 @@ with fact_order_line as (
         shopify_order_line.fulfillment_status,
         shopify_order_line.fulfillment_service,
         case when refund.order_id is null then false else true end as is_refunded,
-        DATETIME(f.created_at, 'Europe/Paris') as fulfillment_date,
-        f.shipment_status,
-        f.tracking_company,
+        DATETIME(fulfillment.created_at, 'Europe/Paris') as fulfillment_date,
+        fulfillment.shipment_status,
+        fulfillment.tracking_company,
         CASE
           when backend_customer.sellername = 'Barooders' then 'barooders'
           when backend_customer.ispro is true then 'b2c'
           else 'c2c'
         END as owner,
-        DATE_DIFF(date_trunc(f.created_at, day), date_trunc(shopify_order.created_at, day), day) as fulfillment_days,
+        DATE_DIFF(date_trunc(fulfillment.created_at, day), date_trunc(shopify_order.created_at, day), day) as fulfillment_days,
         case when shopify_order_line.rank = 1 then CAST(JSON_EXTRACT_SCALAR(shopify_order.total_shipping_price_set, '$.shop_money.amount') AS NUMERIC) else 0 end as shipping_amount,
 				shopify_order.payment_gateway_names,
 				shopify_order_line.refund_type
@@ -57,7 +57,7 @@ with fact_order_line as (
       left join shopify.order_line_refund olr on olr.order_line_id = shopify_order_line.id
     ) shopify_order_line on shopify_order_line.order_id = shopify_order.id
 		left join shopify.fulfillment_order_line fol on fol.order_line_id = shopify_order_line.id
-    left join shopify.fulfillment f on f.id = fol.fulfillment_id
+    left join shopify.fulfillment fulfillment on fulfillment.id = fol.fulfillment_id
     left join (
         select
             c.transaction_id,
