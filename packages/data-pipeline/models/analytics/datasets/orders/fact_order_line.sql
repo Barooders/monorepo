@@ -34,7 +34,7 @@ with fact_order_line as (
         case when shopify_order_line.rank = 1 then shopify_order.total_discounts else 0 end as total_discounts,
         shopify_order_line.fulfillment_status,
         shopify_order_line.fulfillment_service,
-        case when r.order_id is null then false else true end as is_refunded,
+        case when refund.order_id is null then false else true end as is_refunded,
         DATETIME(f.created_at, 'Europe/Paris') as fulfillment_date,
         f.shipment_status,
         f.tracking_company,
@@ -71,7 +71,7 @@ with fact_order_line as (
         from google_analytics.google_analytics_conversions_sources c) c
     on c.transaction_id = shopify_order.name
     and c.rank = 1
-    left join (select distinct order_id from shopify.refund) r on r.order_id = shopify_order.id
+    left join (select distinct order_id from shopify.refund) refund on refund.order_id = shopify_order.id
     left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = shopify_order_line.product_id
     left join barooders_backend_public.customer backend_customer on backend_customer.authuserid = b_p.vendor_id
 
