@@ -6,8 +6,8 @@ import { Discount } from '@/types';
 import { formatCurrency } from '@/utils/currency';
 import { useEffect } from 'react';
 import CommissionShield from './CommissionShield';
-import { calculateDiscountedPrice } from './lib';
 import Timer from './Timer';
+import { calculateDiscountedPrice } from './lib';
 
 const dict = getDictionary('fr');
 
@@ -43,7 +43,7 @@ const PriceRecap: React.FC<PropsType> = ({
   savingsPercent,
   savingsAmount,
 }) => {
-  const discountLabel = dict.components.productCard.discount;
+  const discountLabel = dict.components.productCard.price;
   const hasDiscount = discounts.length > 0;
   const discountDeadline = discounts.find(
     (discount) => !!discount.endsAt,

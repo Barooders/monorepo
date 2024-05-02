@@ -249,7 +249,7 @@ const fr = {
         reviews: 'avis',
         seeReviews: 'Voir les avis',
       },
-      discount: {
+      price: {
         remaining: 'Plus que ',
         mainPrice: 'Prix Barooders',
         reduction: 'Réduction',

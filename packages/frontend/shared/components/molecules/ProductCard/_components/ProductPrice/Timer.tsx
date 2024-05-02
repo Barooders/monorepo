@@ -11,7 +11,7 @@ const Timer = ({ endDate }: { endDate: string | Date }) => (
       className="text-red-600"
     />
     <span className="hidden sm:inline">
-      {dict.components.productCard.discount.remaining}
+      {dict.components.productCard.price.remaining}
     </span>
     {dayjs(endDate).fromNow(true)}
   </div>
