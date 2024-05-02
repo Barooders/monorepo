@@ -7,8 +7,8 @@
 WITH variant_data AS (
 	SELECT
 		ppv."productId" AS product_id,
-		min(ppv."priceInCents" / 100) AS cheapest_variant_price,
-		max(ppv."priceInCents" / 100) AS most_expensive_variant_price
+		min(ppv."priceInCents"::float / 100) AS cheapest_variant_price,
+		max(ppv."priceInCents"::float / 100) AS most_expensive_variant_price
 	FROM
 		public."ProductVariant" ppv
 	GROUP BY ppv."productId"
