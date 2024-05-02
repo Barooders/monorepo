@@ -196,6 +196,14 @@ class AddProductImageResponseDTO {
   id!: string;
 }
 
+class CreatedProductResponseDTO {
+  @ApiProperty()
+  internalId!: string;
+
+  @ApiProperty()
+  shopifyId!: number;
+}
+
 @Controller(routesV1.version)
 export class ProductController {
   private readonly logger = new Logger(ProductController.name);
@@ -213,24 +221,26 @@ export class ProductController {
 
   @Post(routesV1.product.createDraftProduct)
   @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: CreatedProductResponseDTO })
   async createDraftProduct(
     @User() { userId }: ExtractedUser,
     @Body()
     draftProductInputDto: DraftProductInputDto,
-  ): Promise<{ body: { product: StoredProduct } }> {
+  ): Promise<CreatedProductResponseDTO> {
     const author: Author = {
       type: 'user',
     };
 
-    const product = await this.productCreationService.createDraftProduct(
-      draftProductInputDto,
-      userId,
-      author,
-    );
+    const { internalId, shopifyId } =
+      await this.productCreationService.createDraftProduct(
+        draftProductInputDto,
+        userId,
+        author,
+      );
+
     return {
-      body: {
-        product,
-      },
+      internalId,
+      shopifyId,
     };
   }
 

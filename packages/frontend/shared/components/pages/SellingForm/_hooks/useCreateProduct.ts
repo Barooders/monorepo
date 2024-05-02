@@ -1,3 +1,4 @@
+import { operations } from '@/__generated/rest-schema';
 import useBackend from '@/hooks/useBackend';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
@@ -58,18 +59,18 @@ const useCreateProduct = () => {
       }),
     );
 
-    const result = await fetchAPI<{
-      body: { product: { shopifyId: number } };
-    }>(uri, {
+    const result = await fetchAPI<
+      operations['ProductController_createDraftProduct']['responses']['default']['content']['application/json']
+    >(uri, {
       method: 'POST',
       body,
     });
 
-    if (!result.body?.product?.shopifyId) {
+    if (!result.shopifyId) {
       throw new Error('Missing shopifyId product in the response');
     }
 
-    return result.body.product.shopifyId.toString();
+    return result.shopifyId.toString();
   };
 
   return useWrappedAsyncFn(createProduct);
