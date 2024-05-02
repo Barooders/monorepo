@@ -85,7 +85,7 @@ class CustomerRequestDto {
 
   @ApiProperty()
   @IsDateString()
-  neededAtDate!: Date;
+  neededAtDate!: string;
 }
 
 class CreateCustomerRequestsDto {
@@ -191,7 +191,10 @@ export class CustomerController {
 
     await this.customerRequestService.createCustomerRequests(
       new UUID({ uuid: userId }),
-      payload.requests,
+      payload.requests.map((request) => ({
+        ...request,
+        neededAtDate: new Date(request.neededAtDate),
+      })),
     );
   }
 }

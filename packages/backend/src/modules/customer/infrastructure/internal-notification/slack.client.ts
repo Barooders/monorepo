@@ -11,4 +11,11 @@ export class SlackClient implements IInternalNotificationClient {
       message,
     );
   }
+
+  async sendB2BNotification(message: string): Promise<void> {
+    await sendSlackMessage(
+      envConfig.externalServices.slack.b2bSlackChannelId,
+      message,
+    );
+  }
 }
