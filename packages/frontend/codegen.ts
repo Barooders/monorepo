@@ -39,6 +39,7 @@ const getConfigFromRole = (role: HASURA_ROLES): CodegenConfig => {
           skipTypename: false,
           scalars: {
             bigint: 'number',
+            citext: 'string',
           },
         },
         presetConfig: {

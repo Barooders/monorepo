@@ -35,8 +35,8 @@ function executePrismaCommand() {
 
 if [ $SCHEMA_ARG = "all" ];
 then
-	executePrismaCommand store
 	executePrismaCommand main
+	executePrismaCommand store
 elif [ $SCHEMA_ARG = "store" ] || [ $SCHEMA_ARG = "main" ]
 then
 	executePrismaCommand $SCHEMA_ARG
