@@ -706,13 +706,13 @@ model CustomerRequest {
   id                String      @id @default(dbgenerated("(gen_random_uuid())::text"))
   quantity          Int
   description       String
-  budgetMinInCents  Int?
-  budgetMaxInCents  Int?
-  neededAtDate      DateTime
-  customerId        String      @db.Uuid
+  budgetMinInCents  Int?        @map("budget_min_in_cents")
+  budgetMaxInCents  Int?        @map("budget_max_in_cents")
+  neededAtDate      DateTime    @map("needed_at_date")
+  customerId        String      @db.Uuid @map("customer_id")
   customer          Customer    @relation(name: "customer", fields: [customerId], references: [authUserId])
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime?   @updatedAt
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime?   @updatedAt @map("updated_at")
 
   @@schema("public")
 }
