@@ -227,6 +227,10 @@ export interface components {
     DraftProductInputDto: {
       bundlePrices: components['schemas']['BundlePriceDTO'][];
     };
+    CreatedProductResponseDTO: {
+      internalId: string;
+      shopifyId: number;
+    };
     AddProductImageDTO: {
       attachment: string;
       position?: number;
@@ -273,7 +277,8 @@ export interface components {
       id: number;
     };
     ProductAdminDTO: {
-      id: number;
+      shopifyId: number;
+      internalId: string;
       status: string;
       vendor: string;
       tags: string[];
@@ -440,7 +445,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-29T16:21:04.724Z
+       * @example 2024-05-02T16:16:13.068Z
        */
       birthDate: string;
       /**
@@ -775,8 +780,10 @@ export interface operations {
       };
     };
     responses: {
-      201: {
-        content: never;
+      default: {
+        content: {
+          'application/json': components['schemas']['CreatedProductResponseDTO'];
+        };
       };
     };
   };
