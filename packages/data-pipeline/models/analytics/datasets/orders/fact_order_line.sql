@@ -72,8 +72,8 @@ with fact_order_line as (
     on conversions_sources.transaction_id = shopify_order.name
     and conversions_sources.rank = 1
     left join (select distinct order_id from shopify.refund) refund on refund.order_id = shopify_order.id
-    left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = shopify_order_line.product_id
-    left join barooders_backend_public.customer backend_customer on backend_customer.authuserid = b_p.vendor_id
+    left join barooders_backend_dbt.store_product_for_analytics store_product_for_analytics on store_product_for_analytics.shopify_id = shopify_order_line.product_id
+    left join barooders_backend_public.customer backend_customer on backend_customer.authuserid = store_product_for_analytics.vendor_id
 
 		-- This filter out order lines cancelled at order level
 		WHERE shopify_order.cancelled_at IS NULL
