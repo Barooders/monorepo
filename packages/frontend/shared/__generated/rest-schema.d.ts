@@ -20,6 +20,9 @@ export interface paths {
   '/v1/customers/vendor-data': {
     get: operations['CustomerController_fetchVendorDataUrl'];
   };
+  '/v1/customers/requests': {
+    post: operations['CustomerController_createCustomerRequests'];
+  };
   '/v1/customers/webhook/signup': {
     post: operations['CustomerWebhooksHasuraController_handleSignupHasuraEvent'];
   };
@@ -193,6 +196,17 @@ export interface components {
     };
     VendorDataUrlDto: {
       url: string;
+    };
+    CustomerRequestDto: {
+      quantity: number;
+      description: string;
+      budgetMinInCents?: number;
+      budgetMaxInCents?: number;
+      /** Format: date-time */
+      neededAtDate: string;
+    };
+    CreateCustomerRequestsDto: {
+      requests: components['schemas']['CustomerRequestDto'][];
     };
     ValidateHandDeliveryOrderDto: Record<string, never>;
     OrderLineFulfillmentDTO: Record<string, never>;
@@ -440,7 +454,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-04-29T16:21:04.724Z
+       * @example 2024-05-02T14:11:49.422Z
        */
       birthDate: string;
       /**
@@ -555,6 +569,20 @@ export interface operations {
     };
   };
   CustomerController_fetchVendorDataUrl: {
+    responses: {
+      default: {
+        content: {
+          'application/json': components['schemas']['VendorDataUrlDto'];
+        };
+      };
+    };
+  };
+  CustomerController_createCustomerRequests: {
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateCustomerRequestsDto'];
+      };
+    };
     responses: {
       default: {
         content: {

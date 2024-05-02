@@ -8,9 +8,11 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import B2BCustomerRequestItemForm, {
   B2BCustomerRequestItemFormInputs,
 } from './B2BCustomerRequestItemForm';
+import useCreateRequests from './_hooks/useCreateRequests';
 
 type PropsType = {
   onSave: () => void;
@@ -35,9 +37,13 @@ const B2BCustomerRequestForm: React.FC<PropsType> = ({ onSave }) => {
     name: 'requests',
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
+  const [, createRequests] = useCreateRequests();
 
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await createRequests(data.requests);
+
+    // TODO: How to handle errors ?
+    toast.success(dict.b2b.proPage.customerRequests.successToaster);
     onSave();
   };
 
