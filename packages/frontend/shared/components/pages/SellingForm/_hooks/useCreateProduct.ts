@@ -59,17 +59,17 @@ const useCreateProduct = () => {
     );
 
     const result = await fetchAPI<{
-      body: { product: { id: string } };
+      body: { product: { shopifyId: number } };
     }>(uri, {
       method: 'POST',
       body,
     });
 
-    if (!result.body?.product?.id) {
-      throw new Error('Missing id product in the response');
+    if (!result.body?.product?.shopifyId) {
+      throw new Error('Missing shopifyId product in the response');
     }
 
-    return result.body.product.id;
+    return result.body.product.shopifyId.toString();
   };
 
   return useWrappedAsyncFn(createProduct);
