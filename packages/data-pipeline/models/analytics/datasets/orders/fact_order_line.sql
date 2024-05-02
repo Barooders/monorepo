@@ -22,7 +22,7 @@ with fact_order_line as (
         o.customer_id,
         o.confirmed,
         shopify_order_line.vendor,
-        b_c.shopifyid as vendor_id,
+        backend_customer.shopifyid as vendor_id,
         shopify_order_line.product_id,
         shopify_order_line.variant_id,
         o.financial_status,
@@ -39,8 +39,8 @@ with fact_order_line as (
         f.shipment_status,
         f.tracking_company,
         CASE
-          when b_c.sellername = 'Barooders' then 'barooders'
-          when b_c.ispro is true then 'b2c'
+          when backend_customer.sellername = 'Barooders' then 'barooders'
+          when backend_customer.ispro is true then 'b2c'
           else 'c2c'
         END as owner,
         DATE_DIFF(date_trunc(f.created_at, day), date_trunc(o.created_at, day), day) as fulfillment_days,
@@ -73,7 +73,7 @@ with fact_order_line as (
     and c.rank = 1
     left join (select distinct order_id from shopify.refund) r on r.order_id = o.id
     left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = shopify_order_line.product_id
-    left join barooders_backend_public.customer b_c on b_c.authuserid = b_p.vendor_id
+    left join barooders_backend_public.customer backend_customer on backend_customer.authuserid = b_p.vendor_id
 
 		-- This filter out order lines cancelled at order level
 		WHERE o.cancelled_at IS NULL
