@@ -16,7 +16,15 @@ import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { IsInt, IsPhoneNumber, IsString } from 'class-validator';
+import {
+  IsDateString,
+  IsInt,
+  IsOptional,
+  IsPhoneNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
+import { CustomerRequestService } from '../domain/customer-request.service';
 import { CustomerService } from '../domain/customer.service';
 import {
   PaymentAccountProviderService,
@@ -48,12 +56,40 @@ class VendorDataUrlDto {
   url!: string;
 }
 
+class CustomerRequestDto {
+  @ApiProperty()
+  @IsPositive()
+  @IsInt()
+  quantity!: number;
+
+  @ApiProperty()
+  @IsString()
+  description!: string;
+
+  @ApiProperty()
+  @IsInt()
+  @IsPositive()
+  @IsOptional()
+  budgetMinInCents?: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsPositive()
+  @IsOptional()
+  budgetMaxInCents?: number;
+
+  @ApiProperty()
+  @IsDateString()
+  neededAtDate!: string;
+}
+
 @Controller(routesV1.version)
 export class CustomerController {
   private readonly logger = new Logger(CustomerController.name);
 
   constructor(
     private customerService: CustomerService,
+    private customerRequestService: CustomerRequestService,
     private paymentAccountProvider: PaymentAccountProviderService,
     private analyticsProvider: IAnalyticsProvider,
   ) {}
@@ -125,5 +161,19 @@ export class CustomerController {
         new UUID({ uuid: userId }),
       ),
     };
+  }
+
+  @Post(routesV1.customer.request)
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: VendorDataUrlDto })
+  async createCustomerRequests(
+    @User() { userId }: ExtractedUser,
+    @Body()
+    requests: CustomerRequestDto[],
+  ): Promise<void> {
+    await this.customerRequestService.createCustomerRequests(
+      new UUID({ uuid: userId }),
+      requests,
+    );
   }
 }
