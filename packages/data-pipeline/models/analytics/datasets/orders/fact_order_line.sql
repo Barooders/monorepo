@@ -3,7 +3,7 @@
 
 with fact_order_line as (
     select
-        ol.id,
+        shopify_order_line.id,
         o.id as order_id,
         o.name as order_name,
         DATETIME(o.created_at, 'Europe/Paris') as creation_datetime,
@@ -21,19 +21,19 @@ with fact_order_line as (
         END AS source,
         o.customer_id,
         o.confirmed,
-        ol.vendor,
+        shopify_order_line.vendor,
         b_c.shopifyid as vendor_id,
-        ol.product_id,
-        ol.variant_id,
+        shopify_order_line.product_id,
+        shopify_order_line.variant_id,
         o.financial_status,
-        ol.gift_card,
-        ol.quantity,
-        ol.sku,
-        ol.price as product_price,
-        case when ol.rank = 1 then o.total_price else 0 end as total_price,
-        case when ol.rank = 1 then o.total_discounts else 0 end as total_discounts,
-        ol.fulfillment_status,
-        ol.fulfillment_service,
+        shopify_order_line.gift_card,
+        shopify_order_line.quantity,
+        shopify_order_line.sku,
+        shopify_order_line.price as product_price,
+        case when shopify_order_line.rank = 1 then o.total_price else 0 end as total_price,
+        case when shopify_order_line.rank = 1 then o.total_discounts else 0 end as total_discounts,
+        shopify_order_line.fulfillment_status,
+        shopify_order_line.fulfillment_service,
         case when r.order_id is null then false else true end as is_refunded,
         DATETIME(f.created_at, 'Europe/Paris') as fulfillment_date,
         f.shipment_status,
@@ -44,19 +44,19 @@ with fact_order_line as (
           else 'c2c'
         END as owner,
         DATE_DIFF(date_trunc(f.created_at, day), date_trunc(o.created_at, day), day) as fulfillment_days,
-        case when ol.rank = 1 then CAST(JSON_EXTRACT_SCALAR(o.total_shipping_price_set, '$.shop_money.amount') AS NUMERIC) else 0 end as shipping_amount,
+        case when shopify_order_line.rank = 1 then CAST(JSON_EXTRACT_SCALAR(o.total_shipping_price_set, '$.shop_money.amount') AS NUMERIC) else 0 end as shipping_amount,
 				o.payment_gateway_names,
-				ol.refund_type
+				shopify_order_line.refund_type
     from shopify.order o
 		left join (
       select
-        ol.*,
+        shopify_order_line.*,
 				olr.restock_type AS refund_type,
-        RANK() OVER (PARTITION BY ol.order_id ORDER BY ol.id ASC) AS rank
-      from shopify.order_line ol
-      left join shopify.order_line_refund olr on olr.order_line_id = ol.id
-    ) ol on ol.order_id = o.id
-		left join shopify.fulfillment_order_line fol on fol.order_line_id = ol.id
+        RANK() OVER (PARTITION BY shopify_order_line.order_id ORDER BY shopify_order_line.id ASC) AS rank
+      from shopify.order_line shopify_order_line
+      left join shopify.order_line_refund olr on olr.order_line_id = shopify_order_line.id
+    ) shopify_order_line on shopify_order_line.order_id = o.id
+		left join shopify.fulfillment_order_line fol on fol.order_line_id = shopify_order_line.id
     left join shopify.fulfillment f on f.id = fol.fulfillment_id
     left join (
         select
@@ -72,7 +72,7 @@ with fact_order_line as (
     on c.transaction_id = o.name
     and c.rank = 1
     left join (select distinct order_id from shopify.refund) r on r.order_id = o.id
-    left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = ol.product_id
+    left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = shopify_order_line.product_id
     left join barooders_backend_public.customer b_c on b_c.authuserid = b_p.vendor_id
 
 		-- This filter out order lines cancelled at order level
