@@ -16,16 +16,16 @@ with fact_order_line_refund as (
         order_line.owner as owner,
         case
             when order_line.id is not null then order_line.total_price
-            else t.amount
+            else shopify_transaction.amount
         end as order_total_amount,
         case
             when order_line_refund.id is not null then order_line_refund.subtotal
-            else t.amount
+            else shopify_transaction.amount
         end as refund_total_amount
     from shopify.refund refund
     left join shopify.order_line_refund order_line_refund on order_line_refund.refund_id = refund.id
     left join {{ref('fact_order_line')}} order_line on order_line.id = order_line_refund.order_line_id
-    left join shopify.`transaction` t on t.refund_id = refund.id
+    left join shopify.`transaction` shopify_transaction on shopify_transaction.refund_id = refund.id
 
 )
 
