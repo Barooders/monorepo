@@ -8,11 +8,11 @@ with fact_order_line as (
         shopify_order.name as order_name,
         DATETIME(shopify_order.created_at, 'Europe/Paris') as creation_datetime,
         date_trunc(DATETIME(shopify_order.created_at, 'Europe/Paris'), day) as creation_date,
-        c.`source` as utm_source,
-        c.medium as utm_medium,
-        c.campaign as utm_campaign,
-        c.landing_page_path as landing_page,
-        c.channel_grouping as channel,
+        conversions_sources.`source` as utm_source,
+        conversions_sources.medium as utm_medium,
+        conversions_sources.campaign as utm_campaign,
+        conversions_sources.landing_page_path as landing_page,
+        conversions_sources.channel_grouping as channel,
         CASE
           WHEN shopify_order.app_id = 13717602305 THEN 'mobile_application'
           WHEN shopify_order.app_id = 580111 THEN 'website'
@@ -60,17 +60,17 @@ with fact_order_line as (
     left join shopify.fulfillment fulfillment on fulfillment.id = fulfillment_order_line.fulfillment_id
     left join (
         select
-            c.transaction_id,
-            c.`date` ,
-            c.`source`,
-            c.medium,
-            c.campaign,
-            c.landing_page_path,
-            c.channel_grouping,
+            conversions_sources.transaction_id,
+            conversions_sources.`date` ,
+            conversions_sources.`source`,
+            conversions_sources.medium,
+            conversions_sources.campaign,
+            conversions_sources.landing_page_path,
+            conversions_sources.channel_grouping,
             RANK() OVER (PARTITION BY transaction_id ORDER BY `date` ASC) as rank
-        from google_analytics.google_analytics_conversions_sources c) c
-    on c.transaction_id = shopify_order.name
-    and c.rank = 1
+        from google_analytics.google_analytics_conversions_sources conversions_sources) conversions_sources
+    on conversions_sources.transaction_id = shopify_order.name
+    and conversions_sources.rank = 1
     left join (select distinct order_id from shopify.refund) refund on refund.order_id = shopify_order.id
     left join barooders_backend_dbt.store_product_for_analytics b_p on b_p.shopify_id = shopify_order_line.product_id
     left join barooders_backend_public.customer backend_customer on backend_customer.authuserid = b_p.vendor_id
