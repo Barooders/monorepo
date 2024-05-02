@@ -18,7 +18,7 @@ with fact_order as (
         backend_order.shippingaddressphone,
         backend_order.status as status,
         from barooders_backend_public.order backend_order
-        join barooders_backend_public.customer customer on customer.authuserid = order.customerid
+        join barooders_backend_public.customer customer on customer.authuserid = backend_order.customerid
 )
 
 select *
