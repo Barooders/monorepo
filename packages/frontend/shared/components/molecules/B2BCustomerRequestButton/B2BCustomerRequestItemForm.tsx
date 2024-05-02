@@ -10,7 +10,7 @@ type PropsType = {
   remove: () => void;
 };
 
-export type B2BClientRequestItemFormInputs = {
+export type B2BCustomerRequestItemFormInputs = {
   unitCount: number;
   specificity: string;
   minBudget?: number;
@@ -20,12 +20,12 @@ export type B2BClientRequestItemFormInputs = {
 
 const FIELD_ARRAY_NAME = 'requests';
 
-const B2BClientRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
+const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
   return (
     <div className="mb-4 flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
       <div className="flex justify-between">
         <span className="text-base font-semibold">
-          {dict.b2b.proPage.clientRequests.form.need} {index + 1}
+          {dict.b2b.proPage.customerRequests.form.need} {index + 1}
         </span>
         {index !== 0 ? (
           <ImCross
@@ -38,7 +38,7 @@ const B2BClientRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         )}
       </div>
       <Input
-        label={dict.b2b.proPage.clientRequests.form.unitCount}
+        label={dict.b2b.proPage.customerRequests.form.unitCount}
         name={`${FIELD_ARRAY_NAME}.${index}.unitCount`}
         type="number"
         options={{
@@ -46,7 +46,7 @@ const B2BClientRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         }}
       />
       <FormTextArea
-        label={dict.b2b.proPage.clientRequests.form.specificities}
+        label={dict.b2b.proPage.customerRequests.form.specificities}
         name={`${FIELD_ARRAY_NAME}.${index}.specificity`}
         type="text"
         options={{
@@ -54,17 +54,17 @@ const B2BClientRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         }}
       />
       <Input
-        label={dict.b2b.proPage.clientRequests.form.minBudget}
+        label={dict.b2b.proPage.customerRequests.form.minBudget}
         name={`${FIELD_ARRAY_NAME}.${index}.minBudget`}
         type="number"
       />
       <Input
-        label={dict.b2b.proPage.clientRequests.form.maxBudget}
+        label={dict.b2b.proPage.customerRequests.form.maxBudget}
         name={`${FIELD_ARRAY_NAME}.${index}.maxBudget`}
         type="number"
       />
       <Input
-        label={dict.b2b.proPage.clientRequests.form.neededAtDate}
+        label={dict.b2b.proPage.customerRequests.form.neededAtDate}
         name={`${FIELD_ARRAY_NAME}.${index}.neededAtDate`}
         type="date"
       />
@@ -72,4 +72,4 @@ const B2BClientRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
   );
 };
 
-export default B2BClientRequestItemForm;
+export default B2BCustomerRequestItemForm;
