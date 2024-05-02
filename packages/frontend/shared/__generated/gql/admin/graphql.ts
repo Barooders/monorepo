@@ -55,7 +55,7 @@ export type Scalars = {
   ShippingType: { input: any; output: any };
   bigint: { input: number; output: number };
   bytea: { input: any; output: any };
-  citext: { input: any; output: any };
+  citext: { input: string; output: string };
   date: { input: any; output: any };
   float8: { input: any; output: any };
   jsonb: { input: any; output: any };
