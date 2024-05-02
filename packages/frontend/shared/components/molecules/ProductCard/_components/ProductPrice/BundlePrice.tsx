@@ -45,7 +45,7 @@ const BundlePrice: React.FC<PropsType> = ({
             / {dict.b2b.productCard.price.unit}
           </div>
         </div>
-        <div className="flex flex-col whitespace-nowrap text-xs font-light text-zinc-400 md:flex-row md:text-sm">
+        <div className="flex flex-col whitespace-nowrap text-xs text-zinc-400 md:flex-row md:text-sm">
           <div>
             {shouldShowPublicPrice &&
               `${dict.b2b.productCard.price.publicPrice} :`}

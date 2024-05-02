@@ -69,7 +69,7 @@ const Characteristics: React.FC<{
         {brand}{' '}
       </p>
       <p
-        className={`flex flex-wrap gap-1 overflow-hidden font-semibold tracking-tight text-zinc-400 ${
+        className={`flex flex-wrap gap-1 overflow-hidden font-medium tracking-tight text-zinc-400 ${
           componentSize === 'large'
             ? 'h-5 text-sm'
             : 'h-4 text-xs lg:h-5 lg:text-sm'
@@ -96,7 +96,7 @@ const Characteristics: React.FC<{
         <span className={direction !== 'inline' ? 'hidden' : ''}>{' • '}</span>
       </p>
       <div
-        className={`${componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'} flex flex-shrink-0 gap-1 font-semibold`}
+        className={`${componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'} flex flex-shrink-0 gap-1 font-medium`}
       >
         <p className="text-zinc-400">
           {dict.components.productCard.getConditionLabel(variantCondition)}
@@ -105,7 +105,7 @@ const Characteristics: React.FC<{
           <>
             <span>{' • '}</span>
             <Link
-              className="underline"
+              className="font-semibold underline"
               onClick={openDetails}
             >
               {dict.components.productCard.seeDetails}
