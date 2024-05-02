@@ -89,15 +89,20 @@ export class ShopifyClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  async getProductDetails(productId: string): Promise<StoredProduct> {
-    const product = await shopifyApiByToken.product.get(
-      getValidShopifyId(productId),
-    );
+  async getProductDetails({
+    id,
+    shopifyId,
+  }: {
+    id: string;
+    shopifyId: number;
+  }): Promise<StoredProduct> {
+    const product = await shopifyApiByToken.product.get(shopifyId);
 
     const storeProduct = cleanShopifyProduct(product);
 
     return {
       ...storeProduct,
+      internalId: id,
       variants: await Promise.all(
         storeProduct.variants.map((variant) => {
           return this.enrichVariantWithCondition(variant);
@@ -106,7 +111,9 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  async createProduct(product: ProductToStore): Promise<StoredProduct> {
+  async createProduct(
+    product: ProductToStore,
+  ): Promise<Omit<StoredProduct, 'internalId'>> {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );
@@ -120,9 +127,13 @@ export class ShopifyClient implements IStoreClient {
     const { sellerName, isPro } = customer;
 
     const options = getVariantsOptions(product.variants);
+    const productTitleEndsWithNumber = !!product.title.match(/\d+$/);
 
     const shopifyProductToCreate = {
       ...product,
+      ...(productTitleEndsWithNumber && {
+        title: `${product.title}-0`,
+      }),
       vendor: sellerName,
       tags: getValidTags(product.tags),
       variants: product.variants.map((variant) =>
@@ -155,6 +166,12 @@ export class ShopifyClient implements IStoreClient {
         ...shopifyProductToCreate,
         status: mapShopifyStatus(product.status),
       });
+
+      if (productTitleEndsWithNumber) {
+        await shopifyApiByToken.product.update(createdProduct.id, {
+          title: product.title,
+        });
+      }
 
       const cleanProduct = cleanShopifyProduct(createdProduct);
 

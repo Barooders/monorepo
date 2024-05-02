@@ -156,11 +156,11 @@ export class ProductCreationService {
 
     if (createdProduct.images.length !== product.images.length) {
       await this.internalNotificationClient.sendErrorNotification(
-        `🎨 Some images failed to upload when creating product ${createdProduct.id}`,
+        `🎨 Some images failed to upload when creating product ${createdProduct.shopifyId}`,
       );
     }
 
-    await this.storeClient.publishProduct(String(createdProduct.id));
+    await this.storeClient.publishProduct(String(createdProduct.shopifyId));
 
     await this.updateProductsInDBWithSameHandle(createdProduct);
 
@@ -172,7 +172,7 @@ export class ProductCreationService {
       data: {
         createdAt: new Date(),
         vendorId,
-        shopifyId: createdProduct.id,
+        shopifyId: createdProduct.shopifyId,
         status: productStatus,
         description: product.body_html,
         handle: createdProduct.handle,
@@ -228,7 +228,10 @@ export class ProductCreationService {
       }),
     );
 
-    return createdProduct;
+    return {
+      ...createdProduct,
+      internalId: productInDB.id,
+    };
   }
 
   async createProductVariant(productId: number, data: Variant, author: Author) {
@@ -414,7 +417,9 @@ export class ProductCreationService {
     );
   }
 
-  private async updateProductsInDBWithSameHandle(storedProduct: StoredProduct) {
+  private async updateProductsInDBWithSameHandle(storedProduct: {
+    handle: string;
+  }) {
     // This happens when an existing product is de-synchronized between database and store, for example when:
     // - A product is deleted from store but not from DB: the store will provide a previously used handle
     // - If the handle is updated in DB but not in store (this should not happen in theory): the store could provide a new handle already used in DB

@@ -100,7 +100,7 @@ export class ProductSyncService {
         if (!vendorProductFromDb) {
           const newProduct =
             await this.productService.createProduct(mappedProduct);
-          throw new CreatedProductException(newProduct.id);
+          throw new CreatedProductException(newProduct.shopifyId);
         }
 
         if (!productFromStore) {
@@ -277,7 +277,7 @@ export class ProductSyncService {
   ) {
     if (!wasSyncActive) {
       this.logger.warn(
-        `Product ${productFromStore.id} sync is not active but product is active in vendor API`,
+        `Product ${productFromStore.shopifyId} sync is not active but product is active in vendor API`,
       );
 
       await this.productService.updateProductStatusOnDbOnly(
