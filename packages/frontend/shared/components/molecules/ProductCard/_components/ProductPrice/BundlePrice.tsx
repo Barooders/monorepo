@@ -24,6 +24,7 @@ const BundlePrice: React.FC<PropsType> = ({
   const priceWithTaxes = bundlePrice * 1.2;
   const discount = Math.round((1 - priceWithTaxes / publicPrice) * 100);
   const shouldShowPublicPrice = discount > 1;
+  const shouldShowDiscount = discount > 10;
 
   return (
     <div className={`flex flex-col gap-2 text-sm md:text-base ${className}`}>
@@ -53,7 +54,7 @@ const BundlePrice: React.FC<PropsType> = ({
           </div>
           <div>
             {shouldShowPublicPrice ? (
-              `${formatCurrency(publicPrice)}€ ${dict.b2b.productCard.price.taxIncluded} (-${discount}%)`
+              `${formatCurrency(publicPrice)}€ ${dict.b2b.productCard.price.taxIncluded}${shouldShowDiscount ? ` (-${discount}%)` : ''}`
             ) : (
               <>&nbsp;</>
             )}
