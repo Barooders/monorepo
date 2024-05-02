@@ -8,15 +8,25 @@ type PropsType = {
   index: number;
 };
 
+export type B2BClientNeedItemFormInputs = {
+  unitCount: number;
+  specificity: string;
+  minBudget?: number;
+  maxBudget?: number;
+  neededAtDate: string;
+};
+
+const FIELD_ARRAY_NAME = 'requests';
+
 const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
       <div className="text-base font-semibold">
-        {dict.b2b.proPage.clientNeeds.form.need} {index}
+        {dict.b2b.proPage.clientNeeds.form.need} {index + 1}
       </div>
       <Input
         label={dict.b2b.proPage.clientNeeds.form.unitCount}
-        name="unitCount"
+        name={`${FIELD_ARRAY_NAME}.${index}.unitCount`}
         type="number"
         options={{
           required: dict.global.forms.required,
@@ -24,7 +34,7 @@ const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
       />
       <FormTextArea
         label={dict.b2b.proPage.clientNeeds.form.specificities}
-        name="specificity"
+        name={`${FIELD_ARRAY_NAME}.${index}.specificity`}
         type="text"
         options={{
           required: dict.global.forms.required,
@@ -32,17 +42,17 @@ const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
       />
       <Input
         label={dict.b2b.proPage.clientNeeds.form.minBudget}
-        name="minBudget"
+        name={`${FIELD_ARRAY_NAME}.${index}.minBudget`}
         type="number"
       />
       <Input
         label={dict.b2b.proPage.clientNeeds.form.maxBudget}
-        name="maxBudget"
+        name={`${FIELD_ARRAY_NAME}.${index}.maxBudget`}
         type="number"
       />
       <Input
         label={dict.b2b.proPage.clientNeeds.form.neededAtDate}
-        name="neededAtDate"
+        name={`${FIELD_ARRAY_NAME}.${index}.neededAtDate`}
         type="date"
       />
     </div>

@@ -2,20 +2,42 @@ import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { FormProvider, useForm } from 'react-hook-form';
-import B2BClientNeedItemForm from './B2BCLientNeedItemForm';
+import {
+  FormProvider,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
+import B2BClientNeedItemForm, {
+  B2BClientNeedItemFormInputs,
+} from './B2BCLientNeedItemForm';
 
 type PropsType = {
   onSave: () => void;
   onClose: () => void;
 };
 
+type Inputs = {
+  requests: B2BClientNeedItemFormInputs[];
+};
+
 const dict = getDictionary('fr');
 
 const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
-  const formMethods = useForm({});
+  const formMethods = useForm<Inputs>({
+    defaultValues: {
+      requests: [{}],
+    },
+  });
 
-  const onSubmit = async () => {
+  const { fields } = useFieldArray({
+    control: formMethods.control,
+    name: 'requests',
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    console.log(data);
+
     onSave();
   };
 
@@ -33,7 +55,12 @@ const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
         <p className="mb-3 mt-3 text-sm text-slate-600">
           {dict.b2b.proPage.clientNeeds.description}
         </p>
-        <B2BClientNeedItemForm index={1} />
+        {fields.map((item, index) => (
+          <B2BClientNeedItemForm
+            key={index}
+            index={index}
+          />
+        ))}
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
         )}
