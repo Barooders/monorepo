@@ -11,7 +11,7 @@ const run = async () => {
     return;
   }
 
-  const command = process.argv.slice(2).join(' ');
+  const command = `yarn workspace backend ${process.argv.slice(2).join(' ')}`;
 
   await runJob(command, envName, 'CLI');
 };
