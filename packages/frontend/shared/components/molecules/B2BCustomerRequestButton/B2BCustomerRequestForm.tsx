@@ -8,9 +8,9 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import B2BClientRequestItemForm, {
-  B2BClientRequestItemFormInputs,
-} from './B2BCLientRequestItemForm';
+import B2BCustomerRequestItemForm, {
+  B2BCustomerRequestItemFormInputs,
+} from './B2BCustomerRequestItemForm';
 
 type PropsType = {
   onSave: () => void;
@@ -18,12 +18,12 @@ type PropsType = {
 };
 
 type Inputs = {
-  requests: B2BClientRequestItemFormInputs[];
+  requests: B2BCustomerRequestItemFormInputs[];
 };
 
 const dict = getDictionary('fr');
 
-const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
+const B2BCustomerRequestForm: React.FC<PropsType> = ({ onSave }) => {
   const formMethods = useForm<Inputs>({
     defaultValues: {
       requests: [{}],
@@ -50,13 +50,13 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
         className="p-3"
       >
         <p className="text-2xl font-bold">
-          {dict.b2b.proPage.clientRequests.title}
+          {dict.b2b.proPage.customerRequests.title}
         </p>
         <p className="mb-3 mt-3 text-sm text-slate-600">
-          {dict.b2b.proPage.clientRequests.description}
+          {dict.b2b.proPage.customerRequests.description}
         </p>
         {fields.map((item, index) => (
-          <B2BClientRequestItemForm
+          <B2BCustomerRequestItemForm
             key={index}
             index={index}
             remove={() => remove(index)}
@@ -64,10 +64,10 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
         ))}
         <div className="mt-4 flex gap-2 rounded-lg border border-gray-300 px-3 py-2">
           <span className="mr-5 flex items-center text-base font-semibold">
-            {dict.b2b.proPage.clientRequests.form.need} {fields.length + 1}
+            {dict.b2b.proPage.customerRequests.form.need} {fields.length + 1}
           </span>
           <Button
-            onClick={() => append({} as B2BClientRequestItemFormInputs)}
+            onClick={() => append({} as B2BCustomerRequestItemFormInputs)}
             className="w-[200px] shadow-md"
             intent="secondary"
           >
@@ -85,7 +85,7 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
           {submitState.loading ? (
             <Loader />
           ) : (
-            dict.b2b.proPage.clientRequests.saveButton
+            dict.b2b.proPage.customerRequests.saveButton
           )}
         </Button>
       </form>
@@ -93,4 +93,4 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
   );
 };
 
-export default B2BClientRequestForm;
+export default B2BCustomerRequestForm;

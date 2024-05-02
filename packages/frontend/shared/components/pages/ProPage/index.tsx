@@ -4,7 +4,7 @@ import { graphql } from '@/__generated/gql/registered_user';
 import PortalDrawer from '@/components/atoms/Drawer/portal';
 import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
-import B2BClientRequestButton from '@/components/molecules/B2BClientRequestButton';
+import B2BClientRequestButton from '@/components/molecules/B2BCustomerRequestButton';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
 import { B2BDesktopFilters } from '@/components/molecules/Filters';
 import B2BProductPanel from '@/components/molecules/ProductCard/b2b/connected';
