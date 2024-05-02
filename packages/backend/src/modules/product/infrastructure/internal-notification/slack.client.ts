@@ -1,6 +1,6 @@
 import envConfig from '@config/env/env.config';
 import { sendSlackMessage } from '@libs/infrastructure/slack/slack.base.client';
-import { IInternalNotificationClient } from '@modules/customer/domain/ports/internal-notification.client';
+import { IInternalNotificationClient } from '@modules/product/domain/ports/internal-notification.client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
