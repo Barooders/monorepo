@@ -30,7 +30,7 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
     },
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: formMethods.control,
     name: 'requests',
   });
@@ -59,6 +59,7 @@ const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
           <B2BClientRequestItemForm
             key={index}
             index={index}
+            remove={() => remove(index)}
           />
         ))}
         <div className="mt-4 flex gap-2 rounded-lg border border-gray-300 px-3 py-2">
