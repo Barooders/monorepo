@@ -3,5 +3,5 @@ export type CustomerRequestCreationRequest = {
   description: string;
   budgetMinInCents?: number;
   budgetMaxInCents?: number;
-  neededAtDate: string;
+  neededAtDate: Date;
 };
