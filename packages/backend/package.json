@@ -11,6 +11,8 @@
     "console:dev": "ts-node -r tsconfig-paths/register src/console.ts",
     "scripts": "ts-node -r tsconfig-paths/register src/scripts.ts",
     "cron:dev": "ts-node -r tsconfig-paths/register src/cron.ts",
+    "run:prod": "ts-node -r tsconfig-paths/register scripts/render-job/index.ts production",
+    "run:staging": "ts-node -r tsconfig-paths/register scripts/render-job/index.ts staging",
     "update:conversations": "ts-node -r tsconfig-paths/register scripts/update-talkjs-conversation/index.ts",
     "import:customers": "ts-node -r tsconfig-paths/register scripts/sync-customer/index.ts",
     "update:tags": "ts-node -r tsconfig-paths/register scripts/tagging/update-tags.ts",
