@@ -3,7 +3,6 @@ import {
   MODAL_ROOT_ANCHOR,
   SNOWFALL_OVERLAY_ANCHOR,
 } from '@/config';
-import { poppins } from '@/document/fonts';
 import { metadataConfig, viewportConfig } from '@/document/metadata/global';
 import AnalyticsProvider from '@/providers/AnalyticsProvider';
 import FeatureFlagsProvider from '@/providers/FeatureFlagsProvider';
@@ -22,7 +21,7 @@ export type PropsType = {
 
 const BaseLayout: React.FC<PropsType> = ({ children, header }) => {
   return (
-    <div className={`${poppins.className}`}>
+    <div>
       <div
         id={SNOWFALL_OVERLAY_ANCHOR}
         className="pointer-events-none fixed z-100 h-full w-full"
