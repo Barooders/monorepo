@@ -1180,6 +1180,14 @@ const fr = {
         buttonLabel: 'Demande spécifique',
         description:
           'Détaillez-nous vos besoins, on s’occupe de trouver votre sélection pour vous.',
+        form: {
+          minBudget: 'Budget minimum',
+          maxBudget: 'Budget maximum',
+          need: 'Besoin',
+          neededAtDate: 'J’en ai besoin pour',
+          specificities: 'Spécificités',
+          unitCount: 'Unités :',
+        },
         saveButton: 'J’enregistre',
         title: 'Une demande spécifique ?',
       },

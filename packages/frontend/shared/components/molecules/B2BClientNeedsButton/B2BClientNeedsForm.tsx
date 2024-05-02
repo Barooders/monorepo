@@ -3,6 +3,7 @@ import Loader from '@/components/atoms/Loader';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { FormProvider, useForm } from 'react-hook-form';
+import B2BClientNeedItemForm from './B2BCLientNeedItemForm';
 
 type PropsType = {
   onSave: () => void;
@@ -29,9 +30,10 @@ const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
         <p className="text-2xl font-bold">
           {dict.b2b.proPage.clientNeeds.title}
         </p>
-        <p className="mt-3 text-sm text-slate-600">
+        <p className="mb-3 mt-3 text-sm text-slate-600">
           {dict.b2b.proPage.clientNeeds.description}
         </p>
+        <B2BClientNeedItemForm index={1} />
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
         )}
