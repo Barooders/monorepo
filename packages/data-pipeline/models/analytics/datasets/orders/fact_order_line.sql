@@ -56,8 +56,8 @@ with fact_order_line as (
       from shopify.order_line shopify_order_line
       left join shopify.order_line_refund olr on olr.order_line_id = shopify_order_line.id
     ) shopify_order_line on shopify_order_line.order_id = shopify_order.id
-		left join shopify.fulfillment_order_line fol on fol.order_line_id = shopify_order_line.id
-    left join shopify.fulfillment fulfillment on fulfillment.id = fol.fulfillment_id
+		left join shopify.fulfillment_order_line fulfillment_order_line on fulfillment_order_line.order_line_id = shopify_order_line.id
+    left join shopify.fulfillment fulfillment on fulfillment.id = fulfillment_order_line.fulfillment_id
     left join (
         select
             c.transaction_id,
