@@ -8,9 +8,9 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import B2BClientNeedItemForm, {
-  B2BClientNeedItemFormInputs,
-} from './B2BCLientNeedItemForm';
+import B2BClientRequestItemForm, {
+  B2BClientRequestItemFormInputs,
+} from './B2BCLientRequestItemForm';
 
 type PropsType = {
   onSave: () => void;
@@ -18,12 +18,12 @@ type PropsType = {
 };
 
 type Inputs = {
-  requests: B2BClientNeedItemFormInputs[];
+  requests: B2BClientRequestItemFormInputs[];
 };
 
 const dict = getDictionary('fr');
 
-const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
+const B2BClientRequestForm: React.FC<PropsType> = ({ onSave }) => {
   const formMethods = useForm<Inputs>({
     defaultValues: {
       requests: [{}],
@@ -50,13 +50,13 @@ const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
         className="p-3"
       >
         <p className="text-2xl font-bold">
-          {dict.b2b.proPage.clientNeeds.title}
+          {dict.b2b.proPage.clientRequests.title}
         </p>
         <p className="mb-3 mt-3 text-sm text-slate-600">
-          {dict.b2b.proPage.clientNeeds.description}
+          {dict.b2b.proPage.clientRequests.description}
         </p>
         {fields.map((item, index) => (
-          <B2BClientNeedItemForm
+          <B2BClientRequestItemForm
             key={index}
             index={index}
           />
@@ -72,7 +72,7 @@ const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
           {submitState.loading ? (
             <Loader />
           ) : (
-            dict.b2b.proPage.clientNeeds.saveButton
+            dict.b2b.proPage.clientRequests.saveButton
           )}
         </Button>
       </form>
@@ -80,4 +80,4 @@ const B2BClientNeedsForm: React.FC<PropsType> = ({ onSave }) => {
   );
 };
 
-export default B2BClientNeedsForm;
+export default B2BClientRequestForm;
