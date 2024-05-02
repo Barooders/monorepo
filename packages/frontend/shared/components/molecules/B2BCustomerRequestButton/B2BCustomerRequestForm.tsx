@@ -2,6 +2,7 @@ import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { useEffect } from 'react';
 import {
   FormProvider,
   SubmitHandler,
@@ -37,14 +38,26 @@ const B2BCustomerRequestForm: React.FC<PropsType> = ({ onSave }) => {
     name: 'requests',
   });
 
-  const [, createRequests] = useCreateRequests();
+  const [
+    { error: createRequestError, value: createRequestSuccess },
+    createRequests,
+  ] = useCreateRequests();
+
+  useEffect(() => {
+    if (createRequestError != null) {
+      toast.error(dict.b2b.proPage.customerRequests.errorToaster);
+    }
+  }, [createRequestError]);
+
+  useEffect(() => {
+    if (createRequestSuccess === true) {
+      toast.success(dict.b2b.proPage.customerRequests.successToaster);
+      onSave();
+    }
+  }, [createRequestSuccess, onSave]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await createRequests(data.requests);
-
-    // TODO: How to handle errors ?
-    toast.success(dict.b2b.proPage.customerRequests.successToaster);
-    onSave();
   };
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);

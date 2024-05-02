@@ -20,11 +20,13 @@ const useCreateRequest = () => {
   const { fetchAPI } = useBackend();
 
   return useWrappedAsyncFn(
-    async (requests: B2BCustomerRequestItemFormInputs[]): Promise<void> => {
+    async (requests: B2BCustomerRequestItemFormInputs[]): Promise<boolean> => {
       await fetchAPI(`/v1/customers/requests`, {
         method: 'POST',
         body: JSON.stringify(mapRequest(requests)),
       });
+
+      return true;
     },
   );
 };
