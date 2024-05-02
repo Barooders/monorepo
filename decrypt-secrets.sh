@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source .env &> /dev/null || true
+source .env.local &> /dev/null || true
 
 if [ -z $TRANSCRYPT_PASSWORD ]
 then
