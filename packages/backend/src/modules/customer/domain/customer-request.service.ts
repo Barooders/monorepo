@@ -21,6 +21,22 @@ export class CustomerRequestService {
     customerId: UUID,
     requests: CustomerRequestCreationRequest[],
   ) {
+    await this.prisma.customerRequest.createMany({
+      data: requests.map((request) => ({
+        ...request,
+        customerId: customerId.uuid,
+      })),
+    });
+
+    this.emitCustomerRequestCreatedEvent(requests, customerId);
+
+    await this.sendCreatedRequestCreatedNotification(customerId, requests);
+  }
+
+  private async sendCreatedRequestCreatedNotification(
+    customerId: UUID,
+    requests: CustomerRequestCreationRequest[],
+  ) {
     const {
       sellerName: customerName,
       user: { phone_number: customerPhoneNumber, email: customerEmail },
@@ -32,15 +48,6 @@ export class CustomerRequestService {
       },
     });
 
-    await this.prisma.customerRequest.createMany({
-      data: requests.map((request) => ({
-        ...request,
-        customerId: customerId.uuid,
-      })),
-    });
-
-    this.emitCustomerRequestCreatedEvent(requests, customerId);
-
     const offerMessage = requests
       .map(
         ({
@@ -49,8 +56,7 @@ export class CustomerRequestService {
           budgetMinInCents,
           budgetMaxInCents,
           description,
-        }) =>
-          `
+        }) => `
 📦 *Quantité*: ${quantity}
 📅 *Date de besoin*: ${neededAtDate.toLocaleDateString('fr-FR')}
 💰 *Budget*:
