@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
-import { jsonStringify } from '@libs/helpers/json';
+import envConfig from '@config/env/env.config';
+import { runJob } from '@libs/infrastructure/render/run-job';
 import 'dotenv.config';
+
+const { envName } = envConfig;
 
 const run = async () => {
   if (!process.argv) {
@@ -8,9 +11,9 @@ const run = async () => {
     return;
   }
 
-  const [env, ...command] = process.argv.slice(2);
+  const command = process.argv.slice(2).join(' ');
 
-  console.log(jsonStringify({ env, command: command.join(' ') }));
+  await runJob(command, envName, 'CLI');
 };
 
 void run();
