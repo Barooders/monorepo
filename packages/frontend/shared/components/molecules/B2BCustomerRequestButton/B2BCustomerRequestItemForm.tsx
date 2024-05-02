@@ -11,8 +11,8 @@ type PropsType = {
 };
 
 export type B2BCustomerRequestItemFormInputs = {
-  unitCount: number;
-  specificity: string;
+  quantity: number;
+  description: string;
   minBudget?: number;
   maxBudget?: number;
   neededAtDate: string;
@@ -38,16 +38,16 @@ const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         )}
       </div>
       <Input
-        label={dict.b2b.proPage.customerRequests.form.unitCount}
-        name={`${FIELD_ARRAY_NAME}.${index}.unitCount`}
+        label={dict.b2b.proPage.customerRequests.form.quantity}
+        name={`${FIELD_ARRAY_NAME}.${index}.quantity`}
         type="number"
         options={{
           required: dict.global.forms.required,
         }}
       />
       <FormTextArea
-        label={dict.b2b.proPage.customerRequests.form.specificities}
-        name={`${FIELD_ARRAY_NAME}.${index}.specificity`}
+        label={dict.b2b.proPage.customerRequests.form.description}
+        name={`${FIELD_ARRAY_NAME}.${index}.description`}
         type="text"
         options={{
           required: dict.global.forms.required,
