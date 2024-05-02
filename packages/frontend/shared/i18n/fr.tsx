@@ -1172,6 +1172,9 @@ const fr = {
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
+      clientNeeds: {
+        buttonLabel: 'Demande spécifique',
+      },
       title: 'Vos résultats',
       saveSearch: {
         buttonLabel: 'Sauvegarder',
