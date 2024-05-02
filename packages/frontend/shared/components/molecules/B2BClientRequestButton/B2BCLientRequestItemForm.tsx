@@ -8,7 +8,7 @@ type PropsType = {
   index: number;
 };
 
-export type B2BClientNeedItemFormInputs = {
+export type B2BClientRequestItemFormInputs = {
   unitCount: number;
   specificity: string;
   minBudget?: number;
@@ -18,14 +18,14 @@ export type B2BClientNeedItemFormInputs = {
 
 const FIELD_ARRAY_NAME = 'requests';
 
-const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
+const B2BClientRequestItemForm: React.FC<PropsType> = ({ index }) => {
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
       <div className="text-base font-semibold">
-        {dict.b2b.proPage.clientNeeds.form.need} {index + 1}
+        {dict.b2b.proPage.clientRequests.form.need} {index + 1}
       </div>
       <Input
-        label={dict.b2b.proPage.clientNeeds.form.unitCount}
+        label={dict.b2b.proPage.clientRequests.form.unitCount}
         name={`${FIELD_ARRAY_NAME}.${index}.unitCount`}
         type="number"
         options={{
@@ -33,7 +33,7 @@ const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
         }}
       />
       <FormTextArea
-        label={dict.b2b.proPage.clientNeeds.form.specificities}
+        label={dict.b2b.proPage.clientRequests.form.specificities}
         name={`${FIELD_ARRAY_NAME}.${index}.specificity`}
         type="text"
         options={{
@@ -41,17 +41,17 @@ const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
         }}
       />
       <Input
-        label={dict.b2b.proPage.clientNeeds.form.minBudget}
+        label={dict.b2b.proPage.clientRequests.form.minBudget}
         name={`${FIELD_ARRAY_NAME}.${index}.minBudget`}
         type="number"
       />
       <Input
-        label={dict.b2b.proPage.clientNeeds.form.maxBudget}
+        label={dict.b2b.proPage.clientRequests.form.maxBudget}
         name={`${FIELD_ARRAY_NAME}.${index}.maxBudget`}
         type="number"
       />
       <Input
-        label={dict.b2b.proPage.clientNeeds.form.neededAtDate}
+        label={dict.b2b.proPage.clientRequests.form.neededAtDate}
         name={`${FIELD_ARRAY_NAME}.${index}.neededAtDate`}
         type="date"
       />
@@ -59,4 +59,4 @@ const B2BClientNeedItemForm: React.FC<PropsType> = ({ index }) => {
   );
 };
 
-export default B2BClientNeedItemForm;
+export default B2BClientRequestItemForm;

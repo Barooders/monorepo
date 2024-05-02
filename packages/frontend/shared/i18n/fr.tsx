@@ -1176,7 +1176,7 @@ const fr = {
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
-      clientNeeds: {
+      clientRequests: {
         buttonLabel: 'Demande spécifique',
         description:
           'Détaillez-nous vos besoins, on s’occupe de trouver votre sélection pour vous.',
