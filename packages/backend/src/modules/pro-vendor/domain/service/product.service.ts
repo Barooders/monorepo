@@ -84,15 +84,6 @@ export class ProductService {
   async createProduct(product: SyncProduct): Promise<StoredProduct> {
     const vendorSlug = this.vendorConfigService.getVendorConfig().slug;
 
-    const vendorProProduct = await this.prisma.vendorProProduct.create({
-      data: {
-        internalProductId: null,
-        externalProductId: product.external_id,
-        syncStatus: SyncStatus.ACTIVE,
-        vendorSlug,
-      },
-    });
-
     const newProduct = await this.storeClient.createProduct({
       ...product,
       status:
@@ -109,11 +100,13 @@ export class ProductService {
     });
     if (!newProduct) throw new Error('Product not created on store');
 
-    await this.prisma.vendorProProduct.update({
+    await this.prisma.vendorProProduct.create({
       data: {
         internalProductId: String(newProduct.id),
+        externalProductId: product.external_id,
+        syncStatus: SyncStatus.ACTIVE,
+        vendorSlug,
       },
-      where: { id: vendorProProduct.id },
     });
 
     if (newProduct.variants.length !== product.variants.length) {
