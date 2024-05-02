@@ -1,4 +1,5 @@
 import { CustomerRepository as SharedCustomerRepository } from '@libs/domain/customer.repository';
+import { CustomerRequestService } from './domain/customer-request.service';
 import { CustomerService } from './domain/customer.service';
 import { PaymentAccountProviderService } from './domain/payment-account-provider.service';
 import { IAnalyticsProvider } from './domain/ports/analytics.provider';
@@ -14,6 +15,7 @@ import { ShopifyRepository } from './infrastructure/store/shopify.repository';
 
 export const commonProviders = [
   CustomerService,
+  CustomerRequestService,
   PaymentAccountProviderService,
   SharedCustomerRepository,
   {

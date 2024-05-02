@@ -5,7 +5,23 @@ meta {
 }
 
 post {
-  url: 
-  body: none
-  auth: none
+  url: {{base_url}}/v1/customers/requests
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "requests": [{
+      "quantity": 1,
+      "description": "One",
+      "neededAtDate": "2024-05-02T13:56:49Z",
+      "budgetMinInCents": 10000,
+      "budgetMaxInCents": 200000
+    }]
+  }
 }

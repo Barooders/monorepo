@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,6 +9,8 @@ import {
   Put,
   UnauthorizedException,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
@@ -16,6 +19,7 @@ import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsDateString,
   IsInt,
@@ -23,6 +27,7 @@ import {
   IsPhoneNumber,
   IsPositive,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { CustomerRequestService } from '../domain/customer-request.service';
 import { CustomerService } from '../domain/customer.service';
@@ -66,13 +71,13 @@ class CustomerRequestDto {
   @IsString()
   description!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsInt()
   @IsPositive()
   @IsOptional()
   budgetMinInCents?: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsInt()
   @IsPositive()
   @IsOptional()
@@ -80,7 +85,14 @@ class CustomerRequestDto {
 
   @ApiProperty()
   @IsDateString()
-  neededAtDate!: string;
+  neededAtDate!: Date;
+}
+
+class CreateCustomerRequestsDto {
+  @ApiProperty({ isArray: true, type: CustomerRequestDto, required: true })
+  @ValidateNested({ each: true })
+  @Type(() => CustomerRequestDto)
+  requests!: CustomerRequestDto[];
 }
 
 @Controller(routesV1.version)
@@ -166,14 +178,20 @@ export class CustomerController {
   @Post(routesV1.customer.request)
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ type: VendorDataUrlDto })
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   async createCustomerRequests(
     @User() { userId }: ExtractedUser,
     @Body()
-    requests: CustomerRequestDto[],
+    payload: CreateCustomerRequestsDto,
   ): Promise<void> {
+    // TODO: Add validation for the payload
+    if (payload?.requests === undefined) {
+      throw new BadRequestException('Requests are required.');
+    }
+
     await this.customerRequestService.createCustomerRequests(
       new UUID({ uuid: userId }),
-      requests,
+      payload.requests,
     );
   }
 }
