@@ -1,5 +1,7 @@
+import InfoModal from '@/components/atoms/Modal/InfoModal';
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
+import B2BPriceRecap from './B2BPriceRecap';
 
 const dict = getDictionary('fr');
 
@@ -40,9 +42,21 @@ const BundlePrice: React.FC<PropsType> = ({
           <div className="text-zinc-400">
             {dict.b2b.productCard.price.priceStartsAt} :&nbsp;
           </div>
-          <div className="w-full text-base font-bold md:text-lg">
+          <div className="text-base font-bold md:text-lg">
             {formatCurrency(bundlePrice)}€ {dict.b2b.productCard.price.dutyFree}{' '}
             / {dict.b2b.productCard.price.unit}
+          </div>
+          <div className="ml-1 pt-1 text-sm">
+            <InfoModal
+              contentComponent={
+                <B2BPriceRecap
+                  bundleSize={stock}
+                  unitPrice={price}
+                  largestBundlePrice={largestBundlePrice}
+                  compareAtPrice={compareAtPrice}
+                />
+              }
+            />
           </div>
         </div>
         <div className="flex flex-col whitespace-nowrap text-xs text-zinc-400 md:flex-row md:text-sm">

@@ -252,6 +252,10 @@ const fr = {
       price: {
         remaining: 'Plus que ',
         mainPrice: 'Prix Barooders',
+        unitPrice: "Prix à l'unité",
+        bundlePrice: 'Prix en lot',
+        bundleTotalPrice: 'Prix total du lot',
+        taxIncluded: 'Prix TTC',
         reduction: 'Réduction',
         commission: 'Garantie Acheteur',
         total: 'Montant Total',

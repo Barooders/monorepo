@@ -27,12 +27,10 @@ const B2BProductCard: React.FC<
   const { hasOpenedPriceOffer } = useOpenedOffersState();
   return (
     <div className="flex w-full flex-col gap-2">
-      <div
-        onClick={() => openDetails(id)}
-        className="flex cursor-pointer flex-col gap-1"
-      >
+      <div className="flex flex-col gap-1">
         <div
-          className={`relative ${intent === 'card' ? 'h-40 sm:h-64 xs:h-52' : 'h-32'} w-full`}
+          onClick={() => openDetails(id)}
+          className={`relative ${intent === 'card' ? 'h-40 sm:h-64 xs:h-52' : 'h-32'} w-full cursor-pointer`}
         >
           {image && (
             <ProductImage

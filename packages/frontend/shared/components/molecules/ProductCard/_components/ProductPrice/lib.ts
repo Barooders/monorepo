@@ -1,5 +1,9 @@
 import { Discount } from '@/types';
 
+export const TAX_AMOUNT_PERCENT = 0.2;
+
+export const addTaxes = (price: number) => price * (1 + TAX_AMOUNT_PERCENT);
+
 export const calculateDiscountedPrice = (discount: Discount, price: number) =>
   !discount.value
     ? null
