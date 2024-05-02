@@ -53,16 +53,22 @@ const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
           required: dict.global.forms.required,
         }}
       />
-      <Input
-        label={dict.b2b.proPage.customerRequests.form.minBudget}
-        name={`${FIELD_ARRAY_NAME}.${index}.minBudget`}
-        type="number"
-      />
-      <Input
-        label={dict.b2b.proPage.customerRequests.form.maxBudget}
-        name={`${FIELD_ARRAY_NAME}.${index}.maxBudget`}
-        type="number"
-      />
+
+      <div className="flex justify-between">
+        <Input
+          label={dict.b2b.proPage.customerRequests.form.minBudget}
+          name={`${FIELD_ARRAY_NAME}.${index}.minBudget`}
+          type="number"
+          className="mr-4 w-full"
+        />
+        <Input
+          label={dict.b2b.proPage.customerRequests.form.maxBudget}
+          name={`${FIELD_ARRAY_NAME}.${index}.maxBudget`}
+          type="number"
+          className="w-full"
+        />
+      </div>
+
       <Input
         label={dict.b2b.proPage.customerRequests.form.neededAtDate}
         name={`${FIELD_ARRAY_NAME}.${index}.neededAtDate`}
