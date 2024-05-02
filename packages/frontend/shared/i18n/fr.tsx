@@ -1174,6 +1174,10 @@ const fr = {
     proPage: {
       clientNeeds: {
         buttonLabel: 'Demande spécifique',
+        description:
+          'Détaillez-nous vos besoins, on s’occupe de trouver votre sélection pour vous.',
+        saveButton: 'J’enregistre',
+        title: 'Une demande spécifique ?',
       },
       title: 'Vos résultats',
       saveSearch: {
