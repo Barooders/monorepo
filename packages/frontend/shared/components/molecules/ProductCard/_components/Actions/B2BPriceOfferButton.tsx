@@ -88,7 +88,7 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
           openModal();
           doFetchProductHitData();
         }}
-        className="w-full"
+        className={`w-full ${className}`}
       >
         {dict.b2b.productCard.makeAnOffer.openModal}
       </Button>
@@ -116,34 +116,32 @@ const B2BPriceOfferButton: React.FC<PropsType> = ({
   };
 
   return (
-    <div className={className}>
-      <Modal
-        ButtonComponent={MakeOfferButton}
-        ContentComponent={({ closeModal }) =>
-          loading ? (
-            <Loader />
-          ) : product ? (
-            <MakeB2BOfferModal
-              closeModal={closeModal}
-              openDetails={openDetails}
-              vendorId={vendorId}
-              productId={productId}
-              productName={product.exposedProduct?.title ?? ''}
-              variants={
-                product.variants.map(({ variant }) => ({
-                  title: variant?.title ?? '',
-                  quantity: variant?.inventory_quantity ?? 0,
-                })) ?? []
-              }
-              totalQuantity={product.exposedProduct?.total_quantity ?? 0}
-              getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
-            />
-          ) : (
-            <></>
-          )
-        }
-      />
-    </div>
+    <Modal
+      ButtonComponent={MakeOfferButton}
+      ContentComponent={({ closeModal }) =>
+        loading ? (
+          <Loader />
+        ) : product ? (
+          <MakeB2BOfferModal
+            closeModal={closeModal}
+            openDetails={openDetails}
+            vendorId={vendorId}
+            productId={productId}
+            productName={product.exposedProduct?.title ?? ''}
+            variants={
+              product.variants.map(({ variant }) => ({
+                title: variant?.title ?? '',
+                quantity: variant?.inventory_quantity ?? 0,
+              })) ?? []
+            }
+            totalQuantity={product.exposedProduct?.total_quantity ?? 0}
+            getBundleUnitPriceFromQuantity={getBundleUnitPriceFromQuantity}
+          />
+        ) : (
+          <></>
+        )
+      }
+    />
   );
 };
 

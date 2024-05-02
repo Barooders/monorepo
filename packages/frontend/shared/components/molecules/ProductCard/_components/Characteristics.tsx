@@ -1,3 +1,4 @@
+import Link from '@/components/atoms/Link';
 import { Condition } from '@/components/pages/SellingForm/types';
 import { getDictionary } from '@/i18n/translate';
 import capitalize from 'lodash/capitalize';
@@ -15,6 +16,7 @@ const Characteristics: React.FC<{
   variantCondition: Condition;
   componentSize?: 'large' | 'medium';
   direction?: 'inline' | 'col';
+  openDetails?: () => void;
 }> = ({
   tags,
   extraTagKeys = [],
@@ -24,6 +26,7 @@ const Characteristics: React.FC<{
   className,
   componentSize = 'medium',
   direction = 'col',
+  openDetails,
 }) => {
   const brand = tags.marque;
 
@@ -56,17 +59,17 @@ const Characteristics: React.FC<{
       }`}
     >
       {componentSize === 'large' && direction !== 'inline' && (
-        <p className="text-sm text-slate-500">{capitalize(productType)} </p>
+        <p className="text-sm text-zinc-500">{capitalize(productType)} </p>
       )}
       <p
         className={`${
-          componentSize === 'large' ? 'text-2xl' : 'text-xs lg:text-lg'
-        } font-semibold uppercase`}
+          componentSize === 'large' ? 'text-2xl' : 'text-sm lg:text-lg'
+        } font-bold uppercase text-zinc-900`}
       >
         {brand}{' '}
       </p>
       <p
-        className={`flex flex-wrap gap-1 overflow-hidden tracking-tight text-gray-600 ${
+        className={`flex flex-wrap gap-1 overflow-hidden font-semibold tracking-tight text-zinc-400 ${
           componentSize === 'large'
             ? 'h-5 text-sm'
             : 'h-4 text-xs lg:h-5 lg:text-sm'
@@ -92,13 +95,24 @@ const Characteristics: React.FC<{
         ))}
         <span className={direction !== 'inline' ? 'hidden' : ''}>{' • '}</span>
       </p>
-      <p
-        className={`flex-shrink-0 text-gray-600 ${
-          componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'
-        }`}
+      <div
+        className={`${componentSize === 'large' ? 'text-sm' : 'text-xs lg:text-sm'} flex flex-shrink-0 gap-1 font-semibold`}
       >
-        {dict.components.productCard.getConditionLabel(variantCondition)}
-      </p>
+        <p className="text-zinc-400">
+          {dict.components.productCard.getConditionLabel(variantCondition)}
+        </p>
+        {openDetails && (
+          <>
+            <span>{' • '}</span>
+            <Link
+              className="underline"
+              onClick={openDetails}
+            >
+              {dict.components.productCard.seeDetails}
+            </Link>
+          </>
+        )}
+      </div>
     </Wrapper>
   );
 };

@@ -45,7 +45,7 @@ const B2BSearchResults: React.FC<PropsType> = ({ openDetails }) => {
     <NoResultsBoundary fallback={<NoResults />}>
       <Hits
         classNames={{
-          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-5',
+          list: 'grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8',
         }}
         hitComponent={({ hit }: { hit: SearchB2BVariantDocument }) => {
           const productCardProps = fromSearchToB2BProductCard(hit);

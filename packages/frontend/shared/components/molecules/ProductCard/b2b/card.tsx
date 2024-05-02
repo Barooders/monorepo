@@ -48,6 +48,7 @@ const B2BProductCard: React.FC<
           productType={productType}
           variantCondition={variantCondition}
           componentSize="medium"
+          openDetails={() => openDetails(id)}
         />
         <BundlePrice
           className="my-1"
@@ -64,7 +65,7 @@ const B2BProductCard: React.FC<
         <></>
       )}
       <B2BPriceOfferButton
-        className="flex-1"
+        className="flex-1 !text-sm uppercase"
         productId={id}
         vendorId={vendorId}
         openDetails={openDetails}

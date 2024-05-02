@@ -46,7 +46,7 @@ const fr = {
       soldOut: 'Produit épuisé',
       technicalCharacteristics: 'Caractéristiques techniques',
       soldBy: 'Vendu par',
-      seeDetails: 'Voir détails',
+      seeDetails: 'Détails',
       buyNow: 'Acheter maintenant',
       chatNow: 'Contacter',
       alreadySeenBy: (viewCount: number) => (

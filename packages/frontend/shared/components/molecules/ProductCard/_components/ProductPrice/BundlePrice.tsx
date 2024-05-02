@@ -1,6 +1,5 @@
 import { getDictionary } from '@/i18n/translate';
 import { formatCurrency } from '@/utils/currency';
-import ProductLabel from '../ProductLabel';
 
 const dict = getDictionary('fr');
 
@@ -27,30 +26,30 @@ const BundlePrice: React.FC<PropsType> = ({
   const shouldShowDiscount = discount > 10;
 
   return (
-    <div className={`flex flex-col gap-2 text-sm md:text-base ${className}`}>
-      <div className="flex flex-wrap gap-1">
-        <p>{dict.b2b.productCard.price.quantities}:</p>
-        <div className="w-fit">
-          <ProductLabel
-            label={{ content: stock.toString(), color: 'purple' }}
-          />
-        </div>
+    <div
+      className={`flex flex-col text-sm !leading-tight md:text-base md:!leading-tight ${className}`}
+    >
+      <div className="flex flex-wrap">
+        <p className="text-zinc-400">
+          {dict.b2b.productCard.price.quantities} :&nbsp;
+        </p>
+        <p className="font-semibold">{stock.toString()}</p>
       </div>
-      <div className="flex flex-col gap-1 overflow-hidden">
-        <div className="flex flex-wrap gap-1 whitespace-nowrap md:flex-nowrap">
-          <div>{dict.b2b.productCard.price.priceStartsAt} :</div>
-          <div className="w-full font-bold">
+      <div className="flex flex-col overflow-hidden">
+        <div className="flex flex-wrap items-center whitespace-nowrap md:flex-nowrap">
+          <div className="text-zinc-400">
+            {dict.b2b.productCard.price.priceStartsAt} :&nbsp;
+          </div>
+          <div className="w-full text-base font-bold md:text-lg">
             {formatCurrency(bundlePrice)}€ {dict.b2b.productCard.price.dutyFree}{' '}
             / {dict.b2b.productCard.price.unit}
           </div>
         </div>
-        <div className="flex flex-col gap-1 whitespace-nowrap text-xs font-light md:flex-row md:text-sm">
+        <div className="flex flex-col whitespace-nowrap text-xs font-light text-zinc-400 md:flex-row md:text-sm">
           <div>
-            {shouldShowPublicPrice ? (
-              `${dict.b2b.productCard.price.publicPrice} :`
-            ) : (
-              <>&nbsp;</>
-            )}
+            {shouldShowPublicPrice &&
+              `${dict.b2b.productCard.price.publicPrice} :`}
+            &nbsp;
           </div>
           <div>
             {shouldShowPublicPrice ? (
