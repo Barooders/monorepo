@@ -1,6 +1,11 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  AggregateName,
+  PrismaMainClient,
+} from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CustomerRequestCreatedEvent } from './events/customer-request.created.domain-events';
 import { CustomerRequestCreationRequest } from './ports/customer-request';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 
@@ -9,6 +14,7 @@ export class CustomerRequestService {
   constructor(
     private prisma: PrismaMainClient,
     private notificationClient: IInternalNotificationClient,
+    protected readonly eventEmitter: EventEmitter2,
   ) {}
 
   async createCustomerRequests(
@@ -32,6 +38,8 @@ export class CustomerRequestService {
         customerId: customerId.uuid,
       })),
     });
+
+    this.emitCustomerRequestCreatedEvent(requests, customerId);
 
     const offerMessage = requests
       .map(
@@ -61,5 +69,27 @@ ${offerMessage}
 📧 Contact:  ${customerName} - ${customerEmail} - ${customerPhoneNumber}
       `,
     );
+  }
+
+  private emitCustomerRequestCreatedEvent(
+    requests: CustomerRequestCreationRequest[],
+    customerId: UUID,
+  ) {
+    requests.forEach((request) => {
+      this.eventEmitter.emit(
+        CustomerRequestCreatedEvent.EVENT_NAME,
+        new CustomerRequestCreatedEvent({
+          aggregateId: customerId.uuid,
+          aggregateName: AggregateName.CUSTOMER,
+          payload: {
+            ...request,
+            neededAtDate: request.neededAtDate.toISOString(),
+          },
+          metadata: {
+            author: { id: customerId.uuid, type: 'user' },
+          },
+        }),
+      );
+    });
   }
 }

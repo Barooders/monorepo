@@ -177,7 +177,6 @@ export class CustomerController {
 
   @Post(routesV1.customer.request)
   @UseGuards(JwtAuthGuard)
-  @ApiResponse({ type: VendorDataUrlDto })
   @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   async createCustomerRequests(
     @User() { userId }: ExtractedUser,
