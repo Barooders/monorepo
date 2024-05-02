@@ -1189,6 +1189,8 @@ const fr = {
           quantity: 'Unités :',
         },
         saveButton: 'J’enregistre',
+        errorToaster: 'Une erreur est survenue',
+        successToaster: 'Demande enregistrée',
         title: 'Une demande spécifique ?',
       },
       title: 'Vos résultats',
