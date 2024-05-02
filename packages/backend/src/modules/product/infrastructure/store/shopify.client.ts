@@ -89,15 +89,20 @@ export class ShopifyClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  async getProductDetails(productId: string): Promise<StoredProduct> {
-    const product = await shopifyApiByToken.product.get(
-      getValidShopifyId(productId),
-    );
+  async getProductDetails({
+    id,
+    shopifyId,
+  }: {
+    id: string;
+    shopifyId: number;
+  }): Promise<StoredProduct> {
+    const product = await shopifyApiByToken.product.get(shopifyId);
 
     const storeProduct = cleanShopifyProduct(product);
 
     return {
       ...storeProduct,
+      internalId: id,
       variants: await Promise.all(
         storeProduct.variants.map((variant) => {
           return this.enrichVariantWithCondition(variant);
@@ -106,7 +111,9 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  async createProduct(product: ProductToStore): Promise<StoredProduct> {
+  async createProduct(
+    product: ProductToStore,
+  ): Promise<Omit<StoredProduct, 'internalId'>> {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );

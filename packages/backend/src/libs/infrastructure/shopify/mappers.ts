@@ -5,10 +5,12 @@ import {
 } from '@libs/domain/product.interface';
 import Shopify from 'shopify-api-node';
 
-export const cleanShopifyProduct = (
-  product: Shopify.IProduct,
-): StoreProductWithoutCondition => ({
+export const cleanShopifyProduct = ({
+  id,
+  ...product
+}: Shopify.IProduct): StoreProductWithoutCondition => ({
   ...product,
+  shopifyId: id,
   template_suffix: product.template_suffix ?? undefined,
   published_at: product.published_at ?? undefined,
   published_scope: product.published_scope ?? undefined,

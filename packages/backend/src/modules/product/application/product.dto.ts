@@ -99,7 +99,10 @@ class VariantDTO implements StoredVariant {
 
 export class ProductAdminDTO implements StoredProduct {
   @ApiProperty()
-  id!: number;
+  shopifyId!: number;
+
+  @ApiProperty()
+  internalId!: string;
 
   @ApiProperty()
   status!: ProductStatus;

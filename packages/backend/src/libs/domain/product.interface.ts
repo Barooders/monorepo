@@ -80,7 +80,8 @@ export type ProductToUpdate = Partial<
 >;
 
 export interface StoredProduct extends ProductBase {
-  id: number;
+  shopifyId: number;
+  internalId: string;
   status: ProductStatus;
   vendor: string;
   tags: string[];
@@ -106,7 +107,10 @@ export interface StoredProduct extends ProductBase {
   };
 }
 
-export type StoreProductWithoutCondition = Omit<StoredProduct, 'variants'> & {
+export type StoreProductWithoutCondition = Omit<
+  StoredProduct,
+  'variants' | 'internalId'
+> & {
   variants: Omit<StoredVariant, 'condition'>[];
 };
 

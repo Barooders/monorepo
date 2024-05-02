@@ -339,16 +339,20 @@ export class ProductController {
     @User() { userId }: ExtractedUser,
     @Param('productId') productId: string,
   ): Promise<ProductAdminDTO> {
-    const product = await this.prisma.product.findFirst({
-      where: { shopifyId: Number(productId) },
-      select: { vendorId: true },
+    const shopifyId = Number(productId);
+    const product = await this.prisma.product.findFirstOrThrow({
+      where: { shopifyId },
+      select: { vendorId: true, id: true },
     });
     if (product?.vendorId !== userId) {
       throw new UnauthorizedException(
         `Not authorized to access product ${productId}`,
       );
     }
-    return await this.storeClient.getProductDetails(productId);
+    return await this.storeClient.getProductDetails({
+      id: product.id,
+      shopifyId,
+    });
   }
 
   @Patch(routesV1.product.updateProduct)

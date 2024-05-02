@@ -18,8 +18,13 @@ export interface ProductCreationInput {
 }
 
 export abstract class IStoreClient {
-  abstract getProductDetails(productId: string): Promise<StoredProduct>;
-  abstract createProduct(product: ProductToStore): Promise<StoredProduct>;
+  abstract getProductDetails(product: {
+    id: string;
+    shopifyId: number;
+  }): Promise<StoredProduct>;
+  abstract createProduct(
+    product: ProductToStore,
+  ): Promise<Omit<StoredProduct, 'internalId'>>;
   abstract updateProduct(
     productId: string,
     data: ProductToUpdate,

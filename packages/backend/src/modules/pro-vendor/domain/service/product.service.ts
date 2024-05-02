@@ -102,7 +102,7 @@ export class ProductService {
 
     await this.prisma.vendorProProduct.create({
       data: {
-        internalProductId: String(newProduct.id),
+        internalProductId: String(newProduct.shopifyId),
         externalProductId: product.external_id,
         syncStatus: SyncStatus.ACTIVE,
         vendorSlug,
@@ -111,7 +111,7 @@ export class ProductService {
 
     if (newProduct.variants.length !== product.variants.length) {
       throw new Error(
-        `Created product ${newProduct.id} has not the same number of variants as the product from the vendor (${newProduct.variants.length} instead of ${product.variants.length})`,
+        `Created product ${newProduct.shopifyId} has not the same number of variants as the product from the vendor (${newProduct.variants.length} instead of ${product.variants.length})`,
       );
     }
 
@@ -169,7 +169,7 @@ export class ProductService {
     shouldUpdateImages: boolean,
     productFromStore: StoredProduct,
   ): Promise<number> {
-    const productStoreId = productFromStore.id;
+    const productStoreId = productFromStore.shopifyId;
 
     await this.updateVariants(mappedProduct, productStoreId, productFromStore);
     await this.updateSEOMetafields(productStoreId, mappedProduct);

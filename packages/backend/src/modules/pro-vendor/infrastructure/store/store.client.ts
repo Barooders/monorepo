@@ -127,7 +127,7 @@ export class StoreClient implements IStoreClient {
     try {
       const product =
         await this.getOrCreateShopifyApiByToken().product.get(productId);
-      const productInDB = await this.prisma.product.findUnique({
+      const productInDB = await this.prisma.product.findUniqueOrThrow({
         where: {
           shopifyId: productId,
         },
@@ -137,6 +137,7 @@ export class StoreClient implements IStoreClient {
 
       return {
         ...cleanProduct,
+        internalId: productInDB.id,
         EANCode: productInDB?.EANCode ?? undefined,
         GTINCode: productInDB?.GTINCode ?? undefined,
         source: productInDB?.source ?? undefined,
