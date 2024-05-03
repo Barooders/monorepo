@@ -26,7 +26,7 @@ const DEFAULT_CONFIG = {
     'Content-Type': 'application/json',
   },
   responseType: 'json',
-  timeout: 3000,
+  timeout: 15_000,
 };
 
 export const createHttpClient = (
