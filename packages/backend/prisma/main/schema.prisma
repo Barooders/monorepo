@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["tracing", "multiSchema", "postgresqlExtensions"]
+  previewFeatures = ["tracing", "multiSchema"]
   binaryTargets   = ["native", "darwin"]
   output          = "../../src/__generated/main-client"
 }
@@ -8,7 +8,6 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [citext(schema: "heroku_ext"), pgcrypto(schema: "heroku_ext")]
   schemas    = ["auth", "public"]
 }
 
@@ -274,6 +273,7 @@ model Customer {
   negociationAgreements       NegociationAgreement[]
   buyerConversations          Conversation[]         @relation(name: "buyerConversations")
   vendorConversations         Conversation[]         @relation(name: "vendorConversations")
+  requests                    CustomerRequest[]      @relation("customer")
 
   @@index([sellerName])
   @@schema("public")
@@ -699,6 +699,25 @@ model NumericFilter {
 }
 
 //  =============================
+//  ====  CUSTOMER REQUESTS  ====
+//  =============================
+
+model CustomerRequest {
+  id                String      @id @default(dbgenerated("(gen_random_uuid())::text"))
+  quantity          Int
+  description       String
+  budgetMinInCents  Int?        @map("budget_min_in_cents")
+  budgetMaxInCents  Int?        @map("budget_max_in_cents")
+  neededAtDate      DateTime    @map("needed_at_date")
+  customerId        String      @db.Uuid @map("customer_id")
+  customer          Customer    @relation(name: "customer", fields: [customerId], references: [authUserId])
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime?   @updatedAt @map("updated_at")
+
+  @@schema("public")
+}
+
+//  =============================
 //  =======  HASURA AUTH  =======
 //  =============================
 
@@ -873,6 +892,7 @@ enum EventName {
   ORDER_LINE_CREATED_ON_VENDOR_SHOP
   PAYMENT_STARTED
   PAYMENT_STATUS_UPDATED
+  CUSTOMER_REQUEST_CREATED
 
   @@schema("public")
 }

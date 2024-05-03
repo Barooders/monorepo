@@ -33,6 +33,7 @@ export const routesV1 = {
     signupHasuraEvent: '/customers/webhook/signup',
     wallet: '/customers/wallet',
     vendorData: '/customers/vendor-data',
+    request: '/customers/requests',
   },
   negociationAgreement: {
     root: '/negociation-agreement',

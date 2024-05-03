@@ -1176,6 +1176,23 @@ const fr = {
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
+      customerRequests: {
+        buttonLabel: 'Demande spécifique',
+        description:
+          'Détaillez-nous vos besoins, on s’occupe de trouver votre sélection pour vous.',
+        form: {
+          minBudget: 'Budget minimum',
+          maxBudget: 'Budget maximum',
+          need: 'Besoin',
+          neededAtDate: 'J’en ai besoin pour',
+          description: 'Spécificités',
+          quantity: 'Unités :',
+        },
+        saveButton: 'J’enregistre',
+        errorToaster: 'Une erreur est survenue',
+        successToaster: 'Demande enregistrée',
+        title: 'Une demande spécifique ?',
+      },
       title: 'Vos résultats',
       saveSearch: {
         buttonLabel: 'Sauvegarder',

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,6 +9,8 @@ import {
   Put,
   UnauthorizedException,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
@@ -16,7 +19,17 @@ import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
-import { IsInt, IsPhoneNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsInt,
+  IsOptional,
+  IsPhoneNumber,
+  IsPositive,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CustomerRequestService } from '../domain/customer-request.service';
 import { CustomerService } from '../domain/customer.service';
 import {
   PaymentAccountProviderService,
@@ -48,12 +61,47 @@ class VendorDataUrlDto {
   url!: string;
 }
 
+class CustomerRequestDto {
+  @ApiProperty()
+  @IsPositive()
+  @IsInt()
+  quantity!: number;
+
+  @ApiProperty()
+  @IsString()
+  description!: string;
+
+  @ApiProperty({ required: false })
+  @IsInt()
+  @IsPositive()
+  @IsOptional()
+  budgetMinInCents?: number;
+
+  @ApiProperty({ required: false })
+  @IsInt()
+  @IsPositive()
+  @IsOptional()
+  budgetMaxInCents?: number;
+
+  @ApiProperty()
+  @IsDateString()
+  neededAtDate!: string;
+}
+
+class CreateCustomerRequestsDto {
+  @ApiProperty({ isArray: true, type: CustomerRequestDto, required: true })
+  @ValidateNested({ each: true })
+  @Type(() => CustomerRequestDto)
+  requests!: CustomerRequestDto[];
+}
+
 @Controller(routesV1.version)
 export class CustomerController {
   private readonly logger = new Logger(CustomerController.name);
 
   constructor(
     private customerService: CustomerService,
+    private customerRequestService: CustomerRequestService,
     private paymentAccountProvider: PaymentAccountProviderService,
     private analyticsProvider: IAnalyticsProvider,
   ) {}
@@ -125,5 +173,27 @@ export class CustomerController {
         new UUID({ uuid: userId }),
       ),
     };
+  }
+
+  @Post(routesV1.customer.request)
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async createCustomerRequests(
+    @User() { userId }: ExtractedUser,
+    @Body()
+    payload: CreateCustomerRequestsDto,
+  ): Promise<void> {
+    // TODO: Add validation for the payload
+    if (payload?.requests === undefined) {
+      throw new BadRequestException('Requests are required.');
+    }
+
+    await this.customerRequestService.createCustomerRequests(
+      new UUID({ uuid: userId }),
+      payload.requests.map((request) => ({
+        ...request,
+        neededAtDate: new Date(request.neededAtDate),
+      })),
+    );
   }
 }

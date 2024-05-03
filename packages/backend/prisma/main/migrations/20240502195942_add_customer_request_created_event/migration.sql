@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "public"."EventName" ADD VALUE 'CUSTOMER_REQUEST_CREATED';
