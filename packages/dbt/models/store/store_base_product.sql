@@ -5,10 +5,10 @@
 ) }}
 
 SELECT
-  bp.id AS id,
+  bp.id,
   p.id AS "shopifyId",
-  bp."createdAt" AS "createdAt",
-  bp."vendorId"::uuid as "vendorId"
-FROM public."Product" bp
-LEFT JOIN fivetran_shopify.product p ON p.id = bp."shopifyId"
+  bp."createdAt",
+  bp."vendorId"::uuid AS "vendorId"
+FROM public."Product" AS bp
+LEFT JOIN fivetran_shopify.product AS p ON bp."shopifyId" = p.id
 WHERE p.id IS NOT NULL

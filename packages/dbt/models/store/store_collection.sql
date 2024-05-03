@@ -5,9 +5,9 @@
 ) }}
 
 SELECT
-  bc.id AS id,
+  bc.id,
   bc."shopifyId"::bigint AS shopify_id,
-  bc.title AS title,
-  bc.handle AS handle
-FROM public."Collection" bc
-WHERE bc.title IS NOT NULL and bc.handle IS NOT NULL
+  bc.title,
+  bc.handle
+FROM public."Collection" AS bc
+WHERE bc.title IS NOT NULL AND bc.handle IS NOT NULL
