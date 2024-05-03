@@ -400,7 +400,7 @@ select
         end
     ) as "calculated_scoring",
     round(
-        0.15 * (
+        0.3 * (
             case
                 when brand_rating::text = 'TOP'
                 then 1000
@@ -422,7 +422,7 @@ select
                     )
             end
         )
-        + 0.15
+        + 0.3
         * (
             case
                 when highest_discount >= 60
@@ -432,8 +432,8 @@ select
                 else highest_discount * 20 - 200
             end
         )
-        + 0.5 * (case when stock > 20 then 1000 else 50 * stock end)
-        + 0.25
+        + 0.3 * (case when stock > 20 then 1000 else 50 * stock end)
+        + 0.15
         * (
             case
                 when cast(current_date as date) - cast(created_at as date) <= 7
