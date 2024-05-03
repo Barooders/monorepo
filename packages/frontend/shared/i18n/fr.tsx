@@ -647,6 +647,7 @@ const fr = {
         priceAsc: 'Les moins chers',
         priceDesc: 'Les plus chers',
         dateDesc: 'Les plus récents',
+        bundleSize: 'La taille du lot',
         discountDesc: 'Les bonnes affaires',
       },
     },

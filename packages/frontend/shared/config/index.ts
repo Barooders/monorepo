@@ -21,6 +21,11 @@ export const searchCollections = {
   },
   b2bProducts: {
     main: `${b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+    dateDesc: `${b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+    bundleSize: `${b2bVariantsCollection}/sort/total_quantity:desc`,
+    discountDesc: `${b2bVariantsCollection}/sort/discount:desc`,
+    priceAsc: `${b2bVariantsCollection}/sort/largest_bundle_price:asc`,
+    priceDesc: `${b2bVariantsCollection}/sort/largest_bundle_price:desc`,
   },
   collections: config.search.collectionsCollection,
   suggestions: config.search.publicVariantSuggestionsCollection,
