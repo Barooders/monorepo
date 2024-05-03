@@ -4,11 +4,11 @@
   pre_hook='delete from {{this}}'
 ) }}
 
-SELECT -- noqa: ST06
+SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations and aggregates)
   bp.id AS "product_id",
   split_part(t.value, ':', 1) AS tag,
   t.value AS full_tag,
-  min(substring(t.value FROM position(':' IN t.value) + 1)) AS value -- noqa: RF04,LT05
+  min(substring(t.value FROM position(':' IN t.value) + 1)) AS value -- noqa: RF04, (ignore reserved keyword)
 FROM fivetran_shopify.product_tag AS t
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
