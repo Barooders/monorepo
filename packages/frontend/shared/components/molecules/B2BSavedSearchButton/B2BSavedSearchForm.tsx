@@ -2,6 +2,8 @@ import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
+import { randomId } from '@/utils/randomId';
+import { slugify } from '@/utils/slugify';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
@@ -19,6 +21,10 @@ type PropsType = {
   onClose: () => void;
 };
 
+type FormInputs = {
+  saveSearchTitle: string;
+};
+
 const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
   const [, storeSavedSearch] = useStoreSavedSearch();
   const { items } = useCurrentRefinements();
@@ -30,13 +36,14 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
       value: String(value),
     }));
 
-  const formMethods = useForm({});
+  const formMethods = useForm<FormInputs>({});
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormInputs) => {
+    const searchName = slugify(data.saveSearchTitle) + '-' + randomId(5);
     await storeSavedSearch({
-      name: 'Recherche B2B',
+      name: data.saveSearchTitle,
       type: 'B2B_MAIN_PAGE',
-      resultsUrl: window.location.href,
+      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
       query,
       refinements,
       shouldTriggerAlerts: false,
