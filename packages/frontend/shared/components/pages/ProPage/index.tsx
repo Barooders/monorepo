@@ -23,11 +23,14 @@ import B2BSearchResults from './_components/B2BSearchResults';
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
 const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
-  query FetchB2BSavedSearch {
+  query FetchB2BSavedSearch($resultsUrl: String) {
     SavedSearch(
       limit: 1
       order_by: { createdAt: desc }
-      where: { type: { _eq: "B2B_MAIN_PAGE" } }
+      where: {
+        type: { _eq: "B2B_MAIN_PAGE" }
+        resultsUrl: { _eq: $resultsUrl }
+      }
     ) {
       id
       FacetFilters {
@@ -49,9 +52,10 @@ const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
 
 type PropsType = {
   productInternalId: string | null;
+  searchName?: string;
 };
 
-const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
+const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
   const { user } = useHasuraToken();
   const [savedSearch, setSavedSearch] = useState<SavedSearch | undefined>();
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
@@ -71,10 +75,14 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
 
   useEffect(() => {
     (async () => {
-      const { SavedSearch } = await fetchB2BSavedSearch();
+      if (!searchName) return;
+
+      const { SavedSearch } = await fetchB2BSavedSearch({
+        resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
+      });
       setSavedSearch(SavedSearch[0]);
     })();
-  }, []);
+  }, [searchName]);
 
   const addProductToUrl = (productInternalId: string) => {
     const newUrl = new URL(window.location.href);

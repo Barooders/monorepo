@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -17224,6 +17223,7 @@ export type Dbt_Store_Product_For_Analytics = {
   __typename?: 'dbt_store_product_for_analytics';
   brand: Maybe<Scalars['String']['output']>;
   brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_b2b_scoring: Maybe<Scalars['float8']['output']>;
   calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
   calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
   calculated_scoring: Scalars['float8']['output'];
@@ -17245,6 +17245,7 @@ export type Dbt_Store_Product_For_Analytics = {
   shopify_id: Scalars['bigint']['output'];
   size: Maybe<Scalars['String']['output']>;
   source: Maybe<Scalars['String']['output']>;
+  stock: Scalars['Int']['output'];
   vendor_id: Scalars['uuid']['output'];
   vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
   vendor_overrides_product_scoring: Scalars['Boolean']['output'];
@@ -17284,6 +17285,7 @@ export type Dbt_Store_Product_For_Analytics_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type Dbt_Store_Product_For_Analytics_Avg_Fields = {
   __typename?: 'dbt_store_product_for_analytics_avg_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17292,6 +17294,7 @@ export type Dbt_Store_Product_For_Analytics_Avg_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
@@ -17302,6 +17305,7 @@ export type Dbt_Store_Product_For_Analytics_Bool_Exp = {
   _or: InputMaybe<Array<Dbt_Store_Product_For_Analytics_Bool_Exp>>;
   brand: InputMaybe<String_Comparison_Exp>;
   brand_rating: InputMaybe<BrandRating_Comparison_Exp>;
+  calculated_b2b_scoring: InputMaybe<Float8_Comparison_Exp>;
   calculated_notation: InputMaybe<ProductNotation_Comparison_Exp>;
   calculated_notation_beta: InputMaybe<ProductNotation_Comparison_Exp>;
   calculated_scoring: InputMaybe<Float8_Comparison_Exp>;
@@ -17323,6 +17327,7 @@ export type Dbt_Store_Product_For_Analytics_Bool_Exp = {
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
   size: InputMaybe<String_Comparison_Exp>;
   source: InputMaybe<String_Comparison_Exp>;
+  stock: InputMaybe<Int_Comparison_Exp>;
   vendor_id: InputMaybe<Uuid_Comparison_Exp>;
   vendor_notation: InputMaybe<ProductNotation_Comparison_Exp>;
   vendor_overrides_product_scoring: InputMaybe<Boolean_Comparison_Exp>;
@@ -17341,6 +17346,7 @@ export enum Dbt_Store_Product_For_Analytics_Constraint {
 
 /** input type for incrementing numeric columns in table "dbt.store_product_for_analytics" */
 export type Dbt_Store_Product_For_Analytics_Inc_Input = {
+  calculated_b2b_scoring: InputMaybe<Scalars['float8']['input']>;
   calculated_scoring: InputMaybe<Scalars['float8']['input']>;
   favorites_count: InputMaybe<Scalars['Int']['input']>;
   highest_discount: InputMaybe<Scalars['float8']['input']>;
@@ -17349,6 +17355,7 @@ export type Dbt_Store_Product_For_Analytics_Inc_Input = {
   model_year_with_override: InputMaybe<Scalars['Int']['input']>;
   orders_count: InputMaybe<Scalars['Int']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
+  stock: InputMaybe<Scalars['Int']['input']>;
   views_last_30_days: InputMaybe<Scalars['bigint']['input']>;
 };
 
@@ -17356,6 +17363,7 @@ export type Dbt_Store_Product_For_Analytics_Inc_Input = {
 export type Dbt_Store_Product_For_Analytics_Insert_Input = {
   brand: InputMaybe<Scalars['String']['input']>;
   brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_b2b_scoring: InputMaybe<Scalars['float8']['input']>;
   calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_scoring: InputMaybe<Scalars['float8']['input']>;
@@ -17377,6 +17385,7 @@ export type Dbt_Store_Product_For_Analytics_Insert_Input = {
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
   size: InputMaybe<Scalars['String']['input']>;
   source: InputMaybe<Scalars['String']['input']>;
+  stock: InputMaybe<Scalars['Int']['input']>;
   vendor_id: InputMaybe<Scalars['uuid']['input']>;
   vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
@@ -17388,6 +17397,7 @@ export type Dbt_Store_Product_For_Analytics_Max_Fields = {
   __typename?: 'dbt_store_product_for_analytics_max_fields';
   brand: Maybe<Scalars['String']['output']>;
   brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_b2b_scoring: Maybe<Scalars['float8']['output']>;
   calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
   calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
   calculated_scoring: Maybe<Scalars['float8']['output']>;
@@ -17407,6 +17417,7 @@ export type Dbt_Store_Product_For_Analytics_Max_Fields = {
   shopify_id: Maybe<Scalars['bigint']['output']>;
   size: Maybe<Scalars['String']['output']>;
   source: Maybe<Scalars['String']['output']>;
+  stock: Maybe<Scalars['Int']['output']>;
   vendor_id: Maybe<Scalars['uuid']['output']>;
   vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
   views_last_30_days: Maybe<Scalars['bigint']['output']>;
@@ -17417,6 +17428,7 @@ export type Dbt_Store_Product_For_Analytics_Min_Fields = {
   __typename?: 'dbt_store_product_for_analytics_min_fields';
   brand: Maybe<Scalars['String']['output']>;
   brand_rating: Maybe<Scalars['BrandRating']['output']>;
+  calculated_b2b_scoring: Maybe<Scalars['float8']['output']>;
   calculated_notation: Maybe<Scalars['ProductNotation']['output']>;
   calculated_notation_beta: Maybe<Scalars['ProductNotation']['output']>;
   calculated_scoring: Maybe<Scalars['float8']['output']>;
@@ -17436,6 +17448,7 @@ export type Dbt_Store_Product_For_Analytics_Min_Fields = {
   shopify_id: Maybe<Scalars['bigint']['output']>;
   size: Maybe<Scalars['String']['output']>;
   source: Maybe<Scalars['String']['output']>;
+  stock: Maybe<Scalars['Int']['output']>;
   vendor_id: Maybe<Scalars['uuid']['output']>;
   vendor_notation: Maybe<Scalars['ProductNotation']['output']>;
   views_last_30_days: Maybe<Scalars['bigint']['output']>;
@@ -17461,6 +17474,7 @@ export type Dbt_Store_Product_For_Analytics_On_Conflict = {
 export type Dbt_Store_Product_For_Analytics_Order_By = {
   brand: InputMaybe<Order_By>;
   brand_rating: InputMaybe<Order_By>;
+  calculated_b2b_scoring: InputMaybe<Order_By>;
   calculated_notation: InputMaybe<Order_By>;
   calculated_notation_beta: InputMaybe<Order_By>;
   calculated_scoring: InputMaybe<Order_By>;
@@ -17482,6 +17496,7 @@ export type Dbt_Store_Product_For_Analytics_Order_By = {
   shopify_id: InputMaybe<Order_By>;
   size: InputMaybe<Order_By>;
   source: InputMaybe<Order_By>;
+  stock: InputMaybe<Order_By>;
   vendor_id: InputMaybe<Order_By>;
   vendor_notation: InputMaybe<Order_By>;
   vendor_overrides_product_scoring: InputMaybe<Order_By>;
@@ -17500,6 +17515,8 @@ export enum Dbt_Store_Product_For_Analytics_Select_Column {
   /** column name */
   BrandRating = 'brand_rating',
   /** column name */
+  CalculatedB2bScoring = 'calculated_b2b_scoring',
+  /** column name */
   CalculatedNotation = 'calculated_notation',
   /** column name */
   CalculatedNotationBeta = 'calculated_notation_beta',
@@ -17542,6 +17559,8 @@ export enum Dbt_Store_Product_For_Analytics_Select_Column {
   /** column name */
   Source = 'source',
   /** column name */
+  Stock = 'stock',
+  /** column name */
   VendorId = 'vendor_id',
   /** column name */
   VendorNotation = 'vendor_notation',
@@ -17555,6 +17574,7 @@ export enum Dbt_Store_Product_For_Analytics_Select_Column {
 export type Dbt_Store_Product_For_Analytics_Set_Input = {
   brand: InputMaybe<Scalars['String']['input']>;
   brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_b2b_scoring: InputMaybe<Scalars['float8']['input']>;
   calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_scoring: InputMaybe<Scalars['float8']['input']>;
@@ -17576,6 +17596,7 @@ export type Dbt_Store_Product_For_Analytics_Set_Input = {
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
   size: InputMaybe<Scalars['String']['input']>;
   source: InputMaybe<Scalars['String']['input']>;
+  stock: InputMaybe<Scalars['Int']['input']>;
   vendor_id: InputMaybe<Scalars['uuid']['input']>;
   vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
@@ -17585,6 +17606,7 @@ export type Dbt_Store_Product_For_Analytics_Set_Input = {
 /** aggregate stddev on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17593,12 +17615,14 @@ export type Dbt_Store_Product_For_Analytics_Stddev_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Pop_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_pop_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17607,12 +17631,14 @@ export type Dbt_Store_Product_For_Analytics_Stddev_Pop_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Dbt_Store_Product_For_Analytics_Stddev_Samp_Fields = {
   __typename?: 'dbt_store_product_for_analytics_stddev_samp_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17621,6 +17647,7 @@ export type Dbt_Store_Product_For_Analytics_Stddev_Samp_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
@@ -17636,6 +17663,7 @@ export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Input = {
 export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Value_Input = {
   brand: InputMaybe<Scalars['String']['input']>;
   brand_rating: InputMaybe<Scalars['BrandRating']['input']>;
+  calculated_b2b_scoring: InputMaybe<Scalars['float8']['input']>;
   calculated_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_notation_beta: InputMaybe<Scalars['ProductNotation']['input']>;
   calculated_scoring: InputMaybe<Scalars['float8']['input']>;
@@ -17657,6 +17685,7 @@ export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Value_Input = {
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
   size: InputMaybe<Scalars['String']['input']>;
   source: InputMaybe<Scalars['String']['input']>;
+  stock: InputMaybe<Scalars['Int']['input']>;
   vendor_id: InputMaybe<Scalars['uuid']['input']>;
   vendor_notation: InputMaybe<Scalars['ProductNotation']['input']>;
   vendor_overrides_product_scoring: InputMaybe<Scalars['Boolean']['input']>;
@@ -17666,6 +17695,7 @@ export type Dbt_Store_Product_For_Analytics_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Dbt_Store_Product_For_Analytics_Sum_Fields = {
   __typename?: 'dbt_store_product_for_analytics_sum_fields';
+  calculated_b2b_scoring: Maybe<Scalars['float8']['output']>;
   calculated_scoring: Maybe<Scalars['float8']['output']>;
   favorites_count: Maybe<Scalars['Int']['output']>;
   highest_discount: Maybe<Scalars['float8']['output']>;
@@ -17674,6 +17704,7 @@ export type Dbt_Store_Product_For_Analytics_Sum_Fields = {
   model_year_with_override: Maybe<Scalars['Int']['output']>;
   orders_count: Maybe<Scalars['Int']['output']>;
   shopify_id: Maybe<Scalars['bigint']['output']>;
+  stock: Maybe<Scalars['Int']['output']>;
   views_last_30_days: Maybe<Scalars['bigint']['output']>;
 };
 
@@ -17683,6 +17714,8 @@ export enum Dbt_Store_Product_For_Analytics_Update_Column {
   Brand = 'brand',
   /** column name */
   BrandRating = 'brand_rating',
+  /** column name */
+  CalculatedB2bScoring = 'calculated_b2b_scoring',
   /** column name */
   CalculatedNotation = 'calculated_notation',
   /** column name */
@@ -17725,6 +17758,8 @@ export enum Dbt_Store_Product_For_Analytics_Update_Column {
   Size = 'size',
   /** column name */
   Source = 'source',
+  /** column name */
+  Stock = 'stock',
   /** column name */
   VendorId = 'vendor_id',
   /** column name */
@@ -17747,6 +17782,7 @@ export type Dbt_Store_Product_For_Analytics_Updates = {
 /** aggregate var_pop on columns */
 export type Dbt_Store_Product_For_Analytics_Var_Pop_Fields = {
   __typename?: 'dbt_store_product_for_analytics_var_pop_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17755,12 +17791,14 @@ export type Dbt_Store_Product_For_Analytics_Var_Pop_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate var_samp on columns */
 export type Dbt_Store_Product_For_Analytics_Var_Samp_Fields = {
   __typename?: 'dbt_store_product_for_analytics_var_samp_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17769,12 +17807,14 @@ export type Dbt_Store_Product_For_Analytics_Var_Samp_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
 /** aggregate variance on columns */
 export type Dbt_Store_Product_For_Analytics_Variance_Fields = {
   __typename?: 'dbt_store_product_for_analytics_variance_fields';
+  calculated_b2b_scoring: Maybe<Scalars['Float']['output']>;
   calculated_scoring: Maybe<Scalars['Float']['output']>;
   favorites_count: Maybe<Scalars['Float']['output']>;
   highest_discount: Maybe<Scalars['Float']['output']>;
@@ -17783,6 +17823,7 @@ export type Dbt_Store_Product_For_Analytics_Variance_Fields = {
   model_year_with_override: Maybe<Scalars['Float']['output']>;
   orders_count: Maybe<Scalars['Float']['output']>;
   shopify_id: Maybe<Scalars['Float']['output']>;
+  stock: Maybe<Scalars['Float']['output']>;
   views_last_30_days: Maybe<Scalars['Float']['output']>;
 };
 
@@ -33095,21 +33136,3 @@ export type Uuid_Comparison_Exp = {
   _neq: InputMaybe<Scalars['uuid']['input']>;
   _nin: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
-
-export type FetchProductNotationQueryVariables = Exact<{
-  productInternalId: Scalars['String']['input'];
-}>;
-
-
-export type FetchProductNotationQuery = { __typename?: 'query_root', Product: Array<{ __typename?: 'Product', manualNotation: any | null, source: string | null, sourceUrl: string | null }>, dbt_store_product_for_analytics: Array<{ __typename?: 'dbt_store_product_for_analytics', created_at: any, vendor_notation: any | null, calculated_notation: any | null, calculated_notation_beta: any | null, orders_count: number, favorites_count: number }> };
-
-export type FetchProductHitDataQueryVariables = Exact<{
-  productId: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type FetchProductHitDataQuery = { __typename?: 'query_root', Product: Array<{ __typename?: 'Product', manualNotation: any | null }>, dbt_store_product_for_analytics: Array<{ __typename?: 'dbt_store_product_for_analytics', notation: any | null, calculated_notation: any | null, created_at: any, calculated_scoring: any }> };
-
-
-export const FetchProductNotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProductNotation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manualNotation"}},{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dbt_store_product_for_analytics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"vendor_notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation_beta"}},{"kind":"Field","name":{"kind":"Name","value":"orders_count"}},{"kind":"Field","name":{"kind":"Name","value":"favorites_count"}}]}}]}}]} as unknown as DocumentNode<FetchProductNotationQuery, FetchProductNotationQueryVariables>;
-export const FetchProductHitDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProductHitData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manualNotation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dbt_store_product_for_analytics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_scoring"}}]}}]}}]} as unknown as DocumentNode<FetchProductHitDataQuery, FetchProductHitDataQueryVariables>;
