@@ -11,7 +11,7 @@ with
             (
                 select
                     "productId",
-                    "unitPriceInCents" * 1.2,
+                    "unitPriceInCents" * 1.2 as "unitPriceInCents",
                     row_number() over (
                         partition by "productId" order by "minQuantity" desc
                     ) as row_num
@@ -46,7 +46,7 @@ with
             ) as highest_discount
         from public."ProductVariant" ppv
         left join
-            largest_bundle_tax_included_prices lbp on lbp."productd" = ppv."productId"
+            largest_bundle_tax_included_prices lbp on lbp."productId" = ppv."productId"
         group by ppv."productId"
     ),
     image_data as (
@@ -122,6 +122,7 @@ with
             cast(
                 variant_data.condition::text as dbt."Condition"
             ) as "condition_from_variants",
+            variant_data.stock as "stock",
             case
                 when
                     variant_data.condition::text = 'AS_NEW'
@@ -439,5 +440,5 @@ select
             then 200
             else 0
         end
-    ) as "calculated_b2b_scoring",
+    ) as "calculated_b2b_scoring"
 from product_with_notation
