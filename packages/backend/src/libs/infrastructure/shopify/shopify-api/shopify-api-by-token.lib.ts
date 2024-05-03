@@ -188,7 +188,7 @@ class InstrumentedProductImageClient {
 
   async delete(productId: number, imageId: number) {
     return instrumentShopifyMethod('deleteProductImage', () =>
-      this.shopifyClient.productImage.create(productId, imageId),
+      this.shopifyClient.productImage.delete(productId, imageId),
     );
   }
 }
