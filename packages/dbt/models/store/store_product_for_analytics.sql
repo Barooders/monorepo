@@ -5,9 +5,24 @@
 }}
 
 with
+    largest_bundle_tax_included_prices as (
+        select "productId", "unitPriceInCents"
+        from
+            (
+                select
+                    "productId",
+                    "unitPriceInCents" * 1.2,
+                    row_number() over (
+                        partition by "productId" order by "minQuantity" desc
+                    ) as row_num
+                from public."BundlePrice"
+            ) as ranked
+        where row_num = 1
+    ),
     variant_data as (
         select
             ppv."productId",
+            sum(ppv.quantity) as stock,
             min(ppv.condition) as condition,
             max(
                 case
@@ -20,8 +35,9 @@ with
                     else
                         (
                             (
-                                ppv."compareAtPriceInCents"::float
-                                - ppv."priceInCents"::float
+                                ppv."compareAtPriceInCents"::float - coalesce(
+                                    lbp."unitPriceInCents", ppv."priceInCents"
+                                )::float
                             )
                             / ppv."compareAtPriceInCents"::float
                         )
@@ -29,6 +45,8 @@ with
                 end
             ) as highest_discount
         from public."ProductVariant" ppv
+        left join
+            largest_bundle_tax_included_prices lbp on lbp."productd" = ppv."productId"
         group by ppv."productId"
     ),
     image_data as (
@@ -379,5 +397,47 @@ select
             then 200
             else 0
         end
-    ) as "calculated_scoring"
+    ) as "calculated_scoring",
+    0.3 * (
+        case
+            when notation = 'A'
+            then 1000
+            when notation = 'B'
+            then 800
+            when notation = 'C'
+            then 400
+            else 0
+        end
+    )
+    + 0.5 * (case when stock > 20 then 1000 else 50 * stock end)
+    + 0.25
+    * (
+        case
+            when cast(current_date as date) - cast(created_at as date) <= 7
+            then 1000
+            when cast(current_date as date) - cast(created_at as date) <= 30
+            then 600
+            when cast(current_date as date) - cast(created_at as date) <= 60
+            then 300
+            else 100
+        end
+    )
+    + 0.15
+    * (
+        case
+            when views_last_30_days > 200
+            then 1000
+            when views_last_30_days > 100
+            then 800
+            when views_last_30_days > 50
+            then 600
+            when views_last_30_days > 10
+            then 500
+            when views_last_30_days > 5
+            then 400
+            when views_last_30_days > 1
+            then 200
+            else 0
+        end
+    ) as "calculated_b2b_scoring",
 from product_with_notation
