@@ -122,7 +122,7 @@ with
             cast(
                 variant_data.condition::text as dbt."Condition"
             ) as "condition_from_variants",
-            variant_data.stock as "stock",
+            coalesce(variant_data.stock, 0) as "stock",
             case
                 when
                     variant_data.condition::text = 'AS_NEW'
