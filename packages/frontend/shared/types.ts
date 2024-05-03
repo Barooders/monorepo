@@ -1,14 +1,6 @@
 import { ChatConversationMetadata, HASURA_ROLES } from 'shared-types';
 import { CLAIMS_KEY } from '../shared/config';
 
-export type HasuraToken = {
-  accessToken: string;
-  accessTokenExpiresIn: number;
-  creationDate: Timestamp;
-  refreshToken: Uuid;
-  user: User;
-};
-
 export enum ProductStatus {
   ACTIVE = 'ACTIVE',
   DRAFT = 'DRAFT',
@@ -21,6 +13,27 @@ export enum AccountSections {
   PURCHASES = 'purchases',
   FAVORITES = 'favorites',
 }
+
+export enum SalesChannelName {
+  B2B = 'b2b',
+  PUBLIC = 'public',
+}
+
+export enum PriceOfferStatus {
+  PROPOSED = 'PROPOSED',
+  DECLINED = 'DECLINED',
+  ACCEPTED = 'ACCEPTED',
+  CANCELED = 'CANCELED',
+  BOUGHT_WITH = 'BOUGHT_WITH',
+}
+
+export type HasuraToken = {
+  accessToken: string;
+  accessTokenExpiresIn: number;
+  creationDate: Timestamp;
+  refreshToken: Uuid;
+  user: User;
+};
 
 export type HasuraAuthJwtType = {
   [CLAIMS_KEY]: {
@@ -218,11 +231,3 @@ export type PriceOffer = {
   discountCode: string | null;
   status: PriceOfferStatus;
 };
-
-export enum PriceOfferStatus {
-  PROPOSED = 'PROPOSED',
-  DECLINED = 'DECLINED',
-  ACCEPTED = 'ACCEPTED',
-  CANCELED = 'CANCELED',
-  BOUGHT_WITH = 'BOUGHT_WITH',
-}
