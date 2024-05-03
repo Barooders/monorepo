@@ -36,6 +36,8 @@ type SearchBaseVariantDocument = {
   updatedat_timestamp: number;
   createdat_timestamp: number;
   publishedat_timestamp: number;
+  computed_scoring: number;
+  discount: number;
 };
 
 export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
@@ -52,9 +54,7 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
     };
   };
   variant_title: string;
-  computed_scoring: number;
   is_refurbished?: string;
-  discount: number;
   collection_internal_ids: string[];
   collection_handles: string[];
 };

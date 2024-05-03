@@ -209,6 +209,7 @@ export class StoreMapper {
   ): Promise<B2BVariantToIndex[]> {
     const {
       baseProductVariants,
+      storeProductForAnalytics,
       shopifyId,
       storeB2BProduct,
       exposedProduct,
@@ -222,6 +223,7 @@ export class StoreMapper {
         exposedProduct: true,
         storeB2BProduct: true,
         exposedProductTags: true,
+        storeProductForAnalytics: true,
         baseProductVariants: {
           include: {
             exposedProductVariant: true,
@@ -278,6 +280,7 @@ export class StoreMapper {
             amountInCents: Number(storeB2BProduct.largestBundlePriceInCents),
           })
         : undefined,
+      calculatedScoring: storeProductForAnalytics?.calculatedB2BScoring ?? 0,
     };
 
     return variants.map((variant) => ({

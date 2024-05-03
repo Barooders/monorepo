@@ -98,7 +98,7 @@ const DOCUMENT_CONFIG = {
       variant_shopify_id: variant.shopifyId.id,
       vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
-      computed_scoring: product.calculatedScoring,
+      computed_scoring: product.calculatedScoring ?? 0,
       discount:
         variant.compareAtPrice.amount === 0
           ? 0
