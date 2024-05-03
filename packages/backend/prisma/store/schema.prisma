@@ -185,7 +185,7 @@ model StoreProductForAnalytics {
   vendorId                       String           @map("vendor_id") @db.Uuid
   shopifyId                      BigInt           @unique @map("shopify_id")
   calculatedScoring              Float            @map("calculated_scoring")
-  calculatedB2BScoring           Float?            @map("calculated_b2b_scoring")
+  calculatedB2BScoring           Float?           @map("calculated_b2b_scoring")
   source                         String?
   manualNotation                 ProductNotation? @map("manual_notation")
   vendorNotation                 ProductNotation? @map("vendor_notation")
@@ -200,6 +200,7 @@ model StoreProductForAnalytics {
   imageCount                     Int              @default(0) @map("image_count")
   ordersCount                    Int              @default(0) @map("orders_count")
   favoritesCount                 Int              @default(0) @map("favorites_count")
+  stock                          Int              @default(0) @map("stock")
   highestDiscount                Float            @default(0) @map("highest_discount")
   brand                          String?
   brandRating                    BrandRating?     @map("brand_rating")
