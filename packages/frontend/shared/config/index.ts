@@ -20,7 +20,7 @@ export const searchCollections = {
     dateDesc: `${publicVariantsCollection}/sort/createdat_timestamp:desc`,
   },
   b2bProducts: {
-    main: `${b2bVariantsCollection}/sort/createdat_timestamp:desc`,
+    main: `${b2bVariantsCollection}/sort/computed_scoring:desc`,
     dateDesc: `${b2bVariantsCollection}/sort/createdat_timestamp:desc`,
     bundleSize: `${b2bVariantsCollection}/sort/total_quantity:desc`,
     discountDesc: `${b2bVariantsCollection}/sort/discount:desc`,
