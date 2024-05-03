@@ -5,21 +5,16 @@ meta {
 }
 
 get {
-  url: https://www.elettronicshop.com/wp-json/wc/v3/products/23558
+  url: https://www.elettronicshop.com/wp-json/wc/v3/products/23760?consumer_secret={{elettronicApiSecret}}&consumer_key={{elettronicApiKey}}
   body: none
   auth: none
 }
 
 query {
-  consumer_key: {{elettronicApiKey}}
   consumer_secret: {{elettronicApiSecret}}
-  per_page: 10
+  consumer_key: {{elettronicApiKey}}
   ~modified_after: 2023-06-03T15:00:00
   ~category: 793
   ~page: 1
   ~status: publish
-}
-
-headers {
-  : 
 }

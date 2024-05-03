@@ -24,7 +24,7 @@ type WooCommerceProductVariationAttribute = {
 type WooCommerceMetadata = {
   id: number;
   key: string;
-  value: string;
+  value: string | string[] | object | object[];
 };
 
 type WooCommerceTag = {
