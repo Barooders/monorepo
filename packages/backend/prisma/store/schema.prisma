@@ -185,6 +185,7 @@ model StoreProductForAnalytics {
   vendorId                       String           @map("vendor_id") @db.Uuid
   shopifyId                      BigInt           @unique @map("shopify_id")
   calculatedScoring              Float            @map("calculated_scoring")
+  calculatedB2BScoring           Float?            @map("calculated_b2b_scoring")
   source                         String?
   manualNotation                 ProductNotation? @map("manual_notation")
   vendorNotation                 ProductNotation? @map("vendor_notation")

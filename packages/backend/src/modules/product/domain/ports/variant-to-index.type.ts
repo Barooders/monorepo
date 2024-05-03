@@ -79,6 +79,7 @@ export interface B2BVariantToIndex {
     tags: Tags;
     totalQuantity: Stock;
     largestBundlePrice?: Amount;
+    calculatedScoring: number;
   };
 }
 

@@ -98,6 +98,12 @@ const DOCUMENT_CONFIG = {
       variant_shopify_id: variant.shopifyId.id,
       vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
+      computed_scoring: product.calculatedScoring ?? 0,
+      discount:
+        variant.compareAtPrice.amount === 0
+          ? 0
+          : (variant.compareAtPrice.amount - variant.price.amount) /
+            variant.compareAtPrice.amount,
       title: product.title,
       vendor: product.vendor,
       product_type: product.productType.productType,
