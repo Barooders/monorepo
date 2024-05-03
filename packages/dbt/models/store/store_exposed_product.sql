@@ -12,7 +12,7 @@ dynamic_tags AS (
     al.pim_product_attribute_order AS priority
   FROM fivetran_strapi_public.pim_dynamic_attributes AS da
   INNER JOIN
-    fivetran_strapi_public.pim_dynamic_attributes_pim_product_attributes_links AS al
+    fivetran_strapi_public.pim_dynamic_attributes_pim_product_attributes_links AS al -- noqa: LT05
     ON da.id = al.pim_dynamic_attribute_id
   INNER JOIN
     fivetran_strapi_public.pim_product_attributes AS pa
@@ -38,7 +38,7 @@ total_quantities AS (
   GROUP BY "productId"
 )
 
-SELECT
+SELECT -- noqa: ST06
   bp.id,
   sp.published_at AS "publishedAt",
   coalesce(p."productType", sp.product_type) AS "productType",
@@ -51,7 +51,7 @@ SELECT
   coalesce(pr.traffictot, 0) AS "numberOfViews",
   t_size.value AS size,
   t_gender.value AS gender,
-  t_model.value AS model,
+  t_model.value AS model, -- noqa: RF04
   t_year.value AS "modelYear",
   current_date AS "syncDate",
   ir."firstImage",
@@ -62,55 +62,55 @@ LEFT JOIN public."Product" AS p ON bp.id = p.id
 LEFT JOIN fivetran_shopify.product AS sp ON bp."shopifyId" = sp.id
 
 LEFT JOIN
-  (
+  ( -- noqa: ST05
     SELECT
       product_id,
-      min(value) AS value
+      min(value) AS value -- noqa: RF04
     FROM {{ ref("store_exposed_product_tag") }}
     WHERE tag = 'marque'
-    GROUP BY 1
+    GROUP BY 1 -- noqa: AM06
   ) AS t_brand
   ON bp.id = t_brand.product_id
 LEFT JOIN
   (
     SELECT
-      product_id,
-      min(t_size.value) AS value
+      product_id, -- noqa: RF02
+      min(t_size.value) AS value -- noqa: RF04
     FROM {{ ref("store_exposed_product_tag") }} AS t_size
     INNER JOIN
       dynamic_tags AS dt
       ON t_size.tag = dt.tag_prefix AND dt.name = 'size'
-    GROUP BY 1
+    GROUP BY 1 -- noqa: AM06
   ) AS t_size
   ON bp.id = t_size.product_id
 LEFT JOIN
   (
     SELECT
       product_id,
-      min(value) AS value
+      min(value) AS value -- noqa: RF04
     FROM {{ ref("store_exposed_product_tag") }}
     WHERE tag = 'genre'
-    GROUP BY 1
+    GROUP BY 1 -- noqa: AM06
   ) AS t_gender
   ON bp.id = t_gender.product_id
 LEFT JOIN
   (
     SELECT
       product_id,
-      min(value) AS value
+      min(value) AS value -- noqa: RF04
     FROM {{ ref("store_exposed_product_tag") }}
     WHERE tag = 'modele'
-    GROUP BY 1
+    GROUP BY 1 -- noqa: AM06
   ) AS t_model
   ON bp.id = t_model.product_id
 LEFT JOIN
   (
     SELECT
       product_id,
-      min(value) AS value
+      min(value) AS value -- noqa: RF04
     FROM {{ ref("store_exposed_product_tag") }}
     WHERE tag = 'année'
-    GROUP BY 1
+    GROUP BY 1 -- noqa: AM06
   ) AS t_year
   ON bp.id = t_year.product_id
 LEFT JOIN images_ranked AS ir ON bp.id = ir."productId" AND ir.row_number = 1

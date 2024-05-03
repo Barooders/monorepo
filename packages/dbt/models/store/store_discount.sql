@@ -19,8 +19,8 @@ SELECT
   pr.prerequisite_subtotal_range AS min_amount,
   dc.code,
   pr.value_type,
-  -pr.value AS value,
-  COALESCE(customer_selection = 'all', FALSE) AS is_public
+  -pr.value AS value, -- noqa: RF04
+  COALESCE(customer_selection = 'all', FALSE) AS is_public -- noqa: RF02
 FROM fivetran_shopify.price_rule AS pr
 LEFT JOIN
   dc

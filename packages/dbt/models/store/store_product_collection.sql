@@ -28,7 +28,7 @@ collections_with_rules AS (
           'AND'
       ELSE
         'OR'
-    END AS operator
+    END AS operator -- noqa: RF04
   FROM
     public."Collection" AS c
   WHERE
@@ -57,7 +57,7 @@ products AS (
     lower(trim(ep.gender)) AS gender,
     lower(trim(ep.vendor)) AS vendor,
     lower(trim(ep.title)) AS title,
-    lower(trim(ep.model)) AS model,
+    lower(trim(ep.model)) AS model, -- noqa: RF04
     lower(trim(ep."productType")) AS product_type,
     string_agg(lower(trim(ept.value)), ',') AS discounts
   FROM
