@@ -1198,12 +1198,15 @@ const fr = {
       saveSearch: {
         buttonLabel: 'Sauvegarder',
         successToaster: 'Recherche enregistrée',
-        title: 'Enregistrer mes préférences',
-        subTitle: 'Mes critères',
+        title: 'Créer une nouvelle recherche',
         description:
-          'Sauvegardez vos critères de recherche pour les retrouver plus tard',
-        modify: 'Modifier',
-        validate: 'Valider',
+          'Revenez rapidement sur cette recherche dans l’avenir et recevez des notifications pour les nouveaux résultats.',
+        form: {
+          title: 'Titre de votre recherche',
+        },
+        notifications: 'Notifications',
+        selectedFilters: 'Filtres Sélectionnés',
+        validate: 'Enregistrer ma recherche',
       },
       guarantees: {
         includedShipping: () => (

@@ -267,6 +267,18 @@ export const mapCurrentSearchToString = (
   }[],
   query?: string,
 ): string => {
+  return mapCurrentSearch(refinements, query).join('・');
+};
+
+export const mapCurrentSearch = (
+  refinements: {
+    attribute: string;
+    operator?: string;
+    label: string;
+    value: string;
+  }[],
+  query?: string,
+) => {
   return [
     ...(query ? [query] : []),
     ...refinements
@@ -276,9 +288,7 @@ export const mapCurrentSearchToString = (
           : getFacetValueLabel(refinement.attribute, refinement.label),
       )
       .map(String),
-  ]
-    .map(capitalize)
-    .join('・');
+  ].map(capitalize);
 };
 
 export const fetchB2BProductsFromSameVendor = async (
