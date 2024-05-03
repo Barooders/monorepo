@@ -44,7 +44,7 @@ feed_gmc as (
             else p.title end as title_proper,
         case when p.modele is null then 0 else 1 end as has_modele,
         DATE_DIFF(current_date(), p.creation_date, day) as age,
-        b.ean_code as barcode,
+        NULL as barcode,
         v.price as product_price,
         case when p.status = 'active' then v.inventory_quantity else 0 end as inventory_quantity,
         p.creation_date as published_at,
