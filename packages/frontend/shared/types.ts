@@ -14,11 +14,6 @@ export enum AccountSections {
   FAVORITES = 'favorites',
 }
 
-export enum SalesChannelName {
-  B2B = 'b2b',
-  PUBLIC = 'public',
-}
-
 export enum PriceOfferStatus {
   PROPOSED = 'PROPOSED',
   DECLINED = 'DECLINED',

@@ -1,7 +1,7 @@
 import Dropdown from '@/components/atoms/Dropdown';
 import { searchCollections } from '@/config';
 import { getDictionary } from '@/i18n/translate';
-import { SalesChannelName } from '@/types';
+import { SalesChannelName } from 'shared-types';
 import { useState } from 'react';
 import { useSortBy } from 'react-instantsearch-hooks-web';
 

@@ -2,7 +2,7 @@ import SortBy from '@/components/molecules/Filters/SortBy';
 import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { getDictionary } from '@/i18n/translate';
-import { SalesChannelName } from '@/types';
+import { SalesChannelName } from 'shared-types';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
 
 const dict = getDictionary('fr');
