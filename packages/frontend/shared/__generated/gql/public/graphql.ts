@@ -2,64 +2,51 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  AggregateName: { input: any; output: any };
-  CollectionType: { input: any; output: any };
-  Condition: { input: any; output: any };
-  EventName: { input: any; output: any };
-  PaymentSolutionCode: { input: any; output: any };
-  PaymentStatusType: { input: any; output: any };
-  ProductStatus: { input: any; output: any };
-  ShipmentTimeframe: { input: any; output: any };
-  ShippingType: { input: any; output: any };
-  bigint: { input: number; output: number };
-  float8: { input: any; output: any };
-  jsonb: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  AggregateName: { input: any; output: any; }
+  CollectionType: { input: any; output: any; }
+  Condition: { input: any; output: any; }
+  EventName: { input: any; output: any; }
+  PaymentSolutionCode: { input: any; output: any; }
+  PaymentStatusType: { input: any; output: any; }
+  ProductStatus: { input: any; output: any; }
+  ShipmentTimeframe: { input: any; output: any; }
+  ShippingType: { input: any; output: any; }
+  bigint: { input: number; output: number; }
+  float8: { input: any; output: any; }
+  jsonb: { input: any; output: any; }
   /**
    * A string containing a hexadecimal representation of a color.
    *
    * For example, "#6A8D48".
    *
    */
-  shopify_Color: { input: any; output: any };
+  shopify_Color: { input: any; output: any; }
   /**
    * Represents an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)-encoded date and time string.
    * For example, 3:50 pm on September 7, 2019 in the time zone of UTC (Coordinated Universal Time) is
    * represented as `"2019-09-07T15:50:00Z`".
    *
    */
-  shopify_DateTime: { input: any; output: any };
+  shopify_DateTime: { input: any; output: any; }
   /**
    * A signed decimal number, which supports arbitrary precision and is serialized as a string.
    *
    * Example values: `"29.99"`, `"29.999"`.
    *
    */
-  shopify_Decimal: { input: any; output: any };
+  shopify_Decimal: { input: any; output: any; }
   /**
    * A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a
    * complete list of HTML elements.
@@ -67,7 +54,7 @@ export type Scalars = {
    * Example value: `"<p>Grey cotton knit sweater.</p>"`
    *
    */
-  shopify_HTML: { input: any; output: any };
+  shopify_HTML: { input: any; output: any; }
   /**
    * A [JSON](https://www.json.org/json-en.html) object.
    *
@@ -84,7 +71,7 @@ export type Scalars = {
    * }`
    *
    */
-  shopify_JSON: { input: any; output: any };
+  shopify_JSON: { input: any; output: any; }
   /**
    * Represents an [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986) and
    * [RFC 3987](https://datatracker.ietf.org/doc/html/rfc3987)-compliant URI string.
@@ -93,17 +80,17 @@ export type Scalars = {
    * (`johns-apparel.myshopify.com`).
    *
    */
-  shopify_URL: { input: any; output: any };
+  shopify_URL: { input: any; output: any; }
   /**
    * An unsigned 64-bit integer. Represents whole numeric values between 0 and 2^64 - 1 encoded as a string of base-10 digits.
    *
    * Example value: `"50"`.
    *
    */
-  shopify_UnsignedInt64: { input: any; output: any };
-  timestamp: { input: any; output: any };
-  timestamptz: { input: any; output: any };
-  uuid: { input: any; output: any };
+  shopify_UnsignedInt64: { input: any; output: any; }
+  timestamp: { input: any; output: any; }
+  timestamptz: { input: any; output: any; }
+  uuid: { input: any; output: any; }
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -126,6 +113,7 @@ export type Checkout = {
   Checkout_Payments: Array<Payment>;
   id: Scalars['String']['output'];
 };
+
 
 /** columns and relationships of "Checkout" */
 export type CheckoutCheckout_PaymentsArgs = {
@@ -154,7 +142,7 @@ export type Checkout_Order_By = {
 /** select columns of table "Checkout" */
 export enum Checkout_Select_Column {
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** Streaming cursor of the table "Checkout" */
@@ -190,6 +178,7 @@ export type Collection = {
   title: Maybe<Scalars['String']['output']>;
   type: Maybe<Scalars['CollectionType']['output']>;
 };
+
 
 /** columns and relationships of "Collection" */
 export type CollectionChildCollectionsArgs = {
@@ -310,7 +299,7 @@ export enum Collection_Select_Column {
   /** column name */
   Title = 'title',
   /** column name */
-  Type = 'type',
+  Type = 'type'
 }
 
 /** Streaming cursor of the table "Collection" */
@@ -377,6 +366,7 @@ export type Customer = {
   user: Maybe<Users>;
 };
 
+
 /** columns and relationships of "Customer" */
 export type CustomerPublishedReviewsArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
@@ -385,6 +375,7 @@ export type CustomerPublishedReviewsArgs = {
   order_by: InputMaybe<Array<Review_Order_By>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
+
 
 /** columns and relationships of "Customer" */
 export type CustomerVendorReviewsArgs = {
@@ -395,6 +386,7 @@ export type CustomerVendorReviewsArgs = {
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
+
 /** columns and relationships of "Customer" */
 export type CustomerNegociationAgreementsArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
@@ -403,6 +395,7 @@ export type CustomerNegociationAgreementsArgs = {
   order_by: InputMaybe<Array<NegociationAgreement_Order_By>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
+
 
 /** columns and relationships of "Customer" */
 export type CustomerOnlineProductsArgs = {
@@ -487,7 +480,7 @@ export enum Customer_Select_Column {
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
-  UsedShipping = 'usedShipping',
+  UsedShipping = 'usedShipping'
 }
 
 /** Streaming cursor of the table "Customer" */
@@ -525,7 +518,7 @@ export type Event_Bool_Exp = {
 /** unique or primary key constraints on table "Event" */
 export enum Event_Constraint {
   /** unique or primary key constraint on columns "id" */
-  EventPkey = 'Event_pkey',
+  EventPkey = 'Event_pkey'
 }
 
 /** input type for inserting data into table "Event" */
@@ -554,7 +547,7 @@ export type Event_On_Conflict = {
 /** placeholder for update columns of table "Event" (current role has no relevant permissions) */
 export enum Event_Update_Column {
   /** placeholder (do not use) */
-  Placeholder = '_PLACEHOLDER',
+  Placeholder = '_PLACEHOLDER'
 }
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -655,7 +648,7 @@ export enum NegociationAgreement_Select_Column {
   /** column name */
   ProductType = 'productType',
   /** column name */
-  VendorId = 'vendorId',
+  VendorId = 'vendorId'
 }
 
 /** order by stddev() on columns of table "NegociationAgreement" */
@@ -814,7 +807,7 @@ export enum Payment_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  Token = 'token',
+  Token = 'token'
 }
 
 /** Streaming cursor of the table "Payment" */
@@ -851,6 +844,7 @@ export type Product = {
   variants: Array<ProductVariant>;
   vendorId: Scalars['uuid']['output'];
 };
+
 
 /** columns and relationships of "Product" */
 export type ProductVariantsArgs = {
@@ -966,7 +960,7 @@ export enum ProductVariant_Select_Column {
   /** column name */
   ProductId = 'productId',
   /** column name */
-  Quantity = 'quantity',
+  Quantity = 'quantity'
 }
 
 /** order by stddev() on columns of table "ProductVariant" */
@@ -1109,7 +1103,7 @@ export enum Product_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  VendorId = 'vendorId',
+  VendorId = 'vendorId'
 }
 
 /** order by stddev() on columns of table "Product" */
@@ -1182,6 +1176,7 @@ export type Review = {
   rating: Scalars['Int']['output'];
   title: Scalars['String']['output'];
 };
+
 
 /** columns and relationships of "Review" */
 export type ReviewVendorReviewArgs = {
@@ -1284,7 +1279,7 @@ export enum Review_Select_Column {
   /** column name */
   Rating = 'rating',
   /** column name */
-  Title = 'title',
+  Title = 'title'
 }
 
 /** order by stddev() on columns of table "Review" */
@@ -1462,7 +1457,7 @@ export enum VendorReview_Select_Column {
   /** column name */
   ReviewId = 'reviewId',
   /** column name */
-  VendorId = 'vendorId',
+  VendorId = 'vendorId'
 }
 
 /** Streaming cursor of the table "VendorReview" */
@@ -1498,7 +1493,7 @@ export enum Cursor_Ordering {
   /** ascending ordering of the cursor */
   Asc = 'ASC',
   /** descending ordering of the cursor */
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 /** columns and relationships of "dbt.store_b2c_product_variant" */
@@ -1532,7 +1527,7 @@ export enum Dbt_Store_B2c_Product_Variant_Select_Column {
   /** column name */
   CompareAtPrice = 'compare_at_price',
   /** column name */
-  Price = 'price',
+  Price = 'price'
 }
 
 /** Streaming cursor of the table "dbt_store_b2c_product_variant" */
@@ -1568,6 +1563,7 @@ export type Dbt_Store_Base_Product = {
   vendorId: Scalars['uuid']['output'];
 };
 
+
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductCollectionsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
@@ -1576,6 +1572,7 @@ export type Dbt_Store_Base_ProductCollectionsArgs = {
   order_by: InputMaybe<Array<Dbt_Store_Product_Collection_Order_By>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
+
 
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductImagesArgs = {
@@ -1586,6 +1583,7 @@ export type Dbt_Store_Base_ProductImagesArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
+
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductTagsArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
@@ -1594,6 +1592,7 @@ export type Dbt_Store_Base_ProductTagsArgs = {
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
+
 
 /** columns and relationships of "dbt.store_base_product" */
 export type Dbt_Store_Base_ProductVariantsArgs = {
@@ -1642,7 +1641,7 @@ export enum Dbt_Store_Base_Product_Select_Column {
   /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
-  VendorId = 'vendorId',
+  VendorId = 'vendorId'
 }
 
 /** Streaming cursor of the table "dbt_store_base_product" */
@@ -1746,7 +1745,7 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
   /** column name */
   ProductId = 'productId',
   /** column name */
-  ShopifyId = 'shopify_id',
+  ShopifyId = 'shopify_id'
 }
 
 /** order by stddev() on columns of table "dbt.store_base_product_variant" */
@@ -1814,6 +1813,7 @@ export type Dbt_Store_Discount = {
   value: Scalars['float8']['output'];
   value_type: Scalars['String']['output'];
 };
+
 
 /** columns and relationships of "dbt.store_discount" */
 export type Dbt_Store_DiscountCollectionArgs = {
@@ -1903,7 +1903,7 @@ export enum Dbt_Store_Discount_Collection_Select_Column {
   /** column name */
   CollectionInternalId = 'collection_internal_id',
   /** column name */
-  DiscountId = 'discount_id',
+  DiscountId = 'discount_id'
 }
 
 /** order by stddev() on columns of table "dbt.store_discount_collection" */
@@ -1985,7 +1985,7 @@ export enum Dbt_Store_Discount_Select_Column {
   /** column name */
   Value = 'value',
   /** column name */
-  ValueType = 'value_type',
+  ValueType = 'value_type'
 }
 
 /** Streaming cursor of the table "dbt_store_discount" */
@@ -2150,7 +2150,7 @@ export enum Dbt_Store_Exposed_Product_Image_Select_Column {
   /** column name */
   Src = 'src',
   /** column name */
-  Width = 'width',
+  Width = 'width'
 }
 
 /** order by stddev() on columns of table "dbt.store_exposed_product_image" */
@@ -2279,7 +2279,7 @@ export enum Dbt_Store_Exposed_Product_Select_Column {
   /** column name */
   Title = 'title',
   /** column name */
-  Vendor = 'vendor',
+  Vendor = 'vendor'
 }
 
 /** Streaming cursor of the table "dbt_store_exposed_product" */
@@ -2369,7 +2369,7 @@ export enum Dbt_Store_Exposed_Product_Tag_Select_Column {
   /** column name */
   Tag = 'tag',
   /** column name */
-  Value = 'value',
+  Value = 'value'
 }
 
 /** Streaming cursor of the table "dbt_store_exposed_product_tag" */
@@ -2469,7 +2469,7 @@ export enum Dbt_Store_Exposed_Product_Variant_Select_Column {
   /** column name */
   Title = 'title',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 /** Streaming cursor of the table "dbt_store_exposed_product_variant" */
@@ -2542,7 +2542,7 @@ export enum Dbt_Store_Product_Collection_Select_Column {
   /** column name */
   CollectionId = 'collection_id',
   /** column name */
-  ProductId = 'product_id',
+  ProductId = 'product_id'
 }
 
 /** Streaming cursor of the table "dbt_store_product_collection" */
@@ -2580,6 +2580,7 @@ export type Mutation_Root = {
   shopify: Maybe<ShopifyMutation>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_EventArgs = {
   objects: Array<Event_Insert_Input>;
@@ -2599,7 +2600,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
@@ -2677,6 +2678,7 @@ export type Query_Root = {
   users: Array<Users>;
 };
 
+
 export type Query_RootCheckoutArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -2685,9 +2687,11 @@ export type Query_RootCheckoutArgs = {
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
+
 export type Query_RootCheckout_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootCollectionArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
@@ -2697,9 +2701,11 @@ export type Query_RootCollectionArgs = {
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
+
 export type Query_RootCollection_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootCustomerArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
@@ -2709,9 +2715,11 @@ export type Query_RootCustomerArgs = {
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
+
 export type Query_RootCustomer_By_PkArgs = {
   authUserId: Scalars['uuid']['input'];
 };
+
 
 export type Query_RootNegociationAgreementArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
@@ -2721,9 +2729,11 @@ export type Query_RootNegociationAgreementArgs = {
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
+
 export type Query_RootNegociationAgreement_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootPaymentArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
@@ -2733,9 +2743,11 @@ export type Query_RootPaymentArgs = {
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
+
 export type Query_RootPayment_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootProductArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
@@ -2745,6 +2757,7 @@ export type Query_RootProductArgs = {
   where: InputMaybe<Product_Bool_Exp>;
 };
 
+
 export type Query_RootProductVariantArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -2753,13 +2766,16 @@ export type Query_RootProductVariantArgs = {
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
+
 export type Query_RootProductVariant_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
+
 export type Query_RootProduct_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootReviewArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
@@ -2769,9 +2785,11 @@ export type Query_RootReviewArgs = {
   where: InputMaybe<Review_Bool_Exp>;
 };
 
+
 export type Query_RootReview_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootVendorReviewArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
@@ -2781,9 +2799,11 @@ export type Query_RootVendorReviewArgs = {
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
+
 export type Query_RootVendorReview_By_PkArgs = {
   reviewId: Scalars['String']['input'];
 };
+
 
 export type Query_RootDbt_Store_B2c_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
@@ -2793,6 +2813,7 @@ export type Query_RootDbt_Store_B2c_Product_VariantArgs = {
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Base_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -2801,9 +2822,11 @@ export type Query_RootDbt_Store_Base_ProductArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Base_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootDbt_Store_Base_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
@@ -2813,9 +2836,11 @@ export type Query_RootDbt_Store_Base_Product_VariantArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootDbt_Store_DiscountArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
@@ -2825,6 +2850,7 @@ export type Query_RootDbt_Store_DiscountArgs = {
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Discount_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -2833,10 +2859,12 @@ export type Query_RootDbt_Store_Discount_CollectionArgs = {
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Discount_Collection_By_PkArgs = {
   collection_internal_id: Scalars['String']['input'];
   discount_id: Scalars['bigint']['input'];
 };
+
 
 export type Query_RootDbt_Store_Exposed_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
@@ -2846,9 +2874,11 @@ export type Query_RootDbt_Store_Exposed_ProductArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Exposed_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Query_RootDbt_Store_Exposed_Product_ImageArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
@@ -2858,9 +2888,11 @@ export type Query_RootDbt_Store_Exposed_Product_ImageArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Exposed_Product_Image_By_PkArgs = {
   shopify_id: Scalars['bigint']['input'];
 };
+
 
 export type Query_RootDbt_Store_Exposed_Product_TagArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
@@ -2870,15 +2902,15 @@ export type Query_RootDbt_Store_Exposed_Product_TagArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Exposed_Product_VariantArgs = {
-  distinct_on: InputMaybe<
-    Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
-  >;
+  distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
+
 
 export type Query_RootDbt_Store_Product_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
@@ -2888,10 +2920,12 @@ export type Query_RootDbt_Store_Product_CollectionArgs = {
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
+
 export type Query_RootDbt_Store_Product_Collection_By_PkArgs = {
   collection_id: Scalars['String']['input'];
   product_id: Scalars['String']['input'];
 };
+
 
 export type Query_RootUsersArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
@@ -3044,190 +3078,230 @@ export type ShopifyMutation = {
   customerUpdate: Maybe<Shopify_CustomerUpdatePayload>;
 };
 
+
 export type ShopifyMutationCartAttributesUpdateArgs = {
   attributes: Array<Shopify_AttributeInput>;
   cartId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCartBuyerIdentityUpdateArgs = {
   buyerIdentity: Shopify_CartBuyerIdentityInput;
   cartId: Scalars['ID']['input'];
 };
 
+
 export type ShopifyMutationCartCreateArgs = {
   input: InputMaybe<Shopify_CartInput>;
 };
+
 
 export type ShopifyMutationCartDiscountCodesUpdateArgs = {
   cartId: Scalars['ID']['input'];
   discountCodes: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+
 export type ShopifyMutationCartLinesAddArgs = {
   cartId: Scalars['ID']['input'];
   lines: Array<Shopify_CartLineInput>;
 };
+
 
 export type ShopifyMutationCartLinesRemoveArgs = {
   cartId: Scalars['ID']['input'];
   lineIds: Array<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyMutationCartLinesUpdateArgs = {
   cartId: Scalars['ID']['input'];
   lines: Array<Shopify_CartLineUpdateInput>;
 };
 
+
 export type ShopifyMutationCartMetafieldDeleteArgs = {
   input: Shopify_CartMetafieldDeleteInput;
 };
 
+
 export type ShopifyMutationCartMetafieldsSetArgs = {
   metafields: Array<Shopify_CartMetafieldsSetInput>;
 };
+
 
 export type ShopifyMutationCartNoteUpdateArgs = {
   cartId: Scalars['ID']['input'];
   note: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type ShopifyMutationCartPaymentUpdateArgs = {
   cartId: Scalars['ID']['input'];
   payment: Shopify_CartPaymentInput;
 };
+
 
 export type ShopifyMutationCartSelectedDeliveryOptionsUpdateArgs = {
   cartId: Scalars['ID']['input'];
   selectedDeliveryOptions: Array<Shopify_CartSelectedDeliveryOptionInput>;
 };
 
+
 export type ShopifyMutationCartSubmitForCompletionArgs = {
   attemptToken: Scalars['String']['input'];
   cartId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCheckoutAttributesUpdateV2Args = {
   checkoutId: Scalars['ID']['input'];
   input: Shopify_CheckoutAttributesUpdateV2Input;
 };
 
+
 export type ShopifyMutationCheckoutCompleteFreeArgs = {
   checkoutId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCheckoutCompleteWithCreditCardV2Args = {
   checkoutId: Scalars['ID']['input'];
   payment: Shopify_CreditCardPaymentInputV2;
 };
 
+
 export type ShopifyMutationCheckoutCompleteWithTokenizedPaymentV3Args = {
   checkoutId: Scalars['ID']['input'];
   payment: Shopify_TokenizedPaymentInputV3;
 };
+
 
 export type ShopifyMutationCheckoutCreateArgs = {
   input: Shopify_CheckoutCreateInput;
   queueToken: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type ShopifyMutationCheckoutCustomerAssociateV2Args = {
   checkoutId: Scalars['ID']['input'];
   customerAccessToken: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCheckoutCustomerDisassociateV2Args = {
   checkoutId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCheckoutDiscountCodeApplyV2Args = {
   checkoutId: Scalars['ID']['input'];
   discountCode: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCheckoutDiscountCodeRemoveArgs = {
   checkoutId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCheckoutEmailUpdateV2Args = {
   checkoutId: Scalars['ID']['input'];
   email: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCheckoutGiftCardRemoveV2Args = {
   appliedGiftCardId: Scalars['ID']['input'];
   checkoutId: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCheckoutGiftCardsAppendArgs = {
   checkoutId: Scalars['ID']['input'];
   giftCardCodes: Array<Scalars['String']['input']>;
 };
 
+
 export type ShopifyMutationCheckoutLineItemsAddArgs = {
   checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemInput>;
 };
+
 
 export type ShopifyMutationCheckoutLineItemsRemoveArgs = {
   checkoutId: Scalars['ID']['input'];
   lineItemIds: Array<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyMutationCheckoutLineItemsReplaceArgs = {
   checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemInput>;
 };
+
 
 export type ShopifyMutationCheckoutLineItemsUpdateArgs = {
   checkoutId: Scalars['ID']['input'];
   lineItems: Array<Shopify_CheckoutLineItemUpdateInput>;
 };
 
+
 export type ShopifyMutationCheckoutShippingAddressUpdateV2Args = {
   checkoutId: Scalars['ID']['input'];
   shippingAddress: Shopify_MailingAddressInput;
 };
+
 
 export type ShopifyMutationCheckoutShippingLineUpdateArgs = {
   checkoutId: Scalars['ID']['input'];
   shippingRateHandle: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCustomerAccessTokenCreateArgs = {
   input: Shopify_CustomerAccessTokenCreateInput;
 };
+
 
 export type ShopifyMutationCustomerAccessTokenCreateWithMultipassArgs = {
   multipassToken: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCustomerAccessTokenDeleteArgs = {
   customerAccessToken: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCustomerAccessTokenRenewArgs = {
   customerAccessToken: Scalars['String']['input'];
 };
+
 
 export type ShopifyMutationCustomerActivateArgs = {
   id: Scalars['ID']['input'];
   input: Shopify_CustomerActivateInput;
 };
 
+
 export type ShopifyMutationCustomerActivateByUrlArgs = {
   activationUrl: Scalars['shopify_URL']['input'];
   password: Scalars['String']['input'];
 };
+
 
 export type ShopifyMutationCustomerAddressCreateArgs = {
   address: Shopify_MailingAddressInput;
   customerAccessToken: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCustomerAddressDeleteArgs = {
   customerAccessToken: Scalars['String']['input'];
   id: Scalars['ID']['input'];
 };
+
 
 export type ShopifyMutationCustomerAddressUpdateArgs = {
   address: Shopify_MailingAddressInput;
@@ -3235,28 +3309,34 @@ export type ShopifyMutationCustomerAddressUpdateArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type ShopifyMutationCustomerCreateArgs = {
   input: Shopify_CustomerCreateInput;
 };
+
 
 export type ShopifyMutationCustomerDefaultAddressUpdateArgs = {
   addressId: Scalars['ID']['input'];
   customerAccessToken: Scalars['String']['input'];
 };
 
+
 export type ShopifyMutationCustomerRecoverArgs = {
   email: Scalars['String']['input'];
 };
+
 
 export type ShopifyMutationCustomerResetArgs = {
   id: Scalars['ID']['input'];
   input: Shopify_CustomerResetInput;
 };
 
+
 export type ShopifyMutationCustomerResetByUrlArgs = {
   password: Scalars['String']['input'];
   resetUrl: Scalars['shopify_URL']['input'];
 };
+
 
 export type ShopifyMutationCustomerUpdateArgs = {
   customer: Shopify_CustomerUpdateInput;
@@ -3357,9 +3437,11 @@ export type ShopifyQueryRoot = {
   urlRedirects: Shopify_UrlRedirectConnection;
 };
 
+
 export type ShopifyQueryRootArticleArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type ShopifyQueryRootArticlesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3371,14 +3453,17 @@ export type ShopifyQueryRootArticlesArgs = {
   sortKey?: InputMaybe<Shopify_ArticleSortKeys>;
 };
 
+
 export type ShopifyQueryRootBlogArgs = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyQueryRootBlogByHandleArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootBlogsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3390,22 +3475,27 @@ export type ShopifyQueryRootBlogsArgs = {
   sortKey?: InputMaybe<Shopify_BlogSortKeys>;
 };
 
+
 export type ShopifyQueryRootCartArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type ShopifyQueryRootCartCompletionAttemptArgs = {
   attemptId: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootCollectionArgs = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyQueryRootCollectionByHandleArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootCollectionsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3417,9 +3507,11 @@ export type ShopifyQueryRootCollectionsArgs = {
   sortKey?: InputMaybe<Shopify_CollectionSortKeys>;
 };
 
+
 export type ShopifyQueryRootCustomerArgs = {
   customerAccessToken: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootLocationsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3431,14 +3523,17 @@ export type ShopifyQueryRootLocationsArgs = {
   sortKey?: InputMaybe<Shopify_LocationSortKeys>;
 };
 
+
 export type ShopifyQueryRootMenuArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootMetaobjectArgs = {
   handle: InputMaybe<Shopify_MetaobjectHandleInput>;
   id: InputMaybe<Scalars['ID']['input']>;
 };
+
 
 export type ShopifyQueryRootMetaobjectsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3450,22 +3545,27 @@ export type ShopifyQueryRootMetaobjectsArgs = {
   type: Scalars['String']['input'];
 };
 
+
 export type ShopifyQueryRootNodeArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type ShopifyQueryRootNodesArgs = {
   ids: Array<Scalars['ID']['input']>;
 };
+
 
 export type ShopifyQueryRootPageArgs = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyQueryRootPageByHandleArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootPagesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3477,6 +3577,7 @@ export type ShopifyQueryRootPagesArgs = {
   sortKey?: InputMaybe<Shopify_PageSortKeys>;
 };
 
+
 export type ShopifyQueryRootPredictiveSearchArgs = {
   limit: InputMaybe<Scalars['Int']['input']>;
   limitScope: InputMaybe<Shopify_PredictiveSearchLimitScope>;
@@ -3486,27 +3587,33 @@ export type ShopifyQueryRootPredictiveSearchArgs = {
   unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
 };
 
+
 export type ShopifyQueryRootProductArgs = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['ID']['input']>;
 };
 
+
 export type ShopifyQueryRootProductByHandleArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 export type ShopifyQueryRootProductRecommendationsArgs = {
   intent?: InputMaybe<Shopify_ProductRecommendationIntent>;
   productId: Scalars['ID']['input'];
 };
 
+
 export type ShopifyQueryRootProductTagsArgs = {
   first: Scalars['Int']['input'];
 };
 
+
 export type ShopifyQueryRootProductTypesArgs = {
   first: Scalars['Int']['input'];
 };
+
 
 export type ShopifyQueryRootProductsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3517,6 +3624,7 @@ export type ShopifyQueryRootProductsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
   sortKey?: InputMaybe<Shopify_ProductSortKeys>;
 };
+
 
 export type ShopifyQueryRootSearchArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3531,6 +3639,7 @@ export type ShopifyQueryRootSearchArgs = {
   types: InputMaybe<Array<Shopify_SearchType>>;
   unavailableProducts: InputMaybe<Shopify_SearchUnavailableProductsType>;
 };
+
 
 export type ShopifyQueryRootUrlRedirectsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -3610,53 +3719,51 @@ export type Shopify_AppliedGiftCard = Shopify_Node & {
 };
 
 /** An article in an online store blog. */
-export type Shopify_Article = Shopify_HasMetafields &
-  Shopify_Node &
-  Shopify_OnlineStorePublishable &
-  Shopify_Trackable & {
-    __typename?: 'shopify_Article';
-    /** The article's author. */
-    author: Shopify_ArticleAuthor;
-    /** The article's author. */
-    authorV2: Maybe<Shopify_ArticleAuthor>;
-    /** The blog that the article belongs to. */
-    blog: Shopify_Blog;
-    /** List of comments posted on the article. */
-    comments: Shopify_CommentConnection;
-    /** Stripped content of the article, single line with HTML tags removed. */
-    content: Scalars['String']['output'];
-    /** The content of the article, complete with HTML formatting. */
-    contentHtml: Scalars['shopify_HTML']['output'];
-    /** Stripped excerpt of the article, single line with HTML tags removed. */
-    excerpt: Maybe<Scalars['String']['output']>;
-    /** The excerpt of the article, complete with HTML formatting. */
-    excerptHtml: Maybe<Scalars['shopify_HTML']['output']>;
-    /** A human-friendly unique string for the Article automatically generated from its title. */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The image associated with the article. */
-    image: Maybe<Shopify_Image>;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** The date and time when the article was published. */
-    publishedAt: Scalars['shopify_DateTime']['output'];
-    /** The article’s SEO information. */
-    seo: Maybe<Shopify_Seo>;
-    /**
-     * A categorization that a article can be tagged with.
-     *
-     */
-    tags: Array<Scalars['String']['output']>;
-    /** The article’s name. */
-    title: Scalars['String']['output'];
-    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']['output']>;
-  };
+export type Shopify_Article = Shopify_HasMetafields & Shopify_Node & Shopify_OnlineStorePublishable & Shopify_Trackable & {
+  __typename?: 'shopify_Article';
+  /** The article's author. */
+  author: Shopify_ArticleAuthor;
+  /** The article's author. */
+  authorV2: Maybe<Shopify_ArticleAuthor>;
+  /** The blog that the article belongs to. */
+  blog: Shopify_Blog;
+  /** List of comments posted on the article. */
+  comments: Shopify_CommentConnection;
+  /** Stripped content of the article, single line with HTML tags removed. */
+  content: Scalars['String']['output'];
+  /** The content of the article, complete with HTML formatting. */
+  contentHtml: Scalars['shopify_HTML']['output'];
+  /** Stripped excerpt of the article, single line with HTML tags removed. */
+  excerpt: Maybe<Scalars['String']['output']>;
+  /** The excerpt of the article, complete with HTML formatting. */
+  excerptHtml: Maybe<Scalars['shopify_HTML']['output']>;
+  /** A human-friendly unique string for the Article automatically generated from its title. */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The image associated with the article. */
+  image: Maybe<Shopify_Image>;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** The date and time when the article was published. */
+  publishedAt: Scalars['shopify_DateTime']['output'];
+  /** The article’s SEO information. */
+  seo: Maybe<Shopify_Seo>;
+  /**
+   * A categorization that a article can be tagged with.
+   *
+   */
+  tags: Array<Scalars['String']['output']>;
+  /** The article’s name. */
+  title: Scalars['String']['output'];
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']['output']>;
+};
+
 
 /** An article in an online store blog. */
 export type Shopify_ArticleCommentsArgs = {
@@ -3667,21 +3774,25 @@ export type Shopify_ArticleCommentsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /** An article in an online store blog. */
 export type Shopify_ArticleContentArgs = {
   truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 /** An article in an online store blog. */
 export type Shopify_ArticleExcerptArgs = {
   truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
 
+
 /** An article in an online store blog. */
 export type Shopify_ArticleMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** An article in an online store blog. */
 export type Shopify_ArticleMetafieldsArgs = {
@@ -3748,7 +3859,7 @@ export enum Shopify_ArticleSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT',
+  UpdatedAt = 'UPDATED_AT'
 }
 
 /** Represents a generic custom attribute. */
@@ -3772,20 +3883,19 @@ export type Shopify_AttributeInput = {
  * Automatic discount applications capture the intentions of a discount that was automatically applied.
  *
  */
-export type Shopify_AutomaticDiscountApplication =
-  Shopify_DiscountApplication & {
-    __typename?: 'shopify_AutomaticDiscountApplication';
-    /** The method by which the discount's value is allocated to its entitled items. */
-    allocationMethod: Shopify_DiscountApplicationAllocationMethod;
-    /** Which lines of targetType that the discount is allocated over. */
-    targetSelection: Shopify_DiscountApplicationTargetSelection;
-    /** The type of line that the discount is applicable towards. */
-    targetType: Shopify_DiscountApplicationTargetType;
-    /** The title of the application. */
-    title: Scalars['String']['output'];
-    /** The value of the discount application. */
-    value: Shopify_PricingValue;
-  };
+export type Shopify_AutomaticDiscountApplication = Shopify_DiscountApplication & {
+  __typename?: 'shopify_AutomaticDiscountApplication';
+  /** The method by which the discount's value is allocated to its entitled items. */
+  allocationMethod: Shopify_DiscountApplicationAllocationMethod;
+  /** Which lines of targetType that the discount is allocated over. */
+  targetSelection: Shopify_DiscountApplicationTargetSelection;
+  /** The type of line that the discount is applicable towards. */
+  targetType: Shopify_DiscountApplicationTargetType;
+  /** The title of the application. */
+  title: Scalars['String']['output'];
+  /** The value of the discount application. */
+  value: Shopify_PricingValue;
+};
 
 /** A collection of available shipping rates for a checkout. */
 export type Shopify_AvailableShippingRates = {
@@ -3823,6 +3933,7 @@ export type Shopify_BaseCartLine = {
   sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
 };
 
+
 /** Represents a cart line common fields. */
 export type Shopify_BaseCartLineAttributeArgs = {
   key: Scalars['String']['input'];
@@ -3855,39 +3966,39 @@ export type Shopify_BaseCartLineEdge = {
 };
 
 /** An online store blog. */
-export type Shopify_Blog = Shopify_HasMetafields &
-  Shopify_Node &
-  Shopify_OnlineStorePublishable & {
-    __typename?: 'shopify_Blog';
-    /** Find an article by its handle. */
-    articleByHandle: Maybe<Shopify_Article>;
-    /** List of the blog's articles. */
-    articles: Shopify_ArticleConnection;
-    /** The authors who have contributed to the blog. */
-    authors: Array<Shopify_ArticleAuthor>;
-    /**
-     * A human-friendly unique string for the Blog automatically generated from its title.
-     *
-     */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** The blog's SEO information. */
-    seo: Maybe<Shopify_Seo>;
-    /** The blogs’s title. */
-    title: Scalars['String']['output'];
-  };
+export type Shopify_Blog = Shopify_HasMetafields & Shopify_Node & Shopify_OnlineStorePublishable & {
+  __typename?: 'shopify_Blog';
+  /** Find an article by its handle. */
+  articleByHandle: Maybe<Shopify_Article>;
+  /** List of the blog's articles. */
+  articles: Shopify_ArticleConnection;
+  /** The authors who have contributed to the blog. */
+  authors: Array<Shopify_ArticleAuthor>;
+  /**
+   * A human-friendly unique string for the Blog automatically generated from its title.
+   *
+   */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** The blog's SEO information. */
+  seo: Maybe<Shopify_Seo>;
+  /** The blogs’s title. */
+  title: Scalars['String']['output'];
+};
+
 
 /** An online store blog. */
 export type Shopify_BlogArticleByHandleArgs = {
   handle: Scalars['String']['input'];
 };
+
 
 /** An online store blog. */
 export type Shopify_BlogArticlesArgs = {
@@ -3900,11 +4011,13 @@ export type Shopify_BlogArticlesArgs = {
   sortKey?: InputMaybe<Shopify_ArticleSortKeys>;
 };
 
+
 /** An online store blog. */
 export type Shopify_BlogMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** An online store blog. */
 export type Shopify_BlogMetafieldsArgs = {
@@ -3950,7 +4063,7 @@ export enum Shopify_BlogSortKeys {
    */
   Relevance = 'RELEVANCE',
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  Title = 'TITLE'
 }
 
 /**
@@ -4010,7 +4123,7 @@ export enum Shopify_CardBrand {
   /** Mastercard. */
   Mastercard = 'MASTERCARD',
   /** Visa. */
-  Visa = 'VISA',
+  Visa = 'VISA'
 }
 
 /**
@@ -4020,48 +4133,48 @@ export enum Shopify_CardBrand {
  * during a customer's session.
  *
  */
-export type Shopify_Cart = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_Cart';
-    /** An attribute associated with the cart. */
-    attribute: Maybe<Shopify_Attribute>;
-    /** The attributes associated with the cart. Attributes are represented as key-value pairs. */
-    attributes: Array<Shopify_Attribute>;
-    /** Information about the buyer that's interacting with the cart. */
-    buyerIdentity: Shopify_CartBuyerIdentity;
-    /** The URL of the checkout for the cart. */
-    checkoutUrl: Scalars['shopify_URL']['output'];
-    /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
-    cost: Shopify_CartCost;
-    /** The date and time when the cart was created. */
-    createdAt: Scalars['shopify_DateTime']['output'];
-    /**
-     * The delivery groups available for the cart, based on the buyer identity default
-     * delivery address preference or the default address of the logged-in customer.
-     *
-     */
-    deliveryGroups: Shopify_CartDeliveryGroupConnection;
-    /** The discounts that have been applied to the entire cart. */
-    discountAllocations: Array<Shopify_CartDiscountAllocation>;
-    /** The case-insensitive discount codes that the customer added at checkout. */
-    discountCodes: Array<Shopify_CartDiscountCode>;
-    /** The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
-    estimatedCost: Shopify_CartEstimatedCost;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** A list of lines containing information about the items the customer intends to purchase. */
-    lines: Shopify_BaseCartLineConnection;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** A note that's associated with the cart. For example, the note can be a personalized message to the buyer. */
-    note: Maybe<Scalars['String']['output']>;
-    /** The total number of items in the cart. */
-    totalQuantity: Scalars['Int']['output'];
-    /** The date and time when the cart was updated. */
-    updatedAt: Scalars['shopify_DateTime']['output'];
-  };
+export type Shopify_Cart = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_Cart';
+  /** An attribute associated with the cart. */
+  attribute: Maybe<Shopify_Attribute>;
+  /** The attributes associated with the cart. Attributes are represented as key-value pairs. */
+  attributes: Array<Shopify_Attribute>;
+  /** Information about the buyer that's interacting with the cart. */
+  buyerIdentity: Shopify_CartBuyerIdentity;
+  /** The URL of the checkout for the cart. */
+  checkoutUrl: Scalars['shopify_URL']['output'];
+  /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
+  cost: Shopify_CartCost;
+  /** The date and time when the cart was created. */
+  createdAt: Scalars['shopify_DateTime']['output'];
+  /**
+   * The delivery groups available for the cart, based on the buyer identity default
+   * delivery address preference or the default address of the logged-in customer.
+   *
+   */
+  deliveryGroups: Shopify_CartDeliveryGroupConnection;
+  /** The discounts that have been applied to the entire cart. */
+  discountAllocations: Array<Shopify_CartDiscountAllocation>;
+  /** The case-insensitive discount codes that the customer added at checkout. */
+  discountCodes: Array<Shopify_CartDiscountCode>;
+  /** The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
+  estimatedCost: Shopify_CartEstimatedCost;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** A list of lines containing information about the items the customer intends to purchase. */
+  lines: Shopify_BaseCartLineConnection;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** A note that's associated with the cart. For example, the note can be a personalized message to the buyer. */
+  note: Maybe<Scalars['String']['output']>;
+  /** The total number of items in the cart. */
+  totalQuantity: Scalars['Int']['output'];
+  /** The date and time when the cart was updated. */
+  updatedAt: Scalars['shopify_DateTime']['output'];
+};
+
 
 /**
  * A cart represents the merchandise that a buyer intends to purchase,
@@ -4073,6 +4186,7 @@ export type Shopify_Cart = Shopify_HasMetafields &
 export type Shopify_CartAttributeArgs = {
   key: Scalars['String']['input'];
 };
+
 
 /**
  * A cart represents the merchandise that a buyer intends to purchase,
@@ -4089,6 +4203,7 @@ export type Shopify_CartDeliveryGroupsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /**
  * A cart represents the merchandise that a buyer intends to purchase,
  * and the estimated cost associated with the cart. Learn how to
@@ -4104,6 +4219,7 @@ export type Shopify_CartLinesArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /**
  * A cart represents the merchandise that a buyer intends to purchase,
  * and the estimated cost associated with the cart. Learn how to
@@ -4115,6 +4231,7 @@ export type Shopify_CartMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /**
  * A cart represents the merchandise that a buyer intends to purchase,
@@ -4137,14 +4254,13 @@ export type Shopify_CartAttributesUpdatePayload = {
 };
 
 /** The discounts automatically applied to the cart line based on prerequisites that have been met. */
-export type Shopify_CartAutomaticDiscountAllocation =
-  Shopify_CartDiscountAllocation & {
-    __typename?: 'shopify_CartAutomaticDiscountAllocation';
-    /** The discounted amount that has been applied to the cart line. */
-    discountedAmount: Shopify_MoneyV2;
-    /** The title of the allocated discount. */
-    title: Scalars['String']['output'];
-  };
+export type Shopify_CartAutomaticDiscountAllocation = Shopify_CartDiscountAllocation & {
+  __typename?: 'shopify_CartAutomaticDiscountAllocation';
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: Shopify_MoneyV2;
+  /** The title of the allocated discount. */
+  title: Scalars['String']['output'];
+};
 
 /** Represents information about the buyer that is interacting with the cart. */
 export type Shopify_CartBuyerIdentity = {
@@ -4225,18 +4341,17 @@ export enum Shopify_CartCardSource {
    * Using this value requires a separate permission from Shopify.
    *
    */
-  SavedCreditCard = 'SAVED_CREDIT_CARD',
+  SavedCreditCard = 'SAVED_CREDIT_CARD'
 }
 
 /** The discount that has been applied to the cart line using a discount code. */
-export type Shopify_CartCodeDiscountAllocation =
-  Shopify_CartDiscountAllocation & {
-    __typename?: 'shopify_CartCodeDiscountAllocation';
-    /** The code used to apply the discount. */
-    code: Scalars['String']['output'];
-    /** The discounted amount that has been applied to the cart line. */
-    discountedAmount: Shopify_MoneyV2;
-  };
+export type Shopify_CartCodeDiscountAllocation = Shopify_CartDiscountAllocation & {
+  __typename?: 'shopify_CartCodeDiscountAllocation';
+  /** The code used to apply the discount. */
+  code: Scalars['String']['output'];
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: Shopify_MoneyV2;
+};
 
 /** The completion action to checkout a cart. */
 export type Shopify_CartCompletionAction = Shopify_CompletePaymentChallenge;
@@ -4251,11 +4366,7 @@ export type Shopify_CartCompletionActionRequired = {
 };
 
 /** The result of a cart completion attempt. */
-export type Shopify_CartCompletionAttemptResult =
-  | Shopify_CartCompletionActionRequired
-  | Shopify_CartCompletionFailed
-  | Shopify_CartCompletionProcessing
-  | Shopify_CartCompletionSuccess;
+export type Shopify_CartCompletionAttemptResult = Shopify_CartCompletionActionRequired | Shopify_CartCompletionFailed | Shopify_CartCompletionProcessing | Shopify_CartCompletionSuccess;
 
 /** A failed completion to checkout a cart. */
 export type Shopify_CartCompletionFailed = {
@@ -4326,14 +4437,13 @@ export type Shopify_CartCreatePayload = {
 };
 
 /** The discounts automatically applied to the cart line based on prerequisites that have been met. */
-export type Shopify_CartCustomDiscountAllocation =
-  Shopify_CartDiscountAllocation & {
-    __typename?: 'shopify_CartCustomDiscountAllocation';
-    /** The discounted amount that has been applied to the cart line. */
-    discountedAmount: Shopify_MoneyV2;
-    /** The title of the allocated discount. */
-    title: Scalars['String']['output'];
-  };
+export type Shopify_CartCustomDiscountAllocation = Shopify_CartDiscountAllocation & {
+  __typename?: 'shopify_CartCustomDiscountAllocation';
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: Shopify_MoneyV2;
+  /** The title of the allocated discount. */
+  title: Scalars['String']['output'];
+};
 
 /** Information about the options available for one or more line items to be delivered to a specific address. */
 export type Shopify_CartDeliveryGroup = {
@@ -4349,6 +4459,7 @@ export type Shopify_CartDeliveryGroup = {
   /** The selected delivery option for the delivery group. */
   selectedDeliveryOption: Maybe<Shopify_CartDeliveryOption>;
 };
+
 
 /** Information about the options available for one or more line items to be delivered to a specific address. */
 export type Shopify_CartDeliveryGroupCartLinesArgs = {
@@ -4462,7 +4573,7 @@ export enum Shopify_CartErrorCode {
   /** Missing note. */
   MissingNote = 'MISSING_NOTE',
   /** The payment method is not supported. */
-  PaymentMethodNotSupported = 'PAYMENT_METHOD_NOT_SUPPORTED',
+  PaymentMethodNotSupported = 'PAYMENT_METHOD_NOT_SUPPORTED'
 }
 
 /** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
@@ -4547,28 +4658,28 @@ export type Shopify_CartInputMetafieldInput = {
 };
 
 /** Represents information about the merchandise in the cart. */
-export type Shopify_CartLine = Shopify_BaseCartLine &
-  Shopify_Node & {
-    __typename?: 'shopify_CartLine';
-    /** An attribute associated with the cart line. */
-    attribute: Maybe<Shopify_Attribute>;
-    /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
-    attributes: Array<Shopify_Attribute>;
-    /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
-    cost: Shopify_CartLineCost;
-    /** The discounts that have been applied to the cart line. */
-    discountAllocations: Array<Shopify_CartDiscountAllocation>;
-    /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
-    estimatedCost: Shopify_CartLineEstimatedCost;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The merchandise that the buyer intends to purchase. */
-    merchandise: Shopify_Merchandise;
-    /** The quantity of the merchandise that the customer intends to purchase. */
-    quantity: Scalars['Int']['output'];
-    /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
-    sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
-  };
+export type Shopify_CartLine = Shopify_BaseCartLine & Shopify_Node & {
+  __typename?: 'shopify_CartLine';
+  /** An attribute associated with the cart line. */
+  attribute: Maybe<Shopify_Attribute>;
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<Shopify_Attribute>;
+  /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
+  cost: Shopify_CartLineCost;
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<Shopify_CartDiscountAllocation>;
+  /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
+  estimatedCost: Shopify_CartLineEstimatedCost;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: Shopify_Merchandise;
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']['output'];
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
+};
+
 
 /** Represents information about the merchandise in the cart. */
 export type Shopify_CartLineAttributeArgs = {
@@ -4793,11 +4904,7 @@ export type Shopify_CartSubmitForCompletionPayload = {
 };
 
 /** The result of cart submit completion. */
-export type Shopify_CartSubmitForCompletionResult =
-  | Shopify_SubmitAlreadyAccepted
-  | Shopify_SubmitFailed
-  | Shopify_SubmitSuccess
-  | Shopify_SubmitThrottled;
+export type Shopify_CartSubmitForCompletionResult = Shopify_SubmitAlreadyAccepted | Shopify_SubmitFailed | Shopify_SubmitSuccess | Shopify_SubmitThrottled;
 
 /** Represents an error that happens during execution of a cart mutation. */
 export type Shopify_CartUserError = Shopify_DisplayableError & {
@@ -4911,6 +5018,7 @@ export type Shopify_Checkout = Shopify_Node & {
   webUrl: Scalars['shopify_URL']['output'];
 };
 
+
 /**
  * A container for all the information required to checkout items and pay.
  *
@@ -4924,6 +5032,7 @@ export type Shopify_CheckoutDiscountApplicationsArgs = {
   last: InputMaybe<Scalars['Int']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 /**
  * A container for all the information required to checkout items and pay.
@@ -5219,7 +5328,7 @@ export enum Shopify_CheckoutErrorCode {
   /** The amount of the payment does not match the value to be paid. */
   TotalPriceMismatch = 'TOTAL_PRICE_MISMATCH',
   /** Unable to apply discount. */
-  UnableToApply = 'UNABLE_TO_APPLY',
+  UnableToApply = 'UNABLE_TO_APPLY'
 }
 
 /** Return type for `checkoutGiftCardRemoveV2` mutation. */
@@ -5399,42 +5508,40 @@ export type Shopify_CheckoutUserError = Shopify_DisplayableError & {
  * organize them or make their shops easier to browse.
  *
  */
-export type Shopify_Collection = Shopify_HasMetafields &
-  Shopify_Node &
-  Shopify_OnlineStorePublishable &
-  Shopify_Trackable & {
-    __typename?: 'shopify_Collection';
-    /** Stripped description of the collection, single line with HTML tags removed. */
-    description: Scalars['String']['output'];
-    /** The description of the collection, complete with HTML formatting. */
-    descriptionHtml: Scalars['shopify_HTML']['output'];
-    /**
-     * A human-friendly unique string for the collection automatically generated from its title.
-     * Limit of 255 characters.
-     *
-     */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Image associated with the collection. */
-    image: Maybe<Shopify_Image>;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** List of products in the collection. */
-    products: Shopify_ProductConnection;
-    /** The collection's SEO information. */
-    seo: Shopify_Seo;
-    /** The collection’s name. Limit of 255 characters. */
-    title: Scalars['String']['output'];
-    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']['output']>;
-    /** The date and time when the collection was last modified. */
-    updatedAt: Scalars['shopify_DateTime']['output'];
-  };
+export type Shopify_Collection = Shopify_HasMetafields & Shopify_Node & Shopify_OnlineStorePublishable & Shopify_Trackable & {
+  __typename?: 'shopify_Collection';
+  /** Stripped description of the collection, single line with HTML tags removed. */
+  description: Scalars['String']['output'];
+  /** The description of the collection, complete with HTML formatting. */
+  descriptionHtml: Scalars['shopify_HTML']['output'];
+  /**
+   * A human-friendly unique string for the collection automatically generated from its title.
+   * Limit of 255 characters.
+   *
+   */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Image associated with the collection. */
+  image: Maybe<Shopify_Image>;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** List of products in the collection. */
+  products: Shopify_ProductConnection;
+  /** The collection's SEO information. */
+  seo: Shopify_Seo;
+  /** The collection’s name. Limit of 255 characters. */
+  title: Scalars['String']['output'];
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']['output']>;
+  /** The date and time when the collection was last modified. */
+  updatedAt: Scalars['shopify_DateTime']['output'];
+};
+
 
 /**
  * A collection represents a grouping of products that a shop owner can create to
@@ -5444,6 +5551,7 @@ export type Shopify_Collection = Shopify_HasMetafields &
 export type Shopify_CollectionDescriptionArgs = {
   truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 /**
  * A collection represents a grouping of products that a shop owner can create to
@@ -5455,6 +5563,7 @@ export type Shopify_CollectionMetafieldArgs = {
   namespace: Scalars['String']['input'];
 };
 
+
 /**
  * A collection represents a grouping of products that a shop owner can create to
  * organize them or make their shops easier to browse.
@@ -5463,6 +5572,7 @@ export type Shopify_CollectionMetafieldArgs = {
 export type Shopify_CollectionMetafieldsArgs = {
   identifiers: Array<Shopify_HasMetafieldsIdentifier>;
 };
+
 
 /**
  * A collection represents a grouping of products that a shop owner can create to
@@ -5520,7 +5630,7 @@ export enum Shopify_CollectionSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT',
+  UpdatedAt = 'UPDATED_AT'
 }
 
 /** A comment on an article. */
@@ -5535,6 +5645,7 @@ export type Shopify_Comment = Shopify_Node & {
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
 };
+
 
 /** A comment on an article. */
 export type Shopify_CommentContentArgs = {
@@ -5606,34 +5717,34 @@ export enum Shopify_CompletionErrorCode {
   PaymentInvalidCreditCard = 'PAYMENT_INVALID_CREDIT_CARD',
   PaymentInvalidCurrency = 'PAYMENT_INVALID_CURRENCY',
   PaymentInvalidPaymentMethod = 'PAYMENT_INVALID_PAYMENT_METHOD',
-  PaymentTransientError = 'PAYMENT_TRANSIENT_ERROR',
+  PaymentTransientError = 'PAYMENT_TRANSIENT_ERROR'
 }
 
 /** Represents information about the grouped merchandise in the cart. */
-export type Shopify_ComponentizableCartLine = Shopify_BaseCartLine &
-  Shopify_Node & {
-    __typename?: 'shopify_ComponentizableCartLine';
-    /** An attribute associated with the cart line. */
-    attribute: Maybe<Shopify_Attribute>;
-    /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
-    attributes: Array<Shopify_Attribute>;
-    /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
-    cost: Shopify_CartLineCost;
-    /** The discounts that have been applied to the cart line. */
-    discountAllocations: Array<Shopify_CartDiscountAllocation>;
-    /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
-    estimatedCost: Shopify_CartLineEstimatedCost;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The components of the line item. */
-    lineComponents: Array<Shopify_CartLine>;
-    /** The merchandise that the buyer intends to purchase. */
-    merchandise: Shopify_Merchandise;
-    /** The quantity of the merchandise that the customer intends to purchase. */
-    quantity: Scalars['Int']['output'];
-    /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
-    sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
-  };
+export type Shopify_ComponentizableCartLine = Shopify_BaseCartLine & Shopify_Node & {
+  __typename?: 'shopify_ComponentizableCartLine';
+  /** An attribute associated with the cart line. */
+  attribute: Maybe<Shopify_Attribute>;
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<Shopify_Attribute>;
+  /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
+  cost: Shopify_CartLineCost;
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<Shopify_CartDiscountAllocation>;
+  /** The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout. */
+  estimatedCost: Shopify_CartLineEstimatedCost;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The components of the line item. */
+  lineComponents: Array<Shopify_CartLine>;
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: Shopify_Merchandise;
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']['output'];
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation: Maybe<Shopify_SellingPlanAllocation>;
+};
+
 
 /** Represents information about the grouped merchandise in the cart. */
 export type Shopify_ComponentizableCartLineAttributeArgs = {
@@ -6154,7 +6265,7 @@ export enum Shopify_CountryCode {
   /** Zimbabwe. */
   Zw = 'ZW',
   /** Unknown Region. */
-  Zz = 'ZZ',
+  Zz = 'ZZ'
 }
 
 /** Credit card information used for a payment. */
@@ -6207,7 +6318,7 @@ export enum Shopify_CropRegion {
   /** Keep the right of the image. */
   Right = 'RIGHT',
   /** Keep the top of the image. */
-  Top = 'TOP',
+  Top = 'TOP'
 }
 
 /** A currency. */
@@ -6549,7 +6660,7 @@ export enum Shopify_CurrencyCode {
   /** South African Rand (ZAR). */
   Zar = 'ZAR',
   /** Zambian Kwacha (ZMW). */
-  Zmw = 'ZMW',
+  Zmw = 'ZMW'
 }
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
@@ -6595,6 +6706,7 @@ export type Shopify_Customer = Shopify_HasMetafields & {
   updatedAt: Scalars['shopify_DateTime']['output'];
 };
 
+
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerAddressesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -6604,16 +6716,19 @@ export type Shopify_CustomerAddressesArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
 
+
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerMetafieldsArgs = {
   identifiers: Array<Shopify_HasMetafieldsIdentifier>;
 };
+
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Shopify_CustomerOrdersArgs = {
@@ -6822,7 +6937,7 @@ export enum Shopify_CustomerErrorCode {
   /** The input value is too short. */
   TooShort = 'TOO_SHORT',
   /** Unidentified customer. */
-  UnidentifiedCustomer = 'UNIDENTIFIED_CUSTOMER',
+  UnidentifiedCustomer = 'UNIDENTIFIED_CUSTOMER'
 }
 
 /** Return type for `customerRecover` mutation. */
@@ -6947,7 +7062,7 @@ export enum Shopify_DeliveryMethodType {
   /** Retail. */
   Retail = 'RETAIL',
   /** Shipping. */
-  Shipping = 'SHIPPING',
+  Shipping = 'SHIPPING'
 }
 
 /** Digital wallet, such as Apple Pay, which can be used for accelerated checkouts. */
@@ -6959,7 +7074,7 @@ export enum Shopify_DigitalWallet {
   /** Google Pay. */
   GooglePay = 'GOOGLE_PAY',
   /** Shopify Pay. */
-  ShopifyPay = 'SHOPIFY_PAY',
+  ShopifyPay = 'SHOPIFY_PAY'
 }
 
 /**
@@ -6997,7 +7112,7 @@ export enum Shopify_DiscountApplicationAllocationMethod {
   /** The value is applied onto every entitled line. */
   Each = 'EACH',
   /** The value is specifically applied onto a particular line. */
-  One = 'ONE',
+  One = 'ONE'
 }
 
 /**
@@ -7039,7 +7154,7 @@ export enum Shopify_DiscountApplicationTargetSelection {
   /** The discount is allocated onto only the lines that it's entitled for. */
   Entitled = 'ENTITLED',
   /** The discount is allocated onto explicitly chosen lines. */
-  Explicit = 'EXPLICIT',
+  Explicit = 'EXPLICIT'
 }
 
 /**
@@ -7050,7 +7165,7 @@ export enum Shopify_DiscountApplicationTargetType {
   /** The discount applies onto line items. */
   LineItem = 'LINE_ITEM',
   /** The discount applies onto shipping lines. */
-  ShippingLine = 'SHIPPING_LINE',
+  ShippingLine = 'SHIPPING_LINE'
 }
 
 /**
@@ -7094,28 +7209,27 @@ export type Shopify_Domain = {
 };
 
 /** Represents a video hosted outside of Shopify. */
-export type Shopify_ExternalVideo = Shopify_Media &
-  Shopify_Node & {
-    __typename?: 'shopify_ExternalVideo';
-    /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']['output']>;
-    /** The embed URL of the video for the respective host. */
-    embedUrl: Scalars['shopify_URL']['output'];
-    /** The URL. */
-    embeddedUrl: Scalars['shopify_URL']['output'];
-    /** The host of the external video. */
-    host: Shopify_MediaHost;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The media content type. */
-    mediaContentType: Shopify_MediaContentType;
-    /** The origin URL of the video on the respective host. */
-    originUrl: Scalars['shopify_URL']['output'];
-    /** The presentation for a media. */
-    presentation: Maybe<Shopify_MediaPresentation>;
-    /** The preview image for the media. */
-    previewImage: Maybe<Shopify_Image>;
-  };
+export type Shopify_ExternalVideo = Shopify_Media & Shopify_Node & {
+  __typename?: 'shopify_ExternalVideo';
+  /** A word or phrase to share the nature or contents of a media. */
+  alt: Maybe<Scalars['String']['output']>;
+  /** The embed URL of the video for the respective host. */
+  embedUrl: Scalars['shopify_URL']['output'];
+  /** The URL. */
+  embeddedUrl: Scalars['shopify_URL']['output'];
+  /** The host of the external video. */
+  host: Shopify_MediaHost;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The media content type. */
+  mediaContentType: Shopify_MediaContentType;
+  /** The origin URL of the video on the respective host. */
+  originUrl: Scalars['shopify_URL']['output'];
+  /** The presentation for a media. */
+  presentation: Maybe<Shopify_MediaPresentation>;
+  /** The preview image for the media. */
+  previewImage: Maybe<Shopify_Image>;
+};
 
 /** A filter that is supported on the parent field. */
 export type Shopify_Filter = {
@@ -7143,7 +7257,7 @@ export enum Shopify_FilterType {
   /** A list of selectable values. */
   List = 'LIST',
   /** A range of prices. */
-  PriceRange = 'PRICE_RANGE',
+  PriceRange = 'PRICE_RANGE'
 }
 
 /** A selectable value within a filter. */
@@ -7181,6 +7295,7 @@ export type Shopify_Fulfillment = {
   trackingInfo: Array<Shopify_FulfillmentTrackingInfo>;
 };
 
+
 /** Represents a single fulfillment in an order. */
 export type Shopify_FulfillmentFulfillmentLineItemsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -7189,6 +7304,7 @@ export type Shopify_FulfillmentFulfillmentLineItemsArgs = {
   last: InputMaybe<Scalars['Int']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 /** Represents a single fulfillment in an order. */
 export type Shopify_FulfillmentTrackingInfoArgs = {
@@ -7272,11 +7388,13 @@ export type Shopify_HasMetafields = {
   metafields: Array<Maybe<Shopify_Metafield>>;
 };
 
+
 /** Represents information about the metafields associated to the specified resource. */
 export type Shopify_HasMetafieldsMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** Represents information about the metafields associated to the specified resource. */
 export type Shopify_HasMetafieldsMetafieldsArgs = {
@@ -7332,6 +7450,7 @@ export type Shopify_Image = {
   width: Maybe<Scalars['Int']['output']>;
 };
 
+
 /** Represents an image resource. */
 export type Shopify_ImageTransformedSrcArgs = {
   crop: InputMaybe<Shopify_CropRegion>;
@@ -7340,6 +7459,7 @@ export type Shopify_ImageTransformedSrcArgs = {
   preferredContentType: InputMaybe<Shopify_ImageContentType>;
   scale?: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 /** Represents an image resource. */
 export type Shopify_ImageUrlArgs = {
@@ -7367,7 +7487,7 @@ export enum Shopify_ImageContentType {
   /** A PNG image. */
   Png = 'PNG',
   /** A WEBP image. */
-  Webp = 'WEBP',
+  Webp = 'WEBP'
 }
 
 /**
@@ -7724,7 +7844,7 @@ export enum Shopify_LanguageCode {
   /** Chinese (Traditional). */
   ZhTw = 'ZH_TW',
   /** Zulu. */
-  Zu = 'ZU',
+  Zu = 'ZU'
 }
 
 /** Information about the localized experiences configured for the shop. */
@@ -7743,26 +7863,27 @@ export type Shopify_Localization = {
 };
 
 /** Represents a location where product inventory is held. */
-export type Shopify_Location = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_Location';
-    /** The address of the location. */
-    address: Shopify_LocationAddress;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The name of the location. */
-    name: Scalars['String']['output'];
-  };
+export type Shopify_Location = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_Location';
+  /** The address of the location. */
+  address: Shopify_LocationAddress;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The name of the location. */
+  name: Scalars['String']['output'];
+};
+
 
 /** Represents a location where product inventory is held. */
 export type Shopify_LocationMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** Represents a location where product inventory is held. */
 export type Shopify_LocationMetafieldsArgs = {
@@ -7839,7 +7960,7 @@ export enum Shopify_LocationSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /** Sort by the `name` value. */
-  Name = 'NAME',
+  Name = 'NAME'
 }
 
 /** Represents a mailing address for customers and shipping. */
@@ -7907,6 +8028,7 @@ export type Shopify_MailingAddress = Shopify_Node & {
   /** The zip or postal code of the address. */
   zip: Maybe<Scalars['String']['output']>;
 };
+
 
 /** Represents a mailing address for customers and shipping. */
 export type Shopify_MailingAddressFormattedArgs = {
@@ -8002,27 +8124,28 @@ export type Shopify_ManualDiscountApplication = Shopify_DiscountApplication & {
 };
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
-export type Shopify_Market = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_Market';
-    /**
-     * A human-readable unique string for the market automatically generated from its title.
-     *
-     */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-  };
+export type Shopify_Market = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_Market';
+  /**
+   * A human-readable unique string for the market automatically generated from its title.
+   *
+   */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+};
+
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
 export type Shopify_MarketMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
 export type Shopify_MarketMetafieldsArgs = {
@@ -8066,7 +8189,7 @@ export enum Shopify_MediaContentType {
   /** A 3d model. */
   Model_3D = 'MODEL_3D',
   /** A Shopify hosted video. */
-  Video = 'VIDEO',
+  Video = 'VIDEO'
 }
 
 /**
@@ -8086,26 +8209,25 @@ export enum Shopify_MediaHost {
   /** Host for Vimeo embedded videos. */
   Vimeo = 'VIMEO',
   /** Host for YouTube embedded videos. */
-  Youtube = 'YOUTUBE',
+  Youtube = 'YOUTUBE'
 }
 
 /** Represents a Shopify hosted image. */
-export type Shopify_MediaImage = Shopify_Media &
-  Shopify_Node & {
-    __typename?: 'shopify_MediaImage';
-    /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']['output']>;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The image for the media. */
-    image: Maybe<Shopify_Image>;
-    /** The media content type. */
-    mediaContentType: Shopify_MediaContentType;
-    /** The presentation for a media. */
-    presentation: Maybe<Shopify_MediaPresentation>;
-    /** The preview image for the media. */
-    previewImage: Maybe<Shopify_Image>;
-  };
+export type Shopify_MediaImage = Shopify_Media & Shopify_Node & {
+  __typename?: 'shopify_MediaImage';
+  /** A word or phrase to share the nature or contents of a media. */
+  alt: Maybe<Scalars['String']['output']>;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The image for the media. */
+  image: Maybe<Shopify_Image>;
+  /** The media content type. */
+  mediaContentType: Shopify_MediaContentType;
+  /** The presentation for a media. */
+  presentation: Maybe<Shopify_MediaPresentation>;
+  /** The preview image for the media. */
+  previewImage: Maybe<Shopify_Image>;
+};
 
 /** A media presentation. */
 export type Shopify_MediaPresentation = Shopify_Node & {
@@ -8115,6 +8237,7 @@ export type Shopify_MediaPresentation = Shopify_Node & {
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
 };
+
 
 /** A media presentation. */
 export type Shopify_MediaPresentationAsJsonArgs = {
@@ -8126,7 +8249,7 @@ export enum Shopify_MediaPresentationFormat {
   /** A media image presentation. */
   Image = 'IMAGE',
   /** A model viewer presentation. */
-  ModelViewer = 'MODEL_VIEWER',
+  ModelViewer = 'MODEL_VIEWER'
 }
 
 /**
@@ -8173,13 +8296,7 @@ export type Shopify_MenuItem = Shopify_Node & {
  * The list of possible resources a `MenuItem` can reference.
  *
  */
-export type Shopify_MenuItemResource =
-  | Shopify_Article
-  | Shopify_Blog
-  | Shopify_Collection
-  | Shopify_Page
-  | Shopify_Product
-  | Shopify_ShopPolicy;
+export type Shopify_MenuItemResource = Shopify_Article | Shopify_Blog | Shopify_Collection | Shopify_Page | Shopify_Product | Shopify_ShopPolicy;
 
 /** A menu item type. */
 export enum Shopify_MenuItemType {
@@ -8204,7 +8321,7 @@ export enum Shopify_MenuItemType {
   /** A search link. */
   Search = 'SEARCH',
   /** A shop policy link. */
-  ShopPolicy = 'SHOP_POLICY',
+  ShopPolicy = 'SHOP_POLICY'
 }
 
 /** The merchandise to be purchased at checkout. */
@@ -8245,6 +8362,7 @@ export type Shopify_Metafield = Shopify_Node & {
   value: Scalars['String']['output'];
 };
 
+
 /**
  * Metafields represent custom metadata attached to a resource. Metafields can be sorted into namespaces and are
  * comprised of keys, values, and value types.
@@ -8262,7 +8380,7 @@ export enum Shopify_MetafieldDeleteErrorCode {
   /** The owner ID is invalid. */
   InvalidOwner = 'INVALID_OWNER',
   /** Metafield not found. */
-  MetafieldDoesNotExist = 'METAFIELD_DOES_NOT_EXIST',
+  MetafieldDoesNotExist = 'METAFIELD_DOES_NOT_EXIST'
 }
 
 /** An error that occurs during the execution of cart metafield deletion. */
@@ -8296,33 +8414,13 @@ export type Shopify_MetafieldFilter = {
 };
 
 /** A resource that the metafield belongs to. */
-export type Shopify_MetafieldParentResource =
-  | Shopify_Article
-  | Shopify_Blog
-  | Shopify_Cart
-  | Shopify_Collection
-  | Shopify_Customer
-  | Shopify_Location
-  | Shopify_Market
-  | Shopify_Order
-  | Shopify_Page
-  | Shopify_Product
-  | Shopify_ProductVariant
-  | Shopify_Shop;
+export type Shopify_MetafieldParentResource = Shopify_Article | Shopify_Blog | Shopify_Cart | Shopify_Collection | Shopify_Customer | Shopify_Location | Shopify_Market | Shopify_Order | Shopify_Page | Shopify_Product | Shopify_ProductVariant | Shopify_Shop;
 
 /**
  * Returns the resource which is being referred to by a metafield.
  *
  */
-export type Shopify_MetafieldReference =
-  | Shopify_Collection
-  | Shopify_GenericFile
-  | Shopify_MediaImage
-  | Shopify_Metaobject
-  | Shopify_Page
-  | Shopify_Product
-  | Shopify_ProductVariant
-  | Shopify_Video;
+export type Shopify_MetafieldReference = Shopify_Collection | Shopify_GenericFile | Shopify_MediaImage | Shopify_Metaobject | Shopify_Page | Shopify_Product | Shopify_ProductVariant | Shopify_Video;
 
 /**
  * An auto-generated type for paginating through multiple MetafieldReferences.
@@ -8382,7 +8480,7 @@ export enum Shopify_MetafieldsSetUserErrorCode {
   /** The input value is too long. */
   TooLong = 'TOO_LONG',
   /** The input value is too short. */
-  TooShort = 'TOO_SHORT',
+  TooShort = 'TOO_SHORT'
 }
 
 /** An instance of a user-defined model based on a MetaobjectDefinition. */
@@ -8405,6 +8503,7 @@ export type Shopify_Metaobject = Shopify_Node & {
   /** The date and time when the metaobject was last updated. */
   updatedAt: Scalars['shopify_DateTime']['output'];
 };
+
 
 /** An instance of a user-defined model based on a MetaobjectDefinition. */
 export type Shopify_MetaobjectFieldArgs = {
@@ -8456,6 +8555,7 @@ export type Shopify_MetaobjectField = {
   value: Maybe<Scalars['String']['output']>;
 };
 
+
 /** Provides the value of a Metaobject field. */
 export type Shopify_MetaobjectFieldReferencesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -8473,22 +8573,21 @@ export type Shopify_MetaobjectHandleInput = {
 };
 
 /** Represents a Shopify hosted 3D model. */
-export type Shopify_Model3d = Shopify_Media &
-  Shopify_Node & {
-    __typename?: 'shopify_Model3d';
-    /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']['output']>;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The media content type. */
-    mediaContentType: Shopify_MediaContentType;
-    /** The presentation for a media. */
-    presentation: Maybe<Shopify_MediaPresentation>;
-    /** The preview image for the media. */
-    previewImage: Maybe<Shopify_Image>;
-    /** The sources for a 3d model. */
-    sources: Array<Shopify_Model3dSource>;
-  };
+export type Shopify_Model3d = Shopify_Media & Shopify_Node & {
+  __typename?: 'shopify_Model3d';
+  /** A word or phrase to share the nature or contents of a media. */
+  alt: Maybe<Scalars['String']['output']>;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The media content type. */
+  mediaContentType: Shopify_MediaContentType;
+  /** The presentation for a media. */
+  presentation: Maybe<Shopify_MediaPresentation>;
+  /** The preview image for the media. */
+  previewImage: Maybe<Shopify_Image>;
+  /** The sources for a 3d model. */
+  sources: Array<Shopify_Model3dSource>;
+};
 
 /** Represents a source for a Shopify hosted 3d model. */
 export type Shopify_Model3dSource = {
@@ -8542,102 +8641,102 @@ export type Shopify_OnlineStorePublishable = {
 };
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
-export type Shopify_Order = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_Order';
-    /** The address associated with the payment method. */
-    billingAddress: Maybe<Shopify_MailingAddress>;
-    /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
-    cancelReason: Maybe<Shopify_OrderCancelReason>;
-    /** The date and time when the order was canceled. Returns null if the order wasn't canceled. */
-    canceledAt: Maybe<Scalars['shopify_DateTime']['output']>;
-    /** The code of the currency used for the payment. */
-    currencyCode: Shopify_CurrencyCode;
-    /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes aren't included unless the order is a taxes-included order. */
-    currentSubtotalPrice: Shopify_MoneyV2;
-    /** The total cost of duties for the order, including refunds. */
-    currentTotalDuties: Maybe<Shopify_MoneyV2>;
-    /** The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed. */
-    currentTotalPrice: Shopify_MoneyV2;
-    /** The total of all taxes applied to the order, excluding taxes for returned line items. */
-    currentTotalTax: Shopify_MoneyV2;
-    /** A list of the custom attributes added to the order. */
-    customAttributes: Array<Shopify_Attribute>;
-    /** The locale code in which this specific order happened. */
-    customerLocale: Maybe<Scalars['String']['output']>;
-    /** The unique URL that the customer can use to access the order. */
-    customerUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** Discounts that have been applied on the order. */
-    discountApplications: Shopify_DiscountApplicationConnection;
-    /** Whether the order has had any edits applied or not. */
-    edited: Scalars['Boolean']['output'];
-    /** The customer's email address. */
-    email: Maybe<Scalars['String']['output']>;
-    /** The financial status of the order. */
-    financialStatus: Maybe<Shopify_OrderFinancialStatus>;
-    /** The fulfillment status for the order. */
-    fulfillmentStatus: Shopify_OrderFulfillmentStatus;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** List of the order’s line items. */
-    lineItems: Shopify_OrderLineItemConnection;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /**
-     * Unique identifier for the order that appears on the order.
-     * For example, _#1000_ or _Store1001.
-     *
-     */
-    name: Scalars['String']['output'];
-    /** A unique numeric identifier for the order for use by shop owner and customer. */
-    orderNumber: Scalars['Int']['output'];
-    /** The total cost of duties charged at checkout. */
-    originalTotalDuties: Maybe<Shopify_MoneyV2>;
-    /** The total price of the order before any applied edits. */
-    originalTotalPrice: Shopify_MoneyV2;
-    /** The customer's phone number for receiving SMS notifications. */
-    phone: Maybe<Scalars['String']['output']>;
-    /**
-     * The date and time when the order was imported.
-     * This value can be set to dates in the past when importing from other systems.
-     * If no value is provided, it will be auto-generated based on current date and time.
-     *
-     */
-    processedAt: Scalars['shopify_DateTime']['output'];
-    /** The address to where the order will be shipped. */
-    shippingAddress: Maybe<Shopify_MailingAddress>;
-    /**
-     * The discounts that have been allocated onto the shipping line by discount applications.
-     *
-     */
-    shippingDiscountAllocations: Array<Shopify_DiscountAllocation>;
-    /** The unique URL for the order's status page. */
-    statusUrl: Scalars['shopify_URL']['output'];
-    /** Price of the order before shipping and taxes. */
-    subtotalPrice: Maybe<Shopify_MoneyV2>;
-    /** Price of the order before duties, shipping and taxes. */
-    subtotalPriceV2: Maybe<Shopify_MoneyV2>;
-    /** List of the order’s successful fulfillments. */
-    successfulFulfillments: Maybe<Array<Shopify_Fulfillment>>;
-    /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
-    totalPrice: Shopify_MoneyV2;
-    /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
-    totalPriceV2: Shopify_MoneyV2;
-    /** The total amount that has been refunded. */
-    totalRefunded: Shopify_MoneyV2;
-    /** The total amount that has been refunded. */
-    totalRefundedV2: Shopify_MoneyV2;
-    /** The total cost of shipping. */
-    totalShippingPrice: Shopify_MoneyV2;
-    /** The total cost of shipping. */
-    totalShippingPriceV2: Shopify_MoneyV2;
-    /** The total cost of taxes. */
-    totalTax: Maybe<Shopify_MoneyV2>;
-    /** The total cost of taxes. */
-    totalTaxV2: Maybe<Shopify_MoneyV2>;
-  };
+export type Shopify_Order = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_Order';
+  /** The address associated with the payment method. */
+  billingAddress: Maybe<Shopify_MailingAddress>;
+  /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
+  cancelReason: Maybe<Shopify_OrderCancelReason>;
+  /** The date and time when the order was canceled. Returns null if the order wasn't canceled. */
+  canceledAt: Maybe<Scalars['shopify_DateTime']['output']>;
+  /** The code of the currency used for the payment. */
+  currencyCode: Shopify_CurrencyCode;
+  /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes aren't included unless the order is a taxes-included order. */
+  currentSubtotalPrice: Shopify_MoneyV2;
+  /** The total cost of duties for the order, including refunds. */
+  currentTotalDuties: Maybe<Shopify_MoneyV2>;
+  /** The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed. */
+  currentTotalPrice: Shopify_MoneyV2;
+  /** The total of all taxes applied to the order, excluding taxes for returned line items. */
+  currentTotalTax: Shopify_MoneyV2;
+  /** A list of the custom attributes added to the order. */
+  customAttributes: Array<Shopify_Attribute>;
+  /** The locale code in which this specific order happened. */
+  customerLocale: Maybe<Scalars['String']['output']>;
+  /** The unique URL that the customer can use to access the order. */
+  customerUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** Discounts that have been applied on the order. */
+  discountApplications: Shopify_DiscountApplicationConnection;
+  /** Whether the order has had any edits applied or not. */
+  edited: Scalars['Boolean']['output'];
+  /** The customer's email address. */
+  email: Maybe<Scalars['String']['output']>;
+  /** The financial status of the order. */
+  financialStatus: Maybe<Shopify_OrderFinancialStatus>;
+  /** The fulfillment status for the order. */
+  fulfillmentStatus: Shopify_OrderFulfillmentStatus;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** List of the order’s line items. */
+  lineItems: Shopify_OrderLineItemConnection;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /**
+   * Unique identifier for the order that appears on the order.
+   * For example, _#1000_ or _Store1001.
+   *
+   */
+  name: Scalars['String']['output'];
+  /** A unique numeric identifier for the order for use by shop owner and customer. */
+  orderNumber: Scalars['Int']['output'];
+  /** The total cost of duties charged at checkout. */
+  originalTotalDuties: Maybe<Shopify_MoneyV2>;
+  /** The total price of the order before any applied edits. */
+  originalTotalPrice: Shopify_MoneyV2;
+  /** The customer's phone number for receiving SMS notifications. */
+  phone: Maybe<Scalars['String']['output']>;
+  /**
+   * The date and time when the order was imported.
+   * This value can be set to dates in the past when importing from other systems.
+   * If no value is provided, it will be auto-generated based on current date and time.
+   *
+   */
+  processedAt: Scalars['shopify_DateTime']['output'];
+  /** The address to where the order will be shipped. */
+  shippingAddress: Maybe<Shopify_MailingAddress>;
+  /**
+   * The discounts that have been allocated onto the shipping line by discount applications.
+   *
+   */
+  shippingDiscountAllocations: Array<Shopify_DiscountAllocation>;
+  /** The unique URL for the order's status page. */
+  statusUrl: Scalars['shopify_URL']['output'];
+  /** Price of the order before shipping and taxes. */
+  subtotalPrice: Maybe<Shopify_MoneyV2>;
+  /** Price of the order before duties, shipping and taxes. */
+  subtotalPriceV2: Maybe<Shopify_MoneyV2>;
+  /** List of the order’s successful fulfillments. */
+  successfulFulfillments: Maybe<Array<Shopify_Fulfillment>>;
+  /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
+  totalPrice: Shopify_MoneyV2;
+  /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
+  totalPriceV2: Shopify_MoneyV2;
+  /** The total amount that has been refunded. */
+  totalRefunded: Shopify_MoneyV2;
+  /** The total amount that has been refunded. */
+  totalRefundedV2: Shopify_MoneyV2;
+  /** The total cost of shipping. */
+  totalShippingPrice: Shopify_MoneyV2;
+  /** The total cost of shipping. */
+  totalShippingPriceV2: Shopify_MoneyV2;
+  /** The total cost of taxes. */
+  totalTax: Maybe<Shopify_MoneyV2>;
+  /** The total cost of taxes. */
+  totalTaxV2: Maybe<Shopify_MoneyV2>;
+};
+
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderDiscountApplicationsArgs = {
@@ -8648,6 +8747,7 @@ export type Shopify_OrderDiscountApplicationsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderLineItemsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
@@ -8657,16 +8757,19 @@ export type Shopify_OrderLineItemsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
 
+
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderMetafieldsArgs = {
   identifiers: Array<Shopify_HasMetafieldsIdentifier>;
 };
+
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type Shopify_OrderSuccessfulFulfillmentsArgs = {
@@ -8684,7 +8787,7 @@ export enum Shopify_OrderCancelReason {
   /** There was insufficient inventory. */
   Inventory = 'INVENTORY',
   /** The order was canceled for an unlisted reason. */
-  Other = 'OTHER',
+  Other = 'OTHER'
 }
 
 /**
@@ -8730,7 +8833,7 @@ export enum Shopify_OrderFinancialStatus {
   /** Displayed as **Refunded**. */
   Refunded = 'REFUNDED',
   /** Displayed as **Voided**. */
-  Voided = 'VOIDED',
+  Voided = 'VOIDED'
 }
 
 /** Represents the order's aggregated fulfillment status for display purposes. */
@@ -8752,7 +8855,7 @@ export enum Shopify_OrderFulfillmentStatus {
   /** Displayed as **Scheduled**. All of the unfulfilled items in this order are scheduled for fulfillment at later time. */
   Scheduled = 'SCHEDULED',
   /** Displayed as **Unfulfilled**. None of the items in the order have been fulfilled. */
-  Unfulfilled = 'UNFULFILLED',
+  Unfulfilled = 'UNFULFILLED'
 }
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
@@ -8815,46 +8918,45 @@ export enum Shopify_OrderSortKeys {
    */
   Relevance = 'RELEVANCE',
   /** Sort by the `total_price` value. */
-  TotalPrice = 'TOTAL_PRICE',
+  TotalPrice = 'TOTAL_PRICE'
 }
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
-export type Shopify_Page = Shopify_HasMetafields &
-  Shopify_Node &
-  Shopify_OnlineStorePublishable &
-  Shopify_Trackable & {
-    __typename?: 'shopify_Page';
-    /** The description of the page, complete with HTML formatting. */
-    body: Scalars['shopify_HTML']['output'];
-    /** Summary of the page body. */
-    bodySummary: Scalars['String']['output'];
-    /** The timestamp of the page creation. */
-    createdAt: Scalars['shopify_DateTime']['output'];
-    /** A human-friendly unique string for the page automatically generated from its title. */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** The page's SEO information. */
-    seo: Maybe<Shopify_Seo>;
-    /** The title of the page. */
-    title: Scalars['String']['output'];
-    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']['output']>;
-    /** The timestamp of the latest page update. */
-    updatedAt: Scalars['shopify_DateTime']['output'];
-  };
+export type Shopify_Page = Shopify_HasMetafields & Shopify_Node & Shopify_OnlineStorePublishable & Shopify_Trackable & {
+  __typename?: 'shopify_Page';
+  /** The description of the page, complete with HTML formatting. */
+  body: Scalars['shopify_HTML']['output'];
+  /** Summary of the page body. */
+  bodySummary: Scalars['String']['output'];
+  /** The timestamp of the page creation. */
+  createdAt: Scalars['shopify_DateTime']['output'];
+  /** A human-friendly unique string for the page automatically generated from its title. */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** The page's SEO information. */
+  seo: Maybe<Shopify_Seo>;
+  /** The title of the page. */
+  title: Scalars['String']['output'];
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']['output']>;
+  /** The timestamp of the latest page update. */
+  updatedAt: Scalars['shopify_DateTime']['output'];
+};
+
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Shopify_PageMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Shopify_PageMetafieldsArgs = {
@@ -8918,7 +9020,7 @@ export enum Shopify_PageSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT',
+  UpdatedAt = 'UPDATED_AT'
 }
 
 /** A payment applied to a checkout. */
@@ -8989,7 +9091,7 @@ export enum Shopify_PaymentTokenType {
   /** Stripe token type. */
   StripeVaultToken = 'STRIPE_VAULT_TOKEN',
   /** Vault payment token type. */
-  Vault = 'VAULT',
+  Vault = 'VAULT'
 }
 
 /** Decides the distribution of results. */
@@ -8997,7 +9099,7 @@ export enum Shopify_PredictiveSearchLimitScope {
   /** Return results up to limit across all types. */
   All = 'ALL',
   /** Return results up to limit per type. */
-  Each = 'EACH',
+  Each = 'EACH'
 }
 
 /**
@@ -9030,7 +9132,7 @@ export enum Shopify_PredictiveSearchType {
   /** Returns matching products. */
   Product = 'PRODUCT',
   /** Returns matching query strings. */
-  Query = 'QUERY',
+  Query = 'QUERY'
 }
 
 /**
@@ -9052,9 +9154,7 @@ export type Shopify_PricingPercentageValue = {
 };
 
 /** The price value (fixed or percentage) for a discount application. */
-export type Shopify_PricingValue =
-  | Shopify_MoneyV2
-  | Shopify_PricingPercentageValue;
+export type Shopify_PricingValue = Shopify_MoneyV2 | Shopify_PricingPercentageValue;
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
@@ -9063,96 +9163,94 @@ export type Shopify_PricingValue =
  * customization of another product or an extended warranty).
  *
  */
-export type Shopify_Product = Shopify_HasMetafields &
-  Shopify_Node &
-  Shopify_OnlineStorePublishable &
-  Shopify_Trackable & {
-    __typename?: 'shopify_Product';
-    /** Indicates if at least one product variant is available for sale. */
-    availableForSale: Scalars['Boolean']['output'];
-    /** List of collections a product belongs to. */
-    collections: Shopify_CollectionConnection;
-    /** The compare at price of the product across all variants. */
-    compareAtPriceRange: Shopify_ProductPriceRange;
-    /** The date and time when the product was created. */
-    createdAt: Scalars['shopify_DateTime']['output'];
-    /** Stripped description of the product, single line with HTML tags removed. */
-    description: Scalars['String']['output'];
-    /** The description of the product, complete with HTML formatting. */
-    descriptionHtml: Scalars['shopify_HTML']['output'];
-    /**
-     * The featured image for the product.
-     *
-     * This field is functionally equivalent to `images(first: 1)`.
-     *
-     */
-    featuredImage: Maybe<Shopify_Image>;
-    /**
-     * A human-friendly unique string for the Product automatically generated from its title.
-     * They are used by the Liquid templating language to refer to objects.
-     *
-     */
-    handle: Scalars['String']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** List of images associated with the product. */
-    images: Shopify_ImageConnection;
-    /** Whether the product is a gift card. */
-    isGiftCard: Scalars['Boolean']['output'];
-    /** The media associated with the product. */
-    media: Shopify_MediaConnection;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
-    onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
-    /** List of product options. */
-    options: Array<Shopify_ProductOption>;
-    /** The price range. */
-    priceRange: Shopify_ProductPriceRange;
-    /** A categorization that a product can be tagged with, commonly used for filtering and searching. */
-    productType: Scalars['String']['output'];
-    /** The date and time when the product was published to the channel. */
-    publishedAt: Scalars['shopify_DateTime']['output'];
-    /** Whether the product can only be purchased with a selling plan. */
-    requiresSellingPlan: Scalars['Boolean']['output'];
-    /** A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
-    sellingPlanGroups: Shopify_SellingPlanGroupConnection;
-    /** The product's SEO information. */
-    seo: Shopify_Seo;
-    /**
-     * A comma separated list of tags that have been added to the product.
-     * Additional access scope required for private apps: unauthenticated_read_product_tags.
-     *
-     */
-    tags: Array<Scalars['String']['output']>;
-    /** The product’s title. */
-    title: Scalars['String']['output'];
-    /** The total quantity of inventory in stock for this Product. */
-    totalInventory: Maybe<Scalars['Int']['output']>;
-    /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
-    trackingParameters: Maybe<Scalars['String']['output']>;
-    /**
-     * The date and time when the product was last modified.
-     * A product's `updatedAt` value can change for different reasons. For example, if an order
-     * is placed for a product that has inventory tracking set up, then the inventory adjustment
-     * is counted as an update.
-     *
-     */
-    updatedAt: Scalars['shopify_DateTime']['output'];
-    /**
-     * Find a product’s variant based on its selected options.
-     * This is useful for converting a user’s selection of product options into a single matching variant.
-     * If there is not a variant for the selected options, `null` will be returned.
-     *
-     */
-    variantBySelectedOptions: Maybe<Shopify_ProductVariant>;
-    /** List of the product’s variants. */
-    variants: Shopify_ProductVariantConnection;
-    /** The product’s vendor name. */
-    vendor: Scalars['String']['output'];
-  };
+export type Shopify_Product = Shopify_HasMetafields & Shopify_Node & Shopify_OnlineStorePublishable & Shopify_Trackable & {
+  __typename?: 'shopify_Product';
+  /** Indicates if at least one product variant is available for sale. */
+  availableForSale: Scalars['Boolean']['output'];
+  /** List of collections a product belongs to. */
+  collections: Shopify_CollectionConnection;
+  /** The compare at price of the product across all variants. */
+  compareAtPriceRange: Shopify_ProductPriceRange;
+  /** The date and time when the product was created. */
+  createdAt: Scalars['shopify_DateTime']['output'];
+  /** Stripped description of the product, single line with HTML tags removed. */
+  description: Scalars['String']['output'];
+  /** The description of the product, complete with HTML formatting. */
+  descriptionHtml: Scalars['shopify_HTML']['output'];
+  /**
+   * The featured image for the product.
+   *
+   * This field is functionally equivalent to `images(first: 1)`.
+   *
+   */
+  featuredImage: Maybe<Shopify_Image>;
+  /**
+   * A human-friendly unique string for the Product automatically generated from its title.
+   * They are used by the Liquid templating language to refer to objects.
+   *
+   */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** List of images associated with the product. */
+  images: Shopify_ImageConnection;
+  /** Whether the product is a gift card. */
+  isGiftCard: Scalars['Boolean']['output'];
+  /** The media associated with the product. */
+  media: Shopify_MediaConnection;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl: Maybe<Scalars['shopify_URL']['output']>;
+  /** List of product options. */
+  options: Array<Shopify_ProductOption>;
+  /** The price range. */
+  priceRange: Shopify_ProductPriceRange;
+  /** A categorization that a product can be tagged with, commonly used for filtering and searching. */
+  productType: Scalars['String']['output'];
+  /** The date and time when the product was published to the channel. */
+  publishedAt: Scalars['shopify_DateTime']['output'];
+  /** Whether the product can only be purchased with a selling plan. */
+  requiresSellingPlan: Scalars['Boolean']['output'];
+  /** A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
+  sellingPlanGroups: Shopify_SellingPlanGroupConnection;
+  /** The product's SEO information. */
+  seo: Shopify_Seo;
+  /**
+   * A comma separated list of tags that have been added to the product.
+   * Additional access scope required for private apps: unauthenticated_read_product_tags.
+   *
+   */
+  tags: Array<Scalars['String']['output']>;
+  /** The product’s title. */
+  title: Scalars['String']['output'];
+  /** The total quantity of inventory in stock for this Product. */
+  totalInventory: Maybe<Scalars['Int']['output']>;
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters: Maybe<Scalars['String']['output']>;
+  /**
+   * The date and time when the product was last modified.
+   * A product's `updatedAt` value can change for different reasons. For example, if an order
+   * is placed for a product that has inventory tracking set up, then the inventory adjustment
+   * is counted as an update.
+   *
+   */
+  updatedAt: Scalars['shopify_DateTime']['output'];
+  /**
+   * Find a product’s variant based on its selected options.
+   * This is useful for converting a user’s selection of product options into a single matching variant.
+   * If there is not a variant for the selected options, `null` will be returned.
+   *
+   */
+  variantBySelectedOptions: Maybe<Shopify_ProductVariant>;
+  /** List of the product’s variants. */
+  variants: Shopify_ProductVariantConnection;
+  /** The product’s vendor name. */
+  vendor: Scalars['String']['output'];
+};
+
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
@@ -9169,6 +9267,7 @@ export type Shopify_ProductCollectionsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9179,6 +9278,7 @@ export type Shopify_ProductCollectionsArgs = {
 export type Shopify_ProductDescriptionArgs = {
   truncateAt: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
@@ -9196,6 +9296,7 @@ export type Shopify_ProductImagesArgs = {
   sortKey?: InputMaybe<Shopify_ProductImageSortKeys>;
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9212,6 +9313,7 @@ export type Shopify_ProductMediaArgs = {
   sortKey?: InputMaybe<Shopify_ProductMediaSortKeys>;
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9224,6 +9326,7 @@ export type Shopify_ProductMetafieldArgs = {
   namespace: Scalars['String']['input'];
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9235,6 +9338,7 @@ export type Shopify_ProductMetafieldsArgs = {
   identifiers: Array<Shopify_HasMetafieldsIdentifier>;
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9245,6 +9349,7 @@ export type Shopify_ProductMetafieldsArgs = {
 export type Shopify_ProductOptionsArgs = {
   first: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
@@ -9261,6 +9366,7 @@ export type Shopify_ProductSellingPlanGroupsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
@@ -9271,6 +9377,7 @@ export type Shopify_ProductSellingPlanGroupsArgs = {
 export type Shopify_ProductVariantBySelectedOptionsArgs = {
   selectedOptions: Array<Shopify_SelectedOptionInput>;
 };
+
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
@@ -9309,7 +9416,7 @@ export enum Shopify_ProductCollectionSortKeys {
    */
   Relevance = 'RELEVANCE',
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  Title = 'TITLE'
 }
 
 /**
@@ -9378,7 +9485,7 @@ export enum Shopify_ProductImageSortKeys {
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  Relevance = 'RELEVANCE'
 }
 
 /** The set of valid sort keys for the ProductMedia query. */
@@ -9392,7 +9499,7 @@ export enum Shopify_ProductMediaSortKeys {
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  Relevance = 'RELEVANCE'
 }
 
 /**
@@ -9429,7 +9536,7 @@ export enum Shopify_ProductRecommendationIntent {
   /** Offer customers products that are complementary to a product for which recommendations are to be fetched. An example is add-on products that display in a Pair it with section. */
   Complementary = 'COMPLEMENTARY',
   /** Offer customers a mix of products that are similar or complementary to a product for which recommendations are to be fetched. An example is substitutable products that display in a You may also like section. */
-  Related = 'RELATED',
+  Related = 'RELATED'
 }
 
 /** The set of valid sort keys for the Product query. */
@@ -9455,63 +9562,63 @@ export enum Shopify_ProductSortKeys {
   /** Sort by the `updated_at` value. */
   UpdatedAt = 'UPDATED_AT',
   /** Sort by the `vendor` value. */
-  Vendor = 'VENDOR',
+  Vendor = 'VENDOR'
 }
 
 /**
  * A product variant represents a different version of a product, such as differing sizes or differing colors.
  *
  */
-export type Shopify_ProductVariant = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_ProductVariant';
-    /** Indicates if the product variant is available for sale. */
-    availableForSale: Scalars['Boolean']['output'];
-    /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
-    barcode: Maybe<Scalars['String']['output']>;
-    /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`. */
-    compareAtPrice: Maybe<Shopify_MoneyV2>;
-    /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
-    compareAtPriceV2: Maybe<Shopify_MoneyV2>;
-    /** Whether a product is out of stock but still available for purchase (used for backorders). */
-    currentlyNotInStock: Scalars['Boolean']['output'];
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Image associated with the product variant. This field falls back to the product image if no image is available. */
-    image: Maybe<Shopify_Image>;
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** The product variant’s price. */
-    price: Shopify_MoneyV2;
-    /** The product variant’s price. */
-    priceV2: Shopify_MoneyV2;
-    /** The product object that the product variant belongs to. */
-    product: Shopify_Product;
-    /** The total sellable quantity of the variant for online sales channels. */
-    quantityAvailable: Maybe<Scalars['Int']['output']>;
-    /** Whether a customer needs to provide a shipping address when placing an order for the product variant. */
-    requiresShipping: Scalars['Boolean']['output'];
-    /** List of product options applied to the variant. */
-    selectedOptions: Array<Shopify_SelectedOption>;
-    /** Represents an association between a variant and a selling plan. Selling plan allocations describe which selling plans are available for each variant, and what their impact is on pricing. */
-    sellingPlanAllocations: Shopify_SellingPlanAllocationConnection;
-    /** The SKU (stock keeping unit) associated with the variant. */
-    sku: Maybe<Scalars['String']['output']>;
-    /** The in-store pickup availability of this variant by location. */
-    storeAvailability: Shopify_StoreAvailabilityConnection;
-    /** The product variant’s title. */
-    title: Scalars['String']['output'];
-    /** The unit price value for the variant based on the variant's measurement. */
-    unitPrice: Maybe<Shopify_MoneyV2>;
-    /** The unit price measurement for the variant. */
-    unitPriceMeasurement: Maybe<Shopify_UnitPriceMeasurement>;
-    /** The weight of the product variant in the unit system specified with `weight_unit`. */
-    weight: Maybe<Scalars['Float']['output']>;
-    /** Unit of measurement for weight. */
-    weightUnit: Shopify_WeightUnit;
-  };
+export type Shopify_ProductVariant = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_ProductVariant';
+  /** Indicates if the product variant is available for sale. */
+  availableForSale: Scalars['Boolean']['output'];
+  /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
+  barcode: Maybe<Scalars['String']['output']>;
+  /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`. */
+  compareAtPrice: Maybe<Shopify_MoneyV2>;
+  /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
+  compareAtPriceV2: Maybe<Shopify_MoneyV2>;
+  /** Whether a product is out of stock but still available for purchase (used for backorders). */
+  currentlyNotInStock: Scalars['Boolean']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Image associated with the product variant. This field falls back to the product image if no image is available. */
+  image: Maybe<Shopify_Image>;
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** The product variant’s price. */
+  price: Shopify_MoneyV2;
+  /** The product variant’s price. */
+  priceV2: Shopify_MoneyV2;
+  /** The product object that the product variant belongs to. */
+  product: Shopify_Product;
+  /** The total sellable quantity of the variant for online sales channels. */
+  quantityAvailable: Maybe<Scalars['Int']['output']>;
+  /** Whether a customer needs to provide a shipping address when placing an order for the product variant. */
+  requiresShipping: Scalars['Boolean']['output'];
+  /** List of product options applied to the variant. */
+  selectedOptions: Array<Shopify_SelectedOption>;
+  /** Represents an association between a variant and a selling plan. Selling plan allocations describe which selling plans are available for each variant, and what their impact is on pricing. */
+  sellingPlanAllocations: Shopify_SellingPlanAllocationConnection;
+  /** The SKU (stock keeping unit) associated with the variant. */
+  sku: Maybe<Scalars['String']['output']>;
+  /** The in-store pickup availability of this variant by location. */
+  storeAvailability: Shopify_StoreAvailabilityConnection;
+  /** The product variant’s title. */
+  title: Scalars['String']['output'];
+  /** The unit price value for the variant based on the variant's measurement. */
+  unitPrice: Maybe<Shopify_MoneyV2>;
+  /** The unit price measurement for the variant. */
+  unitPriceMeasurement: Maybe<Shopify_UnitPriceMeasurement>;
+  /** The weight of the product variant in the unit system specified with `weight_unit`. */
+  weight: Maybe<Scalars['Float']['output']>;
+  /** Unit of measurement for weight. */
+  weightUnit: Shopify_WeightUnit;
+};
+
 
 /**
  * A product variant represents a different version of a product, such as differing sizes or differing colors.
@@ -9522,6 +9629,7 @@ export type Shopify_ProductVariantMetafieldArgs = {
   namespace: Scalars['String']['input'];
 };
 
+
 /**
  * A product variant represents a different version of a product, such as differing sizes or differing colors.
  *
@@ -9529,6 +9637,7 @@ export type Shopify_ProductVariantMetafieldArgs = {
 export type Shopify_ProductVariantMetafieldsArgs = {
   identifiers: Array<Shopify_HasMetafieldsIdentifier>;
 };
+
 
 /**
  * A product variant represents a different version of a product, such as differing sizes or differing colors.
@@ -9541,6 +9650,7 @@ export type Shopify_ProductVariantSellingPlanAllocationsArgs = {
   last: InputMaybe<Scalars['Int']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 /**
  * A product variant represents a different version of a product, such as differing sizes or differing colors.
@@ -9596,7 +9706,7 @@ export enum Shopify_ProductVariantSortKeys {
   /** Sort by the `sku` value. */
   Sku = 'SKU',
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  Title = 'TITLE'
 }
 
 /** SEO information. */
@@ -9632,7 +9742,7 @@ export enum Shopify_SearchPrefixQueryType {
   /** Perform a partial word match on the last search term. */
   Last = 'LAST',
   /** Don't perform a partial word match on the last search term. */
-  None = 'NONE',
+  None = 'NONE'
 }
 
 /** A search query suggestion. */
@@ -9650,10 +9760,7 @@ export type Shopify_SearchQuerySuggestion = Shopify_Trackable & {
  * A search result that matches the search query.
  *
  */
-export type Shopify_SearchResultItem =
-  | Shopify_Article
-  | Shopify_Page
-  | Shopify_Product;
+export type Shopify_SearchResultItem = Shopify_Article | Shopify_Page | Shopify_Product;
 
 /**
  * An auto-generated type for paginating through multiple SearchResultItems.
@@ -9690,7 +9797,7 @@ export enum Shopify_SearchSortKeys {
   /** Sort by the `price` value. */
   Price = 'PRICE',
   /** Sort by relevance to the search terms. */
-  Relevance = 'RELEVANCE',
+  Relevance = 'RELEVANCE'
 }
 
 /** The types of search items to perform search within. */
@@ -9700,7 +9807,7 @@ export enum Shopify_SearchType {
   /** Returns matching pages. */
   Page = 'PAGE',
   /** Returns matching products. */
-  Product = 'PRODUCT',
+  Product = 'PRODUCT'
 }
 
 /** Specifies whether to display results for unavailable products. */
@@ -9710,7 +9817,7 @@ export enum Shopify_SearchUnavailableProductsType {
   /** Show unavailable products after all other matching results. This is the default. */
   Last = 'LAST',
   /** Show unavailable products in the order that they're found. */
-  Show = 'SHOW',
+  Show = 'SHOW'
 }
 
 /** Specifies the list of resource fields to search. */
@@ -9732,7 +9839,7 @@ export enum Shopify_SearchableField {
   /** Variant title. */
   VariantsTitle = 'VARIANTS_TITLE',
   /** Product vendor. */
-  Vendor = 'VENDOR',
+  Vendor = 'VENDOR'
 }
 
 /**
@@ -9848,13 +9955,11 @@ export enum Shopify_SellingPlanCheckoutChargeType {
   /** The checkout charge is a percentage of the product or variant price. */
   Percentage = 'PERCENTAGE',
   /** The checkout charge is a fixed price amount. */
-  Price = 'PRICE',
+  Price = 'PRICE'
 }
 
 /** The portion of the price to be charged at checkout. */
-export type Shopify_SellingPlanCheckoutChargeValue =
-  | Shopify_MoneyV2
-  | Shopify_SellingPlanCheckoutChargePercentageValue;
+export type Shopify_SellingPlanCheckoutChargeValue = Shopify_MoneyV2 | Shopify_SellingPlanCheckoutChargePercentageValue;
 
 /**
  * An auto-generated type for paginating through multiple SellingPlans.
@@ -9908,6 +10013,7 @@ export type Shopify_SellingPlanGroup = {
   /** A list of selling plans in a selling plan group. A selling plan is a representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'. */
   sellingPlans: Shopify_SellingPlanConnection;
 };
+
 
 /** Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
 export type Shopify_SellingPlanGroupSellingPlansArgs = {
@@ -9983,10 +10089,7 @@ export type Shopify_SellingPlanPriceAdjustment = {
 };
 
 /** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. */
-export type Shopify_SellingPlanPriceAdjustmentValue =
-  | Shopify_SellingPlanFixedAmountPriceAdjustment
-  | Shopify_SellingPlanFixedPriceAdjustment
-  | Shopify_SellingPlanPercentagePriceAdjustment;
+export type Shopify_SellingPlanPriceAdjustmentValue = Shopify_SellingPlanFixedAmountPriceAdjustment | Shopify_SellingPlanFixedPriceAdjustment | Shopify_SellingPlanPercentagePriceAdjustment;
 
 /** A shipping rate to be applied to a checkout. */
 export type Shopify_ShippingRate = {
@@ -10002,46 +10105,47 @@ export type Shopify_ShippingRate = {
 };
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type Shopify_Shop = Shopify_HasMetafields &
-  Shopify_Node & {
-    __typename?: 'shopify_Shop';
-    /** The shop's branding configuration. */
-    brand: Maybe<Shopify_Brand>;
-    /** A description of the shop. */
-    description: Maybe<Scalars['String']['output']>;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** Returns a metafield found by namespace and key. */
-    metafield: Maybe<Shopify_Metafield>;
-    /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
-    metafields: Array<Maybe<Shopify_Metafield>>;
-    /** A string representing the way currency is formatted when the currency isn’t specified. */
-    moneyFormat: Scalars['String']['output'];
-    /** The shop’s name. */
-    name: Scalars['String']['output'];
-    /** Settings related to payments. */
-    paymentSettings: Shopify_PaymentSettings;
-    /** The primary domain of the shop’s Online Store. */
-    primaryDomain: Shopify_Domain;
-    /** The shop’s privacy policy. */
-    privacyPolicy: Maybe<Shopify_ShopPolicy>;
-    /** The shop’s refund policy. */
-    refundPolicy: Maybe<Shopify_ShopPolicy>;
-    /** The shop’s shipping policy. */
-    shippingPolicy: Maybe<Shopify_ShopPolicy>;
-    /** Countries that the shop ships to. */
-    shipsToCountries: Array<Shopify_CountryCode>;
-    /** The shop’s subscription policy. */
-    subscriptionPolicy: Maybe<Shopify_ShopPolicyWithDefault>;
-    /** The shop’s terms of service. */
-    termsOfService: Maybe<Shopify_ShopPolicy>;
-  };
+export type Shopify_Shop = Shopify_HasMetafields & Shopify_Node & {
+  __typename?: 'shopify_Shop';
+  /** The shop's branding configuration. */
+  brand: Maybe<Shopify_Brand>;
+  /** A description of the shop. */
+  description: Maybe<Scalars['String']['output']>;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** Returns a metafield found by namespace and key. */
+  metafield: Maybe<Shopify_Metafield>;
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<Shopify_Metafield>>;
+  /** A string representing the way currency is formatted when the currency isn’t specified. */
+  moneyFormat: Scalars['String']['output'];
+  /** The shop’s name. */
+  name: Scalars['String']['output'];
+  /** Settings related to payments. */
+  paymentSettings: Shopify_PaymentSettings;
+  /** The primary domain of the shop’s Online Store. */
+  primaryDomain: Shopify_Domain;
+  /** The shop’s privacy policy. */
+  privacyPolicy: Maybe<Shopify_ShopPolicy>;
+  /** The shop’s refund policy. */
+  refundPolicy: Maybe<Shopify_ShopPolicy>;
+  /** The shop’s shipping policy. */
+  shippingPolicy: Maybe<Shopify_ShopPolicy>;
+  /** Countries that the shop ships to. */
+  shipsToCountries: Array<Shopify_CountryCode>;
+  /** The shop’s subscription policy. */
+  subscriptionPolicy: Maybe<Shopify_ShopPolicyWithDefault>;
+  /** The shop’s terms of service. */
+  termsOfService: Maybe<Shopify_ShopPolicy>;
+};
+
 
 /** Shop represents a collection of the general settings and information about the shop. */
 export type Shopify_ShopMetafieldArgs = {
   key: Scalars['String']['input'];
   namespace: Scalars['String']['input'];
 };
+
 
 /** Shop represents a collection of the general settings and information about the shop. */
 export type Shopify_ShopMetafieldsArgs = {
@@ -10264,7 +10368,7 @@ export enum Shopify_SubmissionErrorCode {
   PaymentsWalletContentMissing = 'PAYMENTS_WALLET_CONTENT_MISSING',
   TaxesDeliveryGroupIdNotFound = 'TAXES_DELIVERY_GROUP_ID_NOT_FOUND',
   TaxesLineIdNotFound = 'TAXES_LINE_ID_NOT_FOUND',
-  TaxesMustBeDefined = 'TAXES_MUST_BE_DEFINED',
+  TaxesMustBeDefined = 'TAXES_MUST_BE_DEFINED'
 }
 
 /** Cart submit for checkout completion is successful. */
@@ -10362,7 +10466,7 @@ export enum Shopify_TransactionKind {
   /** An authorization for a payment taken with an EMV credit card reader. */
   EmvAuthorization = 'EMV_AUTHORIZATION',
   /** An authorization and capture performed together in a single step. */
-  Sale = 'SALE',
+  Sale = 'SALE'
 }
 
 /** Transaction statuses describe the status of a transaction. */
@@ -10374,7 +10478,7 @@ export enum Shopify_TransactionStatus {
   /** The transaction is pending. */
   Pending = 'PENDING',
   /** The transaction succeeded. */
-  Success = 'SUCCESS',
+  Success = 'SUCCESS'
 }
 
 /**
@@ -10404,7 +10508,7 @@ export enum Shopify_UnitPriceMeasurementMeasuredType {
   /** Unit of measurements representing volumes. */
   Volume = 'VOLUME',
   /** Unit of measurements representing weights. */
-  Weight = 'WEIGHT',
+  Weight = 'WEIGHT'
 }
 
 /** The valid units of measurement for a unit price measurement. */
@@ -10430,7 +10534,7 @@ export enum Shopify_UnitPriceMeasurementMeasuredUnit {
   /** 1000 milliliters equals 1 liter. */
   Ml = 'ML',
   /** 1000 millimeters equals 1 meter. */
-  Mm = 'MM',
+  Mm = 'MM'
 }
 
 /** Systems of weights and measures. */
@@ -10438,7 +10542,7 @@ export enum Shopify_UnitSystem {
   /** Imperial system of weights and measures. */
   ImperialSystem = 'IMPERIAL_SYSTEM',
   /** Metric system of weights and measures. */
-  MetricSystem = 'METRIC_SYSTEM',
+  MetricSystem = 'METRIC_SYSTEM'
 }
 
 /** A redirect on the online store. */
@@ -10496,22 +10600,21 @@ export type Shopify_VariantOptionFilter = {
 };
 
 /** Represents a Shopify hosted video. */
-export type Shopify_Video = Shopify_Media &
-  Shopify_Node & {
-    __typename?: 'shopify_Video';
-    /** A word or phrase to share the nature or contents of a media. */
-    alt: Maybe<Scalars['String']['output']>;
-    /** A globally-unique ID. */
-    id: Scalars['ID']['output'];
-    /** The media content type. */
-    mediaContentType: Shopify_MediaContentType;
-    /** The presentation for a media. */
-    presentation: Maybe<Shopify_MediaPresentation>;
-    /** The preview image for the media. */
-    previewImage: Maybe<Shopify_Image>;
-    /** The sources for a video. */
-    sources: Array<Shopify_VideoSource>;
-  };
+export type Shopify_Video = Shopify_Media & Shopify_Node & {
+  __typename?: 'shopify_Video';
+  /** A word or phrase to share the nature or contents of a media. */
+  alt: Maybe<Scalars['String']['output']>;
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The media content type. */
+  mediaContentType: Shopify_MediaContentType;
+  /** The presentation for a media. */
+  presentation: Maybe<Shopify_MediaPresentation>;
+  /** The preview image for the media. */
+  previewImage: Maybe<Shopify_Image>;
+  /** The sources for a video. */
+  sources: Array<Shopify_VideoSource>;
+};
 
 /** Represents a source for a Shopify hosted video. */
 export type Shopify_VideoSource = {
@@ -10537,7 +10640,7 @@ export enum Shopify_WeightUnit {
   /** Imperial system unit of mass. */
   Ounces = 'OUNCES',
   /** 1 pound equals 16 ounces. */
-  Pounds = 'POUNDS',
+  Pounds = 'POUNDS'
 }
 
 export type Subscription_Root = {
@@ -10654,6 +10757,7 @@ export type Subscription_Root = {
   users_stream: Array<Users>;
 };
 
+
 export type Subscription_RootCheckoutArgs = {
   distinct_on: InputMaybe<Array<Checkout_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -10662,15 +10766,18 @@ export type Subscription_RootCheckoutArgs = {
   where: InputMaybe<Checkout_Bool_Exp>;
 };
 
+
 export type Subscription_RootCheckout_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootCheckout_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Checkout_Stream_Cursor_Input>>;
   where: InputMaybe<Checkout_Bool_Exp>;
 };
+
 
 export type Subscription_RootCollectionArgs = {
   distinct_on: InputMaybe<Array<Collection_Select_Column>>;
@@ -10680,15 +10787,18 @@ export type Subscription_RootCollectionArgs = {
   where: InputMaybe<Collection_Bool_Exp>;
 };
 
+
 export type Subscription_RootCollection_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootCollection_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Collection_Stream_Cursor_Input>>;
   where: InputMaybe<Collection_Bool_Exp>;
 };
+
 
 export type Subscription_RootCustomerArgs = {
   distinct_on: InputMaybe<Array<Customer_Select_Column>>;
@@ -10698,15 +10808,18 @@ export type Subscription_RootCustomerArgs = {
   where: InputMaybe<Customer_Bool_Exp>;
 };
 
+
 export type Subscription_RootCustomer_By_PkArgs = {
   authUserId: Scalars['uuid']['input'];
 };
+
 
 export type Subscription_RootCustomer_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Customer_Stream_Cursor_Input>>;
   where: InputMaybe<Customer_Bool_Exp>;
 };
+
 
 export type Subscription_RootNegociationAgreementArgs = {
   distinct_on: InputMaybe<Array<NegociationAgreement_Select_Column>>;
@@ -10716,15 +10829,18 @@ export type Subscription_RootNegociationAgreementArgs = {
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
 
+
 export type Subscription_RootNegociationAgreement_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootNegociationAgreement_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<NegociationAgreement_Stream_Cursor_Input>>;
   where: InputMaybe<NegociationAgreement_Bool_Exp>;
 };
+
 
 export type Subscription_RootPaymentArgs = {
   distinct_on: InputMaybe<Array<Payment_Select_Column>>;
@@ -10734,15 +10850,18 @@ export type Subscription_RootPaymentArgs = {
   where: InputMaybe<Payment_Bool_Exp>;
 };
 
+
 export type Subscription_RootPayment_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootPayment_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Payment_Stream_Cursor_Input>>;
   where: InputMaybe<Payment_Bool_Exp>;
 };
+
 
 export type Subscription_RootProductArgs = {
   distinct_on: InputMaybe<Array<Product_Select_Column>>;
@@ -10752,6 +10871,7 @@ export type Subscription_RootProductArgs = {
   where: InputMaybe<Product_Bool_Exp>;
 };
 
+
 export type Subscription_RootProductVariantArgs = {
   distinct_on: InputMaybe<Array<ProductVariant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -10760,9 +10880,11 @@ export type Subscription_RootProductVariantArgs = {
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
+
 export type Subscription_RootProductVariant_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootProductVariant_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -10770,15 +10892,18 @@ export type Subscription_RootProductVariant_StreamArgs = {
   where: InputMaybe<ProductVariant_Bool_Exp>;
 };
 
+
 export type Subscription_RootProduct_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootProduct_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Product_Stream_Cursor_Input>>;
   where: InputMaybe<Product_Bool_Exp>;
 };
+
 
 export type Subscription_RootReviewArgs = {
   distinct_on: InputMaybe<Array<Review_Select_Column>>;
@@ -10788,15 +10913,18 @@ export type Subscription_RootReviewArgs = {
   where: InputMaybe<Review_Bool_Exp>;
 };
 
+
 export type Subscription_RootReview_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootReview_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Review_Stream_Cursor_Input>>;
   where: InputMaybe<Review_Bool_Exp>;
 };
+
 
 export type Subscription_RootVendorReviewArgs = {
   distinct_on: InputMaybe<Array<VendorReview_Select_Column>>;
@@ -10806,15 +10934,18 @@ export type Subscription_RootVendorReviewArgs = {
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
 
+
 export type Subscription_RootVendorReview_By_PkArgs = {
   reviewId: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootVendorReview_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<VendorReview_Stream_Cursor_Input>>;
   where: InputMaybe<VendorReview_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_B2c_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_B2c_Product_Variant_Select_Column>>;
@@ -10824,11 +10955,13 @@ export type Subscription_RootDbt_Store_B2c_Product_VariantArgs = {
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_B2c_Product_Variant_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_B2c_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Base_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Select_Column>>;
@@ -10838,15 +10971,18 @@ export type Subscription_RootDbt_Store_Base_ProductArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Base_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootDbt_Store_Base_Product_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Base_Product_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Base_Product_VariantArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Base_Product_Variant_Select_Column>>;
@@ -10856,15 +10992,18 @@ export type Subscription_RootDbt_Store_Base_Product_VariantArgs = {
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Base_Product_Variant_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootDbt_Store_Base_Product_Variant_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Base_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Base_Product_Variant_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_DiscountArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Select_Column>>;
@@ -10874,6 +11013,7 @@ export type Subscription_RootDbt_Store_DiscountArgs = {
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Discount_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Discount_Collection_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
@@ -10882,10 +11022,12 @@ export type Subscription_RootDbt_Store_Discount_CollectionArgs = {
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Discount_Collection_By_PkArgs = {
   collection_internal_id: Scalars['String']['input'];
   discount_id: Scalars['bigint']['input'];
 };
+
 
 export type Subscription_RootDbt_Store_Discount_Collection_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -10893,11 +11035,13 @@ export type Subscription_RootDbt_Store_Discount_Collection_StreamArgs = {
   where: InputMaybe<Dbt_Store_Discount_Collection_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Discount_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Discount_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Discount_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Exposed_ProductArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Select_Column>>;
@@ -10907,9 +11051,11 @@ export type Subscription_RootDbt_Store_Exposed_ProductArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_By_PkArgs = {
   id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootDbt_Store_Exposed_Product_ImageArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Image_Select_Column>>;
@@ -10919,23 +11065,25 @@ export type Subscription_RootDbt_Store_Exposed_Product_ImageArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_Image_By_PkArgs = {
   shopify_id: Scalars['bigint']['input'];
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_Image_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<
-    InputMaybe<Dbt_Store_Exposed_Product_Image_Stream_Cursor_Input>
-  >;
+  cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Image_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Exposed_Product_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Exposed_Product_TagArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Tag_Select_Column>>;
@@ -10945,29 +11093,29 @@ export type Subscription_RootDbt_Store_Exposed_Product_TagArgs = {
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_Tag_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Tag_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_VariantArgs = {
-  distinct_on: InputMaybe<
-    Array<Dbt_Store_Exposed_Product_Variant_Select_Column>
-  >;
+  distinct_on: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Select_Column>>;
   limit: InputMaybe<Scalars['Int']['input']>;
   offset: InputMaybe<Scalars['Int']['input']>;
   order_by: InputMaybe<Array<Dbt_Store_Exposed_Product_Variant_Order_By>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Exposed_Product_Variant_StreamArgs = {
   batch_size: Scalars['Int']['input'];
-  cursor: Array<
-    InputMaybe<Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Input>
-  >;
+  cursor: Array<InputMaybe<Dbt_Store_Exposed_Product_Variant_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Exposed_Product_Variant_Bool_Exp>;
 };
+
 
 export type Subscription_RootDbt_Store_Product_CollectionArgs = {
   distinct_on: InputMaybe<Array<Dbt_Store_Product_Collection_Select_Column>>;
@@ -10977,16 +11125,19 @@ export type Subscription_RootDbt_Store_Product_CollectionArgs = {
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
 
+
 export type Subscription_RootDbt_Store_Product_Collection_By_PkArgs = {
   collection_id: Scalars['String']['input'];
   product_id: Scalars['String']['input'];
 };
+
 
 export type Subscription_RootDbt_Store_Product_Collection_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Dbt_Store_Product_Collection_Stream_Cursor_Input>>;
   where: InputMaybe<Dbt_Store_Product_Collection_Bool_Exp>;
 };
+
 
 export type Subscription_RootUsersArgs = {
   distinct_on: InputMaybe<Array<Users_Select_Column>>;
@@ -10995,6 +11146,7 @@ export type Subscription_RootUsersArgs = {
   order_by: InputMaybe<Array<Users_Order_By>>;
   where: InputMaybe<Users_Bool_Exp>;
 };
+
 
 export type Subscription_RootUsers_StreamArgs = {
   batch_size: Scalars['Int']['input'];
@@ -11059,7 +11211,7 @@ export enum Users_Select_Column {
   /** column name */
   AvatarUrl = 'avatarUrl',
   /** column name */
-  DisplayName = 'displayName',
+  DisplayName = 'displayName'
 }
 
 /** Streaming cursor of the table "users" */
@@ -11090,1697 +11242,45 @@ export type Uuid_Comparison_Exp = {
 };
 
 export type GetAvailableDiscountsQueryVariables = Exact<{
-  discountTitles: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+  discountTitles: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
-export type GetAvailableDiscountsQuery = {
-  __typename?: 'query_root';
-  dbt_store_discount: Array<{
-    __typename?: 'dbt_store_discount';
-    ends_at: any | null;
-    starts_at: any;
-    id: number;
-    value: any;
-    value_type: string;
-    code: string | null;
-    title: string;
-    min_amount: any | null;
-    collection: Array<{
-      __typename?: 'dbt_store_discount_collection';
-      collection_internal_id: string;
-    }>;
-  }>;
-};
 
-export type ProductCardFieldsFragment = {
-  __typename?: 'dbt_store_exposed_product';
-  handle: string;
-  vendor: string;
-  title: string;
-  description: string | null;
-  productType: string;
-  numberOfViews: number;
-  status: any;
-  product: {
-    __typename?: 'dbt_store_base_product';
-    id: string;
-    shopifyId: number;
-    collections: Array<{
-      __typename?: 'dbt_store_product_collection';
-      collection_id: string;
-    }>;
-    variants: Array<{
-      __typename?: 'dbt_store_base_product_variant';
-      id: string;
-      shopifyId: number;
-      exposedVariant: {
-        __typename?: 'dbt_store_exposed_product_variant';
-        inventory_quantity: number;
-        option1Name: string | null;
-        option1: string | null;
-        option2Name: string | null;
-        option2: string | null;
-        option3Name: string | null;
-        option3: string | null;
-        condition: any | null;
-        isRefurbished: boolean | null;
-      } | null;
-      b2cVariant: {
-        __typename?: 'dbt_store_b2c_product_variant';
-        price: any;
-        compare_at_price: any | null;
-      } | null;
-    }>;
-    tags: Array<{
-      __typename?: 'dbt_store_exposed_product_tag';
-      tag: string;
-      value: string;
-    }>;
-    images: Array<{
-      __typename?: 'dbt_store_exposed_product_image';
-      alt: string | null;
-      src: string;
-      height: number;
-      width: number;
-    }>;
-  } | null;
-};
+export type GetAvailableDiscountsQuery = { __typename?: 'query_root', dbt_store_discount: Array<{ __typename?: 'dbt_store_discount', ends_at: any | null, starts_at: any, id: number, value: any, value_type: string, code: string | null, title: string, min_amount: any | null, collection: Array<{ __typename?: 'dbt_store_discount_collection', collection_internal_id: string }> }> };
 
-export type VendorDetailsFragment = {
-  __typename?: 'Customer';
-  isPro: boolean;
-  sellerName: string | null;
-  shipmentTimeframe: any | null;
-  profilePictureShopifyCdnUrl: string | null;
-  createdAt: any;
-  authUserId: any;
-  VendorReviews: Array<{
-    __typename?: 'VendorReview';
-    Review: {
-      __typename?: 'Review';
-      content: string | null;
-      createdAt: any;
-      id: string;
-      rating: number;
-      title: string;
-      authorNickname: string | null;
-      Customer: {
-        __typename?: 'Customer';
-        createdAt: any;
-        sellerName: string | null;
-        profilePictureShopifyCdnUrl: string | null;
-      };
-    };
-  }>;
-  negociationAgreements: Array<{
-    __typename?: 'NegociationAgreement';
-    maxAmountPercent: number;
-  }>;
-};
+export type ProductCardFieldsFragment = { __typename?: 'dbt_store_exposed_product', handle: string, vendor: string, title: string, description: string | null, productType: string, numberOfViews: number, status: any, product: { __typename?: 'dbt_store_base_product', id: string, shopifyId: number, collections: Array<{ __typename?: 'dbt_store_product_collection', collection_id: string }>, variants: Array<{ __typename?: 'dbt_store_base_product_variant', id: string, shopifyId: number, exposedVariant: { __typename?: 'dbt_store_exposed_product_variant', inventory_quantity: number, option1Name: string | null, option1: string | null, option2Name: string | null, option2: string | null, option3Name: string | null, option3: string | null, condition: any | null, isRefurbished: boolean | null } | null, b2cVariant: { __typename?: 'dbt_store_b2c_product_variant', price: any, compare_at_price: any | null } | null }>, tags: Array<{ __typename?: 'dbt_store_exposed_product_tag', tag: string, value: string }>, images: Array<{ __typename?: 'dbt_store_exposed_product_image', alt: string | null, src: string, height: number, width: number }> } | null };
+
+export type VendorDetailsFragment = { __typename?: 'Customer', isPro: boolean, sellerName: string | null, shipmentTimeframe: any | null, profilePictureShopifyCdnUrl: string | null, createdAt: any, authUserId: any, VendorReviews: Array<{ __typename?: 'VendorReview', Review: { __typename?: 'Review', content: string | null, createdAt: any, id: string, rating: number, title: string, authorNickname: string | null, Customer: { __typename?: 'Customer', createdAt: any, sellerName: string | null, profilePictureShopifyCdnUrl: string | null } } }>, negociationAgreements: Array<{ __typename?: 'NegociationAgreement', maxAmountPercent: number }> };
 
 export type FetchProductsQueryVariables = Exact<{
-  productIds: InputMaybe<
-    Array<Scalars['bigint']['input']> | Scalars['bigint']['input']
-  >;
-  productHandles: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+  productIds: InputMaybe<Array<Scalars['bigint']['input']> | Scalars['bigint']['input']>;
+  productHandles: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
-export type FetchProductsQuery = {
-  __typename?: 'query_root';
-  Product: Array<{
-    __typename?: 'Product';
-    storeExposedProduct: {
-      __typename?: 'dbt_store_exposed_product';
-      handle: string;
-      vendor: string;
-      title: string;
-      description: string | null;
-      productType: string;
-      numberOfViews: number;
-      status: any;
-      product: {
-        __typename?: 'dbt_store_base_product';
-        id: string;
-        shopifyId: number;
-        collections: Array<{
-          __typename?: 'dbt_store_product_collection';
-          collection_id: string;
-        }>;
-        variants: Array<{
-          __typename?: 'dbt_store_base_product_variant';
-          id: string;
-          shopifyId: number;
-          exposedVariant: {
-            __typename?: 'dbt_store_exposed_product_variant';
-            inventory_quantity: number;
-            option1Name: string | null;
-            option1: string | null;
-            option2Name: string | null;
-            option2: string | null;
-            option3Name: string | null;
-            option3: string | null;
-            condition: any | null;
-            isRefurbished: boolean | null;
-          } | null;
-          b2cVariant: {
-            __typename?: 'dbt_store_b2c_product_variant';
-            price: any;
-            compare_at_price: any | null;
-          } | null;
-        }>;
-        tags: Array<{
-          __typename?: 'dbt_store_exposed_product_tag';
-          tag: string;
-          value: string;
-        }>;
-        images: Array<{
-          __typename?: 'dbt_store_exposed_product_image';
-          alt: string | null;
-          src: string;
-          height: number;
-          width: number;
-        }>;
-      } | null;
-    } | null;
-    Vendor: {
-      __typename?: 'Customer';
-      isPro: boolean;
-      sellerName: string | null;
-      shipmentTimeframe: any | null;
-      profilePictureShopifyCdnUrl: string | null;
-      createdAt: any;
-      authUserId: any;
-      VendorReviews: Array<{
-        __typename?: 'VendorReview';
-        Review: {
-          __typename?: 'Review';
-          content: string | null;
-          createdAt: any;
-          id: string;
-          rating: number;
-          title: string;
-          authorNickname: string | null;
-          Customer: {
-            __typename?: 'Customer';
-            createdAt: any;
-            sellerName: string | null;
-            profilePictureShopifyCdnUrl: string | null;
-          };
-        };
-      }>;
-      negociationAgreements: Array<{
-        __typename?: 'NegociationAgreement';
-        maxAmountPercent: number;
-      }>;
-    };
-  }>;
-};
 
-export type ReviewsFieldsFragment = {
-  __typename?: 'VendorReview';
-  Review: {
-    __typename?: 'Review';
-    content: string | null;
-    createdAt: any;
-    id: string;
-    rating: number;
-    title: string;
-    authorNickname: string | null;
-    Customer: {
-      __typename?: 'Customer';
-      createdAt: any;
-      sellerName: string | null;
-      profilePictureShopifyCdnUrl: string | null;
-    };
-  };
-};
+export type FetchProductsQuery = { __typename?: 'query_root', Product: Array<{ __typename?: 'Product', storeExposedProduct: { __typename?: 'dbt_store_exposed_product', handle: string, vendor: string, title: string, description: string | null, productType: string, numberOfViews: number, status: any, product: { __typename?: 'dbt_store_base_product', id: string, shopifyId: number, collections: Array<{ __typename?: 'dbt_store_product_collection', collection_id: string }>, variants: Array<{ __typename?: 'dbt_store_base_product_variant', id: string, shopifyId: number, exposedVariant: { __typename?: 'dbt_store_exposed_product_variant', inventory_quantity: number, option1Name: string | null, option1: string | null, option2Name: string | null, option2: string | null, option3Name: string | null, option3: string | null, condition: any | null, isRefurbished: boolean | null } | null, b2cVariant: { __typename?: 'dbt_store_b2c_product_variant', price: any, compare_at_price: any | null } | null }>, tags: Array<{ __typename?: 'dbt_store_exposed_product_tag', tag: string, value: string }>, images: Array<{ __typename?: 'dbt_store_exposed_product_image', alt: string | null, src: string, height: number, width: number }> } | null } | null, Vendor: { __typename?: 'Customer', isPro: boolean, sellerName: string | null, shipmentTimeframe: any | null, profilePictureShopifyCdnUrl: string | null, createdAt: any, authUserId: any, VendorReviews: Array<{ __typename?: 'VendorReview', Review: { __typename?: 'Review', content: string | null, createdAt: any, id: string, rating: number, title: string, authorNickname: string | null, Customer: { __typename?: 'Customer', createdAt: any, sellerName: string | null, profilePictureShopifyCdnUrl: string | null } } }>, negociationAgreements: Array<{ __typename?: 'NegociationAgreement', maxAmountPercent: number }> } }> };
+
+export type ReviewsFieldsFragment = { __typename?: 'VendorReview', Review: { __typename?: 'Review', content: string | null, createdAt: any, id: string, rating: number, title: string, authorNickname: string | null, Customer: { __typename?: 'Customer', createdAt: any, sellerName: string | null, profilePictureShopifyCdnUrl: string | null } } };
 
 export type FetchCollectionPageDataQueryVariables = Exact<{
   collectionHandle: Scalars['String']['input'];
   vendorSellerName: Scalars['String']['input'];
 }>;
 
-export type FetchCollectionPageDataQuery = {
-  __typename?: 'query_root';
-  Collection: Array<{
-    __typename?: 'Collection';
-    shopifyId: string;
-    handle: string;
-    type: any | null;
-    description: string | null;
-    title: string | null;
-    featuredImageSrc: string | null;
-    seoTitle: string | null;
-    seoDescription: string | null;
-    parentCollection: {
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      shopifyId: string;
-      title: string | null;
-      childCollections: Array<{
-        __typename?: 'Collection';
-        handle: string;
-        shortName: string | null;
-        shopifyId: string;
-        title: string | null;
-      }>;
-      parentCollection: {
-        __typename?: 'Collection';
-        shortName: string | null;
-        handle: string;
-        shopifyId: string;
-        title: string | null;
-        parentCollection: {
-          __typename?: 'Collection';
-          shortName: string | null;
-          handle: string;
-          shopifyId: string;
-          title: string | null;
-        } | null;
-      } | null;
-    } | null;
-    childCollections: Array<{
-      __typename?: 'Collection';
-      shortName: string | null;
-      handle: string;
-      title: string | null;
-      featuredImageSrc: string | null;
-    }>;
-  }>;
-  vendorData: Array<{
-    __typename?: 'Customer';
-    sellerName: string | null;
-    coverPictureShopifyCdnUrl: string | null;
-    description: string | null;
-    profilePictureShopifyCdnUrl: string | null;
-    VendorReviews: Array<{
-      __typename?: 'VendorReview';
-      Review: {
-        __typename?: 'Review';
-        content: string | null;
-        createdAt: any;
-        id: string;
-        rating: number;
-        title: string;
-        authorNickname: string | null;
-        Customer: {
-          __typename?: 'Customer';
-          createdAt: any;
-          sellerName: string | null;
-          profilePictureShopifyCdnUrl: string | null;
-        };
-      };
-    }>;
-  }>;
-};
+
+export type FetchCollectionPageDataQuery = { __typename?: 'query_root', Collection: Array<{ __typename?: 'Collection', shopifyId: string, handle: string, type: any | null, description: string | null, title: string | null, featuredImageSrc: string | null, seoTitle: string | null, seoDescription: string | null, parentCollection: { __typename?: 'Collection', shortName: string | null, handle: string, shopifyId: string, title: string | null, childCollections: Array<{ __typename?: 'Collection', handle: string, shortName: string | null, shopifyId: string, title: string | null }>, parentCollection: { __typename?: 'Collection', shortName: string | null, handle: string, shopifyId: string, title: string | null, parentCollection: { __typename?: 'Collection', shortName: string | null, handle: string, shopifyId: string, title: string | null } | null } | null } | null, childCollections: Array<{ __typename?: 'Collection', shortName: string | null, handle: string, title: string | null, featuredImageSrc: string | null }> }>, vendorData: Array<{ __typename?: 'Customer', sellerName: string | null, coverPictureShopifyCdnUrl: string | null, description: string | null, profilePictureShopifyCdnUrl: string | null, VendorReviews: Array<{ __typename?: 'VendorReview', Review: { __typename?: 'Review', content: string | null, createdAt: any, id: string, rating: number, title: string, authorNickname: string | null, Customer: { __typename?: 'Customer', createdAt: any, sellerName: string | null, profilePictureShopifyCdnUrl: string | null } } }> }> };
 
 export type FetchProductMetadataQueryVariables = Exact<{
   productHandle: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type FetchProductMetadataQuery = {
-  __typename?: 'query_root';
-  shopify: {
-    __typename?: 'shopifyQueryRoot';
-    product: {
-      __typename?: 'shopify_Product';
-      productType: string;
-      featuredImage: {
-        __typename?: 'shopify_Image';
-        src: any;
-        width: number | null;
-        height: number | null;
-      } | null;
-      seo: {
-        __typename?: 'shopify_SEO';
-        description: string | null;
-        title: string | null;
-      };
-    } | null;
-  } | null;
-};
 
-export const ProductCardFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ProductCardFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'dbt_store_exposed_product' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'product' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'collections' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'collection_id' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'shopifyId' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'variants' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'limit' },
-                      value: { kind: 'IntValue', value: '30' },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'shopifyId' },
-                        name: { kind: 'Name', value: 'shopify_id' },
-                      },
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'exposedVariant' },
-                        name: { kind: 'Name', value: 'variant' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'inventory_quantity',
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option1Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option1' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option2Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option2' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option3Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option3' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'condition' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'isRefurbished' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'b2cVariant' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'price' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'compare_at_price' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'tags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'images' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'limit' },
-                      value: { kind: 'IntValue', value: '30' },
-                    },
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'order_by' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'position' },
-                            value: { kind: 'EnumValue', value: 'asc' },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'src' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'height' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'productType' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'numberOfViews' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ProductCardFieldsFragment, unknown>;
-export const ReviewsFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReviewsFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'VendorReview' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Review' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authorNickname' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Customer' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sellerName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'profilePictureShopifyCdnUrl',
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<ReviewsFieldsFragment, unknown>;
-export const VendorDetailsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'VendorDetails' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Customer' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'isPro' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'sellerName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shipmentTimeframe' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profilePictureShopifyCdnUrl' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authUserId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'VendorReviews' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ReviewsFields' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'negociationAgreements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'maxAmountPercent' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReviewsFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'VendorReview' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Review' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authorNickname' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Customer' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sellerName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'profilePictureShopifyCdnUrl',
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<VendorDetailsFragment, unknown>;
-export const GetAvailableDiscountsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'getAvailableDiscounts' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'discountTitles' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'String' },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'dbt_store_discount' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'title' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_in' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'discountTitles' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'collection' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'collection_internal_id' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'ends_at' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'starts_at' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'value_type' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'min_amount' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetAvailableDiscountsQuery,
-  GetAvailableDiscountsQueryVariables
->;
-export const FetchProductsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'fetchProducts' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'productIds' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'bigint' },
-              },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'productHandles' },
-          },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: {
-                kind: 'NamedType',
-                name: { kind: 'Name', value: 'String' },
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Product' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: '_or' },
-                      value: {
-                        kind: 'ListValue',
-                        values: [
-                          {
-                            kind: 'ObjectValue',
-                            fields: [
-                              {
-                                kind: 'ObjectField',
-                                name: { kind: 'Name', value: 'shopifyId' },
-                                value: {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: '_in' },
-                                      value: {
-                                        kind: 'Variable',
-                                        name: {
-                                          kind: 'Name',
-                                          value: 'productIds',
-                                        },
-                                      },
-                                    },
-                                  ],
-                                },
-                              },
-                            ],
-                          },
-                          {
-                            kind: 'ObjectValue',
-                            fields: [
-                              {
-                                kind: 'ObjectField',
-                                name: { kind: 'Name', value: 'handle' },
-                                value: {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: '_in' },
-                                      value: {
-                                        kind: 'Variable',
-                                        name: {
-                                          kind: 'Name',
-                                          value: 'productHandles',
-                                        },
-                                      },
-                                    },
-                                  ],
-                                },
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'storeExposedProduct' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'ProductCardFields' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Vendor' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'VendorDetails' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReviewsFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'VendorReview' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Review' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authorNickname' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Customer' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sellerName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'profilePictureShopifyCdnUrl',
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ProductCardFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'dbt_store_exposed_product' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'product' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'collections' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'collection_id' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'shopifyId' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'variants' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'limit' },
-                      value: { kind: 'IntValue', value: '30' },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'shopifyId' },
-                        name: { kind: 'Name', value: 'shopify_id' },
-                      },
-                      {
-                        kind: 'Field',
-                        alias: { kind: 'Name', value: 'exposedVariant' },
-                        name: { kind: 'Name', value: 'variant' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'inventory_quantity',
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option1Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option1' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option2Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option2' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option3Name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'option3' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'condition' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'isRefurbished' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'b2cVariant' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'price' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'compare_at_price' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'tags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'images' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'limit' },
-                      value: { kind: 'IntValue', value: '30' },
-                    },
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'order_by' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'position' },
-                            value: { kind: 'EnumValue', value: 'asc' },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'alt' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'src' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'height' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'productType' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'numberOfViews' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'VendorDetails' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Customer' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'isPro' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'sellerName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'shipmentTimeframe' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profilePictureShopifyCdnUrl' },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'authUserId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'VendorReviews' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'ReviewsFields' },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'negociationAgreements' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'maxAmountPercent' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<FetchProductsQuery, FetchProductsQueryVariables>;
-export const FetchCollectionPageDataDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'fetchCollectionPageData' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'collectionHandle' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'vendorSellerName' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Collection' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'handle' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: '_eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'collectionHandle' },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'shopifyId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'featuredImageSrc' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'seoTitle' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'seoDescription' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'parentCollection' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'shortName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'handle' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'shopifyId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'childCollections' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'handle' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'shortName' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'shopifyId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'parentCollection' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'shortName' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'handle' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'shopifyId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'parentCollection' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'shortName' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'handle' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'shopifyId' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'title' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'childCollections' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'shortName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'handle' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'featuredImageSrc' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            alias: { kind: 'Name', value: 'vendorData' },
-            name: { kind: 'Name', value: 'Customer' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'where' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: '_and' },
-                      value: {
-                        kind: 'ListValue',
-                        values: [
-                          {
-                            kind: 'ObjectValue',
-                            fields: [
-                              {
-                                kind: 'ObjectField',
-                                name: { kind: 'Name', value: 'sellerName' },
-                                value: {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: '_eq' },
-                                      value: {
-                                        kind: 'Variable',
-                                        name: {
-                                          kind: 'Name',
-                                          value: 'vendorSellerName',
-                                        },
-                                      },
-                                    },
-                                  ],
-                                },
-                              },
-                            ],
-                          },
-                          {
-                            kind: 'ObjectValue',
-                            fields: [
-                              {
-                                kind: 'ObjectField',
-                                name: { kind: 'Name', value: 'sellerName' },
-                                value: {
-                                  kind: 'ObjectValue',
-                                  fields: [
-                                    {
-                                      kind: 'ObjectField',
-                                      name: { kind: 'Name', value: '_neq' },
-                                      value: {
-                                        kind: 'StringValue',
-                                        value: '',
-                                        block: false,
-                                      },
-                                    },
-                                  ],
-                                },
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'sellerName' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'coverPictureShopifyCdnUrl' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'profilePictureShopifyCdnUrl' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'VendorReviews' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'ReviewsFields' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReviewsFields' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'VendorReview' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'Review' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authorNickname' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'Customer' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sellerName' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: {
-                          kind: 'Name',
-                          value: 'profilePictureShopifyCdnUrl',
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  FetchCollectionPageDataQuery,
-  FetchCollectionPageDataQueryVariables
->;
-export const FetchProductMetadataDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'fetchProductMetadata' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'productHandle' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'shopify' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'product' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'handle' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'productHandle' },
-                      },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'productType' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'featuredImage' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'src' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'width' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'height' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'seo' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'description' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  FetchProductMetadataQuery,
-  FetchProductMetadataQueryVariables
->;
+export type FetchProductMetadataQuery = { __typename?: 'query_root', shopify: { __typename?: 'shopifyQueryRoot', product: { __typename?: 'shopify_Product', productType: string, featuredImage: { __typename?: 'shopify_Image', src: any, width: number | null, height: number | null } | null, seo: { __typename?: 'shopify_SEO', description: string | null, title: string | null } } | null } | null };
+
+export const ProductCardFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductCardFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"dbt_store_exposed_product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"collection_id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"variants"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"30"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"shopifyId"},"name":{"kind":"Name","value":"shopify_id"}},{"kind":"Field","alias":{"kind":"Name","value":"exposedVariant"},"name":{"kind":"Name","value":"variant"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inventory_quantity"}},{"kind":"Field","name":{"kind":"Name","value":"option1Name"}},{"kind":"Field","name":{"kind":"Name","value":"option1"}},{"kind":"Field","name":{"kind":"Name","value":"option2Name"}},{"kind":"Field","name":{"kind":"Name","value":"option2"}},{"kind":"Field","name":{"kind":"Name","value":"option3Name"}},{"kind":"Field","name":{"kind":"Name","value":"option3"}},{"kind":"Field","name":{"kind":"Name","value":"condition"}},{"kind":"Field","name":{"kind":"Name","value":"isRefurbished"}}]}},{"kind":"Field","name":{"kind":"Name","value":"b2cVariant"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"compare_at_price"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"images"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"30"}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"position"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"vendor"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"productType"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfViews"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]} as unknown as DocumentNode<ProductCardFieldsFragment, unknown>;
+export const ReviewsFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReviewsFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VendorReview"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Review"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"authorNickname"}},{"kind":"Field","name":{"kind":"Name","value":"Customer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}}]}}]}}]}}]} as unknown as DocumentNode<ReviewsFieldsFragment, unknown>;
+export const VendorDetailsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"VendorDetails"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Customer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isPro"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"shipmentTimeframe"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"authUserId"}},{"kind":"Field","name":{"kind":"Name","value":"VendorReviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReviewsFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"negociationAgreements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"maxAmountPercent"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReviewsFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VendorReview"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Review"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"authorNickname"}},{"kind":"Field","name":{"kind":"Name","value":"Customer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}}]}}]}}]}}]} as unknown as DocumentNode<VendorDetailsFragment, unknown>;
+export const GetAvailableDiscountsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAvailableDiscounts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"discountTitles"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"dbt_store_discount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"title"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"discountTitles"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"collection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"collection_internal_id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"ends_at"}},{"kind":"Field","name":{"kind":"Name","value":"starts_at"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"value_type"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"min_amount"}}]}}]}}]} as unknown as DocumentNode<GetAvailableDiscountsQuery, GetAvailableDiscountsQueryVariables>;
+export const FetchProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProducts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"bigint"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productHandles"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_or"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shopifyId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productIds"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productHandles"}}}]}}]}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"storeExposedProduct"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ProductCardFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"Vendor"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"VendorDetails"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReviewsFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VendorReview"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Review"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"authorNickname"}},{"kind":"Field","name":{"kind":"Name","value":"Customer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ProductCardFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"dbt_store_exposed_product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"collections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"collection_id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"variants"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"30"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","alias":{"kind":"Name","value":"shopifyId"},"name":{"kind":"Name","value":"shopify_id"}},{"kind":"Field","alias":{"kind":"Name","value":"exposedVariant"},"name":{"kind":"Name","value":"variant"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"inventory_quantity"}},{"kind":"Field","name":{"kind":"Name","value":"option1Name"}},{"kind":"Field","name":{"kind":"Name","value":"option1"}},{"kind":"Field","name":{"kind":"Name","value":"option2Name"}},{"kind":"Field","name":{"kind":"Name","value":"option2"}},{"kind":"Field","name":{"kind":"Name","value":"option3Name"}},{"kind":"Field","name":{"kind":"Name","value":"option3"}},{"kind":"Field","name":{"kind":"Name","value":"condition"}},{"kind":"Field","name":{"kind":"Name","value":"isRefurbished"}}]}},{"kind":"Field","name":{"kind":"Name","value":"b2cVariant"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"compare_at_price"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"images"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"30"}},{"kind":"Argument","name":{"kind":"Name","value":"order_by"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"position"},"value":{"kind":"EnumValue","value":"asc"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"vendor"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"productType"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfViews"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"VendorDetails"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Customer"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isPro"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"shipmentTimeframe"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"authUserId"}},{"kind":"Field","name":{"kind":"Name","value":"VendorReviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReviewsFields"}}]}},{"kind":"Field","name":{"kind":"Name","value":"negociationAgreements"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"maxAmountPercent"}}]}}]}}]} as unknown as DocumentNode<FetchProductsQuery, FetchProductsQueryVariables>;
+export const FetchCollectionPageDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchCollectionPageData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"collectionHandle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"vendorSellerName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Collection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"handle"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"collectionHandle"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImageSrc"}},{"kind":"Field","name":{"kind":"Name","value":"seoTitle"}},{"kind":"Field","name":{"kind":"Name","value":"seoDescription"}},{"kind":"Field","name":{"kind":"Name","value":"parentCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shortName"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"childCollections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"shortName"}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"Field","name":{"kind":"Name","value":"parentCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shortName"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"parentCollection"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shortName"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"shopifyId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"childCollections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shortName"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImageSrc"}}]}}]}},{"kind":"Field","alias":{"kind":"Name","value":"vendorData"},"name":{"kind":"Name","value":"Customer"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_and"},"value":{"kind":"ListValue","values":[{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"sellerName"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"vendorSellerName"}}}]}}]},{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"sellerName"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_neq"},"value":{"kind":"StringValue","value":"","block":false}}]}}]}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"coverPictureShopifyCdnUrl"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}},{"kind":"Field","name":{"kind":"Name","value":"VendorReviews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReviewsFields"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReviewsFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"VendorReview"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Review"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"rating"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"authorNickname"}},{"kind":"Field","name":{"kind":"Name","value":"Customer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sellerName"}},{"kind":"Field","name":{"kind":"Name","value":"profilePictureShopifyCdnUrl"}}]}}]}}]}}]} as unknown as DocumentNode<FetchCollectionPageDataQuery, FetchCollectionPageDataQueryVariables>;
+export const FetchProductMetadataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProductMetadata"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productHandle"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shopify"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"handle"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productHandle"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productType"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}}]}},{"kind":"Field","name":{"kind":"Name","value":"seo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]}}]} as unknown as DocumentNode<FetchProductMetadataQuery, FetchProductMetadataQueryVariables>;
