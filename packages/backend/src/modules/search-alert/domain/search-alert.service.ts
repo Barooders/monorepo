@@ -102,7 +102,7 @@ export class SearchAlertService {
       ...savedSearch
     } = updates;
 
-    if (shouldTriggerAlerts) {
+    if (shouldTriggerAlerts !== undefined) {
       await this.prisma.searchAlert.upsert({
         where: { searchId },
         create: {
