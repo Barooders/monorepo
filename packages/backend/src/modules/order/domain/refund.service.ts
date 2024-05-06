@@ -281,7 +281,7 @@ export class RefundService {
       author,
       new Date(),
       orderCancelledData.order.status !== OrderStatus.CREATED
-        ? async () => this.refundOrder(orderCancelledData)
+        ? async () => await this.refundOrder(orderCancelledData)
         : undefined,
     );
   }

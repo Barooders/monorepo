@@ -57,6 +57,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/return-await
       return await fn.apply(this, args);
     } catch (e: any) {
       if (--maxAttempts < 0) {
@@ -83,7 +84,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
       }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return retryAsync.apply(this, [fn, args, maxAttempts, backOff]);
+      return await retryAsync.apply(this, [fn, args, maxAttempts, backOff]);
     }
   }
 

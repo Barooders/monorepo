@@ -102,11 +102,11 @@ export class ProductUpdateService {
     productId: string,
     image: ImageToUpload,
   ): Promise<ProductImage> {
-    return this.storeClient.addProductImage(productId, image);
+    return await this.storeClient.addProductImage(productId, image);
   }
 
   async deleteProductImage(productId: string, imageId: string): Promise<void> {
-    return this.storeClient.deleteProductImage(productId, imageId);
+    return await this.storeClient.deleteProductImage(productId, imageId);
   }
 
   async updateProductByUser(

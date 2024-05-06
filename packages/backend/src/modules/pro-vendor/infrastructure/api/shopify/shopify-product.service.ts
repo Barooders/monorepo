@@ -55,7 +55,7 @@ export class ShopifyProductService implements ProVendorStrategy {
   ) {}
 
   async getProductsToUpdate(): Promise<SyncedVendorProProduct[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<IProduct[]> {
@@ -68,19 +68,19 @@ export class ShopifyProductService implements ProVendorStrategy {
   }
 
   async getProductById(id: string): Promise<IProduct | null> {
-    return this.shopifyClient.getProduct(Number(id));
+    return await this.shopifyClient.getProduct(Number(id));
   }
 
   async mapProduct(product: any): Promise<SyncProduct | null> {
-    return this.getMapper().mapper(product);
+    return await this.getMapper().mapper(product);
   }
 
   async mapLightProduct(product: any): Promise<SyncLightProduct> {
-    return this.getMapper().mapperLight(product);
+    return await this.getMapper().mapperLight(product);
   }
 
   async isUp(): Promise<boolean> {
-    return this.shopifyClient.isUp();
+    return await this.shopifyClient.isUp();
   }
 
   async updateProductStocks(

@@ -264,14 +264,14 @@ export class FloaPaymentProvider implements IPaymentProvider {
   }
 
   private async fetchPaymentApi<T>(path: string, config: RequestInit) {
-    return this.fetchFloa<T>(
+    return await this.fetchFloa<T>(
       `${this.getFloaConfig().paymentBaseUrl}${path}`,
       config,
     );
   }
 
   private async fetchEligibilityApi<T>(path: string, config: RequestInit) {
-    return this.fetchFloa<T>(
+    return await this.fetchFloa<T>(
       `${this.getFloaConfig().eligibilityBaseUrl}${path}`,
       config,
     );
@@ -280,7 +280,7 @@ export class FloaPaymentProvider implements IPaymentProvider {
   private async fetchFloa<ResponseType>(url: string, config: RequestInit) {
     const token = await this.getUpToDateToken();
 
-    return this.fetchUrl<ResponseType>(url, {
+    return await this.fetchUrl<ResponseType>(url, {
       ...config,
       headers: {
         'Content-type': 'application/json',

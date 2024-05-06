@@ -16,6 +16,6 @@ export class DefaultPrestashopClient {
     if (vendorAPIKey) url.searchParams.append('ws_key', vendorAPIKey);
     url.searchParams.append('output_format', 'JSON');
 
-    return fetch(url, options);
+    return await fetch(url, options);
   }
 }

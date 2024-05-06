@@ -55,7 +55,7 @@ export class WooCommerceClient {
       );
     }
 
-    return response.json();
+    return await response.json();
   }
 
   async getProduct(productId: number): Promise<WooCommerceProduct | null> {

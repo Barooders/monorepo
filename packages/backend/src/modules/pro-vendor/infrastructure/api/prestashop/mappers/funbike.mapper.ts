@@ -19,7 +19,7 @@ export class FunbikeMapper extends PrestashopDefaultMapper {
       return null;
     }
 
-    return super.map(product);
+    return await super.map(product);
   }
 
   getProductCondition(product: ProductDTO, _tags: string[]): Condition {

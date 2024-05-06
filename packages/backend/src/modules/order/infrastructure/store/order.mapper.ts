@@ -429,7 +429,7 @@ export class OrderMapper {
         .flatMap((v) => (v ? [v] : [])),
     );
 
-    return getOrderShippingSolution(
+    return await getOrderShippingSolution(
       isHandDelivery,
       hasBikesInOrder,
       vendorUsedShipping,

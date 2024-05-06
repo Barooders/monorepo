@@ -96,7 +96,7 @@ export class ShopifyClient {
   }
 
   async getProductMetafields(productId: number): Promise<Shopify.IMetafield[]> {
-    return this.getOrCreateShopifyApiNode().metafield.list({
+    return await this.getOrCreateShopifyApiNode().metafield.list({
       metafield: { owner_resource: 'product', owner_id: productId },
       limit: 250,
     });
@@ -169,7 +169,9 @@ export class ShopifyClient {
   async getOrderFulfillments(
     orderShopifyId: number,
   ): Promise<Shopify.IFulfillment[]> {
-    return this.getOrCreateShopifyApiNode().fulfillment.list(orderShopifyId);
+    return await this.getOrCreateShopifyApiNode().fulfillment.list(
+      orderShopifyId,
+    );
   }
 
   async isUp(): Promise<boolean> {

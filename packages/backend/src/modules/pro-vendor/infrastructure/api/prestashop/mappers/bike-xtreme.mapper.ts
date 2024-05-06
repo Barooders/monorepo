@@ -11,7 +11,7 @@ export class BikeXtremeMapper extends PrestashopDefaultMapper {
   ): Promise<string[]> {
     const brand = head(productTitle.split(' '));
 
-    return super.generateSingleTag(
+    return await super.generateSingleTag(
       'brand',
       brand ?? 'first-word-not-found-in-title',
       mappingMetadata,

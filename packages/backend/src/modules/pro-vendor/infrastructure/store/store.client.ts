@@ -196,7 +196,7 @@ export class StoreClient implements IStoreClient {
   }
 
   async getProductMetafields(productId: number): Promise<Shopify.IMetafield[]> {
-    return this.getOrCreateShopifyApiByToken().metafield.list({
+    return await this.getOrCreateShopifyApiByToken().metafield.list({
       metafield: { owner_resource: 'product', owner_id: productId },
       limit: 250,
     });
@@ -206,9 +206,12 @@ export class StoreClient implements IStoreClient {
     metafieldId: number,
     metafieldValue: Shopify.IMetafield['value'],
   ): Promise<Shopify.IMetafield> {
-    return this.getOrCreateShopifyApiByToken().metafield.update(metafieldId, {
-      value: metafieldValue,
-    });
+    return await this.getOrCreateShopifyApiByToken().metafield.update(
+      metafieldId,
+      {
+        value: metafieldValue,
+      },
+    );
   }
 
   private async getInternalVariant(variantShopifyId: number) {

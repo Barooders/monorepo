@@ -8,7 +8,7 @@ export class RateLimitedPrestashopClient extends DefaultPrestashopClient {
     path: string,
     options: RequestInit,
   ): Promise<Response> {
-    return this.getOrCreateRateLimiter().run(() =>
+    return await this.getOrCreateRateLimiter().run(() =>
       super.fetchPrestashop(path, options),
     );
   }

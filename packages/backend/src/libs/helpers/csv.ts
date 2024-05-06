@@ -14,7 +14,7 @@ export const extractRowsFromCSVFile = async (
   },
   delimiter = ',',
 ): Promise<string[][]> => {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     const data: any[] = [];
     fs.createReadStream(`${dataFolder}/${filename}`)
       .pipe(
@@ -48,7 +48,7 @@ export const extractRowsFromCSVRawText = async (
   },
   delimiter = ',',
 ): Promise<string[][]> => {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     const data: any[] = [];
     parse(rawText, {
       delimiter,

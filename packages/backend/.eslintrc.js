@@ -40,6 +40,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-floating-promises': 'warn',
+    'no-return-await': 'off', // This rule is deprecated in favor of @typescript-eslint/return-await
+    '@typescript-eslint/return-await': ['error', 'always'], // Enforces consistent usage of return await: https://github.com/eslint/eslint/issues/17345
     'no-console': 'error',
     'array-callback-return': 'error',
     'filenames-simple/naming-convention': ['error', { rule: 'kebab-case' }],

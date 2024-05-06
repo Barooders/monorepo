@@ -191,7 +191,7 @@ export class PrestashopDefaultMapper {
     tagValue: string,
     mappingMetadata: FirstProductMapped,
   ): Promise<string[]> {
-    return this.tagService.getOrCreateTag(
+    return await this.tagService.getOrCreateTag(
       'Brand',
       tagValue,
       tagKey,
@@ -305,7 +305,11 @@ export class PrestashopDefaultMapper {
       );
     }
 
-    return this.createCategory(categoriesSorted, categoryKey, mappingMetadata);
+    return await this.createCategory(
+      categoriesSorted,
+      categoryKey,
+      mappingMetadata,
+    );
   }
 
   getCategoryKey(categoriesSorted: string[], _productTitle: string) {
