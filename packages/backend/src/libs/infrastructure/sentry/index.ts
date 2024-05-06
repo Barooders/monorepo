@@ -1,5 +1,4 @@
-import { envName } from '@config/env/env-name.config';
-import { Environments } from '@config/env/types';
+import envConfig from '@config/env/env.config';
 import * as Sentry from '@sentry/node';
 import { ProfilingIntegration } from '@sentry/profiling-node';
 
@@ -20,18 +19,6 @@ const dsnByContext = {
   [SentryContext.JOB]: PRO_VENDOR_DSN,
 };
 
-Sentry.init({
-  dsn: 'https://d88096b57e024b4a88cdb03fc02e9170@o4504632476172288.ingest.sentry.io/4504831929221120',
-  tracesSampleRate: 1.0,
-  profilesSampleRate: 1.0,
-  integrations: [
-    new ProfilingIntegration(),
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-  ],
-  environment: envName,
-});
-
 export const initSentry = (context: SentryContext) => {
   Sentry.init({
     dsn: dsnByContext[context],
@@ -51,7 +38,7 @@ export const initSentry = (context: SentryContext) => {
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),
     ],
-    environment: envName,
-    enabled: envName !== Environments.LOCAL,
+    environment: envConfig.envName,
+    enabled: envConfig.isSentryEnabled,
   });
 };
