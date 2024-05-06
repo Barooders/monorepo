@@ -1197,6 +1197,7 @@ const fr = {
       title: 'Vos résultats',
       saveFilters: {
         buttonLabel: 'Sauvegarder',
+        defaultSavedSearchName: 'Filtres par défaut',
         description:
           'Afin de garantir une sélection personnalisée, enregistrez vos critères de sélection pour votre prochaine visite.',
         selectedFilters: 'Filtres Sélectionnés',

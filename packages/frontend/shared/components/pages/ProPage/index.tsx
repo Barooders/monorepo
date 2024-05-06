@@ -14,6 +14,7 @@ import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
+import { getDictionary } from '@/i18n/translate';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
@@ -22,8 +23,8 @@ import B2BSearchResults from './_components/B2BSearchResults';
 
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
-const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
-  query FetchB2BSavedSearch($resultsUrl: String) {
+const FETCH_B2B_SAVED_SEARCH_BY_URL = /* GraphQL */ /* typed_for_registered_user */ `
+  query FetchB2BSavedSearchByUrl($resultsUrl: String) {
     SavedSearch(
       limit: 1
       order_by: { createdAt: desc }
@@ -50,6 +51,33 @@ const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
   }
 `;
 
+const FETCH_B2B_SAVED_SEARCH_BY_NAME = /* GraphQL */ /* typed_for_registered_user */ `
+  query FetchB2BSavedSearchByName($searchName: String) {
+    SavedSearch(
+      limit: 1
+      order_by: { createdAt: desc }
+      where: { type: { _eq: "B2B_MAIN_PAGE" }, name: { _eq: $searchName } }
+    ) {
+      id
+      FacetFilters {
+        value
+        facetName
+      }
+      NumericFilters {
+        facetName
+        operator
+        value
+      }
+      query
+      SearchAlert {
+        isActive
+      }
+    }
+  }
+`;
+
+const dict = getDictionary('fr');
+
 type PropsType = {
   productInternalId: string | null;
   searchName?: string;
@@ -63,7 +91,12 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
   );
 
   const fetchB2BSavedSearch = useHasura(
-    graphql(FETCH_B2B_SAVED_SEARCH),
+    graphql(FETCH_B2B_SAVED_SEARCH_BY_URL),
+    HASURA_ROLES.REGISTERED_USER,
+  );
+
+  const fetchB2BSavedSearchByName = useHasura(
+    graphql(FETCH_B2B_SAVED_SEARCH_BY_NAME),
     HASURA_ROLES.REGISTERED_USER,
   );
 
@@ -75,12 +108,17 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
 
   useEffect(() => {
     (async () => {
-      if (!searchName) return;
-
-      const { SavedSearch } = await fetchB2BSavedSearch({
-        resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
-      });
-      setSavedSearch(SavedSearch[0]);
+      if (!searchName) {
+        const { SavedSearch } = await fetchB2BSavedSearchByName({
+          searchName: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
+        });
+        setSavedSearch(SavedSearch[0]);
+      } else {
+        const { SavedSearch } = await fetchB2BSavedSearch({
+          resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
+        });
+        setSavedSearch(SavedSearch[0]);
+      }
     })();
   }, [searchName]);
 

@@ -37,7 +37,7 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
   const onSubmit = async () => {
     // TODO: handle update
     await storeSavedSearch({
-      name: 'Filtres par défaut',
+      name: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
       type: 'B2B_MAIN_PAGE',
       resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
       query,
