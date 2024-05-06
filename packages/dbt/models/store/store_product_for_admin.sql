@@ -5,8 +5,8 @@
 ) }}
 
 SELECT
-    sbp.id AS id,
-    bp."sourceUrl" AS "source_url"
+  sbp.id,
+  bp."sourceUrl" AS "source_url"
 
-FROM {{ref('store_base_product')}} sbp
-LEFT JOIN public."Product" bp ON sbp.id = bp.id
+FROM {{ ref('store_base_product') }} AS sbp
+LEFT JOIN public."Product" AS bp ON sbp.id = bp.id

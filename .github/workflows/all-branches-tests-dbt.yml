@@ -1,0 +1,36 @@
+name: Static analysis & Tests for DBT
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - packages/dbt/**
+
+defaults:
+  run:
+    working-directory: ./packages/dbt
+
+env:
+  TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+  STAGING_DATABASE_HOSTNAME: ${{ secrets.STAGING_DATABASE_HOSTNAME }}
+  STAGING_DATABASE_USER: ${{ secrets.STAGING_DATABASE_USER }}
+  STAGING_DATABASE_PASSWORD: ${{ secrets.STAGING_DATABASE_PASSWORD }}
+
+jobs:
+  static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Copy configuration files
+        run: cp config/ci/profiles.yml config/local/profiles.yml
+      - name: Lint dbt
+        run: sqlfluff lint

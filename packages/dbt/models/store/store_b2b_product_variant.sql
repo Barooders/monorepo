@@ -6,11 +6,15 @@
     )
 }}
 
-select
-    bpv.id,
-    (1 + get_global_b2b_buyer_commission() / 100) * ppv."priceInCents"::float / 100 as price,
-    ppv."compareAtPriceInCents"::float / 100 AS compare_at_price
-from {{ ref("store_base_product_variant") }} bpv
-left join public."ProductVariant" ppv on ppv.id = bpv.id
-left join public."ProductSalesChannel" psc on bpv."productId" = psc."productId"
-where psc."salesChannelName"::text = 'B2B'
+SELECT
+  bpv.id,
+  (1 + get_global_b2b_buyer_commission() / 100)
+  * ppv."priceInCents"::float
+  / 100 AS price,
+  ppv."compareAtPriceInCents"::float / 100 AS compare_at_price
+FROM {{ ref("store_base_product_variant") }} AS bpv
+LEFT JOIN public."ProductVariant" AS ppv ON bpv.id = ppv.id
+LEFT JOIN
+  public."ProductSalesChannel" AS psc
+  ON bpv."productId" = psc."productId"
+WHERE psc."salesChannelName"::text = 'B2B'

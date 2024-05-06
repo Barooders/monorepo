@@ -1,0 +1,11 @@
+barooders_dbt_postgres:
+  target: staging
+  outputs:
+    staging:
+      type: postgres
+      host: "{{ env_var('STAGING_DATABASE_HOSTNAME') }}"
+      user: "{{ env_var('STAGING_DATABASE_USER') }}"
+      password: "{{ env_var('STAGING_DATABASE_PASSWORD') }}"
+      port: 5432
+      dbname: db_staging_iunm
+      schema: dbt

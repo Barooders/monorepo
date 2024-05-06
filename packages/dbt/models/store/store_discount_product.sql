@@ -6,16 +6,18 @@
 
 SELECT
   d.title AS discount_title,
-  pc.product_id as product_id,
+  pc.product_id,
   CURRENT_DATE AS "syncDate"
-FROM {{ref('store_discount_collection')}} dc
-JOIN {{ref('store_discount')}} d ON dc.discount_id = d.id
-JOIN {{ref('store_product_collection')}} pc on pc.collection_id = dc.collection_internal_id
+FROM {{ ref('store_discount_collection') }} AS dc
+INNER JOIN {{ ref('store_discount') }} AS d ON dc.discount_id = d.id
+INNER JOIN
+  {{ ref('store_product_collection') }} AS pc
+  ON dc.collection_internal_id = pc.collection_id
 WHERE d.title IN (
-	-- BDAYS ends on 01/04/24
-	'BDAYS5',
-	'BDAYS10',
-	'BDAYS15',
-	'BDAYS_SHIPPING'
-	-- BDAYS
+  -- BDAYS ends on 01/04/24
+  'BDAYS5',
+  'BDAYS10',
+  'BDAYS15',
+  'BDAYS_SHIPPING'
+-- BDAYS
 ) AND d.ends_at > CURRENT_DATE AND d.starts_at < CURRENT_DATE

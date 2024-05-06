@@ -7,6 +7,8 @@
 SELECT
   sc.id AS collection_internal_id,
   prec.price_rule_id AS discount_id
-FROM fivetran_shopify.price_rule_ent_collection prec
-LEFT JOIN {{ref('store_collection')}} sc ON prec.collection_id = sc.shopify_id
+FROM fivetran_shopify.price_rule_ent_collection AS prec
+LEFT JOIN
+  {{ ref('store_collection') }} AS sc
+  ON prec.collection_id = sc.shopify_id
 WHERE sc.id IS NOT NULL

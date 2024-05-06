@@ -6,53 +6,50 @@
     )
 }}
 
-with
-    bikes as (
-        select pc.product_id
-        from {{ ref("store_product_collection") }} pc
-        left join {{ ref("store_collection") }} c on pc.collection_id = c.id
-        where c.handle = 'velos'
-    )
+WITH
+bikes AS (
+  SELECT pc.product_id
+  FROM {{ ref("store_product_collection") }} AS pc
+  LEFT JOIN {{ ref("store_collection") }} AS c ON pc.collection_id = c.id
+  WHERE c.handle = 'velos'
+)
 
-select
-    bpv.id as id,
-    ppv.quantity as "inventory_quantity",
-    current_date as "syncDate",
-    po1.name as "option1Name",
-    pv.option_1 as "option1",
-    po2.name as "option2Name",
-    pv.option_2 as "option2",
-    po3.name as "option3Name",
-    pv.option_3 as "option3",
-    pv.requires_shipping as "requiresShipping",
-    pv.title,
-    cast(ppv.condition::text as dbt."Condition") as "condition",
-    case
-        when
-            ppv.condition::text <> 'AS_NEW'
-            and c."isRefurbisher" = true
-            and pp.id in (select product_id from bikes)
-        then true
-        else false
-    end as "isRefurbished",
-    pv.updated_at as "updatedAt"
+SELECT
+  bpv.id,
+  ppv.quantity AS "inventory_quantity",
+  po1.name AS "option1Name",
+  pv.option_1 AS "option1",
+  po2.name AS "option2Name",
+  pv.option_2 AS "option2",
+  po3.name AS "option3Name",
+  pv.option_3 AS "option3",
+  pv.requires_shipping AS "requiresShipping",
+  pv.title,
+  cast(cast(ppv.condition AS text) AS dbt."Condition") AS "condition",
+  pv.updated_at AS "updatedAt",
+  current_date AS "syncDate",
+  coalesce(
+    cast(ppv.condition AS text) <> 'AS_NEW'
+    AND c."isRefurbisher" = true
+    AND pp.id IN (SELECT product_id FROM bikes), false
+  ) AS "isRefurbished"
 
-from {{ ref("store_base_product_variant") }} bpv
-left join public."ProductVariant" ppv on ppv.id = bpv.id
-left join public."Product" pp on ppv."productId" = pp.id
-left join public."Customer" c on pp."vendorId" = c."authUserId"
-left join fivetran_shopify.product_variant pv on pv.id = bpv."shopify_id"
+FROM {{ ref("store_base_product_variant") }} AS bpv
+LEFT JOIN public."ProductVariant" AS ppv ON bpv.id = ppv.id
+LEFT JOIN public."Product" AS pp ON ppv."productId" = pp.id
+LEFT JOIN public."Customer" AS c ON pp."vendorId" = c."authUserId"
+LEFT JOIN fivetran_shopify.product_variant AS pv ON bpv."shopify_id" = pv.id
 
-left join
-    fivetran_shopify.product_option po1
-    on (po1.product_id = pv.product_id and po1.position = 1)
-left join
-    fivetran_shopify.product_option po2
-    on (po2.product_id = pv.product_id and po2.position = 2)
-left join
-    fivetran_shopify.product_option po3
-    on (po3.product_id = pv.product_id and po3.position = 3)
+LEFT JOIN
+  fivetran_shopify.product_option AS po1
+  ON (pv.product_id = po1.product_id AND po1.position = 1)
+LEFT JOIN
+  fivetran_shopify.product_option AS po2
+  ON (pv.product_id = po2.product_id AND po2.position = 2)
+LEFT JOIN
+  fivetran_shopify.product_option AS po3
+  ON (pv.product_id = po3.product_id AND po3.position = 3)
 
-where
-    ppv.quantity is not null
-    and ppv."priceInCents" is not null
+WHERE
+  ppv.quantity IS NOT null
+  AND ppv."priceInCents" IS NOT null
