@@ -1,11 +1,9 @@
 import { base64_encode } from '@libs/helpers/base64';
-import {
-  BackendFailureException,
-  createHttpClient,
-} from '@libs/infrastructure/http/clients';
+import { createHttpClient } from '@libs/infrastructure/http/clients';
 import { UnreachableExternalApiException } from '@modules/pro-vendor/domain/exception/unreachable-external-api.exception';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
+import { AxiosError } from 'axios';
 import { TuvalumProductDto } from './dto/tuvalum-product.input.dto';
 
 @Injectable()
@@ -27,17 +25,19 @@ export class TuvalumClient {
   async getProduct(product_id: string): Promise<TuvalumProductDto | null> {
     const client = this.getClient();
     try {
-      return client(`/api/integration/products/${product_id}`);
-    } catch (e) {
-      const backendError = e as BackendFailureException;
-      if (backendError.statusCode !== 404) {
-        throw new UnreachableExternalApiException(
-          this.vendorConfigService.getVendorConfig().slug,
-          'Could not reach API due to an error',
-        );
-      }
+      return client<TuvalumProductDto>(
+        `/api/integration/products/${product_id}`,
+      );
+    } catch (e: any) {
+      const error = e as AxiosError;
+      this.logger.error(error.response?.statusText, error);
 
-      return null;
+      if ([404, 409].includes(error.response?.status ?? 400)) return null;
+
+      throw new UnreachableExternalApiException(
+        this.vendorConfigService.getVendorConfig().slug,
+        'Could not reach API due to an error: ' + error.response?.statusText,
+      );
     }
   }
 
