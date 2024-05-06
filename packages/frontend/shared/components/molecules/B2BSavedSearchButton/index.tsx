@@ -1,7 +1,11 @@
 import { SavedSearchContext } from '@/contexts/savedSearch';
 import { getDictionary } from '@/i18n/translate';
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import { FiSave } from 'react-icons/fi';
+import {
+  useCurrentRefinements,
+  useSearchBox,
+} from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
@@ -12,11 +16,12 @@ const dict = getDictionary('fr');
 
 const B2BSavedSearchButton: React.FC = () => {
   const existingSavedSearch = useContext(SavedSearchContext);
-  // const { items } = useCurrentRefinements();
+  const { items } = useCurrentRefinements();
+  const { query } = useSearchBox();
 
-  // if (items.length === 0) {
-  //   return <></>;
-  // }
+  if (items.length === 0 && !query) {
+    return <></>;
+  }
 
   return (
     <NoSSR>
@@ -38,6 +43,8 @@ const B2BSavedSearchButton: React.FC = () => {
             <B2BSavedSearchForm
               onSave={closeModal}
               onClose={closeModal}
+              currentRefinements={items}
+              query={query}
             />
           )}
         />
@@ -54,4 +61,4 @@ const B2BSavedSearchButton: React.FC = () => {
   );
 };
 
-export default B2BSavedSearchButton;
+export default memo(B2BSavedSearchButton);

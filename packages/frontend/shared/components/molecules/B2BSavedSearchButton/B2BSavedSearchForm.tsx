@@ -4,12 +4,10 @@ import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
 import { randomId } from '@/utils/randomId';
 import { slugify } from '@/utils/slugify';
+import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import {
-  useCurrentRefinements,
-  useSearchBox,
-} from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
 import FormCheckbox from '../FormCheckbox';
@@ -20,6 +18,8 @@ const dict = getDictionary('fr');
 type PropsType = {
   onSave: () => void;
   onClose: () => void;
+  currentRefinements: ReturnType<typeof useCurrentRefinements>['items'];
+  query: string;
 };
 
 type FormInputs = {
@@ -27,11 +27,14 @@ type FormInputs = {
   enableEmailNotifications: boolean;
 };
 
-const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
+const B2BSavedSearchForm: React.FC<PropsType> = ({
+  onSave,
+  currentRefinements,
+  query,
+}) => {
   const [, storeSavedSearch] = useStoreSavedSearch();
-  const { items } = useCurrentRefinements();
-  const { query } = useSearchBox();
-  const refinements = items
+
+  const refinements = currentRefinements
     .flatMap((item) => item.refinements)
     .map(({ value, ...refinement }) => ({
       ...refinement,
@@ -123,4 +126,4 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
   );
 };
 
-export default B2BSavedSearchForm;
+export default memo(B2BSavedSearchForm);
