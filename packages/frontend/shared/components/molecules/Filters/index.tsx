@@ -21,6 +21,7 @@ import {
   useRefinementList,
   useSearchBox,
 } from 'react-instantsearch-hooks-web';
+import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
 import ActiveFilters from './ActiveFilters';
 import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
@@ -241,6 +242,7 @@ export const B2BDesktopFilters = () => (
     <p className="hidden text-xl font-bold lg:flex">
       {dict.search.filtersTitle}
     </p>
+    <B2BSaveFiltersButton />
     <ActiveFilters buttonSize="small" />
     <div>
       <B2BFilters />

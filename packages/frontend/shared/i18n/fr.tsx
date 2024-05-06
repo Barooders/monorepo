@@ -1195,6 +1195,16 @@ const fr = {
         title: 'Une demande spécifique ?',
       },
       title: 'Vos résultats',
+      saveFilters: {
+        buttonLabel: 'Sauvegarder',
+        description:
+          'Afin de garantir une sélection personnalisée, enregistrez vos critères de sélection pour votre prochaine visite.',
+        selectedFilters: 'Filtres Sélectionnés',
+        errorToaster: 'Une erreur est survenue',
+        successToaster: 'Filtres enregistrés',
+        title: 'Enregistrez vos filtres',
+        validate: 'Enregistrer mes filtres',
+      },
       saveSearch: {
         buttonLabel: 'Créer une recherche',
         successToaster: 'Recherche enregistrée',

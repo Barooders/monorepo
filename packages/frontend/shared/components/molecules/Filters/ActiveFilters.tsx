@@ -14,6 +14,8 @@ const ActiveFilters = (props: {
   const { items, refine } = useCurrentRefinements(props);
   const { refine: clearRefine } = useClearRefinements(props);
 
+  if (items.length === 0) return <></>;
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between gap-3">
