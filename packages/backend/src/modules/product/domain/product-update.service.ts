@@ -73,34 +73,27 @@ export class ProductUpdateService {
       updates,
     );
 
-    try {
-      const vendor = await this.getVendorFromProductId(productId);
-      this.eventEmitter.emit(
-        ProductUpdatedDomainEvent.EVENT_NAME,
-        new ProductUpdatedDomainEvent({
-          aggregateId: vendor.authUserId,
-          aggregateName: AggregateName.VENDOR,
-          productInternalId: productId.id,
-          payload: {
-            productShopifyId: productId.storeId,
-            updates: jsonStringify(updatesAndPreviousValues),
-          },
-          metadata: {
-            author,
-          },
-        }),
-      );
+    const vendor = await this.getVendorFromProductId(productId);
+    this.eventEmitter.emit(
+      ProductUpdatedDomainEvent.EVENT_NAME,
+      new ProductUpdatedDomainEvent({
+        aggregateId: vendor.authUserId,
+        aggregateName: AggregateName.VENDOR,
+        productInternalId: productId.id,
+        payload: {
+          productShopifyId: productId.storeId,
+          updates: jsonStringify(updatesAndPreviousValues),
+        },
+        metadata: {
+          author,
+        },
+      }),
+    );
 
-      if (notifyVendor) {
-        await this.notificationService.notify(
-          vendor.user.email,
-          vendor.firstName,
-        );
-      }
-    } catch (e: any) {
-      this.logger.error(
-        `Unable to create event PRODUCT_UPDATED when updating product ${productId.id} : ${e.message}`,
-        e,
+    if (notifyVendor) {
+      await this.notificationService.notify(
+        vendor.user.email,
+        vendor.firstName,
       );
     }
   }
