@@ -30,7 +30,7 @@ export class StockUpdateService {
         `Publishing message for product ${product.internalProductId}`,
       );
       //TODO: prevent domain to depend on infra
-      void this.productStatusUpdateQueue.add(
+      await this.productStatusUpdateQueue.add(
         {
           product,
           vendorSlug: this.vendorConfigService.getVendorConfig().slug,
