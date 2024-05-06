@@ -1,4 +1,8 @@
 import { shopifyConfig } from '@config/shopify.config';
+import {
+  BackOffPolicy,
+  Retryable,
+} from '@libs/application/decorators/retryable.decorator';
 import { PRODUCT_TYPE as COMMISSION_TYPE } from '@libs/domain/constants/commission-product.constants';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import {
@@ -229,6 +233,11 @@ export class ShopifyClient implements IStoreClient {
     }
   }
 
+  @Retryable({
+    backOff: 1_000,
+    maxAttempts: 2,
+    backOffPolicy: BackOffPolicy.FixedBackOffPolicy,
+  })
   async updateProduct(
     productId: string,
     { metafields, tags, status, vendorId, ...data }: ProductToUpdate,
