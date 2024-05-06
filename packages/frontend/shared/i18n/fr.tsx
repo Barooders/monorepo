@@ -1204,7 +1204,10 @@ const fr = {
         form: {
           title: 'Titre de votre recherche',
         },
-        notifications: 'Notifications',
+        notifications: {
+          email: 'Email',
+          title: 'Notifications',
+        },
         selectedFilters: 'Filtres Sélectionnés',
         validate: 'Enregistrer ma recherche',
       },

@@ -12,6 +12,7 @@ import {
 } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
+import FormCheckbox from '../FormCheckbox';
 import FormInput from '../FormInput';
 
 const dict = getDictionary('fr');
@@ -23,6 +24,7 @@ type PropsType = {
 
 type FormInputs = {
   saveSearchTitle: string;
+  enableEmailNotifications: boolean;
 };
 
 const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
@@ -38,15 +40,18 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
 
   const formMethods = useForm<FormInputs>({});
 
-  const onSubmit = async (data: FormInputs) => {
-    const searchName = slugify(data.saveSearchTitle) + '-' + randomId(5);
+  const onSubmit = async ({
+    saveSearchTitle,
+    enableEmailNotifications,
+  }: FormInputs) => {
+    const searchName = slugify(saveSearchTitle) + '-' + randomId(5);
     await storeSavedSearch({
-      name: data.saveSearchTitle,
+      name: saveSearchTitle,
       type: 'B2B_MAIN_PAGE',
       resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
       query,
       refinements,
-      shouldTriggerAlerts: false,
+      shouldTriggerAlerts: enableEmailNotifications,
     });
 
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
@@ -70,7 +75,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
         <div className="mt-5 flex flex-col rounded-xl border border-slate-200 p-5">
           <FormInput
             label={dict.b2b.proPage.saveSearch.form.title}
-            name={`saveSearchTitle`}
+            name="saveSearchTitle"
             type="text"
             options={{
               required: dict.global.forms.required,
@@ -88,6 +93,15 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave }) => {
                 {refinement}
               </p>
             ))}
+          </div>
+          <div className="mt-8">
+            <p className="text-base font-semibold">
+              {dict.b2b.proPage.saveSearch.notifications.title}
+            </p>
+            <div className="mt-1 flex justify-between rounded-xl border border-slate-200 p-2">
+              {dict.b2b.proPage.saveSearch.notifications.email}
+              <FormCheckbox name="enableEmailNotifications" />
+            </div>
           </div>
         </div>
         {submitState.error && (
