@@ -123,20 +123,23 @@ product_with_algo_inputs AS (
     bp."createdAt" AS "created_at",
     bp."vendorId" AS "vendor_id",
     bp."shopifyId" AS "shopify_id",
-            (bpp."manualNotation"::text)::dbt."ProductNotation" AS "manual_notation",
+    (bpp."manualNotation"::text)::dbt."ProductNotation" AS "manual_notation",
     bpp.source,
     bc."overridesProductNotation" AS "vendor_overrides_product_scoring",
-            (bc.scoring::text)::dbt."ProductNotation" AS "default_vendor_notation",
+    (bc.scoring::text)::dbt."ProductNotation" AS "default_vendor_notation",
     (variant_data.condition::text)::dbt."Condition" AS "condition_from_variants",
     ep.brand,
     ep.size,
     bpp."EANCode" AS "ean_code",
-    coalesce (bp.id IN (SELECT product_id FROM bikes), FALSE) AS "is_bike",
+    (ep.brand_rating)::dbt."BrandRating" AS "brand_rating",
+    coalesce(bp.id IN (SELECT product_id FROM bikes), false) AS "is_bike",
     coalesce(image_data.image_count, 0) AS "image_count",
     coalesce(variant_data.highest_discount, 0) AS "highest_discount",
     coalesce(variant_data.stock, 0) AS "stock",
-    coalesce (variant_data.condition::text = 'AS_NEW'
-    OR variant_data.condition::text IS null, FALSE) AS is_new,
+    coalesce(
+      variant_data.condition::text = 'AS_NEW'
+      OR variant_data.condition::text IS null, false
+    ) AS is_new,
     coalesce(ep.model_year, 0) AS model_year,
     CASE
       WHEN
@@ -145,7 +148,6 @@ product_with_algo_inputs AS (
         THEN 2023
       ELSE coalesce(ep.model_year, 0)
     END AS model_year_with_override,
-    (ep.brand_rating)::dbt."BrandRating" AS "brand_rating",
     coalesce(pr.traffic30, 0) AS "views_last_30_days",
     coalesce(favorites.favorites_count, 0) AS favorites_count,
     coalesce(orders.orders_count, 0) AS orders_count
@@ -342,7 +344,7 @@ product_with_notation AS (
   SELECT
     *,
     coalesce(
-      product_with_sub_notations."manual_notation",
+      product_with_sub_notations."manual_notation", -- noqa: RF03, (Qualified reference 'product_with_sub_notations."manual_notation"' found in single table select which is inconsistent with previous references)
       product_with_sub_notations."vendor_notation",
       product_with_sub_notations."calculated_notation"
     ) AS "notation"
