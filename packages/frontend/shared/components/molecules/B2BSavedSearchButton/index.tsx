@@ -2,6 +2,7 @@ import { SavedSearchContext } from '@/contexts/savedSearch';
 import { getDictionary } from '@/i18n/translate';
 import { useContext } from 'react';
 import { FiSave } from 'react-icons/fi';
+import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
@@ -12,6 +13,11 @@ const dict = getDictionary('fr');
 
 const B2BSavedSearchButton: React.FC = () => {
   const existingSavedSearch = useContext(SavedSearchContext);
+  const { items } = useCurrentRefinements();
+
+  if (items.length === 0) {
+    return <></>;
+  }
 
   return (
     <NoSSR>
@@ -21,9 +27,9 @@ const B2BSavedSearchButton: React.FC = () => {
             <Button
               onClick={openModal}
               intent="primary"
-              className="text-md w-full shadow-md"
+              className="text-md shadow-md"
             >
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-2">
                 <FiSave className="text-white" />
                 {dict.b2b.proPage.saveSearch.buttonLabel}
               </div>

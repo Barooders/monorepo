@@ -134,14 +134,14 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
                   <B2BClientRequestButton />
                 </div>
                 <B2BDesktopFilters />
-                <div className="mb-4">
-                  <B2BSavedSearchButton />
-                </div>
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />
                 <B2BSearchResults openDetails={openDetails} />
                 <Pagination />
+                <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
+                  <B2BSavedSearchButton />
+                </div>
               </div>
             </div>
           </div>
