@@ -44,14 +44,20 @@ export class WooCommerceDefaultMapper {
       name,
       metadata,
     );
-    const stringifyArray = (array: string[]) => {
+    const stringifyArray = (array: (string | object)[]): string => {
       if (
         this.vendorConfigService.getVendorConfig().catalog.wooCommerce
           ?.stringifySingleItemArray
       )
         return jsonStringify(array);
 
-      return array.length === 1 ? array[0] : jsonStringify(array);
+      if (array.length === 1) {
+        if (isString(array[0])) return jsonStringify(array[0]);
+
+        return jsonStringify(array[0]);
+      }
+
+      return jsonStringify(array);
     };
 
     const tags = (
@@ -68,7 +74,7 @@ export class WooCommerceDefaultMapper {
         ...(wooCommerceProduct?.meta_data ?? []).map(({ key, value }) => {
           return this.tagService.getOrCreateTag(
             key,
-            isString(value) ? value : stringifyArray(value),
+            stringifyWooCommerceMetadataValue(value, stringifyArray),
             key,
             this.vendorConfigService.getVendorConfig().mappingKey,
             metadata,
@@ -76,7 +82,9 @@ export class WooCommerceDefaultMapper {
         }),
         this.tagService.getOrCreateTag(
           'tags',
-          (wooCommerceProduct?.tags ?? []).map(({ slug }) => slug).join('-'),
+          (wooCommerceProduct?.tags ?? [])
+            .map(({ slug }) => jsonStringify(slug))
+            .join('-'),
           'tags',
           this.vendorConfigService.getVendorConfig().mappingKey,
           metadata,
@@ -265,4 +273,15 @@ export class WooCommerceDefaultMapper {
       return { src };
     });
   }
+}
+
+function stringifyWooCommerceMetadataValue(
+  value: string | object | string[],
+  stringifyArray: (array: string[]) => string,
+): string {
+  if (isString(value)) return value;
+
+  if (Array.isArray(value)) return stringifyArray(value);
+
+  return jsonStringify(value);
 }
