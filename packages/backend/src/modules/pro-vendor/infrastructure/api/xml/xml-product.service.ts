@@ -34,7 +34,7 @@ export class XMLProductService implements ProVendorStrategy {
   }
 
   async getProductsToUpdate(): Promise<SyncedProductToUpdate[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async updateProductStocks(
@@ -74,15 +74,15 @@ export class XMLProductService implements ProVendorStrategy {
   }
 
   async getProductById(id: string): Promise<XMLProduct | null> {
-    return this.xmlClient.getProductById(id);
+    return await this.xmlClient.getProductById(id);
   }
 
   async mapProduct(product: XMLProduct): Promise<SyncProduct | null> {
-    return this.xmlMapper.mapProduct(product);
+    return await this.xmlMapper.mapProduct(product);
   }
 
   async mapLightProduct(product: XMLProduct): Promise<SyncLightProduct> {
-    return this.xmlMapper.mapLightProduct(product);
+    return await this.xmlMapper.mapLightProduct(product);
   }
 
   async isUp(): Promise<boolean> {

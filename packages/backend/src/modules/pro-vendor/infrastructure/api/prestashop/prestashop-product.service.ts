@@ -46,7 +46,7 @@ export class PrestashopProductService implements ProVendorStrategy {
   ) {}
 
   async getProductsToUpdate(): Promise<SyncedVendorProProduct[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<ProductDTO[]> {
@@ -70,11 +70,11 @@ export class PrestashopProductService implements ProVendorStrategy {
   }
 
   async getProductById(productId: string): Promise<ProductDTO | null> {
-    return this.prestashopClient.getProduct(productId);
+    return await this.prestashopClient.getProduct(productId);
   }
 
   async mapProduct(product: ProductDTO): Promise<SyncProduct | null> {
-    return this.getMapper().map(product);
+    return await this.getMapper().map(product);
   }
 
   private getMapper(): PrestashopDefaultMapper | FietsMapper {
@@ -104,7 +104,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     }
   }
   async mapLightProduct(product: ProductDTO): Promise<SyncLightProduct> {
-    return this.getMapper().mapLight(product);
+    return await this.getMapper().mapLight(product);
   }
 
   async isUp(): Promise<boolean> {

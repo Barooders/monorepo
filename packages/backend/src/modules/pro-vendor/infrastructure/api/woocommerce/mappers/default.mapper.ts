@@ -181,7 +181,7 @@ export class WooCommerceDefaultMapper {
       return this.getSingleVariant(wooCommerceProduct);
     }
 
-    return this.getMultipleVariants(wooCommerceProduct);
+    return await this.getMultipleVariants(wooCommerceProduct);
   }
 
   private getSingleVariant({

@@ -23,7 +23,7 @@ export class TuvalumProductService implements ProVendorStrategy {
   ) {}
 
   async getProductsToUpdate(): Promise<SyncedVendorProProduct[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<TuvalumProductDto[]> {
@@ -44,19 +44,19 @@ export class TuvalumProductService implements ProVendorStrategy {
   }
 
   async getProductById(id: string): Promise<TuvalumProductDto | null> {
-    return this.tuvalumClient.getProduct(id);
+    return await this.tuvalumClient.getProduct(id);
   }
 
   async mapProduct(product: TuvalumProductDto): Promise<SyncProduct | null> {
-    return this.tuvalumMapper.mapper(product);
+    return await this.tuvalumMapper.mapper(product);
   }
 
   async mapLightProduct(product: TuvalumProductDto): Promise<SyncLightProduct> {
-    return this.tuvalumMapper.mapperLight(product);
+    return await this.tuvalumMapper.mapperLight(product);
   }
 
   async isUp(): Promise<boolean> {
-    return this.tuvalumClient.isUp();
+    return await this.tuvalumClient.isUp();
   }
 
   async updateProductStocks(

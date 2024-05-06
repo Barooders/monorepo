@@ -162,9 +162,9 @@ export class SyncProductsInMedusaCLI {
       const existingCategory = first(response.product_categories);
       if (existingCategory) return existingCategory.id;
 
-      return this.createCategory(categoryName);
+      return await this.createCategory(categoryName);
     } catch (e) {
-      return this.createCategory(categoryName);
+      return await this.createCategory(categoryName);
     }
   }
 }

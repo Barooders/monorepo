@@ -148,7 +148,7 @@ export class CustomerController {
     @Body()
     negociationAgreementInputDto: NegociationAgreementInputDto,
   ) {
-    return this.customerService.upsertNegociationAgreement(
+    return await this.customerService.upsertNegociationAgreement(
       new UUID({ uuid: userId }),
       negociationAgreementInputDto.maxAmountPercent,
     );
@@ -157,7 +157,7 @@ export class CustomerController {
   @Delete(routesV1.negociationAgreement.root)
   @UseGuards(JwtAuthGuard)
   async deleteNegociationAgreement(@User() { userId }: ExtractedUser) {
-    return this.customerService.deleteNegociationAgreement(
+    return await this.customerService.deleteNegociationAgreement(
       new UUID({ uuid: userId }),
     );
   }

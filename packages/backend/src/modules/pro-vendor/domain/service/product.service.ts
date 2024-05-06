@@ -56,7 +56,7 @@ export class ProductService {
   async findByExternalIdAndVendor(
     externalProductId: string,
   ): Promise<VendorProProduct | null> {
-    return this.prisma.vendorProProduct.findFirst({
+    return await this.prisma.vendorProProduct.findFirst({
       where: {
         externalProductId,
         vendorSlug: this.vendorConfigService.getVendorConfig().slug,
@@ -78,7 +78,7 @@ export class ProductService {
   }
 
   async getProductFromStore(storeId: number): Promise<StoredProduct | null> {
-    return this.storeClient.getProduct(storeId);
+    return await this.storeClient.getProduct(storeId);
   }
 
   async createProduct(product: SyncProduct): Promise<StoredProduct> {

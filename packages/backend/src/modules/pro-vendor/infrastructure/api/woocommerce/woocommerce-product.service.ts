@@ -47,7 +47,7 @@ export class WooCommerceProductService implements ProVendorStrategy {
   ) {}
 
   async getProductsToUpdate(): Promise<SyncedVendorProProduct[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async getAllVendorProducts(sinceDate?: Date): Promise<WooCommerceProduct[]> {
@@ -61,19 +61,19 @@ export class WooCommerceProductService implements ProVendorStrategy {
   }
 
   async getProductById(id: string): Promise<WooCommerceProduct | null> {
-    return this.wooCommerceClient.getProduct(Number(id));
+    return await this.wooCommerceClient.getProduct(Number(id));
   }
 
   async mapProduct(
     productFromWooCommerce: WooCommerceProduct,
   ): Promise<SyncProduct | null> {
-    return this.getMapper().mapProduct(productFromWooCommerce);
+    return await this.getMapper().mapProduct(productFromWooCommerce);
   }
 
   async mapLightProduct(
     productFromWooCommerce: WooCommerceProduct,
   ): Promise<SyncLightProduct> {
-    return this.getMapper().mapLightProduct(productFromWooCommerce);
+    return await this.getMapper().mapLightProduct(productFromWooCommerce);
   }
 
   async isUp(): Promise<boolean> {

@@ -179,7 +179,7 @@ export class PaymentAccountProviderService {
   ): Promise<string> {
     if (allAccountIds.length === 0) {
       this.logger.debug(`No account found for ${email}, will create one`);
-      return this.createNewAccountOnboardingLink(email);
+      return await this.createNewAccountOnboardingLink(email);
     }
 
     try {
@@ -190,13 +190,13 @@ export class PaymentAccountProviderService {
         `Will create a new account because: ${error.message}`,
         error,
       );
-      return this.createNewAccountOnboardingLink(email);
+      return await this.createNewAccountOnboardingLink(email);
     }
   }
 
   private async createNewAccountOnboardingLink(email: string): Promise<string> {
     const newAccountId = await this.paymentProvider.createNewAccount(email);
     this.logger.debug(`Created new account ${newAccountId} for ${email}`);
-    return this.paymentProvider.getOnboardingLink(newAccountId);
+    return await this.paymentProvider.getOnboardingLink(newAccountId);
   }
 }

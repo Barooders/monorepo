@@ -34,7 +34,7 @@ export class CSVProductService implements ProVendorStrategy {
   }
 
   async getProductsToUpdate(): Promise<SyncedProductToUpdate[]> {
-    return this.productService.findAll();
+    return await this.productService.findAll();
   }
 
   async updateProductStocks(
@@ -74,15 +74,15 @@ export class CSVProductService implements ProVendorStrategy {
   }
 
   async getProductById(id: string): Promise<CSVProduct | null> {
-    return this.csvClient.getProductById(id);
+    return await this.csvClient.getProductById(id);
   }
 
   async mapProduct(product: CSVProduct): Promise<SyncProduct | null> {
-    return this.csvMapper.mapProduct(product);
+    return await this.csvMapper.mapProduct(product);
   }
 
   async mapLightProduct(product: CSVProduct): Promise<SyncLightProduct> {
-    return this.csvMapper.mapLightProduct(product);
+    return await this.csvMapper.mapLightProduct(product);
   }
 
   async isUp(): Promise<boolean> {

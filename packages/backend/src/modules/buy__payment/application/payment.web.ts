@@ -40,7 +40,7 @@ export class PaymentWebController {
     @Body()
     productEligibilityDTO: EligibilityInputDTO,
   ): Promise<EligibilityResponse[]> {
-    return this.paymentService.checkEligibility(
+    return await this.paymentService.checkEligibility(
       productEligibilityDTO.customerInfo,
       productEligibilityDTO.cartInfo,
       productEligibilityDTO.checkoutId,
@@ -53,7 +53,7 @@ export class PaymentWebController {
     @Body()
     paymentLinkDTO: PaymentLinkDTO,
   ): Promise<string> {
-    return this.paymentService.startPayment(paymentLinkDTO.paymentId);
+    return await this.paymentService.startPayment(paymentLinkDTO.paymentId);
   }
 
   @Get(routesV1.buy.payment.redirectToPaymentPage)

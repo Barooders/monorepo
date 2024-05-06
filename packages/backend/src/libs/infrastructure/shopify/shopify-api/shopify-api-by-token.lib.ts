@@ -19,31 +19,31 @@ class InstrumentedProductClient {
   }
 
   async get(id: number) {
-    return instrumentShopifyMethod('getProduct', () =>
+    return await instrumentShopifyMethod('getProduct', () =>
       this.shopifyClient.product.get(id),
     );
   }
 
   async create(params: any) {
-    return instrumentShopifyMethod('createProduct', () =>
+    return await instrumentShopifyMethod('createProduct', () =>
       this.shopifyClient.product.create(params),
     );
   }
 
   async list(params: any) {
-    return instrumentShopifyMethod('listProducts', () =>
+    return await instrumentShopifyMethod('listProducts', () =>
       this.shopifyClient.product.list(params),
     );
   }
 
   async update(id: number, params: any) {
-    return instrumentShopifyMethod('updateProduct', () =>
+    return await instrumentShopifyMethod('updateProduct', () =>
       this.shopifyClient.product.update(id, params),
     );
   }
 
   async delete(id: number) {
-    return instrumentShopifyMethod('deleteProduct', () =>
+    return await instrumentShopifyMethod('deleteProduct', () =>
       this.shopifyClient.product.delete(id),
     );
   }
@@ -57,31 +57,31 @@ class InstrumentedProductVariantClient {
   }
 
   async get(id: number) {
-    return instrumentShopifyMethod('getProductVariant', () =>
+    return await instrumentShopifyMethod('getProductVariant', () =>
       this.shopifyClient.productVariant.get(id),
     );
   }
 
   async create(productId: number, params: any) {
-    return instrumentShopifyMethod('createProductVariant', () =>
+    return await instrumentShopifyMethod('createProductVariant', () =>
       this.shopifyClient.productVariant.create(productId, params),
     );
   }
 
   async list(id: number) {
-    return instrumentShopifyMethod('listProductVariants', () =>
+    return await instrumentShopifyMethod('listProductVariants', () =>
       this.shopifyClient.productVariant.list(id),
     );
   }
 
   async update(id: number, params: any) {
-    return instrumentShopifyMethod('updateProductVariant', () =>
+    return await instrumentShopifyMethod('updateProductVariant', () =>
       this.shopifyClient.productVariant.update(id, params),
     );
   }
 
   async delete(productId: number, id: number) {
-    return instrumentShopifyMethod('deleteProductVariant', () =>
+    return await instrumentShopifyMethod('deleteProductVariant', () =>
       this.shopifyClient.productVariant.delete(productId, id),
     );
   }
@@ -95,19 +95,19 @@ class InstrumentedOrderClient {
   }
 
   async get(id: number) {
-    return instrumentShopifyMethod('getOrder', () =>
+    return await instrumentShopifyMethod('getOrder', () =>
       this.shopifyClient.order.get(id),
     );
   }
 
   async fulfillmentOrders(id: number) {
-    return instrumentShopifyMethod('getFulfillmentOrders', () =>
+    return await instrumentShopifyMethod('getFulfillmentOrders', () =>
       this.shopifyClient.order.fulfillmentOrders(id),
     );
   }
 
   async create(params: any) {
-    return instrumentShopifyMethod('createOrder', () =>
+    return await instrumentShopifyMethod('createOrder', () =>
       this.shopifyClient.order.create(params),
     );
   }
@@ -121,19 +121,19 @@ class InstrumentedCustomerClient {
   }
 
   async search(params: any) {
-    return instrumentShopifyMethod('searchCustomer', () =>
+    return await instrumentShopifyMethod('searchCustomer', () =>
       this.shopifyClient.customer.search(params),
     );
   }
 
   async create(params: any) {
-    return instrumentShopifyMethod('createCustomer', () =>
+    return await instrumentShopifyMethod('createCustomer', () =>
       this.shopifyClient.customer.create(params),
     );
   }
 
   async update(id: number, params: any) {
-    return instrumentShopifyMethod('updateCustomer', () =>
+    return await instrumentShopifyMethod('updateCustomer', () =>
       this.shopifyClient.customer.update(id, params),
     );
   }
@@ -147,13 +147,13 @@ class InstrumentedFulfillmentClient {
   }
 
   async list(id: number) {
-    return instrumentShopifyMethod('listFulfillmentsFromOrder', () =>
+    return await instrumentShopifyMethod('listFulfillmentsFromOrder', () =>
       this.shopifyClient.fulfillment.list(id),
     );
   }
 
   async createV2(params: any) {
-    return instrumentShopifyMethod('createFulfillmentV2', () =>
+    return await instrumentShopifyMethod('createFulfillmentV2', () =>
       this.shopifyClient.fulfillment.createV2(params),
     );
   }
@@ -167,8 +167,9 @@ class InstrumentedFulfillmentOrderClient {
   }
 
   async fulfillments(id: number) {
-    return instrumentShopifyMethod('listFulfillmentsFromFulfillmentOrder', () =>
-      this.shopifyClient.fulfillmentOrder.fulfillments(id),
+    return await instrumentShopifyMethod(
+      'listFulfillmentsFromFulfillmentOrder',
+      () => this.shopifyClient.fulfillmentOrder.fulfillments(id),
     );
   }
 }
@@ -181,13 +182,13 @@ class InstrumentedProductImageClient {
   }
 
   async create(productId: number, params: any) {
-    return instrumentShopifyMethod('createProductImage', () =>
+    return await instrumentShopifyMethod('createProductImage', () =>
       this.shopifyClient.productImage.create(productId, params),
     );
   }
 
   async delete(productId: number, imageId: number) {
-    return instrumentShopifyMethod('deleteProductImage', () =>
+    return await instrumentShopifyMethod('deleteProductImage', () =>
       this.shopifyClient.productImage.delete(productId, imageId),
     );
   }
@@ -201,7 +202,7 @@ class InstrumentedTransactionClient {
   }
 
   async create(id: number, params: any) {
-    return instrumentShopifyMethod('createTransaction', () =>
+    return await instrumentShopifyMethod('createTransaction', () =>
       this.shopifyClient.transaction.create(id, params),
     );
   }
@@ -215,19 +216,19 @@ class InstrumentedMetafieldClient {
   }
 
   async create(params: any) {
-    return instrumentShopifyMethod('createMetafield', () =>
+    return await instrumentShopifyMethod('createMetafield', () =>
       this.shopifyClient.metafield.create(params),
     );
   }
 
   async list(params: any) {
-    return instrumentShopifyMethod('listMetafields', () =>
+    return await instrumentShopifyMethod('listMetafields', () =>
       this.shopifyClient.metafield.list(params),
     );
   }
 
   async update(id: number, params: any) {
-    return instrumentShopifyMethod('updateMetafield', () =>
+    return await instrumentShopifyMethod('updateMetafield', () =>
       this.shopifyClient.metafield.update(id, params),
     );
   }
@@ -241,7 +242,7 @@ class InstrumentedInventoryLevelClient {
   }
 
   async set(params: any) {
-    return instrumentShopifyMethod('setInventoryLevel', () =>
+    return await instrumentShopifyMethod('setInventoryLevel', () =>
       this.shopifyClient.inventoryLevel.set(params),
     );
   }
