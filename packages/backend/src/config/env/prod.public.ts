@@ -12,6 +12,7 @@ const productionPublicConfig: EnvPublicConfig = {
   locationId: '63305416853',
   mobileAppPublicationId: 'gid://shopify/Publication/92204138723',
   technicalAccountId: '4276ff9e-a377-42bf-a344-cb991fd4b2e9',
+  isSentryEnabled: true,
 };
 
 export default productionPublicConfig;

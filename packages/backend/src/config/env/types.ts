@@ -104,6 +104,7 @@ export type EnvPublicConfig = {
   locationId: string;
   mobileAppPublicationId: string;
   technicalAccountId: string;
+  isSentryEnabled: boolean;
 };
 
 export type EnvCronConfig = {

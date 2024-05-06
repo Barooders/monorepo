@@ -1,5 +1,4 @@
-import { envName } from '@config/env/env-name.config';
-import { Environments } from '@config/env/types';
+import envConfig from '@config/env/env.config';
 import * as Sentry from '@sentry/node';
 import { ProfilingIntegration } from '@sentry/profiling-node';
 
@@ -39,7 +38,7 @@ export const initSentry = (context: SentryContext) => {
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),
     ],
-    environment: envName,
-    enabled: envName !== Environments.LOCAL,
+    environment: envConfig.envName,
+    enabled: envConfig.isSentryEnabled,
   });
 };
