@@ -194,6 +194,7 @@ export class PriceOfferService implements IPriceOfferService {
 
     const offerMessage = `
       🚲 Produit: ${productType} - ${handle}
+      #️⃣ Quantité: ${quantity.stock}
       💶 Prix acheteur: ${buyerPrice.formattedAmount}
       💶 Prix vendeur: ${sellerPrice.formattedAmount}
       📄 Détail de l'offre: ${description}
