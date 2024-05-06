@@ -15,7 +15,7 @@ export class TuvalumClient {
   async getAllProducts(): Promise<TuvalumProductDto[] | null> {
     try {
       const client = this.getClient();
-      return client<TuvalumProductDto[]>(`/api/integration/products`);
+      return await client<TuvalumProductDto[]>(`/api/integration/products`);
     } catch (error) {
       this.logger.error('error getAllProductsFromTuvalum', error);
       return null;
@@ -25,7 +25,7 @@ export class TuvalumClient {
   async getProduct(product_id: string): Promise<TuvalumProductDto | null> {
     const client = this.getClient();
     try {
-      return client<TuvalumProductDto>(
+      return await client<TuvalumProductDto>(
         `/api/integration/products/${product_id}`,
       );
     } catch (e: any) {
