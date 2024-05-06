@@ -16,7 +16,7 @@ export class ChatGPTTranslator implements ITranslator {
 
       return chatGPTContent;
     } catch (error: any) {
-      this.logger.error(`Error during translation: ${error.message}.`, error);
+      this.logger.warn(`Error during translation: ${error.message}.`, error);
     }
   }
 }
