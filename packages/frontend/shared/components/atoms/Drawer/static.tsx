@@ -1,3 +1,6 @@
+// Don't use useLockBodyScroll from react-use
+// See issue https://github.com/streamich/react-use/issues/2388
+import { usePreventScroll } from '@react-aria/overlays';
 import { MdClose } from 'react-icons/md';
 import { useKeyPressEvent } from 'react-use';
 import { DrawerSide } from './types';
@@ -16,7 +19,7 @@ const StaticDrawer: React.FC<PropsType> = ({
   side = DrawerSide.BOTTOM,
 }) => {
   useKeyPressEvent('Escape', closeMenu);
-  //useLockBodyScroll(isOpen);
+  usePreventScroll({ isDisabled: !isOpen });
 
   const positionStyle = {
     [DrawerSide.BOTTOM]: {
