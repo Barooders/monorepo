@@ -9,27 +9,25 @@ const dict = getDictionary('fr');
 const B2BCustomerRequestButton: React.FC = () => {
   return (
     <NoSSR>
-      <div className="flex gap-2">
-        <Modal
-          ButtonComponent={({ openModal }) => (
-            <Button
-              onClick={openModal}
-              intent="secondary"
-              className="text-md w-full shadow-md"
-            >
-              <div className="flex items-center justify-center gap-2">
-                {dict.b2b.proPage.customerRequests.buttonLabel}
-              </div>
-            </Button>
-          )}
-          ContentComponent={({ closeModal }) => (
-            <B2BCustomerRequest
-              onSave={closeModal}
-              onClose={closeModal}
-            />
-          )}
-        />
-      </div>
+      <Modal
+        ButtonComponent={({ openModal }) => (
+          <Button
+            onClick={openModal}
+            intent="secondary"
+            className="text-md w-full shadow-md"
+          >
+            <div className="flex items-center justify-center gap-2">
+              {dict.b2b.proPage.customerRequests.buttonLabel}
+            </div>
+          </Button>
+        )}
+        ContentComponent={({ closeModal }) => (
+          <B2BCustomerRequest
+            onSave={closeModal}
+            onClose={closeModal}
+          />
+        )}
+      />
     </NoSSR>
   );
 };

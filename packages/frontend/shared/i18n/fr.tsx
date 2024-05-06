@@ -1196,7 +1196,7 @@ const fr = {
       },
       title: 'Vos résultats',
       saveSearch: {
-        buttonLabel: 'Sauvegarder ma recherche',
+        buttonLabel: 'Créer une recherche',
         successToaster: 'Recherche enregistrée',
         title: 'Créer une nouvelle recherche',
         description:

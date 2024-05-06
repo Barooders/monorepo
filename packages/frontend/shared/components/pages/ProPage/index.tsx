@@ -130,7 +130,8 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
           <div className="mt-1">
             <div className="grid grid-cols-5 gap-10">
               <div className="col-span-1 col-start-1 hidden lg:block">
-                <div className="mb-4">
+                <div className="mb-4 flex gap-2">
+                  <B2BSavedSearchButton />
                   <B2BClientRequestButton />
                 </div>
                 <B2BDesktopFilters />
@@ -139,9 +140,6 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
                 <B2BCollectionHeader />
                 <B2BSearchResults openDetails={openDetails} />
                 <Pagination />
-                <div className="sticky bottom-10 left-0 right-0 mt-5 hidden justify-center md:flex">
-                  <B2BSavedSearchButton />
-                </div>
               </div>
             </div>
           </div>

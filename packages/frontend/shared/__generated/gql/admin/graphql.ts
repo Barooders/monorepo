@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -33136,3 +33137,21 @@ export type Uuid_Comparison_Exp = {
   _neq: InputMaybe<Scalars['uuid']['input']>;
   _nin: InputMaybe<Array<Scalars['uuid']['input']>>;
 };
+
+export type FetchProductNotationQueryVariables = Exact<{
+  productInternalId: Scalars['String']['input'];
+}>;
+
+
+export type FetchProductNotationQuery = { __typename?: 'query_root', Product: Array<{ __typename?: 'Product', manualNotation: any | null, source: string | null, sourceUrl: string | null }>, dbt_store_product_for_analytics: Array<{ __typename?: 'dbt_store_product_for_analytics', created_at: any, vendor_notation: any | null, calculated_notation: any | null, calculated_notation_beta: any | null, orders_count: number, favorites_count: number }> };
+
+export type FetchProductHitDataQueryVariables = Exact<{
+  productId: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type FetchProductHitDataQuery = { __typename?: 'query_root', Product: Array<{ __typename?: 'Product', manualNotation: any | null }>, dbt_store_product_for_analytics: Array<{ __typename?: 'dbt_store_product_for_analytics', notation: any | null, calculated_notation: any | null, created_at: any, calculated_scoring: any }> };
+
+
+export const FetchProductNotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProductNotation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manualNotation"}},{"kind":"Field","name":{"kind":"Name","value":"source"}},{"kind":"Field","name":{"kind":"Name","value":"sourceUrl"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dbt_store_product_for_analytics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productInternalId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"vendor_notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation_beta"}},{"kind":"Field","name":{"kind":"Name","value":"orders_count"}},{"kind":"Field","name":{"kind":"Name","value":"favorites_count"}}]}}]}}]} as unknown as DocumentNode<FetchProductNotationQuery, FetchProductNotationQueryVariables>;
+export const FetchProductHitDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"fetchProductHitData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"productId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Product"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"manualNotation"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dbt_store_product_for_analytics"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"productId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"notation"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_notation"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}},{"kind":"Field","name":{"kind":"Name","value":"calculated_scoring"}}]}}]}}]} as unknown as DocumentNode<FetchProductHitDataQuery, FetchProductHitDataQueryVariables>;
