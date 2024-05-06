@@ -7,6 +7,7 @@ import { slugify } from '@/utils/slugify';
 import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { FiMail } from 'react-icons/fi';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
@@ -83,6 +84,7 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({
             options={{
               required: dict.global.forms.required,
             }}
+            placeholder={dict.b2b.proPage.saveSearch.form.titlePlaceholder}
           />
           <div className="mt-3">
             <p className="text-base font-semibold">
@@ -102,7 +104,10 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({
               {dict.b2b.proPage.saveSearch.notifications.title}
             </p>
             <div className="mt-1 flex justify-between rounded-xl border border-slate-200 p-2">
-              {dict.b2b.proPage.saveSearch.notifications.email}
+              <span className="flex items-center gap-2">
+                <FiMail className="h-5 w-5" />
+                {dict.b2b.proPage.saveSearch.notifications.email}
+              </span>
               <FormCheckbox name="enableEmailNotifications" />
             </div>
           </div>

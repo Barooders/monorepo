@@ -1203,6 +1203,7 @@ const fr = {
           'Revenez rapidement sur cette recherche dans l’avenir et recevez des notifications pour les nouveaux résultats.',
         form: {
           title: 'Titre de votre recherche',
+          titlePlaceholder: 'Vélo de route - occasion',
         },
         notifications: {
           email: 'Email',
