@@ -24,16 +24,19 @@ const B2BSaveFiltersButton: React.FC<{ className?: string }> = ({
     <NoSSR>
       <Modal
         ButtonComponent={({ openModal }) => (
-          <Button
-            onClick={openModal}
-            intent="primary"
-            className={`text-md w-full shadow-md ${className}`}
-          >
-            <div className="flex items-center gap-2">
-              <FiSave className="text-white" />
-              {dict.b2b.proPage.saveFilters.buttonLabel}
-            </div>
-          </Button>
+          <>
+            <Button
+              onClick={openModal}
+              intent="primary"
+              className={`text-md w-full shadow-md ${className}`}
+            >
+              <div className="flex items-center gap-2">
+                <FiSave className="text-white" />
+                {dict.b2b.proPage.saveFilters.buttonLabel}
+              </div>
+            </Button>
+            <div className="h-px bg-gray-300" />
+          </>
         )}
         ContentComponent={({ closeModal }) => (
           <B2BSaveFiltersForm

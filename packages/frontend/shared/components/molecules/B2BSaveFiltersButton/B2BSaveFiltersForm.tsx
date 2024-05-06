@@ -2,8 +2,6 @@ import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
-import { randomId } from '@/utils/randomId';
-import { slugify } from '@/utils/slugify';
 import { memo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -20,11 +18,6 @@ type PropsType = {
   query: string;
 };
 
-type FormInputs = {
-  saveSearchTitle: string;
-  enableEmailNotifications: boolean;
-};
-
 const B2BSaveFiltersForm: React.FC<PropsType> = ({
   onSave,
   currentRefinements,
@@ -39,20 +32,17 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
       value: String(value),
     }));
 
-  const formMethods = useForm<FormInputs>({});
+  const formMethods = useForm({});
 
-  const onSubmit = async ({
-    saveSearchTitle,
-    enableEmailNotifications,
-  }: FormInputs) => {
-    const searchName = slugify(saveSearchTitle) + '-' + randomId(5);
+  const onSubmit = async () => {
+    // TODO: handle update
     await storeSavedSearch({
-      name: saveSearchTitle,
+      name: 'Filtres par défaut',
       type: 'B2B_MAIN_PAGE',
-      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
+      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
       query,
       refinements,
-      shouldTriggerAlerts: enableEmailNotifications,
+      shouldTriggerAlerts: false,
     });
 
     toast.success(dict.b2b.proPage.saveFilters.successToaster);
@@ -74,19 +64,17 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
           {dict.b2b.proPage.saveFilters.description}
         </p>
         <div className="mt-5 flex flex-col rounded-xl border border-slate-200 p-5">
-          <div className="mt-3">
-            <p className="text-base font-semibold">
-              {dict.b2b.proPage.saveFilters.selectedFilters}
+          <p className="text-base font-semibold">
+            {dict.b2b.proPage.saveFilters.selectedFilters}
+          </p>
+          {mapCurrentSearch(refinements, query).map((refinement, index) => (
+            <p
+              key={index}
+              className="mt-1 rounded-xl border border-slate-200 bg-slate-100 p-2"
+            >
+              {refinement}
             </p>
-            {mapCurrentSearch(refinements, query).map((refinement, index) => (
-              <p
-                key={index}
-                className="mt-1 rounded-xl border border-slate-200 bg-slate-100 p-2"
-              >
-                {refinement}
-              </p>
-            ))}
-          </div>
+          ))}
         </div>
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
