@@ -19,7 +19,7 @@ const HeaderContainer: React.FC<{
   </div>
 );
 
-const ProHeader: React.FC = () => {
+const B2BHeader: React.FC = () => {
   const dictionnary = getDictionary('fr');
   return (
     <header
@@ -55,4 +55,4 @@ const ProHeader: React.FC = () => {
   );
 };
 
-export default ProHeader;
+export default B2BHeader;
