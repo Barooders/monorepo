@@ -205,10 +205,7 @@ export const prodVendorConfig: EnvVendorsConfig = {
   },
   club_in_sport: {
     vendorId: '7e6b6a67-27e2-4438-8929-2b1815e20271',
-    synchros: [
-      { commandName: 'syncProducts', cron: '30 6 * * *' },
-      { commandName: 'updateProductStatuses', cron: '30 */3 * * *' },
-    ],
+    synchros: [],
   },
   bernaudeau_woo: {
     vendorId: '3cbb2030-a8ca-4bb4-a6c7-e883b2e13169',
