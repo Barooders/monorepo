@@ -275,6 +275,31 @@ export const MobileFilters = () => {
   );
 };
 
+export const B2BMobileFilters = () => {
+  return (
+    <div className="flex overflow-x-auto">
+      <PortalDrawer
+        ContentComponent={B2BMobileFilterDrawer}
+        ButtonComponent={({ openMenu }) => (
+          <Button
+            onClick={openMenu}
+            intent="tertiary"
+            className="text-sm"
+          >
+            <div className="flex items-center gap-2">
+              <HiOutlineAdjustmentsHorizontal />
+              {dict.search.filtersTitle}
+            </div>
+          </Button>
+        )}
+      />
+      <div className="ml-2 overflow-x-auto">
+        <ActiveFilters buttonSize="medium" />
+      </div>
+    </div>
+  );
+};
+
 export const MobileFilterDrawer: React.FC<{ closeMenu: () => void }> = ({
   closeMenu,
 }) => {
@@ -291,6 +316,32 @@ export const MobileFilterDrawer: React.FC<{ closeMenu: () => void }> = ({
       </div>
       <hr className="my-3 border-b-gray-200" />
       <Filters />
+      <Button
+        className="fixed bottom-5 left-5 right-5 text-sm"
+        onClick={closeMenu}
+      >
+        {dict.search.filters.validate}
+      </Button>
+    </div>
+  );
+};
+
+export const B2BMobileFilterDrawer: React.FC<{ closeMenu: () => void }> = ({
+  closeMenu,
+}) => {
+  const { results } = useInstantSearch();
+
+  return (
+    <div className="relative h-[80vh] overflow-y-auto overscroll-contain px-2 pb-12">
+      <p className="mb-3 text-sm text-slate-500">
+        {results.nbHits} {dict.search.results}
+      </p>
+      <div className="flex items-center gap-3">
+        <p className="font-semibold">{dict.search.sortBy.title}</p>
+        <SortBy side="right" />
+      </div>
+      <hr className="my-3 border-b-gray-200" />
+      <B2BFilters />
       <Button
         className="fixed bottom-5 left-5 right-5 text-sm"
         onClick={closeMenu}
