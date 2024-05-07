@@ -3,6 +3,7 @@ import BaroodersLogo from '@/components/icons/BaroodersLogo';
 import { getDictionary } from '@/i18n/translate';
 import { FiBell } from 'react-icons/fi';
 import B2BMenu from '../B2BMenu';
+import B2BSearchBar from '../B2BSearchBar';
 import HeaderButton from '../Header/_components/HeaderButton';
 import { MegaMenuChunk } from '../MegaMenu/shared/types/app/MegaMenu.types';
 
@@ -46,23 +47,24 @@ const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
               <BaroodersLogo className="fill-red-600" />
             </Link>
           </div>
-          <div className="flex gap-2">
-            <div className="hidden gap-1 lg:flex">
-              <HeaderButton
-                href="/account/search-alerts"
-                title={dict.header.icons.alerts}
-              >
-                <FiBell className="h-full w-full" />
-              </HeaderButton>
-            </div>
-            <div className="hidden lg:block">
-              <Link
-                href="/pro/account"
-                className="flex w-48 justify-center rounded-md bg-[#FBFAA5] px-[15px] py-[8px] text-center font-semibold"
-              >
-                {dict.header.b2b.account}
-              </Link>
-            </div>
+          <div className="flex h-full w-full flex-grow">
+            <B2BSearchBar />
+          </div>
+          <div className="hidden gap-1 lg:flex">
+            <HeaderButton
+              href="/account/search-alerts"
+              title={dict.header.icons.alerts}
+            >
+              <FiBell className="h-full w-full" />
+            </HeaderButton>
+          </div>
+          <div className="hidden lg:block">
+            <Link
+              href="/pro/account"
+              className="flex w-48 justify-center rounded-md bg-[#FBFAA5] px-[15px] py-[8px] text-center font-semibold"
+            >
+              {dict.header.b2b.account}
+            </Link>
           </div>
         </div>
       </HeaderContainer>
