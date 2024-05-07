@@ -35,7 +35,7 @@ const B2BSaveFiltersButton: React.FC<{ className?: string }> = ({
                 {dict.b2b.proPage.saveFilters.buttonLabel}
               </div>
             </Button>
-            <div className="h-px bg-gray-300" />
+            <hr className="my-3 border-b-gray-200" />
           </>
         )}
         ContentComponent={({ closeModal }) => (

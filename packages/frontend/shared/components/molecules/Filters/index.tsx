@@ -341,6 +341,7 @@ export const B2BMobileFilterDrawer: React.FC<{ closeMenu: () => void }> = ({
         <SortBy side="right" />
       </div>
       <hr className="my-3 border-b-gray-200" />
+      <B2BSaveFiltersButton />
       <B2BFilters />
       <Button
         className="fixed bottom-5 left-5 right-5 text-sm"
