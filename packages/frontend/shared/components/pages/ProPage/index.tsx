@@ -14,6 +14,7 @@ import { searchCollections } from '@/config';
 import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
+import { getDictionary } from '@/i18n/translate';
 import { useEffect, useState } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
@@ -22,12 +23,15 @@ import B2BSearchResults from './_components/B2BSearchResults';
 
 export const PRODUCT_ID_QUERY_KEY = 'product';
 
-const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
-  query FetchB2BSavedSearch {
+const FETCH_B2B_SAVED_SEARCH_BY_URL = /* GraphQL */ /* typed_for_registered_user */ `
+  query FetchB2BSavedSearchByUrl($resultsUrl: String) {
     SavedSearch(
       limit: 1
       order_by: { createdAt: desc }
-      where: { type: { _eq: "B2B_MAIN_PAGE" } }
+      where: {
+        type: { _eq: "B2B_MAIN_PAGE" }
+        resultsUrl: { _eq: $resultsUrl }
+      }
     ) {
       id
       FacetFilters {
@@ -47,11 +51,39 @@ const FETCH_B2B_SAVED_SEARCH = /* GraphQL */ /* typed_for_registered_user */ `
   }
 `;
 
+const FETCH_B2B_SAVED_SEARCH_BY_NAME = /* GraphQL */ /* typed_for_registered_user */ `
+  query FetchB2BSavedSearchByName($searchName: String) {
+    SavedSearch(
+      limit: 1
+      order_by: { createdAt: desc }
+      where: { type: { _eq: "B2B_MAIN_PAGE" }, name: { _eq: $searchName } }
+    ) {
+      id
+      FacetFilters {
+        value
+        facetName
+      }
+      NumericFilters {
+        facetName
+        operator
+        value
+      }
+      query
+      SearchAlert {
+        isActive
+      }
+    }
+  }
+`;
+
+const dict = getDictionary('fr');
+
 type PropsType = {
   productInternalId: string | null;
+  searchName?: string;
 };
 
-const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
+const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
   const { user } = useHasuraToken();
   const [savedSearch, setSavedSearch] = useState<SavedSearch | undefined>();
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
@@ -59,7 +91,12 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
   );
 
   const fetchB2BSavedSearch = useHasura(
-    graphql(FETCH_B2B_SAVED_SEARCH),
+    graphql(FETCH_B2B_SAVED_SEARCH_BY_URL),
+    HASURA_ROLES.REGISTERED_USER,
+  );
+
+  const fetchB2BSavedSearchByName = useHasura(
+    graphql(FETCH_B2B_SAVED_SEARCH_BY_NAME),
     HASURA_ROLES.REGISTERED_USER,
   );
 
@@ -71,10 +108,19 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
 
   useEffect(() => {
     (async () => {
-      const { SavedSearch } = await fetchB2BSavedSearch();
-      setSavedSearch(SavedSearch[0]);
+      if (!searchName) {
+        const { SavedSearch } = await fetchB2BSavedSearchByName({
+          searchName: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
+        });
+        setSavedSearch(SavedSearch[0]);
+      } else {
+        const { SavedSearch } = await fetchB2BSavedSearch({
+          resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
+        });
+        setSavedSearch(SavedSearch[0]);
+      }
     })();
-  }, []);
+  }, [searchName]);
 
   const addProductToUrl = (productInternalId: string) => {
     const newUrl = new URL(window.location.href);
@@ -122,13 +168,11 @@ const ProPage: React.FC<PropsType> = ({ productInternalId }) => {
           <div className="mt-1">
             <div className="grid grid-cols-5 gap-10">
               <div className="col-span-1 col-start-1 hidden lg:block">
-                <div className="mb-4">
+                <div className="mb-4 flex gap-2">
+                  <B2BSavedSearchButton />
                   <B2BClientRequestButton />
                 </div>
                 <B2BDesktopFilters />
-                <div className="mb-4">
-                  <B2BSavedSearchButton />
-                </div>
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />

@@ -1195,15 +1195,34 @@ const fr = {
         title: 'Une demande spécifique ?',
       },
       title: 'Vos résultats',
-      saveSearch: {
+      saveFilters: {
         buttonLabel: 'Sauvegarder',
-        successToaster: 'Recherche enregistrée',
-        title: 'Enregistrer mes préférences',
-        subTitle: 'Mes critères',
+        defaultSavedSearchName: 'Filtres par défaut',
         description:
-          'Sauvegardez vos critères de recherche pour les retrouver plus tard',
-        modify: 'Modifier',
-        validate: 'Valider',
+          'Afin de garantir une sélection personnalisée, enregistrez vos critères de sélection pour votre prochaine visite.',
+        selectedFilters: 'Filtres Sélectionnés',
+        errorToaster: 'Une erreur est survenue',
+        successToaster: 'Filtres enregistrés',
+        title: 'Enregistrez vos filtres',
+        validate: 'Enregistrer mes filtres',
+      },
+      saveSearch: {
+        buttonLabel: 'Créer une recherche',
+        successToaster: 'Recherche enregistrée',
+        title: 'Créer une nouvelle recherche',
+        description:
+          'Revenez rapidement sur cette recherche dans l’avenir et recevez des notifications pour les nouveaux résultats.',
+        form: {
+          title: 'Titre de votre recherche',
+          titlePlaceholder: 'Vélo de route - occasion',
+        },
+        linkToSearch: 'Cliquez ici pour accéder à votre recherche sauvegardée',
+        notifications: {
+          email: 'Email',
+          title: 'Notifications',
+        },
+        selectedFilters: 'Filtres Sélectionnés',
+        validate: 'Enregistrer ma recherche',
       },
       guarantees: {
         includedShipping: () => (

@@ -1,64 +1,70 @@
-import { SavedSearchContext } from '@/contexts/savedSearch';
 import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
-import useUpdateSavedSearch from '@/hooks/useUpdateSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { mapCurrentSearchToString } from '@/mappers/search';
-import { useContext, useState } from 'react';
+import { mapCurrentSearch } from '@/mappers/search';
+import { randomId } from '@/utils/randomId';
+import { slugify } from '@/utils/slugify';
+import { memo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import {
-  useCurrentRefinements,
-  useSearchBox,
-} from 'react-instantsearch-hooks-web';
+import { FiMail } from 'react-icons/fi';
+import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
+import FormCheckbox from '../FormCheckbox';
+import FormInput from '../FormInput';
 
 const dict = getDictionary('fr');
 
 type PropsType = {
   onSave: () => void;
   onClose: () => void;
+  currentRefinements: ReturnType<typeof useCurrentRefinements>['items'];
+  query: string;
 };
 
-const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
-  const existingSavedSearch = useContext(SavedSearchContext);
-  const [savedSearchId, setSavedSearchId] = useState<string | undefined>(
-    existingSavedSearch?.id,
+type FormInputs = {
+  saveSearchTitle: string;
+  enableEmailNotifications: boolean;
+};
+
+const B2BSavedSearchForm: React.FC<PropsType> = ({
+  currentRefinements,
+  query,
+}) => {
+  const [savedSearchUrl, setSavedSearchUrl] = useState<string | undefined>(
+    undefined,
   );
+
   const [, storeSavedSearch] = useStoreSavedSearch();
-  const [, updateSavedSearch] = useUpdateSavedSearch();
-  const { items } = useCurrentRefinements();
-  const { query } = useSearchBox();
-  const refinements = items
+
+  const refinements = currentRefinements
     .flatMap((item) => item.refinements)
     .map(({ value, ...refinement }) => ({
       ...refinement,
       value: String(value),
     }));
 
-  const formMethods = useForm({});
+  const formMethods = useForm<FormInputs>({});
 
-  const onSubmit = async () => {
-    if (savedSearchId) {
-      await updateSavedSearch(savedSearchId, {
-        query,
-        refinements,
-      });
-    } else {
-      const newSavedSearchId = await storeSavedSearch({
-        name: 'Recherche B2B',
-        type: 'B2B_MAIN_PAGE',
-        resultsUrl: window.location.href,
-        query,
-        refinements,
-        shouldTriggerAlerts: false,
-      });
-      setSavedSearchId(newSavedSearchId);
-    }
+  const onSubmit = async ({
+    saveSearchTitle,
+    enableEmailNotifications,
+  }: FormInputs) => {
+    const searchName = slugify(saveSearchTitle) + '-' + randomId(5);
+    const path = `/pro/search/${searchName}`;
 
+    await storeSavedSearch({
+      name: saveSearchTitle,
+      type: 'B2B_MAIN_PAGE',
+      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}${path}`,
+      query,
+      refinements,
+      shouldTriggerAlerts: enableEmailNotifications,
+    });
+
+    setSavedSearchUrl(path);
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
-    onSave();
   };
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);
@@ -76,40 +82,68 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
           {dict.b2b.proPage.saveSearch.description}
         </p>
         <div className="mt-5 flex flex-col rounded-xl border border-slate-200 p-5">
-          <div>
+          <FormInput
+            label={dict.b2b.proPage.saveSearch.form.title}
+            name="saveSearchTitle"
+            type="text"
+            options={{
+              required: dict.global.forms.required,
+            }}
+            placeholder={dict.b2b.proPage.saveSearch.form.titlePlaceholder}
+          />
+          <div className="mt-3">
             <p className="text-base font-semibold">
-              {dict.b2b.proPage.saveSearch.subTitle}
+              {dict.b2b.proPage.saveSearch.selectedFilters}
             </p>
-            <p className="mt-1 text-sm text-slate-500">
-              {mapCurrentSearchToString(refinements, query)}
+            {mapCurrentSearch(refinements, query).map((refinement, index) => (
+              <p
+                key={index}
+                className="mt-1 rounded-xl border border-slate-200 bg-slate-100 p-2"
+              >
+                {refinement}
+              </p>
+            ))}
+          </div>
+          <div className="mt-8">
+            <p className="text-base font-semibold">
+              {dict.b2b.proPage.saveSearch.notifications.title}
             </p>
+            <div className="mt-1 flex justify-between rounded-xl border border-slate-200 p-2">
+              <span className="flex items-center gap-2">
+                <FiMail className="h-5 w-5" />
+                {dict.b2b.proPage.saveSearch.notifications.email}
+              </span>
+              <FormCheckbox name="enableEmailNotifications" />
+            </div>
           </div>
         </div>
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
         )}
-        <Button
-          className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
-          type="submit"
-          intent="secondary"
-        >
-          {submitState.loading ? (
-            <Loader />
-          ) : (
-            dict.b2b.proPage.saveSearch.validate
-          )}
-        </Button>
-        <Button
-          type="button"
-          className="mt-1 w-full py-3 text-sm font-medium uppercase"
-          onClick={onClose}
-          intent="tertiary"
-        >
-          {dict.b2b.proPage.saveSearch.modify}
-        </Button>
+        {savedSearchUrl !== undefined ? (
+          <Button
+            className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
+            intent="tertiary"
+            href={savedSearchUrl}
+          >
+            {dict.b2b.proPage.saveSearch.linkToSearch}
+          </Button>
+        ) : (
+          <Button
+            className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
+            type="submit"
+            intent="primary"
+          >
+            {submitState.loading ? (
+              <Loader />
+            ) : (
+              dict.b2b.proPage.saveSearch.validate
+            )}
+          </Button>
+        )}
       </form>
     </FormProvider>
   );
 };
 
-export default B2BSavedSearchForm;
+export default memo(B2BSavedSearchForm);
