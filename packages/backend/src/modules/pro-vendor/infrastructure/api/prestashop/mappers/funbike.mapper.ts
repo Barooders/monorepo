@@ -11,11 +11,8 @@ const WANTED_CATEGORIES = [PROMO_CATEGORY, OCCASION_CATEGORY];
 @Injectable()
 export class FunbikeMapper extends PrestashopDefaultMapper {
   async map(product: ProductDTO): Promise<SyncProduct | null> {
-    if (
-      !product.associations?.categories.some(({ id }) =>
-        WANTED_CATEGORIES.includes(id),
-      )
-    ) {
+    const categories = product.associations?.categories ?? [];
+    if (!categories.some(({ id }) => WANTED_CATEGORIES.includes(id))) {
       return null;
     }
 
@@ -23,9 +20,9 @@ export class FunbikeMapper extends PrestashopDefaultMapper {
   }
 
   getProductCondition(product: ProductDTO, _tags: string[]): Condition {
-    return product.associations?.categories.some(
-      ({ id }) => id === OCCASION_CATEGORY,
-    )
+    const categories = product.associations?.categories ?? [];
+
+    return categories.some(({ id }) => id === OCCASION_CATEGORY)
       ? Condition.GOOD
       : Condition.AS_NEW;
   }

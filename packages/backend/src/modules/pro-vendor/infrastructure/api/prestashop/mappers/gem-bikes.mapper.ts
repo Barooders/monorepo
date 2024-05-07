@@ -8,7 +8,8 @@ const USED_CATEGORY = '9';
 @Injectable()
 export class GemBikesMapper extends PrestashopDefaultMapper {
   getProductCondition(product: ProductDTO): Condition {
-    if (product.associations?.categories.some(({ id }) => id === USED_CATEGORY))
+    const categories = product.associations?.categories ?? [];
+    if (categories.some(({ id }) => id === USED_CATEGORY))
       return Condition.VERY_GOOD;
 
     return Condition.AS_NEW;

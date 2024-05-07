@@ -420,7 +420,7 @@ export class PrestashopDefaultMapper {
     }
 
     const {
-      categories,
+      categories = [],
       images,
       combinations,
       product_features,

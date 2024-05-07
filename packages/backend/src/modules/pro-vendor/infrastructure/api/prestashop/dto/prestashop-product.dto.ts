@@ -321,7 +321,8 @@ class Association {
 
   @IsNotEmpty()
   @IsArray()
-  categories!: Array<Categories>;
+  @IsOptional()
+  categories?: Array<Categories>;
 
   @IsOptional()
   @IsArray()
