@@ -1,5 +1,5 @@
 import { metadataConfig, viewportConfig } from '@/document/metadata/global';
-import ProHeader from '../molecules/ProHeader';
+import B2BHeader from '../molecules/B2BHeader';
 import BaseLayout from './base';
 
 export const metadata = metadataConfig;
@@ -10,7 +10,7 @@ export type PropsType = {
 };
 
 const ProLayout: React.FC<PropsType> = ({ children }) => {
-  return <BaseLayout header={<ProHeader />}>{children}</BaseLayout>;
+  return <BaseLayout header={<B2BHeader />}>{children}</BaseLayout>;
 };
 
 export default ProLayout;
