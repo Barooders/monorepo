@@ -153,7 +153,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
   };
 
   return (
-    <PageContainer includeVerticalPadding={false}>
+    <PageContainer includeVerticalPadding={true}>
       {selectedProductId && (
         <AdminProductBanner
           productInternalId={selectedProductId}

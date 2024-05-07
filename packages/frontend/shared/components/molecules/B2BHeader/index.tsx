@@ -1,8 +1,9 @@
 import Link from '@/components/atoms/Link';
 import BaroodersLogo from '@/components/icons/BaroodersLogo';
 import { getDictionary } from '@/i18n/translate';
-import { MdOutlineAccountCircle } from 'react-icons/md';
-import HeaderButton from '../Header/_components/HeaderButton';
+import B2BMenu from '../B2BMenu';
+import { MegaMenuChunk } from '../MegaMenu/shared/types/app/MegaMenu.types';
+import SearchBar from '../SearchBar';
 
 const HeaderContainer: React.FC<{
   children: React.ReactNode;
@@ -19,37 +20,49 @@ const HeaderContainer: React.FC<{
   </div>
 );
 
-const B2BHeader: React.FC = () => {
-  const dictionnary = getDictionary('fr');
+type HeaderProps = {
+  menu: MegaMenuChunk;
+};
+
+const dict = getDictionary('fr');
+
+const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
   return (
     <header
       id="barooders-pro-header"
       className="sticky top-0 z-30 flex flex-col items-center"
     >
       <HeaderContainer className="py-2">
-        <div className="flex w-full flex-col items-center gap-2 lg:flex-row lg:gap-5">
-          <div className="flex w-full flex-col items-center justify-between gap-2 lg:flex-row lg:gap-5">
-            <div
-              className="flex w-[225px] flex-shrink-0 items-center"
-              title={dictionnary.header.logo.title}
+        <div className="flex w-full flex-col items-center justify-between gap-2 lg:flex-row lg:gap-5">
+          <div
+            className="flex w-[225px] flex-shrink-0 items-center"
+            title={dict.header.logo.title}
+          >
+            <Link
+              href={'/'}
+              className="flex h-10 items-center"
             >
-              <Link
-                href={'/'}
-                className="flex h-10 items-center"
-              >
-                <BaroodersLogo className="fill-red-600" />
-              </Link>
-            </div>
-            <div className="absolute right-2 flex gap-1">
-              <HeaderButton
-                href="/pro/account"
-                title={dictionnary.header.icons.account}
-              >
-                <MdOutlineAccountCircle className="h-full w-full fill-secondary-900" />
-              </HeaderButton>
-            </div>
+              <BaroodersLogo className="fill-red-600" />
+            </Link>
+          </div>
+          <div className="flex h-full w-full flex-grow">
+            <SearchBar />
+          </div>
+          <div className="hidden lg:block">
+            <Link
+              href="/pro/account"
+              className="flex w-48 justify-center rounded-md bg-[#FBFAA5] px-[15px] py-[8px] text-center font-semibold"
+            >
+              {dict.header.b2b.account}
+            </Link>
           </div>
         </div>
+      </HeaderContainer>
+      <HeaderContainer
+        id="barooders-main-menu"
+        className="border-gray-2 py-1 lg:border-b lg:py-2"
+      >
+        <B2BMenu menu={menu} />
       </HeaderContainer>
     </header>
   );
