@@ -4,7 +4,7 @@ import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
 import { randomId } from '@/utils/randomId';
 import { slugify } from '@/utils/slugify';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FiMail } from 'react-icons/fi';
@@ -29,10 +29,13 @@ type FormInputs = {
 };
 
 const B2BSavedSearchForm: React.FC<PropsType> = ({
-  onSave,
   currentRefinements,
   query,
 }) => {
+  const [savedSearchUrl, setSavedSearchUrl] = useState<string | undefined>(
+    undefined,
+  );
+
   const [, storeSavedSearch] = useStoreSavedSearch();
 
   const refinements = currentRefinements
@@ -49,17 +52,19 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({
     enableEmailNotifications,
   }: FormInputs) => {
     const searchName = slugify(saveSearchTitle) + '-' + randomId(5);
+    const path = `/pro/search/${searchName}`;
+
     await storeSavedSearch({
       name: saveSearchTitle,
       type: 'B2B_MAIN_PAGE',
-      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search/${searchName}`,
+      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}${path}`,
       query,
       refinements,
       shouldTriggerAlerts: enableEmailNotifications,
     });
 
+    setSavedSearchUrl(path);
     toast.success(dict.b2b.proPage.saveSearch.successToaster);
-    onSave();
   };
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);
@@ -115,17 +120,27 @@ const B2BSavedSearchForm: React.FC<PropsType> = ({
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
         )}
-        <Button
-          className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
-          type="submit"
-          intent="primary"
-        >
-          {submitState.loading ? (
-            <Loader />
-          ) : (
-            dict.b2b.proPage.saveSearch.validate
-          )}
-        </Button>
+        {savedSearchUrl !== undefined ? (
+          <Button
+            className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
+            intent="tertiary"
+            href={savedSearchUrl}
+          >
+            {dict.b2b.proPage.saveSearch.linkToSearch}
+          </Button>
+        ) : (
+          <Button
+            className="mt-5 flex w-full justify-center py-3 text-sm font-medium uppercase"
+            type="submit"
+            intent="primary"
+          >
+            {submitState.loading ? (
+              <Loader />
+            ) : (
+              dict.b2b.proPage.saveSearch.validate
+            )}
+          </Button>
+        )}
       </form>
     </FormProvider>
   );

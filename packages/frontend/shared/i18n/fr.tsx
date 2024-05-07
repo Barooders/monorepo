@@ -1216,6 +1216,7 @@ const fr = {
           title: 'Titre de votre recherche',
           titlePlaceholder: 'Vélo de route - occasion',
         },
+        linkToSearch: 'Cliquez ici pour accéder à votre recherche sauvegardée',
         notifications: {
           email: 'Email',
           title: 'Notifications',
