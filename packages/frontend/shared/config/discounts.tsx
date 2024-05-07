@@ -22,15 +22,15 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    // Ends on 02/05
-    title: 'HBVELOS5',
-    label: 'HBVélos',
+    // Ends on 14/05
+    title: 'TSWHEELS5',
+    label: 'TSWheels',
     type: 'dynamic',
   },
   {
-    // Ends on 08/05
-    title: 'TSWHEELS5',
-    label: 'TSWheels',
+    // Ends on 14/05
+    title: 'SPECIALIZED30',
+    label: 'Specialized',
     type: 'dynamic',
   },
 ];
