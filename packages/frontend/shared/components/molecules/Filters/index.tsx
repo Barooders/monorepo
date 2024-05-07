@@ -202,9 +202,7 @@ export const B2BFilters = () => {
   }, [savedSearch, query, setIndexUiState]);
 
   useEffect(() => {
-    if (b2BSearchBar) {
-      debouncedRefine(b2BSearchBar);
-    }
+    debouncedRefine(b2BSearchBar ?? '');
   }, [b2BSearchBar, debouncedRefine]);
 
   return (
