@@ -2,7 +2,6 @@ import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
 import PortalDrawer from '@/components/atoms/Drawer/withButton';
-import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
 import {
@@ -22,6 +21,7 @@ import {
   useSearchBox,
 } from 'react-instantsearch-hooks-web';
 import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
+import useB2BSearchBar from '../B2BSearchBar/_state/useB2BSearchBar';
 import ActiveFilters from './ActiveFilters';
 import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
@@ -165,9 +165,12 @@ export const Filters = () => {
 
 export const B2BFilters = () => {
   const { refine } = useSearchBox({});
+  const debouncedRefine = debounce(refine, 300);
   const { setIndexUiState } = useInstantSearch();
   const [query, setQuery] = useState<string>('');
   const savedSearch = useContext(SavedSearchContext);
+
+  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchBar();
 
   useEffect(() => {
     if (!savedSearch) return;
@@ -175,6 +178,7 @@ export const B2BFilters = () => {
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
     setQuery(savedQuery ?? '');
+    setB2BSearchBar(savedQuery ?? '');
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
@@ -197,23 +201,14 @@ export const B2BFilters = () => {
     }));
   }, [savedSearch, query, setIndexUiState]);
 
+  useEffect(() => {
+    if (b2BSearchBar) {
+      debouncedRefine(b2BSearchBar);
+    }
+  }, [b2BSearchBar, debouncedRefine]);
+
   return (
     <>
-      <Input
-        inputAdditionalProps={{
-          onChange: (event) => refine(event.currentTarget.value),
-          maxLength: 512,
-          spellCheck: false,
-          autoCapitalize: 'off',
-          autoCorrect: 'off',
-          autoComplete: 'off',
-          defaultValue: query,
-        }}
-        name={'query_b2b'}
-        placeholder={dict.search.filters.search}
-        type={'search'}
-        className="mb-5"
-      />
       <RangeFilter attribute="price" />
       {Object.values(b2bProductAttributesConfiguration).map((attribute) => (
         <FallbackComponent
