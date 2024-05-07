@@ -6,7 +6,10 @@ import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BClientRequestButton from '@/components/molecules/B2BCustomerRequestButton';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
-import { B2BDesktopFilters } from '@/components/molecules/Filters';
+import {
+  B2BDesktopFilters,
+  B2BMobileFilters,
+} from '@/components/molecules/Filters';
 import B2BProductPanel from '@/components/molecules/ProductCard/b2b/connected';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
@@ -176,6 +179,9 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />
+                <div className="sticky top-[100px] z-10 flex bg-white pb-2 pt-1 lg:hidden">
+                  <B2BMobileFilters />
+                </div>
                 <B2BSearchResults openDetails={openDetails} />
                 <Pagination />
               </div>
