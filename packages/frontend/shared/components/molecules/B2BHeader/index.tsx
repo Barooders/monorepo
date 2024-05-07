@@ -1,7 +1,9 @@
 import Link from '@/components/atoms/Link';
 import BaroodersLogo from '@/components/icons/BaroodersLogo';
 import { getDictionary } from '@/i18n/translate';
+import { FiBell } from 'react-icons/fi';
 import B2BMenu from '../B2BMenu';
+import HeaderButton from '../Header/_components/HeaderButton';
 import { MegaMenuChunk } from '../MegaMenu/shared/types/app/MegaMenu.types';
 import SearchBar from '../SearchBar';
 
@@ -39,7 +41,7 @@ const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
             title={dict.header.logo.title}
           >
             <Link
-              href={'/'}
+              href={'/pro'}
               className="flex h-10 items-center"
             >
               <BaroodersLogo className="fill-red-600" />
@@ -47,6 +49,14 @@ const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
           </div>
           <div className="flex h-full w-full flex-grow">
             <SearchBar />
+          </div>
+          <div className="hidden gap-1 lg:flex">
+            <HeaderButton
+              href="/account/search-alerts"
+              title={dict.header.icons.alerts}
+            >
+              <FiBell className="h-full w-full" />
+            </HeaderButton>
           </div>
           <div className="hidden lg:block">
             <Link
