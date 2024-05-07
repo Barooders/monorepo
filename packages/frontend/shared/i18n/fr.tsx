@@ -343,6 +343,9 @@ const fr = {
     logo: {
       title: 'Barooders',
     },
+    b2b: {
+      account: 'Mon compte',
+    },
     search: {
       placeholder: 'Rechercher un article',
     },

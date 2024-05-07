@@ -1,0 +1,16 @@
+meta {
+  name: Get Menu
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{strapiBaseUrl}}/api/menus/13?nested&populate[items][populate][0]=card_image,parent
+  body: none
+  auth: none
+}
+
+query {
+  nested: 
+  populate[items][populate][0]: card_image,parent
+}
