@@ -179,7 +179,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
                 <B2BCollectionHeader />
-                <div className="sticky top-[100px] z-10 flex bg-white pb-2 pt-1 lg:hidden">
+                <div className="flex bg-white pb-2 pt-1 lg:hidden">
                   <B2BMobileFilters />
                 </div>
                 <B2BSearchResults openDetails={openDetails} />
