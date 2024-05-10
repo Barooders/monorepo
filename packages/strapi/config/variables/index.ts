@@ -23,13 +23,10 @@ const envNameToConfig: { [env: string]: EnvType } = {
 };
 
 const getEnvConfig = () => {
-  if (
-    !process.env.NEXT_PUBLIC_BAROODERS_ENV ||
-    !envNameToConfig[process.env.NEXT_PUBLIC_BAROODERS_ENV]
-  )
+  if (!process.env.BAROODERS_ENV || !envNameToConfig[process.env.BAROODERS_ENV])
     return envNameToConfig[DEFAULT_ENV];
 
-  return envNameToConfig[process.env.NEXT_PUBLIC_BAROODERS_ENV];
+  return envNameToConfig[process.env.BAROODERS_ENV];
 };
 
 const envConfig = getEnvConfig();
