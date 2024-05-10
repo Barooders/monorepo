@@ -1,66 +1,64 @@
 {{ config(materialized='table') }}
 
-WITH acquisition_kpis AS (
+with acquisition_kpis as (
 
-  SELECT
-    COALESCE(k.`date`, o.`date`) AS date,
-    COALESCE(k.utm_source, o.utm_source) AS utm_source,
-    COALESCE(k.utm_medium, o.utm_medium) AS utm_medium,
-    COALESCE(k.utm_campaign, o.utm_campaign) AS utm_campaign,
-    --COALESCE(k.landing_page, o.landing_page) as landing_page,
-    --COALESCE(k.channel, o.channel ) as channel,
-    SUM(k.impressions) AS impressions,
-    SUM(k.clicks) AS clicks,
-    SUM(k.platforms_conversions) AS platforms_conversions,
-    SUM(k.spend) AS spend,
-    SUM(k.sessions) AS sessions,
-    SUM(k.users) AS users,
-    SUM(k.bounces) AS bounces,
-    SUM(k.session_duration) AS session_duration,
-    SUM(o.count_orders) AS shopify_conversions,
-    SUM(o.count_paid_orders) AS shopify_paid_conversions,
-    SUM(o.gmv) AS gmv,
-    SUM(o.paid_gmv) AS paid_gmv
-  FROM {{ ref('cost_traffic_kpis') }} AS k
-  FULL OUTER JOIN (
-    SELECT
-      CAST(DATE_TRUNC(creation_date, DAY) AS date) AS date,
-      utm_source,
-      utm_medium,
-      utm_campaign,
-      --landing_page, 
-      --channel, 
-      SUM(total_price) AS gmv,
-      SUM(CASE WHEN financial_status != 'pending' THEN total_price END) AS paid_gmv,
-      COUNT(DISTINCT order_id) AS count_orders,
-      COUNT(DISTINCT CASE WHEN financial_status != 'pending' THEN order_id END) AS count_paid_orders
-    FROM dbt.fact_order_line
-    GROUP BY 1, 2, 3, 4
-
-    UNION ALL
-
-    SELECT
-      CAST(DATE_TRUNC(creation_date, DAY) AS date) AS date,
-      'all',
-      'all',
-      'all',
-      SUM(total_price) AS gmv,
-      SUM(CASE WHEN financial_status != 'pending' THEN total_price END) AS paid_gmv,
-      COUNT(DISTINCT order_id) AS count_orders,
-      COUNT(DISTINCT CASE WHEN financial_status != 'pending' THEN order_id END) AS count_paid_orders
-    FROM dbt.fact_order_line
-    GROUP BY 1, 2, 3, 4
-  ) AS o
-    ON
-      k.date = o.`date`
-      AND k.utm_source = o.utm_source
-      AND k.utm_medium = o.utm_medium
-      AND k.utm_campaign = o.utm_campaign
-  --and k.landing_page = o.landing_page 
-  --and k.channel = o.channel 
-  GROUP BY 1, 2, 3, 4
+    select 
+        COALESCE(k.`date` , o.`date`) as date, 
+        COALESCE(k.utm_source, o.utm_source) as utm_source, 
+        COALESCE(k.utm_medium, o.utm_medium) as utm_medium,
+        COALESCE(k.utm_campaign, o.utm_campaign) as utm_campaign,
+        --COALESCE(k.landing_page, o.landing_page) as landing_page,
+        --COALESCE(k.channel, o.channel ) as channel,
+        sum(k.impressions) as impressions,
+        sum(k.clicks) as clicks,
+        sum(k.platforms_conversions) as platforms_conversions,
+        sum(k.spend) as spend,
+        sum(k.sessions) as sessions,
+        sum(k.users) as users,
+        sum(k.bounces) as bounces,
+        sum(k.session_duration) as session_duration,
+        sum(o.count_orders) as shopify_conversions,
+        sum(o.count_paid_orders) as shopify_paid_conversions,
+        sum(o.gmv) as gmv,
+        sum(o.paid_gmv) paid_gmv
+    from {{ref('cost_traffic_kpis')}} k 
+    full outer join (
+        select cast(date_trunc(creation_date, day) as date) as date, 
+        utm_source, 
+        utm_medium, 
+        utm_campaign, 
+        --landing_page, 
+        --channel, 
+        sum(total_price) gmv, 
+        sum(case when financial_status != 'pending' then total_price else null end) paid_gmv, 
+        count(distinct order_id) count_orders,
+        count(distinct case when financial_status != 'pending' then order_id else null end) count_paid_orders,
+        from dbt.fact_order_line 
+        group by 1,2,3,4
+        
+        union all
+        
+        select 
+            cast(date_trunc(creation_date, day) as date) as date, 
+            'all', 
+            'all', 
+            'all', 
+            sum(total_price) gmv, 
+            sum(case when financial_status != 'pending' then total_price else null end) paid_gmv, 
+            count(distinct order_id) count_orders,
+            count(distinct case when financial_status != 'pending' then order_id else null end) count_paid_orders,
+        from dbt.fact_order_line 
+        group by 1,2,3,4
+        ) o
+    on k.date = o.`date` 
+    and k.utm_source = o.utm_source 
+    and k.utm_medium = o.utm_medium 
+    and k.utm_campaign = o.utm_campaign 
+    --and k.landing_page = o.landing_page 
+    --and k.channel = o.channel 
+    group by 1,2,3,4
 )
 
-SELECT *
-FROM acquisition_kpis
-ORDER BY date DESC
+select *
+from acquisition_kpis
+order by date desc

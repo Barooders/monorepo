@@ -1,15 +1,15 @@
-WITH ecommerce_paid_orders AS (
-
-  SELECT
-    o.owner,
-    'paid_orders' AS indicator_name,
-    date_trunc(o.creation_date, DAY) AS date,
-    count(DISTINCT o.order_id) AS indicator_value
-  FROM {{ ref('fact_order_line') }} AS o
-  WHERE vendor != 'Commission' AND financial_status != 'pending'
-  GROUP BY date, owner, indicator_name
+with ecommerce_paid_orders as (
+    
+    select 
+        date_trunc(o.creation_date, day) as date, 
+        o.owner as owner,
+        'paid_orders' as indicator_name,
+        count(distinct o.order_id) as indicator_value
+    from {{ref('fact_order_line')}} o 
+    where vendor != 'Commission' and financial_status != 'pending'
+    group by date, owner, indicator_name
 
 )
 
-SELECT *
-FROM ecommerce_paid_orders
+select *
+from ecommerce_paid_orders

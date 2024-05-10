@@ -1,75 +1,70 @@
 {{ config(materialized='table') }}
 
-WITH fact_acquisition_cost AS (
+with fact_acquisition_cost as (
 
-  SELECT
-    a.`date` AS date,
-    'google' AS utm_source,
-    'cpc' AS utm_medium,
-    a.campaign_name AS utm_campaign,
-    'Paid Search' AS channel,
-    a.ad_group_name,
-    ad_name,
-    REGEXP_EXTRACT(a.ad_final_urls, r'\[(.+)\]') AS landing_page,
-    'Google Ads' AS platform,
-    SUM(a.clicks) AS clicks,
-    SUM(a.impressions) AS impressions,
-    SUM(a.cost_micros) / 1000000 AS spend,
-    SUM(a.conversions) AS conversions
-  FROM google_ads.google_ads_report AS a
-  GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+    select 
+        a.`date` as date,
+        'google' as utm_source,
+        'cpc' as utm_medium,
+        a.campaign_name as utm_campaign,
+        'Paid Search' as channel,
+        a.ad_group_name,
+        ad_name,
+        REGEXP_EXTRACT(a.ad_final_urls, r'\[(.+)\]') as landing_page,
+        'Google Ads' as platform,
+        sum(a.clicks) as clicks,
+        sum(a.impressions) as impressions,
+        sum(a.cost_micros)/1000000 as spend,
+        sum(a.conversions) as conversions
+    from google_ads.google_ads_report  a 
+    group by 1,2,3,4,5,6,7,8,9
 
-  UNION ALL
+    union all
 
-  SELECT
-    c.`date` AS date,
-    'google' AS utm_source,
-    'cpc' AS utm_medium,
-    c.name AS utm_campaign,
-    'Paid Search' AS channel,
-    CAST(null AS STRING) AS ad_group_name,
-    CAST(null AS STRING) AS ad_name,
-    CAST(null AS STRING) AS landing_page,
-    'Google Ads' AS platform,
-    SUM(c.clicks) AS clicks,
-    SUM(c.impressions) AS impressions,
-    SUM(c.cost_micros) / 1000000 AS spend,
-    SUM(c.conversions) AS conversions
-  FROM google_ads.google_ads_campaign AS c
-  LEFT JOIN google_ads.google_ads_report AS a ON c.name = a.campaign_name
-  WHERE a.campaign_name IS null
-  GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+    select 
+        c.`date` as date,
+        'google' as utm_source,
+        'cpc' as utm_medium,
+        c.name as utm_campaign,
+        'Paid Search' as channel,
+        cast(null as STRING) as ad_group_name,
+        cast(null as STRING) as ad_name,
+        cast(null as STRING) as landing_page,
+        'Google Ads' as platform,
+        sum(c.clicks) as clicks,
+        sum(c.impressions) as impressions,
+        sum(c.cost_micros)/1000000 as spend,
+        sum(c.conversions) as conversions
+    from google_ads.google_ads_campaign  c
+    left join google_ads.google_ads_report a on a.campaign_name = c.name
+    where a.campaign_name is null
+    group by 1,2,3,4,5,6,7,8,9
 
-  UNION ALL
+    union all
 
-  SELECT
-    a.`date`,
-    'facebook' AS utm_source,
-    'cpc' AS utm_medium,
-    a.campaign_name AS utm_campaign,
-    'Paid Search' AS channel,
-    a.adset_name,
-    a.ad_name,
-    CAST(null AS STRING) AS landing_page,
-    'Facebook Ads' AS platform,
-    SUM(a.clicks) AS clicks,
-    SUM(a.impressions) AS impressions,
-    SUM(a.spend) AS spend,
-    COALESCE(SUM(conv.value), 0) AS conversions
-  FROM facebook_ads.facebook_ads_ads AS a
-  LEFT JOIN (SELECT
-    ad_id,
-    date,
-    SUM(value) AS value
-  FROM facebook_ads.facebook_ads_ads_conversions GROUP BY 1, 2) AS conv
-    ON
-      a.ad_id = conv.ad_id
-      AND a.`date` = conv.`date`
-  WHERE account_id = 316479733259152
-  GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9
+    select 
+        a.`date` ,
+        'facebook' as utm_source,
+        'cpc' as utm_medium,
+        a.campaign_name as utm_campaign,
+        'Paid Search' as channel,
+        a.adset_name ,
+        a.ad_name ,
+        cast(null as STRING) as landing_page,
+        'Facebook Ads' as platform,
+        sum(a.clicks) as clicks,
+        sum(a.impressions) as impressions ,
+        sum(a.spend) as spend ,
+        COALESCE (sum(conv.value), 0) as conversions
+    from facebook_ads.facebook_ads_ads a 
+    left join (select ad_id, date, sum(value) value from facebook_ads.facebook_ads_ads_conversions group by 1,2) conv on conv.ad_id = a.ad_id 
+    and conv.`date` = a.`date`
+    where account_id = 316479733259152
+    group by 1,2,3,4,5,6,7,8,9
 
 )
 
-SELECT *
-FROM fact_acquisition_cost
-ORDER BY 1 DESC
+select *
+from fact_acquisition_cost
+order by 1 desc
+

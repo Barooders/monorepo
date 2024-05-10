@@ -1,46 +1,46 @@
 {{ config(materialized='table') }}
 
-WITH ecommerce_kpis AS (
+with ecommerce_kpis as (
 
-  SELECT
-    date,
-    owner,
-    sum(CASE WHEN indicator_name = 'gmv' THEN indicator_value END) AS gmv,
-    sum(CASE WHEN indicator_name = 'buyer_commission' THEN indicator_value END) AS buyer_commission,
-    sum(CASE WHEN indicator_name = 'paid_gmv' THEN indicator_value END) AS paid_gmv,
-    sum(CASE WHEN indicator_name = 'paid_buyer_commission' THEN indicator_value END) AS paid_buyer_commission,
-    coalesce(sum(CASE WHEN indicator_name = 'gross_sales' THEN indicator_value END), 0)
-    - coalesce(sum(CASE WHEN indicator_name = 'discounts' THEN indicator_value END), 0)
-    - coalesce(sum(CASE WHEN indicator_name = 'refunds' THEN indicator_value END), 0)
-    + coalesce(sum(CASE WHEN indicator_name = 'shipping_fees' THEN indicator_value END), 0) AS net_gmv,
-    coalesce(sum(CASE WHEN indicator_name = 'gross_sales_paid' THEN indicator_value END), 0)
-    - coalesce(sum(CASE WHEN indicator_name = 'discounts' THEN indicator_value END), 0)
-    - coalesce(sum(CASE WHEN indicator_name = 'refunds' THEN indicator_value END), 0)
-    + coalesce(sum(CASE WHEN indicator_name = 'shipping_fees_paid' THEN indicator_value END), 0) AS net_gmv_paid,
-    sum(CASE WHEN indicator_name = 'buyers' THEN indicator_value END) AS buyers,
-    sum(CASE WHEN indicator_name = 'orders' THEN indicator_value END) AS orders,
-    sum(CASE WHEN indicator_name = 'paid_orders' THEN indicator_value END) AS paid_orders,
-    sum(CASE WHEN indicator_name = 'sessions' THEN indicator_value END) AS sessions,
-    sum(CASE WHEN indicator_name = 'users' THEN indicator_value END) AS users,
-    sum(CASE WHEN indicator_name = 'new_buyers' THEN indicator_value END) AS new_buyers,
-    sum(CASE WHEN indicator_name = 'shipping_fees' THEN indicator_value END) AS shipping_fees,
-    sum(CASE WHEN indicator_name = 'subscribers' THEN indicator_value END) AS subscribers,
-    sum(CASE WHEN indicator_name = 'submitted_products' THEN indicator_value END) AS submitted_products,
-    sum(CASE WHEN indicator_name = 'new_vendors' THEN indicator_value END) AS new_vendors,
-    sum(CASE WHEN indicator_name = 'active_vendors' THEN indicator_value END) AS active_vendors,
-    sum(CASE WHEN indicator_name = 'returners' THEN indicator_value END) AS returners,
-    sum(CASE WHEN indicator_name = 'refunds' THEN indicator_value END) AS refunds,
-    sum(CASE WHEN indicator_name = 'discounts' THEN indicator_value END) AS discounts,
-    sum(CASE WHEN indicator_name = 'gross_sales' THEN indicator_value END) AS gross_sales,
-    sum(CASE WHEN indicator_name = 'bike_gmv' THEN indicator_value END) AS bike_gmv
+    select 
+        date,
+        owner, 
+        sum(case when indicator_name = 'gmv' then indicator_value end) as gmv,
+        sum(case when indicator_name = 'buyer_commission' then indicator_value end) as buyer_commission,
+        sum(case when indicator_name = 'paid_gmv' then indicator_value end) as paid_gmv,
+        sum(case when indicator_name = 'paid_buyer_commission' then indicator_value end) as paid_buyer_commission,
+        coalesce(sum(case when indicator_name = 'gross_sales' then indicator_value end) , 0)
+        - coalesce(sum(case when indicator_name = 'discounts' then indicator_value end) , 0)
+        - coalesce(sum(case when indicator_name = 'refunds' then indicator_value end) , 0)
+        + coalesce(sum(case when indicator_name = 'shipping_fees' then indicator_value end), 0) as net_gmv,
+        coalesce(sum(case when indicator_name = 'gross_sales_paid' then indicator_value end) , 0)
+        - coalesce(sum(case when indicator_name = 'discounts' then indicator_value end) , 0)
+        - coalesce(sum(case when indicator_name = 'refunds' then indicator_value end) , 0)
+        + coalesce(sum(case when indicator_name = 'shipping_fees_paid' then indicator_value end), 0) as net_gmv_paid,
+        sum(case when indicator_name = 'buyers' then indicator_value end) as buyers,
+        sum(case when indicator_name = 'orders' then indicator_value end) as orders,
+        sum(case when indicator_name = 'paid_orders' then indicator_value end) as paid_orders,
+        sum(case when indicator_name = 'sessions' then indicator_value end) as sessions,
+        sum(case when indicator_name = 'users' then indicator_value end) as users,
+        sum(case when indicator_name = 'new_buyers' then indicator_value end) as new_buyers,
+        sum(case when indicator_name = 'shipping_fees' then indicator_value end) as shipping_fees,
+        sum(case when indicator_name = 'subscribers' then indicator_value end) as subscribers,
+        sum(case when indicator_name = 'submitted_products' then indicator_value end) as submitted_products,
+        sum(case when indicator_name = 'new_vendors' then indicator_value end) as new_vendors,
+        sum(case when indicator_name = 'active_vendors' then indicator_value end) as active_vendors,
+        sum(case when indicator_name = 'returners' then indicator_value end) as returners,
+        sum(case when indicator_name = 'refunds' then indicator_value end) as refunds,
+        sum(case when indicator_name = 'discounts' then indicator_value end) as discounts,
+        sum(case when indicator_name = 'gross_sales' then indicator_value end) as gross_sales,
+        sum(case when indicator_name = 'bike_gmv' then indicator_value end) as bike_gmv
 
 
-  FROM
-    {{ ref('ecommerce_unioned_kpis') }}
+    from 
+        {{ref('ecommerce_unioned_kpis')}}
 
-  GROUP BY date, owner
+    group by date, owner
 
 )
 
-SELECT *
-FROM ecommerce_kpis
+select *
+from ecommerce_kpis

@@ -1,17 +1,18 @@
-WITH finance_kpis AS (
-  SELECT
-    b.date,
-    b.vendor,
-    b.vendor_id,
-    sum(b.buyer_commission) AS buyer_commission,
-    sum(v.vendor_commission) AS vendor_commission,
-    sum(s.shipping_paid) AS shipping_paid
-  FROM {{ ref('finance_buyer_commission') }} AS b
-  FULL JOIN {{ ref('finance_vendor_commission') }} AS v ON b.order_name = v.order_name
-  FULL JOIN {{ ref('finance_shipping') }} AS s ON b.order_name = s.order_name
-  GROUP BY date, vendor, vendor_id
---order by date desc, vendor desc
+with finance_kpis as (
+    Select
+        b.date,
+        b.vendor,
+        b.vendor_id,
+        sum(b.buyer_commission) as buyer_commission,
+        sum(v.vendor_commission) as vendor_commission,
+        sum(s.shipping_paid) as shipping_paid,
+    from {{ref('finance_buyer_commission')}} b
+    full join {{ref('finance_vendor_commission')}} v on v.order_name = b.order_name
+    full join {{ref('finance_shipping')}} s on s.order_name = b.order_name
+    group by date, vendor, vendor_id
+    --order by date desc, vendor desc
 )
 
-SELECT *
-FROM finance_kpis
+Select
+*
+from finance_kpis

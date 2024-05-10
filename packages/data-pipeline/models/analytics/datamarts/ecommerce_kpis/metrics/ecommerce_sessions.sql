@@ -1,15 +1,15 @@
-WITH ecommerce_sessions AS (
-
-  SELECT
-    t.`date`,
-    cast(null AS string) AS owner,
-    'sessions' AS indicator_name,
-    sum(t.sessions) AS indicator_value
-  FROM {{ ref('fact_traffic') }} AS t
-  WHERE t.utm_source = 'all'
-  GROUP BY date, owner, indicator_name
+with ecommerce_sessions as (
+    
+    select 
+        t.`date` , 
+        cast(null as string) as owner,
+        'sessions' as indicator_name,
+        sum(t.sessions) as indicator_value
+    from {{ref('fact_traffic')}} t 
+    where t.utm_source = 'all'
+    group by date, owner, indicator_name
 
 )
 
-SELECT *
-FROM ecommerce_sessions
+select *
+from ecommerce_sessions

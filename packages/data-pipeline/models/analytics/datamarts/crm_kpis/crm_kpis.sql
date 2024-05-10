@@ -1,23 +1,23 @@
 {{ config(materialized='table') }}
 
-WITH crm_kpis AS (
+with crm_kpis as (
 
-  SELECT
-    campaign_name,
-    sent_date,
-    sum(CASE WHEN indicator_name = 'Opened Email' THEN indicator_value END) AS unique_openers,
-    sum(CASE WHEN indicator_name = 'Bounced Email' THEN indicator_value END) AS bounced_emails,
-    sum(CASE WHEN indicator_name = 'Received Email' THEN indicator_value END) AS received_emails,
-    sum(CASE WHEN indicator_name = 'Bounced Email' OR indicator_name = 'Received Email' THEN indicator_value END) AS recipients,
-    sum(CASE WHEN indicator_name = 'Clicked Email' THEN indicator_value END) AS unique_clickers,
-    sum(CASE WHEN indicator_name = 'Unsubscribed' THEN indicator_value END) AS unsubscribers
+    select 
+        campaign_name,
+        sent_date,
+        sum(case when indicator_name = 'Opened Email' then indicator_value end) as unique_openers,
+        sum(case when indicator_name = 'Bounced Email' then indicator_value end) as bounced_emails,
+        sum(case when indicator_name = 'Received Email' then indicator_value end) as received_emails,
+        sum(case when indicator_name = 'Bounced Email' or indicator_name = 'Received Email' then indicator_value end) as recipients,
+        sum(case when indicator_name = 'Clicked Email' then indicator_value end) as unique_clickers,
+        sum(case when indicator_name = 'Unsubscribed' then indicator_value end) as unsubscribers
 
-  FROM
-    {{ ref('crm_indicators') }}
+    from 
+        {{ref('crm_indicators')}}
 
-  GROUP BY 1, 2
+    group by 1,2
 
 )
 
-SELECT *
-FROM crm_kpis
+select *
+from crm_kpis
