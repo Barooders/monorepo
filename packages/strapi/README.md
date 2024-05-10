@@ -1,13 +1,5 @@
 # Barooders Strapi
 
-## Known errors
-
-On dump import, you might encounter problems with sequence ids. You can fix those by running the following command with the corresponding DATABASE_URL:
-
-```
-./database/scripts/fix_sequences.sh $DATABASE_URL
-```
-
 ## Original Strapi documentation
 
 Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/developer-docs/latest/developer-resources/cli/CLI.html) (CLI) which lets you scaffold and manage your project in seconds.
