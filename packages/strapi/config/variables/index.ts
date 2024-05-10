@@ -13,7 +13,6 @@ type EnvType = {
     region: string;
     bucket: string;
   };
-  databaseUrl: string;
   jwtSecret: string;
 };
 
