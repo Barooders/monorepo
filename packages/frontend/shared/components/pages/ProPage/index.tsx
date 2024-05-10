@@ -6,6 +6,7 @@ import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BClientRequestButton from '@/components/molecules/B2BCustomerRequestButton';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
+import useB2BSearchBar from '@/components/molecules/B2BSearchBar/_state/useB2BSearchBar';
 import {
   B2BDesktopFilters,
   B2BMobileFilters,
@@ -84,14 +85,20 @@ const dict = getDictionary('fr');
 type PropsType = {
   productInternalId: string | null;
   searchName?: string;
+  searchQuery: string | null;
 };
 
-const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
+const ProPage: React.FC<PropsType> = ({
+  productInternalId,
+  searchName,
+  searchQuery,
+}) => {
   const { user } = useHasuraToken();
   const [savedSearch, setSavedSearch] = useState<SavedSearch | undefined>();
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
   );
+  const { setB2BSearchBar } = useB2BSearchBar();
 
   const fetchB2BSavedSearch = useHasura(
     graphql(FETCH_B2B_SAVED_SEARCH_BY_URL),
@@ -108,6 +115,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
       setSelectedProductId(productInternalId);
     }
   }, [productInternalId]);
+
+  useEffect(() => {
+    setB2BSearchBar(searchQuery || '');
+  }, [searchQuery]);
 
   useEffect(() => {
     (async () => {
