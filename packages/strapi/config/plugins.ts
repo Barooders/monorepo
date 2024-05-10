@@ -20,6 +20,12 @@ export default () => ({
       },
     },
   },
+  // users-permissions
+  'users-permissions': {
+    config: {
+      jwtSecret: envConfig.jwtSecret,
+    },
+  },
   // strapi-graphql
   graphql: {
     config: {
