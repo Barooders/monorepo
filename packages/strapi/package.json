@@ -4,6 +4,8 @@
   "version": "0.1.3",
   "description": "A Strapi application",
   "scripts": {
+    "decrypt-secrets": "../../decrypt-secrets.sh",
+    "prebuild": "yarn run decrypt-secrets",
     "strapi": "strapi",
     "develop": "strapi develop",
     "build": "strapi build",
