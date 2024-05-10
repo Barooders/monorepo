@@ -12,7 +12,7 @@ import {
 import { getDictionary } from '@/i18n/translate';
 import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
@@ -166,17 +166,15 @@ export const B2BFilters = () => {
   const { refine } = useSearchBox({});
   const debouncedRefine = debounce(refine, 300);
   const { setIndexUiState } = useInstantSearch();
-  const [query, setQuery] = useState<string>('');
 
-  const { b2BSearchBar, savedSearch, setB2BSearchBar } = useB2BSearchContext();
+  const { b2BSearchBar, savedSearch } = useB2BSearchContext();
 
   useEffect(() => {
     if (!savedSearch) return;
 
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-    setQuery(savedQuery ?? '');
-    setB2BSearchBar(savedQuery ?? '');
+    const query = b2BSearchBar || savedQuery;
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
@@ -197,11 +195,7 @@ export const B2BFilters = () => {
       },
       ...(query && { query }),
     }));
-  }, [savedSearch, query, setIndexUiState]);
-
-  useEffect(() => {
-    debouncedRefine(b2BSearchBar ?? '');
-  }, [b2BSearchBar, debouncedRefine]);
+  }, [savedSearch, b2BSearchBar, setIndexUiState]);
 
   return (
     <>
