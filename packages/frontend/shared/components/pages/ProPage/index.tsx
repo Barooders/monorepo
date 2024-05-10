@@ -115,7 +115,9 @@ const ProPage: React.FC<PropsType> = ({
   }, [productInternalId]);
 
   useEffect(() => {
-    setB2BSearchBar(searchQuery || '');
+    if (searchQuery != null) {
+      setB2BSearchBar(searchQuery);
+    }
   }, [searchQuery]);
 
   useEffect(() => {
