@@ -1,4 +1,4 @@
-import envConfig, { envConfigs } from '@config/env/env.config';
+import envConfig from '@config/env/env.config';
 import { PaymentSolutionCode } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { ConfigStoreService } from '@libs/infrastructure/config-store/config-store.service';
@@ -21,7 +21,6 @@ import {
 } from '@modules/buy__payment/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { compact } from 'lodash';
-import { UnleashService } from 'nestjs-unleash';
 import fetch, { RequestInit } from 'node-fetch';
 
 type PaymentLinkDTO = {
@@ -121,10 +120,7 @@ const ID_SIZE_LIMIT = 29;
 @Injectable()
 export class FloaPaymentProvider implements IPaymentProvider {
   private readonly logger: Logger = new Logger(FloaPaymentProvider.name);
-  constructor(
-    private configStore: ConfigStoreService,
-    private readonly unleash: UnleashService,
-  ) {}
+  constructor(private configStore: ConfigStoreService) {}
 
   async checkEligibility(
     customerInfo: CustomerInfoType,
@@ -343,17 +339,11 @@ export class FloaPaymentProvider implements IPaymentProvider {
   }
 
   private getFloaConfig() {
-    const envDependentConfig = this.unleash.isEnabled('floa.force-production')
-      ? envConfigs.production
-      : envConfig;
-
     return {
-      envName: envDependentConfig.envName,
-      apiKey: envDependentConfig.externalServices.floa.apiKey,
-      eligibilityBaseUrl:
-        envDependentConfig.externalServices.floa.eligilityBaseUrl,
-      paymentBaseUrl:
-        envDependentConfig.externalServices.floa.paymentgatewayBaseUrl,
+      envName: envConfig.envName,
+      apiKey: envConfig.externalServices.floa.apiKey,
+      eligibilityBaseUrl: envConfig.externalServices.floa.eligilityBaseUrl,
+      paymentBaseUrl: envConfig.externalServices.floa.paymentgatewayBaseUrl,
       merchantId: 1667,
       merchantSiteIds: {
         [PaymentSolution.FLOA_10X]: 76682,
