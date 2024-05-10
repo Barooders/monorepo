@@ -1,8 +1,7 @@
 import { parse } from 'pg-connection-string';
-import envConfig from '../../../config/variables';
 
 module.exports = ({ env }) => {
-  const config = parse(envConfig.databaseUrl);
+  const config = parse(env('DATABASE_URL'));
 
   return {
     connection: {
