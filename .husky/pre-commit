@@ -6,7 +6,8 @@ git diff --cached --name-only | grep 'packages/backend' && yarn workspace backen
 git diff --cached --name-only | grep 'packages/shared-types' && yarn workspace shared-types lint-staged
 git diff --cached --name-only | grep 'packages/store' && yarn --cwd lint-staged
 git diff --cached --name-only | grep 'package.json' && node ./scripts/ci/enforceFixedNodeDependencies.js
-git diff --cached --name-only | grep 'packages/dbt' && cd packages/dbt && sqlfluff fix && cd ../..
+git diff --cached --name-only | grep 'packages/dbt' && sqlfluff fix packages/dbt --config packages/dbt/.sqlfluff
+git diff --cached --name-only | grep 'packages/data-pipeline' && sqlfluff fix packages/data-pipeline --config packages/data-pipeline/.sqlfluff
 
 
 # Transcrypt pre-commit hook: fail if secret file in staging lacks the magic prefix "Salted" in B64

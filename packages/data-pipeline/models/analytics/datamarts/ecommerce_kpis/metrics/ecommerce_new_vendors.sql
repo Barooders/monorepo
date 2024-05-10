@@ -1,17 +1,18 @@
-with ecommerce_new_vendors as (
-    
-    select 
-        date_trunc(p.creation_date, day) as date, 
-        p.owner as owner,
-        'new_vendors' as indicator_name,
-        count(distinct p.vendor_id) as indicator_value
-    from {{ref('dim_product')}} p
-    left join {{ref('dim_product')}} p_before on p_before.vendor_id = p.vendor_id and p_before.creation_date < p.creation_date and p_before.status != 'draft'
-    where p_before.id is null
-    and p.status != 'draft'
-    group by date, owner, indicator_name
+WITH ecommerce_new_vendors AS (
+
+  SELECT
+    p.owner,
+    'new_vendors' AS indicator_name,
+    date_trunc(p.creation_date, DAY) AS date,
+    count(DISTINCT p.vendor_id) AS indicator_value
+  FROM {{ ref('dim_product') }} AS p
+  LEFT JOIN {{ ref('dim_product') }} AS p_before ON p.vendor_id = p_before.vendor_id AND p.creation_date > p_before.creation_date AND p_before.status != 'draft'
+  WHERE
+    p_before.id IS null
+    AND p.status != 'draft'
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_new_vendors
+SELECT *
+FROM ecommerce_new_vendors

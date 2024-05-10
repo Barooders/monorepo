@@ -1,9 +1,13 @@
-with product_tags as (
-    select t.product_id, split(t.value, ':')[OFFSET(0)] tag, t.value as full_tag, min(split(t.value, ':')[OFFSET(1)]) value
-    from shopify.product_tag t
-    WHERE REGEXP_CONTAINS(value, ':')
-    group by 1,2,3
+WITH product_tags AS (
+  SELECT
+    t.product_id,
+    split(t.value, ':')[offset(0)] AS tag,
+    t.value AS full_tag,
+    min(split(t.value, ':')[offset(1)]) AS value
+  FROM shopify.product_tag AS t
+  WHERE regexp_contains(value, ':')
+  GROUP BY 1, 2, 3
 )
 
-select *
-from product_tags
+SELECT *
+FROM product_tags

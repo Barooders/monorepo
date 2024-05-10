@@ -9,5 +9,5 @@ modified_files=$(git diff --name-only origin/main HEAD)
 
 # Check if any modified files are within the specified folder
 if echo "$modified_files" | grep -q "packages/dbt"; then
-    cd packages/dbt && dbt run --profiles-dir config/local --target staging
+    dbt run --project-dir packages/dbt --profiles-dir packages/dbt/config/local --target staging
 fi

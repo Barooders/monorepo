@@ -1,15 +1,14 @@
-with ecommerce_buyers as (
-    
-    select 
-        date_trunc(o.creation_date, day) as date, 
-        o.owner as owner,
-        'buyers' as indicator_name,
-        count(distinct o.customer_id) as indicator_value
-    from {{ref('fact_order_line')}} o 
-    group by date, owner, indicator_name
+WITH ecommerce_buyers AS (
+
+  SELECT
+    o.owner,
+    'buyers' AS indicator_name,
+    date_trunc(o.creation_date, DAY) AS date,
+    count(DISTINCT o.customer_id) AS indicator_value
+  FROM {{ ref('fact_order_line') }} AS o
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_buyers
-
+SELECT *
+FROM ecommerce_buyers

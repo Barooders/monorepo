@@ -5,74 +5,77 @@
 
 WITH
 
-TRAFFIC30 as (
-    SELECT
-        productid,
-        count(distinct mp_insert_id) as nb_events,
+TRAFFIC30 AS (
+  SELECT
+    PRODUCTID,
+    count(DISTINCT MP_INSERT_ID) AS NB_EVENTS
 
-    FROM  mixpanel_direct_export.mp_master_event as ev
+  FROM MIXPANEL_DIRECT_EXPORT.MP_MASTER_EVENT
 
-    WHERE
-        mp_event_name = 'clickProduct'
-        and extract(date from time) >= date_sub(current_date(), interval 30 day)
-        and not (extract(date from time) = '2024-03-27')
-    GROUP BY productid
+  WHERE
+    MP_EVENT_NAME = 'clickProduct'
+    AND extract(DATE FROM TIME) >= date_sub(current_date(), INTERVAL 30 DAY)
+    AND NOT (extract(DATE FROM TIME) = '2024-03-27')
+  GROUP BY PRODUCTID
 ),
-TRAFFIC7 as (
-    SELECT
-        productid,
-        count(distinct mp_insert_id) as nb_events,
 
-    FROM  mixpanel_direct_export.mp_master_event as ev
+TRAFFIC7 AS (
+  SELECT
+    PRODUCTID,
+    count(DISTINCT MP_INSERT_ID) AS NB_EVENTS
 
-    WHERE
-        mp_event_name = 'clickProduct'
-        and extract(date from time) >= date_sub(current_date(), interval 7 day)
-        and not (extract(date from time) = '2024-03-27')
+  FROM MIXPANEL_DIRECT_EXPORT.MP_MASTER_EVENT
 
-    GROUP BY productid
+  WHERE
+    MP_EVENT_NAME = 'clickProduct'
+    AND extract(DATE FROM TIME) >= date_sub(current_date(), INTERVAL 7 DAY)
+    AND NOT (extract(DATE FROM TIME) = '2024-03-27')
+
+  GROUP BY PRODUCTID
 ),
-TRAFFICTOT as (
-    SELECT
-        productid,
-        count(distinct mp_insert_id) as nb_events,
 
-    FROM  mixpanel_direct_export.mp_master_event as ev
+TRAFFICTOT AS (
+  SELECT
+    PRODUCTID,
+    count(DISTINCT MP_INSERT_ID) AS NB_EVENTS
 
-    WHERE
-        mp_event_name = 'clickProduct'
+  FROM MIXPANEL_DIRECT_EXPORT.MP_MASTER_EVENT
 
-    GROUP BY productid
+  WHERE
+    MP_EVENT_NAME = 'clickProduct'
+
+  GROUP BY PRODUCTID
 ),
-FAV as (
-    SELECT
-        count(distinct fav.id) as nb_fav,
-        productid
 
-    FROM barooders_backend_public.favoriteproducts as fav
+FAV AS (
+  SELECT
+    PRODUCTID,
+    count(DISTINCT FAV.ID) AS NB_FAV
 
-    where fav.createdat >= date_sub(current_date(), interval 90 day)
+  FROM BAROODERS_BACKEND_PUBLIC.FAVORITEPRODUCTS AS FAV
 
-    group by productid
+  WHERE FAV.CREATEDAT >= date_sub(current_date(), INTERVAL 90 DAY)
+
+  GROUP BY PRODUCTID
 )
 
 SELECT * FROM (
-    SELECT
-        prod.id as id,
-        p.id as shopifyid,
-        case when sum(TRAFFIC30.nb_events) IS NULL THEN 0 ELSE sum(TRAFFIC30.nb_events) END AS traffic30,
-        case when sum(TRAFFIC7.nb_events) IS NULL THEN 0 ELSE sum(TRAFFIC7.nb_events) END AS traffic7,
-        case when sum(TRAFFICTOT.nb_events) IS NULL THEN 0 ELSE sum(TRAFFICTOT.nb_events) END AS traffictot,
-        case when sum(FAV.nb_fav) IS NULL THEN 0 ELSE sum(FAV.nb_fav) END AS nb_fav,
+  SELECT
+    PROD.ID,
+    P.ID AS SHOPIFYID,
+    CASE WHEN sum(TRAFFIC30.NB_EVENTS) IS NULL THEN 0 ELSE sum(TRAFFIC30.NB_EVENTS) END AS TRAFFIC30,
+    CASE WHEN sum(TRAFFIC7.NB_EVENTS) IS NULL THEN 0 ELSE sum(TRAFFIC7.NB_EVENTS) END AS TRAFFIC7,
+    CASE WHEN sum(TRAFFICTOT.NB_EVENTS) IS NULL THEN 0 ELSE sum(TRAFFICTOT.NB_EVENTS) END AS TRAFFICTOT,
+    CASE WHEN sum(FAV.NB_FAV) IS NULL THEN 0 ELSE sum(FAV.NB_FAV) END AS NB_FAV
 
-    FROM {{ref('dim_product')}} AS p
-    LEFT JOIN TRAFFIC30 AS TRAFFIC30 ON TRAFFIC30.productid = cast(p.id AS string)
-    LEFT JOIN TRAFFIC7 AS TRAFFIC7 ON TRAFFIC7.productid = cast(p.id AS string)
-    LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.productid = cast(p.id AS string)
-    LEFT JOIN FAV AS FAV ON cast(FAV.productid AS string) = cast(p.id AS string)
-    LEFT JOIN barooders_backend_dbt.store_product_for_analytics AS prod ON prod.shopify_id = p.id
+  FROM {{ ref('dim_product') }} AS P
+  LEFT JOIN TRAFFIC30 AS TRAFFIC30 ON TRAFFIC30.PRODUCTID = cast(P.ID AS string)
+  LEFT JOIN TRAFFIC7 AS TRAFFIC7 ON TRAFFIC7.PRODUCTID = cast(P.ID AS string)
+  LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.PRODUCTID = cast(P.ID AS string)
+  LEFT JOIN FAV AS FAV ON cast(FAV.PRODUCTID AS string) = cast(P.ID AS string)
+  LEFT JOIN BAROODERS_BACKEND_DBT.STORE_PRODUCT_FOR_ANALYTICS AS PROD ON P.ID = PROD.SHOPIFY_ID
 
-    GROUP BY p.id, prod.id
-    ORDER BY nb_fav DESC
+  GROUP BY P.ID, PROD.ID
+  ORDER BY NB_FAV DESC
 )
-WHERE id IS NOT NULL AND traffic30 > 0
+WHERE ID IS NOT NULL AND TRAFFIC30 > 0

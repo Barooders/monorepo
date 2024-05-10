@@ -1,14 +1,14 @@
-with ecommerce_active_vendors as (
-    
-    select 
-        date_trunc(p.creation_date, day) as date, 
-        p.owner as owner,
-        'active_vendors' as indicator_name,
-        count(distinct p.vendor_id) as indicator_value
-    from {{ref('dim_product')}} p 
-    group by date, owner, indicator_name
+WITH ecommerce_active_vendors AS (
+
+  SELECT
+    p.owner,
+    'active_vendors' AS indicator_name,
+    date_trunc(p.creation_date, DAY) AS date,
+    count(DISTINCT p.vendor_id) AS indicator_value
+  FROM {{ ref('dim_product') }} AS p
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_active_vendors
+SELECT *
+FROM ecommerce_active_vendors

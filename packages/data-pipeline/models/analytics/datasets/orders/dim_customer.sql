@@ -1,25 +1,25 @@
 {{ config(materialized='table') }}
 
 
-with dim_customer as (
-    select 
-        c.id as customer_id,
-        max(DATETIME(c.created_at, 'Europe/Paris')) as creation_datetime,
-        max(date_trunc(DATETIME(c.created_at, 'Europe/Paris'), day)) as creation_date,
-        max(ca.first_name) as first_name,
-        max(ca.last_name) as last_name,
-        max(ca.country) as country, 
-        c.email as email,
-        max(ca.phone) as phone,
-        max(CAST(b_c.ispro as STRING)) as is_pro,
-        max(b_c.sellername) as username,
-        max(b_c.type) as type
-    from shopify.customer c
-    left join shopify.customer_address ca on ca.customer_id = c.id
-    left join barooders_backend_public.customer b_c ON b_c.shopifyid = c.id
-    group by c.id, c.email
+WITH dim_customer AS (
+  SELECT
+    c.id AS customer_id,
+    c.email,
+    max(datetime(c.created_at, 'Europe/Paris')) AS creation_datetime,
+    max(date_trunc(datetime(c.created_at, 'Europe/Paris'), DAY)) AS creation_date,
+    max(ca.first_name) AS first_name,
+    max(ca.last_name) AS last_name,
+    max(ca.country) AS country,
+    max(ca.phone) AS phone,
+    max(cast(b_c.ispro AS STRING)) AS is_pro,
+    max(b_c.sellername) AS username,
+    max(b_c.type) AS type
+  FROM shopify.customer AS c
+  LEFT JOIN shopify.customer_address AS ca ON c.id = ca.customer_id
+  LEFT JOIN barooders_backend_public.customer AS b_c ON c.id = b_c.shopifyid
+  GROUP BY c.id, c.email
 )
 
-select *
-from dim_customer
-order by 2 desc
+SELECT *
+FROM dim_customer
+ORDER BY 2 DESC

@@ -8,6 +8,10 @@ on:
     paths:
       - packages/data-pipeline/**
 
+defaults:
+  run:
+    working-directory: ./packages/data-pipeline
+
 env:
   DBT_GOOGLE_PROJECT_ID: ${{ vars.DBT_GOOGLE_PROJECT_ID }}
   DBT_GOOGLE_KEYFILE: /tmp/google/google-service-account.json
@@ -26,26 +30,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: mkdir -p "$(dirname $DBT_GOOGLE_KEYFILE)"
-      - run: echo "$KEYFILE_CONTENTS" > $DBT_GOOGLE_KEYFILE
+      - working-directory: .
+        run: mkdir -p "$(dirname $DBT_GOOGLE_KEYFILE)"
 
-      - name: Install Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9.16
+      - working-directory: .
+        run: echo "$KEYFILE_CONTENTS" > $DBT_GOOGLE_KEYFILE
 
       - name: Checkout Repo
         uses: actions/checkout@master
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.3'
+          cache: 'pip'
+
       - name: Install dbt
-        working-directory: ./packages/data-pipeline
         run: |
-          pip install dbt-bigquery
+          pip install -r requirements.txt
           dbt deps
           dbt --version
 
       - name: Run dbt
-        working-directory: ./packages/data-pipeline
         run: dbt compile --profiles-dir=config/local
 
       - name: Upload DBT Logs
@@ -53,3 +58,25 @@ jobs:
         with:
           name: dbt-logs
           path: ~/.dbt/runs
+
+  static_analysis:
+    name: Run static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - working-directory: .
+        run: mkdir -p "$(dirname $DBT_GOOGLE_KEYFILE)"
+
+      - working-directory: .
+        run: echo "$KEYFILE_CONTENTS" > $DBT_GOOGLE_KEYFILE
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.3'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Lint data-pipeline
+        run: sqlfluff lint
