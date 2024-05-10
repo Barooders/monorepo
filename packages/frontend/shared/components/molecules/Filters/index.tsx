@@ -9,11 +9,10 @@ import {
   b2bProductAttributesConfiguration,
   publicProductAttributesConfiguration,
 } from '@/config/productAttributes';
-import { SavedSearchContext } from '@/contexts/savedSearch';
 import { getDictionary } from '@/i18n/translate';
 import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
@@ -168,9 +167,8 @@ export const B2BFilters = () => {
   const debouncedRefine = debounce(refine, 300);
   const { setIndexUiState } = useInstantSearch();
   const [query, setQuery] = useState<string>('');
-  const savedSearch = useContext(SavedSearchContext);
 
-  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchContext();
+  const { b2BSearchBar, savedSearch, setB2BSearchBar } = useB2BSearchContext();
 
   useEffect(() => {
     if (!savedSearch) return;
