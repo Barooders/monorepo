@@ -16,30 +16,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
-    quotes: [
-      'warn',
-      'double',
-      {
-        avoidEscape: true,
-      },
-    ],
-    'prettier/prettier': [
-      'error',
-      {
-        arrowParens: 'avoid',
-        bracketSpacing: true,
-        endOfLine: 'auto',
-        trailingComma: 'es5',
-        tabWidth: 2,
-        semi: true,
-        singleQuote: false,
-        printWidth: 120,
-      },
-    ],
     '@typescript-eslint/no-namespace': 'off',
   },
   ignorePatterns: ['dist/*', 'test/*'],
