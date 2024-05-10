@@ -9,13 +9,12 @@ import { DeliveryProfileModule } from '@modules/delivery-profile/delivery-profil
 import { OrderModule } from '@modules/order/order.module';
 import { PriceOfferModule } from '@modules/price-offer/price-offer.module';
 import { ProductModule } from '@modules/product/product.module';
+import { SearchAlertAppModule } from '@modules/search-alert/module';
 import { ShopifyAuthModule } from '@modules/shopify-auth/shopify-auth.module';
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ScheduleModule } from '@nestjs/schedule';
 import { RequestContextModule } from 'nestjs-request-context';
 import { BaseModule } from './base.module';
-import { SearchAlertAppModule } from '@modules/search-alert/module';
 
 const interceptors = [
   {
@@ -43,12 +42,7 @@ const applicationModules = [
 ];
 
 @Module({
-  imports: [
-    RequestContextModule,
-    ScheduleModule.forRoot(),
-    BaseModule,
-    ...applicationModules,
-  ],
+  imports: [RequestContextModule, BaseModule, ...applicationModules],
   controllers: [],
   providers: [...interceptors],
 })

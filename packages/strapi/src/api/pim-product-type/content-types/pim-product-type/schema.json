@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_product_types",
+  "info": {
+    "singularName": "pim-product-type",
+    "pluralName": "pim-product-types",
+    "displayName": "[PIM] Product Type",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "productAttributes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-product-attribute.pim-product-attribute",
+      "inversedBy": "productTypes"
+    },
+    "productModels": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-model.pim-product-model",
+      "mappedBy": "productType"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-category.pim-category",
+      "inversedBy": "productTypes"
+    },
+    "brands": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-brand.pim-brand",
+      "inversedBy": "productTypes"
+    },
+    "gendered": {
+      "type": "boolean"
+    },
+    "order": {
+      "type": "integer"
+    },
+    "productFamilies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-family.pim-product-family",
+      "mappedBy": "productType"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_product_families",
+  "info": {
+    "singularName": "pim-product-family",
+    "pluralName": "pim-product-families",
+    "displayName": "[PIM] Product family",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "productModels": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-model.pim-product-model",
+      "mappedBy": "productFamily"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-brand.pim-brand",
+      "inversedBy": "productFamilies"
+    },
+    "productType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-product-type.pim-product-type",
+      "inversedBy": "productFamilies"
+    },
+    "displayName": {
+      "type": "string"
+    }
+  }
+}
