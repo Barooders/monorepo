@@ -21,7 +21,7 @@ import {
   useSearchBox,
 } from 'react-instantsearch-hooks-web';
 import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
-import useB2BSearchBar from '../B2BSearchBar/_state/useB2BSearchBar';
+import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
 import ActiveFilters from './ActiveFilters';
 import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
@@ -170,7 +170,7 @@ export const B2BFilters = () => {
   const [query, setQuery] = useState<string>('');
   const savedSearch = useContext(SavedSearchContext);
 
-  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchBar();
+  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchContext();
 
   useEffect(() => {
     if (!savedSearch) return;
