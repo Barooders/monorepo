@@ -6,6 +6,7 @@ import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BClientRequestButton from '@/components/molecules/B2BCustomerRequestButton';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
+import useB2BSearchContext from '@/components/molecules/B2BSearchBar/_state/useB2BSearchContext';
 import {
   B2BDesktopFilters,
   B2BMobileFilters,
@@ -14,7 +15,6 @@ import B2BProductPanel from '@/components/molecules/ProductCard/b2b/connected';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
-import { SavedSearch, SavedSearchContext } from '@/contexts/savedSearch';
 import { useHasura } from '@/hooks/useHasura';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { getDictionary } from '@/i18n/translate';
@@ -84,14 +84,19 @@ const dict = getDictionary('fr');
 type PropsType = {
   productInternalId: string | null;
   searchName?: string;
+  searchQuery: string | null;
 };
 
-const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
+const ProPage: React.FC<PropsType> = ({
+  productInternalId,
+  searchName,
+  searchQuery,
+}) => {
   const { user } = useHasuraToken();
-  const [savedSearch, setSavedSearch] = useState<SavedSearch | undefined>();
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
   );
+  const { setB2BSearchBar, setSavedSearch } = useB2BSearchContext();
 
   const fetchB2BSavedSearch = useHasura(
     graphql(FETCH_B2B_SAVED_SEARCH_BY_URL),
@@ -108,6 +113,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
       setSelectedProductId(productInternalId);
     }
   }, [productInternalId]);
+
+  useEffect(() => {
+    setB2BSearchBar(searchQuery || '');
+  }, [searchQuery]);
 
   useEffect(() => {
     (async () => {
@@ -153,7 +162,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
   };
 
   return (
-    <PageContainer includeVerticalPadding={false}>
+    <PageContainer includeVerticalPadding={true}>
       {selectedProductId && (
         <AdminProductBanner
           productInternalId={selectedProductId}
@@ -167,27 +176,25 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
         query={''}
         ruleContexts={[]}
       >
-        <SavedSearchContext.Provider value={savedSearch}>
-          <div className="mt-1">
-            <div className="grid grid-cols-5 gap-10">
-              <div className="col-span-1 col-start-1 hidden lg:block">
-                <div className="mb-4 flex gap-2">
-                  <B2BSavedSearchButton />
-                  <B2BClientRequestButton />
-                </div>
-                <B2BDesktopFilters />
+        <div className="mt-1">
+          <div className="grid grid-cols-5 gap-10">
+            <div className="col-span-1 col-start-1 hidden lg:block">
+              <div className="mb-4 flex gap-2">
+                <B2BSavedSearchButton />
+                <B2BClientRequestButton />
               </div>
-              <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
-                <B2BCollectionHeader />
-                <div className="flex bg-white pb-2 pt-1 lg:hidden">
-                  <B2BMobileFilters />
-                </div>
-                <B2BSearchResults openDetails={openDetails} />
-                <Pagination />
+              <B2BDesktopFilters />
+            </div>
+            <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
+              <B2BCollectionHeader />
+              <div className="flex bg-white pb-2 pt-1 lg:hidden">
+                <B2BMobileFilters />
               </div>
+              <B2BSearchResults openDetails={openDetails} />
+              <Pagination />
             </div>
           </div>
-        </SavedSearchContext.Provider>
+        </div>
       </InstantSearchProvider>
       <PortalDrawer
         ContentComponent={() =>
