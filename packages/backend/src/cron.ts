@@ -3,14 +3,19 @@ import 'dotenv.config';
 
 import envConfig from '@config/env/env.config';
 import { runJob } from '@libs/infrastructure/render/run-job';
-import { schedule } from 'node-cron';
+import { CronJob } from 'cron';
 
 const { cronJobs, envName } = envConfig;
 
 console.log(`Starting ${cronJobs.length} cron jobs`);
 
 cronJobs.forEach(({ command, cron }) => {
-  schedule(cron, async () => {
-    await runJob(command, envName, cron);
+  CronJob.from({
+    cronTime: cron, // cronTime
+    onTick: async () => {
+      await runJob(command, envName, cron);
+    },
+    start: true,
+    timeZone: 'Europe/Paris',
   });
 });
