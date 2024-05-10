@@ -171,7 +171,7 @@ export const B2BFilters = () => {
 
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-    if (savedQuery && !b2BSearchBar) {
+    if (savedQuery && b2BSearchBar === undefined) {
       setB2BSearchBar(savedQuery);
       return;
     }
