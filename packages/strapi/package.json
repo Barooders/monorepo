@@ -18,7 +18,7 @@
     "@strapi/provider-upload-aws-s3": "4.5.2",
     "@strapi/strapi": "4.6.0",
     "@typescript-eslint/eslint-plugin": "5.35.1",
-    "@typescript-eslint/parser": "5.35.1",
+    "@typescript-eslint/parser": "7.0.2",
     "axios": "1.2.2",
     "eslint": "8.23.0",
     "inquirer": "9.1.4",
