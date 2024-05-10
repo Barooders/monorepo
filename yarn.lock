@@ -19253,7 +19253,7 @@ ip-regex@^4.1.0:
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-4.3.0.tgz#687275ab0f57fa76978ff8f4dddc8a23d5990db5"
   integrity sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==
 
-ip@^1.1.5, ip@^1.1.8:
+ip@^1.1.8:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.9.tgz#8dfbcc99a754d07f425310b86a99546b1151e396"
   integrity sha512-cyRxvOEpNHNtchU3Ln9KC/auJgup87llfQpQ+t5ghoC/UhL16SWzbueiCsdTnWmqAWl7LadfuwhlqmtOaqMHdQ==
@@ -23182,14 +23182,6 @@ nestjs-request-context@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/nestjs-request-context/-/nestjs-request-context-2.1.0.tgz#097808447193770eab24e1f46366047c1a8866eb"
   integrity sha512-XSZ4CGjgVetyP0q6TSgu+urpUhS8hlY4UxDenPioqEhwpiLCjYFnWrp8NSJctn6NdON5d45LLKz/TN/5ZppL9w==
-
-nestjs-unleash@2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/nestjs-unleash/-/nestjs-unleash-2.2.4.tgz#b71263ed8a377e71f55a8eacdd8fbec96ea43482"
-  integrity sha512-V8bfpAp6OOIcVREQH/WT1n6njfuXlOe6eKSO3xjHERp9FTx5u7MSMGIjhfSXfFYK1eEHrcJAv+sBG0wCKs/f0g==
-  dependencies:
-    ip "^1.1.5"
-    murmurhash3js "^3.0.1"
 
 newrelic@11.14.0:
   version "11.14.0"
