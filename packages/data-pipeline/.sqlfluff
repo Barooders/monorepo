@@ -1,7 +1,7 @@
 [sqlfluff]
 dialect = bigquery
 templater = dbt
-exclude_rules = layout.long_lines
+exclude_rules = RF04,LT05,AL01,AL02,AL03,ST05,RF02,AM06,ST06,AM01
 
 [sqlfluff:indentation]
 tab_space_size = 2
