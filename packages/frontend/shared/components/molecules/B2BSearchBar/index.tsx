@@ -7,6 +7,12 @@ export const SEARCH_BAR_QUERY_KEY = 'search';
 const SearchBar = () => {
   const { b2BSearchBar, setB2BSearchBar } = useB2BSearchBar();
 
+  const redirectToSearchPage = (searchQuery: string) => {
+    const url = new URL(`https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro`);
+    url.searchParams.set(SEARCH_BAR_QUERY_KEY, searchQuery);
+    window.location.href = url.toString();
+  };
+
   return (
     <div className="Algolia-Autocomplete-Wrapper">
       <div className="Algolia-Autocomplete-Form-Container relative">
@@ -21,7 +27,7 @@ const SearchBar = () => {
             action=""
             role="search"
             onSubmit={(event) => {
-              // TODO: Handle redirection on account page
+              redirectToSearchPage(b2BSearchBar || '');
               event.preventDefault();
             }}
           >
