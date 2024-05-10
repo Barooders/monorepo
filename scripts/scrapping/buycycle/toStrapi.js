@@ -4,7 +4,7 @@ const AWS = require('aws-sdk');
 const BUCKET_NAME = 'barooders-s3-bucket';
 const PATH_PREFIX = 'private/buycycle';
 
-const STRAPI_URL = 'https://barooders-strapi.herokuapp.com';
+const STRAPI_URL = 'https://strapi.barooders.com';
 // const STRAPI_URL = 'http:///localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
