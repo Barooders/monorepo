@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_categories",
+  "info": {
+    "singularName": "pim-category",
+    "pluralName": "pim-categories",
+    "displayName": "[PIM] Category",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "universe": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-universe.pim-universe",
+      "inversedBy": "categories"
+    },
+    "label": {
+      "type": "string"
+    },
+    "productTypes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-product-type.pim-product-type",
+      "mappedBy": "categories"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

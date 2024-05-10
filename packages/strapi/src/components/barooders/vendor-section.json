@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_barooders_vendor_sections",
+  "info": {
+    "displayName": "Vendor section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "customerList": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::customer.customer"
+    }
+  }
+}

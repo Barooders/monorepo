@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_universes",
+  "info": {
+    "singularName": "pim-universe",
+    "pluralName": "pim-universes",
+    "displayName": "[PIM] Universe",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-category.pim-category",
+      "mappedBy": "universe"
+    },
+    "label": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

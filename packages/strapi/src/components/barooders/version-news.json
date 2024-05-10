@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_barooders_version_news",
+  "info": {
+    "displayName": "version news",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    }
+  }
+}

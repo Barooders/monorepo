@@ -1,0 +1,47 @@
+{
+  "name": "barooders",
+  "private": true,
+  "version": "0.1.3",
+  "description": "A Strapi application",
+  "scripts": {
+    "strapi": "strapi",
+    "develop": "strapi develop",
+    "build": "strapi build",
+    "start": "if-env NODE_ENV=sandbox && npm run develop || strapi start",
+    "db:sync": "node ./database/scripts/sync-database.mjs"
+  },
+  "dependencies": {
+    "@strapi/plugin-documentation": "4.5.0",
+    "@strapi/plugin-graphql": "4.5.2",
+    "@strapi/plugin-i18n": "4.5.0",
+    "@strapi/plugin-users-permissions": "4.5.0",
+    "@strapi/provider-upload-aws-s3": "4.5.2",
+    "@strapi/strapi": "4.6.0",
+    "@typescript-eslint/eslint-plugin": "5.35.1",
+    "@typescript-eslint/parser": "7.0.2",
+    "axios": "1.2.2",
+    "eslint": "8.23.0",
+    "inquirer": "9.1.4",
+    "pg": "8.8.0",
+    "strapi-plugin-menus": "git+https://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:x-oauth-basic@github.com/Barooders/strapi-plugin-menus.git#a470d380c502d812999198b70429d47131504ec9",
+    "strapi-plugin-rest-cache": "4.2.5",
+    "strapi-provider-rest-cache-memory": "4.2.5"
+  },
+  "author": {
+    "name": "Barooders"
+  },
+  "strapi": {
+    "uuid": "3a19294a-7bf2-4c49-b731-309d66d9bd58"
+  },
+  "engines": {
+    "node": ">=16.x.x <=18.x.x",
+    "npm": ">=6.0.0 <=9.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "if-env": "1.0.4",
+    "prettier": "2.8.1"
+  }
+}

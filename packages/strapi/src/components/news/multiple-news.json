@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_news_multiple_news",
+  "info": {
+    "displayName": "Multiple news",
+    "icon": "newspaper"
+  },
+  "options": {},
+  "attributes": {
+    "news": {
+      "type": "component",
+      "repeatable": true,
+      "component": "news.single-news"
+    }
+  }
+}

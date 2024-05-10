@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_product_attribute_values",
+  "info": {
+    "singularName": "pim-product-attribute-value",
+    "pluralName": "pim-product-attribute-values",
+    "displayName": "[PIM] Product attribute value"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    }
+  }
+}

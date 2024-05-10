@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_barooders_sports_sections",
+  "info": {
+    "displayName": "Sports section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "sportItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "barooders.sport-item"
+    }
+  }
+}

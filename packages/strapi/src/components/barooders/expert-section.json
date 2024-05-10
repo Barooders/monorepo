@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_barooders_expert_sections",
+  "info": {
+    "displayName": "Expert section",
+    "icon": "user-tie",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "video": {
+      "allowedTypes": ["videos"],
+      "type": "media",
+      "multiple": false
+    },
+    "author_image": {
+      "allowedTypes": ["images"],
+      "type": "media",
+      "multiple": false
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
+    }
+  }
+}

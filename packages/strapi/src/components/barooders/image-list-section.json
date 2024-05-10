@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_barooders_image_list_sections",
+  "info": {
+    "displayName": "Image list section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "images": {
+      "type": "component",
+      "repeatable": true,
+      "component": "media.image-section"
+    }
+  }
+}
