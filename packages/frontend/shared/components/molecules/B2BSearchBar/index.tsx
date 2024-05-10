@@ -1,11 +1,11 @@
 'use client';
 
-import useB2BSearchBar from './_state/useB2BSearchBar';
+import useB2BSearchContext from './_state/useB2BSearchContext';
 
 export const SEARCH_BAR_QUERY_KEY = 'search';
 
 const SearchBar = () => {
-  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchBar();
+  const { b2BSearchBar, setB2BSearchBar } = useB2BSearchContext();
 
   const redirectToSearchPage = (searchQuery: string) => {
     const url = new URL(`https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro`);

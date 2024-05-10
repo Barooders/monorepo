@@ -6,7 +6,7 @@ import { DrawerSide } from '@/components/atoms/Drawer/types';
 import PageContainer from '@/components/atoms/PageContainer';
 import B2BClientRequestButton from '@/components/molecules/B2BCustomerRequestButton';
 import B2BSavedSearchButton from '@/components/molecules/B2BSavedSearchButton';
-import useB2BSearchBar from '@/components/molecules/B2BSearchBar/_state/useB2BSearchBar';
+import useB2BSearchContext from '@/components/molecules/B2BSearchBar/_state/useB2BSearchContext';
 import {
   B2BDesktopFilters,
   B2BMobileFilters,
@@ -98,7 +98,7 @@ const ProPage: React.FC<PropsType> = ({
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
   );
-  const { setB2BSearchBar } = useB2BSearchBar();
+  const { setB2BSearchBar } = useB2BSearchContext();
 
   const fetchB2BSavedSearch = useHasura(
     graphql(FETCH_B2B_SAVED_SEARCH_BY_URL),
