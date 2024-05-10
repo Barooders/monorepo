@@ -1,50 +1,50 @@
-with ecommerce_unioned_kpis as (
+WITH ecommerce_unioned_kpis AS (
 
-    select * from {{ref('ecommerce_gmv')}}  
-    union all 
-    select * from {{ref('ecommerce_buyer_commission')}}  
-    union all
-    select * from {{ref('ecommerce_paid_gmv')}}  
-    union all 
-    select * from {{ref('ecommerce_paid_buyer_commission')}}  
-    union all
-    select * from {{ref('ecommerce_buyers')}}
-    union all 
-    select * from {{ref('ecommerce_orders')}}
-    union all 
-    select * from {{ref('ecommerce_paid_orders')}}
-    union all 
-    select * from {{ref('ecommerce_sessions')}}
-    union all 
-    select * from {{ref('ecommerce_users')}}
-    union all 
-    select * from {{ref('ecommerce_new_buyers')}}
-    union all 
-    select * from {{ref('ecommerce_shipping_fees')}}
-    union all 
-    select * from {{ref('ecommerce_subscribers')}}
-    union all 
-    select * from {{ref('ecommerce_submitted_products')}}
-    union all 
-    select * from {{ref('ecommerce_active_vendors')}}
-    union all 
-    select * from {{ref('ecommerce_new_vendors')}}
-    union all 
-    select * from {{ref('ecommerce_returners')}}
-    union all 
-    select * from {{ref('ecommerce_refunds')}}
-    union all 
-    select * from {{ref('ecommerce_discounts')}}
-    union all 
-    select * from {{ref('ecommerce_gross_sales')}}
-    union all 
-    select * from {{ref('ecommerce_gross_sales_paid')}}
-    union all 
-    select * from {{ref('ecommerce_shipping_fees_paid')}}
-    union all 
-    select * from {{ref('ecommerce_bike_gmv')}}
+  SELECT * FROM {{ ref('ecommerce_gmv') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_buyer_commission') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_paid_gmv') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_paid_buyer_commission') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_buyers') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_orders') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_paid_orders') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_sessions') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_users') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_new_buyers') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_shipping_fees') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_subscribers') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_submitted_products') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_active_vendors') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_new_vendors') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_returners') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_refunds') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_discounts') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_gross_sales') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_gross_sales_paid') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_shipping_fees_paid') }}
+  UNION ALL
+  SELECT * FROM {{ ref('ecommerce_bike_gmv') }}
 
 )
 
-select *
-from ecommerce_unioned_kpis
+SELECT *
+FROM ecommerce_unioned_kpis

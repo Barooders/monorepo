@@ -1,19 +1,19 @@
 {{ config(materialized='table') }}
 
 SELECT
-date,
-p.vendor,
-cast(product_item_id as string) as id,
-product_type_l_2 as product_type,
-product_type_l_1 as category,
-sum(cost_micros) / 1000000 as cost1J,
-sum(conversions_value) as conv_value1J,
-sum(clicks) as clicks1J,
-sum(impressions) as impressions1J,
-sum(conversions) as conversions1J,
+  date,
+  p.vendor,
+  cast(product_item_id AS string) AS id,
+  product_type_l_2 AS product_type,
+  product_type_l_1 AS category,
+  sum(cost_micros) / 1000000 AS cost1j,
+  sum(conversions_value) AS conv_value1j,
+  sum(clicks) AS clicks1j,
+  sum(impressions) AS impressions1j,
+  sum(conversions) AS conversions1j
 
-FROM google_ads.shopping_performance_view as shp
-LEFT JOIN {{ ref('dim_product_variant') }}  pv on cast(pv.id as string) = shp.product_item_id
-LEFT JOIN {{ ref('dim_product') }} as p on p.id = pv.product_id
+FROM google_ads.shopping_performance_view AS shp
+LEFT JOIN {{ ref('dim_product_variant') }} AS pv ON cast(pv.id AS string) = shp.product_item_id
+LEFT JOIN {{ ref('dim_product') }} AS p ON pv.product_id = p.id
 
-group by vendor, id, product_type, category, date
+GROUP BY vendor, id, product_type, category, date

@@ -1,21 +1,26 @@
-with ecommerce_subscribers as (
-    
-    select 
-        date_trunc(creation_date, day) as date, 
-        cast(null as string) as owner,
-        'subscribers' as indicator_name,
-        sum(subscribers) as indicator_value
-    from (
-        select c.creation_date , count(distinct c.customer_id) subscribers
-        from {{ref('dim_customer')}} c
-        group by 1
-        union all 
-        select v.creation_date , count(distinct v.id) subscribers
-        from {{ref('dim_vendor')}} v
-        group by 1)
-    group by date, owner, indicator_name
+WITH ecommerce_subscribers AS (
+
+  SELECT
+    date_trunc(creation_date, DAY) AS date,
+    cast(null AS string) AS owner,
+    'subscribers' AS indicator_name,
+    sum(subscribers) AS indicator_value
+  FROM (
+    SELECT
+      c.creation_date,
+      count(DISTINCT c.customer_id) AS subscribers
+    FROM {{ ref('dim_customer') }} AS c
+    GROUP BY 1
+    UNION ALL
+    SELECT
+      v.creation_date,
+      count(DISTINCT v.id) AS subscribers
+    FROM {{ ref('dim_vendor') }} AS v
+    GROUP BY 1
+  )
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_subscribers
+SELECT *
+FROM ecommerce_subscribers

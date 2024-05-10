@@ -1,16 +1,16 @@
-with ecommerce_new_buyers as (
-    
-    select 
-        date_trunc(o.creation_date, day) as date, 
-        o.owner as owner,
-        'new_buyers' as indicator_name,
-        count(distinct o.customer_id) as indicator_value
-    from {{ref('fact_order_line')}} o 
-    left join {{ref('fact_order_line')}} o_before on o_before.customer_id = o.customer_id and o_before.creation_date < o.creation_date 
-    where o_before.id is null
-    group by date, owner, indicator_name
+WITH ecommerce_new_buyers AS (
+
+  SELECT
+    o.owner,
+    'new_buyers' AS indicator_name,
+    date_trunc(o.creation_date, DAY) AS date,
+    count(DISTINCT o.customer_id) AS indicator_value
+  FROM {{ ref('fact_order_line') }} AS o
+  LEFT JOIN {{ ref('fact_order_line') }} AS o_before ON o.customer_id = o_before.customer_id AND o.creation_date > o_before.creation_date
+  WHERE o_before.id IS null
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_new_buyers
+SELECT *
+FROM ecommerce_new_buyers

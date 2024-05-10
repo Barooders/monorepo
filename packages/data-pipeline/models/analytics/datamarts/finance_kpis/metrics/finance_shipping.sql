@@ -1,23 +1,24 @@
-WITH orders as (
-    SELECT 
-        case when vendor != 'Commission' then order_name else null end as order_name,
-        min(cast(creation_date as date)) as date,
-        sum(case when vendor != 'Commission' then shipping_amount else null end) as shipping_paid,
-        case when vendor != 'Commission' then vendor else null end as vendor,
-        case when vendor != 'Commission' then vendor_id else null end as vendor_id,
-    c.usedshipping
-    FROM `direct-tribute-354315.dbt.fact_order_line` as ol
-    join barooders_backend_public.customer as c on c.shopifyid = ol.vendor_id
-    where financial_status != 'pending'
-    group by order_name, vendor, vendor_id, usedshipping
+WITH orders AS (
+  SELECT
+    c.usedshipping,
+    CASE WHEN vendor != 'Commission' THEN order_name END AS order_name,
+    min(cast(creation_date AS date)) AS date,
+    sum(CASE WHEN vendor != 'Commission' THEN shipping_amount END) AS shipping_paid,
+    CASE WHEN vendor != 'Commission' THEN vendor END AS vendor,
+    CASE WHEN vendor != 'Commission' THEN vendor_id END AS vendor_id
+  FROM `direct-tribute-354315.dbt.fact_order_line` AS ol
+  INNER JOIN barooders_backend_public.customer AS c ON ol.vendor_id = c.shopifyid
+  WHERE financial_status != 'pending'
+  GROUP BY order_name, vendor, vendor_id, usedshipping
 )
-Select
-    date,
-    vendor as vendor,
-    vendor_id as vendor_id,
-    order_name as order_name,
-    sum(shipping_paid) as shipping_paid,
-    usedshipping
-from orders
-group by date, order_name, vendor, vendor_id, usedshipping
-order by date desc
+
+SELECT
+  date,
+  vendor,
+  vendor_id,
+  order_name,
+  usedshipping,
+  sum(shipping_paid) AS shipping_paid
+FROM orders
+GROUP BY date, order_name, vendor, vendor_id, usedshipping
+ORDER BY date DESC

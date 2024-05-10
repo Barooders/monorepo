@@ -1,14 +1,14 @@
-with ecommerce_refunds as (
-    
-    select 
-        date_trunc(r.creation_date, day) as date, 
-        r.owner as owner,
-        'refunds' as indicator_name,
-        sum(r.order_total_amount) as indicator_value
-    from {{ref('fact_order_line_refund')}} r
-    group by date, owner, indicator_name
+WITH ecommerce_refunds AS (
+
+  SELECT
+    r.owner,
+    'refunds' AS indicator_name,
+    date_trunc(r.creation_date, DAY) AS date,
+    sum(r.order_total_amount) AS indicator_value
+  FROM {{ ref('fact_order_line_refund') }} AS r
+  GROUP BY date, owner, indicator_name
 
 )
 
-select *
-from ecommerce_refunds
+SELECT *
+FROM ecommerce_refunds

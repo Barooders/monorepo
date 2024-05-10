@@ -1,12 +1,12 @@
-Select
-    extract(date from ol.createdat) as date,
-    c.sellername as vendor,
-    ol.vendorid as vendor_id,
-    ols.order_name as order_name,
-    sum(ol.buyercommission) as buyer_commission,
-from barooders_backend_public.orderlines as ol
-join barooders_backend_public.customer as c on c.authuserid = ol.vendorid
-join dbt.fact_order_line as ols on cast(ols.id as string) = ol.shopifyid
-where ols.financial_status != 'pending'
-group by date, order_name, vendor, vendor_id
-order by date desc
+SELECT
+  c.sellername AS vendor,
+  ol.vendorid AS vendor_id,
+  ols.order_name,
+  extract(DATE FROM ol.createdat) AS date,
+  sum(ol.buyercommission) AS buyer_commission
+FROM barooders_backend_public.orderlines AS ol
+INNER JOIN barooders_backend_public.customer AS c ON ol.vendorid = c.authuserid
+INNER JOIN dbt.fact_order_line AS ols ON cast(ols.id AS string) = ol.shopifyid
+WHERE ols.financial_status != 'pending'
+GROUP BY date, order_name, vendor, vendor_id
+ORDER BY date DESC

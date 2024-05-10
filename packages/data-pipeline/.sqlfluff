@@ -1,0 +1,16 @@
+[sqlfluff]
+dialect = bigquery
+templater = dbt
+exclude_rules = layout.long_lines
+
+[sqlfluff:indentation]
+tab_space_size = 2
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = config/local
+profile = barooders_dbt_bigquery
+target = prod
