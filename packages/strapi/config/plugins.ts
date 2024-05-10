@@ -1,14 +1,16 @@
-export default ({ env }) => ({
+import envConfig from '../config/variables';
+
+export default () => ({
   // @strapi-provider-upload-aws-s3
   upload: {
     config: {
       provider: 'aws-s3',
       providerOptions: {
-        accessKeyId: env('AWS_ACCESS_KEY_ID'),
-        secretAccessKey: env('AWS_ACCESS_SECRET'),
-        region: env('AWS_REGION'),
+        accessKeyId: envConfig.aws.accessKeyId,
+        secretAccessKey: envConfig.aws.accessSecret,
+        region: envConfig.aws.region,
         params: {
-          Bucket: env('AWS_BUCKET'),
+          Bucket: envConfig.aws.bucket,
         },
       },
       actionOptions: {

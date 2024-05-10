@@ -1,11 +1,12 @@
-import { parse } from "pg-connection-string";
+import { parse } from 'pg-connection-string';
+import envConfig from '../../../config/variables';
 
 module.exports = ({ env }) => {
-  const config = parse(env("DATABASE_URL", ""));
+  const config = parse(envConfig.databaseUrl);
 
   return {
     connection: {
-      client: "postgres",
+      client: 'postgres',
       connection: {
         host: config.host,
         port: config.port,
@@ -15,8 +16,9 @@ module.exports = ({ env }) => {
         ssl: {
           rejectUnauthorized: false,
         },
+        schema: 'strapi',
       },
-      debug: env.bool("DATABASE_DEBUG_MODE"),
+      debug: env.bool('DATABASE_DEBUG_MODE'),
     },
   };
 };

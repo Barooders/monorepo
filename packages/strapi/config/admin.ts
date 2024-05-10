@@ -1,8 +1,10 @@
-export default ({ env }) => ({
+import envConfig from '../config/variables';
+
+export default () => ({
   auth: {
-    secret: env('ADMIN_JWT_SECRET'),
+    secret: envConfig.adminJWTSecret,
   },
   apiToken: {
-    salt: env('API_TOKEN_SALT'),
+    salt: envConfig.apiTokenSalt,
   },
 });
