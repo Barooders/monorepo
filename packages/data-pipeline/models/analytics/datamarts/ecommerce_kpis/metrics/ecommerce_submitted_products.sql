@@ -1,14 +1,14 @@
-WITH ecommerce_submitted_products AS (
-
-  SELECT
-    p.owner,
-    'submitted_products' AS indicator_name,
-    date_trunc(p.creation_date, DAY) AS date,
-    count(DISTINCT p.id) AS indicator_value
-  FROM {{ ref('dim_product') }} AS p
-  GROUP BY date, owner, indicator_name
+with ecommerce_submitted_products as (
+    
+    select 
+        date_trunc(p.creation_date, day) as date, 
+        p.owner as owner,
+        'submitted_products' as indicator_name,
+        count(distinct p.id) as indicator_value
+    from {{ref('dim_product')}} p
+    group by date, owner, indicator_name
 
 )
 
-SELECT *
-FROM ecommerce_submitted_products
+select *
+from ecommerce_submitted_products

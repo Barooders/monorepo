@@ -1,14 +1,14 @@
-WITH ecommerce_discounts AS (
-
-  SELECT
-    o.owner,
-    'discounts' AS indicator_name,
-    date_trunc(o.creation_date, DAY) AS date,
-    sum(o.total_discounts) AS indicator_value
-  FROM {{ ref('fact_order_line') }} AS o
-  GROUP BY date, owner, indicator_name
+with ecommerce_discounts as (
+    
+    select 
+        date_trunc(o.creation_date, day) as date, 
+        o.owner as owner,
+        'discounts' as indicator_name,
+        sum(o.total_discounts) as indicator_value
+    from {{ref('fact_order_line')}} o 
+    group by date, owner, indicator_name
 
 )
 
-SELECT *
-FROM ecommerce_discounts
+select *
+from ecommerce_discounts

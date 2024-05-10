@@ -1,16 +1,16 @@
-WITH ecommerce_users AS (
+with ecommerce_users as (
+    
+    select 
+        t.`date` , 
+        cast(null as string) as owner,
+        'users' as indicator_name,
+        sum(t.users) as indicator_value
 
-  SELECT
-    t.`date`,
-    cast(null AS string) AS owner,
-    'users' AS indicator_name,
-    sum(t.users) AS indicator_value
-
-  FROM {{ ref('fact_traffic') }} AS t
-  WHERE utm_campaign = 'all' AND utm_medium = 'all' AND utm_source = 'all'
-  GROUP BY date, owner, indicator_name
+    from {{ref('fact_traffic')}} t
+    where utm_campaign = 'all' and utm_medium = 'all' and utm_source = 'all'
+    group by date, owner, indicator_name
 
 )
 
-SELECT *
-FROM ecommerce_users
+select *
+from ecommerce_users

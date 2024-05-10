@@ -1,166 +1,166 @@
 {{ config(materialized="table") }}
 
-WITH
-    dynamic_tags AS (
-        SELECT
+with
+    dynamic_tags as (
+        select
             da.name name,
             pa.tag_prefix tag_prefix,
             al.pim_product_attribute_order priority
-        FROM strapi_public.pim_dynamic_attributes da
-        JOIN
+        from strapi_public.pim_dynamic_attributes da
+        join
             strapi_public.pim_dynamic_attributes_pim_product_attributes_links al
-            ON al.pim_dynamic_attribute_id = da.id
-        JOIN
+            on al.pim_dynamic_attribute_id = da.id
+        join
             strapi_public.pim_product_attributes pa
-            ON pa.id = al.pim_product_attribute_id
+            on pa.id = al.pim_product_attribute_id
     ),
-    dim_product AS (
-        SELECT
+    dim_product as (
+        select
             p.id,
-            b_product.id AS internal_id,
-            datetime(p.created_at, 'Europe/Paris') AS creation_datetime,
-            date_trunc(datetime(p.created_at, 'Europe/Paris'), day) AS creation_date,
-            datetime(p.published_at, 'Europe/Paris') AS publication_datetime,
+            b_product.id as internal_id,
+            datetime(p.created_at, 'Europe/Paris') as creation_datetime,
+            date_trunc(datetime(p.created_at, 'Europe/Paris'), day) as creation_date,
+            datetime(p.published_at, 'Europe/Paris') as publication_datetime,
             date_trunc(
                 datetime(p.published_at, 'Europe/Paris'), day
-            ) AS publication_date,
+            ) as publication_date,
             p.product_type,
             p.status,
             p.title,
             p.vendor,
             p.handle,
-            c_vendor.shopifyid AS vendor_id,
-            b_product.source AS source,
-            b_product.notation AS scoring,
-            CASE
-                WHEN p.vendor = 'Commission'
-                THEN 'commission'
-                WHEN c_vendor.sellername = 'Barooders'
-                THEN 'barooders'
-                WHEN c_vendor.ispro IS true
-                THEN 'b2c'
-                ELSE 'c2c'
-            END AS owner,
+            c_vendor.shopifyid as vendor_id,
+            b_product.source as source,
+            b_product.notation as scoring,
+            case
+                when p.vendor = 'Commission'
+                then 'commission'
+                when c_vendor.sellername = 'Barooders'
+                then 'barooders'
+                when c_vendor.ispro is true
+                then 'b2c'
+                else 'c2c'
+            end as owner,
             pv.product_price,
             pv.compare_at_price,
             pv.inventory_quantity,
-            t_brand.value AS brand,
-            t_size.value AS size,
-            t_gender.value AS gender,
-            CASE
-                WHEN b_product.condition_FROM_variants = 'AS_NEW'
-                THEN 'Neuf'
-                WHEN b_product.condition_FROM_variants = 'REFURBISHED_AS_NEW'
-                THEN 'Neuf'
-                WHEN b_product.condition_FROM_variants = 'VERY_GOOD'
-                THEN 'Très bon état'
-                ELSE 'Bon état'
-            END AS etat,
-            t_modele.value AS modele,
-            t_year.value AS year,
+            t_brand.value as brand,
+            t_size.value as size,
+            t_gender.value as gender,
+            case
+                when b_product.condition_from_variants = 'AS_NEW'
+                then 'Neuf'
+                when b_product.condition_from_variants = 'REFURBISHED_AS_NEW'
+                then 'Neuf'
+                when b_product.condition_from_variants = 'VERY_GOOD'
+                then 'Très bon état'
+                else 'Bon état'
+            end as etat,
+            t_modele.value as modele,
+            t_year.value as year,
             tags.tags,
-            p.body_html AS body_html,
-            current_date() AS sync_date,
-            CASE
-                WHEN date_diff(former_p.sync_date, current_date(), day) > 0
-                THEN p.status
-                ELSE former_p.status
-            END AS former_status,
-            CASE
-                WHEN date_diff(former_p.sync_date, current_date(), day) > 0
-                THEN pv.inventory_quantity
-                ELSE former_p.inventory_quantity
-            END AS former_quantity,
-            date_diff(o.created_at, p.created_at, day) AS product_lifetime,
+            p.body_html as body_html,
+            current_date() as sync_date,
+            case
+                when date_diff(former_p.sync_date, current_date(), day) > 0
+                then p.status
+                else former_p.status
+            end as former_status,
+            case
+                when date_diff(former_p.sync_date, current_date(), day) > 0
+                then pv.inventory_quantity
+                else former_p.inventory_quantity
+            end as former_quantity,
+            date_diff(o.created_at, p.created_at, day) as product_lifetime,
 						cat.name AS parent_category
 
-        FROM shopify.product p
+        from shopify.product p
 
-        LEFT JOIN dbt.dim_product former_p ON former_p.id = p.id
-        LEFT JOIN
+        left join dbt.dim_product former_p on former_p.id = p.id
+        left join
             barooders_backend_dbt.store_product_for_analytics b_product
-            ON b_product.shopify_id = p.id
-        LEFT JOIN
+            on b_product.shopify_id = p.id
+        left join
             barooders_backend_public.customer c_vendor
-            ON c_vendor.authuserid = b_product.vendor_id
-        LEFT JOIN
+            on c_vendor.authuserid = b_product.vendor_id
+        left join
             (
-                SELECT product_id, min(value) value
-                FROM {{ ref("product_tags") }} t_brand
-                WHERE tag = 'marque'
-                GROUP BY 1
+                select product_id, min(value) value
+                from {{ ref("product_tags") }} t_brand
+                where tag = 'marque'
+                group by 1
             ) t_brand
-            ON t_brand.product_id = p.id
-        LEFT JOIN
+            on t_brand.product_id = p.id
+        left join
             (
-                SELECT product_id, t_size.value
-                FROM {{ ref("product_tags") }} t_size
-                JOIN dynamic_tags dt ON dt.tag_prefix = t_size.tag AND dt.name = 'size'
+                select product_id, t_size.value
+                from {{ ref("product_tags") }} t_size
+                join dynamic_tags dt on dt.tag_prefix = t_size.tag and dt.name = 'size'
             ) t_size
-            ON t_size.product_id = p.id
-        LEFT JOIN
+            on t_size.product_id = p.id
+        left join
             (
-                SELECT product_id, min(value) value
-                FROM {{ ref("product_tags") }} t_gender
-                WHERE tag = 'genre'
-                GROUP BY 1
+                select product_id, min(value) value
+                from {{ ref("product_tags") }} t_gender
+                where tag = 'genre'
+                group by 1
             ) t_gender
-            ON t_gender.product_id = p.id
-        LEFT JOIN
+            on t_gender.product_id = p.id
+        left join
             (
-                SELECT product_id, min(value) value
-                FROM {{ ref("product_tags") }} t_modele
-                WHERE tag = 'modele'
-                GROUP BY 1
+                select product_id, min(value) value
+                from {{ ref("product_tags") }} t_modele
+                where tag = 'modele'
+                group by 1
             ) t_modele
-            ON t_modele.product_id = p.id
-        LEFT JOIN
+            on t_modele.product_id = p.id
+        left join
             (
-                SELECT product_id, min(value) value
-                FROM {{ ref("product_tags") }} t_year
-                WHERE tag = 'année'
-                GROUP by 1
+                select product_id, min(value) value
+                from {{ ref("product_tags") }} t_year
+                where tag = 'année'
+                group by 1
             ) t_year
-            ON t_year.product_id = p.id
-        LEFT JOIN
+            on t_year.product_id = p.id
+        left join
             (
-                SELECT t.product_id, string_agg(t.full_tag, ';') tags
-                FROM {{ ref("product_tags") }} t
-                GROUP by 1
+                select t.product_id, string_agg(t.full_tag, ';') tags
+                from {{ ref("product_tags") }} t
+                group by 1
             ) tags
-            ON tags.product_id = p.id
-        LEFT JOIN
+            on tags.product_id = p.id
+        left join
             (
-                SELECT
+                select
                     pv.product_id,
                     sum(pv.inventory_quantity) inventory_quantity,
                     min(pv.price) product_price,
                     min(pv.compare_at_price) compare_at_price
-                FROM shopify.product_variant pv
-                GROUP by pv.product_id
+                from shopify.product_variant pv
+                group by pv.product_id
             ) pv
-            ON pv.product_id = p.id
+            on pv.product_id = p.id
 
-        LEFT JOIN
+        left join
             shopify.order_line ol
-            ON ol.product_id = p.id
-            AND ol.fulfillment_status = 'fulfilled'
-        LEFT JOIN shopify.order o ON o.id = ol.order_id AND o.financial_status = 'paid'
-        LEFT JOIN strapi_public.pim_product_types ppt ON ppt.name = p.product_type
-        LEFT JOIN strapi_public.pim_product_types_categories_links ppt_cat ON ppt_cat.pim_product_type_id = ppt.id
-				LEFT JOIN strapi_public.pim_categories cat ON ppt_cat.pim_category_id = cat.id
+            on ol.product_id = p.id
+            and ol.fulfillment_status = 'fulfilled'
+        left join shopify.order o on o.id = ol.order_id and o.financial_status = 'paid'
+        left join strapi_public.pim_product_types ppt on ppt.name = p.product_type
+        left join strapi_public.pim_product_types_categories_links ppt_cat on ppt_cat.pim_product_type_id = ppt.id
+				left join strapi_public.pim_categories cat on ppt_cat.pim_category_id = cat.id
 
-        WHERE p.`_fivetran_deleted` IS false
+        where p.`_fivetran_deleted` is false
     ),
-    added_row_number AS (
-        SELECT
+    added_row_number as (
+        select
             *,
-            row_number() OVER (
-                PARTITION BY id ORDER BY creation_datetime DESC
-            ) AS row_number
-        FROM dim_product
+            row_number() over (
+                partition by id order by creation_datetime desc
+            ) as row_number
+        from dim_product
     )
 
-SELECT *
-FROM added_row_number
-WHERE row_number = 1
+select *
+from added_row_number
+where row_number = 1

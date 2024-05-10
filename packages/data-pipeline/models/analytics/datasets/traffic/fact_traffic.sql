@@ -1,38 +1,37 @@
 {{ config(materialized='table') }}
 
-WITH all_traffic AS (
-  SELECT
-    'all' AS utm_source,
-    'all' AS utm_medium,
-    'all' AS utm_campaign,
-    null AS landing_page,
-    null AS channel,
-    null AS sessions,
-    null AS bounces,
-    null AS session_duration,
-    extract(DATE FROM c.time) AS date,
-    count(DISTINCT c.mp_device_id) AS users
-  FROM mixpanel_direct_export.mp_master_event AS c
-  GROUP BY date, utm_source, utm_medium, utm_campaign, landing_page, channel
+with all_traffic as (
+  select
+    extract(date from c.time) as date,
+    'all' as utm_source,
+    'all' as utm_medium,
+    'all' as utm_campaign,
+    null as landing_page,
+    null as channel,
+    null as sessions,
+    count(distinct c.mp_device_id) as users,
+    null as bounces,
+    null as session_duration
+  from mixpanel_direct_export.mp_master_event c 
+  group by date, utm_source, utm_medium, utm_campaign, landing_page, channel
 ),
-
-traffic AS (
-  SELECT
-    c.utm_source,
-    c.utm_medium,
-    c.utm_campaign,
-    null AS landing_page,
-    null AS channel,
-    null AS sessions,
-    null AS bounces,
-    null AS session_duration,
-    extract(DATE FROM c.time) AS date,
-    count(DISTINCT c.mp_device_id) AS users
-  FROM mixpanel_direct_export.mp_master_event AS c
-  GROUP BY date, utm_source, utm_medium, utm_campaign, landing_page, channel
+traffic as (
+  select 
+    extract(date from c.time) as date,
+    c.utm_source as utm_source,
+    c.utm_medium as utm_medium,
+    c.utm_campaign as utm_campaign,
+    null as landing_page,
+    null as channel,
+    null as sessions ,
+    count(distinct c.mp_device_id) as users,
+    null as bounces ,
+    null as session_duration
+from mixpanel_direct_export.mp_master_event c 
+group by date, utm_source, utm_medium, utm_campaign, landing_page, channel
 )
 
-SELECT * FROM traffic
-UNION ALL
-SELECT * FROM all_traffic
-ORDER BY date DESC
+select * from traffic
+union all
+select * from all_traffic
+order by date desc
