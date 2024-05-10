@@ -63,7 +63,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [
         {
           "name": "sort",
@@ -222,7 +224,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [],
       "operationId": "post/collections",
       "requestBody": {
@@ -301,7 +305,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -379,7 +385,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -468,7 +476,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -548,7 +558,9 @@
           }
         }
       },
-      "tags": ["Collection"],
+      "tags": [
+        "Collection"
+      ],
       "parameters": [
         {
           "name": "id",

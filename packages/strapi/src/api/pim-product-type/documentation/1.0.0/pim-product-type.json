@@ -63,7 +63,9 @@
           }
         }
       },
-      "tags": ["Pim-product-type"],
+      "tags": [
+        "Pim-product-type"
+      ],
       "parameters": [
         {
           "name": "sort",
@@ -222,7 +224,9 @@
           }
         }
       },
-      "tags": ["Pim-product-type"],
+      "tags": [
+        "Pim-product-type"
+      ],
       "parameters": [],
       "operationId": "post/pim-product-types",
       "requestBody": {
@@ -301,7 +305,9 @@
           }
         }
       },
-      "tags": ["Pim-product-type"],
+      "tags": [
+        "Pim-product-type"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -379,7 +385,9 @@
           }
         }
       },
-      "tags": ["Pim-product-type"],
+      "tags": [
+        "Pim-product-type"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -468,7 +476,9 @@
           }
         }
       },
-      "tags": ["Pim-product-type"],
+      "tags": [
+        "Pim-product-type"
+      ],
       "parameters": [
         {
           "name": "id",

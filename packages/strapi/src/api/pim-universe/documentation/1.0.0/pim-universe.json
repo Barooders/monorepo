@@ -63,7 +63,9 @@
           }
         }
       },
-      "tags": ["Pim-universe"],
+      "tags": [
+        "Pim-universe"
+      ],
       "parameters": [
         {
           "name": "sort",
@@ -222,7 +224,9 @@
           }
         }
       },
-      "tags": ["Pim-universe"],
+      "tags": [
+        "Pim-universe"
+      ],
       "parameters": [],
       "operationId": "post/pim-universes",
       "requestBody": {
@@ -301,7 +305,9 @@
           }
         }
       },
-      "tags": ["Pim-universe"],
+      "tags": [
+        "Pim-universe"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -379,7 +385,9 @@
           }
         }
       },
-      "tags": ["Pim-universe"],
+      "tags": [
+        "Pim-universe"
+      ],
       "parameters": [
         {
           "name": "id",
@@ -468,7 +476,9 @@
           }
         }
       },
-      "tags": ["Pim-universe"],
+      "tags": [
+        "Pim-universe"
+      ],
       "parameters": [
         {
           "name": "id",
