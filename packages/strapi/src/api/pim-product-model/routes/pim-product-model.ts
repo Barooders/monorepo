@@ -4,4 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreRouter('api::pim-product-model.pim-product-model');
+export default factories.createCoreRouter(
+  'api::pim-product-model.pim-product-model',
+);

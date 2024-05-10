@@ -1,53 +1,53 @@
-export default plugin => {
+export default (plugin) => {
   // Get current `MenuItem` attributes.
-  const defaultAttrs = plugin.contentTypes["menu-item"].schema.attributes;
+  const defaultAttrs = plugin.contentTypes['menu-item'].schema.attributes;
 
   // Define custom attributes for `MenuItem` the same way they would be
   // defined on any other schema.
   const customAttrs = {
     // Link menu item
     item_type: {
-      type: "enumeration",
-      enum: ["link", "card"],
-      defaultTo: "link",
+      type: 'enumeration',
+      enum: ['link', 'card'],
+      defaultTo: 'link',
     },
     is_pinned: {
-      type: "boolean",
+      type: 'boolean',
     },
     is_sport_section: {
-      type: "boolean",
+      type: 'boolean',
     },
     is_hidden_in_menu: {
-      type: "boolean",
+      type: 'boolean',
     },
     mobile_header_order: {
-      type: "integer",
+      type: 'integer',
     },
     collection_id: {
-      type: "string",
+      type: 'string',
     },
 
     // Card menu item
     card_image: {
-      type: "media",
-      allowedTypes: ["images"],
+      type: 'media',
+      allowedTypes: ['images'],
       multiple: false,
     },
     card_image_mobile: {
-      type: "media",
-      allowedTypes: ["images"],
+      type: 'media',
+      allowedTypes: ['images'],
       multiple: false,
     },
     button_text: {
-      type: "string",
+      type: 'string',
     },
     is_default: {
-      type: "boolean",
+      type: 'boolean',
     },
   };
 
   // Extend the `MenuItem` content type with custom attributes.
-  plugin.contentTypes["menu-item"].schema.attributes = {
+  plugin.contentTypes['menu-item'].schema.attributes = {
     ...defaultAttrs,
     ...customAttrs,
   };

@@ -63,9 +63,7 @@
           }
         }
       },
-      "tags": [
-        "Blog-article"
-      ],
+      "tags": ["Blog-article"],
       "parameters": [
         {
           "name": "sort",
@@ -224,9 +222,7 @@
           }
         }
       },
-      "tags": [
-        "Blog-article"
-      ],
+      "tags": ["Blog-article"],
       "parameters": [],
       "operationId": "post/blog-articles",
       "requestBody": {
@@ -305,9 +301,7 @@
           }
         }
       },
-      "tags": [
-        "Blog-article"
-      ],
+      "tags": ["Blog-article"],
       "parameters": [
         {
           "name": "id",
@@ -385,9 +379,7 @@
           }
         }
       },
-      "tags": [
-        "Blog-article"
-      ],
+      "tags": ["Blog-article"],
       "parameters": [
         {
           "name": "id",
@@ -476,9 +468,7 @@
           }
         }
       },
-      "tags": [
-        "Blog-article"
-      ],
+      "tags": ["Blog-article"],
       "parameters": [
         {
           "name": "id",

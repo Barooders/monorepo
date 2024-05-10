@@ -25,12 +25,7 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": [
-        "BOOLEAN",
-        "COLOR",
-        "INTEGER",
-        "SELECT"
-      ],
+      "enum": ["BOOLEAN", "COLOR", "INTEGER", "SELECT"],
       "required": true
     },
     "required": {

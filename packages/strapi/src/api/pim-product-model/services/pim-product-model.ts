@@ -4,4 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::pim-product-model.pim-product-model');
+export default factories.createCoreService(
+  'api::pim-product-model.pim-product-model',
+);

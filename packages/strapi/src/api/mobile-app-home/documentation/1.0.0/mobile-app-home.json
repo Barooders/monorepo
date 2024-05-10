@@ -63,9 +63,7 @@
           }
         }
       },
-      "tags": [
-        "Mobile-app-home"
-      ],
+      "tags": ["Mobile-app-home"],
       "parameters": [
         {
           "name": "sort",
@@ -224,9 +222,7 @@
           }
         }
       },
-      "tags": [
-        "Mobile-app-home"
-      ],
+      "tags": ["Mobile-app-home"],
       "parameters": [],
       "operationId": "put/mobile-app-home",
       "requestBody": {
@@ -304,9 +300,7 @@
           }
         }
       },
-      "tags": [
-        "Mobile-app-home"
-      ],
+      "tags": ["Mobile-app-home"],
       "parameters": [],
       "operationId": "delete/mobile-app-home"
     }

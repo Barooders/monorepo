@@ -1,4 +1,4 @@
-import { Event } from "@strapi/database/lib/lifecycles";
+import { Event } from '@strapi/database/lib/lifecycles';
 
 const beforeCreate = async (event: Event) => {
   await addDisplayNameToEvent(event);
@@ -15,7 +15,10 @@ const addDisplayNameToEvent = async (event: Event) => {
 
   if (brandId == null) return;
 
-  const brand = await strapi.entityService.findOne("api::pim-brand.pim-brand", brandId);
+  const brand = await strapi.entityService.findOne(
+    'api::pim-brand.pim-brand',
+    brandId,
+  );
 
   const displayName = `${data.name} - ${brand.name}`;
   data.displayName = displayName;
@@ -29,9 +32,13 @@ const getBrandId = async (event: Event) => {
     const familyId = where?.id;
     if (familyId == null) return;
 
-    const family = await strapi.entityService.findOne("api::pim-product-family.pim-product-family", familyId, {
-      populate: ["brand"],
-    });
+    const family = await strapi.entityService.findOne(
+      'api::pim-product-family.pim-product-family',
+      familyId,
+      {
+        populate: ['brand'],
+      },
+    );
 
     return family.brand.id;
   }

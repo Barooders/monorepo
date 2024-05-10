@@ -19,17 +19,13 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+      "allowedTypes": ["images"]
     },
     "cover": {
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+      "allowedTypes": ["images"]
     },
     "sellerName": {
       "type": "string"
@@ -45,12 +41,7 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": [
-        "buyer",
-        "seller",
-        "ambassador",
-        "admin"
-      ],
+      "enum": ["buyer", "seller", "ambassador", "admin"],
       "default": "buyer"
     }
   }

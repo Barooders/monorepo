@@ -9,12 +9,7 @@
   "attributes": {
     "category": {
       "type": "enumeration",
-      "enum": [
-        "MAIN",
-        "MAN",
-        "WOMAN",
-        "CHILD"
-      ]
+      "enum": ["MAIN", "MAN", "WOMAN", "CHILD"]
     }
   }
 }

@@ -31,10 +31,7 @@
     },
     "rating": {
       "type": "enumeration",
-      "enum": [
-        "TOP",
-        "MID"
-      ]
+      "enum": ["TOP", "MID"]
     },
     "productFamilies": {
       "type": "relation",

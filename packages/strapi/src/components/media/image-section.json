@@ -10,23 +10,11 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "redirectType": {
       "type": "enumeration",
-      "enum": [
-        "Collection",
-        "Customer",
-        "Message",
-        "Sell",
-        "Link",
-        "Email"
-      ]
+      "enum": ["Collection", "Customer", "Message", "Sell", "Link", "Email"]
     },
     "collection": {
       "type": "relation",

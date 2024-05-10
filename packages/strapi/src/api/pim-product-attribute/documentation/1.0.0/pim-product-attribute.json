@@ -63,9 +63,7 @@
           }
         }
       },
-      "tags": [
-        "Pim-product-attribute"
-      ],
+      "tags": ["Pim-product-attribute"],
       "parameters": [
         {
           "name": "sort",
@@ -224,9 +222,7 @@
           }
         }
       },
-      "tags": [
-        "Pim-product-attribute"
-      ],
+      "tags": ["Pim-product-attribute"],
       "parameters": [],
       "operationId": "post/pim-product-attributes",
       "requestBody": {
@@ -305,9 +301,7 @@
           }
         }
       },
-      "tags": [
-        "Pim-product-attribute"
-      ],
+      "tags": ["Pim-product-attribute"],
       "parameters": [
         {
           "name": "id",
@@ -385,9 +379,7 @@
           }
         }
       },
-      "tags": [
-        "Pim-product-attribute"
-      ],
+      "tags": ["Pim-product-attribute"],
       "parameters": [
         {
           "name": "id",
@@ -476,9 +468,7 @@
           }
         }
       },
-      "tags": [
-        "Pim-product-attribute"
-      ],
+      "tags": ["Pim-product-attribute"],
       "parameters": [
         {
           "name": "id",

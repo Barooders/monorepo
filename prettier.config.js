@@ -5,11 +5,11 @@ module.exports = {
   singleAttributePerLine: true,
   overrides: [
     {
-      files: ["packages/frontend/**"],
+      files: ['packages/frontend/**'],
       options: {
-      plugins: ['prettier-plugin-tailwindcss'],
-      tailwindConfig: 'packages/frontend/tailwind.config.js',
-      }
-    }
-  ]
+        plugins: ['prettier-plugin-tailwindcss'],
+        tailwindConfig: 'packages/frontend/tailwind.config.js',
+      },
+    },
+  ],
 };

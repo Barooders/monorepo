@@ -2,13 +2,13 @@ export default ({ env }) => ({
   // @strapi-provider-upload-aws-s3
   upload: {
     config: {
-      provider: "aws-s3",
+      provider: 'aws-s3',
       providerOptions: {
-        accessKeyId: env("AWS_ACCESS_KEY_ID"),
-        secretAccessKey: env("AWS_ACCESS_SECRET"),
-        region: env("AWS_REGION"),
+        accessKeyId: env('AWS_ACCESS_KEY_ID'),
+        secretAccessKey: env('AWS_ACCESS_SECRET'),
+        region: env('AWS_REGION'),
         params: {
-          Bucket: env("AWS_BUCKET"),
+          Bucket: env('AWS_BUCKET'),
         },
       },
       actionOptions: {
@@ -36,17 +36,17 @@ export default ({ env }) => ({
           link: [
             {
               input: {
-                label: "Item type",
-                name: "item_type",
-                type: "select",
+                label: 'Item type',
+                name: 'item_type',
+                type: 'select',
                 options: [
                   {
-                    label: "Link",
-                    value: "link",
+                    label: 'Link',
+                    value: 'link',
                   },
                   {
-                    label: "Card",
-                    value: "card",
+                    label: 'Card',
+                    value: 'card',
                   },
                 ],
                 required: true,
@@ -57,9 +57,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Pin item to parent menu panel",
-                name: "is_pinned",
-                type: "bool",
+                label: 'Pin item to parent menu panel',
+                name: 'is_pinned',
+                type: 'bool',
               },
               grid: {
                 col: 12,
@@ -67,9 +67,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Show in sport section",
-                name: "is_sport_section",
-                type: "bool",
+                label: 'Show in sport section',
+                name: 'is_sport_section',
+                type: 'bool',
               },
               grid: {
                 col: 12,
@@ -77,9 +77,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Order in mobile header (0 is not shown)",
-                name: "mobile_header_order",
-                type: "number",
+                label: 'Order in mobile header (0 is not shown)',
+                name: 'mobile_header_order',
+                type: 'number',
               },
               grid: {
                 col: 12,
@@ -87,9 +87,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Hide item in menu",
-                name: "is_hidden_in_menu",
-                type: "bool",
+                label: 'Hide item in menu',
+                name: 'is_hidden_in_menu',
+                type: 'bool',
               },
               grid: {
                 col: 12,
@@ -97,9 +97,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Collection Id",
-                name: "collection_id",
-                type: "string",
+                label: 'Collection Id',
+                name: 'collection_id',
+                type: 'string',
               },
               grid: {
                 col: 12,
@@ -109,9 +109,9 @@ export default ({ env }) => ({
           card: [
             {
               input: {
-                label: "Card image",
-                name: "card_image",
-                type: "media",
+                label: 'Card image',
+                name: 'card_image',
+                type: 'media',
               },
               grid: {
                 col: 12,
@@ -119,9 +119,9 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Card image for mobile menu",
-                name: "card_image_mobile",
-                type: "media",
+                label: 'Card image for mobile menu',
+                name: 'card_image_mobile',
+                type: 'media',
               },
               grid: {
                 col: 12,
@@ -129,10 +129,11 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Button text",
-                name: "button_text",
-                type: "string",
-                description: "Leave empty if you do not want button to be displayed.",
+                label: 'Button text',
+                name: 'button_text',
+                type: 'string',
+                description:
+                  'Leave empty if you do not want button to be displayed.',
               },
               grid: {
                 col: 12,
@@ -140,10 +141,10 @@ export default ({ env }) => ({
             },
             {
               input: {
-                label: "Show card in nested items panels",
-                name: "is_default",
-                type: "bool",
-                description: "Show card to every nested menu item",
+                label: 'Show card in nested items panels',
+                name: 'is_default',
+                type: 'bool',
+                description: 'Show card to every nested menu item',
               },
               grid: {
                 col: 12,
@@ -155,10 +156,10 @@ export default ({ env }) => ({
     },
   },
   // strapi-plugin-rest-cache
-  "rest-cache": {
+  'rest-cache': {
     config: {
       provider: {
-        name: "memory",
+        name: 'memory',
         getTimeout: 500,
         options: {
           max: 32767,
@@ -175,33 +176,33 @@ export default ({ env }) => ({
         debug: true,
         enableXCacheHeaders: true,
         contentTypes: [
-          "api::mobile-app-home.mobile-app-home",
-          "api::pim-dynamic-attribute.pim-dynamic-attribute",
-          "api::blog-article.blog-article",
-          "api::blog-tag.blog-tag",
+          'api::mobile-app-home.mobile-app-home',
+          'api::pim-dynamic-attribute.pim-dynamic-attribute',
+          'api::blog-article.blog-article',
+          'api::blog-tag.blog-tag',
           // selling-form-config
           {
-            contentType: "api::pim-product-type.pim-product-type",
+            contentType: 'api::pim-product-type.pim-product-type',
             routes: /* @type {CacheRouteConfig[]} */ [
               {
-                path: "/api/selling-form-config",
+                path: '/api/selling-form-config',
               },
             ],
           },
           // strapi-plugin-menus
           {
-            contentType: "plugin::menus.menu",
+            contentType: 'plugin::menus.menu',
             routes: /* @type {CacheRouteConfig[]} */ [
               {
-                path: "/api/menus/:id+",
+                path: '/api/menus/:id+',
               },
             ],
           },
           {
-            contentType: "plugin::menus.menu-item",
+            contentType: 'plugin::menus.menu-item',
             routes: /* @type {CacheRouteConfig[]} */ [
               {
-                path: "/api/menus/:id+",
+                path: '/api/menus/:id+',
               },
             ],
           },

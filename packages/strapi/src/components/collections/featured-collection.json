@@ -24,10 +24,7 @@
     },
     "layout": {
       "type": "enumeration",
-      "enum": [
-        "horizontal",
-        "vertical"
-      ]
+      "enum": ["horizontal", "vertical"]
     }
   }
 }

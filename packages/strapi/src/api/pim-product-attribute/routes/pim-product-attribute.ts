@@ -4,4 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreRouter('api::pim-product-attribute.pim-product-attribute');
+export default factories.createCoreRouter(
+  'api::pim-product-attribute.pim-product-attribute',
+);

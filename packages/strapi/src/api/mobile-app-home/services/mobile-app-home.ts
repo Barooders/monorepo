@@ -4,4 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::mobile-app-home.mobile-app-home');
+export default factories.createCoreService(
+  'api::mobile-app-home.mobile-app-home',
+);
