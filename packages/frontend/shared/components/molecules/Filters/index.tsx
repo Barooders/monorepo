@@ -17,7 +17,6 @@ import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
   useRefinementList,
-  useSearchBox,
 } from 'react-instantsearch-hooks-web';
 import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
 import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
@@ -163,18 +162,21 @@ export const Filters = () => {
 };
 
 export const B2BFilters = () => {
-  const { refine } = useSearchBox({});
-  const debouncedRefine = debounce(refine, 300);
   const { setIndexUiState } = useInstantSearch();
 
-  const { b2BSearchBar, savedSearch } = useB2BSearchContext();
+  const { b2BSearchBar, savedSearch, setB2BSearchBar } = useB2BSearchContext();
 
   useEffect(() => {
     if (!savedSearch) return;
 
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-    const query = b2BSearchBar || savedQuery;
+    if (savedQuery && !b2BSearchBar) {
+      setB2BSearchBar(savedQuery);
+      return;
+    }
+
+    const query = b2BSearchBar;
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
