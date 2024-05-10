@@ -171,10 +171,6 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
           <div className="mt-1">
             <div className="grid grid-cols-5 gap-10">
               <div className="col-span-1 col-start-1 hidden lg:block">
-                <div className="mb-4 flex gap-2">
-                  <B2BSavedSearchButton />
-                  <B2BClientRequestButton />
-                </div>
                 <B2BDesktopFilters />
               </div>
               <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
@@ -186,6 +182,10 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchName }) => {
                 <Pagination />
               </div>
             </div>
+          </div>
+          <div className="fixed bottom-5 right-5 flex flex-col items-end gap-3">
+            <B2BSavedSearchButton />
+            <B2BClientRequestButton />
           </div>
         </SavedSearchContext.Provider>
       </InstantSearchProvider>

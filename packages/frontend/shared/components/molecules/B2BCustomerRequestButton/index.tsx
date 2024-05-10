@@ -1,7 +1,7 @@
+import Modal from '@/components/atoms/Modal';
+import NoSSR from '@/components/atoms/NoSSR';
 import { getDictionary } from '@/i18n/translate';
-import Button from '../../atoms/Button';
-import Modal from '../../atoms/Modal';
-import NoSSR from '../../atoms/NoSSR';
+import { MdOutlineEmail } from 'react-icons/md';
 import B2BCustomerRequest from './B2BCustomerRequestForm';
 
 const dict = getDictionary('fr');
@@ -11,15 +11,13 @@ const B2BCustomerRequestButton: React.FC = () => {
     <NoSSR>
       <Modal
         ButtonComponent={({ openModal }) => (
-          <Button
+          <div
             onClick={openModal}
-            intent="secondary"
-            className="text-md w-full shadow-md"
+            className="flex cursor-pointer items-center justify-center gap-3 rounded-full bg-primary-400 px-5 py-3 text-white"
           >
-            <div className="flex items-center justify-center gap-2">
-              {dict.b2b.proPage.customerRequests.buttonLabel}
-            </div>
-          </Button>
+            <MdOutlineEmail className="text-lg font-semibold" />
+            {dict.b2b.proPage.customerRequests.buttonLabel}
+          </div>
         )}
         ContentComponent={({ closeModal }) => (
           <B2BCustomerRequest

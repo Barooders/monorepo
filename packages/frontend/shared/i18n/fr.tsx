@@ -1178,7 +1178,7 @@ const fr = {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
       customerRequests: {
-        buttonLabel: 'Demande spécifique',
+        buttonLabel: 'Une demande spécifique ?',
         description:
           'Détaillez-nous vos besoins, on s’occupe de trouver votre sélection pour vous.',
         form: {
@@ -1207,7 +1207,7 @@ const fr = {
         validate: 'Enregistrer mes filtres',
       },
       saveSearch: {
-        buttonLabel: 'Créer une recherche',
+        buttonLabel: 'Créer une alerte',
         successToaster: 'Recherche enregistrée',
         title: 'Créer une nouvelle recherche',
         description:
