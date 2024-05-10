@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_customers_vendors",
+  "info": {
+    "displayName": "Vendor",
+    "icon": "user-tag",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "customer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::customer.customer"
+    },
+    "heading": {
+      "type": "string"
+    }
+  }
+}

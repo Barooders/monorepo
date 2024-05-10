@@ -1,0 +1,1 @@
+CREATE SCHEMA heroku_ext;

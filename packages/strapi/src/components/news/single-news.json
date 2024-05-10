@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_news_single_news",
+  "info": {
+    "displayName": "Single news",
+    "icon": "newspaper",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "label": {
+      "type": "string"
+    }
+  }
+}

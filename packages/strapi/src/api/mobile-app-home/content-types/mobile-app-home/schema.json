@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "mobile_app_homes",
+  "info": {
+    "singularName": "mobile-app-home",
+    "pluralName": "mobile-app-homes",
+    "displayName": "Mobile app - Home",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "components": {
+      "type": "dynamiczone",
+      "components": [
+        "barooders.sell-section",
+        "collections.featured-collection",
+        "customers.vendor",
+        "media.multiple-images",
+        "news.multiple-news",
+        "barooders.expert-section",
+        "barooders.warranties-section",
+        "barooders.image-list-section",
+        "barooders.vendor-section",
+        "barooders.sports-section"
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_dynamic_attributes",
+  "info": {
+    "singularName": "pim-dynamic-attribute",
+    "pluralName": "pim-dynamic-attributes",
+    "displayName": "[PIM] Dynamic attribute"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "pim_product_attributes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-attribute.pim-product-attribute"
+    },
+    "label": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

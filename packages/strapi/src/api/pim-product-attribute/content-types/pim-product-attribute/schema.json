@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_product_attributes",
+  "info": {
+    "singularName": "pim-product-attribute",
+    "pluralName": "pim-product-attributes",
+    "displayName": "[PIM] Product attribute",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "label": {
+      "type": "string"
+    },
+    "tagPrefix": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "BOOLEAN",
+        "COLOR",
+        "INTEGER",
+        "SELECT"
+      ],
+      "required": true
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "filtrable": {
+      "type": "boolean"
+    },
+    "searchable": {
+      "type": "boolean"
+    },
+    "config": {
+      "type": "json"
+    },
+    "productTypes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-product-type.pim-product-type",
+      "mappedBy": "productAttributes"
+    }
+  }
+}

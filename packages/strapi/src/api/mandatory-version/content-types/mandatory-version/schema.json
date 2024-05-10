@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mandatory_versions",
+  "info": {
+    "singularName": "mandatory-version",
+    "pluralName": "mandatory-versions",
+    "displayName": "Mandatory Version",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "version": {
+      "type": "string"
+    },
+    "news": {
+      "displayName": "versionNews",
+      "type": "component",
+      "repeatable": true,
+      "component": "barooders.version-news"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

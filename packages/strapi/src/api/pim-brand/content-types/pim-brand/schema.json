@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_brands",
+  "info": {
+    "singularName": "pim-brand",
+    "pluralName": "pim-brands",
+    "displayName": "[PIM] Brand",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "productTypes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::pim-product-type.pim-product-type",
+      "mappedBy": "brands"
+    },
+    "productModels": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-model.pim-product-model",
+      "mappedBy": "brand"
+    },
+    "rating": {
+      "type": "enumeration",
+      "enum": [
+        "TOP",
+        "MID"
+      ]
+    },
+    "productFamilies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pim-product-family.pim-product-family",
+      "mappedBy": "brand"
+    }
+  }
+}

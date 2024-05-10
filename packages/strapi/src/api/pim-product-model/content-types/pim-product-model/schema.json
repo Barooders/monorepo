@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pim_product_models",
+  "info": {
+    "singularName": "pim-product-model",
+    "pluralName": "pim-product-models",
+    "displayName": "[PIM] Product model",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "productType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-product-type.pim-product-type",
+      "inversedBy": "productModels"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-brand.pim-brand",
+      "inversedBy": "productModels"
+    },
+    "priceNew": {
+      "type": "decimal"
+    },
+    "pictures": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "year": {
+      "type": "integer"
+    },
+    "imageUrl": {
+      "type": "text"
+    },
+    "productFamily": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::pim-product-family.pim-product-family",
+      "inversedBy": "productModels"
+    },
+    "manufacturer_suggested_retail_price": {
+      "type": "decimal"
+    }
+  }
+}

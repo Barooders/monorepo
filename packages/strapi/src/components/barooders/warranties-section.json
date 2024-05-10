@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_barooders_warranties_sections",
+  "info": {
+    "displayName": "Warranties section"
+  },
+  "options": {},
+  "attributes": {
+    "isVisible": {
+      "type": "boolean"
+    }
+  }
+}

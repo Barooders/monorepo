@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_media_image_sections",
+  "info": {
+    "displayName": "Image",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "redirectType": {
+      "type": "enumeration",
+      "enum": [
+        "Collection",
+        "Customer",
+        "Message",
+        "Sell",
+        "Link",
+        "Email"
+      ]
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::customer.customer"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

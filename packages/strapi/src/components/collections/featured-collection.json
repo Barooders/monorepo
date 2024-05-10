@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_collection_featured_collections",
+  "info": {
+    "displayName": "Featured collection",
+    "icon": "folder",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
+    },
+    "products_limit": {
+      "type": "integer",
+      "required": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "horizontal",
+        "vertical"
+      ]
+    }
+  }
+}

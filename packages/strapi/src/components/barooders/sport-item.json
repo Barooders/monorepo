@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_barooders_sport_items",
+  "info": {
+    "displayName": "Sport Item",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::collection.collection"
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}

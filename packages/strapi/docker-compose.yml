@@ -1,0 +1,20 @@
+version: "3"
+services:
+  barooders-strapiDB:
+    container_name: barooders-strapiDB
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    env_file: .env
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: barooders-cms
+    volumes:
+      - barooders-strapi-data:/var/lib/postgresql/data/
+      - ./database/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "2346:5432"
+
+volumes:
+  barooders-strapi-data:
