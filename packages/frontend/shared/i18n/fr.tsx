@@ -1204,7 +1204,7 @@ const fr = {
         defaultSavedSearchName: 'Filtres par défaut',
         description:
           'Afin de garantir une sélection personnalisée, enregistrez vos critères de sélection pour votre prochaine visite.',
-        selectedFilters: 'Filtres Sélectionnés',
+        selectedFilters: 'Filtres sélectionnés',
         errorToaster: 'Une erreur est survenue',
         successToaster: 'Filtres enregistrés',
         title: 'Enregistrez vos filtres',
