@@ -6,12 +6,12 @@ with
             da.name name,
             pa.tag_prefix tag_prefix,
             al.pim_product_attribute_order priority
-        from strapi_public.pim_dynamic_attributes da
+        from barooders_backend_strapi.pim_dynamic_attributes da
         join
-            strapi_public.pim_dynamic_attributes_pim_product_attributes_links al
+            barooders_backend_strapi.pim_dynamic_attributes_pim_product_attributes_links al
             on al.pim_dynamic_attribute_id = da.id
         join
-            strapi_public.pim_product_attributes pa
+            barooders_backend_strapi.pim_product_attributes pa
             on pa.id = al.pim_product_attribute_id
     ),
     dim_product as (
@@ -146,9 +146,9 @@ with
             on ol.product_id = p.id
             and ol.fulfillment_status = 'fulfilled'
         left join shopify.order o on o.id = ol.order_id and o.financial_status = 'paid'
-        left join strapi_public.pim_product_types ppt on ppt.name = p.product_type
-        left join strapi_public.pim_product_types_categories_links ppt_cat on ppt_cat.pim_product_type_id = ppt.id
-				left join strapi_public.pim_categories cat on ppt_cat.pim_category_id = cat.id
+        left join barooders_backend_strapi.pim_product_types ppt on ppt.name = p.product_type
+        left join barooders_backend_strapi.pim_product_types_categories_links ppt_cat on ppt_cat.pim_product_type_id = ppt.id
+				left join barooders_backend_strapi.pim_categories cat on ppt_cat.pim_category_id = cat.id
 
         where p.`_fivetran_deleted` is false
     ),
