@@ -41,7 +41,7 @@ const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
             title={dict.header.logo.title}
           >
             <Link
-              href={'/pro'}
+              href={'/'}
               className="flex h-10 items-center"
             >
               <BaroodersLogo className="fill-red-600" />
