@@ -243,7 +243,7 @@ export class ProductUpdateService {
           newQuantity: productVariantInDB.quantity,
         },
         metadata: {
-          comment: 'Product variant deleted',
+          comment: 'Variant stock updated',
           author,
         },
       }),
