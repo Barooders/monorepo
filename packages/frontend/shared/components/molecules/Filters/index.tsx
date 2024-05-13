@@ -171,12 +171,8 @@ export const B2BFilters = () => {
 
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-    if (savedQuery && b2BSearchBar === undefined) {
-      setB2BSearchBar(savedQuery);
-      return;
-    }
-
-    const query = b2BSearchBar;
+    const query =
+      savedQuery && b2BSearchBar === undefined ? savedQuery : b2BSearchBar;
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
@@ -195,9 +191,23 @@ export const B2BFilters = () => {
           return `${minValue}:${maxValue}`;
         }),
       },
-      ...(query && { query }),
+      query: query === '' ? undefined : query,
     }));
-  }, [savedSearch, b2BSearchBar, setIndexUiState]);
+
+    if (savedQuery && b2BSearchBar === undefined) {
+      setB2BSearchBar(savedQuery);
+      return;
+    }
+  }, [savedSearch, setIndexUiState]);
+
+  useEffect(() => {
+    if (b2BSearchBar === undefined) return;
+
+    setIndexUiState((prevIndexUiState) => ({
+      ...prevIndexUiState,
+      query: b2BSearchBar === '' ? undefined : b2BSearchBar,
+    }));
+  }, [b2BSearchBar, setIndexUiState]);
 
   return (
     <>
