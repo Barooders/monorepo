@@ -1,9 +1,9 @@
 import Dropdown from '@/components/atoms/Dropdown';
 import { searchCollections } from '@/config';
 import { getDictionary } from '@/i18n/translate';
-import { SalesChannelName } from 'shared-types';
 import { useState } from 'react';
 import { useSortBy } from 'react-instantsearch-hooks-web';
+import { SalesChannelName } from 'shared-types';
 
 const dict = getDictionary('fr');
 
@@ -37,16 +37,12 @@ const itemsBySalesChannel = {
   ],
   [SalesChannelName.B2B]: [
     {
-      label: dict.search.sortBy.options.relevance,
-      value: searchCollections.b2bProducts.main,
-    },
-    {
-      label: dict.search.sortBy.options.discountDesc,
-      value: searchCollections.b2bProducts.discountDesc,
-    },
-    {
       label: dict.search.sortBy.options.dateDesc,
       value: searchCollections.b2bProducts.dateDesc,
+    },
+    {
+      label: dict.search.sortBy.options.relevance,
+      value: searchCollections.b2bProducts.main,
     },
     {
       label: dict.search.sortBy.options.bundleSize,
@@ -67,11 +63,12 @@ const SortBy: React.FC<PropsType> = ({
   side = 'left',
   salesChannel = SalesChannelName.PUBLIC,
 }) => {
+  const items = itemsBySalesChannel[salesChannel];
   const [sortBylabel, setSortByLabel] = useState(
-    dict.search.sortBy.options.relevance,
+    items[0].label ?? dict.search.sortBy.options.relevance,
   );
   const { refine: refineSorting, options } = useSortBy({
-    items: itemsBySalesChannel[salesChannel],
+    items,
   });
 
   const dropdownOptions = options.map((option) => ({
