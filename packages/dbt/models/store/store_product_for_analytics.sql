@@ -88,11 +88,11 @@ orders AS (
 ),
 
 top_brands_list AS (
-  SELECT name FROM fivetran_strapi_public.pim_brands WHERE rating = 'TOP'
+  SELECT name FROM strapi.pim_brands WHERE rating = 'TOP'
 ),
 
 mid_brands_list AS (
-  SELECT name FROM fivetran_strapi_public.pim_brands WHERE rating = 'MID'
+  SELECT name FROM strapi.pim_brands WHERE rating = 'MID'
 ),
 
 exposed_product AS (

@@ -10,12 +10,12 @@ dynamic_tags AS (
     da.name,
     pa.tag_prefix,
     al.pim_product_attribute_order AS priority
-  FROM fivetran_strapi_public.pim_dynamic_attributes AS da
+  FROM strapi.pim_dynamic_attributes AS da
   INNER JOIN
-    fivetran_strapi_public.pim_dynamic_attributes_pim_product_attributes_links AS al
+    strapi.pim_dynamic_attributes_pim_product_attributes_links AS al
     ON da.id = al.pim_dynamic_attribute_id
   INNER JOIN
-    fivetran_strapi_public.pim_product_attributes AS pa
+    strapi.pim_product_attributes AS pa
     ON al.pim_product_attribute_id = pa.id
 ),
 
