@@ -10,6 +10,10 @@ export class PriceOfferUpdatedDomainEvent extends DomainEvent {
   readonly updates: PriceOfferUpdates;
   readonly metadata: {
     author: Author;
+    newPriceInCents: number;
+    quantity: number;
+    includedBuyerCommissionPercentage: number;
+    status: string;
   };
 
   constructor(props: DomainEventProps<PriceOfferUpdatedDomainEvent>) {

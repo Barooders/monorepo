@@ -96,6 +96,11 @@ export class PriceOfferService implements IPriceOfferService {
         },
         metadata: {
           author: { id: userId.uuid, type: 'user' },
+          newPriceInCents: parseInt(newPriceOffer.newPriceInCents.toString()),
+          quantity: newPriceOffer.quantity,
+          includedBuyerCommissionPercentage:
+            newPriceOffer.includedBuyerCommissionPercentage,
+          status: newPriceOffer.status,
         },
       }),
     );
@@ -188,6 +193,11 @@ export class PriceOfferService implements IPriceOfferService {
         },
         metadata: {
           author: { id: buyerId.uuid, type: 'user' },
+          newPriceInCents: parseInt(newPriceOffer.newPriceInCents.toString()),
+          quantity: newPriceOffer.quantity,
+          includedBuyerCommissionPercentage:
+            newPriceOffer.includedBuyerCommissionPercentage,
+          status: newPriceOffer.status,
         },
       }),
     );
@@ -233,13 +243,16 @@ export class PriceOfferService implements IPriceOfferService {
     updates: PriceOfferUpdates,
     authorId?: string,
   ) {
-    await this.prisma.priceOffer.update({
+    const updatedPriceOffer = await this.prisma.priceOffer.update({
       where: {
         id: priceOfferId.uuid,
       },
       data: updates,
       select: {
-        buyerId: true,
+        quantity: true,
+        newPriceInCents: true,
+        includedBuyerCommissionPercentage: true,
+        status: true,
       },
     });
 
@@ -250,7 +263,14 @@ export class PriceOfferService implements IPriceOfferService {
         aggregateId: priceOfferId.uuid,
         aggregateName: AggregateName.PRICE_OFFER,
         metadata: {
-          author: { id: authorId, type: 'admin' },
+          author: {
+            id: authorId,
+            type: 'admin',
+          },
+          ...updatedPriceOffer,
+          newPriceInCents: parseInt(
+            updatedPriceOffer.newPriceInCents.toString(),
+          ),
         },
       }),
     );
@@ -406,6 +426,13 @@ export class PriceOfferService implements IPriceOfferService {
         aggregateName: AggregateName.PRICE_OFFER,
         metadata: {
           author,
+          newPriceInCents: parseInt(
+            updatedPriceOffer.newPriceInCents.toString(),
+          ),
+          quantity: updatedPriceOffer.quantity,
+          includedBuyerCommissionPercentage:
+            updatedPriceOffer.includedBuyerCommissionPercentage,
+          status: updatedPriceOffer.status,
         },
       }),
     );
