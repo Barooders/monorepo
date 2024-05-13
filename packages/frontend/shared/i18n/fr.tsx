@@ -343,6 +343,9 @@ const fr = {
     logo: {
       title: 'Barooders',
     },
+    b2b: {
+      account: 'Mon compte',
+    },
     search: {
       placeholder: 'Rechercher un article',
     },
@@ -365,6 +368,7 @@ const fr = {
       b2bPage: 'Pro',
       messages: 'Vos messages',
       account: 'Votre compte',
+      alerts: 'Vos recherches enregistrées',
     },
     announcementItems: [
       '100% Annonces vérifiées',
