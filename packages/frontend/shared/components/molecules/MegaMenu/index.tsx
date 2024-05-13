@@ -1,9 +1,9 @@
-import { fetchStrapi } from '@/clients/strapi';
-import { parseMegaMenu } from '@/components/molecules/MegaMenu/shared/helpers/utils.helper';
-import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
-import { StrapiPluginMenu } from '@/types/strapi';
 import MegaMenu from './components/MegaMenu';
 import MobileMegaMenu from './components/MobileMegaMenu';
+import { parseMegaMenu } from '@/components/molecules/MegaMenu/shared/helpers/utils.helper';
+import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
+import { fetchStrapi } from '@/clients/strapi';
+import { StrapiPluginMenu } from './shared/types/strapi/plugins/StrapiPluginMenus.types';
 
 export const getMenuData = async () => {
   const data = await fetchStrapi<StrapiPluginMenu>(

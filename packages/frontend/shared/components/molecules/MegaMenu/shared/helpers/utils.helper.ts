@@ -4,7 +4,10 @@ import {
   MegaMenuItem,
 } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
 import { ImageComponent } from '@/components/molecules/MegaMenu/shared/types/strapi/components/Image.types';
-import { StrapiPluginMenu, StrapiPluginMenuItem } from '@/types/strapi';
+import {
+  StrapiPluginMenu,
+  StrapiPluginMenuItem,
+} from '@/components/molecules/MegaMenu/shared/types/strapi/plugins/StrapiPluginMenus.types';
 
 /**
  * It checks whether a given string is a valid URL or not.
