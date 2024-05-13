@@ -2,6 +2,7 @@ import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
 import PortalDrawer from '@/components/atoms/Drawer/withButton';
+import Input from '@/components/atoms/Input';
 import Link from '@/components/atoms/Link';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
 import {
@@ -9,17 +10,18 @@ import {
   b2bProductAttributesConfiguration,
   publicProductAttributesConfiguration,
 } from '@/config/productAttributes';
+import { SavedSearchContext } from '@/contexts/savedSearch';
 import { getDictionary } from '@/i18n/translate';
 import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
 import {
   useInstantSearch,
   useRefinementList,
+  useSearchBox,
 } from 'react-instantsearch-hooks-web';
 import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
-import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
 import ActiveFilters from './ActiveFilters';
 import RangeFilter from './RangeFilter';
 import SortBy from './SortBy';
@@ -162,21 +164,17 @@ export const Filters = () => {
 };
 
 export const B2BFilters = () => {
+  const { refine } = useSearchBox({});
   const { setIndexUiState } = useInstantSearch();
-
-  const { b2BSearchBar, savedSearch, setB2BSearchBar } = useB2BSearchContext();
+  const [query, setQuery] = useState<string>('');
+  const savedSearch = useContext(SavedSearchContext);
 
   useEffect(() => {
     if (!savedSearch) return;
 
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
-    if (savedQuery && b2BSearchBar === undefined) {
-      setB2BSearchBar(savedQuery);
-      return;
-    }
-
-    const query = b2BSearchBar;
+    setQuery(savedQuery ?? '');
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
@@ -197,10 +195,25 @@ export const B2BFilters = () => {
       },
       ...(query && { query }),
     }));
-  }, [savedSearch, b2BSearchBar, setIndexUiState]);
+  }, [savedSearch, query, setIndexUiState]);
 
   return (
     <>
+      <Input
+        inputAdditionalProps={{
+          onChange: (event) => refine(event.currentTarget.value),
+          maxLength: 512,
+          spellCheck: false,
+          autoCapitalize: 'off',
+          autoCorrect: 'off',
+          autoComplete: 'off',
+          defaultValue: query,
+        }}
+        name={'query_b2b'}
+        placeholder={dict.search.filters.search}
+        type={'search'}
+        className="mb-5"
+      />
       <RangeFilter attribute="price" />
       {Object.values(b2bProductAttributesConfiguration).map((attribute) => (
         <FallbackComponent
