@@ -183,15 +183,14 @@ const ProPage: React.FC<PropsType> = ({
             <div className="col-span-1 col-start-1 hidden lg:block">
               <B2BDesktopFilters />
             </div>
-            <B2BDesktopFilters />
-          </div>
-          <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
-            <B2BCollectionHeader />
-            <div className="flex bg-white pb-2 pt-1 lg:hidden">
-              <B2BMobileFilters />
+            <div className="col-span-5 flex flex-col gap-3 lg:col-span-4">
+              <B2BCollectionHeader />
+              <div className="flex bg-white pb-2 pt-1 lg:hidden">
+                <B2BMobileFilters />
+              </div>
+              <B2BSearchResults openDetails={openDetails} />
+              <Pagination />
             </div>
-            <B2BSearchResults openDetails={openDetails} />
-            <Pagination />
           </div>
         </div>
         <div className="fixed bottom-5 right-5 flex flex-col items-end gap-3">
