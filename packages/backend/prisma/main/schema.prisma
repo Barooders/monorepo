@@ -6,9 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  schemas    = ["auth", "public"]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth", "public"]
 }
 
 model Event {
@@ -41,6 +41,8 @@ model Config {
 model Order {
   id                       String             @id @default(dbgenerated("(gen_random_uuid())::text"))
   shopifyId                String             @unique
+  salesChannelName         SalesChannelName   @default(PUBLIC)
+  salesChannel             SalesChannel       @relation(fields: [salesChannelName], references: [name])
   customerId               String?            @db.Uuid
   createdAt                DateTime           @default(now())
   name                     String
@@ -591,6 +593,7 @@ model SalesChannel {
   name                 SalesChannelName      @id
   productSalesChannels ProductSalesChannel[]
   priceOffers          PriceOffer[]
+  orders               Order[]
 
   @@schema("public")
 }
@@ -703,16 +706,16 @@ model NumericFilter {
 //  =============================
 
 model CustomerRequest {
-  id                String      @id @default(dbgenerated("(gen_random_uuid())::text"))
-  quantity          Int
-  description       String
-  budgetMinInCents  Int?        @map("budget_min_in_cents")
-  budgetMaxInCents  Int?        @map("budget_max_in_cents")
-  neededAtDate      DateTime    @map("needed_at_date")
-  customerId        String      @db.Uuid @map("customer_id")
-  customer          Customer    @relation(name: "customer", fields: [customerId], references: [authUserId])
-  createdAt         DateTime    @default(now()) @map("created_at")
-  updatedAt         DateTime?   @updatedAt @map("updated_at")
+  id               String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  quantity         Int
+  description      String
+  budgetMinInCents Int?      @map("budget_min_in_cents")
+  budgetMaxInCents Int?      @map("budget_max_in_cents")
+  neededAtDate     DateTime  @map("needed_at_date")
+  customerId       String    @map("customer_id") @db.Uuid
+  customer         Customer  @relation(name: "customer", fields: [customerId], references: [authUserId])
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime? @updatedAt @map("updated_at")
 
   @@schema("public")
 }
