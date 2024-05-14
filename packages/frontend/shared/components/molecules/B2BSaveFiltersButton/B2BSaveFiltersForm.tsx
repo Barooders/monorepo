@@ -1,13 +1,15 @@
 import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
+import useUpdateSavedSearch from '@/hooks/useUpdateSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
+import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
 
 const dict = getDictionary('fr');
 
@@ -24,6 +26,8 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
   query,
 }) => {
   const [, storeSavedSearch] = useStoreSavedSearch();
+  const [, updateSavedSearch] = useUpdateSavedSearch();
+  const { savedSearch } = useB2BSearchContext();
 
   const refinements = currentRefinements
     .flatMap((item) => item.refinements)
@@ -35,21 +39,32 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
   const formMethods = useForm({});
 
   const onSubmit = async () => {
-    // TODO: handle update
-    await storeSavedSearch({
-      name: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
-      type: 'B2B_MAIN_PAGE',
-      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
-      query,
-      refinements,
-      shouldTriggerAlerts: false,
-    });
+    if (savedSearch === undefined) {
+      await storeSavedSearch({
+        name: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
+        type: 'B2B_MAIN_PAGE',
+        resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
+        query,
+        refinements,
+        shouldTriggerAlerts: false,
+      });
+    } else {
+      await updateSavedSearch(savedSearch.id, {
+        query,
+        refinements,
+      });
+    }
 
     toast.success(dict.b2b.proPage.saveFilters.successToaster);
     onSave();
   };
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);
+
+  const activeFilters = useMemo(
+    () => mapCurrentSearch(refinements, query),
+    [refinements, query],
+  );
 
   return (
     <FormProvider {...formMethods}>
@@ -67,7 +82,7 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
           <p className="text-base font-semibold">
             {dict.b2b.proPage.saveFilters.selectedFilters}
           </p>
-          {mapCurrentSearch(refinements, query).map((refinement, index) => (
+          {activeFilters.map((refinement, index) => (
             <p
               key={index}
               className="mt-1 rounded-xl border border-slate-200 bg-slate-100 p-2"
@@ -75,6 +90,13 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
               {refinement}
             </p>
           ))}
+          {activeFilters.length === 0 ? (
+            <p className="mt-1 text-slate-600">
+              {dict.b2b.proPage.saveFilters.noSelectedFilters}
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>

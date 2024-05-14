@@ -1221,7 +1221,7 @@ const fr = {
           need: 'Besoin',
           neededAtDate: 'J’en ai besoin pour',
           description: 'Spécificités',
-          quantity: 'Unités :',
+          quantity: 'Unités',
         },
         saveButton: 'J’enregistre',
         errorToaster: 'Une erreur est survenue',
@@ -1234,6 +1234,7 @@ const fr = {
         defaultSavedSearchName: 'Filtres par défaut',
         description:
           'Afin de garantir une sélection personnalisée, enregistrez vos critères de sélection pour votre prochaine visite.',
+        noSelectedFilters: 'Aucun filtres sélectionnés',
         selectedFilters: 'Filtres sélectionnés',
         errorToaster: 'Une erreur est survenue',
         successToaster: 'Filtres enregistrés',

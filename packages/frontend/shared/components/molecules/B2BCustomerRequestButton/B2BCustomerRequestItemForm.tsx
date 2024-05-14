@@ -22,7 +22,7 @@ const FIELD_ARRAY_NAME = 'requests';
 
 const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
   return (
-    <div className="mb-4 flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
+    <div className="mb-2 flex flex-col gap-2 rounded-lg border border-gray-300 px-3 py-2">
       <div className="flex justify-between">
         <span className="text-base font-semibold">
           {dict.b2b.proPage.customerRequests.form.need} {index + 1}
@@ -44,6 +44,8 @@ const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         options={{
           required: dict.global.forms.required,
         }}
+        inputClassName="gap-2 items-center"
+        inline
       />
       <FormTextArea
         label={dict.b2b.proPage.customerRequests.form.description}
@@ -52,6 +54,7 @@ const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         options={{
           required: dict.global.forms.required,
         }}
+        placeholder="Marque, modèle, année, usage, etc."
       />
 
       <div className="flex justify-between">
@@ -73,6 +76,8 @@ const B2BCustomerRequestItemForm: React.FC<PropsType> = ({ index, remove }) => {
         label={dict.b2b.proPage.customerRequests.form.neededAtDate}
         name={`${FIELD_ARRAY_NAME}.${index}.neededAtDate`}
         type="date"
+        inputClassName="gap-2 items-center"
+        inline
       />
     </div>
   );

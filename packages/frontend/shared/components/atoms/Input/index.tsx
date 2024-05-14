@@ -20,6 +20,7 @@ type PropsType = {
   className?: string;
   inputAdditionalProps: InputHTMLAttributes<HTMLInputElement>;
   hasError?: boolean;
+  inline?: boolean;
 };
 
 const Input: React.FC<PropsType> = ({
@@ -33,15 +34,20 @@ const Input: React.FC<PropsType> = ({
   className = '',
   inputAdditionalProps,
   hasError = false,
+  inline = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <label
       html-for={name}
-      className={`${className} flex flex-grow ${
-        type === 'checkbox' ? 'flex-row items-start' : 'flex-col'
-      }`}
+      className={`flex flex-grow ${
+        type === 'checkbox'
+          ? 'flex-row items-start'
+          : inline
+            ? 'flex-row'
+            : 'flex-col'
+      } ${className}`}
     >
       <span
         className={`${
@@ -51,7 +57,7 @@ const Input: React.FC<PropsType> = ({
         {label || children}
       </span>
       <div
-        className={`${type === 'checkbox' ? 'order-1 mr-2' : ''} relative mt-1`}
+        className={`${type === 'checkbox' ? 'order-1 mr-2' : ''} relative mt-1 ${inline ? 'flex-grow' : ''}`}
       >
         <InputElement
           inputProps={{
@@ -69,16 +75,16 @@ const Input: React.FC<PropsType> = ({
           (showPassword ? (
             <FiEye
               onClick={() => setShowPassword(false)}
-              className="absolute right-4 top-0 bottom-0 my-auto stroke-gray-400"
+              className="absolute bottom-0 right-4 top-0 my-auto stroke-gray-400"
             />
           ) : (
             <FiEyeOff
               onClick={() => setShowPassword(true)}
-              className="absolute right-4 top-0 bottom-0 my-auto stroke-gray-400"
+              className="absolute bottom-0 right-4 top-0 my-auto stroke-gray-400"
             />
           ))}
         {renderIcon && (
-          <div className="absolute right-4 top-0 bottom-0 flex items-center">
+          <div className="absolute bottom-0 right-4 top-0 flex items-center">
             {renderIcon()}
           </div>
         )}

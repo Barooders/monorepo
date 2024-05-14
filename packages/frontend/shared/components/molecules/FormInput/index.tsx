@@ -1,8 +1,8 @@
-import { getDictionary } from '@/i18n/translate';
-import { RegisterOptions, useFormContext, useFormState } from 'react-hook-form';
 import Input from '@/components/atoms/Input';
+import { getDictionary } from '@/i18n/translate';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 import { HTMLInputTypeAttribute, memo } from 'react';
+import { RegisterOptions, useFormContext, useFormState } from 'react-hook-form';
 
 const dict = getDictionary('fr');
 
@@ -17,6 +17,8 @@ type PropsType = {
   renderIcon?: () => React.ReactNode;
   propsError?: string;
   className?: string;
+  inputClassName?: string;
+  inline?: boolean;
 };
 
 const FormInput: React.FC<PropsType> = ({
@@ -25,11 +27,13 @@ const FormInput: React.FC<PropsType> = ({
   options = {},
   children,
   className = '',
+  inputClassName = '',
   disabled,
   label,
   renderIcon,
   placeholder,
   propsError,
+  inline,
 }) => {
   const { register } = useFormContext();
   const { errors } = useFormState({ name });
@@ -80,6 +84,8 @@ const FormInput: React.FC<PropsType> = ({
         renderIcon={renderIcon}
         placeholder={placeholder}
         type={type}
+        className={inputClassName}
+        inline={inline}
       >
         {children}
       </Input>
