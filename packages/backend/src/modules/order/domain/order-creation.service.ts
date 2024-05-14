@@ -3,7 +3,6 @@ import {
   EventName,
   OrderStatus,
   PrismaMainClient,
-  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
@@ -15,28 +14,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { OrderToStore } from './ports/types';
-
-export type OrderAdminCreation = {
-  salesChannelName: SalesChannelName;
-  customerId: string;
-  shippingAddress: {
-    address1: string;
-    address2?: string;
-    company?: string;
-    phone: string;
-    firstName: string;
-    lastName: string;
-    zip: string;
-    city: string;
-    country: string;
-  };
-  lineItems: {
-    variantId: string;
-    quantity: number;
-    unitPriceInCents: number;
-    unitBuyerCommission: number;
-  }[];
-};
 
 @Injectable()
 export class OrderCreationService {
@@ -53,7 +30,7 @@ export class OrderCreationService {
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
     const {
       order: { customerId, shopifyId, name },
-      priceOffers,
+      priceOfferIds,
     } = orderToStore;
 
     try {
@@ -67,7 +44,7 @@ export class OrderCreationService {
       );
 
       await this.priceOfferService.updatePriceOfferStatusFromOrder(
-        priceOffers,
+        priceOfferIds,
         createdOrderId,
         author,
       );

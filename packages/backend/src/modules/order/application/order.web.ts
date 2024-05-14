@@ -25,7 +25,6 @@ import {
   Header,
   HttpCode,
   HttpStatus,
-  Logger,
   NotFoundException,
   Param,
   Post,
@@ -53,10 +52,7 @@ import { reduce } from 'lodash';
 import { PassThrough } from 'stream';
 import { v4 as uuidv4 } from 'uuid';
 import { FulfillmentService } from '../domain/fulfillment.service';
-import {
-  OrderAdminCreation,
-  OrderCreationService,
-} from '../domain/order-creation.service';
+import { OrderCreationService } from '../domain/order-creation.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderService } from '../domain/order.service';
 import {
@@ -176,12 +172,15 @@ class CreateOrderInputDTO {
   @ValidateNested({ each: true })
   @Type(() => OrderLineItemDTO)
   lineItems!: OrderLineItemDTO[];
+
+  @ApiProperty()
+  @ValidateNested({ each: true })
+  @Type(() => String)
+  priceOfferIds!: string[];
 }
 
 @Controller(routesV1.version)
 export class OrderController {
-  private readonly logger = new Logger(OrderController.name);
-
   constructor(
     private orderService: OrderService,
     private fulfillmentService: FulfillmentService,
@@ -220,20 +219,16 @@ export class OrderController {
   @UseGuards(AuthGuard('header-api-key'))
   async createOrderAsAdmin(
     @Body()
-    {
-      customerId,
-      lineItems,
-      shippingAddress,
-      salesChannelName,
-    }: CreateOrderInputDTO,
+    body: CreateOrderInputDTO,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
+    const { customerId, lineItems, shippingAddress, salesChannelName } = body;
     const { email: customerEmail } = await this.prisma.users.findFirstOrThrow({
       where: { id: customerId },
     });
-    const { orderLines, fulfillmentOrders } =
-      await this.mapAdminInputForOrderCreation(lineItems);
+    const { orderLines, fulfillmentOrders, priceOfferIds } =
+      await this.mapAdminInputForOrderCreation(body);
 
     await this.orderCreationService.storeOrder(
       {
@@ -265,7 +260,7 @@ export class OrderController {
         },
         orderLines,
         fulfillmentOrders,
-        priceOffers: [], // Input
+        priceOfferIds,
       },
       {
         type: 'admin',
@@ -431,9 +426,13 @@ export class OrderController {
     return `Order with order line ${orderLineId} has been marked as ${status} at ${updatedAt}`;
   }
 
-  private async mapAdminInputForOrderCreation(
-    lineItems: OrderAdminCreation['lineItems'],
-  ): Promise<Pick<OrderToStore, 'orderLines' | 'fulfillmentOrders'>> {
+  private async mapAdminInputForOrderCreation({
+    salesChannelName,
+    priceOfferIds: inputPriceOfferIds,
+    lineItems,
+  }: CreateOrderInputDTO): Promise<
+    Pick<OrderToStore, 'orderLines' | 'fulfillmentOrders' | 'priceOfferIds'>
+  > {
     const storeVariants =
       await this.storePrisma.storeExposedProductVariant.findMany({
         where: {
@@ -464,6 +463,27 @@ export class OrderController {
           },
         },
       });
+
+    const priceOfferIds = await this.prisma.priceOffer.findMany({
+      where: {
+        id: {
+          in: inputPriceOfferIds,
+        },
+        salesChannelName,
+        productId: {
+          in: storeVariants.map(
+            ({
+              variant: {
+                product: { id },
+              },
+            }) => id,
+          ),
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
 
     const generatedFulfillmentOrderIds = reduce(
       storeVariants,
@@ -527,6 +547,7 @@ export class OrderController {
           id,
         }),
       ),
+      priceOfferIds: priceOfferIds,
     };
   }
 }

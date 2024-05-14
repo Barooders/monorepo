@@ -212,7 +212,7 @@ export class OrderMapper {
         methodName: this.getOrderPaymentName(orderData),
         checkoutToken: orderData.checkout_token,
       },
-      priceOffers: relatedPriceOffers.map(({ id }) => ({ id })),
+      priceOfferIds: relatedPriceOffers.map(({ id }) => ({ id })),
     };
   }
 

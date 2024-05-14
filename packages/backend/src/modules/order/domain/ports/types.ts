@@ -216,5 +216,5 @@ export type OrderToStore = {
     methodName: string;
     checkoutToken: string | null;
   };
-  priceOffers: Pick<PriceOffer, 'id'>[];
+  priceOfferIds: Pick<PriceOffer, 'id'>[];
 };
