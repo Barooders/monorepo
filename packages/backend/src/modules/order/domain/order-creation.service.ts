@@ -12,6 +12,7 @@ import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
+import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
 
 export type OrderLineToStore = {
   shopifyId: string;
@@ -57,6 +58,7 @@ export type OrderToStore = {
   shippingAddressFirstName: string;
   shippingAddressLastName: string;
   shippingAddressZip: string;
+  usedDiscountCodes: string[];
 };
 
 @Injectable()
@@ -66,6 +68,7 @@ export class OrderCreationService {
   constructor(
     private prisma: PrismaMainClient,
     private orderStatusHandler: OrderStatusHandlerService,
+    private priceOfferService: IPriceOfferService,
     private internalNotificationClient: IInternalNotificationClient,
   ) {}
 
@@ -74,6 +77,7 @@ export class OrderCreationService {
       orderLines,
       fulfillmentOrders,
       shippingAddressPhone,
+      usedDiscountCodes,
       ...order
     }: OrderToStore,
     author: Author,
@@ -164,6 +168,11 @@ export class OrderCreationService {
         createdOrderId,
         OrderStatus.CREATED,
         null,
+        author,
+      );
+
+      await this.priceOfferService.updatePriceOfferStatusFromOrder(
+        usedDiscountCodes,
         author,
       );
 

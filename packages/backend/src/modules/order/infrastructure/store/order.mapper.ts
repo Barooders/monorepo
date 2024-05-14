@@ -187,6 +187,9 @@ export class OrderMapper {
           ? [{ shopifyId: fulfillmentOrderShopifyId }]
           : [],
       ),
+      usedDiscountCodes: orderData.discount_applications.map(
+        (discount) => discount.code,
+      ),
     };
   }
 
