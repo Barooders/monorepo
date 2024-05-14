@@ -40,7 +40,7 @@ model Config {
 
 model Order {
   id                       String             @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId                String             @unique
+  shopifyId                String?            @unique
   salesChannelName         SalesChannelName
   salesChannel             SalesChannel       @relation(fields: [salesChannelName], references: [name])
   customerId               String?            @db.Uuid
@@ -75,7 +75,7 @@ model Order {
 
 model OrderLines {
   id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId          String            @unique
+  shopifyId          String?           @unique
   vendorId           String?           @db.Uuid
   orderId            String
   createdAt          DateTime          @default(now())
@@ -137,7 +137,7 @@ model CheckoutLineItem {
 
 model FulfillmentOrder {
   id              String                 @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId       BigInt                 @unique
+  shopifyId       BigInt?                @unique
   status          FulfillmentOrderStatus @default(OPEN)
   orderId         String
   externalOrderId String?
@@ -152,7 +152,7 @@ model FulfillmentOrder {
 model Fulfillment {
   id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
   createdAt          DateTime          @default(now())
-  shopifyId          BigInt            @unique
+  shopifyId          BigInt?           @unique
   fulfillmentOrderId String
   status             FulfillmentStatus
   trackingId         String?

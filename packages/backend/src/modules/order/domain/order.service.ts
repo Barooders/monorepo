@@ -81,7 +81,7 @@ export class OrderService {
       priceDetail:
         viewer === 'vendor'
           ? await this.getVendorPriceDetail(firstOrderLine.id)
-          : await this.storeClient.getOrderPriceItems(order.shopifyId),
+          : await this.storeClient.getOrderPriceItems(order.id),
       orderHistory,
     };
   }

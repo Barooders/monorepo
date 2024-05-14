@@ -19,7 +19,7 @@ import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 
 export type OrderLineToStore = {
-  shopifyId: string;
+  shopifyId?: string;
   name: string;
   vendorId?: string;
   priceInCents: number;
@@ -46,7 +46,7 @@ export type FulfillmentOrderToStore = {
 export type OrderToStore = {
   order: {
     salesChannelName: SalesChannelName;
-    shopifyId: string;
+    shopifyId?: string;
     name: string;
     status: OrderStatus;
     customerEmail: string;

@@ -1,14 +1,11 @@
 import { PRODUCT_NAME as COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
-import { NotFoundException } from '@libs/domain/exceptions';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
-import { EntityId } from '@libs/domain/product.interface';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
-import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import {
   getSingleProductInOrder,
-  isHandDeliveryOrder,
   parseShopifyError,
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
@@ -33,10 +30,21 @@ export class ShopifyClient implements IStoreClient {
   constructor(
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
-    private shopifyApiBySession: ShopifyApiBySession,
   ) {}
 
-  async getOrderPriceItems(orderShopifyId: string) {
+  async getOrderPriceItems(orderId: string) {
+    const dbOrder = await this.mainPrisma.order.findUniqueOrThrow({
+      where: {
+        id: orderId,
+      },
+    });
+
+    const orderShopifyId = dbOrder.shopifyId;
+
+    if (!orderShopifyId) {
+      throw new Error(`Not implemented yet, we should loop on DB order lines`);
+    }
+
     const order = await shopifyApiByToken.order.get(Number(orderShopifyId));
 
     const soldProduct = getSingleProductInOrder(order);
@@ -137,11 +145,18 @@ export class ShopifyClient implements IStoreClient {
     return await this.mapFulfilledFulfillmentOrder(newFulfillment);
   }
 
-  async getAppliedDiscounts(
-    orderStoreId: string,
-  ): Promise<DiscountApplication[]> {
+  async getAppliedDiscounts(orderId: string): Promise<DiscountApplication[]> {
     try {
-      const order = await shopifyApiByToken.order.get(Number(orderStoreId));
+      const dbOrder = await this.mainPrisma.order.findUniqueOrThrow({
+        where: {
+          id: orderId,
+        },
+      });
+
+      if (!dbOrder.shopifyId) return [];
+
+      const orderStoreId = Number(dbOrder.shopifyId);
+      const order = await shopifyApiByToken.order.get(orderStoreId);
 
       return order.discount_applications.map(({ code, ...details }) => ({
         code,
@@ -149,7 +164,7 @@ export class ShopifyClient implements IStoreClient {
       }));
     } catch (error: unknown) {
       throw new Error(
-        `Could not fetch or map order with id ${orderStoreId} because: ${error}`,
+        `Could not fetch discounts from store for order ${orderId} because: ${error}`,
       );
     }
   }
@@ -224,24 +239,23 @@ export class ShopifyClient implements IStoreClient {
     return fulfillmentOrder?.id;
   }
 
-  async isHandDeliveryOrder(orderShopifyId: string): Promise<boolean> {
-    try {
-      const order = await shopifyApiByToken.order.get(Number(orderShopifyId));
-
-      return isHandDeliveryOrder(order);
-    } catch (error: unknown) {
-      throw new NotFoundException(
-        `Could not fetch or map order with id ${orderShopifyId} because: ${error}`,
-      );
-    }
-  }
-
   async refundOrder(
-    orderId: EntityId,
+    orderId: UUID,
     { amountInCents, currency }: RefundOptions,
   ): Promise<void> {
     try {
-      const orderShopifyId = getValidShopifyId(orderId.storeId);
+      const dbOrder = await this.mainPrisma.order.findUniqueOrThrow({
+        where: {
+          id: orderId.uuid,
+        },
+      });
+
+      if (!dbOrder.shopifyId) {
+        throw new Error(
+          `Not implemented yet: cannot refund order ${orderId.uuid} because it has no Shopify ID`,
+        );
+      }
+      const orderShopifyId = getValidShopifyId(dbOrder.shopifyId);
       const amount = (amountInCents / 100).toFixed(2);
 
       await shopifyApiByToken.transaction.create(orderShopifyId, {

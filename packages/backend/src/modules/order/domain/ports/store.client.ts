@@ -1,5 +1,5 @@
 import { Currency } from '@libs/domain/prisma.main.client';
-import { EntityId } from '@libs/domain/product.interface';
+import { UUID } from '@libs/domain/value-objects';
 import {
   Amount,
   BuyerPriceLines,
@@ -33,9 +33,7 @@ export interface RefundOptions {
 }
 
 export abstract class IStoreClient {
-  abstract isHandDeliveryOrder(orderShopifyId: string): Promise<boolean>;
-
-  abstract getOrderPriceItems(orderShopifyId: string): Promise<{
+  abstract getOrderPriceItems(orderId: string): Promise<{
     lines: {
       type: BuyerPriceLines;
       amount: Amount;
@@ -53,16 +51,11 @@ export abstract class IStoreClient {
     orderLineShopifyId: string,
   ): Promise<number | undefined>;
 
-  abstract refundOrder(
-    orderId: EntityId,
-    options: RefundOptions,
-  ): Promise<void>;
+  abstract refundOrder(orderId: UUID, options: RefundOptions): Promise<void>;
 
   abstract filterBikesVariantIdsFromVariantIdList(
     variantIds: string[],
   ): Promise<string[]>;
 
-  abstract getAppliedDiscounts(
-    orderStoreId: string,
-  ): Promise<DiscountApplication[]>;
+  abstract getAppliedDiscounts(orderId: string): Promise<DiscountApplication[]>;
 }

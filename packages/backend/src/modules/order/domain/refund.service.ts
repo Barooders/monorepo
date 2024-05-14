@@ -10,6 +10,7 @@ import {
   users,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
 import { paymentSolutionConfig } from '@modules/buy__payment/domain/config';
 import { Injectable, Logger } from '@nestjs/common';
@@ -287,21 +288,15 @@ export class RefundService {
   }
 
   private async refundOrder(orderCancelledData: OrderCancelledData) {
-    const { id, name, shopifyId, totalPriceCurrency, totalPriceInCents } =
+    const { id, name, totalPriceCurrency, totalPriceInCents } =
       orderCancelledData.order;
 
     const { email } = orderCancelledData.customer;
 
-    await this.storeClient.refundOrder(
-      {
-        id,
-        storeId: shopifyId,
-      },
-      {
-        amountInCents: totalPriceInCents,
-        currency: totalPriceCurrency,
-      },
-    );
+    await this.storeClient.refundOrder(new UUID({ uuid: id }), {
+      amountInCents: totalPriceInCents,
+      currency: totalPriceCurrency,
+    });
 
     this.logger.warn(`Refunded order ${id}`);
 

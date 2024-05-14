@@ -143,10 +143,10 @@ export class PayoutController {
         order.id,
       );
       const appliedDiscounts = await this.storeClient.getAppliedDiscounts(
-        order.shopifyId,
+        order.id,
       );
       const orderPriceLines = await this.storeClient.getOrderPriceItems(
-        order.shopifyId,
+        order.id,
       );
 
       return {

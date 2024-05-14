@@ -6,7 +6,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   Logger,
   Post,
   UnauthorizedException,
@@ -15,7 +14,6 @@ import {
 import { IsNotEmpty, IsString } from 'class-validator';
 import { HandDeliveryService } from '../domain/hand-delivery.service';
 import { UserIsNotOrderCustomerException } from '../domain/ports/exceptions';
-import { OrderInChat } from '../domain/ports/store.client';
 
 class ValidateHandDeliveryOrderDto {
   @IsNotEmpty()
@@ -32,19 +30,6 @@ export class HandDeliveryOrderController {
   private readonly logger = new Logger(HandDeliveryOrderController.name);
 
   constructor(private handDeliveryService: HandDeliveryService) {}
-
-  @Get(routesV1.order.handDeliveryOrder)
-  @UseGuards(JwtAuthGuard)
-  async getPaidHandDeliveryOrders(
-    @User() { shopifyId, userId }: ExtractedUser,
-  ): Promise<OrderInChat[]> {
-    if (!shopifyId) {
-      throw new UnauthorizedException(
-        `User not found in token, user (${userId})`,
-      );
-    }
-    return await this.handDeliveryService.getPaidHandDeliveryOrders(shopifyId);
-  }
 
   @Post(routesV1.order.handDeliveryOrderStatus)
   @UseGuards(JwtAuthGuard)

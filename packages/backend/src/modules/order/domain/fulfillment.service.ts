@@ -166,10 +166,12 @@ export class FulfillmentService {
     );
 
     const fulfillmentOrderShopifyId =
-      await this.storeClient.getFulfillmentOrderId(
-        orderLine.order.shopifyId,
-        orderLine.shopifyId,
-      );
+      orderLine.order.shopifyId && orderLine.shopifyId
+        ? await this.storeClient.getFulfillmentOrderId(
+            orderLine.order.shopifyId,
+            orderLine.shopifyId,
+          )
+        : null;
 
     if (!fulfillmentOrderShopifyId) {
       throw new Error(

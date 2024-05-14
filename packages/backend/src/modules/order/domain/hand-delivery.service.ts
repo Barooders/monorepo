@@ -4,7 +4,6 @@ import {
   EventName,
   OrderStatus,
   PrismaMainClient,
-  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
@@ -14,7 +13,6 @@ import { head } from 'lodash';
 import { OrderNotificationService } from './order-notification.service';
 import { OrderUpdateService } from './order-update.service';
 import { UserIsNotOrderCustomerException } from './ports/exceptions';
-import { OrderInChat } from './ports/store.client';
 
 export class NotFoundOrderException extends ExceptionBase {
   constructor(productShopifyId: string, userShopifyId: string) {
@@ -42,67 +40,6 @@ export class HandDeliveryService {
     private orderUpdateService: OrderUpdateService,
     private orderNotificationService: OrderNotificationService,
   ) {}
-
-  async getPaidHandDeliveryOrders(
-    userShopifyId: string,
-  ): Promise<OrderInChat[]> {
-    const orderLines = await this.prisma.orderLines.findMany({
-      where: {
-        order: {
-          customer: {
-            shopifyId: Number(userShopifyId),
-          },
-          status: OrderStatus.PAID,
-        },
-        shippingSolution: ShippingSolution.HAND_DELIVERY,
-      },
-      include: {
-        order: true,
-      },
-    });
-
-    const paidHandDeliveryOrdersWithConversationId: OrderInChat[] = [];
-
-    const { authUserId } = await this.prisma.customer.findUniqueOrThrow({
-      where: { shopifyId: Number(userShopifyId) },
-      select: { authUserId: true },
-    });
-
-    for (const {
-      productVariantId,
-      order: { shopifyId: orderShopifyId },
-    } of orderLines) {
-      if (!productVariantId) {
-        throw new Error(
-          `Can't get chat link for HAND_DELIVERY order because productVariantId is not set`,
-        );
-      }
-
-      const { id: productInternalId } =
-        await this.prisma.product.findFirstOrThrow({
-          where: {
-            variants: {
-              some: {
-                id: productVariantId,
-              },
-            },
-          },
-        });
-
-      try {
-        const { conversationId: chatConversationId } =
-          await this.chatService.getOrCreateConversationFromAuthUserId(
-            new UUID({ uuid: authUserId }),
-            productInternalId,
-          );
-        paidHandDeliveryOrdersWithConversationId.push({
-          orderShopifyId,
-          chatConversationId,
-        });
-      } catch (e) {}
-    }
-    return paidHandDeliveryOrdersWithConversationId;
-  }
 
   async setOrderAsDeliveredIfFound(
     userShopifyId: string,

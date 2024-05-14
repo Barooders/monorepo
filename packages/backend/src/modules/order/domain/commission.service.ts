@@ -2,6 +2,7 @@ import { MINIMAL_COMMISSION_RATE } from '@config/app.config';
 import {
   CommissionRuleType,
   PrismaMainClient,
+  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { BuyerCommissionService } from '@modules/product/domain/buyer-commission.service';
@@ -38,7 +39,7 @@ export interface SaveCommissionInput {
   vendorId: string | null;
   priceInCents: number;
   discountInCents: number;
-  orderStoreId: string;
+  shippingSolution: ShippingSolution;
 }
 
 @Injectable()
@@ -59,16 +60,13 @@ export class CommissionService {
       vendorId,
       priceInCents,
       discountInCents,
-      order,
       vendorCommission,
       vendorShipping,
       buyerCommission,
+      shippingSolution,
     } = await this.prisma.orderLines.findUniqueOrThrow({
       where: {
         id: orderLineId,
-      },
-      include: {
-        order: true,
       },
     });
 
@@ -96,7 +94,7 @@ export class CommissionService {
       vendorId,
       priceInCents,
       discountInCents,
-      orderStoreId: order.shopifyId,
+      shippingSolution,
     });
   }
 
@@ -106,15 +104,12 @@ export class CommissionService {
     priceInCents,
     discountInCents,
     productType,
-    orderStoreId,
+    shippingSolution,
   }: SaveCommissionInput): Promise<Commission> {
     if (!vendorId)
       throw new Error(
         `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
       );
-
-    const isFreeShipping =
-      await this.storeClient.isHandDeliveryOrder(orderStoreId);
 
     const commission = await this.getVendorCommission(
       {
@@ -123,7 +118,7 @@ export class CommissionService {
         discount: discountInCents / 100,
         vendorId,
       },
-      { isFreeShipping },
+      { isFreeShipping: shippingSolution === ShippingSolution.HAND_DELIVERY },
     );
 
     await this.prisma.orderLines.update({

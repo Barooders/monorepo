@@ -53,7 +53,6 @@ export const routesV1 = {
     onCreatedEvent: '/orders/webhook/created-event',
     onPaidEvent: '/orders/webhook/paid-event',
     onPaidEventAsAdmin: '/admin/orders/webhook/paid-event',
-    handDeliveryOrder: '/orders/hand-delivery',
     handDeliveryOrderStatus: '/orders/hand-delivery/status',
     getOrder: '/orders/:orderId',
     getOrCreateShippingLabel: '/orders/:orderId/shipping-label',
