@@ -1190,8 +1190,7 @@ const fr = {
         ),
         content: () => (
           <>
-            Ci dessous sont les produits disponibles à la vente en lot. Vous
-            pouvez :
+						Les produits ci-dessous sont disponibles à l’achat. Vous pouvez :
             <ul className="list-disc py-2 pl-4">
               <li>
                 Utiliser le bouton sauvegarder pour configurer les filtres qui
