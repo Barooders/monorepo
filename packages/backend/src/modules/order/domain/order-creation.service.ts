@@ -45,6 +45,7 @@ export type FulfillmentOrderToStore = {
 
 export type OrderToStore = {
   order: {
+    salesChannelName: SalesChannelName;
     shopifyId: string;
     name: string;
     status: OrderStatus;
@@ -161,7 +162,6 @@ export class OrderCreationService {
           await wrappedPrisma.order.create({
             data: {
               ...order,
-              salesChannelName: SalesChannelName.PUBLIC,
               shippingAddressPhone,
               fulfillmentOrders: {
                 createMany: {

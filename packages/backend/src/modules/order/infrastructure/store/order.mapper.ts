@@ -8,6 +8,7 @@ import {
   OrderStatus,
   PrismaMainClient,
   Product,
+  SalesChannelName,
   ShippingSolution,
   ShippingType,
   users,
@@ -191,6 +192,7 @@ export class OrderMapper {
         shippingAddressLastName: orderData.shipping_address.last_name,
         shippingAddressPhone: orderData.shipping_address.phone,
         shippingAddressZip: orderData.shipping_address.zip,
+        salesChannelName: SalesChannelName.PUBLIC,
       },
       orderLines,
       fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrderShopifyId }) =>
