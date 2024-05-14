@@ -27,6 +27,7 @@ import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { Response } from 'express';
 import { PassThrough } from 'stream';
 import { FulfillmentService } from '../domain/fulfillment.service';
+import { OrderCreationService } from '../domain/order-creation.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderService } from '../domain/order.service';
 import {
@@ -57,6 +58,8 @@ class OrderStatusUpdateDTO {
   status!: OrderStatus;
 }
 
+class CreateOrderInputDTO {}
+
 @Controller(routesV1.version)
 export class OrderController {
   private readonly logger = new Logger(OrderController.name);
@@ -66,6 +69,7 @@ export class OrderController {
     private fulfillmentService: FulfillmentService,
     private refundService: RefundService,
     private prisma: PrismaMainClient,
+    private orderCreationService: OrderCreationService,
     private orderUpdateService: OrderUpdateService,
   ) {}
 
@@ -91,6 +95,20 @@ export class OrderController {
       }
       throw new BadRequestException(error);
     }
+  }
+
+  @Post(routesV1.order.root)
+  @UseGuards(AuthGuard('header-api-key'))
+  async createOrderAsAdmin(
+    @Body()
+    body: CreateOrderInputDTO,
+    @Query()
+    { authorId }: { authorId?: string },
+  ): Promise<void> {
+    await this.orderCreationService.storeOrder(body, {
+      type: 'admin',
+      id: authorId,
+    });
   }
 
   @HttpCode(HttpStatus.OK)
