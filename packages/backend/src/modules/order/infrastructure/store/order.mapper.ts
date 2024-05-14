@@ -556,7 +556,7 @@ export class OrderMapper {
 
           if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
             throw new Error(
-              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ storeVariant, inventoryQuantity: storeVariant?.inventoryQuantity, quantity })}`,
+              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ id: storeVariant?.id, stock: storeVariant?.inventoryQuantity, quantity })}`,
             );
           }
 
