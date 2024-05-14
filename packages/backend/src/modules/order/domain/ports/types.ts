@@ -182,11 +182,12 @@ export type OrderLineToStore = {
   productSize?: string | null;
   quantity: number;
   productVariantId?: string;
-  fulfillmentOrderShopifyId?: number;
+  fulfillmentOrder?: FulfillmentOrderToStore;
 };
 
 export type FulfillmentOrderToStore = {
-  shopifyId: number;
+  id: string;
+  shopifyId?: number;
 };
 
 export type OrderToStore = {

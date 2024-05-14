@@ -100,35 +100,25 @@ export class OrderCreationService {
             order.shopifyId
           } with fulfillment orders: ${jsonStringify(fulfillmentOrders)}`,
         );
-        const { id, fulfillmentOrders: createdFulfillmentOrders } =
-          await wrappedPrisma.order.create({
-            data: {
-              ...order,
-              shippingAddressPhone,
-              fulfillmentOrders: {
-                createMany: {
-                  data: fulfillmentOrders,
-                },
+        const { id } = await wrappedPrisma.order.create({
+          data: {
+            ...order,
+            shippingAddressPhone,
+            fulfillmentOrders: {
+              createMany: {
+                data: fulfillmentOrders,
               },
             },
-            include: {
-              fulfillmentOrders: true,
-            },
-          });
-
-        await Promise.all(
-          orderLines.map(({ fulfillmentOrderShopifyId, ...orderLine }) => {
-            return wrappedPrisma.orderLines.create({
-              data: {
-                ...orderLine,
-                orderId: id,
-                fulfillmentOrderId: createdFulfillmentOrders.find(
-                  (fo) => Number(fo.shopifyId) === fulfillmentOrderShopifyId,
-                )?.id,
+            orderLines: {
+              createMany: {
+                data: orderLines.map(({ fulfillmentOrder, ...orderLine }) => ({
+                  ...orderLine,
+                  fulfillmentOrderId: fulfillmentOrder?.id,
+                })),
               },
-            });
-          }),
-        );
+            },
+          },
+        });
 
         await wrappedPrisma.event.create({
           data: {

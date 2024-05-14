@@ -33,6 +33,7 @@ import {
 import { Injectable, Logger } from '@nestjs/common';
 import { get, head, isMatch, last } from 'lodash';
 import { IOrder } from 'shopify-api-node';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class OrderMapper {
@@ -68,6 +69,14 @@ export class OrderMapper {
     if (fulfillmentOrders.length === 0) {
       throw new Error(`No fulfillment order found yet for order ${id}`);
     }
+
+    const mappedFulfillmentOrders = fulfillmentOrders.map(
+      ({ id, line_items }) => ({
+        shopifyId: id,
+        lineItems: line_items,
+        id: uuidv4(),
+      }),
+    );
 
     const orderLines = await Promise.all(
       shippableOrderLines.map(async (soldProduct) => {
@@ -155,12 +164,11 @@ export class OrderMapper {
           productSize: getDisplayedSize(sizeArray),
           quantity: soldProduct.quantity,
           productVariantId: productVariant?.id,
-          fulfillmentOrderShopifyId: fulfillmentOrders.find(
-            (fulfillmentOrder) =>
-              fulfillmentOrder.line_items.find(
-                (lineItem) => lineItem.variant_id === soldProduct.variant_id,
-              ),
-          )?.id,
+          fulfillmentOrder: mappedFulfillmentOrders.find(({ lineItems }) =>
+            lineItems.find(
+              (lineItem) => lineItem.variant_id === soldProduct.variant_id,
+            ),
+          ),
         };
       }),
     );
@@ -195,9 +203,9 @@ export class OrderMapper {
         salesChannelName: SalesChannelName.PUBLIC,
       },
       orderLines,
-      fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrderShopifyId }) =>
-        fulfillmentOrderShopifyId
-          ? [{ shopifyId: fulfillmentOrderShopifyId }]
+      fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrder }) =>
+        fulfillmentOrder
+          ? [{ id: fulfillmentOrder.id, shopifyId: fulfillmentOrder.shopifyId }]
           : [],
       ),
       payment: {
