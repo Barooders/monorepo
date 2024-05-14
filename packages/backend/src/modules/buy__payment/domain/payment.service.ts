@@ -215,6 +215,11 @@ export class PaymentService implements IPaymentService {
     order,
     payment,
   }: OrderToStore): Promise<string | null> {
+    if (!payment) {
+      this.logger.warn(`No payment found for order ${order.name}`);
+      return null;
+    }
+
     const dbCheckout =
       (await this.prisma.checkout.findFirst({
         where: {

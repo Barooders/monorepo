@@ -1,6 +1,13 @@
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
-import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  Condition,
+  Currency,
+  OrderStatus,
+  PrismaMainClient,
+  SalesChannelName,
+  ShippingSolution,
+} from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
@@ -105,10 +112,57 @@ export class OrderController {
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
-    await this.orderCreationService.storeOrder(body, {
-      type: 'admin',
-      id: authorId,
-    });
+    await this.orderCreationService.storeOrder(
+      {
+        order: {
+          salesChannelName: SalesChannelName.PUBLIC,
+          shopifyId: '0',
+          name: '0',
+          status: OrderStatus.CREATED,
+          customerEmail: '0',
+          customerId: '0',
+          totalPriceInCents: 0,
+          totalPriceCurrency: Currency.EUR,
+          shippingAddressAddress1: '0',
+          shippingAddressAddress2: '0',
+          shippingAddressCompany: '0',
+          shippingAddressCity: '0',
+          shippingAddressPhone: '0',
+          shippingAddressCountry: '0',
+          shippingAddressFirstName: '0',
+          shippingAddressLastName: '0',
+          shippingAddressZip: '0',
+        },
+        orderLines: [
+          {
+            shopifyId: '0',
+            name: '0',
+            vendorId: '0',
+            priceInCents: 0,
+            discountInCents: 0,
+            shippingSolution: ShippingSolution.VENDOR,
+            priceCurrency: Currency.EUR,
+            productType: '0',
+            productHandle: '0',
+            productImage: '0',
+            variantCondition: Condition.AS_NEW,
+            productModelYear: '0',
+            productGender: '0',
+            productBrand: '0',
+            productSize: '0',
+            quantity: 0,
+            productVariantId: '0',
+            fulfillmentOrderShopifyId: 0,
+          },
+        ],
+        fulfillmentOrders: [],
+        priceOffers: [],
+      },
+      {
+        type: 'admin',
+        id: authorId,
+      },
+    );
   }
 
   @HttpCode(HttpStatus.OK)

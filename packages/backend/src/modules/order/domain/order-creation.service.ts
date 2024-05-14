@@ -21,7 +21,7 @@ import { IInternalNotificationClient } from './ports/internal-notification.clien
 export type OrderLineToStore = {
   shopifyId: string;
   name: string;
-  vendorId: string | undefined;
+  vendorId?: string;
   priceInCents: number;
   discountInCents: number;
   shippingSolution: ShippingSolution;
@@ -35,8 +35,8 @@ export type OrderLineToStore = {
   productBrand?: string | null;
   productSize?: string | null;
   quantity: number;
-  productVariantId: string | undefined;
-  fulfillmentOrderShopifyId: number | undefined;
+  productVariantId?: string;
+  fulfillmentOrderShopifyId?: number;
 };
 
 export type FulfillmentOrderToStore = {
@@ -65,7 +65,7 @@ export type OrderToStore = {
   };
   orderLines: OrderLineToStore[];
   fulfillmentOrders: FulfillmentOrderToStore[];
-  payment: {
+  payment?: {
     methodName: string;
     checkoutToken: string | null;
   };
