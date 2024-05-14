@@ -9,6 +9,10 @@ export class PriceOfferCreatedDomainEvent extends DomainEvent {
   readonly payload: Record<string, string>;
   readonly metadata: {
     author: Author;
+    newPriceInCents: number;
+    quantity: number;
+    includedBuyerCommissionPercentage: number;
+    status: string;
   };
   constructor(props: DomainEventProps<PriceOfferCreatedDomainEvent>) {
     super(props);
