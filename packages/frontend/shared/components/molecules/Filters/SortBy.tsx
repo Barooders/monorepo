@@ -38,11 +38,11 @@ const itemsBySalesChannel = {
   [SalesChannelName.B2B]: [
     {
       label: dict.search.sortBy.options.dateDesc,
-      value: searchCollections.b2bProducts.dateDesc,
+      value: searchCollections.b2bProducts.main,
     },
     {
       label: dict.search.sortBy.options.relevance,
-      value: searchCollections.b2bProducts.main,
+      value: searchCollections.b2bProducts.relevance,
     },
     {
       label: dict.search.sortBy.options.bundleSize,
