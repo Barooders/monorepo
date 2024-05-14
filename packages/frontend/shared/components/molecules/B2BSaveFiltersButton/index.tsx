@@ -8,17 +8,38 @@ import {
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';
+import useB2BSearchContext, {
+  SavedSearch,
+} from '../B2BSearchBar/_state/useB2BSearchContext';
 import B2BSaveFiltersForm from './B2BSaveFiltersForm';
 
 const dict = getDictionary('fr');
+
+const shouldHideSaveButton = (
+  items: unknown[],
+  query: string,
+  savedSearch: SavedSearch | undefined,
+) => {
+  const hasSavedSearchWithFilter =
+    savedSearch === undefined
+      ? false
+      : savedSearch.FacetFilters.length > 0 ||
+        savedSearch.NumericFilters.length > 0 ||
+        savedSearch.query;
+
+  return !hasSavedSearchWithFilter && items.length === 0 && !query;
+};
 
 const B2BSaveFiltersButton: React.FC<{ className?: string }> = ({
   className,
 }) => {
   const { items } = useCurrentRefinements();
   const { query } = useSearchBox();
+  const { savedSearch } = useB2BSearchContext();
 
-  if (items.length === 0 && !query) return <></>;
+  if (shouldHideSaveButton(items, query, savedSearch)) {
+    return <></>;
+  }
 
   return (
     <NoSSR>
