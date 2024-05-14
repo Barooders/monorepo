@@ -41,7 +41,7 @@ model Config {
 model Order {
   id                       String             @id @default(dbgenerated("(gen_random_uuid())::text"))
   shopifyId                String             @unique
-  salesChannelName         SalesChannelName   @default(PUBLIC)
+  salesChannelName         SalesChannelName
   salesChannel             SalesChannel       @relation(fields: [salesChannelName], references: [name])
   customerId               String?            @db.Uuid
   createdAt                DateTime           @default(now())

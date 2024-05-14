@@ -5,6 +5,7 @@ import {
   EventName,
   OrderStatus,
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
@@ -150,6 +151,7 @@ export class OrderCreationService {
           await wrappedPrisma.order.create({
             data: {
               ...order,
+              salesChannelName: SalesChannelName.PUBLIC,
               shippingAddressPhone,
               fulfillmentOrders: {
                 createMany: {
