@@ -1,13 +1,8 @@
 import {
   AggregateName,
-  Condition,
-  Currency,
   EventName,
   OrderStatus,
-  PriceOffer,
   PrismaMainClient,
-  SalesChannelName,
-  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
@@ -17,60 +12,7 @@ import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offe
 import { Injectable, Logger } from '@nestjs/common';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
-
-export type OrderLineToStore = {
-  shopifyId?: string;
-  name: string;
-  vendorId?: string;
-  priceInCents: number;
-  discountInCents: number;
-  shippingSolution: ShippingSolution;
-  priceCurrency: Currency;
-  productType: string;
-  productHandle: string;
-  productImage: string | null;
-  variantCondition?: Condition | null;
-  productModelYear?: string | null;
-  productGender?: string | null;
-  productBrand?: string | null;
-  productSize?: string | null;
-  quantity: number;
-  productVariantId?: string;
-  fulfillmentOrderShopifyId?: number;
-};
-
-export type FulfillmentOrderToStore = {
-  shopifyId: number;
-};
-
-export type OrderToStore = {
-  order: {
-    salesChannelName: SalesChannelName;
-    shopifyId?: string;
-    name: string;
-    status: OrderStatus;
-    customerEmail: string;
-    customerId: string | null;
-    totalPriceInCents: number;
-    totalPriceCurrency: Currency;
-    shippingAddressAddress1: string;
-    shippingAddressAddress2: string | null;
-    shippingAddressCompany: string | null;
-    shippingAddressCity: string;
-    shippingAddressPhone: string | null;
-    shippingAddressCountry: string;
-    shippingAddressFirstName: string;
-    shippingAddressLastName: string;
-    shippingAddressZip: string;
-  };
-  orderLines: OrderLineToStore[];
-  fulfillmentOrders: FulfillmentOrderToStore[];
-  payment?: {
-    methodName: string;
-    checkoutToken: string | null;
-  };
-  priceOffers: Pick<PriceOffer, 'id'>[];
-};
+import { OrderToStore } from './ports/types';
 
 @Injectable()
 export class OrderCreationService {

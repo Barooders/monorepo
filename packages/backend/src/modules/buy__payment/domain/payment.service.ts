@@ -13,7 +13,6 @@ import {
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { isOlderThan } from '@libs/helpers/dates';
 import safeId from '@libs/helpers/safe-id';
-import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { first, last } from 'lodash';
 import {
@@ -31,6 +30,7 @@ import {
   CustomerInfoType,
   EligibilityResponse,
 } from './types';
+import { OrderToStore } from '@modules/order/domain/ports/types';
 
 @Injectable()
 export class PaymentService implements IPaymentService {

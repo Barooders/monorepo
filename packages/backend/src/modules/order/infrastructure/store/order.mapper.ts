@@ -25,10 +25,10 @@ import {
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
 import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
-import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import {
   OrderCreatedData,
   OrderPaidData,
+  OrderToStore,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { get, head, isMatch, last } from 'lodash';

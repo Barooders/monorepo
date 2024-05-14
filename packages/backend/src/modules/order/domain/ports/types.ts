@@ -1,7 +1,11 @@
 import {
   CommissionRuleType,
+  Condition,
+  Currency,
   Order,
   OrderStatus,
+  PriceOffer,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { CurrencyCode } from '@libs/types/common/money.types';
@@ -159,3 +163,57 @@ export interface DiscountApplication {
     target_selection: string;
   };
 }
+
+export type OrderLineToStore = {
+  shopifyId?: string;
+  name: string;
+  vendorId?: string;
+  priceInCents: number;
+  discountInCents: number;
+  shippingSolution: ShippingSolution;
+  priceCurrency: Currency;
+  productType: string;
+  productHandle: string;
+  productImage: string | null;
+  variantCondition?: Condition | null;
+  productModelYear?: string | null;
+  productGender?: string | null;
+  productBrand?: string | null;
+  productSize?: string | null;
+  quantity: number;
+  productVariantId?: string;
+  fulfillmentOrderShopifyId?: number;
+};
+
+export type FulfillmentOrderToStore = {
+  shopifyId: number;
+};
+
+export type OrderToStore = {
+  order: {
+    salesChannelName: SalesChannelName;
+    shopifyId?: string;
+    name: string;
+    status: OrderStatus;
+    customerEmail: string;
+    customerId: string | null;
+    totalPriceInCents: number;
+    totalPriceCurrency: Currency;
+    shippingAddressAddress1: string;
+    shippingAddressAddress2: string | null;
+    shippingAddressCompany: string | null;
+    shippingAddressCity: string;
+    shippingAddressPhone: string | null;
+    shippingAddressCountry: string;
+    shippingAddressFirstName: string;
+    shippingAddressLastName: string;
+    shippingAddressZip: string;
+  };
+  orderLines: OrderLineToStore[];
+  fulfillmentOrders: FulfillmentOrderToStore[];
+  payment?: {
+    methodName: string;
+    checkoutToken: string | null;
+  };
+  priceOffers: Pick<PriceOffer, 'id'>[];
+};
