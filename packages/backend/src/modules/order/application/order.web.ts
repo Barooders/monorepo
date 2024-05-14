@@ -65,7 +65,11 @@ class OrderStatusUpdateDTO {
   status!: OrderStatus;
 }
 
-class CreateOrderInputDTO {}
+class CreateOrderInputDTO {
+  @IsEnum(SalesChannelName)
+  @ApiProperty({ required: true })
+  salesChannelName!: SalesChannelName;
+}
 
 @Controller(routesV1.version)
 export class OrderController {
@@ -108,55 +112,51 @@ export class OrderController {
   @UseGuards(AuthGuard('header-api-key'))
   async createOrderAsAdmin(
     @Body()
-    body: CreateOrderInputDTO,
+    { salesChannelName }: CreateOrderInputDTO,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
     await this.orderCreationService.storeOrder(
       {
         order: {
-          salesChannelName: SalesChannelName.PUBLIC,
-          shopifyId: '0',
-          name: '0',
+          salesChannelName,
+          name: '0', // Generated
           status: OrderStatus.CREATED,
-          customerEmail: '0',
-          customerId: '0',
-          totalPriceInCents: 0,
+          customerEmail: '0', // Find
+          customerId: '0', // Input
+          totalPriceInCents: 0, // Sum of order lines including commission (check if commission is included)
           totalPriceCurrency: Currency.EUR,
-          shippingAddressAddress1: '0',
-          shippingAddressAddress2: '0',
-          shippingAddressCompany: '0',
-          shippingAddressCity: '0',
-          shippingAddressPhone: '0',
-          shippingAddressCountry: '0',
-          shippingAddressFirstName: '0',
-          shippingAddressLastName: '0',
-          shippingAddressZip: '0',
+          shippingAddressAddress1: '0', // Input
+          shippingAddressAddress2: '0', // Input
+          shippingAddressCompany: '0', // Input
+          shippingAddressCity: '0', // Input
+          shippingAddressPhone: '0', // Input
+          shippingAddressCountry: '0', // Input
+          shippingAddressFirstName: '0', // Input
+          shippingAddressLastName: '0', // Input
+          shippingAddressZip: '0', // Input
         },
         orderLines: [
           {
-            shopifyId: '0',
-            name: '0',
-            vendorId: '0',
-            priceInCents: 0,
+            name: '0', // Find from product variant
+            vendorId: '0', // Find from variant
+            priceInCents: 0, // Input
             discountInCents: 0,
-            shippingSolution: ShippingSolution.VENDOR,
+            shippingSolution: ShippingSolution.VENDOR, // To confirm
             priceCurrency: Currency.EUR,
-            productType: '0',
-            productHandle: '0',
-            productImage: '0',
-            variantCondition: Condition.AS_NEW,
-            productModelYear: '0',
-            productGender: '0',
-            productBrand: '0',
-            productSize: '0',
-            quantity: 0,
-            productVariantId: '0',
-            fulfillmentOrderShopifyId: 0,
+            productType: '0', // Find from product
+            productHandle: '0', // Find from product
+            productImage: '0', // Find from product
+            variantCondition: Condition.AS_NEW, // Find from product
+            productModelYear: '0', // Find from product
+            productGender: '0', // Find from product
+            productBrand: '0', // Find from product
+            quantity: 0, // Input
+            productVariantId: '0', // Input
           },
         ],
-        fulfillmentOrders: [],
-        priceOffers: [],
+        fulfillmentOrders: [], // One per vendor
+        priceOffers: [], // Input
       },
       {
         type: 'admin',
