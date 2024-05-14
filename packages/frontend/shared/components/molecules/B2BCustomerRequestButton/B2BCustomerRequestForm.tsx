@@ -66,7 +66,7 @@ const B2BCustomerRequestForm: React.FC<PropsType> = ({ onSave }) => {
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(doSubmit)}
-        className="p-3"
+        className="px-3 py-2"
       >
         <p className="text-2xl font-bold">
           {dict.b2b.proPage.customerRequests.title}
@@ -81,7 +81,7 @@ const B2BCustomerRequestForm: React.FC<PropsType> = ({ onSave }) => {
             remove={() => remove(index)}
           />
         ))}
-        <div className="mt-4 flex justify-between rounded-lg border border-gray-300 px-3 py-2">
+        <div className="mt-2 flex justify-between rounded-lg border border-gray-300 px-3 py-2">
           <span className="mr-5 flex items-center text-base font-semibold">
             {dict.b2b.proPage.customerRequests.form.need} {fields.length + 1}
           </span>

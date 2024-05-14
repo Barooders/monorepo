@@ -1191,7 +1191,7 @@ const fr = {
           need: 'Besoin',
           neededAtDate: 'J’en ai besoin pour',
           description: 'Spécificités',
-          quantity: 'Unités :',
+          quantity: 'Unités',
         },
         saveButton: 'J’enregistre',
         errorToaster: 'Une erreur est survenue',
