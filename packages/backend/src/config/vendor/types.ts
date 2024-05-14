@@ -127,6 +127,7 @@ export interface CommonCatalogConfig {
   ignoredVariants?: string[];
   brandFilter?: { names: string[]; action: BrandFilterAction };
   excludedTitles?: string[];
+  ignoredImages?: number[];
 }
 
 interface PrestashopCatalogConfig {

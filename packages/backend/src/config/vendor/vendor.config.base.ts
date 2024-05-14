@@ -862,7 +862,11 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
     type: VendorType.SHOPIFY,
     apiUrl: 'velokaz.myshopify.com',
     accessToken: vendorSecrets.mintAccessToken,
-    catalog: {},
+    catalog: {
+      common: {
+        ignoredImages: [0, -1],
+      },
+    },
     order: {
       common: { isSyncActivated: true },
       shopify: { sendRealCustomerEmail: true },
