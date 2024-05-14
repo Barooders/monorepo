@@ -142,7 +142,7 @@ class OrderLineItemDTO {
   @IsNotEmpty()
   @IsInt()
   @ApiProperty({ required: true })
-  unitBuyerCommission!: number;
+  unitBuyerCommissionInCents!: number;
 }
 
 class CreateOrderInputDTO implements OrderToStoreFromAdminInput {

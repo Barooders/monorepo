@@ -245,8 +245,13 @@ export class OrderMapper {
         customerId,
         totalPriceInCents: reduce(
           lineItems,
-          (total, { quantity, unitPriceInCents, unitBuyerCommission }) => {
-            return total + quantity * (unitPriceInCents + unitBuyerCommission);
+          (
+            total,
+            { quantity, unitPriceInCents, unitBuyerCommissionInCents },
+          ) => {
+            return (
+              total + quantity * (unitPriceInCents + unitBuyerCommissionInCents)
+            );
           },
           0,
         ),
@@ -540,49 +545,57 @@ export class OrderMapper {
     );
 
     return {
-      orderLines: lineItems.map(({ variantId, quantity, unitPriceInCents }) => {
-        const storeVariant = storeVariants.find(({ id }) => variantId === id);
-
-        if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
-          throw new Error(
-            `Order cannot be processed for variant ${variantId}: ${jsonStringify({ storeVariant, inventoryQuantity: storeVariant?.inventoryQuantity, quantity })}`,
-          );
-        }
-
-        const exposedProduct = storeVariant.variant.product.exposedProduct;
-
-        return {
-          name: storeVariant.title,
-          vendorId: storeVariant.variant.product.vendorId,
-          priceInCents: unitPriceInCents,
-          discountInCents: 0,
-          shippingSolution: ShippingSolution.VENDOR,
-          priceCurrency: Currency.EUR,
-          productType: exposedProduct?.productType ?? '',
-          productHandle: exposedProduct?.handle ?? '',
-          productImage: exposedProduct?.firstImage ?? '',
-          variantCondition:
-            storeVariant.condition === Condition.REFURBISHED_AS_NEW
-              ? Condition.AS_NEW
-              : storeVariant.condition,
-          productModelYear: exposedProduct?.modelYear,
-          productGender: exposedProduct?.gender,
-          productBrand: exposedProduct?.brand,
+      orderLines: lineItems.map(
+        ({
+          variantId,
           quantity,
-          productVariantId: variantId,
-          fulfillmentOrder: {
-            id: generatedFulfillmentOrderIds[
-              storeVariant.variant.product.vendorId
-            ],
-          },
-        };
-      }),
+          unitPriceInCents,
+          unitBuyerCommissionInCents,
+        }) => {
+          const storeVariant = storeVariants.find(({ id }) => variantId === id);
+
+          if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
+            throw new Error(
+              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ storeVariant, inventoryQuantity: storeVariant?.inventoryQuantity, quantity })}`,
+            );
+          }
+
+          const exposedProduct = storeVariant.variant.product.exposedProduct;
+
+          return {
+            name: storeVariant.title,
+            vendorId: storeVariant.variant.product.vendorId,
+            priceInCents: unitPriceInCents,
+            buyerCommission: (quantity * unitBuyerCommissionInCents) / 100,
+            discountInCents: 0,
+            shippingSolution: ShippingSolution.VENDOR,
+            priceCurrency: Currency.EUR,
+            productType: exposedProduct?.productType ?? '',
+            productHandle: exposedProduct?.handle ?? '',
+            productImage: exposedProduct?.firstImage ?? '',
+            variantCondition:
+              storeVariant.condition === Condition.REFURBISHED_AS_NEW
+                ? Condition.AS_NEW
+                : storeVariant.condition,
+            productModelYear: exposedProduct?.modelYear,
+            productGender: exposedProduct?.gender,
+            productBrand: exposedProduct?.brand,
+            quantity,
+            productVariantId: variantId,
+            fulfillmentOrder: {
+              id: generatedFulfillmentOrderIds[
+                storeVariant.variant.product.vendorId
+              ],
+            },
+          };
+        },
+      ),
       fulfillmentOrders: Object.values(generatedFulfillmentOrderIds).map(
         (id) => ({
           id,
         }),
       ),
-      priceOfferIds: priceOfferIds,
+      priceOfferIds,
     };
   }
 

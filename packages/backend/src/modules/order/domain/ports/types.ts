@@ -169,6 +169,7 @@ export type OrderLineToStore = {
   name: string;
   vendorId?: string;
   priceInCents: number;
+  buyerCommission?: number;
   discountInCents: number;
   shippingSolution: ShippingSolution;
   priceCurrency: Currency;
@@ -237,7 +238,7 @@ export type OrderToStoreFromAdminInput = {
     variantId: string;
     quantity: number;
     unitPriceInCents: number;
-    unitBuyerCommission: number;
+    unitBuyerCommissionInCents: number;
   }[];
   priceOfferIds: string[];
 };
