@@ -1,25 +1,42 @@
+import Callout, { CalloutTypes } from '@/components/atoms/Callout';
 import SortBy from '@/components/molecules/Filters/SortBy';
 import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { getDictionary } from '@/i18n/translate';
-import { SalesChannelName } from 'shared-types';
 import { useInstantSearch } from 'react-instantsearch-hooks-web';
+import { useLocalStorage } from 'react-use';
+import { SalesChannelName } from 'shared-types';
 
 const dict = getDictionary('fr');
+
+const B2B_TUTORIAL_NAME = 'b2b-welcome';
 
 const B2BCollectionHeader: React.FC = () => {
   const { results } = useInstantSearch();
   const { extractTokenInfo } = useHasuraToken();
   const { sellerName } = extractTokenInfo();
+  const [readTutorials, setReadTutorials] = useLocalStorage<string[]>(
+    'readTutorials',
+    [],
+  );
+
+  const needToWelcome = !readTutorials?.find(() => B2B_TUTORIAL_NAME);
 
   return (
     <div className="mb-1 flex flex-col justify-between">
-      <div className="mb-2 flex flex-col gap-2">
-        <div className="mb-2 rounded-lg border border-slate-200 bg-slate-100 p-4">
-          Bienvenue <strong>{sellerName}</strong>, voici votre sélection
-          personnalisée 🚴
-        </div>
-      </div>
+      {needToWelcome && (
+        <Callout
+          onClose={() =>
+            setReadTutorials([...(readTutorials ?? []), B2B_TUTORIAL_NAME])
+          }
+          closable={true}
+          type={CalloutTypes.INFO}
+          title={dict.b2b.proPage.tutorial.title(sellerName ?? '')}
+          content={
+            <div className="text-sm">{dict.b2b.proPage.tutorial.content()}</div>
+          }
+        />
+      )}
       <div className="hidden md:block">
         <B2BGuarantees />
       </div>

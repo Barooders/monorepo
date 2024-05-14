@@ -1181,6 +1181,36 @@ const fr = {
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
+      tutorial: {
+        title: (sellerName: string) => (
+          <>
+            Bienvenue <strong>{sellerName}</strong> sur notre plateforme de
+            vente pro à pro.
+          </>
+        ),
+        content: () => (
+          <>
+            Ci dessous sont les produits disponibles à la vente en lot. Vous
+            pouvez :
+            <ul className="list-disc py-2 pl-4">
+              <li>
+                Utiliser le bouton sauvegarder pour configurer les filtres qui
+                seront appliqués de base sur toutes vos recherches.
+              </li>
+              <li>
+                Faire une offre sur un produit qui sera transmise par nos
+                équipes au vendeur.
+              </li>
+              <li>
+                Créer des alertes sur plusieurs recherches différentes pour voir
+                les nouveaux vélos ajoutés sur la plateforme.
+              </li>
+            </ul>
+            Si vous avez une demande spécifique n’hésitez pas à nous en faire
+            part avec le bouton en bas à droite de l’écran.
+          </>
+        ),
+      },
       customerRequests: {
         buttonLabel: 'Une demande spécifique ?',
         description:
