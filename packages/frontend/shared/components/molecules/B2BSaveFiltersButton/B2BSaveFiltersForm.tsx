@@ -2,7 +2,7 @@ import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
@@ -51,6 +51,11 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
 
   const [submitState, doSubmit] = useWrappedAsyncFn(onSubmit);
 
+  const activeFilters = useMemo(
+    () => mapCurrentSearch(refinements, query),
+    [refinements, query],
+  );
+
   return (
     <FormProvider {...formMethods}>
       <form
@@ -67,7 +72,7 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
           <p className="text-base font-semibold">
             {dict.b2b.proPage.saveFilters.selectedFilters}
           </p>
-          {mapCurrentSearch(refinements, query).map((refinement, index) => (
+          {activeFilters.map((refinement, index) => (
             <p
               key={index}
               className="mt-1 rounded-xl border border-slate-200 bg-slate-100 p-2"
@@ -75,6 +80,13 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
               {refinement}
             </p>
           ))}
+          {activeFilters.length === 0 ? (
+            <p className="mt-1 text-slate-600">
+              {dict.b2b.proPage.saveFilters.noSelectedFilters}
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
         {submitState.error && (
           <p className="text-red-600">{submitState.error.message}</p>
