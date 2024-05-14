@@ -8,11 +8,13 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
+import { IPaymentService } from '@modules/buy__payment/domain/ports/payment-service';
+import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
 import { Injectable, Logger } from '@nestjs/common';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
-import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
 
 export type OrderLineToStore = {
   shopifyId: string;
@@ -59,6 +61,10 @@ export type OrderToStore = {
   shippingAddressLastName: string;
   shippingAddressZip: string;
   usedDiscountCodes: string[];
+  payment: {
+    methodName: string;
+    checkoutToken: string | null;
+  };
 };
 
 @Injectable()
@@ -69,19 +75,19 @@ export class OrderCreationService {
     private prisma: PrismaMainClient,
     private orderStatusHandler: OrderStatusHandlerService,
     private priceOfferService: IPriceOfferService,
+    private paymentService: IPaymentService,
     private internalNotificationClient: IInternalNotificationClient,
   ) {}
 
-  async storeOrder(
-    {
+  async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
+    const {
       orderLines,
       fulfillmentOrders,
       shippingAddressPhone,
       usedDiscountCodes,
       ...order
-    }: OrderToStore,
-    author: Author,
-  ): Promise<string> {
+    } = orderToStore;
+
     try {
       this.logger.debug(
         `Storing order ${order.shopifyId} for customer ${order.customerId}`,
@@ -97,7 +103,7 @@ export class OrderCreationService {
         this.logger.warn(
           `Order ${order.shopifyId} already exists in database. Skipping...`,
         );
-        return existingOrder.id;
+        return;
       }
 
       if (!shippingAddressPhone) {
@@ -176,7 +182,13 @@ export class OrderCreationService {
         author,
       );
 
-      return createdOrderId;
+      const checkoutUuid =
+        await this.paymentService.updatePaymentStatusFromOrder(orderToStore);
+
+      await this.paymentService.linkCheckoutToOrder(
+        new UUID({ uuid: createdOrderId }),
+        checkoutUuid,
+      );
     } catch (error: any) {
       await this.internalNotificationClient.sendErrorNotification(
         `🚨 La commande ${order.name} n'a pas été créée en base de données car: ${error.message}`,

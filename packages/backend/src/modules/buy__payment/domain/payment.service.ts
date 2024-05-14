@@ -213,19 +213,17 @@ export class PaymentService implements IPaymentService {
 
   async updatePaymentStatusFromOrder(
     order: OrderToStore,
-    checkoutStoreToken: string,
-    checkoutPaymentLabel: string,
   ): Promise<string | null> {
     const dbCheckout =
       (await this.prisma.checkout.findFirst({
         where: {
-          storeId: checkoutStoreToken,
+          storeId: order.payment.checkoutToken,
         },
       })) ??
       (await this.prisma.checkout.create({
         data: {
           status: CheckoutStatus.COMPLETED,
-          storeId: checkoutStoreToken,
+          storeId: order.payment.checkoutToken,
         },
       }));
 
@@ -251,12 +249,12 @@ export class PaymentService implements IPaymentService {
     }
 
     const paymentCode = this.getPaymentConfig({
-      checkoutLabel: checkoutPaymentLabel,
+      checkoutLabel: order.payment.methodName,
     })?.code;
 
     if (!paymentCode)
       throw new Error(
-        `Unknown payment ${checkoutPaymentLabel} for order ${order.name}`,
+        `Unknown payment ${order.payment.methodName} for order ${order.name}`,
       );
 
     await this.prisma.payment.create({

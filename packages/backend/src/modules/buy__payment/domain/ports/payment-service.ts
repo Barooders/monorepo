@@ -6,8 +6,6 @@ import { PaymentSolutionConfigType } from '../config';
 export abstract class IPaymentService {
   abstract updatePaymentStatusFromOrder(
     order: OrderToStore,
-    checkoutStoreToken: string | null,
-    checkoutPaymentLabel: string,
   ): Promise<string | null>;
 
   abstract linkCheckoutToOrder(

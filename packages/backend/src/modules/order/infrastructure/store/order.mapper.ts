@@ -190,6 +190,10 @@ export class OrderMapper {
       usedDiscountCodes: orderData.discount_applications.map(
         (discount) => discount.code,
       ),
+      payment: {
+        methodName: this.getOrderPaymentName(orderData),
+        checkoutToken: orderData.checkout_token,
+      },
     };
   }
 
@@ -365,19 +369,11 @@ export class OrderMapper {
         },
       });
 
-    const paymentMethodName = last(orderData.payment_gateway_names);
-
-    if (!paymentMethodName) {
-      throw new Error(
-        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
-      );
-    }
-
     return {
       order: {
         name: orderData.name,
         adminUrl: this.getOrderAdminUrl(orderData.id),
-        paymentMethod: paymentMethodName,
+        paymentMethod: this.getOrderPaymentName(orderData),
         totalPrice: orderData.total_price,
       },
       product: {
@@ -393,6 +389,18 @@ export class OrderMapper {
           .join(' '),
       },
     };
+  }
+
+  private getOrderPaymentName(orderData: IOrder): string {
+    const paymentMethodName = last(orderData.payment_gateway_names);
+
+    if (!paymentMethodName) {
+      throw new Error(
+        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
+      );
+    }
+
+    return paymentMethodName;
   }
 
   private async getChatConversationLink(
