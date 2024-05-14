@@ -1,5 +1,5 @@
 import { BrandFilterAction, CommonCatalogConfig } from '@config/vendor/types';
-import { Variant } from '@libs/domain/product.interface';
+import { Image, Variant } from '@libs/domain/product.interface';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { ITranslator } from '@modules/pro-vendor/domain/ports/translator';
 import { SyncProduct } from '@modules/pro-vendor/domain/ports/types';
@@ -12,6 +12,13 @@ import { TagService } from './tag.service';
 
 const getMultiplierFromCommission = (commission: number) =>
   1 + commission / (100 - commission);
+
+export const skipImages = (images: Image[], ignoredImagesIndex: number[]) => {
+  const normalizedIndex = ignoredImagesIndex.map((index) =>
+    index < 0 ? images.length + index : index,
+  );
+  return images.filter((_, index) => !normalizedIndex.includes(index));
+};
 
 @Injectable()
 export class ProductMapper {
@@ -82,6 +89,10 @@ export class ProductMapper {
         filteredVariants.length === 0 ? false : mappedProduct.isVisibleInStore,
       body_html: productDescription,
       tags,
+      images: skipImages(
+        mappedProduct.images,
+        catalogFeatures?.ignoredImages ?? [],
+      ),
     };
   }
 
