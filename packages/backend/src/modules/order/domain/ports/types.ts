@@ -218,3 +218,26 @@ export type OrderToStore = {
   };
   priceOfferIds: Pick<PriceOffer, 'id'>[];
 };
+
+export type OrderToStoreFromAdminInput = {
+  salesChannelName: SalesChannelName;
+  customerId: string;
+  shippingAddress: {
+    address1: string;
+    address2?: string;
+    company?: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    zip: string;
+    city: string;
+    country: string;
+  };
+  lineItems: {
+    variantId: string;
+    quantity: number;
+    unitPriceInCents: number;
+    unitBuyerCommission: number;
+  }[];
+  priceOfferIds: string[];
+};

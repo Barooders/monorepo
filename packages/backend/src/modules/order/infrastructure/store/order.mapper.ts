@@ -13,9 +13,15 @@ import {
   ShippingType,
   users,
 } from '@libs/domain/prisma.main.client';
-import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import {
+  Condition,
+  PrismaStoreClient,
+  ProductStatus,
+} from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { toCents } from '@libs/helpers/currency';
+import { jsonStringify } from '@libs/helpers/json';
+import { readableCode } from '@libs/helpers/safe-id';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
   findMetafield,
@@ -29,9 +35,10 @@ import {
   OrderCreatedData,
   OrderPaidData,
   OrderToStore,
+  OrderToStoreFromAdminInput,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
-import { get, head, isMatch, last } from 'lodash';
+import { get, head, isMatch, last, reduce } from 'lodash';
 import { IOrder } from 'shopify-api-node';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -213,6 +220,50 @@ export class OrderMapper {
         checkoutToken: orderData.checkout_token,
       },
       priceOfferIds: relatedPriceOffers.map(({ id }) => ({ id })),
+    };
+  }
+
+  async mapOrderToStoreFromAdminInput(
+    orderInput: OrderToStoreFromAdminInput,
+  ): Promise<OrderToStore> {
+    const { customerId, lineItems, shippingAddress, salesChannelName } =
+      orderInput;
+    const { email: customerEmail } =
+      await this.mainPrisma.users.findFirstOrThrow({
+        where: { id: customerId },
+      });
+
+    const { orderLines, fulfillmentOrders, priceOfferIds } =
+      await this.mapOrderContent(orderInput);
+
+    return {
+      order: {
+        salesChannelName,
+        name: `#${readableCode()}`,
+        status: OrderStatus.CREATED,
+        customerEmail: customerEmail ?? '',
+        customerId,
+        totalPriceInCents: reduce(
+          lineItems,
+          (total, { quantity, unitPriceInCents, unitBuyerCommission }) => {
+            return total + quantity * (unitPriceInCents + unitBuyerCommission);
+          },
+          0,
+        ),
+        totalPriceCurrency: Currency.EUR,
+        shippingAddressAddress1: shippingAddress.address1,
+        shippingAddressAddress2: shippingAddress.address2 ?? null,
+        shippingAddressCompany: shippingAddress.company ?? null,
+        shippingAddressCity: shippingAddress.city,
+        shippingAddressCountry: shippingAddress.country,
+        shippingAddressPhone: shippingAddress.phone,
+        shippingAddressZip: shippingAddress.zip,
+        shippingAddressFirstName: shippingAddress.firstName,
+        shippingAddressLastName: shippingAddress.lastName,
+      },
+      orderLines,
+      fulfillmentOrders,
+      priceOfferIds,
     };
   }
 
@@ -407,6 +458,131 @@ export class OrderMapper {
           .filter(Boolean)
           .join(' '),
       },
+    };
+  }
+
+  private async mapOrderContent({
+    salesChannelName,
+    priceOfferIds: inputPriceOfferIds,
+    lineItems,
+  }: OrderToStoreFromAdminInput): Promise<
+    Pick<OrderToStore, 'orderLines' | 'fulfillmentOrders' | 'priceOfferIds'>
+  > {
+    const storeVariants =
+      await this.storePrisma.storeExposedProductVariant.findMany({
+        where: {
+          id: {
+            in: lineItems.map(({ variantId }) => variantId),
+          },
+          variant: {
+            product: {
+              exposedProduct: {
+                status: ProductStatus.ACTIVE,
+              },
+            },
+          },
+        },
+        select: {
+          id: true,
+          title: true,
+          condition: true,
+          inventoryQuantity: true,
+          variant: {
+            include: {
+              product: {
+                include: {
+                  exposedProduct: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    const priceOfferIds = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        id: {
+          in: inputPriceOfferIds,
+        },
+        salesChannelName,
+        productId: {
+          in: storeVariants.map(
+            ({
+              variant: {
+                product: { id },
+              },
+            }) => id,
+          ),
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const generatedFulfillmentOrderIds = reduce(
+      storeVariants,
+      (
+        acc,
+        {
+          variant: {
+            product: { vendorId },
+          },
+        },
+      ) => {
+        if (!acc[vendorId]) {
+          acc[vendorId] = uuidv4();
+        }
+
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+
+    return {
+      orderLines: lineItems.map(({ variantId, quantity, unitPriceInCents }) => {
+        const storeVariant = storeVariants.find(({ id }) => variantId === id);
+
+        if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
+          throw new Error(
+            `Order cannot be processed for variant ${variantId}: ${jsonStringify({ storeVariant, inventoryQuantity: storeVariant?.inventoryQuantity, quantity })}`,
+          );
+        }
+
+        const exposedProduct = storeVariant.variant.product.exposedProduct;
+
+        return {
+          name: storeVariant.title,
+          vendorId: storeVariant.variant.product.vendorId,
+          priceInCents: unitPriceInCents,
+          discountInCents: 0,
+          shippingSolution: ShippingSolution.VENDOR,
+          priceCurrency: Currency.EUR,
+          productType: exposedProduct?.productType ?? '',
+          productHandle: exposedProduct?.handle ?? '',
+          productImage: exposedProduct?.firstImage ?? '',
+          variantCondition:
+            storeVariant.condition === Condition.REFURBISHED_AS_NEW
+              ? Condition.AS_NEW
+              : storeVariant.condition,
+          productModelYear: exposedProduct?.modelYear,
+          productGender: exposedProduct?.gender,
+          productBrand: exposedProduct?.brand,
+          quantity,
+          productVariantId: variantId,
+          fulfillmentOrder: {
+            id: generatedFulfillmentOrderIds[
+              storeVariant.variant.product.vendorId
+            ],
+          },
+        };
+      }),
+      fulfillmentOrders: Object.values(generatedFulfillmentOrderIds).map(
+        (id) => ({
+          id,
+        }),
+      ),
+      priceOfferIds: priceOfferIds,
     };
   }
 
