@@ -146,10 +146,10 @@ export class FulfillmentService {
       },
     });
 
-    if (orderLine.fulfillmentOrderId && orderLine.fulfillmentOrder) {
+    if (orderLine.fulfillmentOrder) {
       await this.createFulfillment(
         {
-          id: orderLine.fulfillmentOrderId,
+          id: orderLine.fulfillmentOrder.id,
           orderId: orderLine.orderId,
           orderLines: orderLine.fulfillmentOrder.orderLines,
         },
@@ -165,15 +165,18 @@ export class FulfillmentService {
       `Creating fulfillment order for order line ${orderLine.id}`,
     );
 
-    const fulfillmentOrderShopifyId =
-      orderLine.order.shopifyId && orderLine.shopifyId
-        ? await this.storeClient.getFulfillmentOrderId(
-            orderLine.order.shopifyId,
-            orderLine.shopifyId,
-          )
-        : null;
+    const orderStoreId = orderLine.order.shopifyId;
+    const orderLineStoreId = orderLine.shopifyId;
+    const shouldGetFulfillmentOrderId = orderStoreId && orderLineStoreId;
 
-    if (!fulfillmentOrderShopifyId) {
+    const fulfillmentOrderShopifyId = shouldGetFulfillmentOrderId
+      ? await this.storeClient.getFulfillmentOrderId(
+          orderStoreId,
+          orderLineStoreId,
+        )
+      : null;
+
+    if (shouldGetFulfillmentOrderId && !fulfillmentOrderShopifyId) {
       throw new Error(
         `No fulfillment order found for order line ${orderLine.id}`,
       );
