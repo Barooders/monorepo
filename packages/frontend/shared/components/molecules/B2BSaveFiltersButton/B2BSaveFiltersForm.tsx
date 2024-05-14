@@ -1,4 +1,5 @@
 import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
+import useUpdateSavedSearch from '@/hooks/useUpdateSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearch } from '@/mappers/search';
@@ -8,6 +9,7 @@ import toast from 'react-hot-toast';
 import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
+import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
 
 const dict = getDictionary('fr');
 
@@ -24,6 +26,8 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
   query,
 }) => {
   const [, storeSavedSearch] = useStoreSavedSearch();
+  const [, updateSavedSearch] = useUpdateSavedSearch();
+  const { savedSearch } = useB2BSearchContext();
 
   const refinements = currentRefinements
     .flatMap((item) => item.refinements)
@@ -35,15 +39,21 @@ const B2BSaveFiltersForm: React.FC<PropsType> = ({
   const formMethods = useForm({});
 
   const onSubmit = async () => {
-    // TODO: handle update
-    await storeSavedSearch({
-      name: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
-      type: 'B2B_MAIN_PAGE',
-      resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
-      query,
-      refinements,
-      shouldTriggerAlerts: false,
-    });
+    if (savedSearch === undefined) {
+      await storeSavedSearch({
+        name: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
+        type: 'B2B_MAIN_PAGE',
+        resultsUrl: `https://${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/pro/search`,
+        query,
+        refinements,
+        shouldTriggerAlerts: false,
+      });
+    } else {
+      await updateSavedSearch(savedSearch.id, {
+        query,
+        refinements,
+      });
+    }
 
     toast.success(dict.b2b.proPage.saveFilters.successToaster);
     onSave();
