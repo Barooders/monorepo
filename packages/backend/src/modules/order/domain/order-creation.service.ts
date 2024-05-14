@@ -80,100 +80,15 @@ export class OrderCreationService {
   ) {}
 
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
-    const {
-      orderLines,
-      fulfillmentOrders,
-      shippingAddressPhone,
-      usedDiscountCodes,
-      ...order
-    } = orderToStore;
+    const { usedDiscountCodes, customerId, shopifyId, name } = orderToStore;
 
     try {
       this.logger.debug(
-        `Storing order ${order.shopifyId} for customer ${order.customerId}`,
+        `Storing order ${shopifyId} for customer ${customerId}`,
       );
 
-      const existingOrder = await this.prisma.order.findUnique({
-        where: {
-          shopifyId: order.shopifyId,
-        },
-      });
-
-      if (existingOrder) {
-        this.logger.warn(
-          `Order ${order.shopifyId} already exists in database. Skipping...`,
-        );
-        return;
-      }
-
-      if (!shippingAddressPhone) {
-        throw new Error(
-          `Can't create an order without a phone number: ${order.shopifyId}`,
-        );
-      }
-
-      const createdOrderId = await this.prisma.$transaction(
-        async (wrappedPrisma) => {
-          this.logger.warn(
-            `Will create order ${
-              order.shopifyId
-            } with fulfillment orders: ${jsonStringify(fulfillmentOrders)}`,
-          );
-          const { id, fulfillmentOrders: createdFulfillmentOrders } =
-            await wrappedPrisma.order.create({
-              data: {
-                ...order,
-                shippingAddressPhone,
-                fulfillmentOrders: {
-                  createMany: {
-                    data: fulfillmentOrders,
-                  },
-                },
-              },
-              include: {
-                fulfillmentOrders: true,
-              },
-            });
-
-          await Promise.all(
-            orderLines.map(({ fulfillmentOrderShopifyId, ...orderLine }) => {
-              return wrappedPrisma.orderLines.create({
-                data: {
-                  ...orderLine,
-                  orderId: id,
-                  fulfillmentOrderId: createdFulfillmentOrders.find(
-                    (fo) => Number(fo.shopifyId) === fulfillmentOrderShopifyId,
-                  )?.id,
-                },
-              });
-            }),
-          );
-
-          await wrappedPrisma.event.create({
-            data: {
-              aggregateName: AggregateName.ORDER,
-              aggregateId: id,
-              name: EventName.ORDER_CREATED,
-              payload: { order, orderLines },
-              metadata: {
-                orderName: order.name,
-                author,
-              },
-            },
-          });
-
-          return id;
-        },
-        {
-          maxWait: 1_000,
-          timeout: 1_000,
-        },
-      );
-
-      await this.orderStatusHandler.handleNewOrderStatus(
-        createdOrderId,
-        OrderStatus.CREATED,
-        null,
+      const createdOrderId = await this.storeOrderInDatabase(
+        orderToStore,
         author,
       );
 
@@ -191,10 +106,104 @@ export class OrderCreationService {
       );
     } catch (error: any) {
       await this.internalNotificationClient.sendErrorNotification(
-        `🚨 La commande ${order.name} n'a pas été créée en base de données car: ${error.message}`,
+        `🚨 La commande ${name} n'a pas été créée en base de données car: ${error.message}`,
       );
 
       throw error;
     }
+  }
+
+  private async storeOrderInDatabase(
+    orderToStore: OrderToStore,
+    author: Author,
+  ): Promise<string> {
+    const { orderLines, fulfillmentOrders, shippingAddressPhone, ...order } =
+      orderToStore;
+
+    const existingOrder = await this.prisma.order.findUnique({
+      where: {
+        shopifyId: order.shopifyId,
+      },
+    });
+
+    if (existingOrder) {
+      this.logger.warn(
+        `Order ${order.shopifyId} already exists in database. Skipping creation...`,
+      );
+      return existingOrder.id;
+    }
+
+    if (!shippingAddressPhone) {
+      throw new Error(
+        `Can't create an order without a phone number: ${order.shopifyId}`,
+      );
+    }
+
+    const createdOrderId = await this.prisma.$transaction(
+      async (wrappedPrisma) => {
+        this.logger.warn(
+          `Will create order ${
+            order.shopifyId
+          } with fulfillment orders: ${jsonStringify(fulfillmentOrders)}`,
+        );
+        const { id, fulfillmentOrders: createdFulfillmentOrders } =
+          await wrappedPrisma.order.create({
+            data: {
+              ...order,
+              shippingAddressPhone,
+              fulfillmentOrders: {
+                createMany: {
+                  data: fulfillmentOrders,
+                },
+              },
+            },
+            include: {
+              fulfillmentOrders: true,
+            },
+          });
+
+        await Promise.all(
+          orderLines.map(({ fulfillmentOrderShopifyId, ...orderLine }) => {
+            return wrappedPrisma.orderLines.create({
+              data: {
+                ...orderLine,
+                orderId: id,
+                fulfillmentOrderId: createdFulfillmentOrders.find(
+                  (fo) => Number(fo.shopifyId) === fulfillmentOrderShopifyId,
+                )?.id,
+              },
+            });
+          }),
+        );
+
+        await wrappedPrisma.event.create({
+          data: {
+            aggregateName: AggregateName.ORDER,
+            aggregateId: id,
+            name: EventName.ORDER_CREATED,
+            payload: { order, orderLines },
+            metadata: {
+              orderName: order.name,
+              author,
+            },
+          },
+        });
+
+        return id;
+      },
+      {
+        maxWait: 1_000,
+        timeout: 1_000,
+      },
+    );
+
+    await this.orderStatusHandler.handleNewOrderStatus(
+      createdOrderId,
+      OrderStatus.CREATED,
+      null,
+      author,
+    );
+
+    return createdOrderId;
   }
 }
