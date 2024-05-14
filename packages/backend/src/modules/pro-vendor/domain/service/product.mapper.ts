@@ -13,11 +13,27 @@ import { TagService } from './tag.service';
 const getMultiplierFromCommission = (commission: number) =>
   1 + commission / (100 - commission);
 
-export const skipImages = (images: Image[], ignoredImagesIndex: number[]) => {
+export const skipImages = ({
+  images,
+  ignoredImagesIndex,
+  logger,
+}: {
+  images: Image[];
+  ignoredImagesIndex: number[];
+  logger: Logger;
+}) => {
   const normalizedIndex = ignoredImagesIndex.map((index) =>
     index < 0 ? images.length + index : index,
   );
-  return images.filter((_, index) => !normalizedIndex.includes(index));
+  return images.filter((_, index) => {
+    const isKept = !normalizedIndex.includes(index);
+
+    if (!isKept) {
+      logger.log(`Image ${index} is ignored`);
+    }
+
+    return isKept;
+  });
 };
 
 @Injectable()
@@ -89,10 +105,11 @@ export class ProductMapper {
         filteredVariants.length === 0 ? false : mappedProduct.isVisibleInStore,
       body_html: productDescription,
       tags,
-      images: skipImages(
-        mappedProduct.images,
-        catalogFeatures?.ignoredImages ?? [],
-      ),
+      images: skipImages({
+        images: mappedProduct.images,
+        ignoredImagesIndex: catalogFeatures?.ignoredImages ?? [],
+        logger: this.logger,
+      }),
     };
   }
 

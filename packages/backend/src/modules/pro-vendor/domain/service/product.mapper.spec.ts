@@ -1,14 +1,16 @@
 import { Image } from '@libs/domain/product.interface';
+import { Logger } from '@nestjs/common';
 import { skipImages } from './product.mapper';
 
 describe('Product Mapper', () => {
   describe('skipImages', () => {
+    const logger = console as unknown as Logger;
     it(`should skip first image`, () => {
       const images: Image[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      const skippedImages = [0];
+      const ignoredImagesIndex = [0];
 
       expect(
-        skipImages(images, skippedImages)
+        skipImages({ images, ignoredImagesIndex, logger })
           .map((s) => s.id)
           .join(','),
       ).toStrictEqual('2,3');
@@ -16,10 +18,10 @@ describe('Product Mapper', () => {
 
     it(`should skip second image`, () => {
       const images: Image[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      const skippedImages = [1];
+      const ignoredImagesIndex = [1];
 
       expect(
-        skipImages(images, skippedImages)
+        skipImages({ images, ignoredImagesIndex, logger })
           .map((s) => s.id)
           .join(','),
       ).toStrictEqual('1,3');
@@ -27,10 +29,10 @@ describe('Product Mapper', () => {
 
     it(`should skip last image`, () => {
       const images: Image[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      const skippedImages = [-1];
+      const ignoredImagesIndex = [-1];
 
       expect(
-        skipImages(images, skippedImages)
+        skipImages({ images, ignoredImagesIndex, logger })
           .map((s) => s.id)
           .join(','),
       ).toStrictEqual('1,2');
@@ -38,10 +40,10 @@ describe('Product Mapper', () => {
 
     it(`should second to last image`, () => {
       const images: Image[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      const skippedImages = [-2];
+      const ignoredImagesIndex = [-2];
 
       expect(
-        skipImages(images, skippedImages)
+        skipImages({ images, ignoredImagesIndex, logger })
           .map((s) => s.id)
           .join(','),
       ).toStrictEqual('1,3');
@@ -49,10 +51,10 @@ describe('Product Mapper', () => {
 
     it(`should not skip image if array is empty`, () => {
       const images: Image[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
-      const skippedImages: number[] = [];
+      const ignoredImagesIndex: number[] = [];
 
       expect(
-        skipImages(images, skippedImages)
+        skipImages({ images, ignoredImagesIndex, logger })
           .map((s) => s.id)
           .join(','),
       ).toStrictEqual('1,2,3');
