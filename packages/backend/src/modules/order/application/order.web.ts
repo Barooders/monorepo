@@ -1,14 +1,20 @@
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
 import {
-  Condition,
   Currency,
   OrderStatus,
   PrismaMainClient,
   SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
+import {
+  Condition,
+  PrismaStoreClient,
+  ProductStatus,
+} from '@libs/domain/prisma.store.client';
 import { UUID } from '@libs/domain/value-objects';
+import { jsonStringify } from '@libs/helpers/json';
+import { readableCode } from '@libs/helpers/safe-id';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
 import {
@@ -30,11 +36,27 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
 import { Response } from 'express';
+import { reduce } from 'lodash';
 import { PassThrough } from 'stream';
+import { v4 as uuidv4 } from 'uuid';
 import { FulfillmentService } from '../domain/fulfillment.service';
-import { OrderCreationService } from '../domain/order-creation.service';
+import {
+  OrderAdminCreation,
+  OrderCreationService,
+} from '../domain/order-creation.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderService } from '../domain/order.service';
 import {
@@ -42,7 +64,7 @@ import {
   UserNotConcernedByOrderException,
   UserNotOrderLineVendorException,
 } from '../domain/ports/exceptions';
-import { AccountPageOrder } from '../domain/ports/types';
+import { AccountPageOrder, OrderToStore } from '../domain/ports/types';
 import { RefundService } from '../domain/refund.service';
 
 class OrderLineFulfillmentDTO {
@@ -65,10 +87,95 @@ class OrderStatusUpdateDTO {
   status!: OrderStatus;
 }
 
+class ShippingAddressDTO {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  address1!: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  address2?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  company?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  phone!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  firstName!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  lastName!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  zip!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  city!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  country!: string;
+}
+
+class OrderLineItemDTO {
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({ required: true })
+  variantId!: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({ required: true })
+  quantity!: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ required: true })
+  unitPriceInCents!: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ required: true })
+  unitBuyerCommission!: number;
+}
+
 class CreateOrderInputDTO {
   @IsEnum(SalesChannelName)
+  @IsNotEmpty()
   @ApiProperty({ required: true })
   salesChannelName!: SalesChannelName;
+
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({ required: true })
+  customerId!: string;
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => ShippingAddressDTO)
+  shippingAddress!: ShippingAddressDTO;
+
+  @ApiProperty()
+  @ValidateNested({ each: true })
+  @Type(() => OrderLineItemDTO)
+  lineItems!: OrderLineItemDTO[];
 }
 
 @Controller(routesV1.version)
@@ -80,6 +187,7 @@ export class OrderController {
     private fulfillmentService: FulfillmentService,
     private refundService: RefundService,
     private prisma: PrismaMainClient,
+    private storePrisma: PrismaStoreClient,
     private orderCreationService: OrderCreationService,
     private orderUpdateService: OrderUpdateService,
   ) {}
@@ -112,50 +220,51 @@ export class OrderController {
   @UseGuards(AuthGuard('header-api-key'))
   async createOrderAsAdmin(
     @Body()
-    { salesChannelName }: CreateOrderInputDTO,
+    {
+      customerId,
+      lineItems,
+      shippingAddress,
+      salesChannelName,
+    }: CreateOrderInputDTO,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
+    const { email: customerEmail } = await this.prisma.users.findFirstOrThrow({
+      where: { id: customerId },
+    });
+    const { orderLines, fulfillmentOrders } =
+      await this.mapAdminInputForOrderCreation(lineItems);
+
     await this.orderCreationService.storeOrder(
       {
         order: {
           salesChannelName,
-          name: '0', // Generated
+          name: `#${readableCode()}`,
           status: OrderStatus.CREATED,
-          customerEmail: '0', // Find
-          customerId: '0', // Input
-          totalPriceInCents: 0, // Sum of order lines including commission (check if commission is included)
+          customerEmail: customerEmail ?? '',
+          customerId,
+          totalPriceInCents: reduce(
+            lineItems,
+            (total, { quantity, unitPriceInCents, unitBuyerCommission }) => {
+              return (
+                total + quantity * (unitPriceInCents + unitBuyerCommission)
+              );
+            },
+            0,
+          ),
           totalPriceCurrency: Currency.EUR,
-          shippingAddressAddress1: '0', // Input
-          shippingAddressAddress2: '0', // Input
-          shippingAddressCompany: '0', // Input
-          shippingAddressCity: '0', // Input
-          shippingAddressPhone: '0', // Input
-          shippingAddressCountry: '0', // Input
-          shippingAddressFirstName: '0', // Input
-          shippingAddressLastName: '0', // Input
-          shippingAddressZip: '0', // Input
+          shippingAddressAddress1: shippingAddress.address1,
+          shippingAddressAddress2: shippingAddress.address2 ?? null,
+          shippingAddressCompany: shippingAddress.company ?? null,
+          shippingAddressCity: shippingAddress.city,
+          shippingAddressCountry: shippingAddress.country,
+          shippingAddressPhone: shippingAddress.phone,
+          shippingAddressZip: shippingAddress.zip,
+          shippingAddressFirstName: shippingAddress.firstName,
+          shippingAddressLastName: shippingAddress.lastName,
         },
-        orderLines: [
-          {
-            name: '0', // Find from product variant
-            vendorId: '0', // Find from variant
-            priceInCents: 0, // Input
-            discountInCents: 0,
-            shippingSolution: ShippingSolution.VENDOR, // To confirm
-            priceCurrency: Currency.EUR,
-            productType: '0', // Find from product
-            productHandle: '0', // Find from product
-            productImage: '0', // Find from product
-            variantCondition: Condition.AS_NEW, // Find from product
-            productModelYear: '0', // Find from product
-            productGender: '0', // Find from product
-            productBrand: '0', // Find from product
-            quantity: 0, // Input
-            productVariantId: '0', // Input
-          },
-        ],
-        fulfillmentOrders: [], // One per vendor
+        orderLines,
+        fulfillmentOrders,
         priceOffers: [], // Input
       },
       {
@@ -320,5 +429,104 @@ export class OrderController {
     );
 
     return `Order with order line ${orderLineId} has been marked as ${status} at ${updatedAt}`;
+  }
+
+  private async mapAdminInputForOrderCreation(
+    lineItems: OrderAdminCreation['lineItems'],
+  ): Promise<Pick<OrderToStore, 'orderLines' | 'fulfillmentOrders'>> {
+    const storeVariants =
+      await this.storePrisma.storeExposedProductVariant.findMany({
+        where: {
+          id: {
+            in: lineItems.map(({ variantId }) => variantId),
+          },
+          variant: {
+            product: {
+              exposedProduct: {
+                status: ProductStatus.ACTIVE,
+              },
+            },
+          },
+        },
+        select: {
+          id: true,
+          title: true,
+          condition: true,
+          inventoryQuantity: true,
+          variant: {
+            include: {
+              product: {
+                include: {
+                  exposedProduct: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+    const generatedFulfillmentOrderIds = reduce(
+      storeVariants,
+      (
+        acc,
+        {
+          variant: {
+            product: { vendorId },
+          },
+        },
+      ) => {
+        if (!acc[vendorId]) {
+          acc[vendorId] = uuidv4();
+        }
+
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+
+    return {
+      orderLines: lineItems.map(({ variantId, quantity, unitPriceInCents }) => {
+        const storeVariant = storeVariants.find(({ id }) => variantId === id);
+
+        if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
+          throw new Error(
+            `Order cannot be processed for variant ${variantId}: ${jsonStringify({ storeVariant, inventoryQuantity: storeVariant?.inventoryQuantity, quantity })}`,
+          );
+        }
+
+        const exposedProduct = storeVariant.variant.product.exposedProduct;
+
+        return {
+          name: storeVariant.title,
+          vendorId: storeVariant.variant.product.vendorId,
+          priceInCents: unitPriceInCents,
+          discountInCents: 0,
+          shippingSolution: ShippingSolution.VENDOR,
+          priceCurrency: Currency.EUR,
+          productType: exposedProduct?.productType ?? '',
+          productHandle: exposedProduct?.handle ?? '',
+          productImage: exposedProduct?.firstImage ?? '',
+          variantCondition:
+            storeVariant.condition === Condition.REFURBISHED_AS_NEW
+              ? Condition.AS_NEW
+              : storeVariant.condition,
+          productModelYear: exposedProduct?.modelYear,
+          productGender: exposedProduct?.gender,
+          productBrand: exposedProduct?.brand,
+          quantity,
+          productVariantId: variantId,
+          fulfillmentOrder: {
+            id: generatedFulfillmentOrderIds[
+              storeVariant.variant.product.vendorId
+            ],
+          },
+        };
+      }),
+      fulfillmentOrders: Object.values(generatedFulfillmentOrderIds).map(
+        (id) => ({
+          id,
+        }),
+      ),
+    };
   }
 }

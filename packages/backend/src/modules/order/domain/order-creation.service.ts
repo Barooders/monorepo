@@ -3,6 +3,7 @@ import {
   EventName,
   OrderStatus,
   PrismaMainClient,
+  SalesChannelName,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
@@ -10,9 +11,32 @@ import { jsonStringify } from '@libs/helpers/json';
 import { IPaymentService } from '@modules/buy__payment/domain/ports/payment-service';
 import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
 import { Injectable, Logger } from '@nestjs/common';
+
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { OrderToStore } from './ports/types';
+
+export type OrderAdminCreation = {
+  salesChannelName: SalesChannelName;
+  customerId: string;
+  shippingAddress: {
+    address1: string;
+    address2?: string;
+    company?: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    zip: string;
+    city: string;
+    country: string;
+  };
+  lineItems: {
+    variantId: string;
+    quantity: number;
+    unitPriceInCents: number;
+    unitBuyerCommission: number;
+  }[];
+};
 
 @Injectable()
 export class OrderCreationService {
