@@ -4,6 +4,7 @@ import {
   Currency,
   EventName,
   OrderStatus,
+  PriceOffer,
   PrismaMainClient,
   SalesChannelName,
   ShippingSolution,
@@ -43,29 +44,31 @@ export type FulfillmentOrderToStore = {
 };
 
 export type OrderToStore = {
-  shopifyId: string;
-  name: string;
-  status: OrderStatus;
-  customerEmail: string;
-  customerId: string | null;
+  order: {
+    shopifyId: string;
+    name: string;
+    status: OrderStatus;
+    customerEmail: string;
+    customerId: string | null;
+    totalPriceInCents: number;
+    totalPriceCurrency: Currency;
+    shippingAddressAddress1: string;
+    shippingAddressAddress2: string | null;
+    shippingAddressCompany: string | null;
+    shippingAddressCity: string;
+    shippingAddressPhone: string | null;
+    shippingAddressCountry: string;
+    shippingAddressFirstName: string;
+    shippingAddressLastName: string;
+    shippingAddressZip: string;
+  };
   orderLines: OrderLineToStore[];
   fulfillmentOrders: FulfillmentOrderToStore[];
-  totalPriceInCents: number;
-  totalPriceCurrency: Currency;
-  shippingAddressAddress1: string;
-  shippingAddressAddress2: string | null;
-  shippingAddressCompany: string | null;
-  shippingAddressCity: string;
-  shippingAddressPhone: string | null;
-  shippingAddressCountry: string;
-  shippingAddressFirstName: string;
-  shippingAddressLastName: string;
-  shippingAddressZip: string;
-  usedDiscountCodes: string[];
   payment: {
     methodName: string;
     checkoutToken: string | null;
   };
+  priceOffers: Pick<PriceOffer, 'id'>[];
 };
 
 @Injectable()
@@ -81,7 +84,10 @@ export class OrderCreationService {
   ) {}
 
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
-    const { usedDiscountCodes, customerId, shopifyId, name } = orderToStore;
+    const {
+      order: { customerId, shopifyId, name },
+      priceOffers,
+    } = orderToStore;
 
     try {
       this.logger.debug(
@@ -94,7 +100,8 @@ export class OrderCreationService {
       );
 
       await this.priceOfferService.updatePriceOfferStatusFromOrder(
-        usedDiscountCodes,
+        priceOffers,
+        createdOrderId,
         author,
       );
 
@@ -118,8 +125,11 @@ export class OrderCreationService {
     orderToStore: OrderToStore,
     author: Author,
   ): Promise<string> {
-    const { orderLines, fulfillmentOrders, shippingAddressPhone, ...order } =
-      orderToStore;
+    const {
+      orderLines,
+      fulfillmentOrders,
+      order: { shippingAddressPhone, ...order },
+    } = orderToStore;
 
     const existingOrder = await this.prisma.order.findUnique({
       where: {

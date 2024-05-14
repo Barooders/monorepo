@@ -67,6 +67,7 @@ model Order {
   reviews                  Review[]
   vendorReviews            VendorReview[]
   checkout                 Checkout?          @relation(fields: [checkoutId], references: [id])
+  priceOffers              PriceOffer[]
 
   @@index([createdAt])
   @@schema("public")
@@ -349,6 +350,8 @@ model PriceOffer {
   quantity                          Int              @default(1)
   salesChannelName                  SalesChannelName
   salesChannel                      SalesChannel     @relation(fields: [salesChannelName], references: [name])
+  orderId                           String?
+  order                             Order?           @relation(fields: [orderId], references: [id])
   createdAt                         DateTime         @default(now())
   initiatedBy                       String           @db.Uuid
   buyerId                           String           @db.Uuid

@@ -357,21 +357,18 @@ export class PriceOfferService implements IPriceOfferService {
   }
 
   async updatePriceOfferStatusFromOrder(
-    usedDiscountCodes: string[],
+    priceOffers: Pick<PriceOffer, 'id'>[],
+    orderId: string,
     author: Author,
   ): Promise<void> {
-    if (!usedDiscountCodes || usedDiscountCodes.length === 0) return;
-
-    const relatedPriceOffers = await this.prisma.priceOffer.findMany({
-      where: { discountCode: { in: usedDiscountCodes } },
-    });
-
     await Promise.all(
-      relatedPriceOffers.map((priceOffer) =>
+      priceOffers.map(({ id }) =>
         this.changePriceOfferStatus(
           author,
-          new UUID({ uuid: priceOffer.id }),
+          new UUID({ uuid: id }),
           PriceOfferStatus.BOUGHT_WITH,
+          undefined,
+          orderId,
         ),
       ),
     );
@@ -384,24 +381,25 @@ export class PriceOfferService implements IPriceOfferService {
     priceOfferId: UUID,
     status: PriceOfferStatus,
     discountCode?: string,
+    orderId?: string,
   ): Promise<PriceOffer> {
-    const data: { status: PriceOfferStatus; discountCode?: string } = {
+    const updates = {
       status,
+      discountCode,
+      orderId,
     };
-
-    if (discountCode) data.discountCode = discountCode;
 
     const updatedPriceOffer = await this.prisma.priceOffer.update({
       where: {
         id: priceOfferId.uuid,
       },
-      data,
+      data: updates,
     });
 
     this.eventEmitter.emit(
       PriceOfferUpdatedDomainEvent.EVENT_NAME,
       new PriceOfferUpdatedDomainEvent({
-        updates: { status, discountCode },
+        updates,
         aggregateId: priceOfferId.uuid,
         aggregateName: AggregateName.PRICE_OFFER,
         metadata: {

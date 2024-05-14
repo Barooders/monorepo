@@ -164,36 +164,45 @@ export class OrderMapper {
       }),
     );
 
+    const relatedPriceOffers = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        discountCode: {
+          in: orderData.discount_applications.map((discount) => discount.code),
+        },
+      },
+      select: { id: true },
+    });
+
     return {
-      shopifyId: String(id),
-      name: orderData.name,
-      status: OrderStatus.CREATED,
-      customerEmail: orderData.customer?.email,
-      customerId,
-      totalPriceInCents: toCents(orderData.total_price),
-      totalPriceCurrency: Currency.EUR,
-      shippingAddressAddress1: orderData.shipping_address.address1,
-      shippingAddressAddress2: orderData.shipping_address.address2 ?? null,
-      shippingAddressCompany: orderData.shipping_address.company ?? null,
-      shippingAddressCity: orderData.shipping_address.city,
-      shippingAddressCountry: orderData.shipping_address.country,
-      shippingAddressFirstName: orderData.shipping_address.first_name,
-      shippingAddressLastName: orderData.shipping_address.last_name,
-      shippingAddressPhone: orderData.shipping_address.phone,
-      shippingAddressZip: orderData.shipping_address.zip,
+      order: {
+        shopifyId: String(id),
+        name: orderData.name,
+        status: OrderStatus.CREATED,
+        customerEmail: orderData.customer?.email,
+        customerId,
+        totalPriceInCents: toCents(orderData.total_price),
+        totalPriceCurrency: Currency.EUR,
+        shippingAddressAddress1: orderData.shipping_address.address1,
+        shippingAddressAddress2: orderData.shipping_address.address2 ?? null,
+        shippingAddressCompany: orderData.shipping_address.company ?? null,
+        shippingAddressCity: orderData.shipping_address.city,
+        shippingAddressCountry: orderData.shipping_address.country,
+        shippingAddressFirstName: orderData.shipping_address.first_name,
+        shippingAddressLastName: orderData.shipping_address.last_name,
+        shippingAddressPhone: orderData.shipping_address.phone,
+        shippingAddressZip: orderData.shipping_address.zip,
+      },
       orderLines,
       fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrderShopifyId }) =>
         fulfillmentOrderShopifyId
           ? [{ shopifyId: fulfillmentOrderShopifyId }]
           : [],
       ),
-      usedDiscountCodes: orderData.discount_applications.map(
-        (discount) => discount.code,
-      ),
       payment: {
         methodName: this.getOrderPaymentName(orderData),
         checkoutToken: orderData.checkout_token,
       },
+      priceOffers: relatedPriceOffers.map(({ id }) => ({ id })),
     };
   }
 
