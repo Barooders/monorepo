@@ -3,15 +3,14 @@
 import { graphql } from '@/__generated/gql/registered_user';
 import useB2BSearchContext from '@/components/molecules/B2BSearchBar/_state/useB2BSearchContext';
 import ProPage, { PRODUCT_ID_QUERY_KEY } from '@/components/pages/ProPage';
-import { useHasura } from '@/hooks/useHasura';
 import useSearchParams from '@/hooks/useSearchParams';
 import { getDictionary } from '@/i18n/translate';
+import { useSubscription } from '@apollo/client';
 import { useEffect } from 'react';
-import { HASURA_ROLES } from 'shared-types';
 import { SEARCH_BAR_QUERY_KEY } from '../../../../../../shared/components/molecules/B2BSearchBar';
 
-const FETCH_B2B_SAVED_SEARCH_BY_NAME = /* GraphQL */ /* typed_for_registered_user */ `
-  query FetchB2BSavedSearchByName($searchName: String) {
+const SUBSCRIPTION_B2B_SAVED_SEARCH_BY_NAME = /* GraphQL */ /* typed_for_registered_user */ `
+  subscription FetchB2BSavedSearchByName($searchName: String) {
     SavedSearch(
       limit: 1
       order_by: { createdAt: desc }
@@ -43,19 +42,21 @@ const WebProPage: React.FC = () => {
 
   const { setSavedSearch } = useB2BSearchContext();
 
-  const fetchB2BSavedSearchByName = useHasura(
-    graphql(FETCH_B2B_SAVED_SEARCH_BY_NAME),
-    HASURA_ROLES.REGISTERED_USER,
+  const { data: savedFiltersResult } = useSubscription(
+    graphql(SUBSCRIPTION_B2B_SAVED_SEARCH_BY_NAME),
+    {
+      variables: {
+        searchName: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
+      },
+    },
   );
 
   useEffect(() => {
-    (async () => {
-      const { SavedSearch } = await fetchB2BSavedSearchByName({
-        searchName: dict.b2b.proPage.saveFilters.defaultSavedSearchName,
-      });
-      setSavedSearch(SavedSearch[0]);
-    })();
-  }, []);
+    const savedSearch = savedFiltersResult?.SavedSearch[0];
+    if (savedSearch) {
+      setSavedSearch(savedSearch);
+    }
+  }, [savedFiltersResult, setSavedSearch]);
 
   return (
     <ProPage
