@@ -9,6 +9,7 @@ import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
 import TopBrands from '../Builder/_components/TopBrands';
 import TopCategories from '../Builder/_components/TopCategories';
+import Trustpilot from '../Builder/_components/Trustpilot';
 import WhyBarooders from '../Builder/_components/WhyBarooders';
 
 const dict = getDictionary('fr');
@@ -147,6 +148,9 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       <BuyBackSection />
       <BlockContent title={dict.homepage.ebikes}>
         <CollectionPreview collectionHandle="velos-electriques" />
+      </BlockContent>
+      <BlockContent>
+        <Trustpilot />
       </BlockContent>
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />
