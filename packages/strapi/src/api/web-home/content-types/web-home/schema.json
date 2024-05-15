@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "web_homes",
+  "info": {
+    "singularName": "web-home",
+    "pluralName": "web-homes",
+    "displayName": "Web - Home",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Header": {
+      "type": "dynamiczone",
+      "components": [
+        "media.image-section"
+      ]
+    }
+  }
+}
