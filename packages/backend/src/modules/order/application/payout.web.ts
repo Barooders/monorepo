@@ -23,6 +23,7 @@ import { NoCompletePaymentAccountException } from '@modules/customer/domain/paym
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -55,6 +56,7 @@ class PayoutInputQuery {
     description: 'A comment to store a reason for a price change for example',
     required: false,
   })
+  @IsOptional()
   comment?: string;
 
   @IsInt()
@@ -64,6 +66,14 @@ class PayoutInputQuery {
   })
   @IsOptional()
   amountInCents?: number;
+
+  @IsOptional()
+  @ApiProperty({
+    description: 'A comment to store a reason for a price change for example',
+    required: false,
+  })
+  @IsBoolean()
+  force?: boolean;
 }
 
 class PreviewPayoutInputQuery {
@@ -207,7 +217,12 @@ export class PayoutController {
   @UseGuards(AuthGuard('header-api-key'))
   async executePayout(
     @Body()
-    { orderLineShopifyId, amountInCents, comment }: PayoutInputQuery,
+    {
+      orderLineShopifyId,
+      amountInCents,
+      comment,
+      force = false,
+    }: PayoutInputQuery,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<void> {
@@ -239,6 +254,7 @@ export class PayoutController {
         author,
         manualAmount,
         comment,
+        force,
       );
     } catch (error: any) {
       if (
