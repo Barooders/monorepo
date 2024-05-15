@@ -525,24 +525,8 @@ export class OrderMapper {
       },
     });
 
-    const generatedFulfillmentOrderIds = reduce(
-      storeVariants,
-      (
-        acc,
-        {
-          variant: {
-            product: { vendorId },
-          },
-        },
-      ) => {
-        if (!acc[vendorId]) {
-          acc[vendorId] = uuidv4();
-        }
-
-        return acc;
-      },
-      {} as Record<string, string>,
-    );
+    //TODO: Update input to create multiple fulfillment orders
+    const singleFulfillmentOrderId = uuidv4();
 
     return {
       orderLines: lineItems.map(
@@ -584,18 +568,12 @@ export class OrderMapper {
             quantity,
             productVariantId: variantId,
             fulfillmentOrder: {
-              id: generatedFulfillmentOrderIds[
-                storeVariant.variant.product.vendorId
-              ],
+              id: singleFulfillmentOrderId,
             },
           };
         },
       ),
-      fulfillmentOrders: Object.values(generatedFulfillmentOrderIds).map(
-        (id) => ({
-          id,
-        }),
-      ),
+      fulfillmentOrders: [{ id: singleFulfillmentOrderId }],
       priceOfferIds,
     };
   }
