@@ -1,4 +1,3 @@
-import { fetchStrapiGraphQL } from '@/clients/strapi';
 import HomeJsonLd from '@/components/atoms/JsonLd/HomeJsonLd';
 import SnowFall from '@/components/molecules/Snowfall';
 import { getDictionary } from '@/i18n/translate';
@@ -7,6 +6,7 @@ import { gql } from '@apollo/client';
 import BlockContent from '../Builder/_components/BlockContent';
 import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
+import TopCategories from '../Builder/_components/TopCategories';
 
 const dict = getDictionary('fr');
 
@@ -19,6 +19,7 @@ export type PropsType = {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FETCH_HOMEPAGE_CONFIG = gql`
   query {
     webHome {
@@ -43,27 +44,68 @@ const FETCH_HOMEPAGE_CONFIG = gql`
 `;
 
 export const getData = async (): Promise<PropsType> => {
-  const content = await fetchStrapiGraphQL<
-    {
-      webHome: {
-        data: {
-          attributes: {
-            Header: {
-              link: string;
+  // const content = await fetchStrapiGraphQL<
+  //   {
+  //     webHome: {
+  //       data: {
+  //         attributes: {
+  //           Header: {
+  //             link: string;
+  //             image: {
+  //               data: {
+  //                 attributes: {
+  //                   url: string;
+  //                 };
+  //               };
+  //             };
+  //           }[];
+  //         };
+  //       };
+  //     };
+  //   },
+  //   unknown
+  // >(FETCH_HOMEPAGE_CONFIG, {});
+
+  const content = {
+    webHome: {
+      data: {
+        attributes: {
+          Header: [
+            {
+              link: 'https://barooders.com/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles&utm_source=Klaviyo&utm_medium=campaign&_kx=zf7WWtuGkVcvB-FSZobNKg.UGAz5B',
               image: {
                 data: {
                   attributes: {
-                    url: string;
-                  };
-                };
-              };
-            }[];
-          };
-        };
-      };
+                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/home_fd42548cb2.png',
+                  },
+                },
+              },
+            },
+            {
+              link: 'https://barooders.com/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=TSWheels&q=TSWheels',
+              image: {
+                data: {
+                  attributes: {
+                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/first_756216fd72.png',
+                  },
+                },
+              },
+            },
+            {
+              link: 'https://barooders.com/collections/specialized',
+              image: {
+                data: {
+                  attributes: {
+                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/second_cafcd2e412.jpeg',
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
     },
-    unknown
-  >(FETCH_HOMEPAGE_CONFIG, {});
+  };
 
   const images = content.webHome.data.attributes.Header.map((item) => ({
     image: item.image.data.attributes.url,
@@ -90,7 +132,9 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       >
         <CollectionPreview collectionHandle="hot-deals" />
       </BlockContent>
-
+      <BlockContent title={dict.homepage.topCategories}>
+        <TopCategories />
+      </BlockContent>
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />
     </>
