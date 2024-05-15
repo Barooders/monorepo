@@ -41,7 +41,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   },
   {
     // Ends on 23/05
-    title: 'TREK_20',
+    title: 'TREK_30',
     label: 'Trek',
     type: 'dynamic',
   },
