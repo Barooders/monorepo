@@ -6,6 +6,7 @@ import { gql } from '@apollo/client';
 import BlockContent from '../Builder/_components/BlockContent';
 import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
+import TopBrands from '../Builder/_components/TopBrands';
 import TopCategories from '../Builder/_components/TopCategories';
 
 const dict = getDictionary('fr');
@@ -134,6 +135,9 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       </BlockContent>
       <BlockContent title={dict.homepage.topCategories}>
         <TopCategories />
+      </BlockContent>
+      <BlockContent title={dict.homepage.topCategories}>
+        <TopBrands />
       </BlockContent>
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />

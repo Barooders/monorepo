@@ -17,7 +17,7 @@ const TopCategory: React.FC<TopCategoryPropsType> = ({
       <img
         src={source}
         alt="Top Category"
-        className="h-[128px] max-h-[128px] min-h-[128px] w-[128px] min-w-[20px] max-w-[128px]"
+        className="h-[128px] max-h-[128px] min-h-[128px] w-[128px] min-w-[20px] max-w-[128px] object-contain object-center grayscale"
       />
       <span className="overflow-hidden whitespace-nowrap text-center font-bold">
         {title}
