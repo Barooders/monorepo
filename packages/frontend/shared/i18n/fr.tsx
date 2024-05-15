@@ -325,6 +325,13 @@ const fr = {
     },
   },
   homepage: {
+    buyback: {
+      title: 'Rachat express de vélo',
+      subtitle: 'Revendez votre vélo à un reconditionneur',
+      description:
+        'Remplissez le formulaire de reprise pour faire estimer votre vélo.',
+      buttonLabel: "J'en profite",
+    },
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",
