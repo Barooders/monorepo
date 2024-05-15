@@ -239,6 +239,7 @@ export type OrderToStoreFromAdminInput = {
     quantity: number;
     unitPriceInCents: number;
     unitBuyerCommissionInCents: number;
+    shippingSolution: ShippingSolution;
   }[];
   priceOfferIds: string[];
 };

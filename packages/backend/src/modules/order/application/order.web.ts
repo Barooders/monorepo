@@ -4,6 +4,7 @@ import {
   OrderStatus,
   PrismaMainClient,
   SalesChannelName,
+  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
@@ -143,6 +144,11 @@ class OrderLineItemDTO {
   @IsInt()
   @ApiProperty({ required: true })
   unitBuyerCommissionInCents!: number;
+
+  @IsEnum(ShippingSolution)
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  shippingSolution!: ShippingSolution;
 }
 
 class CreateOrderInputDTO implements OrderToStoreFromAdminInput {

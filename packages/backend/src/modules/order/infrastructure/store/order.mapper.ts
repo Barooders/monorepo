@@ -551,6 +551,7 @@ export class OrderMapper {
           quantity,
           unitPriceInCents,
           unitBuyerCommissionInCents,
+          shippingSolution,
         }) => {
           const storeVariant = storeVariants.find(({ id }) => variantId === id);
 
@@ -568,7 +569,7 @@ export class OrderMapper {
             priceInCents: unitPriceInCents,
             buyerCommission: (quantity * unitBuyerCommissionInCents) / 100,
             discountInCents: 0,
-            shippingSolution: ShippingSolution.VENDOR,
+            shippingSolution,
             priceCurrency: Currency.EUR,
             productType: exposedProduct?.productType ?? '',
             productHandle: exposedProduct?.handle ?? '',
