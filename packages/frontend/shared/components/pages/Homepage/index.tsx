@@ -159,6 +159,8 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       >
         <BlogPosts />
       </BlockContent>
+      <div id="om-pwathz06ouj24uzrdcyf-holder"></div>
+
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />
     </>
