@@ -83,7 +83,6 @@ export class OrderStatusHandlerService {
           StockUpdate.DECREMENT,
           author,
         );
-        await this.saveCommission(orderLines);
         break;
       case OrderStatus.PAID:
         await this.prisma.order.update({
@@ -203,37 +202,6 @@ export class OrderStatusHandlerService {
         );
         break;
     }
-  }
-
-  private async saveCommission(orderLines: OrderLines[]) {
-    await Promise.allSettled(
-      orderLines
-        .map(
-          ({
-            id,
-            priceInCents,
-            discountInCents,
-            productType,
-            vendorId,
-            shippingSolution,
-          }) => ({
-            orderLineId: id,
-            priceInCents,
-            discountInCents,
-            productType,
-            vendorId,
-            shippingSolution,
-          }),
-        )
-        .map(async (orderLine) => {
-          try {
-            await this.commissionService.computeAndSaveCommission(orderLine);
-          } catch (error: any) {
-            this.logger.error(error.message, error);
-            Sentry.captureException(error);
-          }
-        }),
-    );
   }
 
   private async updateStockQuantities(

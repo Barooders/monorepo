@@ -2,6 +2,7 @@ import { MINIMAL_COMMISSION_RATE } from '@config/app.config';
 import {
   CommissionRuleType,
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
@@ -42,6 +43,7 @@ export interface SaveCommissionInput {
   discountInCents: number;
   quantity: number;
   shippingSolution: ShippingSolution;
+  salesChannelName: SalesChannelName;
 }
 
 @Injectable()
@@ -67,9 +69,17 @@ export class CommissionService {
       vendorShipping,
       buyerCommission,
       shippingSolution,
+      order: { salesChannelName },
     } = await this.prisma.orderLines.findUniqueOrThrow({
       where: {
         id: orderLineId,
+      },
+      include: {
+        order: {
+          select: {
+            salesChannelName: true,
+          },
+        },
       },
     });
 
@@ -100,10 +110,11 @@ export class CommissionService {
       discountInCents,
       quantity,
       shippingSolution,
+      salesChannelName,
     });
   }
 
-  async computeAndSaveB2CCommission({
+  private async computeAndSaveB2CCommission({
     vendorId,
     orderLineId,
     priceInCents,
@@ -111,11 +122,18 @@ export class CommissionService {
     discountInCents,
     productType,
     shippingSolution,
+    salesChannelName,
   }: SaveCommissionInput): Promise<Commission> {
     if (!vendorId)
       throw new Error(
         `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
       );
+
+    if (salesChannelName !== SalesChannelName.PUBLIC) {
+      throw new Error(
+        `Cannot compute commission for order line ${orderLineId} because it is not a B2C order`,
+      );
+    }
 
     const commission = await this.getB2CCommission(
       {
