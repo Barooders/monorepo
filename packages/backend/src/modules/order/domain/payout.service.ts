@@ -38,6 +38,7 @@ export class PayoutService {
     author: Author,
     manualAmount: Amount | null = null,
     comment = '',
+    force = false,
   ): Promise<void> {
     const {
       order: { id: orderId, name: orderName, createdAt: orderCreatedAt },
@@ -52,8 +53,10 @@ export class PayoutService {
       },
     });
 
-    this.throwIfOrderLineHaveOpenDisputes(disputes);
-    await this.throwIfOrderLineHasAlreadyBeenPaidOut(orderLineId);
+    if (!force) {
+      this.throwIfOrderLineHaveOpenDisputes(disputes);
+      await this.throwIfOrderLineHasAlreadyBeenPaidOut(orderLineId);
+    }
 
     const payoutAmount =
       manualAmount ??
@@ -62,48 +65,54 @@ export class PayoutService {
     const vendorPaymentAccount =
       await this.paymentAccountProvider.getPaymentAccount(vendorId);
 
-    await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
-      orderId,
-      OrderStatus.PAID_OUT,
-      author,
-      new Date(),
-      async () => {
-        await this.paymentProvider.executePayment(
-          vendorPaymentAccount.accountId,
-          payoutAmount,
-          `Vente Barooders (${orderName}) du ${orderCreatedAt.toLocaleString()}`,
-        );
+    const executePayment = async () => {
+      await this.paymentProvider.executePayment(
+        vendorPaymentAccount.accountId,
+        payoutAmount,
+        `Vente Barooders (${orderName}) du ${orderCreatedAt.toLocaleString()}`,
+      );
 
-        const payout = {
-          vendorId,
-          vendorPaymentProviderId: vendorPaymentAccount.accountId,
+      const payout = {
+        vendorId,
+        vendorPaymentProviderId: vendorPaymentAccount.accountId,
+        amountInCents: payoutAmount.amountInCents,
+        orderLineId,
+      };
+
+      await this.prisma.payout.create({
+        data: {
           amountInCents: payoutAmount.amountInCents,
           orderLineId,
-        };
+          destinationAccountId: vendorPaymentAccount.id,
+          comment,
+        },
+      });
 
-        await this.prisma.payout.create({
-          data: {
-            amountInCents: payoutAmount.amountInCents,
-            orderLineId,
-            destinationAccountId: vendorPaymentAccount.id,
+      await this.prisma.event.create({
+        data: {
+          aggregateName: AggregateName.PAYOUT,
+          aggregateId: vendorId,
+          name: EventName.VENDOR_PAYOUT,
+          payload: payout,
+          metadata: {
+            author,
             comment,
           },
-        });
+        },
+      });
+    };
 
-        await this.prisma.event.create({
-          data: {
-            aggregateName: AggregateName.PAYOUT,
-            aggregateId: vendorId,
-            name: EventName.VENDOR_PAYOUT,
-            payload: payout,
-            metadata: {
-              author,
-              comment,
-            },
-          },
-        });
-      },
-    );
+    if (force) {
+      await executePayment();
+    } else {
+      await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
+        orderId,
+        OrderStatus.PAID_OUT,
+        author,
+        new Date(),
+        executePayment,
+      );
+    }
   }
 
   private async calculatePayoutAmount(orderLineId: UUID): Promise<Amount> {
