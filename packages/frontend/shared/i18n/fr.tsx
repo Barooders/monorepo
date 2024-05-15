@@ -329,6 +329,11 @@ const fr = {
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",
     },
+    hotdeals: {
+      title: '⚡️ TOP PROMO',
+      subtitle: "C’est le moment d'en profiter",
+    },
+    topCategories: 'Top catégories',
     mainSlideAltText: 'Vente flash',
     mobileSection: {
       title: 'L’application Barooders est disponible !',

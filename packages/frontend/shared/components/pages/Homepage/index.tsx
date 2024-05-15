@@ -4,6 +4,8 @@ import SnowFall from '@/components/molecules/Snowfall';
 import { getDictionary } from '@/i18n/translate';
 // eslint-disable-next-line no-restricted-imports
 import { gql } from '@apollo/client';
+import BlockContent from '../Builder/_components/BlockContent';
+import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
 
 const dict = getDictionary('fr');
@@ -82,6 +84,13 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
         desktopSlides={header.images.slice(1)}
         mobileSlides={header.images.slice(1)}
       />
+      <BlockContent
+        title={dict.homepage.hotdeals.subtitle}
+        subtitle={dict.homepage.hotdeals.title}
+      >
+        <CollectionPreview collectionHandle="hot-deals" />
+      </BlockContent>
+
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />
     </>
