@@ -29,6 +29,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsArray,
   IsDateString,
   IsEnum,
   IsInt,
@@ -168,12 +169,13 @@ class CreateOrderInputDTO implements OrderToStoreFromAdminInput {
   shippingAddress!: ShippingAddressDTO;
 
   @ApiProperty()
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => OrderLineItemDTO)
   lineItems!: OrderLineItemDTO[];
 
-  @ApiProperty()
-  @ValidateNested({ each: true })
+  @ApiProperty({ required: true, isArray: true, type: String })
+  @IsArray()
   @Type(() => String)
   priceOfferIds!: string[];
 }
