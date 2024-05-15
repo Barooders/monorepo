@@ -4,6 +4,7 @@ import { getDictionary } from '@/i18n/translate';
 // eslint-disable-next-line no-restricted-imports
 import { gql } from '@apollo/client';
 import BlockContent from '../Builder/_components/BlockContent';
+import BlogPosts from '../Builder/_components/BlogPosts';
 import BuyBackSection from '../Builder/_components/BuyBackSection';
 import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
@@ -151,6 +152,12 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       </BlockContent>
       <BlockContent>
         <Trustpilot />
+      </BlockContent>
+      <BlockContent
+        title={dict.homepage.blog.title}
+        subtitle={dict.homepage.blog.subtitle}
+      >
+        <BlogPosts />
       </BlockContent>
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />

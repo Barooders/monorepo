@@ -325,6 +325,11 @@ const fr = {
     },
   },
   homepage: {
+    blog: {
+      title: 'Conseils et astuces',
+      subtitle: 'Blog',
+      readMore: 'Lire la suite',
+    },
     buyback: {
       title: 'Rachat express de vélo',
       subtitle: 'Revendez votre vélo à un reconditionneur',
