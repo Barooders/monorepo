@@ -11,6 +11,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SHOP_BASE_URL: string;
     NEXT_PUBLIC_TALK_JS_APP_ID: string;
     NEXT_PUBLIC_STRAPI_URL: string;
+    NEXT_PUBLIC_STRAPI_GRAPHQL_URL: string;
     NEXT_PUBLIC_UNLEASH_BASE_URL: string;
     NEXT_PUBLIC_UNLEASH_API_TOKEN: string;
     NEXT_PUBLIC_KLAVIYO_API_KEY?: string;
