@@ -1,4 +1,5 @@
 import { Discount } from '@/types';
+import dayjs from 'dayjs';
 
 export type DynamicDiscountConfig = {
   title: string;
@@ -19,6 +20,24 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   {
     title: 'FREE_SHIPPING',
     label: 'Livraison gratuite',
+    type: 'dynamic',
+  },
+  // Ends on 23/05
+  {
+    title: 'TUBIKE_FREE_SHIPPING',
+    label: 'Livraison gratuite',
+    type: 'static',
+    collections: ['361eaea1-b5b0-4573-98d3-4a295a9666ca'],
+    valueType: 'free_shipping',
+    value: null,
+    hideReduction: true,
+    startsAt: dayjs('2024-05-16').toDate(),
+    endsAt: dayjs('2024-05-23').toDate(),
+  },
+  {
+    // Ends on 23/05
+    title: 'TREK_20',
+    label: 'Trek',
     type: 'dynamic',
   },
   {
