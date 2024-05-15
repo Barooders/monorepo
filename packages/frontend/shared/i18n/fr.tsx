@@ -343,6 +343,29 @@ const fr = {
         <>Il y a {daysCount} jours</>
       ),
     },
+    whyBarooders: {
+      title: 'Pourquoi choisir Barooders ?',
+      warranty: {
+        title: 'Garantie',
+        description:
+          'Nous travaillons avec plus de 1000 reconditionneurs professionnels, assurant une qualité du matériel.',
+      },
+      quality: {
+        title: 'Quality',
+        description:
+          "Nous vérifions chaque annonce et nous nous assurons qu'aucune arnaque n'arrive sur la plateforme.",
+      },
+      experts: {
+        title: 'Experts',
+        description:
+          'Nos experts sont a votre disposition 7j/7 , pour répondre au mieux à vos questions. Une qualité de conseil garantie !',
+      },
+      green: {
+        title: 'Green',
+        description:
+          'Vélos reconditionnes ou de seconde main, produits en fins de series, - acheter Barooders, c’est faire un achat ecologique.',
+      },
+    },
   },
   header: {
     logo: {
