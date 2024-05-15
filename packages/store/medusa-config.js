@@ -54,13 +54,15 @@ const modules = {
 };
 
 const DATABASE_SCHEMA = 'medusa';
+const databaseBaseUrl = process.env.DATABASE_URL ?? envConfig.database.url;
+const redisUrl = process.env.REDIS_URL ?? envConfig.redis.url;
 
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
   jwt_secret: envConfig.authentication.jwtSecret,
   cookie_secret: envConfig.authentication.cookieSecret,
   store_cors: envConfig.cors.join(','),
-  database_url: `${envConfig.database.url}?options=-c%20search_path%3D${DATABASE_SCHEMA}`,
+  database_url: `${databaseBaseUrl}?options=-c%20search_path%3D${DATABASE_SCHEMA}`,
   admin_cors: envConfig.cors.join(','),
   database_schema: DATABASE_SCHEMA,
   ...(envConfig.database.ssl
@@ -72,7 +74,7 @@ const projectConfig = {
         },
       }
     : {}),
-  ...(envConfig.redis.url ? { redis_url: envConfig.redis.url } : {}),
+  ...(redisUrl ? { redis_url: redisUrl } : {}),
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
