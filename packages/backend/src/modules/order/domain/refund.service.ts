@@ -6,6 +6,7 @@ import {
   OrderStatus,
   PaymentStatusType,
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
   users,
 } from '@libs/domain/prisma.main.client';
@@ -215,6 +216,7 @@ export class RefundService {
           status: {
             in: [OrderStatus.PAID, OrderStatus.LABELED],
           },
+          salesChannelName: SalesChannelName.PUBLIC,
           orderLines: {
             every: {
               shippingSolution: {

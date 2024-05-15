@@ -63,9 +63,13 @@ select_permissions:
         - shippingSolution
         - vendorId
       filter:
-        order:
-          customerId:
-            _eq: X-Hasura-User-Id
+        _and:
+          - order:
+              customerId:
+                _eq: X-Hasura-User-Id
+          - order:
+              salesChannelName:
+                _eq: PUBLIC
   - role: me_as_vendor
     permission:
       columns:
@@ -87,8 +91,12 @@ select_permissions:
         - shippingSolution
         - vendorId
       filter:
-        vendorId:
-          _eq: X-Hasura-User-Id
+        _and:
+          - vendorId:
+              _eq: X-Hasura-User-Id
+          - order:
+              salesChannelName:
+                _eq: PUBLIC
   - role: registered_user
     permission:
       columns:
@@ -110,9 +118,13 @@ select_permissions:
         - shippingSolution
         - vendorId
       filter:
-        _or:
-          - vendorId:
-              _eq: X-Hasura-User-Id
+        _and:
+          - _or:
+              - vendorId:
+                  _eq: X-Hasura-User-Id
+              - order:
+                  customerId:
+                    _eq: X-Hasura-User-Id
           - order:
-              customerId:
-                _eq: X-Hasura-User-Id
+              salesChannelName:
+                _eq: PUBLIC

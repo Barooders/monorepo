@@ -5,6 +5,7 @@ import {
   NotificationType,
   OrderStatus,
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
@@ -151,6 +152,7 @@ export class OrderNotificationService {
           status: {
             in: [OrderStatus.PAID, OrderStatus.LABELED],
           },
+          salesChannelName: SalesChannelName.PUBLIC,
           paidAt: {
             lte: xDaysAgo,
           },

@@ -42,8 +42,11 @@ select_permissions:
         - totalPriceCurrency
         - totalPriceInCents
       filter:
-        customerId:
-          _eq: X-Hasura-User-Id
+        _and:
+          - customerId:
+              _eq: X-Hasura-User-Id
+          - salesChannelName:
+              _eq: PUBLIC
   - role: me_as_vendor
     permission:
       columns:
@@ -63,9 +66,12 @@ select_permissions:
         - totalPriceCurrency
         - totalPriceInCents
       filter:
-        orderLines:
-          vendorId:
-            _eq: X-Hasura-User-Id
+        _and:
+          - orderLines:
+              vendorId:
+                _eq: X-Hasura-User-Id
+          - salesChannelName:
+              _eq: PUBLIC
   - role: registered_user
     permission:
       columns:
@@ -87,9 +93,12 @@ select_permissions:
         - totalPriceCurrency
         - totalPriceInCents
       filter:
-        _or:
-          - customerId:
-              _eq: X-Hasura-User-Id
-          - orderLines:
-              vendorId:
-                _eq: X-Hasura-User-Id
+        _and:
+          - _or:
+              - customerId:
+                  _eq: X-Hasura-User-Id
+              - orderLines:
+                  vendorId:
+                    _eq: X-Hasura-User-Id
+          - salesChannelName:
+              _eq: PUBLIC
