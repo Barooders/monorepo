@@ -4,12 +4,12 @@ import { getDictionary } from '@/i18n/translate';
 // eslint-disable-next-line no-restricted-imports
 import { gql } from '@apollo/client';
 import BlockContent from '../Builder/_components/BlockContent';
+import BuyBackSection from '../Builder/_components/BuyBackSection';
 import CollectionPreview from '../Builder/_components/CollectionPreview';
 import MainHeader from '../Builder/_components/MainHeader';
 import TopBrands from '../Builder/_components/TopBrands';
 import TopCategories from '../Builder/_components/TopCategories';
 import WhyBarooders from '../Builder/_components/WhyBarooders';
-import BuyBackSection from '../Builder/_components/BuyBackSection';
 
 const dict = getDictionary('fr');
 
@@ -145,8 +145,8 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
         <WhyBarooders />
       </BlockContent>
       <BuyBackSection />
-      <BlockContent title={dict.homepage.hotdeals.subtitle}>
-        <CollectionPreview collectionHandle="hot-deals" />
+      <BlockContent title={dict.homepage.ebikes}>
+        <CollectionPreview collectionHandle="velos-electriques" />
       </BlockContent>
       <h1 className="hidden">{dict.homepage.mainTitle}</h1>
       <HomeJsonLd />
