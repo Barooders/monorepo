@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import PriceOfferButton from '../ProductCard/_components/Actions/PriceOfferButton';
 import BuyButton from './_components/BuyButton';
-import HandDeliveryPanel from './_components/HandDeliveryPanel';
 import PriceOfferPanel from './_components/PriceOfferPanel';
 
 export type AssociatedOrderLine = {
@@ -44,7 +43,6 @@ type PanelConfigType = {
 };
 
 enum PANELS {
-  HAND_DELIVERY = 'HAND_DELIVERY',
   ACTION_BUTTONS = 'ACTION_BUTTONS',
   PRICE_OFFER = 'PRICE_OFFER',
 }
@@ -84,19 +82,6 @@ const panelConfig: {
         </div>
       ),
   },
-  [PANELS.HAND_DELIVERY]: {
-    canDisplay: ({ associatedOrderLine }) =>
-      !!associatedOrderLine &&
-      associatedOrderLine.shippingSolution === ShippingSolution.HAND_DELIVERY,
-    height: 230,
-    renderPanel: ({ conversation, associatedOrderLine }) =>
-      associatedOrderLine && (
-        <HandDeliveryPanel
-          conversationId={conversation.id}
-          orderShopifyId={associatedOrderLine.orderShopifyId}
-        />
-      ),
-  },
   [PANELS.PRICE_OFFER]: {
     canDisplay: ({ proposedPriceOffer }) => !!proposedPriceOffer?.id,
     height: SMALL_PANEL_HEIGHT,
@@ -121,11 +106,7 @@ const panelConfig: {
   },
 };
 
-const panelOrder = [
-  PANELS.HAND_DELIVERY,
-  PANELS.PRICE_OFFER,
-  PANELS.ACTION_BUTTONS,
-];
+const panelOrder = [PANELS.PRICE_OFFER, PANELS.ACTION_BUTTONS];
 
 const ChatPanel: React.FC<PropsType> = (props) => {
   const { loading, setPanelHeight } = props;

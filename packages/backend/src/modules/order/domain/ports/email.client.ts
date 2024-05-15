@@ -138,24 +138,12 @@ export abstract class IEmailClient {
     templateData: HandDeliveryCustomerTemplateData,
   ): Promise<void>;
 
-  abstract sendValidatedHandDeliveryVendorEmail(
-    toEmail: string,
-    toName: string,
-    templateData: ValidatedHandDeliveryOrderData,
-  ): Promise<void>;
-
   abstract sendUnfulfilledOrderLineEmail(
     type: CustomerType,
     toEmail: string,
     toName: string,
     numberOfDays: number,
     templateData: UnfulfilledOrderLineTemplateData,
-  ): Promise<void>;
-
-  abstract sendValidatedHandDeliveryCustomerEmail(
-    toEmail: string,
-    toName: string,
-    templateData: ValidatedHandDeliveryOrderData,
   ): Promise<void>;
 
   abstract sendRefundedOrderCustomerEmail(

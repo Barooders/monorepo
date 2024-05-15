@@ -76,23 +76,6 @@ export type OrderCancelledData = {
   order: Order;
 };
 
-export type OrderHandDeliveredData = {
-  customer: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  vendor: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  orderName: string;
-  productName: string;
-};
-
 export type FeedBackRequest = {
   customer: {
     email: string;
