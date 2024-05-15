@@ -15,6 +15,7 @@ import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { NotFoundException } from '@libs/domain/exceptions';
 import {
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
@@ -194,6 +195,7 @@ export class PayoutController {
         discount: 0,
         quantity: 1,
         shippingSolution: ShippingSolution.SENDCLOUD,
+        salesChannelName: SalesChannelName.PUBLIC,
       });
     } catch (error: any) {
       if (error instanceof NotFoundException) {

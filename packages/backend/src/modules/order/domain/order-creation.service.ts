@@ -150,6 +150,7 @@ export class OrderCreationService {
             vendorId,
             shippingSolution,
             forcedBuyerCommission,
+            salesChannelName: order.salesChannelName,
           });
 
         return {

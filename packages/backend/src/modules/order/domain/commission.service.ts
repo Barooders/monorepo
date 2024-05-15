@@ -136,6 +136,7 @@ export class CommissionService {
       quantity,
       vendorId,
       shippingSolution,
+      salesChannelName: SalesChannelName.PUBLIC,
     });
 
     await this.prisma.orderLines.update({
@@ -158,7 +159,28 @@ export class CommissionService {
     quantity,
     shippingSolution,
     forcedBuyerCommission,
+    salesChannelName,
   }: OrderLineForCommissionCompute): Promise<Commission> {
+    if (salesChannelName === SalesChannelName.B2B) {
+      if (!forcedBuyerCommission)
+        throw new Error(`Buyer commission should be provided for B2B order`);
+
+      return {
+        variantPrice: price,
+        variantDiscount: discount,
+        quantity,
+        vendorCommission: 0,
+        vendorShipping: 0,
+        buyerCommission: forcedBuyerCommission,
+      };
+    }
+
+    if (salesChannelName !== SalesChannelName.PUBLIC) {
+      throw new Error(
+        `Cannot compute commission for order line because sales channel is not supported: ${salesChannelName}`,
+      );
+    }
+
     if (!vendorId)
       throw new Error(`Cannot compute commission because it has no vendor id`);
 
@@ -231,20 +253,16 @@ export class CommissionService {
     return {
       variantPrice: price,
       variantDiscount: discount,
-      vendorCommission:
-        -1 * quantity * getValue(CommissionRuleType.VENDOR_COMMISSION),
+      vendorCommission: -1 * getValue(CommissionRuleType.VENDOR_COMMISSION),
       vendorShipping:
         shippingSolution !== ShippingSolution.HAND_DELIVERY && hasOwnShipping
-          ? getValue(CommissionRuleType.VENDOR_SHIPPING) * quantity
+          ? getValue(CommissionRuleType.VENDOR_SHIPPING)
           : 0,
       quantity,
-      buyerCommission:
-        forcedBuyerCommission ??
-        quantity *
-          this.buyerCommissionService.computeLineItemCommission(
-            price,
-            buyerCommissionRate,
-          ),
+      buyerCommission: this.buyerCommissionService.computeLineItemCommission(
+        price,
+        buyerCommissionRate,
+      ),
     };
   }
 

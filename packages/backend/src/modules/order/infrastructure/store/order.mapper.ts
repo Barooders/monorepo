@@ -13,7 +13,7 @@ import {
   ShippingType,
   users,
 } from '@libs/domain/prisma.main.client';
-import { Condition, PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { toCents } from '@libs/helpers/currency';
 import { readableCode } from '@libs/helpers/safe-id';
@@ -240,6 +240,13 @@ export class OrderMapper {
       });
 
     const storeVariants = await this.getStoreVariants(lineItems);
+    const dbVariants = await this.mainPrisma.productVariant.findMany({
+      where: {
+        id: {
+          in: lineItems.map(({ variantId }) => variantId),
+        },
+      },
+    });
 
     const priceOfferIds = await this.mainPrisma.priceOffer.findMany({
       where: {
@@ -305,10 +312,16 @@ export class OrderMapper {
           shippingSolution,
         }) => {
           const storeVariant = storeVariants.find(({ id }) => variantId === id);
+          const dbVariant = dbVariants.find(({ id }) => variantId === id);
 
+          if (!dbVariant) {
+            throw new Error(
+              `Order cannot be processed for variant ${variantId}: variant not found in DB`,
+            );
+          }
           if (!storeVariant) {
             throw new Error(
-              `Order cannot be processed for variant ${variantId}: product might be inactive or not found in store.`,
+              `Order cannot be processed for variant ${variantId}: variant not found in store`,
             );
           }
 
@@ -318,17 +331,14 @@ export class OrderMapper {
             name: storeVariant.title,
             vendorId: storeVariant.variant.product.vendorId,
             priceInCents: unitPriceInCents,
-            buyerCommissionInCents: quantity * unitBuyerCommissionInCents,
+            buyerCommissionInCents: unitBuyerCommissionInCents,
             discountInCents: 0,
             shippingSolution,
             priceCurrency: Currency.EUR,
             productType: exposedProduct?.productType ?? '',
             productHandle: exposedProduct?.handle ?? '',
             productImage: exposedProduct?.firstImage ?? '',
-            variantCondition:
-              storeVariant.condition === Condition.REFURBISHED_AS_NEW
-                ? Condition.AS_NEW
-                : storeVariant.condition,
+            variantCondition: dbVariant.condition,
             productModelYear: exposedProduct?.modelYear,
             productGender: exposedProduct?.gender,
             productBrand: exposedProduct?.brand,

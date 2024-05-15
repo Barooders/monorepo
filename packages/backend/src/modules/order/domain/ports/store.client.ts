@@ -1,4 +1,8 @@
-import { Currency, ShippingSolution } from '@libs/domain/prisma.main.client';
+import {
+  Currency,
+  SalesChannelName,
+  ShippingSolution,
+} from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import {
   Amount,
@@ -21,6 +25,7 @@ export type StoreFulfilledFulfillmentOrder = {
 };
 
 export interface OrderLineForCommissionCompute {
+  salesChannelName: SalesChannelName;
   price: number;
   discount: number;
   productType: string;
