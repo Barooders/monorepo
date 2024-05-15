@@ -32,14 +32,12 @@ export class OrderCreationService {
 
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
     const {
-      order: { customerId, shopifyId, name },
+      order: { customerId, name },
       priceOfferIds,
     } = orderToStore;
 
     try {
-      this.logger.debug(
-        `Storing order ${shopifyId} for customer ${customerId}`,
-      );
+      this.logger.debug(`Storing order ${name} for customer ${customerId}`);
 
       await this.validateOrder(orderToStore);
 
@@ -130,43 +128,38 @@ export class OrderCreationService {
     }
 
     const orderLinesWithCommission = await Promise.all(
-      orderLines.map(async (orderLine) => {
-        const {
-          productType,
-          priceInCents,
-          discountInCents,
-          quantity,
-          vendorId,
-          shippingSolution,
+      orderLines.map(
+        async ({
           buyerCommissionInCents: forcedBuyerCommission,
-        } = orderLine;
+          ...orderLine
+        }) => {
+          const { vendorCommission, vendorShipping, buyerCommission } =
+            await this.commissionService.getCommission({
+              productType: orderLine.productType,
+              price: orderLine.priceInCents / 100,
+              discount: orderLine.discountInCents / 100,
+              quantity: orderLine.quantity,
+              vendorId: orderLine.vendorId,
+              shippingSolution: orderLine.shippingSolution,
+              forcedBuyerCommission,
+              salesChannelName: order.salesChannelName,
+            });
 
-        const { vendorCommission, vendorShipping, buyerCommission } =
-          await this.commissionService.getCommission({
-            productType,
-            price: priceInCents / 100,
-            discount: discountInCents / 100,
-            quantity,
-            vendorId,
-            shippingSolution,
-            forcedBuyerCommission,
-            salesChannelName: order.salesChannelName,
-          });
-
-        return {
-          ...orderLine,
-          vendorCommission,
-          vendorShipping,
-          buyerCommission,
-        };
-      }),
+          return {
+            ...orderLine,
+            vendorCommission,
+            vendorShipping,
+            buyerCommission,
+          };
+        },
+      ),
     );
 
     const createdOrderId = await this.prisma.$transaction(
       async (wrappedPrisma) => {
         this.logger.warn(
           `Will create order ${
-            order.shopifyId
+            order.name
           } with fulfillment orders: ${jsonStringify(fulfillmentOrders)}`,
         );
         const { id } = await wrappedPrisma.order.create({
