@@ -416,7 +416,7 @@ model ProductVariant {
   shopifyId             BigInt       @unique
   quantity              Int
   productId             String
-  priceInCents          BigInt?
+  priceInCents          BigInt
   compareAtPriceInCents BigInt?
   condition             Condition?
   product               Product      @relation(fields: [productId], references: [id])
