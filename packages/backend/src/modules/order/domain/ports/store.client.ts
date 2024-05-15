@@ -25,6 +25,7 @@ export interface ProductVariant {
   discount: number;
   productType: string;
   vendorId: string;
+  quantity: number;
 }
 
 export interface RefundOptions {

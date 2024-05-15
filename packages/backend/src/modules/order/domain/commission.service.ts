@@ -17,6 +17,7 @@ import { IStoreClient, ProductVariant } from './ports/store.client';
 export interface Commission {
   variantPrice: number;
   variantDiscount: number;
+  quantity: number;
   vendorCommission: number;
   vendorShipping: number;
   buyerCommission: number;
@@ -39,6 +40,7 @@ export interface SaveCommissionInput {
   vendorId: string | null;
   priceInCents: number;
   discountInCents: number;
+  quantity: number;
   shippingSolution: ShippingSolution;
 }
 
@@ -60,6 +62,7 @@ export class CommissionService {
       vendorId,
       priceInCents,
       discountInCents,
+      quantity,
       vendorCommission,
       vendorShipping,
       buyerCommission,
@@ -78,6 +81,7 @@ export class CommissionService {
       return {
         variantPrice: priceInCents / 100,
         variantDiscount: discountInCents / 100,
+        quantity,
         vendorCommission,
         vendorShipping,
         buyerCommission,
@@ -88,20 +92,22 @@ export class CommissionService {
       `Commission not found for order line ${orderLineId}, computing it now`,
     );
 
-    return await this.computeAndSaveCommission({
+    return await this.computeAndSaveB2CCommission({
       orderLineId,
       productType,
       vendorId,
       priceInCents,
       discountInCents,
+      quantity,
       shippingSolution,
     });
   }
 
-  async computeAndSaveCommission({
+  async computeAndSaveB2CCommission({
     vendorId,
     orderLineId,
     priceInCents,
+    quantity,
     discountInCents,
     productType,
     shippingSolution,
@@ -111,11 +117,12 @@ export class CommissionService {
         `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
       );
 
-    const commission = await this.getVendorCommission(
+    const commission = await this.getB2CCommission(
       {
         productType,
         price: priceInCents / 100,
         discount: discountInCents / 100,
+        quantity,
         vendorId,
       },
       { isFreeShipping: shippingSolution === ShippingSolution.HAND_DELIVERY },
@@ -133,8 +140,8 @@ export class CommissionService {
     return commission;
   }
 
-  async getVendorCommission(
-    { productType, vendorId, price, discount }: ProductVariant,
+  async getB2CCommission(
+    { productType, vendorId, price, discount, quantity }: ProductVariant,
     options: { isFreeShipping?: boolean } = {},
   ): Promise<Commission> {
     const discountedPrice = price - discount;
@@ -206,15 +213,19 @@ export class CommissionService {
     return {
       variantPrice: price,
       variantDiscount: discount,
-      vendorCommission: -1 * getValue(CommissionRuleType.VENDOR_COMMISSION),
+      vendorCommission:
+        -1 * quantity * getValue(CommissionRuleType.VENDOR_COMMISSION),
       vendorShipping:
         !options.isFreeShipping && hasOwnShipping
-          ? getValue(CommissionRuleType.VENDOR_SHIPPING)
+          ? getValue(CommissionRuleType.VENDOR_SHIPPING) * quantity
           : 0,
-      buyerCommission: this.buyerCommissionService.computeLineItemCommission(
-        price,
-        buyerCommissionRate,
-      ),
+      quantity,
+      buyerCommission:
+        quantity *
+        this.buyerCommissionService.computeLineItemCommission(
+          price,
+          buyerCommissionRate,
+        ),
     };
   }
 
