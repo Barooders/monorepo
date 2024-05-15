@@ -342,6 +342,41 @@ const fr = {
       title: "Nos vélos électriques d'occasion",
       buttonLabel: 'Voir plus',
     },
+    howDoesItWorks: {
+      title: 'Comment ça marche ?',
+      buy: {
+        title: 'Acheter',
+        chooseBike: {
+          title: 'Choisissez votre vélo',
+          content: 'Choisissez le vélo qui correspond le mieux à vos besoins',
+        },
+        buySafely: {
+          title: 'Achetez en toute sécurité',
+          content: 'Profitez de notre solution de paiement sécurisée',
+        },
+        tryBike: {
+          title: 'Essayez votre vélo',
+          content:
+            "Vous disposez d'un délai de minimum 4 jours pour retourner le vélo",
+        },
+      },
+      sell: {
+        title: 'Vendre',
+        publish: {
+          title: 'Publiez votre annonce',
+          content: 'Publiez votre annonce via le formulaire de vente',
+        },
+        sellSafely: {
+          title: 'Vendez en toute sécurité',
+          content: 'Profitez de notre solution de paiement sécurisée',
+        },
+        receiveMoney: {
+          title: 'Recevez votre argent',
+          content:
+            "Le paiement de l'acheteur vous sera versé à la réception du colis",
+        },
+      },
+    },
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",
