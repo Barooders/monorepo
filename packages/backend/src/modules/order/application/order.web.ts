@@ -223,7 +223,7 @@ export class OrderController {
     { authorId }: { authorId?: string },
   ): Promise<void> {
     const orderToStore =
-      await this.orderMapper.mapOrderToStoreFromAdminInput(body);
+      await this.orderMapper.mapOrderToStoreFromUserInput(body);
     await this.orderCreationService.storeOrder(orderToStore, {
       type: 'admin',
       id: authorId,

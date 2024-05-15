@@ -223,18 +223,46 @@ export class OrderMapper {
     };
   }
 
-  async mapOrderToStoreFromAdminInput(
+  async mapOrderToStoreFromUserInput(
     orderInput: OrderToStoreFromAdminInput,
   ): Promise<OrderToStore> {
-    const { customerId, lineItems, shippingAddress, salesChannelName } =
-      orderInput;
+    const {
+      customerId,
+      lineItems,
+      shippingAddress,
+      salesChannelName,
+      priceOfferIds: inputPriceOfferIds,
+    } = orderInput;
     const { email: customerEmail } =
       await this.mainPrisma.users.findFirstOrThrow({
         where: { id: customerId },
       });
 
-    const { orderLines, fulfillmentOrders, priceOfferIds } =
-      await this.mapOrderContent(orderInput);
+    const storeVariants = await this.getStoreVariants(lineItems);
+
+    const priceOfferIds = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        id: {
+          in: inputPriceOfferIds,
+        },
+        salesChannelName,
+        productId: {
+          in: storeVariants.map(
+            ({
+              variant: {
+                product: { id },
+              },
+            }) => id,
+          ),
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    //TODO: Update input to create multiple fulfillment orders
+    const singleFulfillmentOrderId = uuidv4();
 
     return {
       order: {
@@ -266,8 +294,51 @@ export class OrderMapper {
         shippingAddressFirstName: shippingAddress.firstName,
         shippingAddressLastName: shippingAddress.lastName,
       },
-      orderLines,
-      fulfillmentOrders,
+      orderLines: lineItems.map(
+        ({
+          variantId,
+          quantity,
+          unitPriceInCents,
+          unitBuyerCommissionInCents,
+          shippingSolution,
+        }) => {
+          const storeVariant = storeVariants.find(({ id }) => variantId === id);
+
+          if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
+            throw new Error(
+              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ id: storeVariant?.id, stock: storeVariant?.inventoryQuantity, quantity })}`,
+            );
+          }
+
+          const exposedProduct = storeVariant.variant.product.exposedProduct;
+
+          return {
+            name: storeVariant.title,
+            vendorId: storeVariant.variant.product.vendorId,
+            priceInCents: unitPriceInCents,
+            buyerCommission: (quantity * unitBuyerCommissionInCents) / 100,
+            discountInCents: 0,
+            shippingSolution,
+            priceCurrency: Currency.EUR,
+            productType: exposedProduct?.productType ?? '',
+            productHandle: exposedProduct?.handle ?? '',
+            productImage: exposedProduct?.firstImage ?? '',
+            variantCondition:
+              storeVariant.condition === Condition.REFURBISHED_AS_NEW
+                ? Condition.AS_NEW
+                : storeVariant.condition,
+            productModelYear: exposedProduct?.modelYear,
+            productGender: exposedProduct?.gender,
+            productBrand: exposedProduct?.brand,
+            quantity,
+            productVariantId: variantId,
+            fulfillmentOrder: {
+              id: singleFulfillmentOrderId,
+            },
+          };
+        },
+      ),
+      fulfillmentOrders: [{ id: singleFulfillmentOrderId }],
       priceOfferIds,
     };
   }
@@ -466,116 +537,36 @@ export class OrderMapper {
     };
   }
 
-  private async mapOrderContent({
-    salesChannelName,
-    priceOfferIds: inputPriceOfferIds,
-    lineItems,
-  }: OrderToStoreFromAdminInput): Promise<
-    Pick<OrderToStore, 'orderLines' | 'fulfillmentOrders' | 'priceOfferIds'>
-  > {
-    const storeVariants =
-      await this.storePrisma.storeExposedProductVariant.findMany({
-        where: {
-          id: {
-            in: lineItems.map(({ variantId }) => variantId),
-          },
-          variant: {
-            product: {
-              exposedProduct: {
-                status: ProductStatus.ACTIVE,
-              },
-            },
-          },
-        },
-        select: {
-          id: true,
-          title: true,
-          condition: true,
-          inventoryQuantity: true,
-          variant: {
-            include: {
-              product: {
-                include: {
-                  exposedProduct: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-    const priceOfferIds = await this.mainPrisma.priceOffer.findMany({
+  private async getStoreVariants(lineItems: { variantId: string }[]) {
+    return await this.storePrisma.storeExposedProductVariant.findMany({
       where: {
         id: {
-          in: inputPriceOfferIds,
+          in: lineItems.map(({ variantId }) => variantId),
         },
-        salesChannelName,
-        productId: {
-          in: storeVariants.map(
-            ({
-              variant: {
-                product: { id },
-              },
-            }) => id,
-          ),
+        variant: {
+          product: {
+            exposedProduct: {
+              status: ProductStatus.ACTIVE,
+            },
+          },
         },
       },
       select: {
         id: true,
+        title: true,
+        condition: true,
+        inventoryQuantity: true,
+        variant: {
+          include: {
+            product: {
+              include: {
+                exposedProduct: true,
+              },
+            },
+          },
+        },
       },
     });
-
-    //TODO: Update input to create multiple fulfillment orders
-    const singleFulfillmentOrderId = uuidv4();
-
-    return {
-      orderLines: lineItems.map(
-        ({
-          variantId,
-          quantity,
-          unitPriceInCents,
-          unitBuyerCommissionInCents,
-          shippingSolution,
-        }) => {
-          const storeVariant = storeVariants.find(({ id }) => variantId === id);
-
-          if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
-            throw new Error(
-              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ id: storeVariant?.id, stock: storeVariant?.inventoryQuantity, quantity })}`,
-            );
-          }
-
-          const exposedProduct = storeVariant.variant.product.exposedProduct;
-
-          return {
-            name: storeVariant.title,
-            vendorId: storeVariant.variant.product.vendorId,
-            priceInCents: unitPriceInCents,
-            buyerCommission: (quantity * unitBuyerCommissionInCents) / 100,
-            discountInCents: 0,
-            shippingSolution,
-            priceCurrency: Currency.EUR,
-            productType: exposedProduct?.productType ?? '',
-            productHandle: exposedProduct?.handle ?? '',
-            productImage: exposedProduct?.firstImage ?? '',
-            variantCondition:
-              storeVariant.condition === Condition.REFURBISHED_AS_NEW
-                ? Condition.AS_NEW
-                : storeVariant.condition,
-            productModelYear: exposedProduct?.modelYear,
-            productGender: exposedProduct?.gender,
-            productBrand: exposedProduct?.brand,
-            quantity,
-            productVariantId: variantId,
-            fulfillmentOrder: {
-              id: singleFulfillmentOrderId,
-            },
-          };
-        },
-      ),
-      fulfillmentOrders: [{ id: singleFulfillmentOrderId }],
-      priceOfferIds,
-    };
   }
 
   private getOrderPaymentName(orderData: IOrder): string {
