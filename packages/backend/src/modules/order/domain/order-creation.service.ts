@@ -3,6 +3,7 @@ import {
   EventName,
   OrderStatus,
   PrismaMainClient,
+  ProductStatus,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
@@ -38,6 +39,8 @@ export class OrderCreationService {
         `Storing order ${shopifyId} for customer ${customerId}`,
       );
 
+      await this.validateOrder(orderToStore);
+
       const createdOrderId = await this.storeOrderInDatabase(
         orderToStore,
         author,
@@ -62,6 +65,36 @@ export class OrderCreationService {
       );
 
       throw error;
+    }
+  }
+
+  private async validateOrder({ orderLines }: OrderToStore): Promise<void> {
+    const dbVariants = await this.prisma.productVariant.findMany({
+      where: {
+        id: {
+          in: orderLines.map(({ productVariantId }) => productVariantId),
+        },
+        product: {
+          status: ProductStatus.ACTIVE,
+        },
+      },
+      select: {
+        id: true,
+        quantity: true,
+      },
+    });
+
+    if (
+      orderLines.some(({ quantity, productVariantId }) => {
+        const dbVariant = dbVariants.find(({ id }) => id === productVariantId);
+
+        return !dbVariant || dbVariant.quantity < quantity;
+      })
+    ) {
+      this.logger.error(
+        `Some product variants are out of stock in order: ${jsonStringify({ orderLines, dbVariants })}`,
+      );
+      throw new Error('Some product variants are out of stock');
     }
   }
 

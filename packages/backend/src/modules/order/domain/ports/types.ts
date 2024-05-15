@@ -182,7 +182,7 @@ export type OrderLineToStore = {
   productBrand?: string | null;
   productSize?: string | null;
   quantity: number;
-  productVariantId?: string;
+  productVariantId: string;
   fulfillmentOrder?: FulfillmentOrderToStore;
 };
 

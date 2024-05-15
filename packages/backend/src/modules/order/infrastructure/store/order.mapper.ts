@@ -13,14 +13,9 @@ import {
   ShippingType,
   users,
 } from '@libs/domain/prisma.main.client';
-import {
-  Condition,
-  PrismaStoreClient,
-  ProductStatus,
-} from '@libs/domain/prisma.store.client';
+import { Condition, PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { toCents } from '@libs/helpers/currency';
-import { jsonStringify } from '@libs/helpers/json';
 import { readableCode } from '@libs/helpers/safe-id';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
@@ -119,6 +114,12 @@ export class OrderMapper {
             })
           : null;
 
+        if (!productVariant) {
+          throw new Error(
+            `Cannot map order because variant ${soldProduct.variant_id} not found in database.`,
+          );
+        }
+
         const orderLineDiscountInCents =
           soldProduct.discount_allocations.reduce(
             (
@@ -158,7 +159,7 @@ export class OrderMapper {
           discountInCents: Math.round(orderLineDiscountInCents),
           priceCurrency: Currency.EUR,
           productType: product_type,
-          variantCondition: productVariant?.condition,
+          variantCondition: productVariant.condition,
           productHandle: handle,
           productImage:
             get(
@@ -170,7 +171,7 @@ export class OrderMapper {
           productBrand: head(tagsObject['marque']),
           productSize: getDisplayedSize(sizeArray),
           quantity: soldProduct.quantity,
-          productVariantId: productVariant?.id,
+          productVariantId: productVariant.id,
           fulfillmentOrder: mappedFulfillmentOrders.find(({ lineItems }) =>
             lineItems.find(
               (lineItem) => lineItem.variant_id === soldProduct.variant_id,
@@ -304,9 +305,9 @@ export class OrderMapper {
         }) => {
           const storeVariant = storeVariants.find(({ id }) => variantId === id);
 
-          if (!storeVariant || storeVariant.inventoryQuantity < quantity) {
+          if (!storeVariant) {
             throw new Error(
-              `Order cannot be processed for variant ${variantId}: ${jsonStringify({ id: storeVariant?.id, stock: storeVariant?.inventoryQuantity, quantity })}`,
+              `Order cannot be processed for variant ${variantId}: product might be inactive or not found in store.`,
             );
           }
 
@@ -543,19 +544,11 @@ export class OrderMapper {
         id: {
           in: lineItems.map(({ variantId }) => variantId),
         },
-        variant: {
-          product: {
-            exposedProduct: {
-              status: ProductStatus.ACTIVE,
-            },
-          },
-        },
       },
       select: {
         id: true,
         title: true,
         condition: true,
-        inventoryQuantity: true,
         variant: {
           include: {
             product: {
