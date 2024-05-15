@@ -36,7 +36,7 @@ export interface RefundOptions {
 }
 
 export abstract class IStoreClient {
-  abstract getOrderPriceItems(orderId: string): Promise<{
+  abstract getOrderPriceItems(orderId: UUID): Promise<{
     lines: {
       type: BuyerPriceLines;
       amount: Amount;
@@ -60,5 +60,5 @@ export abstract class IStoreClient {
     variantIds: string[],
   ): Promise<string[]>;
 
-  abstract getAppliedDiscounts(orderId: string): Promise<DiscountApplication[]>;
+  abstract getAppliedDiscounts(orderId: UUID): Promise<DiscountApplication[]>;
 }

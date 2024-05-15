@@ -18,7 +18,7 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
-import { Amount as AmountObject } from '@libs/domain/value-objects';
+import { Amount as AmountObject, UUID } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
@@ -142,12 +142,11 @@ export class PayoutController {
       const validation = await this.orderValidationService.isOrderValid(
         order.id,
       );
-      const appliedDiscounts = await this.storeClient.getAppliedDiscounts(
-        order.id,
-      );
-      const orderPriceLines = await this.storeClient.getOrderPriceItems(
-        order.id,
-      );
+      const orderUuid = new UUID({ uuid: order.id });
+      const appliedDiscounts =
+        await this.storeClient.getAppliedDiscounts(orderUuid);
+      const orderPriceLines =
+        await this.storeClient.getOrderPriceItems(orderUuid);
 
       return {
         orderLine: {

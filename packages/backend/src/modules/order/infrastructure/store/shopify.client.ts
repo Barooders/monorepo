@@ -32,10 +32,10 @@ export class ShopifyClient implements IStoreClient {
     private storePrisma: PrismaStoreClient,
   ) {}
 
-  async getOrderPriceItems(orderId: string) {
+  async getOrderPriceItems(orderId: UUID) {
     const dbOrder = await this.mainPrisma.order.findUniqueOrThrow({
       where: {
-        id: orderId,
+        id: orderId.uuid,
       },
     });
 
@@ -145,11 +145,11 @@ export class ShopifyClient implements IStoreClient {
     return await this.mapFulfilledFulfillmentOrder(newFulfillment);
   }
 
-  async getAppliedDiscounts(orderId: string): Promise<DiscountApplication[]> {
+  async getAppliedDiscounts(orderId: UUID): Promise<DiscountApplication[]> {
     try {
       const dbOrder = await this.mainPrisma.order.findUniqueOrThrow({
         where: {
-          id: orderId,
+          id: orderId.uuid,
         },
       });
 
