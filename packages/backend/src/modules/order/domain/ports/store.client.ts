@@ -26,13 +26,13 @@ export type StoreFulfilledFulfillmentOrder = {
 
 export interface OrderLineForCommissionCompute {
   salesChannelName: SalesChannelName;
-  price: number;
-  discount: number;
+  priceInCents: number;
+  discountInCents: number;
   productType: string;
   vendorId?: string | null;
   quantity: number;
   shippingSolution: ShippingSolution;
-  forcedBuyerCommission?: number;
+  forcedBuyerCommissionInCents?: number;
 }
 
 export interface RefundOptions {

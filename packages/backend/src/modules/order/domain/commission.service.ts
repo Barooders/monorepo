@@ -131,8 +131,8 @@ export class CommissionService {
 
     const commission = await this.getCommission({
       productType,
-      price: priceInCents / 100,
-      discount: discountInCents / 100,
+      priceInCents,
+      discountInCents,
       quantity,
       vendorId,
       shippingSolution,
@@ -154,15 +154,17 @@ export class CommissionService {
   async getCommission({
     productType,
     vendorId,
-    price,
-    discount,
+    priceInCents,
+    discountInCents,
     quantity,
     shippingSolution,
-    forcedBuyerCommission,
+    forcedBuyerCommissionInCents,
     salesChannelName,
   }: OrderLineForCommissionCompute): Promise<Commission> {
+    const price = priceInCents / 100;
+    const discount = discountInCents / 100;
     if (salesChannelName === SalesChannelName.B2B) {
-      if (!forcedBuyerCommission)
+      if (!forcedBuyerCommissionInCents)
         throw new Error(`Buyer commission should be provided for B2B order`);
 
       return {
@@ -171,7 +173,7 @@ export class CommissionService {
         quantity,
         vendorCommission: 0,
         vendorShipping: 0,
-        buyerCommission: forcedBuyerCommission,
+        buyerCommission: forcedBuyerCommissionInCents / 100,
       };
     }
 

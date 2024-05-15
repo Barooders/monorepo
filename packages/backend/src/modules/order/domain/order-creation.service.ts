@@ -130,18 +130,18 @@ export class OrderCreationService {
     const orderLinesWithCommission = await Promise.all(
       orderLines.map(
         async ({
-          buyerCommissionInCents: forcedBuyerCommission,
+          buyerCommissionInCents: forcedBuyerCommissionInCents,
           ...orderLine
         }) => {
           const { vendorCommission, vendorShipping, buyerCommission } =
             await this.commissionService.getCommission({
               productType: orderLine.productType,
-              price: orderLine.priceInCents / 100,
-              discount: orderLine.discountInCents / 100,
+              priceInCents: orderLine.priceInCents,
+              discountInCents: orderLine.discountInCents,
               quantity: orderLine.quantity,
               vendorId: orderLine.vendorId,
               shippingSolution: orderLine.shippingSolution,
-              forcedBuyerCommission,
+              forcedBuyerCommissionInCents,
               salesChannelName: order.salesChannelName,
             });
 

@@ -190,9 +190,9 @@ export class PayoutController {
       });
       return await this.commissionService.getCommission({
         productType: productType ?? '',
-        price: Number(priceInCents ?? 0) / 100,
+        priceInCents: Number(priceInCents ?? 0),
         vendorId,
-        discount: 0,
+        discountInCents: 0,
         quantity: 1,
         shippingSolution: ShippingSolution.SENDCLOUD,
         salesChannelName: SalesChannelName.PUBLIC,
