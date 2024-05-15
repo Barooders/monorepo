@@ -112,20 +112,20 @@ export class OrderCreationService {
 
     const existingOrder = await this.prisma.order.findUnique({
       where: {
-        shopifyId: order.shopifyId,
+        name: order.name,
       },
     });
 
     if (existingOrder) {
       this.logger.warn(
-        `Order ${order.shopifyId} already exists in database. Skipping creation...`,
+        `Order ${order.name} already exists in database. Skipping creation...`,
       );
       return existingOrder.id;
     }
 
     if (!shippingAddressPhone) {
       throw new Error(
-        `Can't create an order without a phone number: ${order.shopifyId}`,
+        `Can't create an order without a phone number: ${order.name}`,
       );
     }
 
