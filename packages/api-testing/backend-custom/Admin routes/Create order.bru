@@ -1,0 +1,46 @@
+meta {
+  name: Create order
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{backendBaseUrl}}/v1/orders
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}
+
+body:json {
+  {
+    "salesChannelName": "B2B",
+    "customerId": "2e7302e7-8815-4a42-9e6f-2a5e04a5dd1e",
+    "shippingAddress": {
+      "address1": "48 boulevard de Clichy",
+      "address2": "3eme étage",
+      "company": "Barooders",
+      "phone": "0145745969",
+      "firstName": "JP",
+      "lastName": "D'os Sæntos",
+      "zip": "75017",
+      "city": "Paname",
+      "country": "France"
+    },
+    "lineItems": [
+      {
+        "variantId": "4a6915b5-9ad5-438e-89a1-2aa99489d6a5",
+        "quantity": 1,
+        "unitPriceInCents": 100000,
+        "unitBuyerCommissionInCents": 9091,
+        "shippingSolution": "VENDOR"
+      }
+    ],
+    "priceOfferIds": [
+      "52946049-4712-43fa-ab68-7eaf813c4849"
+    ]
+  }
+}
