@@ -246,6 +246,7 @@ export class OrderMapper {
         id: {
           in: inputPriceOfferIds,
         },
+        buyerId: customerId,
         salesChannelName,
         productId: {
           in: storeVariants.map(
