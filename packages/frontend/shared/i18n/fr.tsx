@@ -329,6 +329,7 @@ const fr = {
       title: 'Conseils et astuces',
       subtitle: 'Blog',
       readMore: 'Lire la suite',
+      buttonLabel: 'Accéder au blog',
     },
     buyback: {
       title: 'Rachat express de vélo',
@@ -337,7 +338,10 @@ const fr = {
         'Remplissez le formulaire de reprise pour faire estimer votre vélo.',
       buttonLabel: "J'en profite",
     },
-    ebikes: "Nos vélos électriques d'occasion",
+    ebikes: {
+      title: "Nos vélos électriques d'occasion",
+      buttonLabel: 'Voir plus',
+    },
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",
@@ -345,6 +349,7 @@ const fr = {
     hotdeals: {
       title: '⚡️ TOP PROMO',
       subtitle: "C’est le moment d'en profiter",
+      buttonLabel: 'Voir plus',
     },
     topCategories: 'Top catégories',
     mainSlideAltText: 'Vente flash',

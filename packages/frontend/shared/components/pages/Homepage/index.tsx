@@ -134,6 +134,10 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       <BlockContent
         title={dict.homepage.hotdeals.subtitle}
         subtitle={dict.homepage.hotdeals.title}
+        button={{
+          label: dict.homepage.hotdeals.buttonLabel,
+          link: '/collections/hot-deals',
+        }}
       >
         <CollectionPreview collectionHandle="hot-deals" />
       </BlockContent>
@@ -147,7 +151,13 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
         <WhyBarooders />
       </BlockContent>
       <BuyBackSection />
-      <BlockContent title={dict.homepage.ebikes}>
+      <BlockContent
+        title={dict.homepage.ebikes.title}
+        button={{
+          label: dict.homepage.ebikes.buttonLabel,
+          link: '/collections/velos-electriques',
+        }}
+      >
         <CollectionPreview collectionHandle="velos-electriques" />
       </BlockContent>
       <BlockContent>
@@ -156,6 +166,7 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
       <BlockContent
         title={dict.homepage.blog.title}
         subtitle={dict.homepage.blog.subtitle}
+        button={{ label: dict.homepage.blog.buttonLabel, link: '/blogs/infos' }}
       >
         <BlogPosts />
       </BlockContent>
