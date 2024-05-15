@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_collections_collection_previews",
+  "info": {
+    "displayName": "Collection Preview"
+  },
+  "options": {},
+  "attributes": {
+    "handle": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Subtitle": {
+      "type": "string"
+    }
+  }
+}
