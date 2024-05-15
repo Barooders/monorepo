@@ -22,6 +22,11 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     label: 'Livraison gratuite',
     type: 'dynamic',
   },
+  {
+    title: 'RENOBYKE20',
+    label: 'Renobyke',
+    type: 'dynamic',
+  },
   // Ends on 23/05
   {
     title: 'TUBIKE_FREE_SHIPPING',
