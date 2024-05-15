@@ -332,6 +332,7 @@ const fr = {
         'Remplissez le formulaire de reprise pour faire estimer votre vélo.',
       buttonLabel: "J'en profite",
     },
+    ebikes: "Nos vélos électriques d'occasion",
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",

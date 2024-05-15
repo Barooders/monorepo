@@ -9,7 +9,7 @@ const BuyBackSection: React.FC = () => {
     <div className="mt-10 w-full bg-[#F3F5F7] p-0 md:px-5 md:py-5">
       <div className="mx-auto flex w-full max-w-[1000px] gap-5">
         <div className="flex w-3/5 flex-col gap-4">
-          <span className="font-semibold">
+          <span className="flex items-center gap-2 font-semibold">
             <HiLightningBolt /> {dict.homepage.buyback.title}
           </span>
           <span className="text-2xl font-bold">
