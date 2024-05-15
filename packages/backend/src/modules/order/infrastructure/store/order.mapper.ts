@@ -279,7 +279,7 @@ export class OrderMapper {
             { quantity, unitPriceInCents, unitBuyerCommissionInCents },
           ) => {
             return (
-              total + quantity * (unitPriceInCents + unitBuyerCommissionInCents)
+              total + quantity * (unitPriceInCents + unitBuyerCommissionInCents) //TODO: Add discount & shipping
             );
           },
           0,
@@ -317,7 +317,7 @@ export class OrderMapper {
             name: storeVariant.title,
             vendorId: storeVariant.variant.product.vendorId,
             priceInCents: unitPriceInCents,
-            buyerCommission: (quantity * unitBuyerCommissionInCents) / 100,
+            buyerCommissionInCents: quantity * unitBuyerCommissionInCents,
             discountInCents: 0,
             shippingSolution,
             priceCurrency: Currency.EUR,

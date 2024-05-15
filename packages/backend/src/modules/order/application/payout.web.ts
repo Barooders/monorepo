@@ -188,12 +188,13 @@ export class PayoutController {
           product: true,
         },
       });
-      return await this.commissionService.getB2CCommission({
+      return await this.commissionService.getCommission({
         productType: productType ?? '',
         price: Number(priceInCents ?? 0) / 100,
         vendorId,
         discount: 0,
         quantity: 1,
+        shippingSolution: ShippingSolution.SENDCLOUD,
       });
     } catch (error: any) {
       if (error instanceof NotFoundException) {

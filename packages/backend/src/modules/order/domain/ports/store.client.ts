@@ -1,4 +1,4 @@
-import { Currency } from '@libs/domain/prisma.main.client';
+import { Currency, ShippingSolution } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import {
   Amount,
@@ -20,12 +20,14 @@ export type StoreFulfilledFulfillmentOrder = {
   }[];
 };
 
-export interface ProductVariant {
+export interface OrderLineForCommissionCompute {
   price: number;
   discount: number;
   productType: string;
-  vendorId: string;
+  vendorId?: string | null;
   quantity: number;
+  shippingSolution: ShippingSolution;
+  forcedBuyerCommission?: number;
 }
 
 export interface RefundOptions {

@@ -12,6 +12,7 @@ import { IPaymentService } from '@modules/buy__payment/domain/ports/payment-serv
 import { IPriceOfferService } from '@modules/price-offer/domain/ports/price-offer';
 import { Injectable, Logger } from '@nestjs/common';
 
+import { CommissionService } from './commission.service';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
 import { OrderToStore } from './ports/types';
@@ -26,6 +27,7 @@ export class OrderCreationService {
     private priceOfferService: IPriceOfferService,
     private paymentService: IPaymentService,
     private internalNotificationClient: IInternalNotificationClient,
+    private commissionService: CommissionService,
   ) {}
 
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
@@ -127,6 +129,38 @@ export class OrderCreationService {
       );
     }
 
+    const orderLinesWithCommission = await Promise.all(
+      orderLines.map(async (orderLine) => {
+        const {
+          productType,
+          priceInCents,
+          discountInCents,
+          quantity,
+          vendorId,
+          shippingSolution,
+          buyerCommissionInCents: forcedBuyerCommission,
+        } = orderLine;
+
+        const { vendorCommission, vendorShipping, buyerCommission } =
+          await this.commissionService.getCommission({
+            productType,
+            price: priceInCents / 100,
+            discount: discountInCents / 100,
+            quantity,
+            vendorId,
+            shippingSolution,
+            forcedBuyerCommission,
+          });
+
+        return {
+          ...orderLine,
+          vendorCommission,
+          vendorShipping,
+          buyerCommission,
+        };
+      }),
+    );
+
     const createdOrderId = await this.prisma.$transaction(
       async (wrappedPrisma) => {
         this.logger.warn(
@@ -145,10 +179,12 @@ export class OrderCreationService {
             },
             orderLines: {
               createMany: {
-                data: orderLines.map(({ fulfillmentOrder, ...orderLine }) => ({
-                  ...orderLine,
-                  fulfillmentOrderId: fulfillmentOrder?.id,
-                })),
+                data: orderLinesWithCommission.map(
+                  ({ fulfillmentOrder, ...orderLine }) => ({
+                    ...orderLine,
+                    fulfillmentOrderId: fulfillmentOrder?.id,
+                  }),
+                ),
               },
             },
           },

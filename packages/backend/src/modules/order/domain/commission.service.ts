@@ -13,7 +13,7 @@ import {
 } from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
-import { IStoreClient, ProductVariant } from './ports/store.client';
+import { OrderLineForCommissionCompute } from './ports/store.client';
 
 export interface Commission {
   variantPrice: number;
@@ -51,7 +51,6 @@ export class CommissionService {
   private readonly logger: Logger = new Logger(CommissionService.name);
 
   constructor(
-    private readonly storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private buyerCommissionService: BuyerCommissionService,
     private internalNotificationClient: IInternalNotificationClient,
@@ -124,27 +123,20 @@ export class CommissionService {
     shippingSolution,
     salesChannelName,
   }: SaveCommissionInput): Promise<Commission> {
-    if (!vendorId)
-      throw new Error(
-        `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
-      );
-
     if (salesChannelName !== SalesChannelName.PUBLIC) {
       throw new Error(
         `Cannot compute commission for order line ${orderLineId} because it is not a B2C order`,
       );
     }
 
-    const commission = await this.getB2CCommission(
-      {
-        productType,
-        price: priceInCents / 100,
-        discount: discountInCents / 100,
-        quantity,
-        vendorId,
-      },
-      { isFreeShipping: shippingSolution === ShippingSolution.HAND_DELIVERY },
-    );
+    const commission = await this.getCommission({
+      productType,
+      price: priceInCents / 100,
+      discount: discountInCents / 100,
+      quantity,
+      vendorId,
+      shippingSolution,
+    });
 
     await this.prisma.orderLines.update({
       where: { id: orderLineId },
@@ -158,10 +150,18 @@ export class CommissionService {
     return commission;
   }
 
-  async getB2CCommission(
-    { productType, vendorId, price, discount, quantity }: ProductVariant,
-    options: { isFreeShipping?: boolean } = {},
-  ): Promise<Commission> {
+  async getCommission({
+    productType,
+    vendorId,
+    price,
+    discount,
+    quantity,
+    shippingSolution,
+    forcedBuyerCommission,
+  }: OrderLineForCommissionCompute): Promise<Commission> {
+    if (!vendorId)
+      throw new Error(`Cannot compute commission because it has no vendor id`);
+
     const discountedPrice = price - discount;
     const { buyerCommissionRate, hasOwnShipping, sellerName } =
       await this.commissionRepository.getVendorCommissionConfigFromId(vendorId);
@@ -234,16 +234,17 @@ export class CommissionService {
       vendorCommission:
         -1 * quantity * getValue(CommissionRuleType.VENDOR_COMMISSION),
       vendorShipping:
-        !options.isFreeShipping && hasOwnShipping
+        shippingSolution !== ShippingSolution.HAND_DELIVERY && hasOwnShipping
           ? getValue(CommissionRuleType.VENDOR_SHIPPING) * quantity
           : 0,
       quantity,
       buyerCommission:
+        forcedBuyerCommission ??
         quantity *
-        this.buyerCommissionService.computeLineItemCommission(
-          price,
-          buyerCommissionRate,
-        ),
+          this.buyerCommissionService.computeLineItemCommission(
+            price,
+            buyerCommissionRate,
+          ),
     };
   }
 

@@ -169,7 +169,7 @@ export type OrderLineToStore = {
   name: string;
   vendorId?: string;
   priceInCents: number;
-  buyerCommission?: number;
+  buyerCommissionInCents?: number;
   discountInCents: number;
   shippingSolution: ShippingSolution;
   priceCurrency: Currency;
