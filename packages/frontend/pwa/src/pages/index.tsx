@@ -1,15 +1,16 @@
-import HomePage, { getData as getHomeData } from '@/components/pages/Homepage';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { fetchProductByHandle } from '@/clients/products';
+import { getMenuData } from '@/components/molecules/MegaMenu';
+import { getData as getProductCardData } from '@/components/molecules/ProductCard/b2c/container';
+import HomePage from '@/components/pages/Homepage';
+import { getHomepageConfig } from '@/components/pages/Homepage/getHomepageConfig';
+import ProductPage from '@/components/pages/ProductPage';
 import SearchPage, {
   getData as getSearchPageData,
 } from '@/components/pages/SearchPage';
-import ProductPage from '@/components/pages/ProductPage';
-import { fetchProductByHandle } from '@/clients/products';
-import { getData as getProductCardData } from '@/components/molecules/ProductCard/b2c/container';
-import { getMenuData } from '@/components/molecules/MegaMenu';
-import WithLoaderDataAsProps from '../components/WithLoaderAsProps';
-import Root from '../components/Root';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import FullPageIframe from '../components/FullPageIframe';
+import Root from '../components/Root';
+import WithLoaderDataAsProps from '../components/WithLoaderAsProps';
 
 const WrappedRoot = WithLoaderDataAsProps(Root);
 const WrappedHomepage = WithLoaderDataAsProps(HomePage);
@@ -26,7 +27,7 @@ const Router: React.FC = () => {
         {
           index: true,
           element: <WrappedHomepage />,
-          loader: getHomeData,
+          loader: getHomepageConfig,
         },
         {
           path: 'collections/:collectionHandle',
