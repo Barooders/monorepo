@@ -325,6 +325,21 @@ const fr = {
     },
   },
   homepage: {
+    ambassadors: {
+      explorer: 'Explorateur',
+      handballer: 'Handballeur',
+      sportswoman: 'Sportive',
+      cyclist: 'Cycliste',
+      rugbyman: 'Rugbyman',
+      commentator: 'Commentateur',
+      navigator: 'Navigateur',
+      title: 'Nos ambassadeurs engagées',
+      subtitle: 'Boutique ambassadeurs',
+      link: {
+        seeShop: 'Voir sa boutique',
+        comingSoon: 'Coming soon',
+      },
+    },
     blog: {
       title: 'Conseils et astuces',
       subtitle: 'Blog',
