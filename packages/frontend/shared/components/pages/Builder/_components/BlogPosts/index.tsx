@@ -52,16 +52,18 @@ const BlogPost: React.FC<BlogPostPropsType> = ({
   link,
 }) => {
   return (
-    <div className="grid max-w-[300px] gap-2 rounded border border-slate-200">
-      <div className="h-[160px] w-[300px]">
+    <div className="flex max-w-[200px] flex-col rounded border border-slate-200 md:max-w-[300px] md:gap-2">
+      <div className="h-[120px] w-[200px] md:h-[160px] md:w-[300px]">
         <img
           src={source}
           className="h-full w-full overflow-hidden object-cover"
         />
       </div>
       <div className="grid gap-2 p-4">
-        <span className="text-xl font-semibold">{title}</span>
-        <span className="text-sm text-slate-600">{description}</span>
+        <span className="text-sm font-semibold md:text-xl">{title}</span>
+        <span className="text-xs leading-normal text-slate-600 md:text-sm">
+          {description}
+        </span>
 
         <Button
           className="font-base mt-4 h-fit w-fit self-end"
