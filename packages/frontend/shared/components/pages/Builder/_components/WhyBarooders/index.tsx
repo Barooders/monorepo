@@ -14,15 +14,17 @@ const ReasonToChooseBarooders: React.FC<ReasonToChooseBaroodersPropsType> = ({
   description,
 }) => {
   return (
-    <div className="flex min-w-[320px] flex-col gap-2 rounded-xl bg-[#f3f5f7] p-6">
+    <div className="flex min-w-[200px] flex-col gap-2 rounded-xl bg-[#f3f5f7] p-6 md:min-w-[320px]">
       <img
         src={source}
-        className="min-h-[20px] w-full min-w-[20px] max-w-[60px] object-contain object-center"
+        className="min-h-[20px] w-full min-w-[20px] max-w-[40px] object-contain object-center md:max-w-[60px]"
       />
-      <span className="overflow-hidden whitespace-nowrap text-xl font-semibold">
+      <span className="overflow-hidden whitespace-nowrap text-lg font-semibold md:text-xl">
         {title}
       </span>
-      <span className="text-sm text-slate-600">{description}</span>
+      <span className="text-xs leading-normal text-slate-600 md:text-sm">
+        {description}
+      </span>
     </div>
   );
 };
