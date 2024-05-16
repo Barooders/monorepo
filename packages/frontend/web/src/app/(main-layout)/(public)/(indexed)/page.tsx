@@ -1,5 +1,6 @@
+import HomePage from '@/components/pages/Homepage';
+import { getHomepageConfig } from '@/components/pages/Homepage/getHomepageConfig';
 import config from '@/config/env';
-import HomePage, { getData } from '@/components/pages/Homepage';
 
 export const metadata = {
   alternates: {
@@ -10,7 +11,7 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 const HomepagePage = async () => {
-  const props = await getData();
+  const props = await getHomepageConfig();
   return <HomePage {...props} />;
 };
 

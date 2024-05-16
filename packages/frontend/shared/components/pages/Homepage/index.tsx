@@ -1,8 +1,6 @@
-import { fetchStrapiGraphQL } from '@/clients/strapi';
 import HomeJsonLd from '@/components/atoms/JsonLd/HomeJsonLd';
 import SnowFall from '@/components/molecules/Snowfall';
 import { getDictionary } from '@/i18n/translate';
-import { gql } from '@apollo/client'; // eslint-disable-line no-restricted-imports
 import React from 'react';
 import Ambassadors from '../Builder/_components/Ambassadors';
 import BlockContent from '../Builder/_components/BlockContent';
@@ -20,112 +18,6 @@ const dict = getDictionary('fr');
 
 export type PropsType = {
   header: React.ComponentProps<typeof MainHeader>;
-};
-
-const FETCH_HOMEPAGE_CONFIG = gql`
-  query {
-    webHome {
-      data {
-        attributes {
-          mainBanner {
-            link
-            image {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
-          }
-          bannerDesktop {
-            link
-            image {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
-          }
-          bannerMobile {
-            link
-            image {
-              data {
-                attributes {
-                  url
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-type HomePageConfig = {
-  webHome: {
-    data: {
-      attributes: {
-        mainBanner: {
-          link: string;
-          image: {
-            data: {
-              attributes: {
-                url: string;
-              };
-            };
-          };
-        };
-        bannerDesktop: {
-          link: string;
-          image: {
-            data: {
-              attributes: {
-                url: string;
-              };
-            };
-          };
-        }[];
-        bannerMobile: {
-          link: string;
-          image: {
-            data: {
-              attributes: {
-                url: string;
-              };
-            };
-          };
-        }[];
-      };
-    };
-  };
-};
-
-export const getData = async (): Promise<PropsType> => {
-  const content = await fetchStrapiGraphQL<HomePageConfig, unknown>(
-    FETCH_HOMEPAGE_CONFIG,
-    {},
-  );
-
-  const headerConfig = {
-    mainSlide: {
-      link: content.webHome.data.attributes.mainBanner.link,
-      image:
-        content.webHome.data.attributes.mainBanner.image.data.attributes.url,
-    },
-    desktopSlides: content.webHome.data.attributes.bannerDesktop.map(
-      (slide) => ({
-        link: slide.link,
-        image: slide.image.data.attributes.url,
-      }),
-    ),
-    mobileSlides: content.webHome.data.attributes.bannerMobile.map((slide) => ({
-      link: slide.link,
-      image: slide.image.data.attributes.url,
-    })),
-  };
-  return { header: headerConfig };
 };
 
 const HomePage: React.FC<PropsType> = ({ header }) => {
