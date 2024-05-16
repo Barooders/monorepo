@@ -23,7 +23,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     type: 'dynamic',
   },
   {
-    title: 'RENOBYKE20',
+    title: 'RENOBYKE30',
     label: 'Renobyke',
     type: 'dynamic',
   },
