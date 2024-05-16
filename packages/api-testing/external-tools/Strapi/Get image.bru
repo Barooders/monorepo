@@ -1,0 +1,28 @@
+meta {
+  name: Get image
+  type: graphql
+  seq: 13
+}
+
+post {
+  url: {{strapiBaseUrl}}/graphql
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query {
+    uploadFile(id: 1220) {
+      data {
+        id
+        attributes {
+          width
+          height
+          size
+          url
+          formats
+        }
+      }
+    }
+  }
+}

@@ -33,22 +33,22 @@ const reasons = [
   {
     ...dict.homepage.whyBarooders.warranty,
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fe401602f6e1049b6a75a3ae4f24739d1',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/thumbnail_homepage_b_red_21eaa7bbe6.jpeg',
   },
   {
     ...dict.homepage.whyBarooders.quality,
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F24a9864e136546768fafe0156f9c3068',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/thumbnail_homepage_b_quality_2598370eea.jpeg',
   },
   {
     ...dict.homepage.whyBarooders.experts,
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fa887a13666484711997756963c2a387d',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/thumbnail_homepage_b_experts_2dbfb9dbeb.jpeg',
   },
   {
     ...dict.homepage.whyBarooders.green,
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F08e91772aa7d4edd98b020efe4fcc5eb',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/thumbnail_homepage_b_green_a568baf812.jpeg',
   },
 ];
 
