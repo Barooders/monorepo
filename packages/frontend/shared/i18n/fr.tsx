@@ -342,6 +342,12 @@ const fr = {
       title: "Nos vélos électriques d'occasion",
       buttonLabel: 'Voir plus',
     },
+    guarantees: {
+      verifiedAds: 'Annonces 100% vérifiées',
+      satisfiedOrRefunded: 'Satisfait ou remboursé 4j',
+      customerService: 'Service client 7j/7',
+      splittedPayment: 'Paiement 4x sans frais',
+    },
     howDoesItWorks: {
       title: 'Comment ça marche ?',
       buy: {
