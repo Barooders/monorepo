@@ -15,7 +15,7 @@ const ProductLabel: React.FC<PropsType> = ({ label, stickSide }) => {
 
   return (
     <div
-      className={`min-w-16 rounded-md ${
+      className={`rounded-md ${
         stickSide === 'left'
           ? 'rounded-l-none'
           : stickSide === 'right'

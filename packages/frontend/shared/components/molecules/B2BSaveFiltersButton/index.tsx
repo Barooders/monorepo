@@ -49,7 +49,7 @@ const B2BSaveFiltersButton: React.FC<{ className?: string }> = ({
             <Button
               onClick={openModal}
               intent="primary"
-              className={`text-md w-full shadow-md ${className}`}
+              className={`text-md shadow-md ${className}`}
             >
               <div className="flex items-center gap-2">
                 <FiSave className="text-white" />

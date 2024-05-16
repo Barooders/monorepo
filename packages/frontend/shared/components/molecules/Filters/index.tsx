@@ -235,7 +235,7 @@ export const DesktopFilters = () => (
 );
 
 export const B2BDesktopFilters = () => (
-  <div className="flex flex-col gap-3">
+  <div className="flex flex-col items-start gap-3">
     <p className="hidden text-xl font-bold lg:flex">
       {dict.search.filtersTitle}
     </p>
