@@ -69,7 +69,7 @@ const projectConfig = {
     ? {
         database_extra: {
           ssl: {
-            rejectUnauthorized: true,
+            rejectUnauthorized: false,
           },
         },
       }
