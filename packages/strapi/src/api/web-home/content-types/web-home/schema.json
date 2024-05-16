@@ -12,11 +12,20 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Header": {
-      "type": "dynamiczone",
-      "components": [
-        "media.image-section"
-      ]
+    "mainBanner": {
+      "type": "component",
+      "repeatable": false,
+      "component": "media.image-section"
+    },
+    "bannerDesktop": {
+      "type": "component",
+      "repeatable": true,
+      "component": "media.image-section"
+    },
+    "bannerMobile": {
+      "type": "component",
+      "repeatable": true,
+      "component": "media.image-section"
     }
   }
 }
