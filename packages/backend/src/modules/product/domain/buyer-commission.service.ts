@@ -32,61 +32,6 @@ export class BuyerCommissionService {
     private storeClient: IStoreClient,
   ) {}
 
-  async getBuyerCommissionRate(sellerName: string): Promise<number> {
-    const { buyerCommissionRate } = await this.prisma.customer.findFirstOrThrow(
-      {
-        where: {
-          sellerName,
-        },
-        select: {
-          buyerCommissionRate: true,
-        },
-      },
-    );
-
-    return buyerCommissionRate;
-  }
-
-  computeLineItemCommissionParams(lineItemCost: number): CommissionParams {
-    const commissionFeeList: CommissionParams[] = [
-      {
-        threshold: 200,
-        flat: 1,
-        variable: 0.09,
-      },
-      {
-        threshold: 500,
-        flat: 1,
-        variable: 0.08,
-      },
-      {
-        threshold: 1000,
-        flat: 11,
-        variable: 0.06,
-      },
-      {
-        threshold: 2000,
-        flat: 41,
-        variable: 0.03,
-      },
-      {
-        threshold: 3000,
-        flat: 61,
-        variable: 0.02,
-      },
-      {
-        flat: 91,
-        variable: 0.01,
-        threshold: Infinity,
-      },
-    ];
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return commissionFeeList.find(
-      (commissionFee) => lineItemCost < commissionFee.threshold,
-    )!;
-  }
-
   computeLineItemCommission(
     lineItemCost: number,
     buyerCommissionRate: number,
@@ -228,5 +173,62 @@ export class BuyerCommissionService {
     );
 
     return lineItemCommissionCost;
+  }
+
+  private computeLineItemCommissionParams(
+    lineItemCost: number,
+  ): CommissionParams {
+    const commissionFeeList: CommissionParams[] = [
+      {
+        threshold: 200,
+        flat: 1,
+        variable: 0.09,
+      },
+      {
+        threshold: 500,
+        flat: 1,
+        variable: 0.08,
+      },
+      {
+        threshold: 1000,
+        flat: 11,
+        variable: 0.06,
+      },
+      {
+        threshold: 2000,
+        flat: 41,
+        variable: 0.03,
+      },
+      {
+        threshold: 3000,
+        flat: 61,
+        variable: 0.02,
+      },
+      {
+        flat: 91,
+        variable: 0.01,
+        threshold: Infinity,
+      },
+    ];
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return commissionFeeList.find(
+      (commissionFee) => lineItemCost < commissionFee.threshold,
+    )!;
+  }
+
+  private async getBuyerCommissionRate(sellerName: string): Promise<number> {
+    const { buyerCommissionRate } = await this.prisma.customer.findFirstOrThrow(
+      {
+        where: {
+          sellerName,
+        },
+        select: {
+          buyerCommissionRate: true,
+        },
+      },
+    );
+
+    return buyerCommissionRate;
   }
 }

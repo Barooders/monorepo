@@ -39,14 +39,14 @@ export interface paths {
   "/v1/orders/webhook/update": {
     post: operations["OrderWebhookSendCloudController_notifyOnParcelUpdate"];
   };
-  "/v1/orders/hand-delivery": {
-    get: operations["HandDeliveryOrderController_getPaidHandDeliveryOrders"];
-  };
   "/v1/orders/hand-delivery/status": {
     post: operations["HandDeliveryOrderController_setDeliveredOrderMatchingProductId"];
   };
   "/v1/orders/{orderId}": {
     get: operations["OrderController_getOrder"];
+  };
+  "/v1/orders": {
+    post: operations["OrderController_createOrderAsAdmin"];
   };
   "/v1/orders/{orderId}/shipping-label": {
     post: operations["OrderController_getOrCreateShippingLabel"];
@@ -203,13 +203,13 @@ export interface components {
       description: string;
       budgetMinInCents?: number;
       budgetMaxInCents?: number;
-      /** Format: date-time */
       neededAtDate: string;
     };
     CreateCustomerRequestsDto: {
       requests: components["schemas"]["CustomerRequestDto"][];
     };
     ValidateHandDeliveryOrderDto: Record<string, never>;
+    CreateOrderInputDTO: Record<string, never>;
     OrderLineFulfillmentDTO: Record<string, never>;
     OrderStatusUpdateDTO: {
       /** @example 2023-01-14 16:54:08 */
@@ -452,7 +452,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-03T06:41:18.473Z
+       * @example 2024-05-14T13:11:04.243Z
        */
       birthDate: string;
       /**
@@ -583,10 +583,8 @@ export interface operations {
       };
     };
     responses: {
-      default: {
-        content: {
-          "application/json": components["schemas"]["VendorDataUrlDto"];
-        };
+      201: {
+        content: never;
       };
     };
   };
@@ -625,13 +623,6 @@ export interface operations {
       };
     };
   };
-  HandDeliveryOrderController_getPaidHandDeliveryOrders: {
-    responses: {
-      200: {
-        content: never;
-      };
-    };
-  };
   HandDeliveryOrderController_setDeliveredOrderMatchingProductId: {
     requestBody: {
       content: {
@@ -652,6 +643,18 @@ export interface operations {
     };
     responses: {
       200: {
+        content: never;
+      };
+    };
+  };
+  OrderController_createOrderAsAdmin: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateOrderInputDTO"];
+      };
+    };
+    responses: {
+      201: {
         content: never;
       };
     };

@@ -1,7 +1,11 @@
 import {
   CommissionRuleType,
+  Condition,
+  Currency,
   Order,
   OrderStatus,
+  PriceOffer,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { CurrencyCode } from '@libs/types/common/money.types';
@@ -70,23 +74,6 @@ export type OrderCancelledData = {
   vendor: { email: string; fullName: string; firstName: string } | null;
   productName: string;
   order: Order;
-};
-
-export type OrderHandDeliveredData = {
-  customer: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  vendor: {
-    id: string | undefined;
-    email: string | null | undefined;
-    firstName: string;
-    fullName: string;
-  };
-  orderName: string;
-  productName: string;
 };
 
 export type FeedBackRequest = {
@@ -159,3 +146,83 @@ export interface DiscountApplication {
     target_selection: string;
   };
 }
+
+export type OrderLineToStore = {
+  shopifyId?: string;
+  name: string;
+  vendorId?: string;
+  priceInCents: number;
+  buyerCommissionInCents?: number;
+  discountInCents: number;
+  shippingSolution: ShippingSolution;
+  priceCurrency: Currency;
+  productType: string;
+  productHandle: string;
+  productImage: string | null;
+  variantCondition?: Condition | null;
+  productModelYear?: string | null;
+  productGender?: string | null;
+  productBrand?: string | null;
+  productSize?: string | null;
+  quantity: number;
+  productVariantId: string;
+  fulfillmentOrder?: FulfillmentOrderToStore;
+};
+
+export type FulfillmentOrderToStore = {
+  id: string;
+  shopifyId?: number;
+};
+
+export type OrderToStore = {
+  order: {
+    salesChannelName: SalesChannelName;
+    shopifyId?: string;
+    name: string;
+    status: OrderStatus;
+    customerEmail: string;
+    customerId: string | null;
+    totalPriceInCents: number;
+    totalPriceCurrency: Currency;
+    shippingAddressAddress1: string;
+    shippingAddressAddress2: string | null;
+    shippingAddressCompany: string | null;
+    shippingAddressCity: string;
+    shippingAddressPhone: string | null;
+    shippingAddressCountry: string;
+    shippingAddressFirstName: string;
+    shippingAddressLastName: string;
+    shippingAddressZip: string;
+  };
+  orderLines: OrderLineToStore[];
+  fulfillmentOrders: FulfillmentOrderToStore[];
+  payment?: {
+    methodName: string;
+    checkoutToken: string | null;
+  };
+  priceOfferIds: Pick<PriceOffer, 'id'>[];
+};
+
+export type OrderToStoreFromAdminInput = {
+  salesChannelName: SalesChannelName;
+  customerId: string;
+  shippingAddress: {
+    address1: string;
+    address2?: string;
+    company?: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    zip: string;
+    city: string;
+    country: string;
+  };
+  lineItems: {
+    variantId: string;
+    quantity: number;
+    unitPriceInCents: number;
+    unitBuyerCommissionInCents: number;
+    shippingSolution: ShippingSolution;
+  }[];
+  priceOfferIds: string[];
+};

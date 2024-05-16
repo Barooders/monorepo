@@ -15,10 +15,11 @@ import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { NotFoundException } from '@libs/domain/exceptions';
 import {
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
-import { Amount as AmountObject } from '@libs/domain/value-objects';
+import { Amount as AmountObject, UUID } from '@libs/domain/value-objects';
 import { NoCompletePaymentAccountException } from '@modules/customer/domain/payment-account-provider.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
@@ -152,12 +153,11 @@ export class PayoutController {
       const validation = await this.orderValidationService.isOrderValid(
         order.id,
       );
-      const appliedDiscounts = await this.storeClient.getAppliedDiscounts(
-        order.shopifyId,
-      );
-      const orderPriceLines = await this.storeClient.getOrderPriceItems(
-        order.shopifyId,
-      );
+      const orderUuid = new UUID({ uuid: order.id });
+      const appliedDiscounts =
+        await this.storeClient.getAppliedDiscounts(orderUuid);
+      const orderPriceLines =
+        await this.storeClient.getOrderPriceItems(orderUuid);
 
       return {
         orderLine: {
@@ -198,11 +198,14 @@ export class PayoutController {
           product: true,
         },
       });
-      return await this.commissionService.getVendorCommission({
+      return await this.commissionService.getCommission({
         productType: productType ?? '',
-        price: Number(priceInCents ?? 0) / 100,
+        priceInCents: Number(priceInCents ?? 0),
         vendorId,
-        discount: 0,
+        discountInCents: 0,
+        quantity: 1,
+        shippingSolution: ShippingSolution.SENDCLOUD,
+        salesChannelName: SalesChannelName.PUBLIC,
       });
     } catch (error: any) {
       if (error instanceof NotFoundException) {

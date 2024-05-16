@@ -13,7 +13,6 @@ import {
 import { Amount, UUID } from '@libs/domain/value-objects';
 import { isOlderThan } from '@libs/helpers/dates';
 import safeId from '@libs/helpers/safe-id';
-import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { first, last } from 'lodash';
 import {
@@ -31,6 +30,7 @@ import {
   CustomerInfoType,
   EligibilityResponse,
 } from './types';
+import { OrderToStore } from '@modules/order/domain/ports/types';
 
 @Injectable()
 export class PaymentService implements IPaymentService {
@@ -211,21 +211,25 @@ export class PaymentService implements IPaymentService {
     return paymentLink;
   }
 
-  async updatePaymentStatusFromOrder(
-    order: OrderToStore,
-    checkoutStoreToken: string,
-    checkoutPaymentLabel: string,
-  ): Promise<string | null> {
+  async updatePaymentStatusFromOrder({
+    order,
+    payment,
+  }: OrderToStore): Promise<string | null> {
+    if (!payment) {
+      this.logger.warn(`No payment found for order ${order.name}`);
+      return null;
+    }
+
     const dbCheckout =
       (await this.prisma.checkout.findFirst({
         where: {
-          storeId: checkoutStoreToken,
+          storeId: payment.checkoutToken,
         },
       })) ??
       (await this.prisma.checkout.create({
         data: {
           status: CheckoutStatus.COMPLETED,
-          storeId: checkoutStoreToken,
+          storeId: payment.checkoutToken,
         },
       }));
 
@@ -251,12 +255,12 @@ export class PaymentService implements IPaymentService {
     }
 
     const paymentCode = this.getPaymentConfig({
-      checkoutLabel: checkoutPaymentLabel,
+      checkoutLabel: payment.methodName,
     })?.code;
 
     if (!paymentCode)
       throw new Error(
-        `Unknown payment ${checkoutPaymentLabel} for order ${order.name}`,
+        `Unknown payment ${payment.methodName} for order ${order.name}`,
       );
 
     await this.prisma.payment.create({

@@ -8,6 +8,7 @@ import {
   OrderStatus,
   PrismaMainClient,
   Product,
+  SalesChannelName,
   ShippingSolution,
   ShippingType,
   users,
@@ -15,6 +16,7 @@ import {
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { toCents } from '@libs/helpers/currency';
+import { readableCode } from '@libs/helpers/safe-id';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
   findMetafield,
@@ -24,14 +26,16 @@ import {
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
 import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
-import { OrderToStore } from '@modules/order/domain/order-creation.service';
 import {
   OrderCreatedData,
   OrderPaidData,
+  OrderToStore,
+  OrderToStoreFromAdminInput,
 } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
-import { get, head, isMatch, last } from 'lodash';
+import { get, head, isMatch, last, reduce } from 'lodash';
 import { IOrder } from 'shopify-api-node';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class OrderMapper {
@@ -68,6 +72,14 @@ export class OrderMapper {
       throw new Error(`No fulfillment order found yet for order ${id}`);
     }
 
+    const mappedFulfillmentOrders = fulfillmentOrders.map(
+      ({ id, line_items }) => ({
+        shopifyId: id,
+        lineItems: line_items,
+        id: uuidv4(),
+      }),
+    );
+
     const orderLines = await Promise.all(
       shippableOrderLines.map(async (soldProduct) => {
         if (!soldProduct?.product_id) {
@@ -101,6 +113,12 @@ export class OrderMapper {
               where: { shopifyId: soldProduct.variant_id },
             })
           : null;
+
+        if (!productVariant) {
+          throw new Error(
+            `Cannot map order because variant ${soldProduct.variant_id} not found in database.`,
+          );
+        }
 
         const orderLineDiscountInCents =
           soldProduct.discount_allocations.reduce(
@@ -141,7 +159,7 @@ export class OrderMapper {
           discountInCents: Math.round(orderLineDiscountInCents),
           priceCurrency: Currency.EUR,
           productType: product_type,
-          variantCondition: productVariant?.condition,
+          variantCondition: productVariant.condition,
           productHandle: handle,
           productImage:
             get(
@@ -153,40 +171,187 @@ export class OrderMapper {
           productBrand: head(tagsObject['marque']),
           productSize: getDisplayedSize(sizeArray),
           quantity: soldProduct.quantity,
-          productVariantId: productVariant?.id,
-          fulfillmentOrderShopifyId: fulfillmentOrders.find(
-            (fulfillmentOrder) =>
-              fulfillmentOrder.line_items.find(
-                (lineItem) => lineItem.variant_id === soldProduct.variant_id,
-              ),
-          )?.id,
+          productVariantId: productVariant.id,
+          fulfillmentOrder: mappedFulfillmentOrders.find(({ lineItems }) =>
+            lineItems.find(
+              (lineItem) => lineItem.variant_id === soldProduct.variant_id,
+            ),
+          ),
         };
       }),
     );
 
+    const relatedPriceOffers = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        discountCode: {
+          in: orderData.discount_applications.map((discount) => discount.code),
+        },
+      },
+      select: { id: true },
+    });
+
     return {
-      shopifyId: String(id),
-      name: orderData.name,
-      status: OrderStatus.CREATED,
-      customerEmail: orderData.customer?.email,
-      customerId,
-      totalPriceInCents: toCents(orderData.total_price),
-      totalPriceCurrency: Currency.EUR,
-      shippingAddressAddress1: orderData.shipping_address.address1,
-      shippingAddressAddress2: orderData.shipping_address.address2 ?? null,
-      shippingAddressCompany: orderData.shipping_address.company ?? null,
-      shippingAddressCity: orderData.shipping_address.city,
-      shippingAddressCountry: orderData.shipping_address.country,
-      shippingAddressFirstName: orderData.shipping_address.first_name,
-      shippingAddressLastName: orderData.shipping_address.last_name,
-      shippingAddressPhone: orderData.shipping_address.phone,
-      shippingAddressZip: orderData.shipping_address.zip,
+      order: {
+        shopifyId: String(id),
+        name: orderData.name,
+        status: OrderStatus.CREATED,
+        customerEmail: orderData.customer?.email,
+        customerId,
+        totalPriceInCents: toCents(orderData.total_price),
+        totalPriceCurrency: Currency.EUR,
+        shippingAddressAddress1: orderData.shipping_address.address1,
+        shippingAddressAddress2: orderData.shipping_address.address2 ?? null,
+        shippingAddressCompany: orderData.shipping_address.company ?? null,
+        shippingAddressCity: orderData.shipping_address.city,
+        shippingAddressCountry: orderData.shipping_address.country,
+        shippingAddressFirstName: orderData.shipping_address.first_name,
+        shippingAddressLastName: orderData.shipping_address.last_name,
+        shippingAddressPhone: orderData.shipping_address.phone,
+        shippingAddressZip: orderData.shipping_address.zip,
+        salesChannelName: SalesChannelName.PUBLIC,
+      },
       orderLines,
-      fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrderShopifyId }) =>
-        fulfillmentOrderShopifyId
-          ? [{ shopifyId: fulfillmentOrderShopifyId }]
+      fulfillmentOrders: orderLines.flatMap(({ fulfillmentOrder }) =>
+        fulfillmentOrder
+          ? [{ id: fulfillmentOrder.id, shopifyId: fulfillmentOrder.shopifyId }]
           : [],
       ),
+      payment: {
+        methodName: this.getOrderPaymentName(orderData),
+        checkoutToken: orderData.checkout_token,
+      },
+      priceOfferIds: relatedPriceOffers.map(({ id }) => ({ id })),
+    };
+  }
+
+  async mapOrderToStoreFromUserInput(
+    orderInput: OrderToStoreFromAdminInput,
+  ): Promise<OrderToStore> {
+    const {
+      customerId,
+      lineItems,
+      shippingAddress,
+      salesChannelName,
+      priceOfferIds: inputPriceOfferIds,
+    } = orderInput;
+    const { email: customerEmail } =
+      await this.mainPrisma.users.findFirstOrThrow({
+        where: { id: customerId },
+      });
+
+    const storeVariants = await this.getStoreVariants(lineItems);
+    const dbVariants = await this.mainPrisma.productVariant.findMany({
+      where: {
+        id: {
+          in: lineItems.map(({ variantId }) => variantId),
+        },
+      },
+    });
+
+    const priceOfferIds = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        id: {
+          in: inputPriceOfferIds,
+        },
+        buyerId: customerId,
+        salesChannelName,
+        productId: {
+          in: storeVariants.map(
+            ({
+              variant: {
+                product: { id },
+              },
+            }) => id,
+          ),
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    //TODO: Update input to create multiple fulfillment orders
+    const singleFulfillmentOrderId = uuidv4();
+
+    return {
+      order: {
+        salesChannelName,
+        name: `#${readableCode()}`,
+        status: OrderStatus.CREATED,
+        customerEmail: customerEmail ?? '',
+        customerId,
+        totalPriceInCents: reduce(
+          lineItems,
+          (
+            total,
+            { quantity, unitPriceInCents, unitBuyerCommissionInCents },
+          ) => {
+            return (
+              total + quantity * (unitPriceInCents + unitBuyerCommissionInCents) //TODO: Add discount & shipping
+            );
+          },
+          0,
+        ),
+        totalPriceCurrency: Currency.EUR,
+        shippingAddressAddress1: shippingAddress.address1,
+        shippingAddressAddress2: shippingAddress.address2 ?? null,
+        shippingAddressCompany: shippingAddress.company ?? null,
+        shippingAddressCity: shippingAddress.city,
+        shippingAddressCountry: shippingAddress.country,
+        shippingAddressPhone: shippingAddress.phone,
+        shippingAddressZip: shippingAddress.zip,
+        shippingAddressFirstName: shippingAddress.firstName,
+        shippingAddressLastName: shippingAddress.lastName,
+      },
+      orderLines: lineItems.map(
+        ({
+          variantId,
+          quantity,
+          unitPriceInCents,
+          unitBuyerCommissionInCents,
+          shippingSolution,
+        }) => {
+          const storeVariant = storeVariants.find(({ id }) => variantId === id);
+          const dbVariant = dbVariants.find(({ id }) => variantId === id);
+
+          if (!dbVariant) {
+            throw new Error(
+              `Order cannot be processed for variant ${variantId}: variant not found in DB`,
+            );
+          }
+          if (!storeVariant) {
+            throw new Error(
+              `Order cannot be processed for variant ${variantId}: variant not found in store`,
+            );
+          }
+
+          const exposedProduct = storeVariant.variant.product.exposedProduct;
+
+          return {
+            name: storeVariant.title,
+            vendorId: storeVariant.variant.product.vendorId,
+            priceInCents: unitPriceInCents,
+            buyerCommissionInCents: unitBuyerCommissionInCents,
+            discountInCents: 0,
+            shippingSolution,
+            priceCurrency: Currency.EUR,
+            productType: exposedProduct?.productType ?? '',
+            productHandle: exposedProduct?.handle ?? '',
+            productImage: exposedProduct?.firstImage ?? '',
+            variantCondition: dbVariant.condition,
+            productModelYear: exposedProduct?.modelYear,
+            productGender: exposedProduct?.gender,
+            productBrand: exposedProduct?.brand,
+            quantity,
+            productVariantId: variantId,
+            fulfillmentOrder: {
+              id: singleFulfillmentOrderId,
+            },
+          };
+        },
+      ),
+      fulfillmentOrders: [{ id: singleFulfillmentOrderId }],
+      priceOfferIds,
     };
   }
 
@@ -362,19 +527,11 @@ export class OrderMapper {
         },
       });
 
-    const paymentMethodName = last(orderData.payment_gateway_names);
-
-    if (!paymentMethodName) {
-      throw new Error(
-        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
-      );
-    }
-
     return {
       order: {
         name: orderData.name,
         adminUrl: this.getOrderAdminUrl(orderData.id),
-        paymentMethod: paymentMethodName,
+        paymentMethod: this.getOrderPaymentName(orderData),
         totalPrice: orderData.total_price,
       },
       product: {
@@ -390,6 +547,42 @@ export class OrderMapper {
           .join(' '),
       },
     };
+  }
+
+  private async getStoreVariants(lineItems: { variantId: string }[]) {
+    return await this.storePrisma.storeExposedProductVariant.findMany({
+      where: {
+        id: {
+          in: lineItems.map(({ variantId }) => variantId),
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        condition: true,
+        variant: {
+          include: {
+            product: {
+              include: {
+                exposedProduct: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  private getOrderPaymentName(orderData: IOrder): string {
+    const paymentMethodName = last(orderData.payment_gateway_names);
+
+    if (!paymentMethodName) {
+      throw new Error(
+        `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
+      );
+    }
+
+    return paymentMethodName;
   }
 
   private async getChatConversationLink(

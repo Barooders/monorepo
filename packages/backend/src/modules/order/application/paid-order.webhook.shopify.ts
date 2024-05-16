@@ -56,7 +56,7 @@ export class PaidOrderWebhookShopifyController {
       this.logger.debug(`Order ${orderData.id} notified on paid event`);
     } catch (error: any) {
       this.logger.error(
-        `Error updated order ${orderData.id} on paid event: ${error.message}`,
+        `Error updating order ${orderData.id} on paid event: ${error.message}`,
         error,
       );
     }

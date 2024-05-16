@@ -2,6 +2,8 @@ import { MINIMAL_COMMISSION_RATE } from '@config/app.config';
 import {
   CommissionRuleType,
   PrismaMainClient,
+  SalesChannelName,
+  ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
 import { BuyerCommissionService } from '@modules/product/domain/buyer-commission.service';
@@ -11,11 +13,12 @@ import {
 } from '@modules/product/domain/ports/commission.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
-import { IStoreClient, ProductVariant } from './ports/store.client';
+import { OrderLineForCommissionCompute } from './ports/store.client';
 
 export interface Commission {
   variantPrice: number;
   variantDiscount: number;
+  quantity: number;
   vendorCommission: number;
   vendorShipping: number;
   buyerCommission: number;
@@ -38,7 +41,9 @@ export interface SaveCommissionInput {
   vendorId: string | null;
   priceInCents: number;
   discountInCents: number;
-  orderStoreId: string;
+  quantity: number;
+  shippingSolution: ShippingSolution;
+  salesChannelName: SalesChannelName;
 }
 
 @Injectable()
@@ -46,7 +51,6 @@ export class CommissionService {
   private readonly logger: Logger = new Logger(CommissionService.name);
 
   constructor(
-    private readonly storeClient: IStoreClient,
     private prisma: PrismaMainClient,
     private buyerCommissionService: BuyerCommissionService,
     private internalNotificationClient: IInternalNotificationClient,
@@ -59,16 +63,22 @@ export class CommissionService {
       vendorId,
       priceInCents,
       discountInCents,
-      order,
+      quantity,
       vendorCommission,
       vendorShipping,
       buyerCommission,
+      shippingSolution,
+      order: { salesChannelName },
     } = await this.prisma.orderLines.findUniqueOrThrow({
       where: {
         id: orderLineId,
       },
       include: {
-        order: true,
+        order: {
+          select: {
+            salesChannelName: true,
+          },
+        },
       },
     });
 
@@ -80,6 +90,7 @@ export class CommissionService {
       return {
         variantPrice: priceInCents / 100,
         variantDiscount: discountInCents / 100,
+        quantity,
         vendorCommission,
         vendorShipping,
         buyerCommission,
@@ -90,41 +101,43 @@ export class CommissionService {
       `Commission not found for order line ${orderLineId}, computing it now`,
     );
 
-    return await this.computeAndSaveCommission({
+    return await this.computeAndSaveB2CCommission({
       orderLineId,
       productType,
       vendorId,
       priceInCents,
       discountInCents,
-      orderStoreId: order.shopifyId,
+      quantity,
+      shippingSolution,
+      salesChannelName,
     });
   }
 
-  async computeAndSaveCommission({
+  private async computeAndSaveB2CCommission({
     vendorId,
     orderLineId,
     priceInCents,
+    quantity,
     discountInCents,
     productType,
-    orderStoreId,
+    shippingSolution,
+    salesChannelName,
   }: SaveCommissionInput): Promise<Commission> {
-    if (!vendorId)
+    if (salesChannelName !== SalesChannelName.PUBLIC) {
       throw new Error(
-        `Cannot compute commission for order line ${orderLineId} because it has no vendor id`,
+        `Cannot compute commission for order line ${orderLineId} because it is not a B2C order`,
       );
+    }
 
-    const isFreeShipping =
-      await this.storeClient.isHandDeliveryOrder(orderStoreId);
-
-    const commission = await this.getVendorCommission(
-      {
-        productType,
-        price: priceInCents / 100,
-        discount: discountInCents / 100,
-        vendorId,
-      },
-      { isFreeShipping },
-    );
+    const commission = await this.getCommission({
+      productType,
+      priceInCents,
+      discountInCents,
+      quantity,
+      vendorId,
+      shippingSolution,
+      salesChannelName: SalesChannelName.PUBLIC,
+    });
 
     await this.prisma.orderLines.update({
       where: { id: orderLineId },
@@ -138,10 +151,41 @@ export class CommissionService {
     return commission;
   }
 
-  async getVendorCommission(
-    { productType, vendorId, price, discount }: ProductVariant,
-    options: { isFreeShipping?: boolean } = {},
-  ): Promise<Commission> {
+  async getCommission({
+    productType,
+    vendorId,
+    priceInCents,
+    discountInCents,
+    quantity,
+    shippingSolution,
+    forcedBuyerCommissionInCents,
+    salesChannelName,
+  }: OrderLineForCommissionCompute): Promise<Commission> {
+    const price = priceInCents / 100;
+    const discount = discountInCents / 100;
+    if (salesChannelName === SalesChannelName.B2B) {
+      if (!forcedBuyerCommissionInCents)
+        throw new Error(`Buyer commission should be provided for B2B order`);
+
+      return {
+        variantPrice: price,
+        variantDiscount: discount,
+        quantity,
+        vendorCommission: 0,
+        vendorShipping: 0,
+        buyerCommission: forcedBuyerCommissionInCents / 100,
+      };
+    }
+
+    if (salesChannelName !== SalesChannelName.PUBLIC) {
+      throw new Error(
+        `Cannot compute commission for order line because sales channel is not supported: ${salesChannelName}`,
+      );
+    }
+
+    if (!vendorId)
+      throw new Error(`Cannot compute commission because it has no vendor id`);
+
     const discountedPrice = price - discount;
     const { buyerCommissionRate, hasOwnShipping, sellerName } =
       await this.commissionRepository.getVendorCommissionConfigFromId(vendorId);
@@ -213,9 +257,10 @@ export class CommissionService {
       variantDiscount: discount,
       vendorCommission: -1 * getValue(CommissionRuleType.VENDOR_COMMISSION),
       vendorShipping:
-        !options.isFreeShipping && hasOwnShipping
+        shippingSolution !== ShippingSolution.HAND_DELIVERY && hasOwnShipping
           ? getValue(CommissionRuleType.VENDOR_SHIPPING)
           : 0,
+      quantity,
       buyerCommission: this.buyerCommissionService.computeLineItemCommission(
         price,
         buyerCommissionRate,

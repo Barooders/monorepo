@@ -1,6 +1,11 @@
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
-import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
+import {
+  OrderStatus,
+  PrismaMainClient,
+  SalesChannelName,
+  ShippingSolution,
+} from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
@@ -12,7 +17,6 @@ import {
   Header,
   HttpCode,
   HttpStatus,
-  Logger,
   NotFoundException,
   Param,
   Post,
@@ -23,10 +27,23 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsDateString,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
 import { Response } from 'express';
 import { PassThrough } from 'stream';
 import { FulfillmentService } from '../domain/fulfillment.service';
+import { OrderCreationService } from '../domain/order-creation.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderService } from '../domain/order.service';
 import {
@@ -34,8 +51,12 @@ import {
   UserNotConcernedByOrderException,
   UserNotOrderLineVendorException,
 } from '../domain/ports/exceptions';
-import { AccountPageOrder } from '../domain/ports/types';
+import {
+  AccountPageOrder,
+  OrderToStoreFromAdminInput,
+} from '../domain/ports/types';
 import { RefundService } from '../domain/refund.service';
+import { OrderMapper } from '../infrastructure/store/order.mapper';
 
 class OrderLineFulfillmentDTO {
   @IsNotEmpty()
@@ -57,15 +78,117 @@ class OrderStatusUpdateDTO {
   status!: OrderStatus;
 }
 
+class ShippingAddressDTO {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  address1!: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  address2?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  company?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  phone!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  firstName!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  lastName!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  zip!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  city!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: true })
+  country!: string;
+}
+
+class OrderLineItemDTO {
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({ required: true })
+  variantId!: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({ required: true })
+  quantity!: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ required: true })
+  unitPriceInCents!: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  @ApiProperty({ required: true })
+  unitBuyerCommissionInCents!: number;
+
+  @IsEnum(ShippingSolution)
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  shippingSolution!: ShippingSolution;
+}
+
+class CreateOrderInputDTO implements OrderToStoreFromAdminInput {
+  @IsEnum(SalesChannelName)
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  salesChannelName!: SalesChannelName;
+
+  @IsNotEmpty()
+  @IsUUID()
+  @ApiProperty({ required: true })
+  customerId!: string;
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => ShippingAddressDTO)
+  shippingAddress!: ShippingAddressDTO;
+
+  @ApiProperty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => OrderLineItemDTO)
+  lineItems!: OrderLineItemDTO[];
+
+  @ApiProperty({ required: true, isArray: true, type: String })
+  @IsArray()
+  @Type(() => String)
+  priceOfferIds!: string[];
+}
+
 @Controller(routesV1.version)
 export class OrderController {
-  private readonly logger = new Logger(OrderController.name);
-
   constructor(
     private orderService: OrderService,
+    private orderMapper: OrderMapper,
     private fulfillmentService: FulfillmentService,
     private refundService: RefundService,
     private prisma: PrismaMainClient,
+    private orderCreationService: OrderCreationService,
     private orderUpdateService: OrderUpdateService,
   ) {}
 
@@ -91,6 +214,22 @@ export class OrderController {
       }
       throw new BadRequestException(error);
     }
+  }
+
+  @Post(routesV1.order.root)
+  @UseGuards(AuthGuard('header-api-key'))
+  async createOrderAsAdmin(
+    @Body()
+    body: CreateOrderInputDTO,
+    @Query()
+    { authorId }: { authorId?: string },
+  ): Promise<void> {
+    const orderToStore =
+      await this.orderMapper.mapOrderToStoreFromUserInput(body);
+    await this.orderCreationService.storeOrder(orderToStore, {
+      type: 'admin',
+      id: authorId,
+    });
   }
 
   @HttpCode(HttpStatus.OK)

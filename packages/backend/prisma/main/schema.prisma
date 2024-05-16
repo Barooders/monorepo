@@ -6,9 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  schemas    = ["auth", "public"]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth", "public"]
 }
 
 model Event {
@@ -40,10 +40,12 @@ model Config {
 
 model Order {
   id                       String             @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId                String             @unique
+  shopifyId                String?            @unique
+  salesChannelName         SalesChannelName
+  salesChannel             SalesChannel       @relation(fields: [salesChannelName], references: [name])
   customerId               String?            @db.Uuid
   createdAt                DateTime           @default(now())
-  name                     String
+  name                     String             @unique
   customerEmail            String
   status                   OrderStatus
   shippingAddressAddress1  String
@@ -65,6 +67,7 @@ model Order {
   reviews                  Review[]
   vendorReviews            VendorReview[]
   checkout                 Checkout?          @relation(fields: [checkoutId], references: [id])
+  priceOffers              PriceOffer[]
 
   @@index([createdAt])
   @@schema("public")
@@ -72,7 +75,7 @@ model Order {
 
 model OrderLines {
   id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId          String            @unique
+  shopifyId          String?           @unique
   vendorId           String?           @db.Uuid
   orderId            String
   createdAt          DateTime          @default(now())
@@ -134,7 +137,7 @@ model CheckoutLineItem {
 
 model FulfillmentOrder {
   id              String                 @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId       BigInt                 @unique
+  shopifyId       BigInt?                @unique
   status          FulfillmentOrderStatus @default(OPEN)
   orderId         String
   externalOrderId String?
@@ -149,7 +152,7 @@ model FulfillmentOrder {
 model Fulfillment {
   id                 String            @id @default(dbgenerated("(gen_random_uuid())::text"))
   createdAt          DateTime          @default(now())
-  shopifyId          BigInt            @unique
+  shopifyId          BigInt?           @unique
   fulfillmentOrderId String
   status             FulfillmentStatus
   trackingId         String?
@@ -347,6 +350,8 @@ model PriceOffer {
   quantity                          Int              @default(1)
   salesChannelName                  SalesChannelName
   salesChannel                      SalesChannel     @relation(fields: [salesChannelName], references: [name])
+  orderId                           String?
+  order                             Order?           @relation(fields: [orderId], references: [id])
   createdAt                         DateTime         @default(now())
   initiatedBy                       String           @db.Uuid
   buyerId                           String           @db.Uuid
@@ -411,7 +416,7 @@ model ProductVariant {
   shopifyId             BigInt       @unique
   quantity              Int
   productId             String
-  priceInCents          BigInt?
+  priceInCents          BigInt
   compareAtPriceInCents BigInt?
   condition             Condition?
   product               Product      @relation(fields: [productId], references: [id])
@@ -591,6 +596,7 @@ model SalesChannel {
   name                 SalesChannelName      @id
   productSalesChannels ProductSalesChannel[]
   priceOffers          PriceOffer[]
+  orders               Order[]
 
   @@schema("public")
 }
@@ -703,16 +709,16 @@ model NumericFilter {
 //  =============================
 
 model CustomerRequest {
-  id                String      @id @default(dbgenerated("(gen_random_uuid())::text"))
-  quantity          Int
-  description       String
-  budgetMinInCents  Int?        @map("budget_min_in_cents")
-  budgetMaxInCents  Int?        @map("budget_max_in_cents")
-  neededAtDate      DateTime    @map("needed_at_date")
-  customerId        String      @db.Uuid @map("customer_id")
-  customer          Customer    @relation(name: "customer", fields: [customerId], references: [authUserId])
-  createdAt         DateTime    @default(now()) @map("created_at")
-  updatedAt         DateTime?   @updatedAt @map("updated_at")
+  id               String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  quantity         Int
+  description      String
+  budgetMinInCents Int?      @map("budget_min_in_cents")
+  budgetMaxInCents Int?      @map("budget_max_in_cents")
+  neededAtDate     DateTime  @map("needed_at_date")
+  customerId       String    @map("customer_id") @db.Uuid
+  customer         Customer  @relation(name: "customer", fields: [customerId], references: [authUserId])
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime? @updatedAt @map("updated_at")
 
   @@schema("public")
 }

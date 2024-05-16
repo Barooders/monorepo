@@ -3,7 +3,8 @@ import { Author } from '@libs/domain/types';
 
 export abstract class IPriceOfferService {
   abstract updatePriceOfferStatusFromOrder(
-    usedDiscountCodes: string[],
+    priceOffers: Pick<PriceOffer, 'id'>[],
+    orderId: string,
     author: Author,
   ): Promise<void>;
 }

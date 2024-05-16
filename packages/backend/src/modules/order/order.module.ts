@@ -7,7 +7,6 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { PaymentModule } from '@modules/buy__payment/module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { CustomerModule } from '@modules/customer/customer.module';
-import { HandDeliveryOrderController } from '@modules/order/application/hand-delivery-order.web';
 import { PayoutController } from '@modules/order/application/payout.web';
 import { CommissionService } from '@modules/order/domain/commission.service';
 import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
@@ -105,7 +104,6 @@ const commonImports = [
     PaidOrderWebhookShopifyController,
     CreatedOrderWebhookShopifyController,
     OrderWebhookSendCloudController,
-    HandDeliveryOrderController,
     OrderController,
     PayoutController,
   ],

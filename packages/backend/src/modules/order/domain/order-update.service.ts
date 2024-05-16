@@ -148,9 +148,9 @@ export class OrderUpdateService {
     { createdAt: _, ...orderToUpdate }: Partial<Order>,
     author: Author,
   ): Promise<UpdatedOrder | void> {
-    const { shopifyId, name, id } = storedOrder;
+    const { name, id } = storedOrder;
 
-    this.logger.debug(`Updating order ${shopifyId}`);
+    this.logger.debug(`Updating order ${id}`);
 
     const concreteUpdates: Omit<Partial<OrderToUpdate>, 'createdAt'> = pickBy(
       orderToUpdate,
@@ -162,7 +162,7 @@ export class OrderUpdateService {
     if (Object.keys(concreteUpdates).length === 0) return;
 
     const updatedOrder = await this.prisma.order.update({
-      where: { shopifyId },
+      where: { id },
       data: concreteUpdates,
       include: { orderLines: true },
     });

@@ -1,5 +1,9 @@
-import { Currency } from '@libs/domain/prisma.main.client';
-import { EntityId } from '@libs/domain/product.interface';
+import {
+  Currency,
+  SalesChannelName,
+  ShippingSolution,
+} from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import {
   Amount,
   BuyerPriceLines,
@@ -20,11 +24,15 @@ export type StoreFulfilledFulfillmentOrder = {
   }[];
 };
 
-export interface ProductVariant {
-  price: number;
-  discount: number;
+export interface OrderLineForCommissionCompute {
+  salesChannelName: SalesChannelName;
+  priceInCents: number;
+  discountInCents: number;
   productType: string;
-  vendorId: string;
+  vendorId?: string | null;
+  quantity: number;
+  shippingSolution: ShippingSolution;
+  forcedBuyerCommissionInCents?: number;
 }
 
 export interface RefundOptions {
@@ -33,9 +41,7 @@ export interface RefundOptions {
 }
 
 export abstract class IStoreClient {
-  abstract isHandDeliveryOrder(orderShopifyId: string): Promise<boolean>;
-
-  abstract getOrderPriceItems(orderShopifyId: string): Promise<{
+  abstract getOrderPriceItems(orderId: UUID): Promise<{
     lines: {
       type: BuyerPriceLines;
       amount: Amount;
@@ -53,16 +59,11 @@ export abstract class IStoreClient {
     orderLineShopifyId: string,
   ): Promise<number | undefined>;
 
-  abstract refundOrder(
-    orderId: EntityId,
-    options: RefundOptions,
-  ): Promise<void>;
+  abstract refundOrder(orderId: UUID, options: RefundOptions): Promise<void>;
 
   abstract filterBikesVariantIdsFromVariantIdList(
     variantIds: string[],
   ): Promise<string[]>;
 
-  abstract getAppliedDiscounts(
-    orderStoreId: string,
-  ): Promise<DiscountApplication[]>;
+  abstract getAppliedDiscounts(orderId: UUID): Promise<DiscountApplication[]>;
 }

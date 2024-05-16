@@ -1,3 +1,4 @@
+import envConfig from '@config/env/env.config';
 import {
   AggregateName,
   EventName,
@@ -13,7 +14,6 @@ import * as Sentry from '@sentry/node';
 import { CommissionService } from './commission.service';
 import { ExternalOrderService } from './external-order.service';
 import { OrderNotificationService } from './order-notification.service';
-import envConfig from '@config/env/env.config';
 
 enum StockUpdate {
   INCREMENT = 1,
@@ -41,7 +41,7 @@ export class OrderStatusHandlerService {
   ): Promise<void> {
     this.logger.debug(`Order ${orderId} has a new status: ${newStatus}`);
 
-    const { orderLines, customerEmail, name, shopifyId, customer } =
+    const { orderLines, customerEmail, name, customer } =
       await this.prisma.order.findUniqueOrThrow({
         where: {
           id: orderId,
@@ -83,7 +83,6 @@ export class OrderStatusHandlerService {
           StockUpdate.DECREMENT,
           author,
         );
-        await this.saveCommission(shopifyId, orderLines);
         break;
       case OrderStatus.PAID:
         await this.prisma.order.update({
@@ -203,30 +202,6 @@ export class OrderStatusHandlerService {
         );
         break;
     }
-  }
-
-  private async saveCommission(orderStoreId: string, orderLines: OrderLines[]) {
-    await Promise.allSettled(
-      orderLines
-        .map(
-          ({ id, priceInCents, discountInCents, productType, vendorId }) => ({
-            orderLineId: id,
-            priceInCents,
-            discountInCents,
-            productType,
-            vendorId,
-            orderStoreId,
-          }),
-        )
-        .map(async (orderLine) => {
-          try {
-            await this.commissionService.computeAndSaveCommission(orderLine);
-          } catch (error: any) {
-            this.logger.error(error.message, error);
-            Sentry.captureException(error);
-          }
-        }),
-    );
   }
 
   private async updateStockQuantities(

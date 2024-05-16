@@ -5,6 +5,7 @@ import {
   NotificationType,
   OrderStatus,
   PrismaMainClient,
+  SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { jsonStringify } from '@libs/helpers/json';
@@ -17,7 +18,6 @@ import {
   FeedBackRequest,
   OrderCancelledData,
   OrderCreatedData,
-  OrderHandDeliveredData,
   OrderPaidData,
 } from './ports/types';
 
@@ -151,6 +151,7 @@ export class OrderNotificationService {
           status: {
             in: [OrderStatus.PAID, OrderStatus.LABELED],
           },
+          salesChannelName: SalesChannelName.PUBLIC,
           paidAt: {
             lte: xDaysAgo,
           },
@@ -236,11 +237,6 @@ export class OrderNotificationService {
     );
   }
 
-  async sendHandDeliveryEmails(orderData: OrderHandDeliveredData) {
-    await this.sendHandDeliveryEmailToCustomer(orderData);
-    await this.sendHandDeliveryEmailToVendor(orderData);
-  }
-
   async sendRefundedOrderEmails({
     customer,
     order,
@@ -303,88 +299,6 @@ export class OrderNotificationService {
           },
         );
       },
-    );
-  }
-
-  private async sendHandDeliveryEmailToCustomer({
-    customer,
-    orderName,
-    productName,
-  }: OrderHandDeliveredData) {
-    const customerEmail = customer.email;
-
-    if (!customerEmail) {
-      this.logger.warn(
-        `Customer ${customer.id} has no email, skipping hand delivery email`,
-      );
-      return;
-    }
-
-    const customerMetadata = {
-      email: customerEmail,
-      orderName,
-    };
-
-    await this.sendNotificationIfNotAlreadySent(
-      NotificationType.EMAIL,
-      NotificationName.HAND_DELIVERY_VALIDATED,
-      CustomerType.buyer,
-      customerMetadata,
-      {
-        metadata: customerMetadata,
-      },
-      async () => {
-        await this.emailClient.sendValidatedHandDeliveryCustomerEmail(
-          customerEmail,
-          customer.fullName,
-          {
-            firstName: customer.firstName,
-            productName: productName,
-          },
-        );
-      },
-      customer.id,
-    );
-  }
-
-  private async sendHandDeliveryEmailToVendor({
-    vendor,
-    orderName,
-    productName,
-  }: OrderHandDeliveredData) {
-    const vendorEmail = vendor.email;
-
-    if (!vendorEmail) {
-      this.logger.warn(
-        `Vendor ${vendor.id} has no email, skipping hand delivery email`,
-      );
-      return;
-    }
-
-    const vendorMetadata = {
-      email: vendorEmail,
-      orderName,
-    };
-
-    await this.sendNotificationIfNotAlreadySent(
-      NotificationType.EMAIL,
-      NotificationName.HAND_DELIVERY_VALIDATED,
-      CustomerType.seller,
-      vendorMetadata,
-      {
-        metadata: vendorMetadata,
-      },
-      async () => {
-        await this.emailClient.sendValidatedHandDeliveryVendorEmail(
-          vendorEmail,
-          vendor.fullName,
-          {
-            firstName: vendor.firstName,
-            productName: productName,
-          },
-        );
-      },
-      vendor.id,
     );
   }
 
