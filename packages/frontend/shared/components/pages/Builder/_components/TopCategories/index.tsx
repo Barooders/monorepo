@@ -29,43 +29,43 @@ const TopCategory: React.FC<TopCategoryPropsType> = ({
 const categories = [
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F86f8fd365ff7485d96ead455e4189365',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_vtt_0dfe4680f7.png',
     link: '/collections/vtt',
     title: 'VTT',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F5600fbec4b2b4cd58fa29616c9b6598a',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_emtb_cfbe46de4f.png',
     link: '/collections/vtt-electriques',
     title: 'VTT électriques',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fcd5ca92c50af42e48bc2ca91df8d2ffc',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/homepage_ecitybike_2ec3522015.png',
     link: '/collections/velos-de-ville-electriques',
     title: 'Vélos de ville électriques',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fde77485e38f44cb5a467ef3bcaaa2fb1',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/homepage_etrekking_2ad5bbfa6f.png',
     link: '/collections/velos-de-trekking-tout-chemin',
     title: 'Vélos de trekking',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F903031cb603d4636a3d08afc3ff1a971',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/homepage_gravel_779bdfa493.png',
     link: '/collections/gravel',
     title: 'Gravel',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fde77485e38f44cb5a467ef3bcaaa2fb1',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/homepage_hollandais_1d5805b2c3.png',
     link: '/collections/velos-urbains-et-hollandais',
     title: 'Vélos hollandais',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F8d080d94f2394268b4bf1f79a7ffbea6',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/homepage_road_65f959a456.png',
     link: '/collections/velos-de-route',
     title: 'Vélos de route',
   },

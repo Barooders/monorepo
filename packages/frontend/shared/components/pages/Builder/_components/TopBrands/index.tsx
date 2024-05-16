@@ -21,37 +21,37 @@ const TopBrand: React.FC<TopCategoryPropsType> = ({ source, link }) => {
 const brands = [
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F18b768ca3ec44395bcae39399e1db252',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_canyon_0f9a549bc5.png',
     link: '/collections/canyon',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_specialized_a34b2d7dc0.webp',
     link: '/collections/specialized',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_scott_a37eaa0858.webp',
     link: '/collections/scott',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_garmin_45d60baebd.webp',
     link: '/collections/garmin',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_cube_27866ffe52.webp',
     link: '/collections/cube',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_giant_3553487242.webp',
     link: '/collections/giant',
   },
   {
     source:
-      'https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2Fd81a7ee10d8343fb9222df6deb564bba',
+      'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/small_homepage_cannondale_0dc4f80e7d.webp',
     link: '/collections/cannondale',
   },
 ];

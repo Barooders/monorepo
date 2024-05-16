@@ -29,7 +29,7 @@ const BuyBackSection: React.FC = () => {
         </div>
         <img
           className="object-cover md:w-2/5"
-          src="https://cdn.builder.io/api/v1/image/assets%2F82c509e50a7e4db197e222880382bb58%2F7620b4bf9d134ece9acc3064217b96d0?width=598"
+          src="https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/medium_homepage_velo_500x_5eec2c5da7.png"
         />
       </div>
     </div>
