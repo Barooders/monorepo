@@ -1,8 +1,10 @@
-// import { fetchStrapiGraphQL } from '@/clients/strapi';
+import { fetchStrapiGraphQL } from '@/clients/strapi';
 import HomeJsonLd from '@/components/atoms/JsonLd/HomeJsonLd';
 import SnowFall from '@/components/molecules/Snowfall';
 import { getDictionary } from '@/i18n/translate';
-// import { gql } from '@apollo/client'; // eslint-disable-line no-restricted-imports
+import { gql } from '@apollo/client'; // eslint-disable-line no-restricted-imports
+import React from 'react';
+import Ambassadors from '../Builder/_components/Ambassadors';
 import BlockContent from '../Builder/_components/BlockContent';
 import BlogPosts from '../Builder/_components/BlogPosts';
 import BuyBackSection from '../Builder/_components/BuyBackSection';
@@ -13,112 +15,117 @@ import TopBrands from '../Builder/_components/TopBrands';
 import TopCategories from '../Builder/_components/TopCategories';
 import Trustpilot from '../Builder/_components/Trustpilot';
 import WhyBarooders from '../Builder/_components/WhyBarooders';
-import Ambassadors from '../Builder/_components/Ambassadors';
 
 const dict = getDictionary('fr');
 
 export type PropsType = {
-  header: {
-    images: {
-      image: string;
-      link: string;
-    }[];
+  header: React.ComponentProps<typeof MainHeader>;
+};
+
+const FETCH_HOMEPAGE_CONFIG = gql`
+  query {
+    webHome {
+      data {
+        attributes {
+          mainBanner {
+            link
+            image {
+              data {
+                attributes {
+                  url
+                }
+              }
+            }
+          }
+          bannerDesktop {
+            link
+            image {
+              data {
+                attributes {
+                  url
+                }
+              }
+            }
+          }
+          bannerMobile {
+            link
+            image {
+              data {
+                attributes {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+type HomePageConfig = {
+  webHome: {
+    data: {
+      attributes: {
+        mainBanner: {
+          link: string;
+          image: {
+            data: {
+              attributes: {
+                url: string;
+              };
+            };
+          };
+        };
+        bannerDesktop: {
+          link: string;
+          image: {
+            data: {
+              attributes: {
+                url: string;
+              };
+            };
+          };
+        }[];
+        bannerMobile: {
+          link: string;
+          image: {
+            data: {
+              attributes: {
+                url: string;
+              };
+            };
+          };
+        }[];
+      };
+    };
   };
 };
 
-// const FETCH_HOMEPAGE_CONFIG = gql`
-//   query {
-//     webHome {
-//       data {
-//         attributes {
-//           Header {
-//             ... on ComponentMediaImageSection {
-//               link
-//               image {
-//                 data {
-//                   attributes {
-//                     url
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
 export const getData = async (): Promise<PropsType> => {
-  // const content = await fetchStrapiGraphQL<
-  //   {
-  //     webHome: {
-  //       data: {
-  //         attributes: {
-  //           Header: {
-  //             link: string;
-  //             image: {
-  //               data: {
-  //                 attributes: {
-  //                   url: string;
-  //                 };
-  //               };
-  //             };
-  //           }[];
-  //         };
-  //       };
-  //     };
-  //   },
-  //   unknown
-  // >(FETCH_HOMEPAGE_CONFIG, {});
+  const content = await fetchStrapiGraphQL<HomePageConfig, unknown>(
+    FETCH_HOMEPAGE_CONFIG,
+    {},
+  );
 
-  const content = {
-    webHome: {
-      data: {
-        attributes: {
-          Header: [
-            {
-              link: 'https://barooders.com/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=Look%20Cycles&q=Look%20Cycles&utm_source=Klaviyo&utm_medium=campaign&_kx=zf7WWtuGkVcvB-FSZobNKg.UGAz5B',
-              image: {
-                data: {
-                  attributes: {
-                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/home_fd42548cb2.png',
-                  },
-                },
-              },
-            },
-            {
-              link: 'https://barooders.com/collections/vendors?refinementList%5Bvendor%5D%5B0%5D=TSWheels&q=TSWheels',
-              image: {
-                data: {
-                  attributes: {
-                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/first_756216fd72.png',
-                  },
-                },
-              },
-            },
-            {
-              link: 'https://barooders.com/collections/specialized',
-              image: {
-                data: {
-                  attributes: {
-                    url: 'https://barooders-s3-bucket.s3.eu-west-3.amazonaws.com/public/second_cafcd2e412.jpeg',
-                  },
-                },
-              },
-            },
-          ],
-        },
-      },
+  const headerConfig = {
+    mainSlide: {
+      link: content.webHome.data.attributes.mainBanner.link,
+      image:
+        content.webHome.data.attributes.mainBanner.image.data.attributes.url,
     },
+    desktopSlides: content.webHome.data.attributes.bannerDesktop.map(
+      (slide) => ({
+        link: slide.link,
+        image: slide.image.data.attributes.url,
+      }),
+    ),
+    mobileSlides: content.webHome.data.attributes.bannerMobile.map((slide) => ({
+      link: slide.link,
+      image: slide.image.data.attributes.url,
+    })),
   };
-
-  const images = content.webHome.data.attributes.Header.map((item) => ({
-    image: item.image.data.attributes.url,
-    link: item.link,
-  }));
-
-  return { header: { images } };
+  return { header: headerConfig };
 };
 
 const HomePage: React.FC<PropsType> = ({ header }) => {
@@ -128,9 +135,9 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
         <SnowFall />
       </div>
       <MainHeader
-        mainSlide={header.images[0]}
-        desktopSlides={header.images.slice(1)}
-        mobileSlides={header.images.slice(1)}
+        mainSlide={header.mainSlide}
+        desktopSlides={header.desktopSlides}
+        mobileSlides={header.mobileSlides}
       />
       <BlockContent
         title={dict.homepage.hotdeals.subtitle}
