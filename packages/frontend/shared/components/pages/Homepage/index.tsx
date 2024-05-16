@@ -13,6 +13,7 @@ import TopBrands from '../Builder/_components/TopBrands';
 import TopCategories from '../Builder/_components/TopCategories';
 import Trustpilot from '../Builder/_components/Trustpilot';
 import WhyBarooders from '../Builder/_components/WhyBarooders';
+import Ambassadors from '../Builder/_components/Ambassadors';
 
 const dict = getDictionary('fr');
 
@@ -159,6 +160,12 @@ const HomePage: React.FC<PropsType> = ({ header }) => {
         }}
       >
         <CollectionPreview collectionHandle="velos-electriques" />
+      </BlockContent>
+      <BlockContent
+        title={dict.homepage.ambassadors.title}
+        subtitle={dict.homepage.ambassadors.subtitle}
+      >
+        <Ambassadors />
       </BlockContent>
       <div className="flex justify-center">
         <div className="mt-10 h-[1px] w-[150px] bg-black" />
