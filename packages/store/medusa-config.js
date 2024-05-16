@@ -74,7 +74,12 @@ const projectConfig = {
         },
       }
     : {}),
-  ...(redisUrl ? { redis_url: redisUrl } : {}),
+  ...(redisUrl
+    ? {
+        redis_url: redisUrl,
+        redis_options: { tls: { rejectUnauthorized: false } },
+      }
+    : {}),
 };
 
 /** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
