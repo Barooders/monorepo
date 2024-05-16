@@ -23,7 +23,7 @@ const MainHeader: React.FC<PropsType> = ({
 }) => {
   return (
     <div className="grid w-full gap-5 bg-[#F3F5F7] p-0 pb-5 md:px-5 md:py-5">
-      <div className="mx-auto grid max-w-page-content grid-cols-1 gap-3 md:grid-cols-5">
+      <div className="mx-auto grid w-full max-w-page-content grid-cols-1 gap-3 md:grid-cols-5">
         <Link
           href={mainSlide.link}
           className="col-span-1 w-full overflow-hidden px-1 md:col-span-3 md:rounded-lg md:px-0"
@@ -63,7 +63,7 @@ const MainHeader: React.FC<PropsType> = ({
           ))}
         </div>
       </div>
-      <div className="px-5 md:px-0">
+      <div className="scrollbar-hidden mx-auto overflow-auto px-5 md:px-0">
         <Guarantees />
       </div>
     </div>
