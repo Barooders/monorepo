@@ -2,21 +2,22 @@ import { BullModuleOptions } from '@nestjs/bull';
 import { get } from 'env-var';
 
 export const getRedisConfig = async (): Promise<BullModuleOptions> => {
-  const connectionString = get('REDIS_URL').required().asString();
-  const parsedConnectionString = connectionString.match(
-    /rediss{0,1}:\/\/.*:(.*)@(.*):(.*)/,
+  const connexionString = get('REDIS_URL').required().asString();
+  const parsedConnexionString = connexionString.match(
+    /rediss{0,1}:\/\/(.*):(.*)@(.*):(.*)/,
   );
 
-  if (!parsedConnectionString) {
+  if (!parsedConnexionString) {
     throw new Error('Invalid REDIS_URL');
   }
 
   return {
     redis: {
-      host: parsedConnectionString[2],
-      port: parseInt(parsedConnectionString[3]),
-      password: parsedConnectionString[1],
-      ...(connectionString.includes('rediss://') && {
+      host: parsedConnexionString[3],
+      port: parseInt(parsedConnexionString[4]),
+      username: parsedConnexionString[1],
+      password: parsedConnexionString[2],
+      ...(connexionString.includes('rediss://') && {
         tls: { rejectUnauthorized: false },
       }),
     },
