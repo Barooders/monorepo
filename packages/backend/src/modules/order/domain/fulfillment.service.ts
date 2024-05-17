@@ -98,112 +98,64 @@ export class FulfillmentService {
     }
   }
 
-  async fulfillOrderLineAsVendor(
+  async fulfillAsVendor(
     userId: string,
-    orderLineId: string,
+    fulfillmentOrderId: string,
     trackingUrl: string,
   ): Promise<void> {
-    const { vendorId } = await this.prisma.orderLines.findUniqueOrThrow({
-      where: {
-        id: orderLineId,
+    const { orderLines } = await this.prisma.fulfillmentOrder.findUniqueOrThrow(
+      {
+        where: {
+          id: fulfillmentOrderId,
+        },
+        select: {
+          orderLines: {
+            select: {
+              vendorId: true,
+            },
+          },
+        },
       },
-    });
+    );
 
-    if (!vendorId) {
+    if (orderLines.some(({ vendorId }) => !vendorId)) {
       throw new Error(
-        `Cannot fulfill order line ${orderLineId} because it has no vendor id`,
+        `Cannot fulfill ${fulfillmentOrderId} because at least one orderline has no vendor id`,
       );
     }
 
-    if (vendorId !== userId) {
+    if (orderLines.some(({ vendorId }) => vendorId && vendorId !== userId)) {
       throw new UnauthorizedException(
-        `User ${userId} can't fulfill orderline ${orderLineId} because it is not the vendor`,
+        `User ${userId} can't fulfill fulfillment order ${fulfillmentOrderId} because it is not the vendor`,
       );
     }
 
-    await this.fulfillOrderLine(orderLineId, trackingUrl, {
+    await this.fulfill(fulfillmentOrderId, trackingUrl, {
       type: 'user',
       id: userId,
     });
   }
 
-  async fulfillOrderLine(
-    orderLineId: string,
+  async fulfill(
+    fulfillmentOrderId: string,
     trackingUrl: string,
     author: Author,
   ): Promise<void> {
-    const orderLine = await this.prisma.orderLines.findUniqueOrThrow({
-      where: {
-        id: orderLineId,
-      },
-      include: {
-        fulfillmentOrder: {
-          include: {
-            orderLines: true,
-          },
+    const fulfillmentOrder =
+      await this.prisma.fulfillmentOrder.findUniqueOrThrow({
+        where: {
+          id: fulfillmentOrderId,
         },
-        order: true,
-      },
-    });
-
-    if (orderLine.fulfillmentOrder) {
-      await this.createFulfillment(
-        {
-          id: orderLine.fulfillmentOrder.id,
-          orderId: orderLine.orderId,
-          orderLines: orderLine.fulfillmentOrder.orderLines,
+        include: {
+          orderLines: true,
         },
-        {
-          trackingUrl,
-        },
-        author,
-      );
-      return;
-    }
-
-    this.logger.warn(
-      `Creating fulfillment order for order line ${orderLine.id}`,
-    );
-
-    const orderStoreId = orderLine.order.shopifyId;
-    const orderLineStoreId = orderLine.shopifyId;
-    const shouldGetFulfillmentOrderId = orderStoreId && orderLineStoreId;
-
-    const fulfillmentOrderShopifyId = shouldGetFulfillmentOrderId
-      ? await this.storeClient.getFulfillmentOrderId(
-          orderStoreId,
-          orderLineStoreId,
-        )
-      : null;
-
-    if (shouldGetFulfillmentOrderId && !fulfillmentOrderShopifyId) {
-      throw new Error(
-        `No fulfillment order found for order line ${orderLine.id}`,
-      );
-    }
-
-    const createdFulfillmentOrder = await this.prisma.fulfillmentOrder.create({
-      data: {
-        shopifyId: fulfillmentOrderShopifyId,
-        status: FulfillmentOrderStatus.OPEN,
-        order: {
-          connect: {
-            id: orderLine.orderId,
-          },
-        },
-        orderLines: {
-          connect: {
-            id: orderLine.id,
-          },
-        },
-      },
-    });
+      });
 
     await this.createFulfillment(
       {
-        id: createdFulfillmentOrder.id,
-        orderId: orderLine.orderId,
-        orderLines: [orderLine],
+        id: fulfillmentOrderId,
+        orderId: fulfillmentOrder.orderId,
+        orderLines: fulfillmentOrder.orderLines,
       },
       {
         trackingUrl,

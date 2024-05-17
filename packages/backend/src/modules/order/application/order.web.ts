@@ -259,32 +259,30 @@ export class OrderController {
     stream.pipe(res);
   }
 
-  @Post(routesV1.order.fulFillOrderLineAsAdmin)
+  @Post(routesV1.order.fulFillAsAdmin)
   @UseGuards(AuthGuard('header-api-key'))
   async fulFillOrderLineAsAdmin(
-    @Param('orderLineId')
-    orderLineId: string,
+    @Param('fulfillmentOrderId')
+    fulfillmentOrderId: string,
     @Body()
     { trackingUrl }: OrderLineFulfillmentDTO,
     @Query()
     { authorId }: { authorId?: string },
-  ): Promise<string> {
+  ): Promise<void> {
     const parsedTrackingUrl = new URL(trackingUrl).href;
 
-    await this.fulfillmentService.fulfillOrderLine(
-      orderLineId,
+    await this.fulfillmentService.fulfill(
+      fulfillmentOrderId,
       parsedTrackingUrl,
       { type: 'admin', id: authorId },
     );
-
-    return `Order line ${orderLineId} has been fulfilled with tracking url ${parsedTrackingUrl}`;
   }
 
-  @Post(routesV1.order.fulFillOrderLine)
+  @Post(routesV1.order.fulfill)
   @UseGuards(JwtAuthGuard)
   async fulFillOrderLine(
-    @Param('orderLineId')
-    orderLineId: string,
+    @Param('fulfillmentOrderId')
+    fulfillmentOrderId: string,
     @Body()
     { trackingUrl }: OrderLineFulfillmentDTO,
     @User() { userId }: ExtractedUser,
@@ -297,9 +295,9 @@ export class OrderController {
 
     const parsedTrackingUrl = new URL(trackingUrl).href;
 
-    await this.fulfillmentService.fulfillOrderLineAsVendor(
+    await this.fulfillmentService.fulfillAsVendor(
       userId,
-      orderLineId,
+      fulfillmentOrderId,
       parsedTrackingUrl,
     );
   }
@@ -345,16 +343,13 @@ export class OrderController {
   @Post(routesV1.order.updateOrderStatusAsAdmin)
   @UseGuards(AuthGuard('header-api-key'))
   async updateOrderStatusAsAdmin(
-    @Param('orderLineId')
-    orderLineId: string,
+    @Param('orderId')
+    orderId: string,
     @Body()
     { updatedAt, status }: OrderStatusUpdateDTO,
     @Query()
     { authorId }: { authorId?: string },
   ): Promise<string> {
-    const { orderId } = await this.prisma.orderLines.findUniqueOrThrow({
-      where: { id: orderLineId },
-    });
     //TODO: This update should not be handled at order level but at order line level
     await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
       orderId,
@@ -367,6 +362,6 @@ export class OrderController {
       async () => {},
     );
 
-    return `Order with order line ${orderLineId} has been marked as ${status} at ${updatedAt}`;
+    return `Order ${orderId} has been marked as ${status} at ${updatedAt}`;
   }
 }

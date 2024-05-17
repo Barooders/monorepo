@@ -222,23 +222,6 @@ export class ShopifyClient implements IStoreClient {
     return bikeVariantIdsFromOrders.flatMap(({ id }) => (id ? [id] : []));
   }
 
-  async getFulfillmentOrderId(
-    orderShopifyId: string,
-    orderLineShopifyId: string,
-  ): Promise<number | undefined> {
-    const fulfillmentOrders = await shopifyApiByToken.order.fulfillmentOrders(
-      Number(orderShopifyId),
-    );
-
-    const fulfillmentOrder = fulfillmentOrders.find(({ line_items }) => {
-      return line_items.some(
-        ({ line_item_id }) => line_item_id === Number(orderLineShopifyId),
-      );
-    });
-
-    return fulfillmentOrder?.id;
-  }
-
   async refundOrder(
     orderId: UUID,
     { amountInCents, currency }: RefundOptions,

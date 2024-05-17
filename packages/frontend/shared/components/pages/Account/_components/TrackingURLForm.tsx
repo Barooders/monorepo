@@ -15,7 +15,7 @@ const dict = getDictionary('fr');
 const roundedCard = 'mt-4 rounded-lg border border-zinc-200';
 
 type PropsType = {
-  orderLineId: string;
+  fulfillmentOrderId: string;
 };
 
 type HelperPropsType = {
@@ -27,7 +27,7 @@ type HelperURLInput = {
 };
 
 type TrackinURLInput = {
-  orderLineId: string;
+  fulfillmentOrderId: string;
   trackingUrl: string;
 };
 
@@ -70,22 +70,22 @@ const TrackingURLHelperForm: React.FC<HelperPropsType> = ({ callback }) => {
   );
 };
 
-const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
+const TrackingURLForm: React.FC<PropsType> = ({ fulfillmentOrderId }) => {
   const showTrackingFeature = useFlag('order-page.tracking-data');
   const { fetchAPI } = useBackend();
   const formMethods = useForm<TrackinURLInput>({
     defaultValues: {
-      orderLineId,
+      fulfillmentOrderId,
     },
   });
 
-  const [{ loading: isFulfillingOrderLine }, fulfillmentOrderLine] =
+  const [{ loading: isFulfilling }, doFulfill] =
     useWrappedAsyncFn<
-      (orderLineId: string, trackingUrl: string) => Promise<void>
-    >(async (orderLineId, trackingUrl) => {
+      (fulfillmentOrderId: string, trackingUrl: string) => Promise<void>
+    >(async (fulfillmentOrderId, trackingUrl) => {
       const toastOptions = { duration: 3000 };
       try {
-        await fetchAPI(`/v1/order-lines/${orderLineId}/fulfill`, {
+        await fetchAPI(`/v1/fulfillment-orders/${fulfillmentOrderId}/fulfill`, {
           method: 'POST',
           body: JSON.stringify({
             trackingUrl,
@@ -101,10 +101,10 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
     });
 
   const onSubmit: SubmitHandler<TrackinURLInput> = async ({
-    orderLineId,
+    fulfillmentOrderId,
     trackingUrl,
   }) => {
-    fulfillmentOrderLine(orderLineId, trackingUrl);
+   doFulfill(fulfillmentOrderId, trackingUrl);
   };
 
   if (!showTrackingFeature) return <></>;
@@ -123,8 +123,8 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
           className="w-1/2"
         >
           <Input
-            label="orderLineId"
-            name="orderLineId"
+            label="fulfillmentOrderId"
+            name="fulfillmentOrderId"
             type="text"
             className="hidden"
           />
@@ -146,7 +146,7 @@ const TrackingURLForm: React.FC<PropsType> = ({ orderLineId }) => {
             className="mt-2 w-[300px] px-3 py-2.5 text-sm font-medium"
             intent="secondary"
           >
-            {isFulfillingOrderLine ? (
+            {isFulfilling ? (
               <Loader />
             ) : (
               dict.account.order.shipping.actions.confirm
