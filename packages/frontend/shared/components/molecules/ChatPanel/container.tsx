@@ -100,7 +100,7 @@ const extractAssociatedOrderLine = (
       currentProductInternalId,
     );
 
-  if (!rawAssociatedOrderLine) return null;
+  if (!rawAssociatedOrderLine?.order.shopifyId) return null;
 
   return {
     orderShopifyId: rawAssociatedOrderLine.order.shopifyId,
