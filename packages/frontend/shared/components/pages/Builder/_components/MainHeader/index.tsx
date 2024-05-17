@@ -22,7 +22,7 @@ const MainHeader: React.FC<PropsType> = ({
   mobileSlides,
 }) => {
   return (
-    <div className="grid w-full gap-5 bg-[#F3F5F7] p-0 pb-5 md:px-5 md:py-5">
+    <div className="w-full bg-[#F3F5F7] p-0 pb-5 md:px-5 md:py-5">
       <div className="mx-auto grid w-full max-w-page-content grid-cols-1 gap-3 md:grid-cols-5">
         <Link
           href={mainSlide.link}
@@ -63,7 +63,7 @@ const MainHeader: React.FC<PropsType> = ({
           ))}
         </div>
       </div>
-      <div className="flex-column flex px-5 md:px-0">
+      <div className="flex-column mt-5 flex px-5 md:px-0">
         <Guarantees />
       </div>
     </div>

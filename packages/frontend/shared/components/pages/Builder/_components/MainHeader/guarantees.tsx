@@ -13,10 +13,10 @@ type GuaranteeProps = {
 const Guarantee = ({ icon, title }: GuaranteeProps) => {
   return (
     <div className="flex shrink-0 items-center gap-2 rounded-xl bg-white px-4 py-3">
-      <div className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#B8D3F7]">
+      <div className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#B8D3F7] md:h-[24px] md:w-[24px]">
         {icon}
       </div>
-      <span className="text-sm">{title}</span>
+      <span className="text-xs md:text-sm">{title}</span>
     </div>
   );
 };
