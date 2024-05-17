@@ -58,7 +58,7 @@ export const routesV1 = {
     fulFillAsAdmin: '/admin/fulfillment-orders/:fulfillmentOrderId/fulfill',
     fulfill: '/fulfillment-orders/:fulfillmentOrderId/fulfill',
     updateOnOrderStatusEvent: '/orders/webhook/update',
-    cancelOrderAsAdmin: '/admin/order/:orderId/cancel',
+    cancelOrderAsAdmin: '/admin/orders/:orderId/cancel',
     cancelOrderLine: '/order-lines/:orderLineId/cancel',
     updateOrderStatusAsAdmin: '/admin/orders/:orderId/update-status',
   },

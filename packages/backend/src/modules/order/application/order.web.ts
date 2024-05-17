@@ -326,7 +326,7 @@ export class OrderController {
     @User() { userId }: ExtractedUser,
   ): Promise<{ success: boolean }> {
     try {
-      await this.refundService.cancelOrderLineByUser(orderLineId, {
+      await this.refundService.cancelOrderLineByVendor(orderLineId, {
         type: 'user',
         id: userId,
       });

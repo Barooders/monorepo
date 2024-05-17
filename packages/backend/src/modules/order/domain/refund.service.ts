@@ -72,7 +72,7 @@ export class RefundService {
     private orderNotificationService: OrderNotificationService,
   ) {}
 
-  async cancelOrderLineByUser(
+  async cancelOrderLineByVendor(
     orderLineId: string,
     author: Author,
   ): Promise<void> {
