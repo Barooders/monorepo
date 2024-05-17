@@ -25,7 +25,7 @@ const ICON_COLOR = '#1B74E4';
 
 const Guarantees = () => {
   return (
-    <div className="flex w-full gap-4">
+    <div className="scrollbar-hidden mx-auto flex max-w-full shrink-0 gap-4 overflow-auto">
       <Guarantee
         icon={<LuShieldCheck stroke={ICON_COLOR} />}
         title={dict.homepage.guarantees.verifiedAds}

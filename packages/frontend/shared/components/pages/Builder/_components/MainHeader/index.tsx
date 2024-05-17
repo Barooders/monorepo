@@ -63,7 +63,7 @@ const MainHeader: React.FC<PropsType> = ({
           ))}
         </div>
       </div>
-      <div className="scrollbar-hidden mx-auto overflow-auto px-5 md:px-0">
+      <div className="flex-column flex px-5 md:px-0">
         <Guarantees />
       </div>
     </div>
