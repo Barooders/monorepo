@@ -28,7 +28,7 @@ export class StockUpdateService {
     );
 
     //TODO: prevent domain to depend on infra
-    void this.productStatusUpdateQueue.addBulk(
+    await this.productStatusUpdateQueue.addBulk(
       productsToUpdate.map((product) => ({
         data: {
           product,
