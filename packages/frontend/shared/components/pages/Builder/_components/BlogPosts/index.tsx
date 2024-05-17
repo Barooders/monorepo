@@ -62,9 +62,9 @@ const BlogPost: React.FC<BlogPostPropsType> = ({
           className="h-full w-full overflow-hidden object-cover"
         />
       </div>
-      <div className="grid gap-2 p-4">
+      <div className="flex h-full flex-col gap-2 p-4">
         <span className="text-sm font-semibold md:text-xl">{title}</span>
-        <span className="text-xs leading-normal text-slate-600 md:text-sm">
+        <span className="grow text-justify text-xs leading-normal text-slate-600 md:text-sm">
           {description}
         </span>
 

@@ -17,7 +17,7 @@ const BlockContent: React.FC<BlockContentProps> = ({
   button,
 }) => {
   return (
-    <div className="mt-14 p-0 px-5">
+    <div className="mt-10 p-0 px-5">
       <div className="mx-auto flex max-w-page-content flex-col">
         <div className="flex justify-between">
           <div>
