@@ -304,25 +304,6 @@ export class OrderController {
     );
   }
 
-  /**
-   * @deprecated Use cancel endpoint instead
-   */
-  @Post(routesV1.order.refundOrderAsAdmin)
-  @UseGuards(AuthGuard('header-api-key'))
-  async refundOrderAsAdmin(
-    @Param('orderId')
-    orderId: string,
-    @Query()
-    { authorId }: { authorId?: string },
-  ): Promise<string> {
-    await this.refundService.cancelOrder(orderId, {
-      type: 'admin',
-      id: authorId,
-    });
-
-    return `Order ${orderId} has been refunded.`;
-  }
-
   @Post(routesV1.order.cancelOrderAsAdmin)
   @UseGuards(AuthGuard('header-api-key'))
   async cancelOrderAsAdmin(
