@@ -112,6 +112,7 @@ export class ShopifyClient implements IStoreClient {
 
   async fulfillFulfillmentOrder(
     fulfillmentOrderId: string,
+    itemsToBeFulfilled: { productVariantId: string; quantity: number }[],
     { trackingId, trackingUrl }: TrackingInfo,
   ): Promise<StoreFulfilledFulfillmentOrder> {
     const { shopifyId } =
@@ -121,6 +122,12 @@ export class ShopifyClient implements IStoreClient {
         },
       });
 
+    if (!shopifyId) {
+      return {
+        fulfilledItems: itemsToBeFulfilled,
+      };
+    }
+
     const existingFulfillments =
       await shopifyApiByToken.fulfillmentOrder.fulfillments(Number(shopifyId));
 
@@ -128,7 +135,11 @@ export class ShopifyClient implements IStoreClient {
       this.logger.warn(
         `Fulfillment order ${shopifyId} was already fulfilled in store`,
       );
-      return await this.mapFulfilledFulfillmentOrder(existingFulfillments[0]);
+      const fulfillment = existingFulfillments[0];
+      if (fulfillment.line_items.length !== itemsToBeFulfilled.length)
+        throw new Error('Fulfillment items mismatch');
+
+      return await this.mapFulfilledFulfillmentOrder(fulfillment);
     }
 
     const newFulfillment = await shopifyApiByToken.fulfillment.createV2({
@@ -141,6 +152,9 @@ export class ShopifyClient implements IStoreClient {
         url: trackingUrl,
       },
     });
+
+    if (newFulfillment.line_items.length !== itemsToBeFulfilled.length)
+      throw new Error('Fulfillment items mismatch');
 
     return await this.mapFulfilledFulfillmentOrder(newFulfillment);
   }
@@ -178,7 +192,7 @@ export class ShopifyClient implements IStoreClient {
       fulfilledItems: await Promise.all(
         line_items
           .filter(({ requires_shipping }) => requires_shipping)
-          .map(async ({ id, variant_id }) => {
+          .map(async ({ id, variant_id, quantity }) => {
             const { id: productVariantId } =
               await this.mainPrisma.productVariant.findUniqueOrThrow({
                 where: {
@@ -187,8 +201,9 @@ export class ShopifyClient implements IStoreClient {
               });
 
             return {
-              fulfillmentItemShopifyId: id,
+              shopifyId: id,
               productVariantId,
+              quantity,
             };
           }),
       ),

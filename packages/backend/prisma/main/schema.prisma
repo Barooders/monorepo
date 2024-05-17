@@ -167,7 +167,7 @@ model Fulfillment {
 model FulfillmentItem {
   id               String       @id @default(dbgenerated("(gen_random_uuid())::text"))
   createdAt        DateTime     @default(now())
-  shopifyId        BigInt       @unique
+  shopifyId        BigInt?      @unique
   productVariantId String
   quantity         Int
   fulfillmentId    String

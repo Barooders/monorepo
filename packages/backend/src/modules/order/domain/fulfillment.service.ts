@@ -222,6 +222,16 @@ export class FulfillmentService {
     trackingInfo: TrackingInfo,
     author: Author,
   ) {
+    const itemsToBeFulfilled = orderLines.flatMap(
+      ({ productVariantId, quantity }) =>
+        productVariantId ? [{ productVariantId, quantity }] : [],
+    );
+
+    if (itemsToBeFulfilled.length !== orderLines.length)
+      throw new Error(
+        `One or more order lines of fulfillment order ${id} have a missing product variant id, cannot fulfill it`,
+      );
+
     //TODO: this should only be done when all FulfillmentItems are fulfilled
     await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
       orderId,
@@ -230,7 +240,11 @@ export class FulfillmentService {
       new Date(),
       async () => {
         const { fulfilledItems, shopifyId } =
-          await this.storeClient.fulfillFulfillmentOrder(id, trackingInfo);
+          await this.storeClient.fulfillFulfillmentOrder(
+            id,
+            itemsToBeFulfilled,
+            trackingInfo,
+          );
 
         await this.prisma.$transaction(async (wrappedPrisma) => {
           await wrappedPrisma.fulfillment.create({
@@ -242,31 +256,7 @@ export class FulfillmentService {
               trackingUrl: trackingInfo.trackingUrl,
               fulfillmentItems: {
                 createMany: {
-                  data: orderLines.map(
-                    ({ productVariantId, quantity, id: orderLineId }) => {
-                      if (!productVariantId) {
-                        throw new Error(
-                          `No product variant id found on order line ${orderLineId} when try to fulfill FulfillOrder ${id}`,
-                        );
-                      }
-
-                      const storeId = fulfilledItems.find(
-                        (item) => item.productVariantId === productVariantId,
-                      )?.fulfillmentItemShopifyId;
-
-                      if (!storeId) {
-                        throw new Error(
-                          `Product variant ${productVariantId} not found in store fulfillment ${shopifyId}`,
-                        );
-                      }
-
-                      return {
-                        shopifyId: storeId,
-                        productVariantId,
-                        quantity,
-                      };
-                    },
-                  ),
+                  data: fulfilledItems,
                 },
               },
             },

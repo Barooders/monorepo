@@ -17,10 +17,11 @@ export type OrderInChat = {
 };
 
 export type StoreFulfilledFulfillmentOrder = {
-  shopifyId: number;
+  shopifyId?: number;
   fulfilledItems: {
-    fulfillmentItemShopifyId: number;
+    shopifyId?: number;
     productVariantId: string;
+    quantity: number;
   }[];
 };
 
@@ -51,6 +52,7 @@ export abstract class IStoreClient {
 
   abstract fulfillFulfillmentOrder(
     fulfillmentOrderId: string,
+    itemsToBeFulfilled: { productVariantId: string; quantity: number }[],
     trackingInfo: TrackingInfo,
   ): Promise<StoreFulfilledFulfillmentOrder>;
 
