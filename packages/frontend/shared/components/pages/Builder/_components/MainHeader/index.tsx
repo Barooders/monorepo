@@ -1,6 +1,7 @@
 import Link from '@/components/atoms/Link';
 import { getDictionary } from '@/i18n/translate';
 import { Url } from '@/types';
+import Guarantees from './guarantees';
 
 const dict = getDictionary('fr');
 
@@ -21,8 +22,8 @@ const MainHeader: React.FC<PropsType> = ({
   mobileSlides,
 }) => {
   return (
-    <div className="w-full bg-[#F3F5F7] p-0 md:px-5 md:py-5">
-      <div className="mx-auto grid max-w-page-content grid-cols-1 gap-3 md:grid-cols-5">
+    <div className="w-full bg-[#F3F5F7] p-0 pb-5 md:px-5 md:py-5">
+      <div className="mx-auto grid w-full max-w-page-content grid-cols-1 gap-3 md:grid-cols-5">
         <Link
           href={mainSlide.link}
           className="col-span-1 w-full overflow-hidden px-1 md:col-span-3 md:rounded-lg md:px-0"
@@ -61,6 +62,9 @@ const MainHeader: React.FC<PropsType> = ({
             </Link>
           ))}
         </div>
+      </div>
+      <div className="flex-column mt-5 flex px-5 md:px-0">
+        <Guarantees />
       </div>
     </div>
   );

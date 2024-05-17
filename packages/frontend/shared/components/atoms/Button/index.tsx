@@ -9,6 +9,7 @@ export type PropsType = {
   href?: string;
   disabled?: boolean;
   size?: 'medium' | 'small';
+  target?: string;
 };
 
 const Button: React.FC<PropsType> = ({
@@ -20,6 +21,7 @@ const Button: React.FC<PropsType> = ({
   href,
   disabled,
   size = 'medium',
+  target,
 }) => {
   const disabledStyle = 'bg-gray-200 text-gray-500';
   const getIntentStyle = (intent: string) => {
@@ -53,6 +55,7 @@ const Button: React.FC<PropsType> = ({
       }`}
       onClick={onClick}
       href={href}
+      target={target}
     >
       {children}
     </ButtonTag>

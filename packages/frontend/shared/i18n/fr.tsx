@@ -325,10 +325,89 @@ const fr = {
     },
   },
   homepage: {
+    ambassadors: {
+      explorer: 'Explorateur',
+      handballer: 'Handballeur',
+      sportswoman: 'Sportive',
+      cyclist: 'Cycliste',
+      rugbyman: 'Rugbyman',
+      commentator: 'Commentateur',
+      navigator: 'Navigateur',
+      title: 'Nos ambassadeurs engagées',
+      subtitle: 'Boutique ambassadeurs',
+      link: {
+        seeShop: 'Voir sa boutique',
+        comingSoon: 'Coming soon',
+      },
+    },
+    blog: {
+      title: 'Conseils et astuces',
+      subtitle: 'Blog',
+      readMore: 'Lire la suite',
+      buttonLabel: 'Accéder au blog',
+    },
+    buyback: {
+      title: 'Rachat express de vélo',
+      subtitle: 'Revendez votre vélo à un reconditionneur',
+      description:
+        'Remplissez le formulaire de reprise pour faire estimer votre vélo.',
+      buttonLabel: "J'en profite",
+    },
+    ebikes: {
+      title: "Nos vélos électriques d'occasion",
+      buttonLabel: 'Voir plus',
+    },
+    guarantees: {
+      verifiedAds: 'Annonces 100% vérifiées',
+      satisfiedOrRefunded: 'Satisfait ou remboursé 4j',
+      customerService: 'Service client 7j/7',
+      splittedPayment: 'Paiement 4x sans frais',
+    },
+    howDoesItWorks: {
+      title: 'Comment ça marche ?',
+      buy: {
+        title: 'Acheter',
+        chooseBike: {
+          title: 'Choisissez votre vélo',
+          content: 'Choisissez le vélo qui correspond le mieux à vos besoins',
+        },
+        buySafely: {
+          title: 'Achetez en toute sécurité',
+          content: 'Profitez de notre solution de paiement sécurisée',
+        },
+        tryBike: {
+          title: 'Essayez votre vélo',
+          content:
+            "Vous disposez d'un délai de minimum 4 jours pour retourner le vélo",
+        },
+      },
+      sell: {
+        title: 'Vendre',
+        publish: {
+          title: 'Publiez votre annonce',
+          content: 'Publiez votre annonce via le formulaire de vente',
+        },
+        sellSafely: {
+          title: 'Vendez en toute sécurité',
+          content: 'Profitez de notre solution de paiement sécurisée',
+        },
+        receiveMoney: {
+          title: 'Recevez votre argent',
+          content:
+            "Le paiement de l'acheteur vous sera versé à la réception du colis",
+        },
+      },
+    },
     mainTitle: 'Le meilleur du Sport de Seconde Main',
     head: {
       title: "Barooders | Vélo & Équipements de Sport d'Occasion",
     },
+    hotdeals: {
+      title: '⚡️ TOP PROMO',
+      subtitle: "C’est le moment d'en profiter",
+      buttonLabel: 'Voir plus',
+    },
+    topCategories: 'Top catégories',
     mainSlideAltText: 'Vente flash',
     mobileSection: {
       title: 'L’application Barooders est disponible !',
@@ -337,6 +416,29 @@ const fr = {
       since: ({ daysCount }: { daysCount: number }) => (
         <>Il y a {daysCount} jours</>
       ),
+    },
+    whyBarooders: {
+      title: 'Pourquoi choisir Barooders ?',
+      warranty: {
+        title: 'Garantie',
+        description:
+          'Nous travaillons avec plus de 1000 reconditionneurs professionnels, assurant une qualité du matériel.',
+      },
+      quality: {
+        title: 'Quality',
+        description:
+          "Nous vérifions chaque annonce et nous nous assurons qu'aucune arnaque n'arrive sur la plateforme.",
+      },
+      experts: {
+        title: 'Experts',
+        description:
+          'Nos experts sont a votre disposition 7j/7 , pour répondre au mieux à vos questions. Une qualité de conseil garantie !',
+      },
+      green: {
+        title: 'Green',
+        description:
+          'Vélos reconditionnes ou de seconde main, produits en fins de series, - acheter Barooders, c’est faire un achat ecologique.',
+      },
     },
   },
   header: {
