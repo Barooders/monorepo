@@ -23,26 +23,25 @@ export class StockUpdateService {
       .getService()
       .getProductsToUpdate();
 
-    this.logger.warn(`Found ${productsToUpdate.length} products to update`);
+    this.logger.warn(
+      `Found ${productsToUpdate.length} products to update, adding to queue`,
+    );
 
-    for (const product of productsToUpdate) {
-      this.logger.debug(
-        `Publishing message for product ${product.internalProductId}`,
-      );
-      //TODO: prevent domain to depend on infra
-      await this.productStatusUpdateQueue.add(
-        {
+    //TODO: prevent domain to depend on infra
+    void this.productStatusUpdateQueue.addBulk(
+      productsToUpdate.map((product) => ({
+        data: {
           product,
           vendorSlug: this.vendorConfigService.getVendorConfig().slug,
         },
-        {
+        opts: {
           attempts: 2,
           removeOnComplete: true,
           removeOnFail: true,
           delay: 0,
         },
-      );
-    }
+      })),
+    );
 
     return {
       payload: {
