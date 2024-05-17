@@ -82,7 +82,7 @@ const BlogPost: React.FC<BlogPostPropsType> = ({
 
 const BlogPosts: React.FC = () => {
   return (
-    <div className="flex gap-2 overflow-x-scroll">
+    <div className="flex gap-2 overflow-x-auto pb-5">
       {posts.map((post, idx) => (
         <BlogPost
           key={idx}
