@@ -25,3 +25,36 @@ Then, test your code in staging, using commands like:
 ## Code standards
 
 - dim_product is used in multiple other tables, and hence should be considered as a root model
+
+## Connect to Airbyte
+
+### Prerequisites
+
+1. Install Google Cloud CLI
+
+   ```bash
+   brew install --cask google-cloud-sdk
+   ```
+
+2. Login to Google Cloud
+   ```bash
+   gcloud init
+   ```
+
+### Connect to Airbyte Interface
+
+1. Create an SSH tunnel
+
+   ```bash
+   PROJECT_ID=direct-tribute-354315
+   INSTANCE_NAME=airbyte
+   gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME -- -L 8000:localhost:8000 -N -f
+   ```
+
+2. Go to http://localhost:8000 and connect with credentials in Bitwarden
+
+### Connect to VM hoisting Airbyte
+
+```bash
+gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
+```
