@@ -117,6 +117,7 @@ const FETCH_ORDER_DATA = /* GraphQL */ /* typed_for_registered_user */ `
         shippingSolution
         id
         fulfillmentOrder {
+          id
           fulfillments {
             trackingUrl
           }
@@ -203,6 +204,7 @@ const mapOrderFromHasura = (data: FetchOrderDataSubscription['Order']) => {
           order.status === OrderStatus.PAID) &&
         shippingSolution === ShippingSolution.SENDCLOUD,
       firstOrderLineId: id,
+      firstFullfillmentOrderId: fulfillmentOrder?.id,
       shippingAddress:
         order.shippingAddressAddress1 && order.shippingAddressCity
           ? {
@@ -340,9 +342,12 @@ const OrderDetails: React.FC<PropsType> = ({ orderId }) => {
               </div>
             </div>
             {backendValue.viewer === 'vendor' &&
-              hasuraValue.order.hasToFillTrackingUrl && (
+              hasuraValue.order.hasToFillTrackingUrl &&
+              hasuraValue.order.firstFullfillmentOrderId && (
                 <TrackingURLForm
-                  orderLineId={hasuraValue.order.firstOrderLineId}
+                  fulfillmentOrderId={
+                    hasuraValue.order.firstFullfillmentOrderId
+                  }
                 />
               )}
             <div

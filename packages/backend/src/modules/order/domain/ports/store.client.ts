@@ -54,11 +54,6 @@ export abstract class IStoreClient {
     trackingInfo: TrackingInfo,
   ): Promise<StoreFulfilledFulfillmentOrder>;
 
-  abstract getFulfillmentOrderId(
-    orderShopifyId: string,
-    orderLineShopifyId: string,
-  ): Promise<number | undefined>;
-
   abstract refundOrder(orderId: UUID, options: RefundOptions): Promise<void>;
 
   abstract filterBikesVariantIdsFromVariantIdList(

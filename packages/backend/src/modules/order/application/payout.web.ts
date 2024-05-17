@@ -80,9 +80,9 @@ class PayoutInputQuery {
 class PreviewPayoutInputQuery {
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The id of the Shopify order line',
+    description: 'The id of the order',
   })
-  orderLineShopifyId!: string;
+  orderId!: string;
 }
 
 class PreviewCommissionInputQuery {
@@ -125,49 +125,55 @@ export class PayoutController {
   @UseGuards(AuthGuard('header-api-key'))
   async previewPayout(
     @Query()
-    { orderLineShopifyId }: PreviewPayoutInputQuery,
-  ): Promise<{
-    orderLine: {
-      shippingSolution: ShippingSolution;
-    };
-    commission: Commission;
-    validation: OrderValidation;
-    appliedDiscounts: DiscountApplication[];
-    orderPriceLines: {
-      type: BuyerPriceLines;
-      amount: Amount;
-    }[];
-  }> {
-    try {
-      const { id, order, shippingSolution } =
-        await this.prisma.orderLines.findUniqueOrThrow({
-          where: {
-            shopifyId: orderLineShopifyId,
-          },
-          include: {
-            order: true,
-          },
-        });
-      const commission =
-        await this.commissionService.getCommissionByOrderLine(id);
-      const validation = await this.orderValidationService.isOrderValid(
-        order.id,
-      );
-      const orderUuid = new UUID({ uuid: order.id });
-      const appliedDiscounts =
-        await this.storeClient.getAppliedDiscounts(orderUuid);
-      const orderPriceLines =
-        await this.storeClient.getOrderPriceItems(orderUuid);
-
-      return {
-        orderLine: {
-          shippingSolution,
-        },
-        commission,
-        validation,
-        appliedDiscounts,
-        orderPriceLines: orderPriceLines.lines,
+    { orderId }: PreviewPayoutInputQuery,
+  ): Promise<
+    {
+      orderLine: {
+        shippingSolution: ShippingSolution;
       };
+      commission: Commission;
+      validation: OrderValidation;
+      appliedDiscounts: DiscountApplication[];
+      orderPriceLines: {
+        type: BuyerPriceLines;
+        amount: Amount;
+      }[];
+    }[]
+  > {
+    try {
+      const orderLines = await this.prisma.orderLines.findMany({
+        where: {
+          orderId,
+        },
+        include: {
+          order: true,
+        },
+      });
+
+      return await Promise.all(
+        orderLines.map(async ({ id, order, shippingSolution }) => {
+          const commission =
+            await this.commissionService.getCommissionByOrderLine(id);
+          const validation = await this.orderValidationService.isOrderValid(
+            order.id,
+          );
+          const orderUuid = new UUID({ uuid: order.id });
+          const appliedDiscounts =
+            await this.storeClient.getAppliedDiscounts(orderUuid);
+          const orderPriceLines =
+            await this.storeClient.getOrderPriceItems(orderUuid);
+
+          return {
+            orderLine: {
+              shippingSolution,
+            },
+            commission,
+            validation,
+            appliedDiscounts,
+            orderPriceLines: orderPriceLines.lines,
+          };
+        }),
+      );
     } catch (error: any) {
       if (error instanceof NotFoundException) {
         throw new HttpNotFoundException(error);

@@ -1,5 +1,6 @@
 import { routesV1 } from '@config/routes.config';
 import { SendCloudWebhookGuard } from '@libs/application/decorators/send-cloud-webhook.guard';
+import { PRODUCT_TYPE } from '@libs/domain/constants/commission-product.constants';
 import { InternalServerErrorException } from '@libs/domain/exceptions';
 import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
@@ -9,7 +10,6 @@ import { OrderUpdateService } from '../domain/order-update.service';
 import { OrderStatusUpdateNotAllowed } from '../domain/ports/exceptions';
 import { mapOrderStatus } from '../infrastructure/shipping/config';
 import { SendCloudWebhookEvent } from '../infrastructure/shipping/types';
-import { PRODUCT_TYPE } from '@libs/domain/constants/commission-product.constants';
 
 @Controller(routesV1.version)
 export class OrderWebhookSendCloudController {
@@ -52,22 +52,32 @@ export class OrderWebhookSendCloudController {
           id: true,
           orderLines: {
             where: { productType: { not: PRODUCT_TYPE } },
-            select: { id: true },
+            select: { fulfillmentOrderId: true },
           },
         },
       });
 
-    const productOrderLine = first(orderLines)?.id;
+    const fulfillmentOrderIds = orderLines.map(
+      ({ fulfillmentOrderId }) => fulfillmentOrderId,
+    );
+
+    if (fulfillmentOrderIds.length > 1) {
+      throw new Error(
+        `Order ${orderNumber} has multiple fulfillment orders, skipping`,
+      );
+    }
+
+    const firstFulfillmentOrderId = first(fulfillmentOrderIds);
 
     try {
       if (newOrderStatus === OrderStatus.SHIPPED) {
-        if (!productOrderLine) {
+        if (!firstFulfillmentOrderId) {
           throw new InternalServerErrorException(
-            `Cannot find orderline for order ${orderNumber}`,
+            `Cannot find fulfillment order for order ${orderNumber}`,
           );
         }
-        await this.fulfillmentService.fulfillOrderLine(
-          productOrderLine,
+        await this.fulfillmentService.fulfill(
+          firstFulfillmentOrderId,
           trackingUrl,
           { type: 'send_cloud' },
         );

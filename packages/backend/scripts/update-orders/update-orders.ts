@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { PrismaClient } from '@libs/domain/prisma.main.client';
 import { extractRowsFromCSVFile } from '@libs/helpers/csv';
+import { jsonStringify } from '@libs/helpers/json';
 import 'dotenv.config';
 import { get } from 'env-var';
 
@@ -19,21 +20,14 @@ const run = async () => {
     try {
       console.log(`Updating order ${orderName}`);
 
-      const orderLines = await prisma.orderLines.findMany({
+      const { id } = await prisma.order.findUniqueOrThrow({
         where: {
-          order: {
-            name: orderName,
-          },
+          name: orderName,
         },
       });
 
-      if (orderLines.length !== 1)
-        throw new Error(`Found ${orderLines.length} order lines`);
-
-      const id = orderLines[0].id;
-
       const response = await fetch(
-        `https://backend.barooders.com/v1/admin/order-lines/${id}/update-status?authorId=script_by_jp`,
+        `https://backend.barooders.com/v1/admin/orders/${id}/update-status?authorId=script_by_jp`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -42,7 +36,7 @@ const run = async () => {
               .asString()}`,
           },
           method: 'POST',
-          body: JSON.stringify({
+          body: jsonStringify({
             updatedAt: new Date().toISOString(),
             status: 'PAID_OUT',
           }),
@@ -50,7 +44,7 @@ const run = async () => {
       );
 
       if (response.status > 300)
-        throw new Error(JSON.stringify(await response.json()));
+        throw new Error(jsonStringify(await response.json()));
     } catch (error) {
       console.log(error);
     }

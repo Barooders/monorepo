@@ -1,11 +1,11 @@
 meta {
-  name: Fulfill order line manually
+  name: Fulfill manually
   type: http
   seq: 11
 }
 
 post {
-  url: {{backendBaseUrl}}/v1/order-lines/14805446754639/fulfill
+  url: {{backendBaseUrl}}/v1/fulfillment-orders/14805446754639/fulfill
   body: json
   auth: none
 }

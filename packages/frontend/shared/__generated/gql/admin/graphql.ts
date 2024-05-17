@@ -3117,7 +3117,7 @@ export type Fulfillment = {
   fulfillmentOrder: Maybe<FulfillmentOrder>;
   fulfillmentOrderId: Scalars['String']['output'];
   id: Scalars['String']['output'];
-  shopifyId: Scalars['bigint']['output'];
+  shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Scalars['FulfillmentStatus']['output'];
   trackingId: Maybe<Scalars['String']['output']>;
   trackingUrl: Scalars['String']['output'];
@@ -3528,7 +3528,7 @@ export type FulfillmentOrder = {
   orderLines: Array<OrderLines>;
   /** An aggregate relationship */
   orderLines_aggregate: OrderLines_Aggregate;
-  shopifyId: Scalars['bigint']['output'];
+  shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Scalars['FulfillmentOrderStatus']['output'];
 };
 
@@ -4878,6 +4878,7 @@ export type Order = {
   /** An aggregate relationship */
   orderLines_aggregate: OrderLines_Aggregate;
   paidAt: Maybe<Scalars['timestamp']['output']>;
+  salesChannelName: Scalars['SalesChannelName']['output'];
   shippingAddressAddress1: Scalars['String']['output'];
   shippingAddressAddress2: Maybe<Scalars['String']['output']>;
   shippingAddressCity: Scalars['String']['output'];
@@ -4887,7 +4888,7 @@ export type Order = {
   shippingAddressLastName: Scalars['String']['output'];
   shippingAddressPhone: Scalars['String']['output'];
   shippingAddressZip: Scalars['String']['output'];
-  shopifyId: Scalars['String']['output'];
+  shopifyId: Maybe<Scalars['String']['output']>;
   status: Scalars['OrderStatus']['output'];
   totalPriceCurrency: Scalars['Currency']['output'];
   totalPriceInCents: Scalars['float8']['output'];
@@ -4972,7 +4973,7 @@ export type OrderLines = {
   productVariantId: Maybe<Scalars['String']['output']>;
   quantity: Scalars['Int']['output'];
   shippingSolution: Scalars['ShippingSolution']['output'];
-  shopifyId: Scalars['String']['output'];
+  shopifyId: Maybe<Scalars['String']['output']>;
   variantCondition: Maybe<Scalars['Condition']['output']>;
   vendorCommission: Maybe<Scalars['float8']['output']>;
   /** An object relationship */
@@ -6099,6 +6100,7 @@ export type Order_Bool_Exp = {
   orderLines: InputMaybe<OrderLines_Bool_Exp>;
   orderLines_aggregate: InputMaybe<OrderLines_Aggregate_Bool_Exp>;
   paidAt: InputMaybe<Timestamp_Comparison_Exp>;
+  salesChannelName: InputMaybe<SalesChannelName_Comparison_Exp>;
   shippingAddressAddress1: InputMaybe<String_Comparison_Exp>;
   shippingAddressAddress2: InputMaybe<String_Comparison_Exp>;
   shippingAddressCity: InputMaybe<String_Comparison_Exp>;
@@ -6118,6 +6120,8 @@ export type Order_Bool_Exp = {
 export enum Order_Constraint {
   /** unique or primary key constraint on columns "checkoutId" */
   OrderCheckoutIdKey = 'Order_checkoutId_key',
+  /** unique or primary key constraint on columns "name" */
+  OrderNameKey = 'Order_name_key',
   /** unique or primary key constraint on columns "id" */
   OrderPkey = 'Order_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -6141,6 +6145,7 @@ export type Order_Insert_Input = {
   name: InputMaybe<Scalars['String']['input']>;
   orderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
   shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
   shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
   shippingAddressCity: InputMaybe<Scalars['String']['input']>;
@@ -6166,6 +6171,7 @@ export type Order_Max_Fields = {
   id: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   paidAt: Maybe<Scalars['timestamp']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
   shippingAddressAddress1: Maybe<Scalars['String']['output']>;
   shippingAddressAddress2: Maybe<Scalars['String']['output']>;
   shippingAddressCity: Maybe<Scalars['String']['output']>;
@@ -6190,6 +6196,7 @@ export type Order_Max_Order_By = {
   id: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   paidAt: InputMaybe<Order_By>;
+  salesChannelName: InputMaybe<Order_By>;
   shippingAddressAddress1: InputMaybe<Order_By>;
   shippingAddressAddress2: InputMaybe<Order_By>;
   shippingAddressCity: InputMaybe<Order_By>;
@@ -6215,6 +6222,7 @@ export type Order_Min_Fields = {
   id: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   paidAt: Maybe<Scalars['timestamp']['output']>;
+  salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
   shippingAddressAddress1: Maybe<Scalars['String']['output']>;
   shippingAddressAddress2: Maybe<Scalars['String']['output']>;
   shippingAddressCity: Maybe<Scalars['String']['output']>;
@@ -6239,6 +6247,7 @@ export type Order_Min_Order_By = {
   id: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   paidAt: InputMaybe<Order_By>;
+  salesChannelName: InputMaybe<Order_By>;
   shippingAddressAddress1: InputMaybe<Order_By>;
   shippingAddressAddress2: InputMaybe<Order_By>;
   shippingAddressCity: InputMaybe<Order_By>;
@@ -6289,6 +6298,7 @@ export type Order_Order_By = {
   name: InputMaybe<Order_By>;
   orderLines_aggregate: InputMaybe<OrderLines_Aggregate_Order_By>;
   paidAt: InputMaybe<Order_By>;
+  salesChannelName: InputMaybe<Order_By>;
   shippingAddressAddress1: InputMaybe<Order_By>;
   shippingAddressAddress2: InputMaybe<Order_By>;
   shippingAddressCity: InputMaybe<Order_By>;
@@ -6325,6 +6335,8 @@ export enum Order_Select_Column {
   Name = 'name',
   /** column name */
   PaidAt = 'paidAt',
+  /** column name */
+  SalesChannelName = 'salesChannelName',
   /** column name */
   ShippingAddressAddress1 = 'shippingAddressAddress1',
   /** column name */
@@ -6410,6 +6422,7 @@ export type Order_Set_Input = {
   id: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
   shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
   shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
   shippingAddressCity: InputMaybe<Scalars['String']['input']>;
@@ -6475,6 +6488,7 @@ export type Order_Stream_Cursor_Value_Input = {
   id: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
+  salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
   shippingAddressAddress1: InputMaybe<Scalars['String']['input']>;
   shippingAddressAddress2: InputMaybe<Scalars['String']['input']>;
   shippingAddressCity: InputMaybe<Scalars['String']['input']>;
@@ -6517,6 +6531,8 @@ export enum Order_Update_Column {
   Name = 'name',
   /** column name */
   PaidAt = 'paidAt',
+  /** column name */
+  SalesChannelName = 'salesChannelName',
   /** column name */
   ShippingAddressAddress1 = 'shippingAddressAddress1',
   /** column name */
@@ -7647,6 +7663,7 @@ export type PriceOffer = {
   internalNote: Maybe<Scalars['String']['output']>;
   name: Scalars['bigint']['output'];
   newPriceInCents: Scalars['bigint']['output'];
+  orderId: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Product;
   productId: Scalars['String']['output'];
@@ -7727,6 +7744,7 @@ export type PriceOffer_Bool_Exp = {
   internalNote: InputMaybe<String_Comparison_Exp>;
   name: InputMaybe<Bigint_Comparison_Exp>;
   newPriceInCents: InputMaybe<Bigint_Comparison_Exp>;
+  orderId: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   productVariant: InputMaybe<ProductVariant_Bool_Exp>;
@@ -7766,6 +7784,7 @@ export type PriceOffer_Insert_Input = {
   internalNote: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['bigint']['input']>;
   newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   productId: InputMaybe<Scalars['String']['input']>;
   productVariant: InputMaybe<ProductVariant_Obj_Rel_Insert_Input>;
@@ -7788,6 +7807,7 @@ export type PriceOffer_Max_Fields = {
   internalNote: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['bigint']['output']>;
   newPriceInCents: Maybe<Scalars['bigint']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   productVariantId: Maybe<Scalars['String']['output']>;
   publicNote: Maybe<Scalars['String']['output']>;
@@ -7808,6 +7828,7 @@ export type PriceOffer_Min_Fields = {
   internalNote: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['bigint']['output']>;
   newPriceInCents: Maybe<Scalars['bigint']['output']>;
+  orderId: Maybe<Scalars['String']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   productVariantId: Maybe<Scalars['String']['output']>;
   publicNote: Maybe<Scalars['String']['output']>;
@@ -7845,6 +7866,7 @@ export type PriceOffer_Order_By = {
   internalNote: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   newPriceInCents: InputMaybe<Order_By>;
+  orderId: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
   productId: InputMaybe<Order_By>;
   productVariant: InputMaybe<ProductVariant_Order_By>;
@@ -7881,6 +7903,8 @@ export enum PriceOffer_Select_Column {
   /** column name */
   NewPriceInCents = 'newPriceInCents',
   /** column name */
+  OrderId = 'orderId',
+  /** column name */
   ProductId = 'productId',
   /** column name */
   ProductVariantId = 'productVariantId',
@@ -7905,6 +7929,7 @@ export type PriceOffer_Set_Input = {
   internalNote: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['bigint']['input']>;
   newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   productVariantId: InputMaybe<Scalars['String']['input']>;
   publicNote: InputMaybe<Scalars['String']['input']>;
@@ -7959,6 +7984,7 @@ export type PriceOffer_Stream_Cursor_Value_Input = {
   internalNote: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['bigint']['input']>;
   newPriceInCents: InputMaybe<Scalars['bigint']['input']>;
+  orderId: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   productVariantId: InputMaybe<Scalars['String']['input']>;
   publicNote: InputMaybe<Scalars['String']['input']>;
@@ -7996,6 +8022,8 @@ export enum PriceOffer_Update_Column {
   Name = 'name',
   /** column name */
   NewPriceInCents = 'newPriceInCents',
+  /** column name */
+  OrderId = 'orderId',
   /** column name */
   ProductId = 'productId',
   /** column name */
@@ -8355,7 +8383,7 @@ export type ProductVariant = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Scalars['timestamp']['output'];
   id: Scalars['String']['output'];
-  priceInCents: Maybe<Scalars['bigint']['output']>;
+  priceInCents: Scalars['bigint']['output'];
   /** An object relationship */
   product: Product;
   productId: Scalars['String']['output'];
