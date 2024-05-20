@@ -2,6 +2,7 @@ import {
   BackgroundTask,
   CaptureBackgroundTransaction,
 } from '@libs/application/decorators/capture-background-transaction';
+import { shutDownNewRelic } from '@libs/application/instrumentation/newrelic.config';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
@@ -80,6 +81,7 @@ export class StockUpdateConsumer {
           `Job ${job.id} for product ${product.internalProductId} took ${executionTime}ms`,
         );
       }
+      shutDownNewRelic();
     }
   }
 }
