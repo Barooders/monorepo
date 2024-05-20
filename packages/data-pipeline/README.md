@@ -47,14 +47,21 @@ Then, test your code in staging, using commands like:
 
    ```bash
    PROJECT_ID=direct-tribute-354315
-   INSTANCE_NAME=airbyte
-   gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME -- -L 8000:localhost:8000 -N -f
+   INSTANCE_NAME=airbyte-prod
+   gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME -- -L 18001:localhost:8000 -N -f
    ```
 
-2. Go to http://localhost:8000 and connect with credentials in Bitwarden
+2. Go to http://localhost:18001 and connect with credentials in Bitwarden
 
 ### Connect to VM hoisting Airbyte
 
 ```bash
 gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
 ```
+
+### Troubleshooting
+
+1. The instance freeze during a synchro
+
+It seems it can happen if the amount of new data is large. You can go on the GCP interface to stop and resume the instance, which you fix the issue.
+Then, try to sync smaller chunks of data (by adding fewer table at a time to the synchro)
