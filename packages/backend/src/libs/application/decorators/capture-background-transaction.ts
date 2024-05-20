@@ -14,8 +14,8 @@ export function CaptureBackgroundTransaction({
   type: BackgroundTask;
 }) {
   return function (
-    target: Record<string, any>,
-    propertyKey: string,
+    _target: Record<string, any>,
+    _propertyKey: string,
     descriptor: TypedPropertyDescriptor<any>,
   ) {
     const methodToInstrument = descriptor.value;
