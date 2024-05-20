@@ -1,10 +1,7 @@
 import 'dotenv.config';
 
 import envConfig from '@config/env/env.config';
-import {
-  initClients,
-  shutDownNewRelic,
-} from '@libs/application/instrumentation/newrelic.config';
+import { initClients } from '@libs/application/instrumentation/newrelic.config';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
 import { SentryContext, initSentry } from '@libs/infrastructure/sentry';
 import { sendSlackMessage } from '@libs/infrastructure/slack/slack.base.client';
@@ -41,8 +38,6 @@ ${errorMessage}`,
 
     graceFullyShutdownWithError();
   }
-
-  shutDownNewRelic();
 };
 
 void bootstrap();
