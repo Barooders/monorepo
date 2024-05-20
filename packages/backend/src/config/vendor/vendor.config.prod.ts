@@ -491,11 +491,10 @@ export const prodVendorConfig: EnvVendorsConfig = {
   },
   sbikes: {
     vendorId: '76e83268-b5b6-47e3-9cda-99b2b272763f',
-    synchros: [],
-    // synchros: [
-    //   { commandName: 'syncProducts', cron: '30 5 * * *' },
-    //   { commandName: 'updateProductStatuses', cron: '0 * * * *' },
-    // ],
+    synchros: [
+      { commandName: 'syncProducts', cron: '30 5 * * *' },
+      // { commandName: 'updateProductStatuses', cron: '0 * * * *' },
+    ],
   },
   recocycle: {
     vendorId: 'efaea235-d824-484e-b3a7-6df24e89ad33',
