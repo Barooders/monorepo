@@ -114,12 +114,12 @@ feed_gmc as (
     FROM {{ref('dim_product')}} as p
     left JOIN {{ref('dim_product_variant')}} as v on v.product_id = p.id
     left JOIN images_feed as i on i.product_id = p.id
-    left JOIN barooders_backend_dbt.store_product_for_analytics as b on b.shopify_id = p.id
-    left JOIN barooders_backend_dbt.store_discount_product as dp on dp.product_id = p.internal_id
+    left JOIN backend__dbt.store_product_for_analytics as b on b.shopify_id = p.id
+    left JOIN backend__dbt.store_discount_product as dp on dp.product_id = p.internal_id
     left JOIN {{ref('breadcrumbs')}} as bc on bc.product_type = p.product_type
     left JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.id as string) and snap.date = date_sub(current_date, interval 1 day)
-    left join barooders_backend_public.customer as c on cast(c.shopifyid as string) = cast(p.vendor_id as string)
-    left join barooders_backend_public.productsaleschannel ON productsaleschannel.productid = p.internal_id
+    left join backend__public.Customer as c on cast(c.shopifyid as string) = cast(p.vendor_id as string)
+    left join backend__public.ProductSalesChannel ON productsaleschannel.productid = p.internal_id
     where
         (
             (p.status = 'active' AND v.inventory_quantity > 0)
