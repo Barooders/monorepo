@@ -17,12 +17,18 @@ export const initAnalytics = () => {
 };
 
 export const sendOpenNewConversation = (
-  productId: string,
+  productShopifyId: number,
   customerId: string,
   productPrice: number,
 ) => {
-  gtag('event', 'newConversationOpened', { productId, customerId });
-  sendEvent('newConversationOpened', { productId, customerId });
+  gtag('event', 'newConversationOpened', {
+    productId: String(productShopifyId),
+    customerId,
+  });
+  sendEvent('newConversationOpened', {
+    productId: String(productShopifyId),
+    customerId,
+  });
   sendNewConversationConversion(productPrice);
 };
 

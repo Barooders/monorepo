@@ -22,7 +22,7 @@ export class HandDeliveryService {
     const { conversationId } =
       await this.chatService.getOrCreateConversationFromAuthUserId(
         new UUID({ uuid: authUserId }),
-        productInternalId,
+        new UUID({ uuid: productInternalId }),
       );
 
     await this.chatService.writeSupportMessage(
