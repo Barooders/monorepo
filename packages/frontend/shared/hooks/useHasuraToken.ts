@@ -101,7 +101,6 @@ export const useHasuraToken = () => {
       decodeJWT<HasuraAuthJwtType>(accessToken)['https://hasura.io/jwt/claims'];
 
     return {
-      shopifyId: tokenContent['x-hasura-shopifyCustomerId'],
       sellerName: tokenContent['x-hasura-sellerName'],
       id: tokenContent['x-hasura-user-id'],
     };
