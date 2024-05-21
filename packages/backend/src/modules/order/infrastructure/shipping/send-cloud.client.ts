@@ -1,18 +1,19 @@
 import envConfig from '@config/env/env.config';
-import { jsonStringify } from '@libs/helpers/json';
 import { IShippingClient } from '@modules/order/domain/ports/shipping.client';
 import { Injectable, Logger } from '@nestjs/common';
+import axios, { AxiosRequestConfig } from 'axios';
 import { first } from 'lodash';
 import { ShipmentNotFound } from './exceptions';
 import { FullParcelType, ParcelToCreate, ShipmentType } from './types';
 
 const SENDCLOUD_BASE_URL = 'https://panel.sendcloud.sc';
 
-const fetchSendCloudFullUrl = async (
+const fetchSendCloudFullUrl = async <ResponseType = unknown>(
   fullUrl: string,
-  options: RequestInit = {},
+  options: AxiosRequestConfig = {},
 ) => {
-  const response = await fetch(fullUrl, {
+  const response = await axios<ResponseType>({
+    url: fullUrl,
     ...options,
     headers: {
       authorization: `Basic ${envConfig.externalServices.sendCloud.basicToken}`,
@@ -20,38 +21,38 @@ const fetchSendCloudFullUrl = async (
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`Cannot GET from Sendcloud for : ${response.statusText}`);
-  }
-
   return response;
 };
 
 const fetchSendCloudApi = async <ResponseType = unknown>(
   path: string,
-  options: RequestInit = {},
+  options: AxiosRequestConfig = {},
 ): Promise<ResponseType> => {
-  const response = await fetchSendCloudFullUrl(
+  const response = await fetchSendCloudFullUrl<ResponseType>(
     `${SENDCLOUD_BASE_URL}/api/v2${path}`,
     {
       ...options,
       headers: {
         ...options.headers,
-        accept: 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     },
   );
 
-  const data = await response.json();
-
-  return data as ResponseType;
+  return response.data;
 };
 
 const fetchSendCloudDocuments = async (url: string): Promise<Buffer> => {
-  const response = await fetchSendCloudFullUrl(url);
+  const response = await fetchSendCloudFullUrl<Buffer>(url, {
+    responseType: 'arraybuffer',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/pdf',
+    },
+  });
 
-  return Buffer.from(await response.arrayBuffer());
+  return Buffer.from(response.data);
 };
 
 type ShipmentResultType = {
@@ -129,9 +130,9 @@ export class SendCloudClient implements IShippingClient {
       `/parcels`,
       {
         method: 'POST',
-        body: jsonStringify({
+        data: {
           parcel: parcelToCreate,
-        }),
+        },
       },
     );
 
