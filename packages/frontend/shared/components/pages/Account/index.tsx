@@ -294,7 +294,7 @@ const Account = () => {
       ) : (
         <div className="mb-24 grid grid-cols-12 gap-6">
           <div className="col-start-1 col-end-13 lg:col-end-10">
-            <CustomerSection value={value} />
+            <CustomerSection customer={value?.customer} />
             <div className="col-start-1 col-end-10 mt-6 hidden lg:block">
               <div className="grid grid-cols-2 grid-rows-2 gap-4">
                 {PRODUCTS_BY_SECTION.slice(0, 4).map((section) => (
