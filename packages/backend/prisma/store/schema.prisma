@@ -104,7 +104,7 @@ model StoreBaseProduct {
 
 model StoreBaseProductVariant {
   id        String   @id
-  shopifyId BigInt   @unique @map("shopify_id")
+  shopifyId BigInt?  @unique @map("shopify_id")
   createdAt DateTime @db.Timestamptz(6)
   productId String
 

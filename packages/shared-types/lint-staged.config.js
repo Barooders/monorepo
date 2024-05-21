@@ -6,7 +6,7 @@ module.exports = {
   // Lint then format TypeScript and JavaScript files
   '**/*.(ts|tsx|js)': (filenames) => [
     `yarn eslint --fix ${filenames.join(' ')} --ignore-pattern "lib/*"`,
-    `yarn prettier --write ${filenames.join(' ')}`,
+    `yarn prettier --write ${filenames.filter((file) => !file.includes('lib')).join(' ')}`,
   ],
 
   // Format MarkDown and JSON

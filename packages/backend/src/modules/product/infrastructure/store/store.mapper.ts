@@ -320,10 +320,12 @@ export class StoreMapper {
 
           try {
             return {
-              shopifyId: new ShopifyID({
-                id: Number(shopifyId),
-              }),
-              id: id ? new UUID({ uuid: id }) : undefined,
+              shopifyId: shopifyId
+                ? new ShopifyID({
+                    id: Number(shopifyId),
+                  })
+                : undefined,
+              id: new UUID({ uuid: id }),
               title: exposedProductVariant.title,
               updatedAt: new ValueDate({
                 date: exposedProductVariant.updatedAt,
@@ -392,10 +394,12 @@ export class StoreMapper {
 
           try {
             return {
-              shopifyId: new ShopifyID({
-                id: Number(shopifyId),
-              }),
-              id: id ? new UUID({ uuid: id }) : undefined,
+              shopifyId: shopifyId
+                ? new ShopifyID({
+                    id: Number(shopifyId),
+                  })
+                : undefined,
+              id: new UUID({ uuid: id }),
               updatedAt: new ValueDate({
                 date: exposedProductVariant.updatedAt,
               }),
