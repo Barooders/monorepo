@@ -28,7 +28,13 @@ Then, test your code in staging, using commands like:
 
 ## Connect to Airbyte
 
-### Prerequisites
+### Connect to Airbyte Interface
+
+Go to http://airbyte.barooders.com/ and connect with credentials in Bitwarden
+
+### Connect to VM hoisting Airbyte
+
+**Prerequisites**
 
 1. Install Google Cloud CLI
 
@@ -40,20 +46,6 @@ Then, test your code in staging, using commands like:
    ```bash
    gcloud init
    ```
-
-### Connect to Airbyte Interface
-
-1. Create an SSH tunnel
-
-   ```bash
-   PROJECT_ID=direct-tribute-354315
-   INSTANCE_NAME=airbyte-prod
-   gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME -- -L 18001:localhost:8000 -N -f
-   ```
-
-2. Go to http://localhost:18001 and connect with credentials in Bitwarden
-
-### Connect to VM hoisting Airbyte
 
 ```bash
 gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
