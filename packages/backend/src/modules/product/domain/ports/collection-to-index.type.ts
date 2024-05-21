@@ -1,7 +1,7 @@
-import { ShopifyID, Stock, URL, ValueDate } from '@libs/domain/value-objects';
+import { Stock, URL, UUID, ValueDate } from '@libs/domain/value-objects';
 
 export interface CollectionToIndex {
-  id: ShopifyID;
+  id: UUID;
   title: string;
   handle: string;
   productCount: Stock;

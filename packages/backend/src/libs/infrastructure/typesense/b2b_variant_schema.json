@@ -63,7 +63,8 @@
     },
     {
       "name": "product_shopify_id",
-      "type": "int64"
+      "type": "int64",
+      "optional": true
     },
     {
       "name": "product_internal_id",
@@ -72,12 +73,12 @@
     },
     {
       "name": "variant_shopify_id",
-      "type": "int64"
+      "type": "int64",
+      "optional": true
     },
     {
       "name": "variant_internal_id",
-      "type": "string",
-      "optional": true
+      "type": "string"
     },
     {
       "name": "product_image",
