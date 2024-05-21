@@ -5,7 +5,7 @@ const useStartChatConversation = () => {
   const { fetchAPI } = useBackend();
   return useWrappedAsyncFn(
     async (
-      productId,
+      productInternalId,
       customerId = null,
     ): Promise<{
       conversationId: string;
@@ -14,8 +14,8 @@ const useStartChatConversation = () => {
       fetchAPI('/v1/chat/conversation', {
         method: 'POST',
         body: JSON.stringify({
-          productId,
-          customerId: customerId ?? undefined,
+          productInternalId,
+          customerId,
         }),
       }),
   );

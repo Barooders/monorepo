@@ -10,6 +10,7 @@ import SplittedPayments from '../_components/SplittedPayments';
 import { ProductSingleVariant } from '../types';
 
 const FullProductCard: React.FC<ProductSingleVariant> = ({
+  id,
   shopifyId,
   images,
   vendor,
@@ -52,7 +53,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
                 <ProductVendor
                   vendor={vendor.name}
                   withLink={true}
-                  productShopifyId={shopifyId}
+                  productInternalId={id}
                   size="card"
                   isPro={vendor.isPro}
                 />
