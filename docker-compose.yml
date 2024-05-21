@@ -67,7 +67,7 @@ services:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:password@barooders-DB/barooders-backend
       HASURA_GRAPHQL_GRAPHQL_URL: http://hasura:8080/v1/graphql
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
-      AUTH_JWT_CUSTOM_CLAIMS: '{"shopifyCustomerId":"customer.shopifyId","sellerName":"customer.sellerName"}'
+      AUTH_JWT_CUSTOM_CLAIMS: '{"sellerName":"customer.sellerName"}'
       AUTH_USER_DEFAULT_ALLOWED_ROLES: public,me,registered_user, me_as_customer, me_as_vendor
       AUTH_USER_DEFAULT_ROLE: registered_user
       AUTH_LOG_LEVEL: info

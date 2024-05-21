@@ -7,7 +7,6 @@ const CLAIMS_KEY = 'https://hasura.io/jwt/claims';
 
 type HasuraAuthJwtType = {
   [CLAIMS_KEY]: {
-    'x-hasura-shopifyCustomerId'?: string;
     'x-hasura-sellerName'?: string;
     'x-hasura-allowed-roles': string[];
     'x-hasura-default-role': string;
@@ -21,7 +20,6 @@ type HasuraAuthJwtType = {
 };
 
 export type ExtractedUser = {
-  shopifyId?: string;
   sellerName?: string;
   userId: string;
   roles: string[];
@@ -38,10 +36,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: HasuraAuthJwtType): Promise<ExtractedUser> {
-    const parsedShopifyId = payload[CLAIMS_KEY]['x-hasura-shopifyCustomerId'];
     const parsedSellerName = payload[CLAIMS_KEY]['x-hasura-sellerName'];
     return {
-      ...(parsedShopifyId ? { shopifyId: parsedShopifyId } : {}),
       ...(parsedSellerName ? { sellerName: parsedSellerName } : {}),
       userId: payload[CLAIMS_KEY]['x-hasura-user-id'],
       roles: payload[CLAIMS_KEY]['x-hasura-allowed-roles'],

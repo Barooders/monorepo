@@ -12,6 +12,7 @@ import {
   Variant,
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
@@ -112,7 +113,7 @@ export class ProductUpdateService {
   async updateProductByUser(
     productId: EntityId,
     productToUpdate: ProductToUpdate,
-    userId: EntityId,
+    { uuid: userId }: UUID,
   ): Promise<void> {
     const product = await this.prisma.product.findUniqueOrThrow({
       where: {
@@ -120,8 +121,8 @@ export class ProductUpdateService {
       },
     });
 
-    if (product.vendorId !== String(userId.id)) {
-      throw new UserNotAllowedException(productId.id, userId.id, 'update');
+    if (product.vendorId !== userId) {
+      throw new UserNotAllowedException(productId.id, userId, 'update');
     }
 
     await this.updateProduct(
@@ -134,7 +135,7 @@ export class ProductUpdateService {
       },
       {
         type: 'user',
-        id: userId.id,
+        id: userId,
       },
     );
   }
