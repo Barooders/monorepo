@@ -17,6 +17,7 @@ with fact_acquisition_cost as (
         sum(a.cost_micros)/1000000 as spend,
         sum(a.conversions) as conversions
     from google_ads.google_ads_report  a
+		WHERE date <= '2024-04-01'
     group by 1,2,3,4,5,6,7,8,9
 
     union all
@@ -32,15 +33,17 @@ with fact_acquisition_cost as (
         cast(null as STRING) as ad_name,
         REGEXP_EXTRACT(ad.ad_group_ad_ad_final_app_urls, r'\[(.+)\]') as landing_page,
         'Google Ads' as platform,
-        max(ad_stats.metrics_clicks) as clicks,
-        max(ad_stats.metrics_impressions) as impressions,
-        max(ad_stats.metrics_cost_micros) / 1000000 as spend,
-        max(ad_stats.metrics_conversions) as conversions
-    FROM ads_direct_export.p_ads_Ad_5663401656 as ad
-		LEFT JOIN ads_direct_export.p_ads_AdBasicStats_5663401656 as ad_stats ON ad.ad_group_ad_ad_id = ad_stats.ad_group_ad_ad_id
-		LEFT JOIN ads_direct_export.p_ads_AdGroup_5663401656 as ad_group ON ad_group.ad_group_id = ad.ad_group_id
-		LEFT JOIN ads_direct_export.p_ads_Campaign_5663401656 as campaign ON campaign.campaign_id = ad.campaign_id
-    group by date, campaign_name, ad_group_name, ad_group_ad_ad_final_app_urls
+        sum(ad_stats.metrics_clicks) as clicks,
+        sum(ad_stats.metrics_impressions) as impressions,
+        sum(ad_stats.metrics_cost_micros) / 1000000 as spend,
+        sum(ad_stats.metrics_conversions) as conversions
+    FROM ads_direct_export.ads_Ad_5663401656 as ad
+		LEFT JOIN ads_direct_export.ads_AdBasicStats_5663401656 as ad_stats ON ad.ad_group_ad_ad_id = ad_stats.ad_group_ad_ad_id
+		LEFT JOIN ads_direct_export.ads_AdGroup_5663401656 as ad_group ON ad_group.ad_group_id = ad.ad_group_id AND ad_group._DATA_DATE = ad_group._LATEST_DATE
+		LEFT JOIN ads_direct_export.ads_Campaign_5663401656 as campaign ON campaign.campaign_id = ad.campaign_id AND campaign._DATA_DATE = campaign._LATEST_DATE
+		WHERE ad_stats.segments_date >= '2024-04-01'
+			AND ad._DATA_DATE = ad._LATEST_DATE
+    group by date, campaign.campaign_name, ad_group.ad_group_name, ad.ad_group_ad_ad_final_app_urls
 
     union all
 
