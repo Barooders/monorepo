@@ -100,7 +100,6 @@ export class BuyerCommissionService {
     if (!commissionProduct) {
       throw new Error('Could not create commission product in store');
     }
-    await this.storeClient.publishProduct(commissionProduct.productStoreId);
 
     return commissionProduct;
   }

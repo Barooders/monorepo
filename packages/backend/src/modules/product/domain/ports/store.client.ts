@@ -29,7 +29,6 @@ export abstract class IStoreClient {
     productId: string,
     data: ProductToUpdate,
   ): Promise<void>;
-  abstract publishProduct(productId: string): Promise<void>;
   abstract createProductVariant(
     productId: number,
     data: Variant,

@@ -159,8 +159,6 @@ export class ProductCreationService {
       );
     }
 
-    await this.storeClient.publishProduct(String(createdProduct.shopifyId));
-
     await this.updateProductsInDBWithSameHandle(createdProduct);
 
     const salesChannels = product.salesChannels
