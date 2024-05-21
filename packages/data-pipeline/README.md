@@ -57,3 +57,7 @@ gcloud --project=$PROJECT_ID beta compute ssh $INSTANCE_NAME
 
 It seems it can happen if the amount of new data is large. You can go on the GCP interface to stop and resume the instance, which you fix the issue.
 Then, try to sync smaller chunks of data (by adding fewer table at a time to the synchro)
+
+2. Implementation of CDC
+
+Not possible with Heroku databases. See https://github.com/heroku/roadmap/issues/38
