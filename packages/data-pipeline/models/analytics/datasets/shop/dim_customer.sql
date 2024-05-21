@@ -4,6 +4,7 @@
 with dim_customer as (
     select
         c.id as customer_id,
+				b_c.authUserId as internal_id,
         max(DATETIME(c.created_at, 'Europe/Paris')) as creation_datetime,
         max(date_trunc(DATETIME(c.created_at, 'Europe/Paris'), day)) as creation_date,
         max(ca.first_name) as first_name,
@@ -19,7 +20,7 @@ with dim_customer as (
     from shopify.customer c
     left join shopify.customer_address ca on ca.customer_id = c.id
     left join backend__public.Customer b_c ON b_c.shopifyid = c.id
-    group by c.id, c.email
+    group by c.id, b_c.authUserId, c.email
 )
 
 select *
