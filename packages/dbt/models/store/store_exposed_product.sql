@@ -116,10 +116,9 @@ LEFT JOIN
 LEFT JOIN images_ranked AS ir ON bp.id = ir."productId" AND ir.row_number = 1
 LEFT JOIN total_quantities AS tq ON bp.id = tq."productId"
 LEFT JOIN
-  biquery_analytics_dbt.products_ranking AS pr
+  biquery_analytics_dbt.sync_products_ranking AS pr
   ON
     bp.id = pr.id
-    AND pr._fivetran_deleted = false
 
 WHERE
   sp.id IS NOT null

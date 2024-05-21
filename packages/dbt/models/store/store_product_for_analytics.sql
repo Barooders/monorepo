@@ -159,10 +159,9 @@ product_with_algo_inputs AS (
   LEFT JOIN variant_data ON bp.id = variant_data."productId"
   LEFT JOIN image_data ON bp.id = image_data."productId"
   LEFT JOIN
-    biquery_analytics_dbt.products_ranking AS pr
+    biquery_analytics_dbt.sync_products_ranking AS pr
     ON
       bp.id = pr.id
-      AND pr._fivetran_deleted = false
   LEFT JOIN favorites ON bp.id = favorites.id
   LEFT JOIN orders ON bp.id = orders."productId"
 ),
