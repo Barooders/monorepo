@@ -82,7 +82,6 @@ export class ProductUpdateService {
         aggregateName: AggregateName.VENDOR,
         productInternalId: productId.id,
         payload: {
-          productShopifyId: productId.storeId,
           updates: jsonStringify(updatesAndPreviousValues),
         },
         metadata: {
