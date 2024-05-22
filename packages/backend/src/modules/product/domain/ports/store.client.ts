@@ -5,7 +5,7 @@ import {
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
-import { Amount, URL } from '@libs/domain/value-objects';
+import { Amount, URL, UUID } from '@libs/domain/value-objects';
 import { ImageToUpload, ProductImage } from '../types';
 
 export interface ProductCreationInput {
@@ -18,39 +18,27 @@ export interface ProductCreationInput {
 }
 
 export abstract class IStoreClient {
-  abstract getProductDetails(product: {
-    id: string;
-    shopifyId: number;
-  }): Promise<StoredProduct>;
+  abstract getProductDetails(productId: UUID): Promise<StoredProduct>;
   abstract createProduct(
     product: ProductToStore,
   ): Promise<Omit<StoredProduct, 'internalId'>>;
-  abstract updateProduct(
-    productId: string,
-    data: ProductToUpdate,
-  ): Promise<void>;
+  abstract updateProduct(productId: UUID, data: ProductToUpdate): Promise<void>;
   abstract createProductVariant(
     productId: number,
     data: Variant,
   ): Promise<StoredVariant>;
   abstract updateProductVariant(
-    variantId: string,
+    variantId: UUID,
     data: Partial<Variant>,
   ): Promise<void>;
-  abstract deleteProductVariant(
-    productId: string,
-    variantId: string,
-  ): Promise<void>;
-  abstract approveProduct(productId: string): Promise<void>;
-  abstract rejectProduct(productId: string): Promise<void>;
+  abstract deleteProductVariant(variantId: UUID): Promise<void>;
+  abstract approveProduct(productId: UUID): Promise<void>;
+  abstract rejectProduct(productId: UUID): Promise<void>;
   abstract addProductImage(
-    productId: string,
+    productId: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage>;
-  abstract deleteProductImage(
-    productId: string,
-    imageId: string,
-  ): Promise<void>;
+  abstract deleteProductImage(productId: UUID, imageId: string): Promise<void>;
 
   abstract createCommissionProduct(
     product: ProductCreationInput,

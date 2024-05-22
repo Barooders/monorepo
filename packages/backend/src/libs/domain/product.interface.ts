@@ -143,6 +143,7 @@ export interface Variant extends VariantBase {
 
 export interface StoredVariant extends VariantBase {
   id: number;
+  internalId?: string;
   option1?: string;
   option2?: string;
   option3?: string;
