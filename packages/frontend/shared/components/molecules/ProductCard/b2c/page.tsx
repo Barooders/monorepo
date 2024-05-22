@@ -195,19 +195,18 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             {!isSoldOut && (
               <div className="flex w-full flex-col gap-3">
                 <div className="flex gap-2">
-                  {vendor.negociationMaxAmountPercent &&
-                    vendor.negociationMaxAmountPercent > 0 && (
-                      <PriceOfferButton
-                        className="flex-1 uppercase"
-                        price={price}
-                        productInternalId={id}
-                        variant={variantId}
-                        negociationMaxAmountPercent={
-                          vendor.negociationMaxAmountPercent
-                        }
-                        shouldRedirectToChat={true}
-                      />
-                    )}
+                  {!!vendor.negociationMaxAmountPercent && (
+                    <PriceOfferButton
+                      className="flex-1 uppercase"
+                      price={price}
+                      productInternalId={id}
+                      variant={variantId}
+                      negociationMaxAmountPercent={
+                        vendor.negociationMaxAmountPercent
+                      }
+                      shouldRedirectToChat={true}
+                    />
+                  )}
                   <BuyButton
                     className="flex-1"
                     variant={variantShopifyId}
