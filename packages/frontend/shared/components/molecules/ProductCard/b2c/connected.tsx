@@ -12,7 +12,7 @@ export const ProductCardWithContainer: React.FC<ContainerPropsType> = (
 
   useEffect(() => {
     doGetData(containerProps);
-  }, [containerProps.productId]);
+  }, [containerProps.productInternalId]);
 
   return (
     <>

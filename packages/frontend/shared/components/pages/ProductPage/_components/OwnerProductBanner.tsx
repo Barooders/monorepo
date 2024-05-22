@@ -10,7 +10,7 @@ const dict = getDictionary('fr');
 
 const OwnerProductBanner = ({
   vendor: { id: productVendorId },
-  shopifyId: productShopifyId,
+  id: productInternalId,
 }: ProductCardProps) => {
   const { hasuraToken } = useUser();
 
@@ -19,7 +19,7 @@ const OwnerProductBanner = ({
 
   return (
     <ActionsBanner title={dict.productPage.ownerBanner.title}>
-      <Button href={`/selling-form/${productShopifyId}`}>
+      <Button href={`/selling-form/${productInternalId}`}>
         {dict.productPage.ownerBanner.editProduct}
       </Button>
       <span className="text-sm font-semibold italic">

@@ -8,8 +8,11 @@ const useAddProductImages = () => {
   const { fetchAPI } = useBackend();
   const { productInfos, addProductInfo } = useSellForm();
 
-  const addProductImage = async (productId: string, imageBase64: string) => {
-    const uri = `/v1/products/${productId}/image`;
+  const addProductImage = async (
+    productInternalId: string,
+    imageBase64: string,
+  ) => {
+    const uri = `/v1/products/${productInternalId}/image`;
     const body = JSON.stringify({
       attachment: imageBase64,
     });
@@ -21,12 +24,12 @@ const useAddProductImages = () => {
   };
 
   const addProductImages = async (
-    productId: string,
+    productInternalId: string,
     imagesBase64: string[],
   ) => {
     const imageUrls: ImageType[] = [];
     for (const imageContent of imagesBase64) {
-      const image = await addProductImage(productId, imageContent);
+      const image = await addProductImage(productInternalId, imageContent);
       if (image.id) imageUrls.push(image);
     }
     addProductInfo('images', [...productInfos.images, ...imageUrls]);

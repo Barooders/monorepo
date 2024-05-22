@@ -39,15 +39,15 @@ const mtbPlaceholderDatas = [
   imageStepLabels.imagePlaceholderData.fork,
 ];
 
-const ImagesStep: React.FC<FormStepProps> = ({ productId }) => {
+const ImagesStep: React.FC<FormStepProps> = ({ productInternalId }) => {
   const { productInfos, isInCategory } = useSellForm();
   const [addImagesState, uploadImages] = useAddProductImages();
 
   const [refreshImagesState, doRefreshImages] = useRefreshImages();
 
   const addImages = async (images: string[]) => {
-    if (!productInfos.productId) throw new Error('No product id');
-    uploadImages(productInfos.productId, images);
+    if (!productInfos.productInternalId) throw new Error('No product id');
+    uploadImages(productInfos.productInternalId, images);
   };
 
   const placeholderDatas = isInCategory(BIKE_CATEGORY_NAME)
@@ -66,7 +66,7 @@ const ImagesStep: React.FC<FormStepProps> = ({ productId }) => {
           <p className="mt-2 text-sm">{imageStepLabels.minimumPictures}</p>
         </div>
         <button
-          onClick={() => doRefreshImages(productId)}
+          onClick={() => doRefreshImages(productInternalId)}
           className="flex items-center gap-2 px-1 py-1 text-sm"
         >
           <FaRotate
