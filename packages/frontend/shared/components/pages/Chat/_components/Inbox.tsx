@@ -121,7 +121,7 @@ const Inbox: React.FC<Props> = ({
           throw new Error('Product not found');
         }
         const { conversationId, isNewConversation } =
-          await startChatConversation(productInternalId, customerId);
+          await startChatConversation(productInternalId);
 
         setSelectedConversationId(conversationId);
         if (isNewConversation) {

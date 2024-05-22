@@ -9,11 +9,10 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 import { User } from '@libs/application/decorators/user.decorator';
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
-import { IsNotEmpty, IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import {
   ChatService,
   NewConversationLimitExceededException,
@@ -22,7 +21,7 @@ import { TalkJSConversation, TalkJSMessage, TalkJSUser } from '../types';
 
 class ConversationInputDto {
   @IsNotEmpty()
-  @IsNumberString()
+  @IsString()
   productInternalId!: string;
 }
 
@@ -39,10 +38,7 @@ type WebhookMessageDTO = {
 
 @Controller(routesV1.version)
 export class ChatController {
-  constructor(
-    private chatService: ChatService,
-    private prisma: PrismaMainClient,
-  ) {}
+  constructor(private chatService: ChatService) {}
 
   @Post(routesV1.chat.conversation)
   @UseGuards(JwtAuthGuard)
