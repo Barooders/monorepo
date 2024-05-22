@@ -59,7 +59,7 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
 
 FROM {{ ref("store_base_product") }} AS bp
 LEFT JOIN public."Product" AS p ON bp.id = p.id
-LEFT JOIN fivetran_shopify.product AS sp ON bp."shopifyId" = sp.id
+LEFT JOIN airbyte_shopify.products AS sp ON bp."shopifyId" = sp.id
 
 LEFT JOIN
   ( -- noqa: ST05, (Join/From clauses should not contain subqueries. Use CTEs instead)

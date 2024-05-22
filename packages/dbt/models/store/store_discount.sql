@@ -8,7 +8,7 @@ WITH dc AS (
   SELECT
     price_rule_id,
     MAX(code) AS code
-  FROM fivetran_shopify.discount_code GROUP BY price_rule_id
+  FROM airbyte_shopify.discount_codes GROUP BY price_rule_id
 )
 
 SELECT
@@ -16,12 +16,13 @@ SELECT
   pr.title,
   pr.starts_at,
   pr.ends_at,
-  pr.prerequisite_subtotal_range AS min_amount,
+  pr.prerequisite_subtotal_range::double precision AS min_amount,
   dc.code,
   pr.value_type,
-  -pr.value AS value, -- noqa: RF04, (ignore reserved keyword)
+  -(pr.value::double precision) AS value, -- noqa: RF04, (ignore reserved keyword)
   COALESCE(customer_selection = 'all', FALSE) AS is_public -- noqa: RF02, (references should be qualified if select has more than one referenced table/view)
-FROM fivetran_shopify.price_rule AS pr
+FROM airbyte_shopify.price_rules AS pr
 LEFT JOIN
   dc
   ON pr.id = dc.price_rule_id
+WHERE pr.deleted_at IS NULL

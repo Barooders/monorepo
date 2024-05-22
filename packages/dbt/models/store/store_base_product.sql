@@ -10,5 +10,5 @@ SELECT
   bp."createdAt",
   bp."vendorId"::uuid AS "vendorId"
 FROM public."Product" AS bp
-LEFT JOIN fivetran_shopify.product AS p ON bp."shopifyId" = p.id
+LEFT JOIN airbyte_shopify.products AS p ON bp."shopifyId" = p.id
 WHERE p.id IS NOT NULL

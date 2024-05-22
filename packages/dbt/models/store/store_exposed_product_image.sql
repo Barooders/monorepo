@@ -13,7 +13,7 @@ SELECT
   pi.alt,
   pi.position,
   CURRENT_DATE AS "syncDate"
-FROM fivetran_shopify.product_image AS pi
+FROM airbyte_shopify.product_images AS pi
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
   ON pi.product_id = bp."shopifyId"
