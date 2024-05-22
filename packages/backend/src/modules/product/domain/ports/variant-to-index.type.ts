@@ -15,8 +15,8 @@ import { ProductType } from '../value-objects/product-type.value-object';
 
 export interface PublicVariantToIndex {
   variant: {
-    shopifyId?: ShopifyID;
-    id: UUID;
+    shopifyId: ShopifyID;
+    id?: UUID;
     title: string;
     updatedAt: ValueDate;
     createdAt: ValueDate;
@@ -27,7 +27,7 @@ export interface PublicVariantToIndex {
     compareAtPrice: Amount;
   };
   product: {
-    shopifyId?: ShopifyID;
+    shopifyId: ShopifyID;
     id: UUID;
     isActive: boolean;
     imageSrc?: URL;
@@ -55,8 +55,8 @@ export interface PublicVariantToIndex {
 
 export interface B2BVariantToIndex {
   variant: {
-    shopifyId?: ShopifyID;
-    id: UUID;
+    shopifyId: ShopifyID;
+    id?: UUID;
     updatedAt: ValueDate;
     createdAt: ValueDate;
     quantityAvailable?: Stock;
@@ -65,7 +65,7 @@ export interface B2BVariantToIndex {
     compareAtPrice: Amount;
   };
   product: {
-    shopifyId?: ShopifyID;
+    shopifyId: ShopifyID;
     id: UUID;
     vendor: string;
     vendorId: UUID;

@@ -39,9 +39,9 @@ const DOCUMENT_CONFIG = {
       product,
       vendor,
     }: PublicVariantToIndex): TypesensePublicVariantDocument => ({
-      id: variant.id.uuid,
-      variant_shopify_id: variant.shopifyId?.id,
-      variant_internal_id: variant.id.uuid,
+      id: variant.shopifyId.id.toString(),
+      variant_shopify_id: variant.shopifyId.id,
+      variant_internal_id: variant.id?.uuid,
       title: product.title,
       vendor: vendor.name,
       vendor_informations: {
@@ -76,7 +76,7 @@ const DOCUMENT_CONFIG = {
           : (variant.compareAtPrice.amount - variant.price.amount) /
             variant.compareAtPrice.amount,
       product_internal_id: product.id.uuid,
-      product_shopify_id: product.shopifyId?.id,
+      product_shopify_id: product.shopifyId.id,
       product_image: product.imageSrc?.url,
       compare_at_price: variant.compareAtPrice.amount,
       collection_internal_ids: product.collections.map(
@@ -94,8 +94,8 @@ const DOCUMENT_CONFIG = {
       variant,
       product,
     }: B2BVariantToIndex): TypesenseB2BVariantDocument => ({
-      id: variant.id.uuid,
-      variant_shopify_id: variant.shopifyId?.id,
+      id: variant.shopifyId.id.toString(),
+      variant_shopify_id: variant.shopifyId.id,
       vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
       computed_scoring: product.calculatedScoring ?? 0,
@@ -117,7 +117,7 @@ const DOCUMENT_CONFIG = {
       compare_at_price: variant.compareAtPrice.amount,
       largest_bundle_price: product.largestBundlePrice?.amount,
       product_internal_id: product.id.uuid,
-      product_shopify_id: product.shopifyId?.id,
+      product_shopify_id: product.shopifyId.id,
       product_image: product.imageSrc?.url,
       publishedat_timestamp: product.publishedAt.timestamp,
       updatedat_timestamp: variant.updatedAt.timestamp,
@@ -134,8 +134,8 @@ const DOCUMENT_CONFIG = {
       updatedAt,
       imageSrc,
     }: CollectionToIndex): TypesenseCollectionDocument => ({
-      id: id.uuid,
-      collectionId: id.uuid,
+      id: id.id.toString(),
+      collectionId: id.id.toString(),
       title: title,
       handle: handle,
       product_count: productCount.stock,

@@ -3,7 +3,7 @@ import {
   ProductStatus,
   StoreCollection,
 } from '@libs/domain/prisma.store.client';
-import { Stock, UUID, ValueDate } from '@libs/domain/value-objects';
+import { ShopifyID, Stock, ValueDate } from '@libs/domain/value-objects';
 import { Logger } from '@nestjs/common';
 import { Command, Console } from 'nestjs-console';
 import { CollectionIndexationService } from '../domain/collection-indexation.service';
@@ -115,18 +115,18 @@ export class CollectionIndexationCLIConsole {
     collections: (StoreCollection & { _count: { products: number } })[],
   ) {
     await Promise.allSettled(
-      collections.map(async ({ id, title, handle, _count }) => {
-        this.logger.warn(`This command will index collection (${handle})`);
+      collections.map(async ({ shopifyId, title, handle, _count }) => {
+        this.logger.warn(`This command will index collection (${shopifyId})`);
 
         if (handle.toLowerCase().includes('admin')) {
           this.logger.warn(
-            `This collection (${id}) has an admin handle, skipping`,
+            `This collection (${shopifyId}) has an admin handle, skipping`,
           );
           return;
         }
 
         await this.collectionIndexationService.indexCollection({
-          id: new UUID({ uuid: id }),
+          id: new ShopifyID({ id: Number(shopifyId) }),
           title,
           handle,
           productCount: new Stock({ stock: _count.products }),

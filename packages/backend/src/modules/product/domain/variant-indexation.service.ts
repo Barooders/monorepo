@@ -41,7 +41,7 @@ export class VariantIndexationService {
   async pruneVariants(shouldDeleteDocuments: boolean): Promise<void> {
     const existingVariants = await this.mainPrisma.productVariant.findMany({
       select: {
-        id: true,
+        shopifyId: true,
         product: {
           select: {
             productSalesChannels: true,
@@ -56,7 +56,7 @@ export class VariantIndexationService {
           return variant.product.productSalesChannels.map(
             ({ salesChannelName }) => ({
               documentType: getDocumentTypeFromSalesChannel(salesChannelName),
-              id: variant.id,
+              id: variant.shopifyId.toString(),
             }),
           );
         })
@@ -81,9 +81,12 @@ export class VariantIndexationService {
     try {
       if (!product.isActive) {
         this.logger.debug(
-          `Product ${product.id.uuid} is not active, deleting variant ${variant.id.uuid} from ${documentType} collection`,
+          `Product ${product.id.uuid} is not active, deleting variant ${variant.shopifyId.id} from ${documentType} collection`,
         );
-        await this.searchClient.deleteDocument(variant.id.uuid, documentType);
+        await this.searchClient.deleteDocument(
+          variant.shopifyId.id.toString(),
+          documentType,
+        );
         return;
       }
       await this.searchClient.indexDocument(documentToIndex);
