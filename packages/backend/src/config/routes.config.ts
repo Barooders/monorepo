@@ -65,18 +65,18 @@ export const routesV1 = {
   product: {
     createDraftProduct: '/products/create',
     createProductByAdmin: '/admin/products/create',
-    getProduct: '/products/:productId',
-    addProductImage: '/products/:productId/image',
-    deleteProductImage: '/products/:productId/image/:imageId',
+    getProduct: '/products/:productInternalId',
+    addProductImage: '/products/:productInternalId/image',
+    deleteProductImage: '/products/:productInternalId/image/:imageId',
     getProductByHandle: '/products/by-handle/:productHandle',
-    updateProduct: '/products/:productId',
-    updateProductVariant: '/products/:productId/variants/:productVariantId',
-    getProductByAdmin: '/admin/products/:productId',
-    updateProductByAdmin: '/admin/products/:productId',
+    updateProduct: '/products/:productInternalId',
+    updateProductVariant:
+      '/products/:productInternalId/variants/:productVariantInternalId',
+    updateProductByAdmin: '/admin/products/:productInternalId',
     triggerVendorProductsUpdateByAdmin: '/admin/vendors/:vendorId/products',
     updateProductVariantByAdmin:
-      '/admin/products/:productId/variants/:productVariantId',
-    moderateProductByAdmin: '/admin/products/:productId/moderate',
+      '/admin/products/:productInternalId/variants/:productVariantInternalId',
+    moderateProductByAdmin: '/admin/products/:productInternalId/moderate',
     productCreatedEvent: '/products/webhook/created-event',
     productUpdatedEvent: '/products/webhook/updated-event',
     productDeletedEvent: '/products/webhook/deleted-event',
@@ -93,7 +93,7 @@ export const routesV1 = {
     executePayout: '/invoice/payout',
   },
   deliveryProfile: {
-    variant: '/delivery-profile/product-variant/:shopifyProductVariantId',
+    variant: '/delivery-profile/product-variant/:variantShopifyId',
   },
   shopify: {
     auth: '/shopify/auth',

@@ -33,6 +33,7 @@ import { IStoreClient } from './ports/store.client';
 
 import { toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
+import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
@@ -125,12 +126,10 @@ export class ProductCreationService {
 
   async createProduct(
     product: Product,
-    vendorId: string,
+    { uuid: vendorId }: UUID,
     options: ProductCreationOptions,
     author: Author,
   ): Promise<StoredProduct> {
-    if (!vendorId) throw new Error('Cannot create product without vendorId');
-
     const { product_type: productType, variants, metafields } = product;
 
     await this.pimClient.checkIfProductTypeExists(productType);
@@ -159,8 +158,6 @@ export class ProductCreationService {
         `🎨 Some images failed to upload when creating product ${createdProduct.shopifyId}`,
       );
     }
-
-    await this.storeClient.publishProduct(String(createdProduct.shopifyId));
 
     await this.updateProductsInDBWithSameHandle(createdProduct);
 
@@ -287,7 +284,7 @@ export class ProductCreationService {
 
   async createDraftProduct(
     draftProductInputDto: DraftProductInputDto,
-    vendorId: string,
+    vendorId: UUID,
     author: Author,
   ): Promise<StoredProduct> {
     const { price } = draftProductInputDto;
@@ -315,7 +312,7 @@ export class ProductCreationService {
 
   async createProductByAdmin(
     draftProductInputDto: DraftProductInputDto,
-    vendorId: string,
+    vendorId: UUID,
     author: Author,
   ): Promise<StoredProduct> {
     return await this.createProductFromWeb(
@@ -346,7 +343,7 @@ export class ProductCreationService {
 
   private async createProductFromWeb(
     draftProductInputDto: DraftProductInputDto,
-    vendorId: string,
+    vendorId: UUID,
     author: Author,
     options: ProductCreationOptions,
   ): Promise<StoredProduct> {

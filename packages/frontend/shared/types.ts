@@ -32,7 +32,6 @@ export type HasuraToken = {
 
 export type HasuraAuthJwtType = {
   [CLAIMS_KEY]: {
-    'x-hasura-shopifyCustomerId'?: string;
     'x-hasura-sellerName'?: string;
     'x-hasura-allowed-roles': string[];
     'x-hasura-default-role': string;

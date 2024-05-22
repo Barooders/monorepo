@@ -32,8 +32,8 @@ interface SellFormState {
     type: null | string;
     handDeliveryPostalCode: null | string;
     handDelivery: null | boolean;
-    variantId: string | null;
-    productId: string | null;
+    variantInternalId: string | null;
+    productInternalId: string | null;
     condition: Condition | null;
   };
   informationsSelected: Record<string, string>;
@@ -65,8 +65,8 @@ const createDefaultProductInfos = () => ({
   type: null,
   handDeliveryPostalCode: null,
   handDelivery: null,
-  productId: null,
-  variantId: null,
+  productInternalId: null,
+  variantInternalId: null,
 });
 
 const extractTagByPrefix = (tags: string[], prefix?: string) =>
@@ -243,8 +243,8 @@ const useSellForm = create<SellFormState>()(
               price: product.price,
               tags: product.tags,
               type: product.productType,
-              variantId: product.variantId,
-              productId: product.id,
+              variantInternalId: product.variantInternalId,
+              productInternalId: product.productInternalId,
               condition: product.condition,
             },
           }));

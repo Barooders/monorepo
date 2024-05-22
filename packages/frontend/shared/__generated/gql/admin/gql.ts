@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query fetchProductNotation($productInternalId: String!) {\n    Product(where: { id: { _eq: $productInternalId } }) {\n      manualNotation\n      source\n      sourceUrl\n    }\n    dbt_store_product_for_analytics(\n      where: { id: { _eq: $productInternalId } }\n    ) {\n      created_at\n      vendor_notation\n      calculated_notation\n      calculated_notation_beta\n      orders_count\n      favorites_count\n    }\n  }\n": types.FetchProductNotationDocument,
-    "\n  query fetchProductHitData($productId: String) {\n    Product(where: { id: { _eq: $productId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n": types.FetchProductHitDataDocument,
+    "\n  query fetchProductHitData($productInternalId: String) {\n    Product(where: { id: { _eq: $productInternalId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(\n      where: { id: { _eq: $productInternalId } }\n    ) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n": types.FetchProductHitDataDocument,
 };
 
 /**
@@ -38,7 +38,7 @@ export function graphql(source: "\n  query fetchProductNotation($productInternal
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query fetchProductHitData($productId: String) {\n    Product(where: { id: { _eq: $productId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n"): (typeof documents)["\n  query fetchProductHitData($productId: String) {\n    Product(where: { id: { _eq: $productId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n"];
+export function graphql(source: "\n  query fetchProductHitData($productInternalId: String) {\n    Product(where: { id: { _eq: $productInternalId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(\n      where: { id: { _eq: $productInternalId } }\n    ) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n"): (typeof documents)["\n  query fetchProductHitData($productInternalId: String) {\n    Product(where: { id: { _eq: $productInternalId } }) {\n      manualNotation\n    }\n    dbt_store_product_for_analytics(\n      where: { id: { _eq: $productInternalId } }\n    ) {\n      notation\n      calculated_notation\n      created_at\n      calculated_scoring\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

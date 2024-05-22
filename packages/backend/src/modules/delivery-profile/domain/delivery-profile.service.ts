@@ -81,9 +81,9 @@ export class DeliveryProfileService {
     });
   }
 
-  private async getProductVariant(shopifyProductVariantId: number) {
+  private async getProductVariant(variantShopifyId: number) {
     const variables = {
-      id: composeGid('ProductVariant', shopifyProductVariantId),
+      id: composeGid('ProductVariant', variantShopifyId),
     };
 
     const response: RequestReturn<{
@@ -124,11 +124,11 @@ export class DeliveryProfileService {
   }
 
   private async getDeliveryProfile(
-    shopifyProductVariantId: number,
+    variantShopifyId: number,
     afterCursor?: string | null,
   ): Promise<DeliveryMethodDefinition[]> {
     const variables = {
-      id: composeGid('ProductVariant', shopifyProductVariantId),
+      id: composeGid('ProductVariant', variantShopifyId),
       after: afterCursor ?? null,
     };
 
@@ -204,7 +204,7 @@ export class DeliveryProfileService {
 
     if (locationGroupZones.pageInfo.hasNextPage) {
       return await this.getDeliveryProfile(
-        shopifyProductVariantId,
+        variantShopifyId,
         locationGroupZones.pageInfo.startCursor,
       );
     }
@@ -213,12 +213,12 @@ export class DeliveryProfileService {
   }
 
   async fetchEligibleProductVariantDeliveryProfile(
-    shopifyProductVariantId: number,
+    variantShopifyId: number,
   ): Promise<{ methodDefinitions: DeliveryMethodDefinition[] } | undefined> {
     try {
       const [productVariant, matchedMethodDefinitions] = await Promise.all([
-        this.getProductVariant(shopifyProductVariantId),
-        this.getDeliveryProfile(shopifyProductVariantId),
+        this.getProductVariant(variantShopifyId),
+        this.getDeliveryProfile(variantShopifyId),
       ]);
 
       const acceptsHandDelivery =

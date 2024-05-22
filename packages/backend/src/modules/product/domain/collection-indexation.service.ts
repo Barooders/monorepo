@@ -21,15 +21,15 @@ export class CollectionIndexationService {
     const existingCollections = await this.storePrisma.storeCollection.findMany(
       {
         select: {
-          shopifyId: true,
+          id: true,
         },
       },
     );
 
     await this.searchClient.pruneCollectionDocuments(
-      existingCollections.map(({ shopifyId }) => ({
+      existingCollections.map(({ id }) => ({
         documentType: DocumentType.COLLECTION,
-        id: shopifyId.toString(),
+        id,
       })),
       shouldDeleteDocuments,
     );

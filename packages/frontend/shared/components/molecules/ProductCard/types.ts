@@ -85,7 +85,7 @@ export type B2BProductCardProps = {
   stock: number;
   productType: string;
   handle: string;
-  shopifyId: string;
+  shopifyId?: string;
   id: string;
   vendorId: string;
   intent?: 'card' | 'small-card';

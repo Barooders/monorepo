@@ -11,7 +11,7 @@ import { calculateTotalDiscountedPrice } from './lib';
 const dict = getDictionary('fr');
 
 const ProductPrice: React.FC<{
-  productId: ProductMultiVariants['id'];
+  productInternalId: ProductMultiVariants['id'];
   price: Variant['price'];
   compareAtPrice: Variant['compareAtPrice'];
   discounts: Discount[];
@@ -19,7 +19,7 @@ const ProductPrice: React.FC<{
   componentSize?: 'large' | 'medium' | 'small';
   showPriceRecap?: boolean;
 }> = ({
-  productId,
+  productInternalId,
   price,
   discounts,
   compareAtPrice,
@@ -103,7 +103,7 @@ const ProductPrice: React.FC<{
             contentComponent={
               <div className="pt-3">
                 <PriceRecap
-                  productId={productId}
+                  productInternalId={productInternalId}
                   commissionAmount={commissionAmount}
                   discounts={discounts}
                   mainPrice={price}

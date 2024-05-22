@@ -15,7 +15,7 @@ import Inbox from './_components/Inbox';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productId?: string;
+  productInternalId?: string;
   selectedConversationId?: string;
 };
 
@@ -28,7 +28,10 @@ const GET_CUSTOMER = /* GraphQL */ /* typed_for_me_as_customer */ `
   }
 `;
 
-const Chat: React.FC<PropsType> = ({ productId, selectedConversationId }) => {
+const Chat: React.FC<PropsType> = ({
+  productInternalId,
+  selectedConversationId,
+}) => {
   const fetchCustomer = useHasura(
     graphql(GET_CUSTOMER),
     HASURA_ROLES.ME_AS_CUSTOMER,
@@ -70,7 +73,7 @@ const Chat: React.FC<PropsType> = ({ productId, selectedConversationId }) => {
       <Inbox
         customerId={customer.chatId}
         customerName={customer.sellerName ?? ''}
-        productId={productId}
+        productInternalId={productInternalId}
         initialConversationId={selectedConversationId}
       />
     </PageContainer>

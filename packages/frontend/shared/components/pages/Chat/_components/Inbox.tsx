@@ -21,13 +21,14 @@ import Talk from 'talkjs';
 type Props = {
   customerId: string;
   customerName: string;
-  productId?: string | null;
+  productInternalId?: string | null;
   initialConversationId?: string;
 };
 
-const GET_PRODUCT_PRICE = /* GraphQL */ /* typed_for_registered_user */ `
-  query getProductPrice($productShopifyId: bigint) {
-    dbt_store_base_product(where: { shopifyId: { _eq: $productShopifyId } }) {
+const GET_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
+  query getProduct($productInternalId: String!) {
+    dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
+      shopifyId
       variants(
         limit: 1
         where: { variant: { inventory_quantity: { _gt: 0 } } }
@@ -45,7 +46,7 @@ const PANEL_INSERT_DELAY = 1000;
 const Inbox: React.FC<Props> = ({
   customerId,
   customerName,
-  productId = null,
+  productInternalId = null,
   initialConversationId,
 }) => {
   const dict = getDictionary('fr');
@@ -59,7 +60,7 @@ const Inbox: React.FC<Props> = ({
   const [panelHeight, setPanelHeight] = useState<number>(0);
   const [readyForPanel, setReadyForPanel] = useState(false);
   const [cacheBuster, setCacheBuster] = useState(0);
-  const fetchProductPrice = useHasura(graphql(GET_PRODUCT_PRICE));
+  const fetchProduct = useHasura(graphql(GET_PRODUCT));
   const canaryElRef = useRef<HTMLDivElement | null>(null);
 
   useInterval(() => {
@@ -99,12 +100,11 @@ const Inbox: React.FC<Props> = ({
     [customerId, customerName],
   );
 
-  const getProductPrice = useCallback(async (productShopifyId: number) => {
-    const result = await fetchProductPrice({
-      productShopifyId,
+  const getProduct = useCallback(async (productInternalId: string) => {
+    const result = await fetchProduct({
+      productInternalId,
     });
-    return first(first(result.dbt_store_base_product)?.variants)?.b2cVariant
-      ?.price;
+    return first(result.dbt_store_base_product);
   }, []);
 
   const initConversation = useCallback(async () => {
@@ -113,17 +113,22 @@ const Inbox: React.FC<Props> = ({
       return;
     }
 
-    if (productId) {
+    if (productInternalId) {
       try {
+        const product = await getProduct(productInternalId);
+
+        if (!product?.shopifyId) {
+          throw new Error('Product not found');
+        }
         const { conversationId, isNewConversation } =
-          await startChatConversation(productId, customerId);
+          await startChatConversation(productInternalId);
 
         setSelectedConversationId(conversationId);
         if (isNewConversation) {
           sendOpenNewConversation(
-            productId,
+            product.shopifyId,
             customerId,
-            await getProductPrice(parseInt(productId)),
+            first(product.variants)?.b2cVariant?.price,
           );
         }
         return;
@@ -132,9 +137,9 @@ const Inbox: React.FC<Props> = ({
   }, [
     customerId,
     initialConversationId,
-    productId,
+    productInternalId,
     startChatConversation,
-    getProductPrice,
+    getProduct,
   ]);
 
   useEffect(() => {

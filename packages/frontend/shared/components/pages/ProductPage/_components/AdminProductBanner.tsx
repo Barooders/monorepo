@@ -35,12 +35,10 @@ const PRODUCT_NOTATION_QUERY = /* GraphQL */ /* typed_for_admin */ `
 `;
 
 const AdminProductBanner = ({
-  productShopifyId,
   productInternalId,
   showByDefault = true,
   market = 'PUBLIC',
 }: {
-  productShopifyId?: string;
   productInternalId: string;
   showByDefault?: boolean;
   market?: 'PUBLIC' | 'B2B';
@@ -58,7 +56,7 @@ const AdminProductBanner = ({
   const [, doUpdateProduct] = useWrappedAsyncFn(
     async (updates: Record<string, string>) => {
       try {
-        await fetchAPI(`/v1/admin/products/${productShopifyId}`, {
+        await fetchAPI(`/v1/admin/products/${productInternalId}`, {
           method: 'PATCH',
           body: JSON.stringify(updates),
         });
@@ -97,7 +95,7 @@ const AdminProductBanner = ({
       <div className="flex items-center justify-center gap-2 text-xs">
         <div>
           <p>
-            ID: {productShopifyId ?? productInternalId} (created at:{' '}
+            ID: {productInternalId} (created at:{' '}
             {new Date(
               productValue?.dbt_store_product_for_analytics[0].created_at,
             ).toLocaleDateString('fr-FR')}
@@ -105,14 +103,12 @@ const AdminProductBanner = ({
           </p>
           <p>
             source: {productValue?.Product[0]?.source ?? '-'} -{' '}
-            {productShopifyId && (
-              <a
-                className="font-semibold text-gray-500 underline"
-                href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productShopifyId}`}
-              >
-                Perf
-              </a>
-            )}
+            <a
+              className="font-semibold text-gray-500 underline"
+              href={`https://barooders-metabase.herokuapp.com/dashboard/34?product_id=${productInternalId}`}
+            >
+              Perf
+            </a>
           </p>
           {productValue?.Product[0]?.sourceUrl && (
             <a
@@ -125,24 +121,12 @@ const AdminProductBanner = ({
             </a>
           )}
         </div>
-        {productShopifyId && (
-          <>
-            <Button
-              className="text-xs"
-              href={`/admin/products/${productShopifyId}`}
-            >
-              See
-            </Button>
-            <Button
-              className="text-xs"
-              onClick={() =>
-                doUpdateProduct({ status: ProductStatus.ARCHIVED })
-              }
-            >
-              Archive
-            </Button>
-          </>
-        )}
+        <Button
+          className="text-xs"
+          onClick={() => doUpdateProduct({ status: ProductStatus.ARCHIVED })}
+        >
+          Archive
+        </Button>
         <Select
           className="h-[33px] w-[140px]"
           buttonClassName="text-xs py-0 h-full"

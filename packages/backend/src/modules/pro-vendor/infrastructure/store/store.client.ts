@@ -8,6 +8,7 @@ import {
   Variant,
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import {
   cleanShopifyProduct,
   cleanShopifyVariant,
@@ -50,7 +51,7 @@ export class StoreClient implements IStoreClient {
         ...product,
         source: `backend:${this.vendorConfigService.getVendorConfig().type}`,
       },
-      this.vendorConfigService.getVendorConfig().vendorId,
+      new UUID({ uuid: this.vendorConfigService.getVendorConfig().vendorId }),
       {},
       backendAuthor,
     );
@@ -77,10 +78,7 @@ export class StoreClient implements IStoreClient {
       },
     });
     await this.productUpdateService.updateProduct(
-      {
-        id,
-        storeId: product_id.toString(),
-      },
+      new UUID({ uuid: id }),
       data,
       { notifyVendor: false },
       backendAuthor,
@@ -94,14 +92,8 @@ export class StoreClient implements IStoreClient {
     const { product, id } = await this.getInternalVariant(variant_id);
 
     await this.productUpdateService.updateProductVariant(
-      {
-        id: product.id,
-        storeId: product.shopifyId.toString(),
-      },
-      {
-        id: id,
-        storeId: variant_id.toString(),
-      },
+      new UUID({ uuid: product.id }),
+      new UUID({ uuid: id }),
       data,
       backendAuthor,
     );
@@ -111,14 +103,8 @@ export class StoreClient implements IStoreClient {
     const { product, id } = await this.getInternalVariant(variantShopifyId);
 
     await this.productUpdateService.deleteProductVariant(
-      {
-        id: product.id,
-        storeId: product.shopifyId.toString(),
-      },
-      {
-        id: id,
-        storeId: variantShopifyId.toString(),
-      },
+      new UUID({ uuid: product.id }),
+      new UUID({ uuid: id }),
       backendAuthor,
     );
   }

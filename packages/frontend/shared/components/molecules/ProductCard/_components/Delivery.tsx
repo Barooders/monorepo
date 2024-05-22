@@ -34,27 +34,27 @@ type DeliveryMethodDefinition = {
 type MethodDefinitions = { methodDefinitions: DeliveryMethodDefinition[] };
 
 type PropsType = {
-  variantId: string;
+  variantShopifyId: string;
   shipmentTimeframeSentence: string | null;
 };
 
 const DeliveryInformation: React.FC<PropsType> = ({
-  variantId,
+  variantShopifyId,
   shipmentTimeframeSentence,
 }) => {
   const { fetchAPI } = useBackend();
   const [fetchState, doFetch] = useWrappedAsyncFn(
-    async (variantId) =>
+    async (variantShopifyId) =>
       (
         await fetchAPI<MethodDefinitions>(
-          `/v1/delivery-profile/product-variant/${variantId}`,
+          `/v1/delivery-profile/product-variant/${variantShopifyId}`,
         )
       ).methodDefinitions,
   );
 
   useEffect(() => {
-    doFetch(variantId);
-  }, [variantId]);
+    doFetch(variantShopifyId);
+  }, [variantShopifyId]);
 
   return (
     <div className="flex justify-start gap-2 rounded-lg border border-slate-300 p-3">

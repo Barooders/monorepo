@@ -12,8 +12,8 @@ interface UserState {
   setHasuraToken: (value: HasuraToken | null) => void;
   logoutUser: () => void;
   setFavoriteProducts: (value: string[]) => void;
-  addFavoriteProduct: (productId: string) => void;
-  removeFavoriteProduct: (productId: string) => void;
+  addFavoriteProduct: (productShopifyId: string) => void;
+  removeFavoriteProduct: (productShopifyId: string) => void;
   validateHasuraToken: (value: HasuraToken | null) => boolean;
 }
 
@@ -41,20 +41,20 @@ const useUser = createPersistedStore<UserState>(
         }));
       },
 
-      addFavoriteProduct: (productId: string) => {
+      addFavoriteProduct: (productShopifyId: string) => {
         set((state) => ({
-          favoriteProducts: state.favoriteProducts.includes(productId)
+          favoriteProducts: state.favoriteProducts.includes(productShopifyId)
             ? state.favoriteProducts
-            : [...state.favoriteProducts, productId],
+            : [...state.favoriteProducts, productShopifyId],
         }));
-        sendAddToWishlist(productId, get().hasuraToken?.user.id ?? '');
+        sendAddToWishlist(productShopifyId, get().hasuraToken?.user.id ?? '');
       },
 
-      removeFavoriteProduct: (productId: string) => {
+      removeFavoriteProduct: (productShopifyId: string) => {
         set((state) => {
           return {
             favoriteProducts: state.favoriteProducts.filter(
-              (favoriteProduct) => favoriteProduct !== productId,
+              (favoriteProduct) => favoriteProduct !== productShopifyId,
             ),
           };
         });

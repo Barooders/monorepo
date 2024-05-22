@@ -130,7 +130,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                 withLink={true}
                 rating={vendor.reviews.averageRating}
                 reviewCount={vendor.reviews.count}
-                productShopifyId={shopifyId}
+                productInternalId={id}
                 size="card"
                 isPro={vendor.isPro}
               />
@@ -150,7 +150,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             </div>
           )}
           <ProductPrice
-            productId={shopifyId}
+            productInternalId={id}
             compareAtPrice={compareAtPrice}
             price={price}
             commissionAmount={commissionAmount}
@@ -209,11 +209,11 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   )}
                   <BuyButton
                     className="flex-1"
-                    variant={variantShopifyId}
+                    variantShopifyId={variantShopifyId}
                   />
                   <FavoriteButton
                     intent="square"
-                    productId={shopifyId}
+                    productShopifyId={shopifyId}
                   />
                 </div>
               </div>
@@ -221,7 +221,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           </div>
           <div className="flex flex-col gap-2">
             <DeliveryInformation
-              variantId={variantShopifyId ?? ''}
+              variantShopifyId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
             {collections.find(
@@ -238,12 +238,12 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             compareAtPrice={compareAtPrice}
             discounts={discounts}
             price={price}
-            productId={shopifyId}
+            productInternalId={id}
             productType={productType}
             variantCondition={variantCondition}
             tags={tags}
             title={title}
-            variantId={variantShopifyId ?? ''}
+            variantShopifyId={variantShopifyId ?? ''}
           />,
           pageBottomElementRef,
         )}

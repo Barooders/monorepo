@@ -1,16 +1,18 @@
-import useBackend from '@/hooks/useBackend';
-import { useHasuraToken } from '@/hooks/useHasuraToken';
-import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { operations } from '@/__generated/rest-schema';
+import useBackend from '@/hooks/useBackend';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import useSellForm from '../_state/useSellForm';
 
 const useUpdateProduct = () => {
   const { fetchAPI } = useBackend();
-  const { extractTokenInfo } = useHasuraToken();
+  const { isLoggedIn } = useIsLoggedIn();
 
-  const updateProduct = async (productId: string, variantId: string) => {
-    const { shopifyId } = extractTokenInfo();
-    if (!shopifyId) {
+  const updateProduct = async (
+    productInternalId: string,
+    variantInternalId: string,
+  ) => {
+    if (!isLoggedIn) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
       );
@@ -42,10 +44,13 @@ const useUpdateProduct = () => {
           }
         : null;
 
-      await fetchAPI(`/v1/products/${productId}/variants/${variantId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(variantBody),
-      });
+      await fetchAPI(
+        `/v1/products/${productInternalId}/variants/${variantInternalId}`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(variantBody),
+        },
+      );
     }
 
     const productBody: operations['ProductController_updateProduct']['requestBody']['content']['application/json'] =
@@ -58,7 +63,7 @@ const useUpdateProduct = () => {
         status: 'ACTIVE',
       };
 
-    await fetchAPI(`/v1/products/${productId}`, {
+    await fetchAPI(`/v1/products/${productInternalId}`, {
       method: 'PATCH',
       body: JSON.stringify(productBody),
     });

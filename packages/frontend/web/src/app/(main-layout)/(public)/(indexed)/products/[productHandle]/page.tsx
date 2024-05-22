@@ -160,7 +160,7 @@ const ProductPagePage: AppRouterPage<
     [productCardProps, productByHandle] = await Promise.all([
       getProductCardData({
         productHandle: params.productHandle,
-        productVariant: searchParams.variant,
+        productVariantShopifyId: searchParams.variant,
       }),
       fetchProductByHandle(params.productHandle),
     ]);

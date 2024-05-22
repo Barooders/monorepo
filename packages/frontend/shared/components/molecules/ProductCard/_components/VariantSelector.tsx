@@ -1,7 +1,7 @@
 'use client';
 
-import { Variant } from '../types';
 import Select from '@/components/atoms/Select';
+import { Variant } from '../types';
 
 type PropsType = {
   variants: Variant[];

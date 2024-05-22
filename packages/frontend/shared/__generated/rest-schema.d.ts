@@ -39,9 +39,6 @@ export interface paths {
   "/v1/orders/webhook/update": {
     post: operations["OrderWebhookSendCloudController_notifyOnParcelUpdate"];
   };
-  "/v1/orders/hand-delivery/status": {
-    post: operations["HandDeliveryOrderController_setDeliveredOrderMatchingProductId"];
-  };
   "/v1/orders/{orderId}": {
     get: operations["OrderController_getOrder"];
   };
@@ -51,22 +48,19 @@ export interface paths {
   "/v1/orders/{orderId}/shipping-label": {
     post: operations["OrderController_getOrCreateShippingLabel"];
   };
-  "/v1/admin/order-lines/{orderLineId}/fulfill": {
+  "/v1/admin/fulfillment-orders/{fulfillmentOrderId}/fulfill": {
     post: operations["OrderController_fulFillOrderLineAsAdmin"];
   };
-  "/v1/order-lines/{orderLineId}/fulfill": {
+  "/v1/fulfillment-orders/{fulfillmentOrderId}/fulfill": {
     post: operations["OrderController_fulFillOrderLine"];
   };
-  "/v1/admin/order/{orderId}/refund": {
-    post: operations["OrderController_refundOrderAsAdmin"];
-  };
-  "/v1/admin/order/{orderId}/cancel": {
+  "/v1/admin/orders/{orderId}/cancel": {
     post: operations["OrderController_cancelOrderAsAdmin"];
   };
   "/v1/order-lines/{orderLineId}/cancel": {
     post: operations["OrderController_cancelOrder"];
   };
-  "/v1/admin/order-lines/{orderLineId}/update-status": {
+  "/v1/admin/orders/{orderId}/update-status": {
     post: operations["OrderController_updateOrderStatusAsAdmin"];
   };
   "/v1/invoice/preview-payout": {
@@ -93,15 +87,15 @@ export interface paths {
   "/v1/products/by-handle/{productHandle}": {
     get: operations["ProductController_getProductByHandle"];
   };
-  "/v1/admin/products/{productId}": {
-    get: operations["ProductController_getProductByAdmin"];
-    patch: operations["ProductController_updateProductByAdmin"];
-  };
   "/v1/products/{productId}": {
+    get: operations["ProductController_getProduct"];
     patch: operations["ProductController_updateProduct"];
   };
   "/v1/products/{productId}/variants/{productVariantId}": {
     patch: operations["ProductController_updateProductVariant"];
+  };
+  "/v1/admin/products/{productId}": {
+    patch: operations["ProductController_updateProductByAdmin"];
   };
   "/v1/admin/vendors/{vendorId}/products": {
     post: operations["ProductController_triggerVendorProductsUpdateByAdmin"];
@@ -208,8 +202,24 @@ export interface components {
     CreateCustomerRequestsDto: {
       requests: components["schemas"]["CustomerRequestDto"][];
     };
-    ValidateHandDeliveryOrderDto: Record<string, never>;
-    CreateOrderInputDTO: Record<string, never>;
+    ShippingAddressDTO: {
+      address1: string;
+      address2?: string;
+      company?: string;
+      phone: string;
+      firstName: string;
+      lastName: string;
+      zip: string;
+      city: string;
+      country: string;
+    };
+    CreateOrderInputDTO: {
+      salesChannelName: string;
+      customerId: string;
+      shippingAddress: components["schemas"]["ShippingAddressDTO"];
+      lineItems: string[];
+      priceOfferIds: string[];
+    };
     OrderLineFulfillmentDTO: Record<string, never>;
     OrderStatusUpdateDTO: {
       /** @example 2023-01-14 16:54:08 */
@@ -229,6 +239,8 @@ export interface components {
       comment?: string;
       /** @description An amount to replace the calculated one */
       amountInCents?: number;
+      /** @description A comment to store a reason for a price change for example */
+      force?: boolean;
     };
     BundlePriceDTO: Record<string, never>;
     DraftProductInputDto: {
@@ -236,7 +248,6 @@ export interface components {
     };
     CreatedProductResponseDTO: {
       internalId: string;
-      shopifyId: number;
     };
     AddProductImageDTO: {
       attachment: string;
@@ -249,6 +260,7 @@ export interface components {
     };
     VariantDTO: {
       id: number;
+      internalId: string;
       option1: string;
       option2: string;
       option3: string;
@@ -452,7 +464,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-14T13:11:04.243Z
+       * @example 2024-05-21T17:00:02.752Z
        */
       birthDate: string;
       /**
@@ -623,18 +635,6 @@ export interface operations {
       };
     };
   };
-  HandDeliveryOrderController_setDeliveredOrderMatchingProductId: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ValidateHandDeliveryOrderDto"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
   OrderController_getOrder: {
     parameters: {
       path: {
@@ -674,7 +674,7 @@ export interface operations {
   OrderController_fulFillOrderLineAsAdmin: {
     parameters: {
       path: {
-        orderLineId: string;
+        fulfillmentOrderId: string;
       };
     };
     requestBody: {
@@ -691,24 +691,12 @@ export interface operations {
   OrderController_fulFillOrderLine: {
     parameters: {
       path: {
-        orderLineId: string;
+        fulfillmentOrderId: string;
       };
     };
     requestBody: {
       content: {
         "application/json": components["schemas"]["OrderLineFulfillmentDTO"];
-      };
-    };
-    responses: {
-      201: {
-        content: never;
-      };
-    };
-  };
-  OrderController_refundOrderAsAdmin: {
-    parameters: {
-      path: {
-        orderId: string;
       };
     };
     responses: {
@@ -744,7 +732,7 @@ export interface operations {
   OrderController_updateOrderStatusAsAdmin: {
     parameters: {
       path: {
-        orderLineId: string;
+        orderId: string;
       };
     };
     requestBody: {
@@ -761,8 +749,8 @@ export interface operations {
   PayoutController_previewPayout: {
     parameters: {
       query: {
-        /** @description The id of the Shopify order line */
-        orderLineShopifyId: string;
+        /** @description The id of the order */
+        orderId: string;
       };
     };
     responses: {
@@ -868,7 +856,7 @@ export interface operations {
       };
     };
   };
-  ProductController_getProductByAdmin: {
+  ProductController_getProduct: {
     parameters: {
       path: {
         productId: string;
@@ -879,23 +867,6 @@ export interface operations {
         content: {
           "application/json": components["schemas"]["ProductAdminDTO"];
         };
-      };
-    };
-  };
-  ProductController_updateProductByAdmin: {
-    parameters: {
-      path: {
-        productId: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ProductAdminUpdateInputDto"];
-      };
-    };
-    responses: {
-      200: {
-        content: never;
       };
     };
   };
@@ -926,6 +897,23 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["ProductVariantUpdateInputDto"];
+      };
+    };
+    responses: {
+      200: {
+        content: never;
+      };
+    };
+  };
+  ProductController_updateProductByAdmin: {
+    parameters: {
+      path: {
+        productId: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ProductAdminUpdateInputDto"];
       };
     };
     responses: {

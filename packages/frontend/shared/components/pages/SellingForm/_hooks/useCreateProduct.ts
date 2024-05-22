@@ -1,6 +1,6 @@
 import { operations } from '@/__generated/rest-schema';
 import useBackend from '@/hooks/useBackend';
-import { useHasuraToken } from '@/hooks/useHasuraToken';
+import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import omitBy from 'lodash/omitBy';
 import useSellForm from '../_state/useSellForm';
@@ -10,11 +10,10 @@ const omitNullValues = (obj: Record<string, unknown>) =>
 
 const useCreateProduct = () => {
   const { fetchAPI } = useBackend();
-  const { extractTokenInfo } = useHasuraToken();
+  const { isLoggedIn } = useIsLoggedIn();
 
   const createProduct = async () => {
-    const { shopifyId } = extractTokenInfo();
-    if (!shopifyId) {
+    if (!isLoggedIn) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
       );
@@ -43,7 +42,6 @@ const useCreateProduct = () => {
         price,
         handDelivery,
         handDeliveryPostalCode,
-        sellerId: shopifyId,
         images: [],
         product_type: type,
         title: `${type} ${brand} ${model}`,
@@ -59,18 +57,14 @@ const useCreateProduct = () => {
       }),
     );
 
-    const result = await fetchAPI<
+    const { internalId } = await fetchAPI<
       operations['ProductController_createDraftProduct']['responses']['default']['content']['application/json']
     >(uri, {
       method: 'POST',
       body,
     });
 
-    if (!result.shopifyId) {
-      throw new Error('Missing shopifyId product in the response');
-    }
-
-    return result.shopifyId.toString();
+    return internalId;
   };
 
   return useWrappedAsyncFn(createProduct);

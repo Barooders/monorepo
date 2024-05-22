@@ -1,6 +1,5 @@
 import envConfig from '@config/env/env.config';
 import { shopifyConfig } from '@config/shopify.config';
-import { CustomerRepository } from '@libs/domain/customer.repository';
 import { getOrderShippingSolution } from '@libs/domain/order.interface';
 import {
   Currency,
@@ -42,7 +41,6 @@ export class OrderMapper {
   private readonly logger = new Logger(OrderMapper.name);
 
   constructor(
-    private customerRepository: CustomerRepository,
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
     private handDeliveryService: HandDeliveryService,
@@ -657,8 +655,10 @@ export class OrderMapper {
 
     if (!shopifyId) return null;
 
-    const storedCustomer =
-      await this.customerRepository.getCustomerFromShopifyId(shopifyId);
+    const storedCustomer = await this.mainPrisma.customer.findFirst({
+      where: { shopifyId },
+      include: { user: true },
+    });
 
     if (!storedCustomer) {
       this.logger.debug(`Customer ${shopifyId} not found in database`);

@@ -17,23 +17,29 @@ export const initAnalytics = () => {
 };
 
 export const sendOpenNewConversation = (
-  productId: string,
+  productShopifyId: number,
   customerId: string,
   productPrice: number,
 ) => {
-  gtag('event', 'newConversationOpened', { productId, customerId });
-  sendEvent('newConversationOpened', { productId, customerId });
+  gtag('event', 'newConversationOpened', {
+    productId: String(productShopifyId),
+    customerId,
+  });
+  sendEvent('newConversationOpened', {
+    productId: String(productShopifyId),
+    customerId,
+  });
   sendNewConversationConversion(productPrice);
 };
 
-export const sendBeginCheckout = (productId: string) => {
-  gtag('event', 'beginCheckout', { productId });
-  sendEvent('beginCheckout', { productId });
+export const sendBeginCheckout = (productShopifyId: string) => {
+  gtag('event', 'beginCheckout', { productId: productShopifyId });
+  sendEvent('beginCheckout', { productId: productShopifyId });
 };
 
-export const sendClickProduct = (productId: string) => {
-  gtag('event', 'clickProduct', { productId });
-  sendEvent('clickProduct', { productId });
+export const sendClickProduct = (productShopifyId: string) => {
+  gtag('event', 'clickProduct', { productId: productShopifyId });
+  sendEvent('clickProduct', { productId: productShopifyId });
 };
 
 export const searchTriggered = (query: string, totalHits: number) => {
@@ -43,9 +49,12 @@ export const searchTriggered = (query: string, totalHits: number) => {
   sendEvent('searchTriggered', { query, totalHits });
 };
 
-export const sendAddToWishlist = (productId: string, customerId: string) => {
-  gtag('event', 'addToWishlist', { productId, customerId });
-  sendEvent('addToWishlist', { productId, customerId });
+export const sendAddToWishlist = (
+  productShopifyId: string,
+  customerId: string,
+) => {
+  gtag('event', 'addToWishlist', { productId: productShopifyId, customerId });
+  sendEvent('addToWishlist', { productId: productShopifyId, customerId });
 };
 
 export const sendLogin = (customerId: string) => {
@@ -55,7 +64,7 @@ export const sendLogin = (customerId: string) => {
 };
 
 export const sendProductViewed = (product: {
-  id: string;
+  shopifyId: string;
   productType: string;
   brand: string | null;
   price: number;
@@ -66,7 +75,7 @@ export const sendProductViewed = (product: {
 }) => {
   const item = {
     ProductName: product.name,
-    ProductID: product.id,
+    ProductID: product.shopifyId,
     SKU: null,
     Categories: [product.productType],
     ImageURL: product.imageUrl,
@@ -90,12 +99,20 @@ export const sendCreateAlert = (customerId: string, filters: string[]) => {
 
 export const sendPriceOffer = (
   customerId: string,
-  productId: string,
+  productShopifyId: string,
   productPrice: number,
   variantId?: string,
 ) => {
-  gtag('event', 'sendPriceOffer', { customerId, variantId, productId });
-  sendEvent('sendPriceOffer', { customerId, variantId, productId });
+  gtag('event', 'sendPriceOffer', {
+    customerId,
+    variantId,
+    productId: productShopifyId,
+  });
+  sendEvent('sendPriceOffer', {
+    customerId,
+    variantId,
+    productId: productShopifyId,
+  });
   sendNewPriceOfferConversion(productPrice);
 };
 
