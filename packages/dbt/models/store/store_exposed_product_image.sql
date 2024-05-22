@@ -4,16 +4,23 @@
 	pre_hook='delete from {{this}}'
 ) }}
 
+WITH product_images AS (
+    SELECT
+       id AS product_id,
+       jsonb_array_elements(images) AS image
+    FROM airbyte_shopify.products
+)
+
 SELECT
-  pi.id AS "shopify_id",
+  pi.image->>'id' AS "shopify_id",
   bp.id AS "productId",
-  pi.src,
-  pi.width,
-  pi.height,
-  pi.alt,
-  pi.position,
+  pi.image->>'src' AS src,
+  pi.image->>'width' AS width,
+  pi.image->>'height' AS height,
+  pi.image->>'alt' AS alt,
+  pi.image->>'position' AS position,
   CURRENT_DATE AS "syncDate"
-FROM airbyte_shopify.product_images AS pi
+FROM product_images AS pi
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
   ON pi.product_id = bp."shopifyId"
