@@ -44,7 +44,7 @@ const Router: React.FC = () => {
               collectionHandle: params.collectionHandle,
               vendorSellerName,
               productHandle: highlightProductHandle,
-              productVariantInternalId: highlightProductVariant,
+              productVariantShopifyId: highlightProductVariant,
             });
           },
         },
@@ -53,12 +53,12 @@ const Router: React.FC = () => {
           element: <WrappedProductPage />,
           loader: async ({ params, request }) => {
             const url = new URL(request.url);
-            const productVariantInternalId =
+            const productVariantShopifyId =
               url.searchParams.get('variant') ?? undefined;
             const [productCardProps, productByHandle] = await Promise.all([
               getProductCardData({
                 productHandle: params.productHandle,
-                productVariantInternalId,
+                productVariantShopifyId,
               }),
               fetchProductByHandle(params.productHandle ?? ''),
             ]);
