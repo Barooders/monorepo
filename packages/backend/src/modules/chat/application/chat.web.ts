@@ -23,7 +23,7 @@ import { TalkJSConversation, TalkJSMessage, TalkJSUser } from '../types';
 class ConversationInputDto {
   @IsNotEmpty()
   @IsNumberString()
-  productInternalId!: string;
+  productId!: string;
 }
 
 type WebhookMessageDTO = {
@@ -51,13 +51,19 @@ export class ChatController {
     @Body()
     conversationInputDto: ConversationInputDto,
   ) {
-    const { productInternalId } = conversationInputDto;
+    const { productId } = conversationInputDto;
 
     try {
+      const { id: productInternalId } =
+        await this.prisma.product.findUniqueOrThrow({
+          where: {
+            shopifyId: Number(productId),
+          },
+        });
       const { conversationId, isNewConversation } =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: tokenInfo.userId }),
-          new UUID({ uuid: productInternalId }),
+          productInternalId,
         );
 
       return { conversationId, isNewConversation };

@@ -621,7 +621,7 @@ export class PriceOfferService implements IPriceOfferService {
     const { conversationId } =
       await this.chatService.getOrCreateConversationFromAuthUserId(
         new UUID({ uuid: buyerId }),
-        new UUID({ uuid: priceOfferProduct.id }),
+        priceOfferProduct.id,
       );
 
     return conversationId;

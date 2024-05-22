@@ -3153,7 +3153,7 @@ export type FulfillmentItem = {
   productVariant: Maybe<ProductVariant>;
   productVariantId: Scalars['String']['output'];
   quantity: Scalars['Int']['output'];
-  shopifyId: Maybe<Scalars['bigint']['output']>;
+  shopifyId: Scalars['bigint']['output'];
 };
 
 /** aggregated selection of "FulfillmentItem" */

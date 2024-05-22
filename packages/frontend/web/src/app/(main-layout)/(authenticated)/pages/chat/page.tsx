@@ -5,13 +5,13 @@ import Chat from '@/components/pages/Chat';
 import useSearchParams from '@/hooks/useSearchParams';
 
 const ChatPage: React.FC = () => {
-  const productInternalId = useSearchParams('product') ?? undefined;
+  const productId = useSearchParams('product') ?? undefined;
   const selectedConversationId = useSearchParams('conversationId') ?? undefined;
 
   return (
     <NoSSR>
       <Chat
-        productInternalId={productInternalId}
+        productId={productId}
         selectedConversationId={selectedConversationId}
       />
     </NoSSR>

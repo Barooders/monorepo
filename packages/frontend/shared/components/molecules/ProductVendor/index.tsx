@@ -8,7 +8,7 @@ export type ProductVendorProps = {
   rating?: number;
   reviewCount?: number;
   withSeeAllLink?: boolean;
-  productInternalId?: string;
+  productShopifyId?: string;
 };
 
 const ProductVendor: React.FC<

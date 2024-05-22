@@ -14,6 +14,6 @@ export abstract class IChatService {
 
   abstract getOrCreateConversationFromAuthUserId(
     authUserId: UUID,
-    productInternalId: UUID,
+    productInternalId: string,
   ): Promise<{ conversationId: string }>;
 }

@@ -75,7 +75,7 @@ export class ChatService implements IChatService {
 
   async getOrCreateConversationFromAuthUserId(
     authUserId: UUID,
-    productInternalId: UUID,
+    productInternalId: string,
   ): Promise<{ conversationId: string; isNewConversation: boolean }> {
     const customerParticipant = await this.createParticipant(
       authUserId,
@@ -114,12 +114,12 @@ export class ChatService implements IChatService {
   }
 
   private async getOrCreateConversation(
-    productInternalId: UUID,
+    productInternalId: string,
     { chatId: customerChatId, internalId: customerInternalId }: Participant,
   ) {
     const { vendorId, exposedProduct } =
       await this.storePrisma.storeBaseProduct.findUniqueOrThrow({
-        where: { id: productInternalId.uuid },
+        where: { id: productInternalId },
         include: {
           exposedProduct: true,
         },
@@ -127,7 +127,7 @@ export class ChatService implements IChatService {
 
     if (!exposedProduct) {
       throw new Error(
-        `Product with id ${productInternalId.uuid} not found in store`,
+        `Product with id ${productInternalId} not found in store`,
       );
     }
 
@@ -161,7 +161,7 @@ export class ChatService implements IChatService {
         customerInternalId,
         vendorChatId,
         vendorInternalId,
-        productInternalId: productInternalId.uuid,
+        productInternalId,
         productType: exposedProduct.productType,
       },
     );
@@ -172,7 +172,7 @@ export class ChatService implements IChatService {
         id: conversationId,
         buyerId: customerInternalId,
         vendorId: vendorInternalId,
-        productId: productInternalId.uuid,
+        productId: productInternalId,
       },
       update: {},
     });
@@ -219,14 +219,14 @@ export class ChatService implements IChatService {
 
   private async getConversationId(
     customerChatId: string,
-    productInternalId: UUID,
+    productInternalId: string,
   ) {
     const existingConversation = await this.prisma.conversation.findFirst({
       where: {
         buyer: {
           chatId: customerChatId,
         },
-        productId: productInternalId.uuid,
+        productId: productInternalId,
       },
       select: {
         id: true,
@@ -239,10 +239,7 @@ export class ChatService implements IChatService {
     );
   }
 
-  private createConversationId(
-    customerId: string,
-    { uuid: productInternalId }: UUID,
-  ) {
+  private createConversationId(customerId: string, productInternalId: string) {
     return createHmac('sha256', chatConfig.chatIdEncryptionKey)
       .update(`${customerId}-${productInternalId}`)
       .digest('hex');

@@ -1,13 +1,18 @@
 'use client';
 
+import { graphql } from '@/__generated/gql/registered_user';
+import { SUBSCRIBE_TO_OPENED_PRICE_OFFERS } from '@/clients/price-offer';
 import Button, {
   PropsType as ButtonPropsType,
 } from '@/components/atoms/Button';
+import Loader from '@/components/atoms/Loader';
 import Modal from '@/components/atoms/Modal';
 import MakeOfferModal from '@/components/molecules/MakeOfferModal';
 import useUser from '@/hooks/state/useUser';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import { getDictionary } from '@/i18n/translate';
+import { useSubscription } from '@apollo/client';
+import first from 'lodash/first';
 import React from 'react';
 import { ProductSingleVariant } from '../../types';
 
@@ -46,13 +51,28 @@ const MakeOfferButton: React.FC<
 const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
   props,
 ) => {
-  const { productInternalId, className, size } = props;
+  const { productInternalId, className, size, buyerInternalId } = props;
+  const { loading, data } = useSubscription(
+    graphql(SUBSCRIBE_TO_OPENED_PRICE_OFFERS),
+    {
+      variables: {
+        productInternalId,
+        buyerInternalId,
+      },
+    },
+  );
 
-  return productInternalId ? (
+  const productShopifyId = first(data?.PriceOffer)?.product.shopifyId;
+
+  return loading ? (
+    <div className="flex items-start justify-center">
+      <Loader />
+    </div>
+  ) : productShopifyId ? (
     <Button
       className={`text-sm ${className}`}
       intent="tertiary"
-      href={`/pages/chat?product=${productInternalId}`}
+      href={`/pages/chat?product=${productShopifyId}`}
       size={size}
     >
       {dict.makeOffer.seePriceOffer}

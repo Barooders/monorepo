@@ -14,7 +14,7 @@ const ProductVendorCard: React.FC<ProductVendorProps> = ({
   withSeeAllLink = true,
   rating,
   reviewCount,
-  productInternalId,
+  productShopifyId,
 }) => {
   const textStyle = 'leading-4 tracking-tight';
   return (
@@ -53,11 +53,11 @@ const ProductVendorCard: React.FC<ProductVendorProps> = ({
           <></>
         )}
       </div>
-      {productInternalId && (
+      {productShopifyId && (
         <Button
           className={`text-sm uppercase`}
           intent="tertiary"
-          href={`/pages/chat?product=${productInternalId}`}
+          href={`/pages/chat?product=${productShopifyId}`}
         >
           {dict.components.productCard.chatNow}
         </Button>

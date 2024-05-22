@@ -134,7 +134,7 @@ export class OrderService {
       const chatConversationId =
         await this.chatService.getOrCreateConversationFromAuthUserId(
           new UUID({ uuid: customerId }),
-          new UUID({ uuid: product.id }),
+          product.id,
         );
 
       return `/pages/chat?conversationId=${chatConversationId}`;
