@@ -6,6 +6,7 @@ import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { StrapiClient } from '@modules/product/infrastructure/pim/strapi.client';
 import { ProductModule } from '@modules/product/product.module';
 import { SyncProductsInMedusaCLI } from '@modules/scripts/create-medusa-products.cli';
+import { ExtractSlackStatsCLI } from '@modules/scripts/extract-slack-stats.cli';
 import { FixProductImageCLI } from '@modules/scripts/fix-product-images.cli';
 import { ConsoleModule as NestConsoleModule } from 'nestjs-console';
 import { BaseModule } from './base.module';
@@ -20,6 +21,7 @@ import { BaseModule } from './base.module';
   ],
   providers: [
     FixProductImageCLI,
+    ExtractSlackStatsCLI,
     SyncProductsInMedusaCLI,
     {
       provide: IPIMClient,

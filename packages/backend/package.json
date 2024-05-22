@@ -89,6 +89,7 @@
     "@shopify/shopify-app-session-storage": "1.1.9",
     "@shopify/ui-extensions": "2023.10.0",
     "@shopify/ui-extensions-react": "2023.10.0",
+    "@slack/web-api": "7.0.4",
     "@types/cors": "2.8.14",
     "@types/express": "4.17.17",
     "@types/multer": "1.4.7",
