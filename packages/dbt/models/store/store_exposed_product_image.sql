@@ -16,9 +16,9 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
   (pi.image ->> 'id')::bigint AS "shopify_id",
   (pi.image ->> 'width')::bigint AS width,
   (pi.image ->> 'height')::bigint AS height,
-  (pi.image ->> 'position')::bigint AS position,
+  (pi.image ->> 'position')::bigint AS position, -- noqa: RF04
   pi.image ->> 'src' AS src,
-  pi.image ->> 'alt' AS alt, -- noqa: RF04
+  pi.image ->> 'alt' AS alt,
   current_date AS "syncDate"
 FROM product_images AS pi
 INNER JOIN
