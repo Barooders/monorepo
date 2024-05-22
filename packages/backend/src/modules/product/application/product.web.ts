@@ -234,7 +234,7 @@ export class ProductController {
     const { internalId, shopifyId } =
       await this.productCreationService.createDraftProduct(
         draftProductInputDto,
-        new UUID({ uuid: userId }),
+        userId,
         author,
       );
 
@@ -260,13 +260,17 @@ export class ProductController {
       type: 'user',
     };
 
-    if (!sellerId)
+    const vendorId = (
+      await this.customerRepository.getCustomerFromShopifyId(Number(sellerId))
+    )?.authUserId;
+
+    if (!vendorId)
       throw new Error(`Cannot find vendor with sellerId: ${sellerId}`);
 
     try {
       const product = await this.productCreationService.createProductByAdmin(
         draftProductInputDto,
-        new UUID({ uuid: sellerId }),
+        vendorId,
         author,
       );
       return {
@@ -364,14 +368,14 @@ export class ProductController {
   @Patch(routesV1.product.updateProduct)
   @UseGuards(JwtAuthGuard)
   async updateProduct(
-    @User() { userId }: ExtractedUser,
+    @User() { shopifyId: userShopifyId, userId }: ExtractedUser,
     @Param('productId')
     productId: string,
     @Body()
     productUpdates: ProductUpdateInputDto,
   ): Promise<void> {
     try {
-      if (!userId) {
+      if (!userShopifyId) {
         throw new UnauthorizedException(
           `User not found in token, user (${userId})`,
         );
@@ -389,7 +393,10 @@ export class ProductController {
           storeId: productId,
         },
         concreteUpdates,
-        new UUID({ uuid: userId }),
+        {
+          id: userId,
+          storeId: userShopifyId,
+        },
       );
     } catch (error: any) {
       if (error instanceof UnauthorizedException) throw error;
@@ -409,11 +416,11 @@ export class ProductController {
     productVariantId: string,
     @Body()
     productVariantUpdates: ProductVariantUpdateInputDto,
-    @User() { userId }: ExtractedUser,
+    @User() jwtToken: ExtractedUser | undefined,
   ): Promise<void> {
-    if (!userId) {
+    if (!jwtToken?.shopifyId) {
       throw new UnauthorizedException(
-        `User not found in token, user (${userId})`,
+        `User not found in token, user (${jwtToken?.userId})`,
       );
     }
 
@@ -429,7 +436,7 @@ export class ProductController {
       this.mapProductVariantUpdate(productVariantUpdates),
       {
         type: 'user',
-        id: userId,
+        id: jwtToken?.userId,
       },
     );
   }

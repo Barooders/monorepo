@@ -1,15 +1,16 @@
-import { operations } from '@/__generated/rest-schema';
 import useBackend from '@/hooks/useBackend';
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
+import { operations } from '@/__generated/rest-schema';
 import useSellForm from '../_state/useSellForm';
 
 const useUpdateProduct = () => {
   const { fetchAPI } = useBackend();
-  const { isLoggedIn } = useIsLoggedIn();
+  const { extractTokenInfo } = useHasuraToken();
 
   const updateProduct = async (productId: string, variantId: string) => {
-    if (!isLoggedIn) {
+    const { shopifyId } = extractTokenInfo();
+    if (!shopifyId) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
       );

@@ -1,6 +1,6 @@
 import { operations } from '@/__generated/rest-schema';
 import useBackend from '@/hooks/useBackend';
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
+import { useHasuraToken } from '@/hooks/useHasuraToken';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import omitBy from 'lodash/omitBy';
 import useSellForm from '../_state/useSellForm';
@@ -10,10 +10,11 @@ const omitNullValues = (obj: Record<string, unknown>) =>
 
 const useCreateProduct = () => {
   const { fetchAPI } = useBackend();
-  const { isLoggedIn } = useIsLoggedIn();
+  const { extractTokenInfo } = useHasuraToken();
 
   const createProduct = async () => {
-    if (!isLoggedIn) {
+    const { shopifyId } = extractTokenInfo();
+    if (!shopifyId) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
       );
@@ -42,6 +43,7 @@ const useCreateProduct = () => {
         price,
         handDelivery,
         handDeliveryPostalCode,
+        sellerId: shopifyId,
         images: [],
         product_type: type,
         title: `${type} ${brand} ${model}`,

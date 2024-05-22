@@ -8,7 +8,6 @@ import {
   Variant,
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
-import { UUID } from '@libs/domain/value-objects';
 import {
   cleanShopifyProduct,
   cleanShopifyVariant,
@@ -51,7 +50,7 @@ export class StoreClient implements IStoreClient {
         ...product,
         source: `backend:${this.vendorConfigService.getVendorConfig().type}`,
       },
-      new UUID({ uuid: this.vendorConfigService.getVendorConfig().vendorId }),
+      this.vendorConfigService.getVendorConfig().vendorId,
       {},
       backendAuthor,
     );
