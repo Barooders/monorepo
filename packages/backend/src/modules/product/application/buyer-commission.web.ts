@@ -64,8 +64,8 @@ class ProductInputDto {
   @ApiProperty({ description: 'The shopify id of a variant.' })
   @IsOptional()
   @IsInt()
-  @Type(() => Number)
-  variantShopifyId?: number;
+  @Type(() => String)
+  variantShopifyId?: string;
 }
 
 @Controller(routesV1.version)
