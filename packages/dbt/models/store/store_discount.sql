@@ -16,7 +16,7 @@ SELECT
   pr.title,
   pr.starts_at,
   pr.ends_at,
-  pr.prerequisite_subtotal_range::double precision AS min_amount,
+  (pr.prerequisite_subtotal_range ->> 'greater_than_or_equal_to')::double precision AS min_amount,
   dc.code,
   pr.value_type,
   -(pr.value::double precision) AS value, -- noqa: RF04, (ignore reserved keyword)
