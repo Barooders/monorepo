@@ -10,11 +10,11 @@ export class DeliveryProfileController {
 
   @Get(routesV1.deliveryProfile.variant)
   async getProductDeliveryProfile(
-    @Param('variantShopifyId', new ParseIntPipe())
-    variantShopifyId: number,
+    @Param('shopifyProductVariantId', new ParseIntPipe())
+    shopifyProductVariantId: number,
   ) {
     return await this.deliveryProfileService.fetchEligibleProductVariantDeliveryProfile(
-      variantShopifyId,
+      shopifyProductVariantId,
     );
   }
 }
