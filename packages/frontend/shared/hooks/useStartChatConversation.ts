@@ -6,6 +6,7 @@ const useStartChatConversation = () => {
   return useWrappedAsyncFn(
     async (
       productInternalId,
+      customerId = null,
     ): Promise<{
       conversationId: string;
       isNewConversation: boolean;
@@ -14,6 +15,7 @@ const useStartChatConversation = () => {
         method: 'POST',
         body: JSON.stringify({
           productInternalId,
+          customerId,
         }),
       }),
   );
