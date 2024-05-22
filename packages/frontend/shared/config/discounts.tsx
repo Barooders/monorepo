@@ -39,6 +39,18 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     startsAt: dayjs('2024-05-16').toDate(),
     endsAt: dayjs('2024-05-23').toDate(),
   },
+  // Ends on 30/05
+  {
+    title: 'PRIVATE_SALE',
+    label: 'Vente Privée',
+    type: 'static',
+    collections: ['f00c084f-9c0a-4cb2-b90b-5521bc3871a4'],
+    valueType: 'custom',
+    value: null,
+    hideReduction: true,
+    startsAt: dayjs('2024-05-23').toDate(),
+    endsAt: dayjs('2024-05-30').toDate(),
+  },
   {
     // Ends on 23/05
     title: 'TREK_30',
