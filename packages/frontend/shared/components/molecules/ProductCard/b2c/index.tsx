@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const productSingleVariant: ProductSingleVariant = {
     ...props,
     variants: availableVariants,
-    variantShopifyId: selectedVariantId,
+    variantId: selectedVariantId,
     productLink: `${productLink.pathname}${productLink.search}`,
     price,
     compareAtPrice,
