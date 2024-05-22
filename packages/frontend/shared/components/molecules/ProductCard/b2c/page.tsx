@@ -221,7 +221,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           </div>
           <div className="flex flex-col gap-2">
             <DeliveryInformation
-              variantId={variantShopifyId ?? ''}
+              variantShopifyId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
             {collections.find(
