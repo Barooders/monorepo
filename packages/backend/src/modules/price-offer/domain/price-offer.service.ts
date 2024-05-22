@@ -1,4 +1,3 @@
-import envConfig from '@config/env/env.config';
 import {
   AggregateName,
   PriceOffer,
@@ -217,7 +216,7 @@ export class PriceOfferService implements IPriceOfferService {
     `;
 
     await this.internalNotificationClient.sendB2BNotification(`
-      💰 *${buyerName}* a déposé une nouvelle offre B2B pour le produit ${envConfig.frontendBaseUrl}/pro?product=${productId.uuid}
+      💰 *${buyerName}* a déposé une nouvelle offre B2B pour le produit ${productId.uuid}
 
      ${offerMessage}
     `);
