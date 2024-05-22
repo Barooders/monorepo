@@ -5,21 +5,21 @@
 ) }}
 
 WITH product_images AS (
-    SELECT
-       id AS product_id,
-       jsonb_array_elements(images) AS image
-    FROM airbyte_shopify.products
+  SELECT
+    id AS product_id,
+    jsonb_array_elements(images) AS image
+  FROM airbyte_shopify.products
 )
 
-SELECT
-  pi.image->>'id' AS "shopify_id",
+SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations and aggregates)
   bp.id AS "productId",
-  pi.image->>'src' AS src,
-  pi.image->>'width' AS width,
-  pi.image->>'height' AS height,
-  pi.image->>'alt' AS alt,
-  pi.image->>'position' AS position,
-  CURRENT_DATE AS "syncDate"
+  (pi.image ->> 'id')::bigint AS "shopify_id",
+  (pi.image ->> 'width')::bigint AS width,
+  (pi.image ->> 'height')::bigint AS height,
+  (pi.image ->> 'position')::bigint AS position,
+  pi.image ->> 'src' AS src,
+  pi.image ->> 'alt' AS alt, -- noqa: RF04
+  current_date AS "syncDate"
 FROM product_images AS pi
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
