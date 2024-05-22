@@ -126,15 +126,15 @@ export class BuyerCommissionService {
 
   async getCommissionByProduct(
     productHandle?: string,
-    productId?: string,
-    variantId?: number,
+    productInternalId?: string,
+    productVariantInternalId?: string,
   ): Promise<number> {
-    if (!productHandle && !productId) {
+    if (!productHandle && !productInternalId) {
       throw new Error('Need id or handle to find product');
     }
 
-    const productWhereClause = productId
-      ? { shopifyId: Number(productId) }
+    const productWhereClause = productInternalId
+      ? { id: productInternalId }
       : { handle: productHandle };
 
     const product = await this.prisma.product.findUnique({
@@ -151,13 +151,13 @@ export class BuyerCommissionService {
 
     const variant =
       product.variants.find((variant) =>
-        variantId
-          ? Number(variant.shopifyId) === variantId
+        productVariantInternalId
+          ? variant.id === productVariantInternalId
           : variant.quantity > 0,
       ) ?? first(product.variants);
 
     if (!variant?.priceInCents) {
-      throw new VariantNotFound(product.id, variantId?.toString() ?? 'None');
+      throw new VariantNotFound(product.id, productVariantInternalId ?? 'None');
     }
 
     const vendorName = product.vendor?.sellerName;
