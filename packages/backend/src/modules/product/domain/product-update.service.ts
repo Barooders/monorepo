@@ -6,7 +6,11 @@ import {
   ProductNotation,
   ProductStatus,
 } from '@libs/domain/prisma.main.client';
-import { ProductToUpdate, Variant } from '@libs/domain/product.interface';
+import {
+  EntityId,
+  ProductToUpdate,
+  Variant,
+} from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { toCents } from '@libs/helpers/currency';
@@ -45,7 +49,7 @@ export class ProductUpdateService {
   ) {}
 
   async updateProduct(
-    productId: UUID,
+    productId: EntityId,
     data: ProductToUpdate,
     { notifyVendor }: UpdateProductOptions,
     author: Author,
@@ -64,7 +68,7 @@ export class ProductUpdateService {
     if (data.product_type)
       await this.pimClient.checkIfProductTypeExists(data.product_type);
 
-    await this.storeClient.updateProduct(productId, updates);
+    await this.storeClient.updateProduct(productId.storeId, updates);
     const updatesAndPreviousValues = await this.updateProductInDatabase(
       productId,
       updates,
@@ -76,7 +80,7 @@ export class ProductUpdateService {
       new ProductUpdatedDomainEvent({
         aggregateId: vendor.authUserId,
         aggregateName: AggregateName.VENDOR,
-        productInternalId: productId.uuid,
+        productInternalId: productId.id,
         payload: {
           updates: jsonStringify(updatesAndPreviousValues),
         },
@@ -95,29 +99,29 @@ export class ProductUpdateService {
   }
 
   async addProductImage(
-    productId: UUID,
+    productId: string,
     image: ImageToUpload,
   ): Promise<ProductImage> {
     return await this.storeClient.addProductImage(productId, image);
   }
 
-  async deleteProductImage(productId: UUID, imageId: string): Promise<void> {
+  async deleteProductImage(productId: string, imageId: string): Promise<void> {
     return await this.storeClient.deleteProductImage(productId, imageId);
   }
 
   async updateProductByUser(
-    productId: UUID,
+    productId: EntityId,
     productToUpdate: ProductToUpdate,
     { uuid: userId }: UUID,
   ): Promise<void> {
     const product = await this.prisma.product.findUniqueOrThrow({
       where: {
-        id: productId.uuid,
+        id: productId.id,
       },
     });
 
     if (product.vendorId !== userId) {
-      throw new UserNotAllowedException(productId.uuid, userId, 'update');
+      throw new UserNotAllowedException(productId.id, userId, 'update');
     }
 
     await this.updateProduct(
@@ -136,12 +140,12 @@ export class ProductUpdateService {
   }
 
   async updateProductVariant(
-    productId: UUID,
-    variantId: UUID,
+    productId: EntityId,
+    variantId: EntityId,
     data: Partial<Variant>,
     author: Author,
   ) {
-    await this.storeClient.updateProductVariant(variantId, data);
+    await this.storeClient.updateProductVariant(variantId.storeId, data);
     const updatesAndPreviousValues = await this.updateVariantInDatabase(
       variantId,
       data,
@@ -154,9 +158,11 @@ export class ProductUpdateService {
         new ProductUpdatedDomainEvent({
           aggregateId: vendor.authUserId,
           aggregateName: AggregateName.VENDOR,
-          productInternalId: productId.uuid,
+          productInternalId: productId.id,
           payload: {
-            variantId: variantId.uuid,
+            variantId: variantId.id,
+            productStoreId: productId.storeId,
+            variantStoreId: variantId.storeId,
             updates: jsonStringify(updatesAndPreviousValues),
           },
           metadata: {
@@ -166,21 +172,24 @@ export class ProductUpdateService {
       );
     } catch (e: any) {
       this.logger.error(
-        `Unable to create event PRODUCT_UPDATED when updating variant ${variantId.uuid} : ${e.message}`,
+        `Unable to create event PRODUCT_UPDATED when updating variant ${variantId.id} : ${e.message}`,
         e,
       );
     }
   }
 
   async deleteProductVariant(
-    productId: UUID,
-    variantId: UUID,
+    productId: EntityId,
+    variantId: EntityId,
     author: Author,
   ): Promise<void> {
-    await this.storeClient.deleteProductVariant(variantId);
+    await this.storeClient.deleteProductVariant(
+      productId.storeId,
+      variantId.storeId,
+    );
     const productVariantInDB = await this.prisma.productVariant.delete({
       where: {
-        id: variantId.uuid,
+        id: variantId.id,
       },
       include: {
         product: true,
@@ -191,9 +200,11 @@ export class ProductUpdateService {
       new ProductUpdatedDomainEvent({
         aggregateId: productVariantInDB.product.vendorId,
         aggregateName: AggregateName.VENDOR,
-        productInternalId: productId.uuid,
+        productInternalId: productId.id,
         payload: {
-          variantId: variantId.uuid,
+          variantId: variantId.id,
+          productStoreId: productId.storeId,
+          variantStoreId: variantId.storeId,
         },
         metadata: {
           comment: 'Product variant deleted',
@@ -240,13 +251,13 @@ export class ProductUpdateService {
   }
 
   async moderateProduct(
-    productId: UUID,
+    productId: EntityId,
     action: ModerationAction,
     author: Author,
   ): Promise<void> {
     switch (action) {
       case ModerationAction.APPROVE:
-        await this.storeClient.approveProduct(productId);
+        await this.storeClient.approveProduct(productId.storeId);
         break;
       case ModerationAction.REJECT:
         await this.rejectProduct(productId, author);
@@ -256,14 +267,17 @@ export class ProductUpdateService {
     }
   }
 
-  private async rejectProduct(productId: UUID, author: Author): Promise<void> {
+  private async rejectProduct(
+    productId: EntityId,
+    author: Author,
+  ): Promise<void> {
     await this.updateProduct(
       productId,
       { status: ProductStatus.DRAFT },
       { notifyVendor: false },
       author,
     );
-    await this.storeClient.rejectProduct(productId);
+    await this.storeClient.rejectProduct(productId.storeId);
 
     try {
       const vendor = await this.getVendorFromProductId(productId);
@@ -272,7 +286,7 @@ export class ProductUpdateService {
         new ProductRefusedDomainEvent({
           aggregateId: vendor.authUserId,
           aggregateName: AggregateName.VENDOR,
-          productInternalId: productId.uuid,
+          productInternalId: productId.id,
           metadata: {
             author,
           },
@@ -280,16 +294,16 @@ export class ProductUpdateService {
       );
     } catch (e: any) {
       this.logger.error(
-        `Unable to create event PRODUCT_REFUSED for product ${productId.uuid} : ${e.message}`,
+        `Unable to create event PRODUCT_REFUSED for product ${productId.id} : ${e.message}`,
         e,
       );
     }
   }
 
-  private async getVendorFromProductId(productId: UUID) {
+  private async getVendorFromProductId(productId: EntityId) {
     const { vendor } = await this.prisma.product.findUniqueOrThrow({
       where: {
-        id: productId.uuid,
+        id: productId.id,
       },
       include: {
         vendor: { include: { user: true } },
@@ -302,7 +316,7 @@ export class ProductUpdateService {
   }
 
   private async updateVariantInDatabase(
-    { uuid: id }: UUID,
+    { id }: EntityId,
     {
       inventory_quantity,
       price,
@@ -346,7 +360,7 @@ export class ProductUpdateService {
   }
 
   private async updateProductInDatabase(
-    { uuid: id }: UUID,
+    { id }: EntityId,
     {
       body_html,
       status,

@@ -64,9 +64,6 @@ class VariantDTO implements StoredVariant {
   id!: number;
 
   @ApiProperty()
-  internalId!: string;
-
-  @ApiProperty()
   option1?: string;
 
   @ApiProperty()

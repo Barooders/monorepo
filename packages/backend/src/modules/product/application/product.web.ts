@@ -9,6 +9,7 @@ import {
   ProductStatus,
 } from '@libs/domain/prisma.main.client';
 import { StoredProduct } from '@libs/domain/product.interface';
+import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 
 import { CustomerRepository } from '@libs/domain/customer.repository';
@@ -198,6 +199,9 @@ class AddProductImageResponseDTO {
 class CreatedProductResponseDTO {
   @ApiProperty()
   internalId!: string;
+
+  @ApiProperty()
+  shopifyId!: number;
 }
 
 @Controller(routesV1.version)
@@ -227,14 +231,16 @@ export class ProductController {
       type: 'user',
     };
 
-    const { internalId } = await this.productCreationService.createDraftProduct(
-      draftProductInputDto,
-      new UUID({ uuid: userId }),
-      author,
-    );
+    const { internalId, shopifyId } =
+      await this.productCreationService.createDraftProduct(
+        draftProductInputDto,
+        new UUID({ uuid: userId }),
+        author,
+      );
 
     return {
       internalId,
+      shopifyId,
     };
   }
 
@@ -282,12 +288,12 @@ export class ProductController {
   })
   @Post(routesV1.product.addProductImage)
   async addProductImage(
-    @Param('productInternalId') productInternalId: string,
+    @Param('productId') productId: string,
     @Body()
     addProductImageDTO: AddProductImageDTO,
   ): Promise<{ src: string; id: string }> {
     const image = await this.productUpdateService.addProductImage(
-      new UUID({ uuid: productInternalId }),
+      productId,
       addProductImageDTO,
     );
 
@@ -297,13 +303,10 @@ export class ProductController {
   @ApiOkResponse()
   @Delete(routesV1.product.deleteProductImage)
   async deleteProductImage(
-    @Param('productInternalId') productInternalId: string,
+    @Param('productId') productId: string,
     @Param('imageId') imageId: string,
   ): Promise<void> {
-    await this.productUpdateService.deleteProductImage(
-      new UUID({ uuid: productInternalId }),
-      imageId,
-    );
+    await this.productUpdateService.deleteProductImage(productId, imageId);
   }
 
   @Get(routesV1.product.getProductByHandle)
@@ -336,32 +339,34 @@ export class ProductController {
   @ApiResponse({
     type: ProductAdminDTO,
   })
-  @Get(routesV1.product.getProduct)
+  @Get(routesV1.product.getProductByAdmin)
   @UseGuards(JwtAuthGuard)
-  async getProduct(
+  async getProductByAdmin(
     @User() { userId }: ExtractedUser,
-    @Param('productInternalId') productInternalId: string,
+    @Param('productId') productId: string,
   ): Promise<ProductAdminDTO> {
+    const shopifyId = Number(productId);
     const product = await this.prisma.product.findFirstOrThrow({
-      where: { id: productInternalId },
-      select: { vendorId: true },
+      where: { shopifyId },
+      select: { vendorId: true, id: true },
     });
     if (product?.vendorId !== userId) {
       throw new UnauthorizedException(
-        `Not authorized to access product ${productInternalId}`,
+        `Not authorized to access product ${productId}`,
       );
     }
-    return await this.storeClient.getProductDetails(
-      new UUID({ uuid: productInternalId }),
-    );
+    return await this.storeClient.getProductDetails({
+      id: product.id,
+      shopifyId,
+    });
   }
 
   @Patch(routesV1.product.updateProduct)
   @UseGuards(JwtAuthGuard)
   async updateProduct(
     @User() { userId }: ExtractedUser,
-    @Param('productInternalId')
-    productInternalId: string,
+    @Param('productId')
+    productId: string,
     @Body()
     productUpdates: ProductUpdateInputDto,
   ): Promise<void> {
@@ -379,7 +384,10 @@ export class ProductController {
       };
 
       await this.productUpdateService.updateProductByUser(
-        new UUID({ uuid: productInternalId }),
+        {
+          id: await this.getInternalProductId(productId),
+          storeId: productId,
+        },
         concreteUpdates,
         new UUID({ uuid: userId }),
       );
@@ -395,10 +403,10 @@ export class ProductController {
   @Patch(routesV1.product.updateProductVariant)
   @UseGuards(JwtAuthGuard)
   async updateProductVariant(
-    @Param('productInternalId')
-    productInternalId: string,
-    @Param('productVariantInternalId')
-    productVariantInternalId: string,
+    @Param('productId')
+    productId: string,
+    @Param('productVariantId')
+    productVariantId: string,
     @Body()
     productVariantUpdates: ProductVariantUpdateInputDto,
     @User() { userId }: ExtractedUser,
@@ -410,8 +418,14 @@ export class ProductController {
     }
 
     await this.productUpdateService.updateProductVariant(
-      new UUID({ uuid: productInternalId }),
-      new UUID({ uuid: productVariantInternalId }),
+      {
+        id: await this.getInternalProductId(productId),
+        storeId: productId,
+      },
+      {
+        id: await this.getInternalVariantId(productVariantId),
+        storeId: productVariantId,
+      },
       this.mapProductVariantUpdate(productVariantUpdates),
       {
         type: 'user',
@@ -423,8 +437,8 @@ export class ProductController {
   @Patch(routesV1.product.updateProductByAdmin)
   @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
   async updateProductByAdmin(
-    @Param('productInternalId')
-    productInternalId: string,
+    @Param('productId')
+    productId: string,
     @Body()
     productUpdates: ProductAdminUpdateInputDto,
     @Query()
@@ -432,7 +446,10 @@ export class ProductController {
     @User() jwtToken: ExtractedUser | undefined,
   ): Promise<void> {
     await this.productUpdateService.updateProduct(
-      new UUID({ uuid: productInternalId }),
+      {
+        id: await this.getInternalProductId(productId),
+        storeId: productId,
+      },
       productUpdates,
       { notifyVendor: false },
       {
@@ -457,12 +474,16 @@ export class ProductController {
       },
       select: {
         id: true,
+        shopifyId: true,
       },
     });
 
-    for (const { id } of products) {
+    for (const { id, shopifyId } of products) {
       void this.productUpdateService.updateProduct(
-        new UUID({ uuid: id }),
+        {
+          id,
+          storeId: shopifyId.toString(),
+        },
         {
           vendorId,
         },
@@ -478,10 +499,10 @@ export class ProductController {
   @Patch(routesV1.product.updateProductVariantByAdmin)
   @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
   async updateProductVariantByAdmin(
-    @Param('productInternalId')
-    productInternalId: string,
-    @Param('productVariantInternalId')
-    productVariantInternalId: string,
+    @Param('productId')
+    productId: string,
+    @Param('productVariantId')
+    productVariantId: string,
     @Body()
     productVariantUpdates: ProductVariantUpdateInputDto,
     @Query()
@@ -489,8 +510,14 @@ export class ProductController {
     @User() jwtToken: ExtractedUser | undefined,
   ): Promise<void> {
     await this.productUpdateService.updateProductVariant(
-      new UUID({ uuid: productInternalId }),
-      new UUID({ uuid: productVariantInternalId }),
+      {
+        id: await this.getInternalProductId(productId),
+        storeId: productId,
+      },
+      {
+        id: await this.getInternalVariantId(productVariantId),
+        storeId: productVariantId,
+      },
       this.mapProductVariantUpdate(productVariantUpdates),
       {
         type: 'admin',
@@ -502,8 +529,8 @@ export class ProductController {
   @Post(routesV1.product.moderateProductByAdmin)
   @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
   async moderateProduct(
-    @Param('productInternalId')
-    productInternalId: string,
+    @Param('productId')
+    productId: string,
     @Body()
     { action }: ModerateProductInputDto,
     @Query()
@@ -511,7 +538,10 @@ export class ProductController {
     @User() jwtToken: ExtractedUser | undefined,
   ): Promise<void> {
     await this.productUpdateService.moderateProduct(
-      new UUID({ uuid: productInternalId }),
+      {
+        id: await this.getInternalProductId(productId),
+        storeId: productId,
+      },
       action,
       {
         type: 'admin',
@@ -532,6 +562,26 @@ export class ProductController {
       documentType: DocumentType.PRODUCT_MODEL,
       data: model,
     });
+  }
+
+  private async getInternalProductId(productId: string): Promise<string> {
+    const { id } = await this.prisma.product.findUniqueOrThrow({
+      where: {
+        shopifyId: getValidShopifyId(productId),
+      },
+    });
+
+    return id;
+  }
+
+  private async getInternalVariantId(variantId: string): Promise<string> {
+    const { id } = await this.prisma.productVariant.findUniqueOrThrow({
+      where: {
+        shopifyId: getValidShopifyId(variantId),
+      },
+    });
+
+    return id;
   }
 
   private mapProductVariantUpdate = ({

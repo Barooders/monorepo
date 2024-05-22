@@ -78,7 +78,10 @@ export class StoreClient implements IStoreClient {
       },
     });
     await this.productUpdateService.updateProduct(
-      new UUID({ uuid: id }),
+      {
+        id,
+        storeId: product_id.toString(),
+      },
       data,
       { notifyVendor: false },
       backendAuthor,
@@ -92,8 +95,14 @@ export class StoreClient implements IStoreClient {
     const { product, id } = await this.getInternalVariant(variant_id);
 
     await this.productUpdateService.updateProductVariant(
-      new UUID({ uuid: product.id }),
-      new UUID({ uuid: id }),
+      {
+        id: product.id,
+        storeId: product.shopifyId.toString(),
+      },
+      {
+        id: id,
+        storeId: variant_id.toString(),
+      },
       data,
       backendAuthor,
     );
@@ -103,8 +112,14 @@ export class StoreClient implements IStoreClient {
     const { product, id } = await this.getInternalVariant(variantShopifyId);
 
     await this.productUpdateService.deleteProductVariant(
-      new UUID({ uuid: product.id }),
-      new UUID({ uuid: id }),
+      {
+        id: product.id,
+        storeId: product.shopifyId.toString(),
+      },
+      {
+        id: id,
+        storeId: variantShopifyId.toString(),
+      },
       backendAuthor,
     );
   }

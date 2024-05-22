@@ -1,5 +1,4 @@
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
-import { UUID } from '@libs/domain/value-objects';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { ProductUpdateService } from '@modules/product/domain/product-update.service';
 import { Logger } from '@nestjs/common';
@@ -72,7 +71,7 @@ export class FixProductImageCLI {
             `Adding ${productModel.attributes.imageUrl.toString()} to product ${product.shopifyId.toString()}`,
           );
           await this.productUpdateService.addProductImage(
-            new UUID({ uuid: product.id }),
+            product.shopifyId.toString(),
             {
               src: productModel.attributes.imageUrl.toString(),
             },

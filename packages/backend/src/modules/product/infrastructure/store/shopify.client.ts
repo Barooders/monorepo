@@ -20,14 +20,13 @@ import {
   StoredVariant,
   Variant,
   getVariantsOptions,
+  mapCondition,
 } from '@libs/domain/product.interface';
 import {
   BAROODERS_NAMESPACE,
   MetafieldType,
   getValidTags,
 } from '@libs/domain/types';
-import { UUID } from '@libs/domain/value-objects';
-import { fromCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import {
   cleanShopifyProduct,
@@ -94,29 +93,25 @@ export class ShopifyClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  async getProductDetails({ uuid: productId }: UUID): Promise<StoredProduct> {
-    const { shopifyId, variants } = await this.prisma.product.findUniqueOrThrow(
-      {
-        where: { id: productId },
-        select: { shopifyId: true, variants: true },
-      },
-    );
-    const product = await shopifyApiByToken.product.get(Number(shopifyId));
+  async getProductDetails({
+    id,
+    shopifyId,
+  }: {
+    id: string;
+    shopifyId: number;
+  }): Promise<StoredProduct> {
+    const product = await shopifyApiByToken.product.get(shopifyId);
 
     const storeProduct = cleanShopifyProduct(product);
 
     return {
       ...storeProduct,
-      internalId: productId,
-      variants: variants.map((variant) => ({
-        id: Number(variant.shopifyId),
-        internalId: variant.id,
-        condition: variant.condition ?? Condition.GOOD,
-        price: fromCents(Number(variant.priceInCents)).toString(),
-        inventory_quantity: variant.quantity,
-        inventory_management: '',
-        inventory_policy: '',
-      })),
+      internalId: id,
+      variants: await Promise.all(
+        storeProduct.variants.map((variant) => {
+          return this.enrichVariantWithCondition(variant);
+        }),
+      ),
     };
   }
 
@@ -245,20 +240,17 @@ export class ShopifyClient implements IStoreClient {
     backOffPolicy: BackOffPolicy.FixedBackOffPolicy,
   })
   async updateProduct(
-    { uuid: productId }: UUID,
+    productId: string,
     { metafields, tags, status, vendorId, ...data }: ProductToUpdate,
   ): Promise<void> {
     try {
-      const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
-        where: { id: productId },
-        select: { shopifyId: true },
-      });
       const newVendor = vendorId
         ? await this.customerRepository.getCustomerFromVendorId(vendorId)
         : null;
 
       if (Object.entries(data).length !== 0 || tags || status || newVendor) {
-        await shopifyApiByToken.product.update(Number(shopifyId), {
+        const shopifyId = getValidShopifyId(productId);
+        await shopifyApiByToken.product.update(shopifyId, {
           ...data,
           ...(tags ? { tags: getValidTags(tags) } : {}),
           ...(status ? { status: mapShopifyStatus(status) } : {}),
@@ -283,20 +275,13 @@ export class ShopifyClient implements IStoreClient {
     }
   }
 
-  async updateProductVariant(
-    { uuid: variantId }: UUID,
-    data: Variant,
-  ): Promise<void> {
+  async updateProductVariant(variantId: string, data: Variant): Promise<void> {
     try {
-      const { shopifyId } = await this.prisma.productVariant.findUniqueOrThrow({
-        where: { id: variantId },
-        select: { shopifyId: true },
-      });
       const { inventory_quantity, ...validVariant } = data;
 
       if (Object.keys(validVariant).length > 0) {
         await shopifyApiByToken.productVariant.update(
-          Number(shopifyId),
+          getValidShopifyId(variantId),
           validVariant,
         );
       }
@@ -304,7 +289,7 @@ export class ShopifyClient implements IStoreClient {
       if (inventory_quantity === undefined) return;
 
       const { inventory_item_id } = await shopifyApiByToken.productVariant.get(
-        Number(shopifyId),
+        getValidShopifyId(variantId),
       );
 
       await shopifyApiByToken.inventoryLevel.set({
@@ -323,33 +308,29 @@ export class ShopifyClient implements IStoreClient {
     }
   }
 
-  async deleteProductVariant({ uuid: variantId }: UUID): Promise<void> {
+  async deleteProductVariant(
+    productShopifyId: string,
+    variantShopifyId: string,
+  ): Promise<void> {
     try {
-      const {
-        shopifyId: variantShopifyId,
-        product: { shopifyId: productShopifyId },
-      } = await this.prisma.productVariant.findUniqueOrThrow({
-        where: { id: variantId },
-        select: { shopifyId: true, product: { select: { shopifyId: true } } },
-      });
       await shopifyApiByToken.productVariant.delete(
-        Number(productShopifyId),
-        Number(variantShopifyId),
+        getValidShopifyId(productShopifyId),
+        getValidShopifyId(variantShopifyId),
       );
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
       this.logger.error(errorMessage, e);
       throw new Error(
-        `Cannot delete product variant (${variantId}): ${e.message} because ${errorMessage}`,
+        `Cannot delete product variant (${variantShopifyId}): ${e.message} because ${errorMessage}`,
       );
     }
   }
 
-  async approveProduct(productId: UUID): Promise<void> {
+  async approveProduct(productId: string): Promise<void> {
     await this.updateProductStatus(productId, 'approved');
   }
 
-  async rejectProduct(productId: UUID): Promise<void> {
+  async rejectProduct(productId: string): Promise<void> {
     await this.updateProductStatus(productId, 'denied');
   }
 
@@ -522,15 +503,25 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  private async updateProductStatus({ uuid: productId }: UUID, status: string) {
-    const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productId },
-      select: { shopifyId: true },
+  private async enrichVariantWithCondition(
+    variant: Omit<StoredVariant, 'condition'>,
+  ): Promise<StoredVariant> {
+    const dbVariant = await this.prisma.productVariant.findFirst({
+      where: { shopifyId: variant.id },
+      select: { condition: true },
     });
+
+    return {
+      ...variant,
+      condition: mapCondition(dbVariant?.condition),
+    };
+  }
+
+  private async updateProductStatus(productId: string, status: string) {
     const productMetafields = await shopifyApiByToken.metafield.list({
       metafield: {
         owner_resource: 'product',
-        owner_id: Number(shopifyId),
+        owner_id: getValidShopifyId(productId),
       },
       limit: 250,
     });
@@ -625,13 +616,9 @@ export class ShopifyClient implements IStoreClient {
   }
 
   async addProductImage(
-    { uuid: productId }: UUID,
+    productId: string,
     image: ImageToUpload,
   ): Promise<ProductImage> {
-    const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productId },
-      select: { shopifyId: true },
-    });
     const imageSrc = image.attachment
       ? { attachment: image.attachment.split(',')[1] }
       : image.src
@@ -642,7 +629,7 @@ export class ShopifyClient implements IStoreClient {
     }
 
     const productImage = await shopifyApiByToken.productImage.create(
-      Number(shopifyId),
+      Number(productId),
       {
         position: image.position,
         filename: image.filename,
@@ -652,16 +639,9 @@ export class ShopifyClient implements IStoreClient {
 
     return { src: productImage.src, id: productImage.id.toString() };
   }
-  async deleteProductImage(
-    { uuid: productId }: UUID,
-    imageId: string,
-  ): Promise<void> {
-    const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productId },
-      select: { shopifyId: true },
-    });
+  async deleteProductImage(productId: string, imageId: string): Promise<void> {
     await shopifyApiByToken.productImage.delete(
-      Number(shopifyId),
+      Number(productId),
       Number(imageId),
     );
   }

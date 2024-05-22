@@ -58,13 +58,13 @@ class ProductInputDto {
     example: '73829019283',
   })
   @IsOptional()
-  productInternalId?: string;
+  productId?: string;
 
-  @ApiProperty({ description: 'The id of a variant.' })
+  @ApiProperty({ description: 'The shopify id of a variant.' })
   @IsOptional()
   @IsInt()
-  @Type(() => String)
-  productVariantInternalId?: string;
+  @Type(() => Number)
+  variantId?: number;
 }
 
 @Controller(routesV1.version)
@@ -116,15 +116,14 @@ export class BuyerCommissionController {
     @Query()
     productInputDto: ProductInputDto,
   ) {
-    const { productHandle, productInternalId, productVariantInternalId } =
-      productInputDto;
+    const { productHandle, productId, variantId } = productInputDto;
 
     try {
       const commissionCost =
         await this.buyerCommissionService.getCommissionByProduct(
           productHandle,
-          productInternalId,
-          productVariantInternalId,
+          productId,
+          variantId,
         );
 
       return commissionCost;
