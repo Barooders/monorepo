@@ -29,16 +29,16 @@ export class CustomerService {
 
   async handleSignup(user: User) {
     user.userName = user.userName.trim();
-    const { id: storeId } = await this.storeRepository.createCustomer(user);
+    const { id: eCommerceId } = await this.storeRepository.createCustomer(user);
     const existingCustomer = await this.prisma.customer.findFirst({
-      where: { authUserId: user.id },
+      where: { shopifyId: Number(eCommerceId) },
     });
 
     if (existingCustomer) return;
 
     await this.prisma.customer.create({
       data: {
-        shopifyId: Number(storeId),
+        shopifyId: Number(eCommerceId),
         firstName: user.firstName,
         lastName: user.lastName,
         sellerName: user.userName,
