@@ -210,7 +210,6 @@ export const createProductFromFragment = (
     description: productFromDBT.description ?? '',
     handle: productFromDBT.handle ?? '',
     variantId: variant.id ?? '',
-    variantShopifyId: variant.shopifyId,
     variants,
     productType: productFromDBT.productType ?? '',
     numberOfViews: productFromDBT.numberOfViews ?? 0,
