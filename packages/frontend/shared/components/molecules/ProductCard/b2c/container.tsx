@@ -23,7 +23,7 @@ const dict = getDictionary('fr');
 export type ContainerPropsType = {
   productInternalId?: string;
   productHandle?: string;
-  productVariantShopifyId?: string;
+  productVariantInternalId?: string;
   intent?: ProductMultiVariants['intent'];
 };
 
@@ -118,7 +118,7 @@ export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
 
 export const createProductFromFragment = (
   productFromDBT: ProductCardFieldsFragment,
-  productVariantShopifyId?: string,
+  productVariantInternalId?: string,
   vendorDetails?: VendorDetailsFragment,
   commissionAmount?: number,
 ): ProductMultiVariants => {
@@ -154,7 +154,7 @@ export const createProductFromFragment = (
 
   const variant =
     variants.find(
-      (variant) => String(variant.shopifyId) === productVariantShopifyId,
+      (variant) => String(variant.id) === productVariantInternalId,
     ) ?? variants[0];
 
   const isPro = vendorDetails?.isPro;
@@ -237,7 +237,7 @@ export const getMultipleProductsData = async (
       ({ productHandle, productInternalId }) =>
         productInternalId === product.product?.id ||
         productHandle === product.handle,
-    )?.productVariantShopifyId;
+    )?.productVariantInternalId;
 
   const productInternalIds = compact(
     productProps.map(({ productInternalId }) => productInternalId),
@@ -265,7 +265,7 @@ export const getMultipleProductsData = async (
 export const getData = async ({
   productInternalId,
   productHandle,
-  productVariantShopifyId,
+  productVariantInternalId,
 }: ContainerPropsType): Promise<Omit<ProductMultiVariants, 'intent'>> => {
   if (!productInternalId && !productHandle) {
     throw new Error('Should pass either productId or productHandle');
@@ -287,7 +287,7 @@ export const getData = async ({
       fetchCommission({
         productHandle,
         productInternalId,
-        productVariantShopifyId,
+        productVariantInternalId,
       }),
     ]);
   } catch (e) {
@@ -303,7 +303,7 @@ export const getData = async ({
 
   return createProductFromFragment(
     product.storeExposedProduct,
-    productVariantShopifyId,
+    productVariantInternalId,
     product.Vendor ?? undefined,
     commissionAmount ?? undefined,
   );

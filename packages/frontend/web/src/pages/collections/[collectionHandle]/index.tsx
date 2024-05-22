@@ -41,11 +41,11 @@ export const getServerSideProps: GetServerSideProps<
   const collectionHandle = params?.collectionHandle;
   const vendorSellerName = extractQueryParam(query?.q);
   const productHandle = extractQueryParam(query?.handle);
-  const productVariantShopifyId = extractQueryParam(query?.variant);
+  const productVariantInternalId = extractQueryParam(query?.variant);
   const searchPageProps = await getSearchPageData({
     collectionHandle,
     productHandle,
-    productVariantShopifyId,
+    productVariantInternalId,
     vendorSellerName,
   });
 

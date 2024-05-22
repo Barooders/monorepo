@@ -22,7 +22,7 @@ const VariantSelector: React.FC<PropsType> = ({
         selectedOptionValue={selectedVariantId}
         options={variants.map((variant) => ({
           label: variant.name,
-          value: variant.shopifyId,
+          value: variant.id,
         }))}
       />
     </div>

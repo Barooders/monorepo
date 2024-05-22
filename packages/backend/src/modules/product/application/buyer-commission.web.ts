@@ -10,7 +10,6 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
@@ -61,21 +60,18 @@ class ProductInputDto {
   @IsOptional()
   productInternalId?: string;
 
-  @ApiProperty({ description: 'The shopify id of a variant.' })
+  @ApiProperty({ description: 'The id of a variant.' })
   @IsOptional()
   @IsInt()
   @Type(() => String)
-  variantShopifyId?: string;
+  productVariantInternalId?: string;
 }
 
 @Controller(routesV1.version)
 export class BuyerCommissionController {
   private readonly logger = new Logger(BuyerCommissionController.name);
 
-  constructor(
-    private buyerCommissionService: BuyerCommissionService,
-    private prisma: PrismaMainClient,
-  ) {}
+  constructor(private buyerCommissionService: BuyerCommissionService) {}
 
   @ApiResponse({ type: Commission })
   @Post(routesV1.product.createCommission)
@@ -120,28 +116,15 @@ export class BuyerCommissionController {
     @Query()
     productInputDto: ProductInputDto,
   ) {
-    const { productHandle, productInternalId, variantShopifyId } =
+    const { productHandle, productInternalId, productVariantInternalId } =
       productInputDto;
-
-    const variantInternalId = variantShopifyId
-      ? (
-          await this.prisma.productVariant.findUniqueOrThrow({
-            where: {
-              shopifyId: Number(variantShopifyId),
-            },
-            select: {
-              id: true,
-            },
-          })
-        ).id
-      : undefined;
 
     try {
       const commissionCost =
         await this.buyerCommissionService.getCommissionByProduct(
           productHandle,
           productInternalId,
-          variantInternalId,
+          productVariantInternalId,
         );
 
       return commissionCost;
