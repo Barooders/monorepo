@@ -127,7 +127,7 @@ export class BuyerCommissionService {
   async getCommissionByProduct(
     productHandle?: string,
     productInternalId?: string,
-    productVariantInternalId?: string,
+    variantInternalId?: string,
   ): Promise<number> {
     if (!productHandle && !productInternalId) {
       throw new Error('Need id or handle to find product');
@@ -151,13 +151,13 @@ export class BuyerCommissionService {
 
     const variant =
       product.variants.find((variant) =>
-        productVariantInternalId
-          ? variant.id === productVariantInternalId
+        variantInternalId
+          ? variant.id === variantInternalId
           : variant.quantity > 0,
       ) ?? first(product.variants);
 
     if (!variant?.priceInCents) {
-      throw new VariantNotFound(product.id, productVariantInternalId ?? 'None');
+      throw new VariantNotFound(product.id, variantInternalId ?? 'None');
     }
 
     const vendorName = product.vendor?.sellerName;
