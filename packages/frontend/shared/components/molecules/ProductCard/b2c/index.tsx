@@ -14,25 +14,18 @@ import SmallProductCard from './small';
 
 const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const availableVariants = props.variants.filter(({ available }) => available);
-  const defaultVariant = getVariantToSelect(
-    props.variants,
-    props.variantShopifyId,
-  );
+  const defaultVariant = getVariantToSelect(props.variants, props.variantId);
 
-  const [selectedVariantId, setSelectedVariant] = useState(
-    defaultVariant.shopifyId,
-  );
+  const [selectedVariantId, setSelectedVariant] = useState(defaultVariant.id);
   const { getDiscountsByCollectionList, getDiscountByPrice } = useDiscounts();
   const { isAdmin } = useAuth();
 
   useEffect(() => {
-    setSelectedVariant(
-      getVariantToSelect(props.variants, props.variantShopifyId).shopifyId,
-    );
-  }, [props.variantShopifyId]);
+    setSelectedVariant(getVariantToSelect(props.variants, props.variantId).id);
+  }, [props.variantId]);
 
   const { compareAtPrice, price } =
-    props.variants.find((variant) => variant.shopifyId === selectedVariantId) ??
+    props.variants.find((variant) => variant.id === selectedVariantId) ??
     defaultVariant;
   const productLink = new URL(`/products/${props.handle}`, config.baseUrl);
   if (selectedVariantId)
