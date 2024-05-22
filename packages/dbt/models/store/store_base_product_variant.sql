@@ -11,5 +11,5 @@ SELECT
   ppv."productId"
 FROM
   public."ProductVariant" AS ppv
-LEFT JOIN fivetran_shopify.product_variant AS pv ON ppv."shopifyId" = pv.id
+LEFT JOIN airbyte_shopify.product_variants AS pv ON ppv."shopifyId" = pv.id
 WHERE pv.id IS NOT NULL
