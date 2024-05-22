@@ -7,18 +7,15 @@ import useIsLoggedIn from './useIsLoggedIn';
 const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   query fetchFavoriteProducts {
     FavoriteProducts {
-      product {
-        id
-        shopifyId
-      }
+      productId
     }
   }
 `;
 
 const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
-  mutation addFavoriteProduct($customerId: uuid!, $productShopifyId: bigint) {
+  mutation addFavoriteProduct($customerId: uuid!, $productId: bigint) {
     insert_FavoriteProducts_one(
-      object: { customerId: $customerId, productId: $productShopifyId }
+      object: { customerId: $customerId, productId: $productId }
     ) {
       id
     }
@@ -26,15 +23,12 @@ const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
 `;
 
 const REMOVE_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
-  mutation removeFavoriteProducts(
-    $customerId: uuid!
-    $productShopifyId: bigint
-  ) {
+  mutation removeFavoriteProducts($customerId: uuid!, $productId: bigint) {
     delete_FavoriteProducts(
       where: {
         _and: {
           customerId: { _eq: $customerId }
-          productId: { _eq: $productShopifyId }
+          productId: { _eq: $productId }
         }
       }
     ) {
@@ -59,42 +53,38 @@ const useFavoriteProducts = () => {
     fetchFavoriteProducts: async () => {
       if (!isLoggedIn) return [];
 
-      const { FavoriteProducts } = await fetchFavoriteProducts();
-
-      const favoriteProducts = FavoriteProducts.flatMap(({ product }) =>
-        product ? [product] : [],
+      const result = await fetchFavoriteProducts();
+      const favoriteProductIds = result.FavoriteProducts.map(
+        (favoriteProduct) => String(favoriteProduct.productId),
       );
+      setFavoriteProducts(favoriteProductIds);
 
-      setFavoriteProducts(
-        favoriteProducts.map(({ shopifyId }) => shopifyId).map(String),
-      );
-
-      return favoriteProducts;
+      return favoriteProductIds;
     },
     addFavoriteProducts: needsLogin<[string], Promise<void>>(
-      async (productShopifyId: string) => {
+      async (productId: string) => {
         try {
-          addFavoriteProductState(productShopifyId);
+          addFavoriteProductState(productId);
           addFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId: Number(productShopifyId),
+            productId: Number(productId),
           });
         } catch (e) {
-          removeFavoriteProductState(productShopifyId);
+          removeFavoriteProductState(productId);
           throw e;
         }
       },
     ),
     removeFavoriteProducts: needsLogin<[string], Promise<void>>(
-      async (productShopifyId: string) => {
+      async (productId: string) => {
         try {
-          removeFavoriteProductState(productShopifyId);
+          removeFavoriteProductState(productId);
           removeFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId: Number(productShopifyId),
+            productId: Number(productId),
           });
         } catch (e) {
-          addFavoriteProductState(productShopifyId);
+          addFavoriteProductState(productId);
           throw e;
         }
       },

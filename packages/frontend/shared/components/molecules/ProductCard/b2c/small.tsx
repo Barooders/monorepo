@@ -9,7 +9,6 @@ import ProductPrice from '../_components/ProductPrice';
 import { ProductSingleVariant } from '../types';
 
 const SmallProductCard: React.FC<ProductSingleVariant> = ({
-  id,
   shopifyId,
   title,
   images,
@@ -48,7 +47,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
         </div>
         <div className="relative col-span-2 my-auto flex flex-grow flex-col">
           <div className="absolute right-0 top-0 shrink-0 cursor-pointer rounded-full bg-white p-1">
-            <FavoriteButton productShopifyId={shopifyId} />
+            <FavoriteButton productId={shopifyId} />
           </div>
           <Characteristics
             tags={tags}
@@ -60,7 +59,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
 
           <div className="my-1">
             <ProductPrice
-              productInternalId={id}
+              productId={shopifyId}
               compareAtPrice={compareAtPrice}
               price={price}
               componentSize="small"

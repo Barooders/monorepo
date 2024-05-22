@@ -15,14 +15,14 @@ import { formSteps } from './steps';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productInternalId: string;
+  productId: string;
   onStepPress: (item: FormStepType) => void;
   isLoading: boolean;
   onValidate: () => void;
 };
 
 const StepMenu: React.FC<PropsType> = ({
-  productInternalId,
+  productId,
   onStepPress,
   isLoading,
   onValidate,
@@ -41,8 +41,8 @@ const StepMenu: React.FC<PropsType> = ({
   const canSave = nbStepToComplete === 0 && !isLoading;
 
   const submitForm = () => {
-    if (!productInfos.variantInternalId) throw new Error('Missing variant id');
-    doUpdate(productInternalId, productInfos.variantInternalId);
+    if (!productInfos.variantId) throw new Error('Missing variant id');
+    doUpdate(productId, productInfos.variantId);
   };
 
   useEffect(() => {

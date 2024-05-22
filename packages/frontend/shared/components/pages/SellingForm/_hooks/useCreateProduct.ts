@@ -57,14 +57,18 @@ const useCreateProduct = () => {
       }),
     );
 
-    const { internalId } = await fetchAPI<
+    const result = await fetchAPI<
       operations['ProductController_createDraftProduct']['responses']['default']['content']['application/json']
     >(uri, {
       method: 'POST',
       body,
     });
 
-    return internalId;
+    if (!result.shopifyId) {
+      throw new Error('Missing shopifyId product in the response');
+    }
+
+    return result.shopifyId.toString();
   };
 
   return useWrappedAsyncFn(createProduct);

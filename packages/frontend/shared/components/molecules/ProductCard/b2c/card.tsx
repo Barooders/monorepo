@@ -9,7 +9,6 @@ import ProductPrice from '../_components/ProductPrice';
 import { ProductSingleVariant } from '../types';
 
 const MediumProductCard: React.FC<ProductSingleVariant> = ({
-  id,
   shopifyId,
   title,
   images,
@@ -47,7 +46,7 @@ const MediumProductCard: React.FC<ProductSingleVariant> = ({
         </div>
         <div className="relative col-span-2 my-auto flex flex-grow flex-col">
           <div className="absolute right-0 top-0 rounded-full bg-white p-1">
-            <FavoriteButton productShopifyId={shopifyId} />
+            <FavoriteButton productId={shopifyId} />
           </div>
           <Characteristics
             tags={tags}
@@ -58,7 +57,7 @@ const MediumProductCard: React.FC<ProductSingleVariant> = ({
           />
           <div className="my-1">
             <ProductPrice
-              productInternalId={id}
+              productId={shopifyId}
               discounts={discounts}
               compareAtPrice={compareAtPrice}
               price={price}

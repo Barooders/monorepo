@@ -7,10 +7,10 @@ const useRefreshImages = () => {
   const { refreshImages, productInfos } = useSellForm();
   const { fetchAPI } = useBackend();
   return useWrappedAsyncFn(
-    async (productInternalId: string): Promise<void> => {
+    async (productId: string): Promise<void> => {
       const rawProduct = await fetchAPI<
-        operations['ProductController_getProduct']['responses']['default']['content']['application/json']
-      >(`/v1/admin/products/${productInternalId}`);
+        operations['ProductController_getProductByAdmin']['responses']['default']['content']['application/json']
+      >(`/v1/admin/products/${productId}`);
 
       if (!rawProduct) throw new Error('Product not found in Shopify');
 

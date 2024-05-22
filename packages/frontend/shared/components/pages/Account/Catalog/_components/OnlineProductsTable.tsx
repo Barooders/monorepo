@@ -57,7 +57,7 @@ const FETCH_ONLINE_PRODUCTS = /* GraphQL */ /* typed_for_me_as_vendor */ `
         }
       ) {
         status
-        id
+        shopifyId
         storeProduct: storeExposedProduct {
           handle
           productType
@@ -83,31 +83,28 @@ const FETCH_ONLINE_PRODUCTS = /* GraphQL */ /* typed_for_me_as_vendor */ `
   }
 `;
 
-type OnlineProductState = Record<string, OnlineProduct>;
+type OnlineProductState = Record<number, OnlineProduct>;
 
 const OnlineProductsTable = () => {
   const [onlineProductsState, setOnlineProductsState] =
-    useState<OnlineProductState>({});
+    useState<OnlineProductState>([]);
   const fetchOnlineProducts = useHasura(
     graphql(FETCH_ONLINE_PRODUCTS),
     HASURA_ROLES.ME_AS_VENDOR,
   );
   const { fetchAPI } = useBackend();
-  const getActionsFromStatus = (
-    status: string | null,
-    productInternalId: string,
-  ) => {
+  const getActionsFromStatus = (status: string | null, shopifyId: number) => {
     return [
       {
         label: dict.account.tables.actions.edit,
-        link: `/selling-form/${productInternalId}`,
+        link: `/selling-form/${shopifyId}`,
       },
       ...(status === ProductStatus.ACTIVE
         ? [
             {
               label: dict.account.tables.actions.pause,
               updateProduct: () => {
-                updateProductStatus(productInternalId, ProductStatus.DRAFT);
+                updateProductStatus(shopifyId, ProductStatus.DRAFT);
               },
             },
           ]
@@ -115,26 +112,26 @@ const OnlineProductsTable = () => {
             {
               label: dict.account.tables.actions.activate,
               updateProduct: () => {
-                updateProductStatus(productInternalId, ProductStatus.ACTIVE);
+                updateProductStatus(shopifyId, ProductStatus.ACTIVE);
               },
             },
           ]),
       {
         label: dict.account.tables.actions.delete,
         updateProduct: () => {
-          updateProductStatus(productInternalId, ProductStatus.ARCHIVED);
+          updateProductStatus(shopifyId, ProductStatus.ARCHIVED);
         },
       },
     ];
   };
 
   const updateProductStatus = async (
-    productInternalId: string,
+    productShopifyId: number,
     status: ProductStatus,
   ) => {
     const toastOptions = { duration: 3000 };
     try {
-      await fetchAPI(`/v1/products/${productInternalId}`, {
+      await fetchAPI(`/v1/products/${productShopifyId}`, {
         method: 'PATCH',
         body: JSON.stringify({
           status,
@@ -142,10 +139,10 @@ const OnlineProductsTable = () => {
       });
       setOnlineProductsState((previousState) => ({
         ...previousState,
-        [productInternalId]: {
-          ...previousState[productInternalId],
+        [productShopifyId]: {
+          ...previousState[productShopifyId],
           status,
-          actions: getActionsFromStatus(status, productInternalId),
+          actions: getActionsFromStatus(status, productShopifyId),
         },
       }));
       toast.success(dict.catalog.update.successToaster, toastOptions);
@@ -171,7 +168,7 @@ const OnlineProductsTable = () => {
 
         return {
           ...acc,
-          [product.id]: {
+          [product.shopifyId]: {
             title,
             tag,
             description,
@@ -180,7 +177,7 @@ const OnlineProductsTable = () => {
             price,
             status,
             numberOfViews: storeProduct.numberOfViews,
-            actions: getActionsFromStatus(status, product.id),
+            actions: getActionsFromStatus(status, product.shopifyId),
           },
         };
       }, {});

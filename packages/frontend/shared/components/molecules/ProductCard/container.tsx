@@ -8,7 +8,7 @@ import { RawVariant, Variant } from './types';
 export const getVariantToSelect = (variants: Variant[], variantId?: string) => {
   const availableVariants = variants.filter(({ available }) => available);
   return (
-    availableVariants.find(({ id }) => id === variantId) ??
+    availableVariants.find(({ shopifyId: id }) => id === variantId) ??
     availableVariants[0] ??
     variants[0]
   );

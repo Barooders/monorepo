@@ -22,10 +22,11 @@ import { formSteps } from './steps';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productInternalId: string;
+  productId: string;
+  variantId?: string;
 };
 
-const UpdatePage: React.FC<PropsType> = ({ productInternalId }) => {
+const UpdatePage: React.FC<PropsType> = ({ productId, variantId }) => {
   const [fetchState, doFetch] = useGetProductToUpdate();
   const { currentEditingStep, onStepPress, goBackToMenu } = useCurrentStep();
   const [showPublicationMessage, setShowPublicationMessage] =
@@ -35,11 +36,11 @@ const UpdatePage: React.FC<PropsType> = ({ productInternalId }) => {
   const router = useRouter();
 
   useEffect(() => {
-    doFetch(productInternalId);
+    doFetch(productId, variantId);
     if (!sellFormConfig) {
       doFetchSellInformation();
     }
-  }, [productInternalId]);
+  }, [productId, variantId]);
 
   const currentStep = formSteps.find(
     (formStep) => formStep.name === currentEditingStep?.name,
@@ -62,7 +63,7 @@ const UpdatePage: React.FC<PropsType> = ({ productInternalId }) => {
           title={currentEditingStep.title}
           onGoBack={goBackToMenu}
         >
-          <CurrentEditingStepComponent productInternalId={productInternalId} />
+          <CurrentEditingStepComponent productId={productId} />
 
           {!currentStep?.hideValidateButton && (
             <div className="mt-2 w-full p-5">
@@ -80,7 +81,7 @@ const UpdatePage: React.FC<PropsType> = ({ productInternalId }) => {
         <Validation />
       ) : (
         <StepMenu
-          productInternalId={productInternalId}
+          productId={productId}
           isLoading={fetchState.loading}
           onStepPress={onStepPress}
           onValidate={() => {

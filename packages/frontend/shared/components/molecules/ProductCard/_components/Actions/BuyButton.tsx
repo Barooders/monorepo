@@ -21,9 +21,9 @@ import { operations } from '@/__generated/rest-schema';
 const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
-  variantShopifyId: ProductSingleVariant['variantShopifyId'];
+  variant: ProductSingleVariant['variantShopifyId'];
   className?: string;
-}> = ({ variantShopifyId, className }) => {
+}> = ({ variant, className }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -53,10 +53,10 @@ const BuyButton: React.FC<{
   }>(ASSOCIATE_CHECKOUT);
 
   const [createState, doCreate] = useWrappedAsyncFn(
-    async (variantShopifyId: string) => {
+    async (variantId: string) => {
       const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
         {
-          cartLineIds: [variantShopifyId],
+          cartLineIds: [variantId],
         };
       const commissionProduct = await fetchAPI<
         operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
@@ -64,8 +64,6 @@ const BuyButton: React.FC<{
         method: 'POST',
         body: JSON.stringify(commissionBody),
       });
-
-      if (!variantShopifyId) throw new Error('Variant not found');
 
       const input: {
         allowPartialAddresses?: boolean;
@@ -76,7 +74,7 @@ const BuyButton: React.FC<{
         lineItems: [
           {
             quantity: 1,
-            variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
+            variantId: toStorefrontId(variantId, 'ProductVariant'),
           },
           {
             quantity: 1,
@@ -114,11 +112,11 @@ const BuyButton: React.FC<{
     }
   }, [createState.value]);
 
-  if (!variantShopifyId) return <></>;
+  if (!variant) return <></>;
 
   const onClick = () => {
-    sendBeginCheckout(variantShopifyId ?? '');
-    doCreate(variantShopifyId);
+    sendBeginCheckout(variant ?? '');
+    doCreate(variant);
   };
 
   return (

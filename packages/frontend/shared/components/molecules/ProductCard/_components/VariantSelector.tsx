@@ -1,7 +1,7 @@
 'use client';
 
-import Select from '@/components/atoms/Select';
 import { Variant } from '../types';
+import Select from '@/components/atoms/Select';
 
 type PropsType = {
   variants: Variant[];
@@ -22,7 +22,7 @@ const VariantSelector: React.FC<PropsType> = ({
         selectedOptionValue={selectedVariantId}
         options={variants.map((variant) => ({
           label: variant.name,
-          value: variant.id,
+          value: variant.shopifyId,
         }))}
       />
     </div>

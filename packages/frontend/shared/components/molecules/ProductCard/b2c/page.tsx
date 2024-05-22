@@ -150,7 +150,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             </div>
           )}
           <ProductPrice
-            productInternalId={id}
+            productId={shopifyId}
             compareAtPrice={compareAtPrice}
             price={price}
             commissionAmount={commissionAmount}
@@ -209,11 +209,11 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   )}
                   <BuyButton
                     className="flex-1"
-                    variantShopifyId={variantShopifyId}
+                    variant={variantShopifyId}
                   />
                   <FavoriteButton
                     intent="square"
-                    productShopifyId={shopifyId}
+                    productId={shopifyId}
                   />
                 </div>
               </div>
@@ -238,12 +238,12 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             compareAtPrice={compareAtPrice}
             discounts={discounts}
             price={price}
-            productInternalId={id}
+            productId={shopifyId}
             productType={productType}
             variantCondition={variantCondition}
             tags={tags}
             title={title}
-            variantShopifyId={variantShopifyId ?? ''}
+            variantId={variantShopifyId ?? ''}
           />,
           pageBottomElementRef,
         )}

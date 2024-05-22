@@ -7,15 +7,15 @@ const useDeleteImage = () => {
   const { fetchAPI } = useBackend();
   const { productInfos, addProductInfo } = useSellForm();
 
-  const deleteProductImage = async (imageShopifyId: number) => {
-    const uri = `/v1/products/${productInfos.productInternalId}/image/${imageShopifyId}`;
+  const deleteProductImage = async (imageId: number) => {
+    const uri = `/v1/products/${productInfos.productId}/image/${imageId}`;
     await fetchAPI<
       operations['ProductController_deleteProductImage']['responses']['200']['content']['application/json']
     >(uri, { method: 'DELETE' });
 
     addProductInfo(
       'images',
-      productInfos.images.filter((image) => image.id !== imageShopifyId),
+      productInfos.images.filter((image) => image.id !== imageId),
     );
   };
 

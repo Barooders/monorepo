@@ -111,7 +111,7 @@ export const fromSearchToProductCard = (
       {
         compareAtPrice: hit.compare_at_price,
         price: hit.price,
-        shopifyId: hit.variant_shopify_id?.toString() ?? 'UNKNOWN',
+        shopifyId: hit.variant_shopify_id.toString(),
         id: hit.variant_internal_id ?? 'UNKNOWN',
         name: '',
         available: true,
@@ -138,7 +138,7 @@ export const fromSearchToProductCard = (
     reviews: [],
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id?.toString() ?? 'UNKNOWN',
+    shopifyId: hit.product_shopify_id.toString(),
     id: hit.product_internal_id,
     collections: hit.collection_internal_ids ?? [],
   };
@@ -177,7 +177,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     stock: hit.total_quantity,
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id?.toString(),
+    shopifyId: hit.product_shopify_id.toString(),
     id: hit.product_internal_id,
     vendorId: hit.vendor_id,
   };

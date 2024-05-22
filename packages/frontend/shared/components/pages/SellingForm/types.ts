@@ -77,7 +77,7 @@ export type SellFormConfig = {
   productTypeConfig: Record<string, ProductTypeConfig>;
 };
 
-export type FormStepProps = { productInternalId: string };
+export type FormStepProps = { productId: string };
 
 export type FormStepType = {
   name: SellFormSteps;
@@ -174,8 +174,8 @@ export type StrapiMediaFormat = {
 };
 
 export type ProductToUpdate = {
-  productInternalId: string;
-  variantInternalId: string;
+  id: string;
+  variantId: string;
   condition: Condition;
   vendor: {
     id: string;
