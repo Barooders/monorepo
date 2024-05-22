@@ -281,11 +281,10 @@ export class SearchClient implements ISearchClient {
       this.logger.warn(`No documents were deleted, use --apply to delete them`);
       return;
     }
-    await Promise.allSettled(
-      documentsToPrune.map((documentId) =>
-        this.deleteDocument(documentId, documentType),
-      ),
-    );
+
+    for (const documentId of documentsToPrune) {
+      await this.deleteDocument(documentId, documentType);
+    }
   }
 
   private async listVariantDocumentIds(
