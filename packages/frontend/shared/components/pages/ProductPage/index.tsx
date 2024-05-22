@@ -39,10 +39,7 @@ const ProductPage: React.FC<PropsType> = ({
   return (
     <>
       <NoSSR>
-        <AdminProductBanner
-          productShopifyId={productCardProps.shopifyId}
-          productInternalId={productCardProps.id}
-        />
+        <AdminProductBanner productInternalId={productCardProps.id} />
         <OwnerProductBanner {...productCardProps} />
       </NoSSR>
 

@@ -2,19 +2,21 @@ import { fetchBackend } from './backend';
 
 type ArgsType = {
   productHandle?: string;
-  productId?: string;
-  productVariant?: string;
+  productInternalId?: string;
+  productVariantInternalId?: string;
 };
 
 export const fetchCommission = async ({
   productHandle,
-  productId,
-  productVariant,
+  productInternalId,
+  productVariantInternalId,
 }: ArgsType) => {
   const fetchCommissionParams = new URLSearchParams();
   if (productHandle) fetchCommissionParams.set('productHandle', productHandle);
-  if (productId) fetchCommissionParams.set('productId', productId);
-  if (productVariant) fetchCommissionParams.set('variantId', productVariant);
+  if (productInternalId)
+    fetchCommissionParams.set('productInternalId', productInternalId);
+  if (productVariantInternalId)
+    fetchCommissionParams.set('variantInternalId', productVariantInternalId);
 
   try {
     return await fetchBackend<number>(

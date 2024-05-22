@@ -13,8 +13,8 @@ type PropsType = {
   title: string;
   compareAtPrice: number;
   price: number;
-  productId: string;
-  variantId: string;
+  productInternalId: string;
+  variantShopifyId: string;
   discounts: Discount[];
 };
 
@@ -27,8 +27,8 @@ const StickyBarPayment: React.FC<PropsType> = ({
   variantCondition,
   tags,
   title,
-  productId,
-  variantId,
+  productInternalId,
+  variantShopifyId,
   discounts,
 }) => {
   const { y } = useWindowScroll();
@@ -56,11 +56,11 @@ const StickyBarPayment: React.FC<PropsType> = ({
               compareAtPrice={compareAtPrice}
               price={price}
               discounts={discounts}
-              productId={productId}
+              productInternalId={productInternalId}
               componentSize="large"
             />
             <BuyButton
-              variant={variantId}
+              variantShopifyId={variantShopifyId}
               className="flex-grow sm:flex-grow-0 lg:w-80"
             />
           </div>

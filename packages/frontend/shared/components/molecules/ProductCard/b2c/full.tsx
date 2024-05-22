@@ -21,7 +21,8 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
   productType,
   variantCondition,
   handle,
-  variantShopifyId: variantId,
+  variantId,
+  variantShopifyId,
   compareAtPrice,
   price,
   isSoldOut,
@@ -62,7 +63,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
           </div>
         </div>
         <ProductPrice
-          productId={shopifyId}
+          productInternalId={id}
           compareAtPrice={compareAtPrice}
           price={price}
           commissionAmount={commissionAmount}
@@ -75,16 +76,16 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             <DetailsButton
               className="flex-grow"
               handle={handle}
-              variant={variantId}
-              productId={shopifyId}
+              variantInternalId={variantId}
+              productShopifyId={shopifyId}
             />
             <BuyButton
               className="flex-grow"
-              variant={variantId}
+              variantShopifyId={variantShopifyId}
             />
             <FavoriteButton
               intent="square"
-              productId={shopifyId}
+              productShopifyId={shopifyId}
             />
           </div>
         )}

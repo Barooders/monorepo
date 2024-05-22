@@ -12,7 +12,7 @@ import { calculateDiscountedPrice } from './lib';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productId: string;
+  productInternalId: string;
   mainPrice: number;
   mainDiscountedPrice?: number;
   discounts: Discount[];
@@ -34,7 +34,7 @@ const PriceLine: React.FC<{
 );
 
 const PriceRecap: React.FC<PropsType> = ({
-  productId,
+  productInternalId,
   mainPrice,
   mainDiscountedPrice,
   discounts,
@@ -54,7 +54,7 @@ const PriceRecap: React.FC<PropsType> = ({
 
   useEffect(() => {
     if (!commissionAmount) {
-      doFetchCommission({ productId });
+      doFetchCommission({ productInternalId });
     }
   }, []);
 

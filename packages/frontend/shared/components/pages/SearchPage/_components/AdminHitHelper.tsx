@@ -10,11 +10,13 @@ import { useKeyPressEvent } from 'react-use';
 import { HASURA_ROLES, SearchPublicVariantDocument } from 'shared-types';
 
 const PRODUCT_HIT_QUERY = /* GraphQL */ /* typed_for_admin */ `
-  query fetchProductHitData($productId: String) {
-    Product(where: { id: { _eq: $productId } }) {
+  query fetchProductHitData($productInternalId: String) {
+    Product(where: { id: { _eq: $productInternalId } }) {
       manualNotation
     }
-    dbt_store_product_for_analytics(where: { id: { _eq: $productId } }) {
+    dbt_store_product_for_analytics(
+      where: { id: { _eq: $productInternalId } }
+    ) {
       notation
       calculated_notation
       created_at
@@ -24,7 +26,7 @@ const PRODUCT_HIT_QUERY = /* GraphQL */ /* typed_for_admin */ `
 `;
 
 const AdminHitHelper = ({
-  hit: { product_internal_id: productId, product_shopify_id: productShopifyId },
+  hit: { product_internal_id: productInternalId },
 }: {
   hit: SearchPublicVariantDocument;
 }) => {
@@ -34,7 +36,7 @@ const AdminHitHelper = ({
     HASURA_ROLES.ADMIN,
   );
   const [{ value }, doFetchProductHitData] = useWrappedAsyncFn(() =>
-    fetchProductHitData({ productId }),
+    fetchProductHitData({ productInternalId }),
   );
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const AdminHitHelper = ({
   const [, doUpdateProduct] = useWrappedAsyncFn(
     async (updates: Record<string, string>) => {
       try {
-        await fetchAPI(`/v1/admin/products/${productShopifyId}`, {
+        await fetchAPI(`/v1/admin/products/${productInternalId}`, {
           method: 'PATCH',
           body: JSON.stringify(updates),
         });

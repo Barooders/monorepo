@@ -21,9 +21,9 @@ import { CardLabel, ProductMultiVariants } from '../types';
 const dict = getDictionary('fr');
 
 export type ContainerPropsType = {
-  productId?: string;
+  productInternalId?: string;
   productHandle?: string;
-  productVariant?: string;
+  productVariantInternalId?: string;
   intent?: ProductMultiVariants['intent'];
 };
 
@@ -93,11 +93,14 @@ export const VENDOR_DETAILS_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
 `;
 
 export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
-  query fetchProducts($productIds: [bigint!], $productHandles: [String!]) {
+  query fetchProducts(
+    $productInternalIds: [String!]
+    $productHandles: [String!]
+  ) {
     Product(
       where: {
         _or: [
-          { shopifyId: { _in: $productIds } }
+          { id: { _in: $productInternalIds } }
           { handle: { _in: $productHandles } }
         ]
       }
@@ -115,7 +118,7 @@ export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
 
 export const createProductFromFragment = (
   productFromDBT: ProductCardFieldsFragment,
-  variantId?: string,
+  productVariantInternalId?: string,
   vendorDetails?: VendorDetailsFragment,
   commissionAmount?: number,
 ): ProductMultiVariants => {
@@ -150,8 +153,9 @@ export const createProductFromFragment = (
   );
 
   const variant =
-    variants.find((variant) => String(variant.shopifyId) === variantId) ??
-    variants[0];
+    variants.find(
+      (variant) => String(variant.id) === productVariantInternalId,
+    ) ?? variants[0];
 
   const isPro = vendorDetails?.isPro;
   const hasRefurbishedVariant = !!variant.isRefurbished;
@@ -206,7 +210,6 @@ export const createProductFromFragment = (
     description: productFromDBT.description ?? '',
     handle: productFromDBT.handle ?? '',
     variantId: variant.id ?? '',
-    variantShopifyId: String(variant.shopifyId) ?? '',
     variants,
     productType: productFromDBT.productType ?? '',
     numberOfViews: productFromDBT.numberOfViews ?? 0,
@@ -231,19 +234,19 @@ export const getMultipleProductsData = async (
     productProps: ContainerPropsType[],
   ) =>
     productProps.find(
-      ({ productHandle, productId }) =>
-        productId === product.product?.shopifyId ||
+      ({ productHandle, productInternalId }) =>
+        productInternalId === product.product?.id ||
         productHandle === product.handle,
-    )?.productVariant;
+    )?.productVariantInternalId;
 
-  const productIds = compact(
-    productProps.map(({ productId }) => productId),
-  ).map(Number);
+  const productInternalIds = compact(
+    productProps.map(({ productInternalId }) => productInternalId),
+  );
   const productHandles = compact(
     productProps.map(({ productHandle }) => productHandle),
   );
   const products = await fetchHasura(graphql(FETCH_PRODUCTS), {
-    variables: { productIds, productHandles },
+    variables: { productInternalIds, productHandles },
   });
 
   return compact(
@@ -260,17 +263,17 @@ export const getMultipleProductsData = async (
 };
 
 export const getData = async ({
-  productId,
+  productInternalId,
   productHandle,
-  productVariant,
+  productVariantInternalId,
 }: ContainerPropsType): Promise<Omit<ProductMultiVariants, 'intent'>> => {
-  if (!productId && !productHandle) {
+  if (!productInternalId && !productHandle) {
     throw new Error('Should pass either productId or productHandle');
   }
 
   const productFetchPromise = fetchHasura(graphql(FETCH_PRODUCTS), {
     variables: {
-      productIds: compact([productId]).map(Number),
+      productInternalIds: compact([productInternalId]),
       productHandles: compact([productHandle]),
     },
   });
@@ -283,8 +286,8 @@ export const getData = async ({
       await productFetchPromise,
       fetchCommission({
         productHandle,
-        productId,
-        productVariant,
+        productInternalId,
+        productVariantInternalId,
       }),
     ]);
   } catch (e) {
@@ -294,11 +297,13 @@ export const getData = async ({
   const product = first(productResponse?.Product);
 
   if (!product?.storeExposedProduct)
-    throw new ProductNotFoundException(productId ?? productHandle ?? '');
+    throw new ProductNotFoundException(
+      productInternalId ?? productHandle ?? '',
+    );
 
   return createProductFromFragment(
     product.storeExposedProduct,
-    productVariant,
+    productVariantInternalId,
     product.Vendor ?? undefined,
     commissionAmount ?? undefined,
   );
