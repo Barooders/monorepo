@@ -63,6 +63,12 @@ export class CustomerService {
       where: { customerEmail: user.email },
       data: { customerId: user.id },
     });
+
+    await this.marketingClient.createProfile(
+      user.email,
+      user.firstName,
+      user.lastName,
+    );
   }
 
   async upsertNegociationAgreement(
