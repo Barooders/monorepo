@@ -170,7 +170,6 @@ export class ShopifyClient implements IStoreClient {
         ...shopifyProductToCreate,
         status: mapShopifyStatus(product.status),
       });
-      await this.publishProduct(createdProduct.id.toString());
 
       if (productTitleEndsWithNumber) {
         await shopifyApiByToken.product.update(createdProduct.id, {
@@ -422,7 +421,6 @@ export class ShopifyClient implements IStoreClient {
     if (!createdProduct || !createdProduct.product)
       throw new Error('Product not created');
 
-    await this.publishProduct(createdProduct.product.id);
     this.logger.log(
       `Created product { legacyResourceId: "${createdProduct?.product?.legacyResourceId}" }`,
     );
@@ -435,7 +433,7 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  private async publishProduct(productId: string): Promise<void> {
+  async publishProduct(productId: string): Promise<void> {
     const { shopOnlineStorePublicationId, mobileAppPublicationId } =
       shopifyConfig;
 
