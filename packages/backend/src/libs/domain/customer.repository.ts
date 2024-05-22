@@ -9,6 +9,13 @@ interface CustomersFindManyInput {
 export class CustomerRepository {
   constructor(private prisma: PrismaMainClient) {}
 
+  async getCustomerFromShopifyId(shopifyId: number) {
+    return await this.prisma.customer.findFirst({
+      where: { shopifyId },
+      include: { user: true },
+    });
+  }
+
   async getCustomerFromVendorId(vendorId: string) {
     return await this.prisma.customer.findFirst({
       where: { authUserId: vendorId },
