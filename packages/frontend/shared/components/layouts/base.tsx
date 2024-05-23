@@ -3,19 +3,16 @@ import {
   MODAL_ROOT_ANCHOR,
   SNOWFALL_OVERLAY_ANCHOR,
 } from '@/config';
-import envConfig from '@/config/env';
+
 import { metadataConfig, viewportConfig } from '@/document/metadata/global';
 import AnalyticsProvider from '@/providers/AnalyticsProvider';
 import FeatureFlagsProvider from '@/providers/FeatureFlagsProvider';
 import HasuraApolloProvider from '@/providers/HasuraApolloProvider';
-import { QueryClient } from '@tanstack/react-query';
-import { MedusaProvider } from 'medusa-react';
+import MedusaProvider from '@/providers/MedusaProvider';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { MdCheckCircle } from 'react-icons/md';
 import NoSSR from '../atoms/NoSSR';
-
-const queryClient = new QueryClient();
 
 export const metadata = metadataConfig;
 export const viewport = viewportConfig;
@@ -38,12 +35,7 @@ const BaseLayout: React.FC<PropsType> = ({ children, header }) => {
           {header}
           <div id={INNER_PAGE_BANNER_ANCHOR} />
           <AnalyticsProvider>
-            <MedusaProvider
-              queryClientProviderProps={{ client: queryClient }}
-              baseUrl={envConfig.medusa.baseUrl}
-            >
-              {children}
-            </MedusaProvider>
+            <MedusaProvider>{children}</MedusaProvider>
           </AnalyticsProvider>
         </HasuraApolloProvider>
       </FeatureFlagsProvider>

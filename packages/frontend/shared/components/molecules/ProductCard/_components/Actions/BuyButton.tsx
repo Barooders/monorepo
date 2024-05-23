@@ -14,8 +14,11 @@ import useStorefront, {
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
 import { useEffect } from 'react';
+
+const USE_MEDUSA_CHECKOUT = true;
 
 const dict = getDictionary('fr');
 
@@ -51,57 +54,68 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const [createState, doCreate] = useWrappedAsyncFn(
-    async (variantShopifyId: number) => {
-      const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
-        {
-          cartLineIds: [variantShopifyId.toString()],
-        };
-      const commissionProduct = await fetchAPI<
-        operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
-      >('/v1/commission/create', {
-        method: 'POST',
-        body: JSON.stringify(commissionBody),
-      });
-
-      const input: {
-        allowPartialAddresses?: boolean;
-        lineItems: { quantity: number; variantId: string }[];
-        email?: string;
-      } = {
-        allowPartialAddresses: true,
-        lineItems: [
-          {
-            quantity: 1,
-            variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
-          },
-          {
-            quantity: 1,
-            variantId: toStorefrontId(
-              commissionProduct.variantStoreId,
-              'ProductVariant',
-            ),
-          },
-        ],
+  const createShopifyCheckout = async (variantShopifyId: number) => {
+    const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
+      {
+        cartLineIds: [variantShopifyId.toString()],
       };
+    const commissionProduct = await fetchAPI<
+      operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
+    >('/v1/commission/create', {
+      method: 'POST',
+      body: JSON.stringify(commissionBody),
+    });
 
-      if (hasuraToken?.user.email) {
-        input.email = hasuraToken.user.email;
-      }
+    const input: {
+      allowPartialAddresses?: boolean;
+      lineItems: { quantity: number; variantId: string }[];
+      email?: string;
+    } = {
+      allowPartialAddresses: true,
+      lineItems: [
+        {
+          quantity: 1,
+          variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
+        },
+        {
+          quantity: 1,
+          variantId: toStorefrontId(
+            commissionProduct.variantStoreId,
+            'ProductVariant',
+          ),
+        },
+      ],
+    };
 
-      const createCheckoutResponse = await createCheckout({
-        input,
+    if (hasuraToken?.user.email) {
+      input.email = hasuraToken.user.email;
+    }
+
+    const createCheckoutResponse = await createCheckout({
+      input,
+    });
+
+    if (isLoggedIn) {
+      await associateCheckout({
+        checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
+        customerAccessToken: await getShopifyToken(),
       });
+    }
 
-      if (isLoggedIn) {
-        await associateCheckout({
-          checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
-          customerAccessToken: await getShopifyToken(),
-        });
-      }
+    return createCheckoutResponse.checkoutCreate.checkout.webUrl;
+  };
 
-      return createCheckoutResponse.checkoutCreate.checkout.webUrl;
-    },
+  const createMedusaCheckout = async () => {
+    await createSingleItemCart({
+      variantId: 'variant_01HV8MZTACYXFYNSVDX77GR9KM',
+      countryCode: 'fr',
+    });
+
+    return '/checkout';
+  };
+
+  const [createState, doCreate] = useWrappedAsyncFn(
+    USE_MEDUSA_CHECKOUT ? createMedusaCheckout : createShopifyCheckout,
     [hasuraToken, createCheckout],
   );
 

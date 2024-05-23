@@ -103,6 +103,34 @@ export async function addToCart({
   }
 }
 
+export async function createSingleItemCart({
+  variantId,
+  countryCode,
+}: {
+  variantId: string;
+  countryCode: string;
+}) {
+  const cart = await getOrSetCart(countryCode).then((cart) => cart);
+
+  if (!cart) {
+    return 'Missing cart ID';
+  }
+
+  if (!variantId) {
+    return 'Missing product variant ID';
+  }
+
+  try {
+    for (const item of cart.items) {
+      await deleteLineItem(item.id);
+    }
+    await addItem({ cartId: cart.id, variantId, quantity: 1 });
+    revalidateTag('cart');
+  } catch (e) {
+    return 'Error adding item to cart';
+  }
+}
+
 export async function updateLineItem({
   lineId,
   quantity,
