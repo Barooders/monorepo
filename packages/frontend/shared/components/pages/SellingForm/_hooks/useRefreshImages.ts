@@ -10,7 +10,7 @@ const useRefreshImages = () => {
     async (productInternalId: string): Promise<void> => {
       const rawProduct = await fetchAPI<
         operations['ProductController_getProduct']['responses']['default']['content']['application/json']
-      >(`/v1/admin/products/${productInternalId}`);
+      >(`/v1/products/${productInternalId}`);
 
       if (!rawProduct) throw new Error('Product not found in Shopify');
 
