@@ -118,7 +118,7 @@ const FETCH_COLLECTION_PAGE = /* GraphQL */ /* typed_for_public */ `
 export const getData = async ({
   collectionHandle = '',
   productHandle = '',
-  productVariantShopifyId = '',
+  productVariantShopifyId = 0,
   vendorSellerName = '',
   searchQuery = '',
 }): Promise<GetDataType> => {
@@ -164,7 +164,7 @@ export const getData = async ({
     collectionData = {
       descriptionHtml: collection.description ?? '',
       handle: collection.handle,
-      id: collection.shopifyId,
+      id: Number(collection.shopifyId),
       image: null,
       title: collectionTitle,
       type: collection.type,
@@ -175,6 +175,7 @@ export const getData = async ({
     };
 
     let nextParentCollection: ParentCollection = collection?.parentCollection;
+
     while (nextParentCollection) {
       parentCollections.unshift({
         handle: nextParentCollection.handle,

@@ -19,7 +19,7 @@ export type RelatedCollectionType = {
 
 export type CollectionData = {
   title: string;
-  id: string;
+  id: number;
   handle: string;
   type: string;
   seo: {

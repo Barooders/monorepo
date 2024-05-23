@@ -56,7 +56,7 @@ const SavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
       shouldTriggerAlerts: true,
       name,
       type: 'PUBLIC_COLLECTION_PAGE',
-      collectionId: collection?.id,
+      collectionId: collection?.id.toString(),
       query: query ?? undefined,
       resultsUrl: window.location.href,
       refinements,

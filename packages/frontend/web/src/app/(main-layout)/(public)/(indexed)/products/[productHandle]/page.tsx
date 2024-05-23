@@ -16,7 +16,7 @@ import { Metadata } from 'next';
 
 type CollectionType = {
   id: string;
-  shopifyId: string;
+  shopifyId: number;
   handle: string;
   shortName: string | null;
   title: string | null;
@@ -160,7 +160,7 @@ const ProductPagePage: AppRouterPage<
     [productCardProps, productByHandle] = await Promise.all([
       getProductCardData({
         productHandle: params.productHandle,
-        productVariantShopifyId: searchParams.variant,
+        productVariantShopifyId: Number(searchParams.variant),
       }),
       fetchProductByHandle(params.productHandle),
     ]);

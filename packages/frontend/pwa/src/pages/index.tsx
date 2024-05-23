@@ -44,7 +44,7 @@ const Router: React.FC = () => {
               collectionHandle: params.collectionHandle,
               vendorSellerName,
               productHandle: highlightProductHandle,
-              productVariantShopifyId: highlightProductVariant,
+              productVariantShopifyId: Number(highlightProductVariant),
             });
           },
         },
@@ -58,7 +58,7 @@ const Router: React.FC = () => {
             const [productCardProps, productByHandle] = await Promise.all([
               getProductCardData({
                 productHandle: params.productHandle,
-                productVariantShopifyId,
+                productVariantShopifyId: Number(productVariantShopifyId),
               }),
               fetchProductByHandle(params.productHandle ?? ''),
             ]);

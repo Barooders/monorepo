@@ -32,14 +32,16 @@ export const sendOpenNewConversation = (
   sendNewConversationConversion(productPrice);
 };
 
-export const sendBeginCheckout = (productShopifyId: string) => {
-  gtag('event', 'beginCheckout', { productId: productShopifyId });
-  sendEvent('beginCheckout', { productId: productShopifyId });
+export const sendBeginCheckout = (productShopifyId: number) => {
+  const payload = { productId: productShopifyId.toString() };
+  gtag('event', 'beginCheckout', payload);
+  sendEvent('beginCheckout', payload);
 };
 
-export const sendClickProduct = (productShopifyId: string) => {
-  gtag('event', 'clickProduct', { productId: productShopifyId });
-  sendEvent('clickProduct', { productId: productShopifyId });
+export const sendClickProduct = (productShopifyId: number) => {
+  const payload = { productId: productShopifyId.toString() };
+  gtag('event', 'clickProduct', payload);
+  sendEvent('clickProduct', payload);
 };
 
 export const searchTriggered = (query: string, totalHits: number) => {
@@ -50,11 +52,12 @@ export const searchTriggered = (query: string, totalHits: number) => {
 };
 
 export const sendAddToWishlist = (
-  productShopifyId: string,
+  productShopifyId: number,
   customerId: string,
 ) => {
-  gtag('event', 'addToWishlist', { productId: productShopifyId, customerId });
-  sendEvent('addToWishlist', { productId: productShopifyId, customerId });
+  const payload = { productId: productShopifyId.toString(), customerId };
+  gtag('event', 'addToWishlist', payload);
+  sendEvent('addToWishlist', payload);
 };
 
 export const sendLogin = (customerId: string) => {
@@ -64,7 +67,7 @@ export const sendLogin = (customerId: string) => {
 };
 
 export const sendProductViewed = (product: {
-  shopifyId: string;
+  shopifyId: number;
   productType: string;
   brand: string | null;
   price: number;
@@ -75,7 +78,7 @@ export const sendProductViewed = (product: {
 }) => {
   const item = {
     ProductName: product.name,
-    ProductID: product.shopifyId,
+    ProductID: product.shopifyId.toString(),
     SKU: null,
     Categories: [product.productType],
     ImageURL: product.imageUrl,
@@ -99,20 +102,17 @@ export const sendCreateAlert = (customerId: string, filters: string[]) => {
 
 export const sendPriceOffer = (
   customerId: string,
-  productShopifyId: string,
+  productInternalId: string, //TODO: Fix using shopifyId while GMC does not use internal ids
   productPrice: number,
   variantId?: string,
 ) => {
-  gtag('event', 'sendPriceOffer', {
+  const payload = {
     customerId,
     variantId,
-    productId: productShopifyId,
-  });
-  sendEvent('sendPriceOffer', {
-    customerId,
-    variantId,
-    productId: productShopifyId,
-  });
+    productId: productInternalId,
+  };
+  gtag('event', 'sendPriceOffer', payload);
+  sendEvent('sendPriceOffer', payload);
   sendNewPriceOfferConversion(productPrice);
 };
 

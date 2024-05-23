@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
-  variantShopifyId: string;
+  variantShopifyId: number;
   className?: string;
 }> = ({ variantShopifyId, className }) => {
   const { hasuraToken } = useUser();
@@ -52,10 +52,10 @@ const BuyButton: React.FC<{
   }>(ASSOCIATE_CHECKOUT);
 
   const [createState, doCreate] = useWrappedAsyncFn(
-    async (variantShopifyId: string) => {
+    async (variantShopifyId: number) => {
       const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
         {
-          cartLineIds: [variantShopifyId],
+          cartLineIds: [variantShopifyId.toString()],
         };
       const commissionProduct = await fetchAPI<
         operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']

@@ -186,7 +186,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               <div>
                 <VariantSelector
                   variants={variants}
-                  selectedVariantId={variantShopifyId ?? null}
+                  selectedVariantId={variantShopifyId.toString()}
                   onSelectVariant={(variantId) => setSelectedVariant(variantId)}
                 />
               </div>

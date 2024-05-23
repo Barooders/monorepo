@@ -21,7 +21,7 @@ export type RawVariant = {
 export type Variant = {
   name: string;
   id: string;
-  shopifyId: string;
+  shopifyId: number;
   price: number;
   compareAtPrice: number;
   available: boolean;
@@ -30,7 +30,7 @@ export type Variant = {
 
 export type ProductMultiVariants = {
   id: string;
-  shopifyId: string;
+  shopifyId: number;
   labels: CardLabel[];
   vendor: {
     id: string | null;
@@ -58,7 +58,7 @@ export type ProductMultiVariants = {
   intent?: 'highlight' | 'card' | 'page' | 'small-card';
   isSoldOut: boolean;
   variantId: string;
-  variantShopifyId: string;
+  variantShopifyId: number;
   variants: Variant[];
   className?: string;
   availableOffers?: AvailableOffers[];
@@ -71,7 +71,7 @@ export type ProductSingleVariant = ProductMultiVariants & {
   price: number;
   discounts: Discount[];
   productLink: Url;
-  setSelectedVariant: (variantId: string) => void;
+  setSelectedVariant: (variantShopifyId: string) => void;
 };
 
 export type B2BProductCardProps = {
@@ -85,7 +85,7 @@ export type B2BProductCardProps = {
   stock: number;
   productType: string;
   handle: string;
-  shopifyId?: string;
+  shopifyId?: number;
   id: string;
   vendorId: string;
   intent?: 'card' | 'small-card';
@@ -101,7 +101,7 @@ export type B2BProductPanelProps = {
   stock: number;
   productType: string;
   handle: string;
-  shopifyId: string;
+  shopifyId: number;
   id: string;
   images: string[];
   description: string;

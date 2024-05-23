@@ -90,8 +90,8 @@ export const fromSearchToProductCard = (
     });
   }
 
-  const variantShopifyId = hit.variant_shopify_id?.toString() ?? 'UNKNOWN';
-  const variantId = hit.variant_internal_id ?? 'UNKNOWN';
+  const variantShopifyId = hit.variant_shopify_id ?? 0;
+  const variantId = hit.variant_internal_id;
 
   return {
     tags: productTags,
@@ -143,7 +143,7 @@ export const fromSearchToProductCard = (
     reviews: [],
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id?.toString() ?? 'UNKNOWN',
+    shopifyId: hit.product_shopify_id ?? 0,
     id: hit.product_internal_id,
     collections: hit.collection_internal_ids ?? [],
   };
@@ -182,7 +182,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     stock: hit.total_quantity,
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id?.toString(),
+    shopifyId: hit.product_shopify_id,
     id: hit.product_internal_id,
     vendorId: hit.vendor_id,
   };

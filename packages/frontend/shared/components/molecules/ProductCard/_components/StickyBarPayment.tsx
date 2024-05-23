@@ -14,7 +14,7 @@ type PropsType = {
   compareAtPrice: number;
   price: number;
   productInternalId: string;
-  variantShopifyId: string;
+  variantShopifyId: number;
   discounts: Discount[];
 };
 

@@ -103,7 +103,7 @@ const extractAssociatedOrderLine = (
   if (!rawAssociatedOrderLine?.order.shopifyId) return null;
 
   return {
-    orderShopifyId: rawAssociatedOrderLine.order.shopifyId,
+    orderShopifyId: Number(rawAssociatedOrderLine.order.shopifyId),
     shippingSolution: rawAssociatedOrderLine.shippingSolution,
   };
 };

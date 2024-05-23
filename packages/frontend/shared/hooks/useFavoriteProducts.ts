@@ -71,13 +71,13 @@ const useFavoriteProducts = () => {
 
       return favoriteProducts;
     },
-    addFavoriteProducts: needsLogin<[string], Promise<void>>(
-      async (productShopifyId: string) => {
+    addFavoriteProducts: needsLogin<[number], Promise<void>>(
+      async (productShopifyId: number) => {
         try {
           addFavoriteProductState(productShopifyId);
           addFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId: Number(productShopifyId),
+            productShopifyId,
           });
         } catch (e) {
           removeFavoriteProductState(productShopifyId);
@@ -85,13 +85,13 @@ const useFavoriteProducts = () => {
         }
       },
     ),
-    removeFavoriteProducts: needsLogin<[string], Promise<void>>(
-      async (productShopifyId: string) => {
+    removeFavoriteProducts: needsLogin<[number], Promise<void>>(
+      async (productShopifyId: number) => {
         try {
           removeFavoriteProductState(productShopifyId);
           removeFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId: Number(productShopifyId),
+            productShopifyId,
           });
         } catch (e) {
           addFavoriteProductState(productShopifyId);

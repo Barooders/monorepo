@@ -3,7 +3,7 @@ import { fetchBackend } from './backend';
 type ArgsType = {
   productHandle?: string;
   productInternalId?: string;
-  productVariantShopifyId?: string;
+  productVariantShopifyId?: number;
 };
 
 export const fetchCommission = async ({
@@ -16,7 +16,10 @@ export const fetchCommission = async ({
   if (productInternalId)
     fetchCommissionParams.set('productInternalId', productInternalId);
   if (productVariantShopifyId)
-    fetchCommissionParams.set('variantShopifyId', productVariantShopifyId);
+    fetchCommissionParams.set(
+      'variantShopifyId',
+      productVariantShopifyId.toString(),
+    );
 
   try {
     return await fetchBackend<number>(
