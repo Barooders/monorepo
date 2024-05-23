@@ -94,6 +94,7 @@ export class ShopifyProductService implements ProVendorStrategy {
         productFromDB.externalProductId,
       );
     } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!error.message.includes('Response code 404')) {
         throw error;
       }

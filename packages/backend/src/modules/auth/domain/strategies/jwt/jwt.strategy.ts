@@ -38,6 +38,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: HasuraAuthJwtType): Promise<ExtractedUser> {
     const parsedSellerName = payload[CLAIMS_KEY]['x-hasura-sellerName'];
     return {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(parsedSellerName ? { sellerName: parsedSellerName } : {}),
       userId: payload[CLAIMS_KEY]['x-hasura-user-id'],
       roles: payload[CLAIMS_KEY]['x-hasura-allowed-roles'],

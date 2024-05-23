@@ -53,6 +53,7 @@ export class ShopifyOrderService implements OrderSyncServiceStrategy {
     );
 
     const trackingInfo = fulfillments.find(
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ({ tracking_url }) => !!tracking_url,
     );
 

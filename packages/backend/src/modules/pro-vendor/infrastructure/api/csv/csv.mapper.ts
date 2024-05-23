@@ -39,6 +39,7 @@ export class CSVMapper {
       },
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(`Category not mapped, skipping product ${product.id}`);
       return null;
@@ -71,22 +72,25 @@ export class CSVMapper {
 
   private async getTags(csvProduct: CSVProduct): Promise<string[]> {
     return (
-      await Promise.all(
-        csvProduct.tags.map(({ key, value }) => {
-          return this.tagService.getOrCreateTag(
-            key,
-            String(value),
-            key,
-            this.vendorConfigService.getVendorConfig().mappingKey,
-            {
-              externalId: String(csvProduct.id),
-              title: csvProduct.title,
-            },
-          );
-        }),
+      (
+        await Promise.all(
+          csvProduct.tags.map(({ key, value }) => {
+            return this.tagService.getOrCreateTag(
+              key,
+              String(value),
+              key,
+              this.vendorConfigService.getVendorConfig().mappingKey,
+              {
+                externalId: String(csvProduct.id),
+                title: csvProduct.title,
+              },
+            );
+          }),
+        )
       )
-    )
-      .flat()
-      .flatMap((f) => (f ? [f] : []));
+        .flat()
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        .flatMap((f) => (f ? [f] : []))
+    );
   }
 }

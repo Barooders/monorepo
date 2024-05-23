@@ -28,6 +28,7 @@ export class DeliveryProfileService {
       const aPrice = (a.rateProvider as DeliveryRateDefinition)?.price?.amount;
       const bPrice = (b.rateProvider as DeliveryRateDefinition)?.price?.amount;
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!aPrice || !bPrice) return 0;
 
       return aPrice - bPrice;
@@ -118,6 +119,7 @@ export class DeliveryProfileService {
 
     const productVariant = response.body.data.productVariant;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productVariant) throw new Error('Product variant not found');
 
     return productVariant;
@@ -240,6 +242,7 @@ export class DeliveryProfileService {
           name: `${methodDefinition.name}${
             shopifyConfig.handDeliveryMethodName === methodDefinition.name &&
             acceptsHandDelivery &&
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             handDeliveryPostalCode
               ? ` (${handDeliveryPostalCode})`
               : ''

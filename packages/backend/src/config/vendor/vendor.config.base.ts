@@ -663,6 +663,7 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
           const productIdMatch = url.match(/.*everide\.app.*,([a-zA-Z0-9]+)/);
           const productId = productIdMatch?.[1];
 
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!productId) {
             return {
               status: 'error',

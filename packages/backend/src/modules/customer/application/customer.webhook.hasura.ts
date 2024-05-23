@@ -23,6 +23,7 @@ export class CustomerWebhooksHasuraController {
       firstName: userData.metadata.firstName ?? firstName,
       lastName: userData.metadata.lastName ?? lastNameEntries.join(' '),
       phone: userData.phone_number,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       userName: userData.password_hash ? userData.display_name : '',
       profilePictureUrl: userData.avatar_url,
     });

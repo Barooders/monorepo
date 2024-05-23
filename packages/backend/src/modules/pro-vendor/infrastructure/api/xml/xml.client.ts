@@ -13,6 +13,7 @@ const mapValidKeyValuePair = ({
   key: string | undefined;
   value: string | undefined;
 }): { key: string; value: string } | undefined => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return key && value ? { key, value } : undefined;
 };
 
@@ -78,6 +79,7 @@ export class XMLClient {
     const variants = [...$(xmlFieldsConfig.variant)]
       .map((item) => $(item))
       .filter((xmlProduct) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!productId) return true;
 
         return (
@@ -124,22 +126,26 @@ export class XMLClient {
             .text(),
           option1: {
             key: xmlFieldsConfig.option1?.key,
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             value: xmlFieldsConfig.option1?.value
               ? xmlProduct.find(xmlFieldsConfig.option1.value).first().text()
               : undefined,
           },
           option2: {
             key: xmlFieldsConfig.option2?.key,
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             value: xmlFieldsConfig.option2?.value
               ? xmlProduct.find(xmlFieldsConfig.option2.value).first().text()
               : undefined,
           },
           option3: {
             key: xmlFieldsConfig.option3?.key,
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             value: xmlFieldsConfig.option3?.value
               ? xmlProduct.find(xmlFieldsConfig.option3.value).first().text()
               : undefined,
           },
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           productEANCode: xmlFieldsConfig.productEANCode
             ? xmlProduct.find(xmlFieldsConfig.productEANCode).first().text()
             : undefined,
@@ -151,6 +157,7 @@ export class XMLClient {
         (product) => product.id === variant.productId,
       );
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!variant.variantId) {
         this.logger.warn(
           `Variant ID not found for product ID: ${variant.productId}`,
@@ -168,13 +175,19 @@ export class XMLClient {
       }
 
       if (
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productId ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.variantCondition ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productTitle ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productType ||
         variant.images.filter(Boolean).length === 0 ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.price ||
         isNaN(parseFloat(variant.price)) ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.inventoryQuantity ||
         isNaN(parseInt(variant.inventoryQuantity))
       ) {
@@ -193,6 +206,7 @@ export class XMLClient {
           amountInCents: Math.floor(parseAmountString(variant.price) * 100),
         }),
         compareAtPrice:
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           variant.compareAtPrice && !isNaN(parseFloat(variant.compareAtPrice))
             ? new Amount({
                 amountInCents: Math.floor(
@@ -217,6 +231,7 @@ export class XMLClient {
           title: variant.productTitle,
           description: variant.description ?? '',
           images: variant.images
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             .flatMap((image) => (image ? [image] : []))
             .map((image) => new URL({ url: image })),
           variants: [mappedVariant],

@@ -66,6 +66,7 @@ export class TagService {
 
     const internalTagName = dbTagName[0]?.internalTagName;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!internalTagName) return [];
 
     if (dbTagName[0].useDefaultTagValues)
@@ -73,6 +74,7 @@ export class TagService {
 
     const internalTagValue = dbTagValue[0]?.internalTagValue;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!internalTagValue) return [];
 
     return internalTagValue.split(';').map((value) => {
@@ -102,6 +104,7 @@ export class TagService {
         metadata,
       );
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (newTag) tags.push(...newTag);
     }
 

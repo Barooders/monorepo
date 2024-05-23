@@ -164,6 +164,7 @@ export class CommissionService {
     const price = priceInCents / 100;
     const discount = discountInCents / 100;
     if (salesChannelName === SalesChannelName.B2B) {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!forcedBuyerCommissionInCents)
         throw new Error(`Buyer commission should be provided for B2B order`);
 
@@ -183,6 +184,7 @@ export class CommissionService {
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorId)
       throw new Error(`Cannot compute commission because it has no vendor id`);
 
@@ -247,6 +249,7 @@ export class CommissionService {
         ({ type }) => type === RuleType.MAX_AMOUNT,
       )?.value;
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       return maxLimit
         ? Math.min(computedValue, Number(maxLimit))
         : computedValue;
@@ -275,6 +278,7 @@ export class CommissionService {
     return commissionRules
       .sort((a, b) => a.priority - b.priority)
       .find(({ criteria }) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!criteria) return true;
 
         return criteria.every(({ type, value }) => {

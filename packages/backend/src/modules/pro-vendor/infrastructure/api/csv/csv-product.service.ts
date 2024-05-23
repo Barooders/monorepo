@@ -28,6 +28,7 @@ export class CSVProductService implements ProVendorStrategy {
   ): Promise<CSVProduct[]> {
     const csvProducts = await this.csvClient.getAllProducts();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!csvProducts) throw new Error('Products not found on provided CSV');
 
     return csvProducts;

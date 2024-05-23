@@ -53,6 +53,7 @@ export class TypesenseRepository implements SearchRepository {
 
     const clientConfig = CLIENT_CONFIG[type];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!clientConfig) {
       throw new Error(`Client config not found for type ${type}`);
     }
@@ -97,6 +98,7 @@ export class TypesenseRepository implements SearchRepository {
                   ? 'Très bon état'
                   : 'Bon état',
           ]
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             .filter((value) => !!value)
             .join('・'),
         })),

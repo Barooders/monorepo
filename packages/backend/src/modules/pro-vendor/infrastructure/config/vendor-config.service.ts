@@ -16,6 +16,7 @@ export class VendorConfigService implements IVendorConfigService {
   constructor(private customerRepository: CustomerRepository) {}
 
   async setVendorConfigFromSlug(vendorSlug: SynchronizedProVendor) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorConfig[vendorSlug]) {
       throw new Error(`Vendor slug ${vendorSlug} is not configured.`);
     }
@@ -59,6 +60,7 @@ export class VendorConfigService implements IVendorConfigService {
       )
     )?.sellerName;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorName)
       throw new Error(
         `Cannot find vendor name for id: ${vendorConfig.vendorId}`,

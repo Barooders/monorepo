@@ -18,6 +18,7 @@ export enum ShopifyProductStatus {
 export const mapCondition = (
   condition: string | null | undefined,
 ): Condition => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!condition) return Condition.GOOD;
 
   if (condition.toLowerCase().includes('neuf')) return Condition.AS_NEW;

@@ -13,6 +13,7 @@ export class DefaultPrestashopClient {
       `${this.vendorConfigService.getVendorConfig().apiUrl}${path}`,
     );
     const vendorAPIKey = this.vendorConfigService.getVendorConfig().apiKey;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (vendorAPIKey) url.searchParams.append('ws_key', vendorAPIKey);
     url.searchParams.append('output_format', 'JSON');
 

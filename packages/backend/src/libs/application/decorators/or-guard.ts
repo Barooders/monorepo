@@ -59,6 +59,7 @@ export function OrGuard(
 
     private handleError(): OperatorFunction<boolean, boolean> {
       return catchError((err) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (orGuardOptions?.throwOnFirstError) {
           return throwError(err);
         }
@@ -69,12 +70,14 @@ export function OrGuard(
     private guardIsPromise(
       guard: boolean | Promise<boolean> | Observable<boolean>,
     ): guard is Promise<boolean> {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       return !!(guard as Promise<boolean>).then;
     }
 
     private guardIsObservable(
       guard: boolean | Observable<boolean>,
     ): guard is Observable<boolean> {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       return !!(guard as Observable<boolean>).pipe;
     }
   }

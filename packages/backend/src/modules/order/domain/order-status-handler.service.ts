@@ -116,6 +116,7 @@ export class OrderStatusHandlerService {
         });
         await Promise.all(
           orderLines
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             .flatMap(({ vendorId }) => (vendorId ? [vendorId] : []))
             .map(async (vendorId) => {
               await this.prisma.vendorReview.create({
@@ -211,6 +212,7 @@ export class OrderStatusHandlerService {
   ): Promise<void> {
     await Promise.allSettled(
       orderLines.map(async ({ productVariantId, quantity }) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!productVariantId) return;
         try {
           await this.productUpdateService.applyStockUpdateInDatabaseOnly(

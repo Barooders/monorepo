@@ -31,6 +31,7 @@ export class AirtableClient implements IInternalTrackingClient {
         },
       ],
       (err, records) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (err) {
           throw err;
         }

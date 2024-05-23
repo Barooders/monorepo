@@ -51,6 +51,7 @@ export class ProductSyncService {
     const failedProductIds: string[] = [];
     const skippedProducts: SkippedProduct[] = [];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!this.vendorConfigService.getVendorConfig().slug)
       throw new Error('Vendor not found');
 
@@ -78,6 +79,7 @@ export class ProductSyncService {
         );
 
         const storeId = Number(vendorProductFromDb?.internalProductId);
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         const productFromStore = storeId
           ? await this.productService.getProductFromStore(storeId)
           : null;
@@ -118,6 +120,7 @@ export class ProductSyncService {
         }
 
         if (
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !this.vendorConfigService.getVendorConfig().catalog.common
             ?.skipProductUpdate
         ) {
@@ -237,6 +240,7 @@ export class ProductSyncService {
         .getAllVendorProducts(sinceDate);
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productsFromVendor) throw new Error('No products found on vendor!');
 
     this.logger.warn(
@@ -249,6 +253,7 @@ export class ProductSyncService {
   private throwIfProductInDbNotLinkedToInternalProduct(
     vendorProductFromDb: VendorProProduct | null,
   ) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorProductFromDb || vendorProductFromDb.internalProductId) return;
 
     throw new Error(

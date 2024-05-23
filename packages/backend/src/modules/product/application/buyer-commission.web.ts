@@ -123,6 +123,7 @@ export class BuyerCommissionController {
     const { productHandle, productInternalId, variantShopifyId } =
       productInputDto;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const variantInternalId = variantShopifyId
       ? (
           await this.prisma.productVariant.findUniqueOrThrow({

@@ -13,6 +13,7 @@ export class ChrisBikesClient {
   constructor() {
     this.logger.debug('Will instanciate InstrumentedShopify API node');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorConfig.chris_bikes.accessToken) {
       throw new Error('Missing access token for Chris Bikes');
     }

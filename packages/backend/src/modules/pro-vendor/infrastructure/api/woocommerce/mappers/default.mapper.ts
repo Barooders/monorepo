@@ -46,6 +46,7 @@ export class WooCommerceDefaultMapper {
     );
     const stringifyArray = (array: (string | object)[]): string => {
       if (
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         this.vendorConfigService.getVendorConfig().catalog.wooCommerce
           ?.stringifySingleItemArray
       )
@@ -92,6 +93,7 @@ export class WooCommerceDefaultMapper {
       ])
     ).flat();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(
         `Category ${key} not mapped, skipping product ${productId}`,
@@ -107,6 +109,7 @@ export class WooCommerceDefaultMapper {
       ...(await this.mapLightProduct(wooCommerceProduct)),
       body_html: this.getDescription(wooCommerceProduct),
       product_type: productType,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       tags: tags.flatMap((f) => (f ? [f] : [])),
       variants: variants.map((variant) => ({
         ...variant,
@@ -124,6 +127,7 @@ export class WooCommerceDefaultMapper {
     return {
       external_id: id.toString(),
       title: name,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       isVisibleInStore: !status || status === 'publish',
     };
   }
@@ -175,6 +179,7 @@ export class WooCommerceDefaultMapper {
     wooCommerceProduct: WooCommerceProduct,
   ): Promise<SyncProduct['variants']> {
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       this.vendorConfigService.getVendorConfig().catalog.wooCommerce
         ?.mapSingleVariant
     ) {

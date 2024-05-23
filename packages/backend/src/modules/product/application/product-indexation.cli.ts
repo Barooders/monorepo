@@ -54,6 +54,7 @@ export class ProductIndexationCLIConsole {
   async fullIndex({ b2bOnly }: { b2bOnly?: boolean }): Promise<void> {
     const productIds = await this.mainPrisma.product.findMany({
       where: {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(b2bOnly
           ? {
               productSalesChannels: {

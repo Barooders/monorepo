@@ -87,6 +87,7 @@ export class SendCloudClient implements IShippingClient {
       }/shipments?${searchParams.toString()}`,
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!shipments.results || shipments.results.length === 0) {
       throw new ShipmentNotFound(orderName);
     }

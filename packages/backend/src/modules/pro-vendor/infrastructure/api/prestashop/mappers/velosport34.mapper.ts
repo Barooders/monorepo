@@ -14,6 +14,7 @@ export class Velosport34Mapper extends PrestashopDefaultMapper {
   }
 
   getQuantity(product: ProductDTO, _variant: StockAvailableDTO | null): number {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return product.description_short
       ?.toLowerCase()
       .includes('disponible à la commande')

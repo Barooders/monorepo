@@ -38,6 +38,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
       } catch (e) {
         if (e instanceof MaxAttemptsError) {
           const msgPrefix = `Failed for '${propertyKey}' for ${options.maxAttempts} times.`;
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           e.message = e.message
             ? `${msgPrefix} Original Error: ${e.message}`
             : msgPrefix;
@@ -62,6 +63,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
       if (--maxAttempts < 0) {
         const maxAttemptsErrorInstance = new MaxAttemptsError(e?.message);
         // Add the existing error stack if present
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (e?.stack) {
           maxAttemptsErrorInstance.stack = e.stack;
         }
@@ -71,6 +73,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
       if (!canRetry(e)) {
         throw e;
       }
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       backOff && (await sleep(backOff));
       if (
         options.backOffPolicy === BackOffPolicy.ExponentialBackOffPolicy &&
@@ -92,6 +95,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
       return false;
     }
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       options.value?.length &&
       !options.value.some((errorType) => e instanceof errorType)
     ) {
@@ -101,6 +105,7 @@ export function Retryable(options: RetryOptions): DecoratorFunction {
   }
 
   function setExponentialBackOffPolicyDefault(): void {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !options.backOff && (options.backOff = 1000);
     options.exponentialOption = {
       ...{ maxInterval: 2000, multiplier: 2 },

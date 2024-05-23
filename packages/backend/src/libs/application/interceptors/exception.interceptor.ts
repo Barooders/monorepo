@@ -46,10 +46,12 @@ export class ExceptionInterceptor implements NestInterceptor {
 
   private addCorrelationIdToError(error: any) {
     const correlationId =
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       error.correlationId || RequestContextService.getRequestId();
 
     error.correlationId = correlationId;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!error.response) return error;
 
     error.response.correlationId = correlationId;

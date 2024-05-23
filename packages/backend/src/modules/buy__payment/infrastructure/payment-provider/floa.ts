@@ -187,6 +187,7 @@ export class FloaPaymentProvider implements IPaymentProvider {
           PaymentProvider.FLOA,
           eligibility.paymentOptionReference,
         )?.code;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!paymentSolutionCode) return null;
 
         return {
@@ -313,8 +314,10 @@ export class FloaPaymentProvider implements IPaymentProvider {
 
     if (
       config &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       config.token &&
       config.envName === this.getFloaConfig().envName &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       config.expiringTimestamp &&
       config.expiringTimestamp > Date.now()
     )
@@ -360,6 +363,7 @@ export class FloaPaymentProvider implements IPaymentProvider {
 
     const merchantSiteId = floaConfig[paymentSolutionCode] ?? null;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!merchantSiteId) {
       throw new Error(`Could not find a merchantId for ${paymentSolutionCode}`);
     }

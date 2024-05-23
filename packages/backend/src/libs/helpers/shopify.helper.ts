@@ -28,6 +28,7 @@ export const getTagsObject = (
 
   return tagsArray.reduce((acc: Record<string, string[]>, tag) => {
     const currentEntries = tag.split(/:(.*)/s);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!currentEntries || currentEntries.length !== 3) return acc;
 
     const key = currentEntries[0].trim();

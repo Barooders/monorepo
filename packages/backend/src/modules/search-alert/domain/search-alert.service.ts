@@ -255,6 +255,7 @@ export class SearchAlertService {
 
     if (nbHits === 0) return;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!savedSearch.customer.user.email) {
       throw new Error(
         `No email found for customer ${savedSearch.customer.user.id}`,

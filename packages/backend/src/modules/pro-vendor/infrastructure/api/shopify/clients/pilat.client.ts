@@ -13,6 +13,7 @@ export class PilatClient {
   constructor() {
     this.logger.debug('Will instanciate InstrumentedShopify API node');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorConfig.pilat.accessToken) {
       throw new Error('Missing access token for Cycles Pilat');
     }

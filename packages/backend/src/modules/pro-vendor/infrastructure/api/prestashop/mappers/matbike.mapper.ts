@@ -14,6 +14,7 @@ export class MatbikeMapper extends PrestashopDefaultMapper {
   }
 
   getQuantity(_product: ProductDTO, variant: StockAvailableDTO | null): number {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return variant?.quantity ? Number(variant.quantity) : 1;
   }
 }

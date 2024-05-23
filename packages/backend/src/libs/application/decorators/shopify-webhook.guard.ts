@@ -21,6 +21,7 @@ export class ShopifyBackofficeWebhookGuard implements CanActivate {
 
     const hmacHeader = req.headers['x-shopify-hmac-sha256'] as string;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!hmacHeader || typeof hmacHeader !== 'string') {
       this.logger.error(`HMAC header not found in request`);
       throw new UnauthorizedException(`Not Authorized`);

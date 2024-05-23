@@ -101,6 +101,7 @@ export class ProVendorCLIConsole {
       });
 
       const getInitialDateToSync = () => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!options.days) return lastLog?.createdAt;
 
         const date = new Date();
@@ -110,6 +111,7 @@ export class ProVendorCLIConsole {
 
       const { payload, metadata } =
         await this.productSyncService.syncDatabaseWithVendorProducts(
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           options.force ? null : getInitialDateToSync(),
           options.products,
           options.syncImages,

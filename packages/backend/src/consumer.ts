@@ -23,6 +23,7 @@ const bootstrap = async () => {
     app.use(Sentry.Handlers.requestHandler());
     app.use(Sentry.Handlers.tracingHandler());
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     await app.listen(process.env.PORT || 3000);
   } catch (e) {
     const parsedError = e as { message?: string };

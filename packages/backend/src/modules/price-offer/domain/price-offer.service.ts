@@ -345,6 +345,7 @@ export class PriceOfferService implements IPriceOfferService {
 
     const initialPrice = await this.getInitialPrice(
       new UUID({ uuid: updatedPriceOffer.productId }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       updatedPriceOffer.productVariantId
         ? new UUID({ uuid: updatedPriceOffer.productVariantId })
         : undefined,
@@ -454,6 +455,7 @@ export class PriceOfferService implements IPriceOfferService {
 
     const productPrice = await this.getInitialPrice(
       new UUID({ uuid: priceOffer.productId }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       priceOffer.productVariantId
         ? new UUID({ uuid: priceOffer.productVariantId })
         : undefined,
@@ -467,6 +469,7 @@ export class PriceOfferService implements IPriceOfferService {
           productPrice.amountInCents - Number(priceOffer.newPriceInCents),
       }),
       new UUID({ uuid: priceOffer.productId }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       priceOffer.productVariantId
         ? new UUID({ uuid: priceOffer.productVariantId })
         : undefined,
@@ -562,6 +565,7 @@ export class PriceOfferService implements IPriceOfferService {
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       !this.isParticipant(userId, priceOfferId) ||
       (userId.equals(new UUID({ uuid: priceOffer.initiatedBy })) &&
         targetStatus === PriceOfferStatus.ACCEPTED)
@@ -615,6 +619,7 @@ export class PriceOfferService implements IPriceOfferService {
         },
       });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!priceOfferProduct) {
       throw new PriceOfferNotFound(priceOfferId);
     }

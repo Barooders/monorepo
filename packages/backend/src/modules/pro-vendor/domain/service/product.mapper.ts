@@ -99,6 +99,7 @@ export class ProductMapper {
       ...mappedProduct,
       variants: filteredVariants.map((variant) => ({
         ...variant,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(defaultProductCondition && { condition: defaultProductCondition }),
       })),
       isVisibleInStore:
@@ -138,7 +139,9 @@ export class ProductMapper {
       .filter(({ external_id, price, compare_at_price }) => {
         const minimumDiscount = catalogFeatures?.minimumDiscount;
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!minimumDiscount) return true;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!compare_at_price) return false;
 
         const isKept =
@@ -161,6 +164,7 @@ export class ProductMapper {
     isBike: boolean,
   ) {
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       catalogFeatures?.excludedTitles?.some((excludedTitle) =>
         mappedProduct.title.toLowerCase().includes(excludedTitle.toLowerCase()),
       )
@@ -187,6 +191,7 @@ export class ProductMapper {
     const minimalPriceInCents = catalogFeatures?.minimalPriceInCents;
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       minimalPriceInCents &&
       mappedProduct.variants.some(
         (variant) => Number(variant.price) * 100 < minimalPriceInCents,
@@ -212,6 +217,7 @@ export class ProductMapper {
 
     if (
       action === BrandFilterAction.EXCLUDE &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       productBrand &&
       brandNames.includes(productBrand)
     ) {
@@ -223,6 +229,7 @@ export class ProductMapper {
 
     if (
       action === BrandFilterAction.ONLY &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       productBrand &&
       !brandNames.includes(productBrand)
     ) {
@@ -245,6 +252,7 @@ export class ProductMapper {
       ...(await this.tagsFromDescription(catalogFeatures, mappedProduct)),
     ];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (isBike && !mappedTagsObject.genre) {
       tags.push('genre:Mixte');
     }
@@ -278,16 +286,19 @@ export class ProductMapper {
     let productDescription =
       catalogFeatures?.defaultDescription ?? mappedProduct.body_html;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (catalogFeatures?.translateDescription) {
       const translatedDescription = await this.translator.translate(
         mappedProduct.body_html,
       );
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (translatedDescription) {
         productDescription = translatedDescription;
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (catalogFeatures?.showExternalIdInDescription) {
       productDescription = `Référence: ${mappedProduct.external_id}\n${productDescription}`;
     }
@@ -301,6 +312,7 @@ export class ProductMapper {
   private async getProductVariantOptionTags(mappedProduct: SyncProduct) {
     const tags = [];
     for (const variant of mappedProduct.variants) {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!variant.inventory_quantity) continue;
 
       for (const { key, value } of variant.optionProperties) {
@@ -326,6 +338,7 @@ export class ProductMapper {
       this.vendorConfigService.getVendorConfig().catalog.common;
 
     const suffix =
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       catalogFeatures?.variantOptionTagsWithCategorySuffix?.includes(
         key.toLowerCase(),
       )
@@ -383,6 +396,7 @@ export class ProductMapper {
   }) {
     const minimumQuantity = catalogFeatures?.minimumQuantity;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!minimumQuantity) return;
 
     const productQuantity = filteredVariants.reduce(

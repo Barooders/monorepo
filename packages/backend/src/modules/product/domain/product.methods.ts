@@ -6,6 +6,7 @@ export const getHandDeliveryMetafields = (
   handDeliveryPostalCode?: string,
 ): Metafield[] => {
   if (!handDelivery) return [];
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!handDeliveryPostalCode)
     throw new Error(
       'Cannot create product with handDelivery without handDeliveryPostalCode',

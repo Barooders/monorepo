@@ -25,6 +25,7 @@ export const getEncryptionKeys = (): EncryptionKeys => {
 };
 
 export const encode = (payload: MultipassPayload) => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!payload) return;
 
   // Serialize the customer data to JSON and encrypt it

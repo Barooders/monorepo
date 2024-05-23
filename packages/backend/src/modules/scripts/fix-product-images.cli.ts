@@ -43,6 +43,7 @@ export class FixProductImageCLI {
         const productModelName = product.exposedProductTags.find(
           (tag) => tag.tag === 'modele',
         )?.value;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!productModelName) {
           this.logger.log(`No model tag for product ${product.id}`);
           continue;
@@ -51,6 +52,7 @@ export class FixProductImageCLI {
         const productModel =
           await this.pimClient.getPimProductModel(productModelName);
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!productModel) {
           this.logger.log(`Cannot find model for product ${product.id}`);
           continue;

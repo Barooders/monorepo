@@ -26,6 +26,7 @@ const getFromGorgias = async (path: string) => {
 
   const { data } = await response.json();
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!data || !Array.isArray(data))
     throw new Error(`No data array found in Gorgias response for ${path}`);
 

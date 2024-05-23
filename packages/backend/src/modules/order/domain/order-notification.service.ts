@@ -319,6 +319,7 @@ export class OrderNotificationService {
     productName: string;
     orderName: string;
   }) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email) {
       this.logger.debug(
         `${type} has no email for order line ${orderLineId}, skipping unfulfilled order line email`,

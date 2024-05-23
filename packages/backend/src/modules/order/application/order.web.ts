@@ -199,6 +199,7 @@ export class OrderController {
     orderId: string,
     @User() { userId }: ExtractedUser,
   ): Promise<AccountPageOrder> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException('User not found in token');
     }
@@ -243,6 +244,7 @@ export class OrderController {
     @User() { userId }: ExtractedUser,
     @Res() res: Response,
   ) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException('User not found in token');
     }
@@ -287,6 +289,7 @@ export class OrderController {
     { trackingUrl }: OrderLineFulfillmentDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,

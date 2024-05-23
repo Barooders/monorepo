@@ -118,7 +118,9 @@ export class OrderService {
     customerId: string | null,
     orderLine: OrderLines,
   ): Promise<string | null> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!customerId) return null;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!orderLine.productVariantId) return null;
 
     try {
@@ -159,6 +161,7 @@ export class OrderService {
   }
 
   private async getContactInfo(contactId: string | null | undefined) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!contactId) return null;
 
     const customer = await this.prisma.customer.findUnique({
@@ -195,6 +198,7 @@ export class OrderService {
 
     const nextStatus = NEXT_STEP[lastStep.status];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!nextStatus) return completedEvents;
 
     return [
@@ -244,6 +248,7 @@ export class OrderService {
     orderHistory.push(
       ...events
         .map(({ payload, createdAt }) => {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!payload || typeof payload !== 'object' || Array.isArray(payload))
             throw new Error(
               `Could not parse payload for event ${EventName.ORDER_UPDATED} for order ${order.id}. Payload is ${payload}`,
@@ -252,6 +257,7 @@ export class OrderService {
           const { newStatus: status, updatedAt } = payload;
 
           if (
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             !status ||
             typeof status !== 'string' ||
             !(status in OrderStatus)

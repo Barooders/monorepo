@@ -32,9 +32,11 @@ export const mapMetafieldToBlockList = (
     productMetafields,
   );
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return metafieldValue
     ? `<p>${title}:</p><ul>${String(metafieldValue)
         .split('\n')
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         .filter((item) => !!item)
         .map((item) => `<li>${item}</li>`)
         .join('')}</ul><br>`
@@ -90,9 +92,9 @@ export class ShopifyDefaultMapper {
       },
     );
 
-    const mappedTags = (
-      await this.getTags(shopifyProduct, productMetafields)
-    ).flatMap((f) => (f ? [f] : []));
+    const mappedTags = (await this.getTags(shopifyProduct, productMetafields))
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      .flatMap((f) => (f ? [f] : []));
 
     const description = await this.getDescription(
       shopifyProduct,
@@ -101,6 +103,7 @@ export class ShopifyDefaultMapper {
       mappedTags,
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(
         `Category not mapped, skipping product ${shopifyProduct.id}`,
@@ -132,6 +135,7 @@ export class ShopifyDefaultMapper {
             key: shopifyProduct.options[2]?.name,
             value: variant.option3,
           },
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ].filter(({ key, value }) => key && value) as {
           key: string;
           value: string;

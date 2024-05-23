@@ -17,6 +17,7 @@ export class BernaudeauMapper extends WooCommerceDefaultMapper {
     const observedNewProductPrice = (
       wooCommerceProduct?.meta_data ?? []
     ).filter(({ key, value }) => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       return key === 'prix_neuf_constate_v' && !!value && !isNaN(Number(value));
     });
 

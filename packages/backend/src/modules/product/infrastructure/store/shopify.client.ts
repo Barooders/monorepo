@@ -158,6 +158,7 @@ export class ShopifyClient implements IStoreClient {
           type: MetafieldType.SINGLE_LINE_TEXT_FIELD,
           namespace: BAROODERS_NAMESPACE,
         },
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(product.source
           ? [
               {
@@ -253,14 +254,17 @@ export class ShopifyClient implements IStoreClient {
         where: { id: productId },
         select: { shopifyId: true },
       });
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       const newVendor = vendorId
         ? await this.customerRepository.getCustomerFromVendorId(vendorId)
         : null;
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (Object.entries(data).length !== 0 || tags || status || newVendor) {
         await shopifyApiByToken.product.update(Number(shopifyId), {
           ...data,
           ...(tags ? { tags: getValidTags(tags) } : {}),
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           ...(status ? { status: mapShopifyStatus(status) } : {}),
           ...(newVendor ? { vendor: newVendor.sellerName } : {}),
         });
@@ -363,6 +367,7 @@ export class ShopifyClient implements IStoreClient {
 
     this.logger.debug(dayjs().subtract(7, 'days').toISOString());
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!firstProduct) {
       this.logger.debug(`No commission products to delete`);
       return;
@@ -517,6 +522,7 @@ export class ShopifyClient implements IStoreClient {
       option2: optionProperties[1]?.value ?? null,
       option3: optionProperties[2]?.value ?? null,
       compare_at_price:
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         (!Number(variant.compare_at_price)
           ? variant.price
           : variant.compare_at_price) ?? null,
@@ -586,6 +592,7 @@ export class ShopifyClient implements IStoreClient {
     metafieldOwner: { owner_resource: string; owner_id: number },
     { key, namespace, value, type }: Metafield,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!type)
       throw new Error(
         `Cannot create or update metafield without type: ${key} on ${jsonStringify(
@@ -637,9 +644,11 @@ export class ShopifyClient implements IStoreClient {
       where: { id: productId },
       select: { shopifyId: true },
     });
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const imageSrc = image.attachment
       ? { attachment: image.attachment.split(',')[1] }
-      : image.src
+      : // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        image.src
         ? { src: image.src }
         : null;
     if (!imageSrc) {

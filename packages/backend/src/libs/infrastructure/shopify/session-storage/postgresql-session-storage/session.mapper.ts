@@ -9,8 +9,10 @@ export class SessionMapper {
   toPersistence(entity: SessionParams): ShopifySession {
     const shopifySession: ShopifySession = {
       ...entity,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       scope: entity.state || null,
       expires: entity.expires || null,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       accessToken: entity.accessToken || null,
       onlineAccessInfo: jsonStringify(entity.onlineAccessInfo),
     };

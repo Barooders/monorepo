@@ -16,6 +16,7 @@ export class ShopifyRepository implements IStoreRepository {
       email: mappedUser.email,
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (existingCustomer && existingCustomer.length > 0)
       return { id: String(existingCustomer[0].id) };
 

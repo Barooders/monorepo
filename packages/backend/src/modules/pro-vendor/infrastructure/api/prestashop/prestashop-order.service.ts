@@ -76,6 +76,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
   ): Promise<ShippingDetails | null> {
     const order = await this.prestashopClient.getOrder(externalOrderId);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!order?.shipping_number || !order?.shipping_number.length) {
       return null;
     }
@@ -86,6 +87,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
 
     return {
       trackingId: order.shipping_number,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       trackingUrl: trackingUrlBaseUrl
         ? `${trackingUrlBaseUrl}${order.shipping_number}`
         : `https://trace.dpd.fr/fr/trace/${order.shipping_number}`,
@@ -105,6 +107,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
 
     if (
       !combinationData ||
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (!disableStockCheckBeforeOrder &&
         Number(combinationData.quantity) < quantity)
     ) {
@@ -123,6 +126,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
       this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.useExternalVariantIdAsCombinationId;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!useExternalVariantIdAsCombinationId) {
       const stock = await this.prestashopClient.getStockItem(externalVariantId);
 
@@ -150,6 +154,7 @@ export class PrestashopOrderService implements OrderSyncServiceStrategy {
       this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.carrierSolution;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!carrierSolution) throw new Error(`carrierSolution is not set`);
 
     const carrier = head(

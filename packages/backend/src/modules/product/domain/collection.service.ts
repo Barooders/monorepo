@@ -20,6 +20,7 @@ export class CollectionService {
 
     let nextCollectionId = currentCollection.parentCollectionId;
     const parentCollections = [];
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     while (nextCollectionId) {
       if (parentCollections.length > MAX_BREADCRUMBS_LENGTH) {
         throw new TooLongBreadcrumbsException(collectionId);
