@@ -47,6 +47,7 @@ export const fetchArticles = async (
     populate: '*',
     'sort[0]': 'createdAt:desc',
   });
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (tagName) {
     searchParams.append('filters[blog_tags][name][$eq]', tagName);
   }

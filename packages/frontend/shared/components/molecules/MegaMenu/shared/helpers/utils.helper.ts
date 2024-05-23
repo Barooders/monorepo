@@ -67,8 +67,10 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
     title: item.attributes.title,
     url: parseUrl(item.attributes.url),
     target: item.attributes.target,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     isBackbone: !!item.attributes.is_sport_section,
     mobileHeaderOrder: item.attributes.mobile_header_order ?? 0,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     isHiddenInMenu: !!item.attributes.is_hidden_in_menu,
   });
 
@@ -84,8 +86,10 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
     target: item.attributes.target,
     button_text: item.attributes.button_text,
     image: item.attributes.card_image.data as ImageComponent,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     isBackbone: !!item.attributes.is_sport_section,
     mobileHeaderOrder: item.attributes.mobile_header_order ?? 0,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     isHiddenInMenu: !!item.attributes.is_hidden_in_menu,
   });
 
@@ -103,7 +107,7 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
   ): number => {
     nestingLvl += 1;
 
-    if (item.attributes.children.data.length) {
+    if (item.attributes.children.data.length > 0) {
       const itemsNestingLvl = item.attributes.children.data.map((subItem) =>
         getMaxNestingLvl(subItem, nestingLvl),
       );
@@ -129,11 +133,13 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
   ): MegaMenuChunk => {
     currentLvl += 1;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const cards: MegaMenuCardType[] = parentCards || [];
 
     const items: MegaMenuItem[] = strapiItems.flatMap((strapiItem) => {
       if (
         strapiItem.attributes.item_type === 'card' &&
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         strapiItem.attributes.is_default
       ) {
         // Parse `card` item
@@ -153,7 +159,7 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
       }
 
       // Parse children
-      if (strapiItem.attributes.children.data.length) {
+      if (strapiItem.attributes.children.data.length > 0) {
         item.children = parseMegaMenuItems(
           strapiItem.attributes.children.data,
           cards,
@@ -187,12 +193,13 @@ export const parseMegaMenu = (strapiMenu: StrapiPluginMenu): MegaMenuChunk => {
     item: StrapiPluginMenuItem,
     pinnedItems: MegaMenuItem[] = [],
   ): MegaMenuItem[] => {
-    if (item.attributes.children.data.length) {
+    if (item.attributes.children.data.length > 0) {
       item.attributes.children.data.forEach((subItem) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (subItem.attributes.is_pinned && isValidUrl(subItem.attributes.url))
           pinnedItems.push(parseMegaMenuLink(subItem));
 
-        if (subItem.attributes.children.data.length)
+        if (subItem.attributes.children.data.length > 0)
           getPinnedItems(subItem, pinnedItems);
       });
     }

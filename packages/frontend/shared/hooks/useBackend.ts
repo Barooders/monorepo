@@ -14,6 +14,7 @@ const useBackend = () => {
       const headers = new Headers(config?.headers ?? {});
 
       headers.append('Content-Type', 'application/json');
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (accessToken) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
@@ -24,6 +25,7 @@ const useBackend = () => {
           headers,
         });
       } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (accessToken) {
           await verifyAccessToken(accessToken);
         }

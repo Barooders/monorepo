@@ -8,6 +8,7 @@ export const getFacetValueLabel = (facetName: string, facetValue: string) => {
   const translatedFaceValue =
     dict.components.productCard.getFacetValueLabel(facetValue);
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (translatedFaceValue) return translatedFaceValue;
 
   if (facetValue.length <= 3) return facetValue.toUpperCase();

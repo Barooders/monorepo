@@ -12,6 +12,7 @@ const useRefreshImages = () => {
         operations['ProductController_getProduct']['responses']['default']['content']['application/json']
       >(`/v1/products/${productInternalId}`);
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!rawProduct) throw new Error('Product not found in Shopify');
 
       refreshImages(

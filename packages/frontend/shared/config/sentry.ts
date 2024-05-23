@@ -11,6 +11,7 @@ export const getDefaultConfig = () => ({
     transactionContext: { name },
     request,
   }: SamplingContext) => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (request?.url?.includes('onrender.com')) return 1;
     if (environment !== 'production') return 1;
     if (name.includes('/collections/[collectionHandle]')) return 0.02;

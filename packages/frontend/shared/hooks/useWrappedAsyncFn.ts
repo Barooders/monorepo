@@ -18,6 +18,7 @@ const useWrappedAsyncFn = <T extends FunctionReturningPromise>(
 
   const [{ error }] = reactUseAsyncReturn;
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (error && !options?.ignoreErrors) {
     console.error(error);
     Sentry.captureException(error);

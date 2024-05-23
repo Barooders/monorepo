@@ -30,6 +30,7 @@ const useAddProductImages = () => {
     const imageUrls: ImageType[] = [];
     for (const imageContent of imagesBase64) {
       const image = await addProductImage(productInternalId, imageContent);
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (image.id) imageUrls.push(image);
     }
     addProductInfo('images', [...productInfos.images, ...imageUrls]);

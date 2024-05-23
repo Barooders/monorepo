@@ -3,6 +3,7 @@ export const identify = (
   firstName?: string,
   lastName?: string,
 ) => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!window.klaviyo) {
     console.warn('Klaviyo was not loaded');
     return;
@@ -16,6 +17,7 @@ export const identify = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const trackEvent = (event: any[]) => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!window.klaviyo) {
     console.warn('Klaviyo was not loaded');
     return;

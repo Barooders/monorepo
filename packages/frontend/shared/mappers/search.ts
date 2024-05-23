@@ -46,8 +46,10 @@ export const enrichTags = (tags: Record<string, string>) => {
   const sizeName: string =
     orderedSeoSizes.find((seoSize) => tags.hasOwnProperty(seoSize)) ?? 'taille';
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const size = sizeName && tags[sizeName];
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (size) enrichedTags.taille = size;
 
   return enrichedTags;
@@ -60,6 +62,7 @@ export const fromSearchToProductCard = (
 
   let imageUrl = null;
   const image = hit.product_image ?? null;
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
     imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
@@ -135,6 +138,7 @@ export const fromSearchToProductCard = (
       negociationMaxAmountPercent: null,
       reviews: {
         count: hit.vendor_informations?.reviews.count ?? 0,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         averageRating: hit.vendor_informations?.reviews.average_rating
           ? Math.round(hit.vendor_informations.reviews.average_rating * 10) / 10
           : undefined,
@@ -152,6 +156,7 @@ export const fromSearchToProductCard = (
 export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
   let imageUrl = null;
   const image = hit.product_image ?? null;
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
     imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
@@ -175,6 +180,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
         : undefined,
     title: hit.title,
     price: hit.price,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     largestBundlePrice: hit.largest_bundle_price
       ? hit.largest_bundle_price
       : undefined,
@@ -285,9 +291,11 @@ export const mapCurrentSearch = (
   query?: string,
 ) => {
   return [
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     ...(query ? [query] : []),
     ...refinements
       .map((refinement) =>
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         refinement.operator
           ? `${refinement.operator} ${refinement.value}`
           : getFacetValueLabel(refinement.attribute, refinement.label),

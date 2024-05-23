@@ -21,6 +21,7 @@ const BuybackPage: AppRouterPage<{
     .get('page', {
       userAttributes: {
         // Use the page path specified in the URL to fetch the content
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         urlPath: '/buyback-listings/' + (props?.params?.page?.join('/') || ''),
       },
       // Set prerender to false to return JSON instead of HTML

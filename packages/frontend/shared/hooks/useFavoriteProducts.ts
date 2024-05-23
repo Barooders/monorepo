@@ -57,6 +57,7 @@ const useFavoriteProducts = () => {
 
   return {
     fetchFavoriteProducts: async () => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!isLoggedIn) return [];
 
       const { FavoriteProducts } = await fetchFavoriteProducts();

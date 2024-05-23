@@ -13,6 +13,7 @@ const useCreateProduct = () => {
   const { isLoggedIn } = useIsLoggedIn();
 
   const createProduct = async () => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!isLoggedIn) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
