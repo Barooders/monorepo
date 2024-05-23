@@ -4,13 +4,7 @@ table:
 object_relationships:
   - name: product
     using:
-      manual_configuration:
-        column_mapping:
-          productId: shopifyId
-        insertion_order: null
-        remote_table:
-          name: Product
-          schema: public
+      foreign_key_constraint_on: internalProductId
 insert_permissions:
   - role: registered_user
     permission:
@@ -18,37 +12,37 @@ insert_permissions:
         customerId:
           _eq: X-Hasura-User-Id
       columns:
-        - id
-        - productId
         - customerId
+        - id
+        - internalProductId
 select_permissions:
   - role: me_as_customer
     permission:
       columns:
-        - productId
-        - id
         - createdAt
         - customerId
+        - id
+        - internalProductId
       filter:
         customerId:
           _eq: X-Hasura-User-Id
   - role: me_as_vendor
     permission:
       columns:
-        - productId
-        - id
         - createdAt
         - customerId
+        - id
+        - internalProductId
       filter:
         customerId:
           _eq: X-Hasura-User-Id
   - role: registered_user
     permission:
       columns:
-        - id
-        - productId
-        - customerId
         - createdAt
+        - customerId
+        - id
+        - internalProductId
       filter:
         customerId:
           _eq: X-Hasura-User-Id
