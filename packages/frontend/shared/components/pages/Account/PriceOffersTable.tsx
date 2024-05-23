@@ -2,7 +2,6 @@
 
 import { graphql } from '@/__generated/gql/b2b_user';
 import Loader from '@/components/atoms/Loader';
-import PageContainer from '@/components/atoms/PageContainer';
 import SmallCard from '@/components/atoms/SmallCard';
 import VirtualizedTable from '@/components/atoms/VirtualizedTable';
 import { useHasura } from '@/hooks/useHasura';
@@ -68,7 +67,7 @@ const FETCH_PRICE_OFFERS = /* GraphQL */ /* typed_for_b2b_user */ `
   }
 `;
 
-const B2BPriceOffersTable = () => {
+const PriceOffersTable = () => {
   const { user } = useHasuraToken();
   const fetchPriceOffers = useHasura(
     graphql(FETCH_PRICE_OFFERS),
@@ -118,79 +117,72 @@ const B2BPriceOffersTable = () => {
     doFetchPriceOffers();
   }, []);
 
-  return (
-    <PageContainer>
-      <div className="mb-24">
-        <h1 className="mb-3 text-3xl">{dict.priceOffers.title}</h1>
-        {loading ? (
-          <Loader className="m-auto h-8 w-8" />
-        ) : error ? (
-          <p className="text-red-600">{dict.global.errors.unknownError}</p>
-        ) : value ? (
-          <VirtualizedTable
-            searchPlaceholder={dict.account.tables.searchPlaceholder.priceOffer}
-            width={1268}
-            desktopRowHeight={61}
-            mobileRowHeight={252}
-            rows={value.map(
-              ({ status, price, product, quantity, createdAtDate, note }) => ({
-                label: (
-                  <SmallCard
-                    title={product.title}
-                    tag={product.tag}
-                    imageSrc={product.imageSrc}
-                    description=""
-                  />
-                ),
-                price,
-                quantity,
-                createdAtDate,
-                note,
-                status: (
-                  <div
-                    className={`${PRICE_OFFER_STATUS_COLORS[status]} rounded px-1.5 py-1 font-semibold`}
-                  >
-                    {getDisplayedStatus(status)}
-                  </div>
-                ),
-              }),
-            )}
-            columns={{
-              desktopColumns: {
-                label: {
-                  width: 300,
-                  label: dict.account.tables.columns.priceOffer,
-                },
-                price: {
-                  width: 100,
-                  label: dict.account.tables.columns.price,
-                },
-                quantity: {
-                  width: 80,
-                  label: dict.account.tables.columns.quantity,
-                },
-                createdAtDate: {
-                  width: 200,
-                  label: dict.account.tables.columns.createdAtDate,
-                },
-                note: {
-                  width: 300,
-                  label: dict.account.tables.columns.note,
-                },
-                status: {
-                  width: 250,
-                  label: dict.account.tables.columns.status,
-                },
-              },
-              highlightedMobileColumns: ['status', 'label'],
-            }}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
-    </PageContainer>
+  return loading ? (
+    <Loader className="m-auto h-8 w-8" />
+  ) : error ? (
+    <p className="text-red-600">{dict.global.errors.unknownError}</p>
+  ) : value ? (
+    <VirtualizedTable
+      searchPlaceholder={dict.account.tables.searchPlaceholder.priceOffer}
+      width={1268}
+      desktopRowHeight={61}
+      mobileRowHeight={252}
+      rows={value.map(
+        ({ status, price, product, quantity, createdAtDate, note }) => ({
+          label: (
+            <SmallCard
+              title={product.title}
+              tag={product.tag}
+              imageSrc={product.imageSrc}
+              description=""
+            />
+          ),
+          price,
+          quantity,
+          createdAtDate,
+          note,
+          status: (
+            <div
+              className={`${PRICE_OFFER_STATUS_COLORS[status]} rounded px-1.5 py-1 font-semibold`}
+            >
+              {getDisplayedStatus(status)}
+            </div>
+          ),
+        }),
+      )}
+      columns={{
+        desktopColumns: {
+          label: {
+            width: 300,
+            label: dict.account.tables.columns.priceOffer,
+          },
+          price: {
+            width: 100,
+            label: dict.account.tables.columns.price,
+          },
+          quantity: {
+            width: 80,
+            label: dict.account.tables.columns.quantity,
+          },
+          createdAtDate: {
+            width: 200,
+            label: dict.account.tables.columns.createdAtDate,
+          },
+          note: {
+            width: 300,
+            label: dict.account.tables.columns.note,
+          },
+          status: {
+            width: 250,
+            label: dict.account.tables.columns.status,
+          },
+        },
+        highlightedMobileColumns: ['status', 'label'],
+      }}
+    />
+  ) : (
+    <></>
   );
 };
 
-export default B2BPriceOffersTable;
+export default PriceOffersTable;
