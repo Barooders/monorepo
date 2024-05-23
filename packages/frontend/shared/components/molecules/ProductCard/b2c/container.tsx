@@ -23,7 +23,7 @@ const dict = getDictionary('fr');
 export type ContainerPropsType = {
   productInternalId?: string;
   productHandle?: string;
-  productVariantShopifyId?: string;
+  productVariantShopifyId?: number;
   intent?: ProductMultiVariants['intent'];
 };
 
@@ -118,7 +118,7 @@ export const FETCH_PRODUCTS = /* GraphQL */ /* typed_for_public */ `
 
 export const createProductFromFragment = (
   productFromDBT: ProductCardFieldsFragment,
-  productVariantShopifyId?: string,
+  productVariantShopifyId?: number,
   vendorDetails?: VendorDetailsFragment,
   commissionAmount?: number,
 ): ProductMultiVariants => {
@@ -141,7 +141,7 @@ export const createProductFromFragment = (
     ({ shopifyId, exposedVariant, b2cVariant, id }) => ({
       name: exposedVariant ? createVariantName(exposedVariant) : '',
       id: id ?? '',
-      shopifyId: String(shopifyId) ?? '',
+      shopifyId,
       price: Number(b2cVariant?.price),
       compareAtPrice: Number(b2cVariant?.compare_at_price),
       available:
@@ -153,9 +153,8 @@ export const createProductFromFragment = (
   );
 
   const variant =
-    variants.find(
-      (variant) => String(variant.shopifyId) === productVariantShopifyId,
-    ) ?? variants[0];
+    variants.find((variant) => variant.shopifyId === productVariantShopifyId) ??
+    variants[0];
 
   const isPro = vendorDetails?.isPro;
   const hasRefurbishedVariant = !!variant.isRefurbished;
@@ -182,7 +181,7 @@ export const createProductFromFragment = (
 
   return {
     id: String(productFromDBT.product.id),
-    shopifyId: String(productFromDBT.product.shopifyId),
+    shopifyId: productFromDBT.product.shopifyId,
     labels,
     vendor: {
       id: vendorDetails?.authUserId,

@@ -5,10 +5,13 @@ import isArray from 'lodash/isArray';
 import mapValues from 'lodash/mapValues';
 import { RawVariant, Variant } from './types';
 
-export const getVariantToSelect = (variants: Variant[], variantId?: string) => {
+export const getVariantToSelect = (
+  variants: Variant[],
+  variantShopifyId?: number,
+) => {
   const availableVariants = variants.filter(({ available }) => available);
   return (
-    availableVariants.find(({ id }) => id === variantId) ??
+    availableVariants.find(({ shopifyId }) => shopifyId === variantShopifyId) ??
     availableVariants[0] ??
     variants[0]
   );

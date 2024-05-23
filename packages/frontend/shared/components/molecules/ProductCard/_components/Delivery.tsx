@@ -34,7 +34,7 @@ type DeliveryMethodDefinition = {
 type MethodDefinitions = { methodDefinitions: DeliveryMethodDefinition[] };
 
 type PropsType = {
-  variantShopifyId: string;
+  variantShopifyId: number;
   shipmentTimeframeSentence: string | null;
 };
 

@@ -98,7 +98,7 @@ export const mapToProps = (
     id: rawProduct.id,
     productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
-    shopifyId: rawProduct.shopifyId.toString(),
+    shopifyId: rawProduct.shopifyId,
     stock,
     title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),

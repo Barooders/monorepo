@@ -19,24 +19,31 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
     props.variantShopifyId,
   );
 
-  const [selectedVariantId, setSelectedVariant] = useState(
-    defaultVariant.shopifyId,
+  const [selectedVariantShopifyId, setSelectedVariant] = useState(
+    defaultVariant.shopifyId.toString(),
   );
   const { getDiscountsByCollectionList, getDiscountByPrice } = useDiscounts();
   const { isAdmin } = useAuth();
 
   useEffect(() => {
     setSelectedVariant(
-      getVariantToSelect(props.variants, props.variantShopifyId).shopifyId,
+      getVariantToSelect(
+        props.variants,
+        props.variantShopifyId,
+      ).shopifyId.toString(),
     );
   }, [props.variantShopifyId]);
 
   const { compareAtPrice, price } =
-    props.variants.find((variant) => variant.shopifyId === selectedVariantId) ??
-    defaultVariant;
+    props.variants.find(
+      (variant) => variant.shopifyId.toString() === selectedVariantShopifyId,
+    ) ?? defaultVariant;
   const productLink = new URL(`/products/${props.handle}`, config.baseUrl);
-  if (selectedVariantId)
-    productLink.searchParams.append('variant', selectedVariantId);
+  if (selectedVariantShopifyId)
+    productLink.searchParams.append(
+      'variant',
+      selectedVariantShopifyId.toString(),
+    );
 
   const discounts = [
     ...getDiscountsByCollectionList(props.collections, isAdmin()),
@@ -47,7 +54,7 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const productSingleVariant: ProductSingleVariant = {
     ...props,
     variants: availableVariants,
-    variantShopifyId: selectedVariantId,
+    variantShopifyId: Number(selectedVariantShopifyId),
     productLink: `${productLink.pathname}${productLink.search}`,
     price,
     compareAtPrice,

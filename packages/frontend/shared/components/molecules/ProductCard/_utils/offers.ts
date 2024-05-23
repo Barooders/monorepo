@@ -9,7 +9,7 @@ import {
 export const getAvailableOffers = (
   productCondition: Condition,
   isRefurbished: boolean,
-  breadcrumbs: { shopifyId: string }[],
+  breadcrumbs: { shopifyId: number }[],
 ) => {
   const availableOffers: AvailableOffers[] = [];
   if (productCondition !== Condition.AS_NEW && !isRefurbished)

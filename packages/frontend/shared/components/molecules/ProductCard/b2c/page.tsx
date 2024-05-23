@@ -186,7 +186,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               <div>
                 <VariantSelector
                   variants={variants}
-                  selectedVariantId={variantShopifyId ?? null}
+                  selectedVariantId={variantShopifyId.toString()}
                   onSelectVariant={(variantId) => setSelectedVariant(variantId)}
                 />
               </div>
@@ -200,7 +200,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                       className="flex-1 uppercase"
                       price={price}
                       productInternalId={id}
-                      variant={variantId}
+                      variantInternalId={variantId}
                       negociationMaxAmountPercent={
                         vendor.negociationMaxAmountPercent
                       }

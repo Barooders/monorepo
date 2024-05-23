@@ -1,10 +1,10 @@
 import ErrorPanel from '@/components/atoms/ErrorPanel';
 import CollectionJsonLd from '@/components/atoms/JsonLd/CollectionJsonLd';
+import Filters from '@/components/molecules/Filters';
 import SearchPage, {
   getData as getSearchPageData,
   GetDataType as SearchPagePropsType,
 } from '@/components/pages/SearchPage';
-import Filters from '@/components/molecules/Filters';
 import InstantSearchProvider from '@/components/pages/SearchPage/_components/InstantSearchProvider';
 import { searchCollections } from '@/config';
 import config from '@/config/env/index';
@@ -41,11 +41,13 @@ export const getServerSideProps: GetServerSideProps<
   const collectionHandle = params?.collectionHandle;
   const vendorSellerName = extractQueryParam(query?.q);
   const productHandle = extractQueryParam(query?.handle);
-  const productVariantShopifyId = extractQueryParam(query?.variant);
+  const variantQueryParam = extractQueryParam(query?.variant);
   const searchPageProps = await getSearchPageData({
     collectionHandle,
     productHandle,
-    productVariantShopifyId,
+    productVariantShopifyId: variantQueryParam
+      ? Number(variantQueryParam)
+      : undefined,
     vendorSellerName,
   });
 

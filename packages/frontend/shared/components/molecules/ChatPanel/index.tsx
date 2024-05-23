@@ -15,7 +15,7 @@ import PriceOfferPanel from './_components/PriceOfferPanel';
 
 export type AssociatedOrderLine = {
   shippingSolution: ShippingSolution;
-  orderShopifyId: string;
+  orderShopifyId: number;
 };
 
 export type AssociatedProductDetails = {
@@ -72,7 +72,7 @@ const panelConfig: {
               }
               buyerInternalId={conversation.customerInternalId}
               price={productDetails.originalPrice}
-              variant={undefined}
+              variantInternalId={undefined}
               size="small"
             />
           )}

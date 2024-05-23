@@ -1,27 +1,26 @@
 'use client';
 
+import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
 import useUser from '@/hooks/state/useUser';
 import { useAuth } from '@/hooks/useAuth';
+import useBackend from '@/hooks/useBackend';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import useStorefront, {
   ASSOCIATE_CHECKOUT,
   CREATE_CHECKOUT,
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import useBackend from '@/hooks/useBackend';
 import { getDictionary } from '@/i18n/translate';
 import { toStorefrontId } from '@/utils/shopifyId';
 import { useEffect } from 'react';
-import { ProductSingleVariant } from '../../types';
-import { operations } from '@/__generated/rest-schema';
 
 const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
-  variantShopifyId: ProductSingleVariant['variantShopifyId'];
+  variantShopifyId: number;
   className?: string;
 }> = ({ variantShopifyId, className }) => {
   const { hasuraToken } = useUser();
@@ -53,10 +52,10 @@ const BuyButton: React.FC<{
   }>(ASSOCIATE_CHECKOUT);
 
   const [createState, doCreate] = useWrappedAsyncFn(
-    async (variantShopifyId: string) => {
+    async (variantShopifyId: number) => {
       const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
         {
-          cartLineIds: [variantShopifyId],
+          cartLineIds: [variantShopifyId.toString()],
         };
       const commissionProduct = await fetchAPI<
         operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
@@ -64,8 +63,6 @@ const BuyButton: React.FC<{
         method: 'POST',
         body: JSON.stringify(commissionBody),
       });
-
-      if (!variantShopifyId) throw new Error('Variant not found');
 
       const input: {
         allowPartialAddresses?: boolean;
@@ -113,8 +110,6 @@ const BuyButton: React.FC<{
       window.location.href = createState.value;
     }
   }, [createState.value]);
-
-  if (!variantShopifyId) return <></>;
 
   const onClick = () => {
     sendBeginCheckout(variantShopifyId ?? '');

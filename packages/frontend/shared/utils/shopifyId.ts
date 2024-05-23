@@ -5,5 +5,7 @@ export const fromStorefrontId = (
   type: ShopifyEntity,
 ): string => storefrontId.replace(`gid://shopify/${type}/`, '');
 
-export const toStorefrontId = (id: string, type: ShopifyEntity): string =>
-  `gid://shopify/${type}/${id}`;
+export const toStorefrontId = (
+  id: string | number,
+  type: ShopifyEntity,
+): string => `gid://shopify/${type}/${id}`;

@@ -1,5 +1,5 @@
 export interface AccountPageOrder {
-  orderShopifyId: string;
+  orderShopifyId: number;
   name: string;
   status: string;
   createdAt: string;

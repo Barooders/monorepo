@@ -127,7 +127,7 @@ export class BuyerCommissionController {
       ? (
           await this.prisma.productVariant.findUniqueOrThrow({
             where: {
-              shopifyId: Number(variantShopifyId),
+              shopifyId: variantShopifyId,
             },
             select: {
               id: true,

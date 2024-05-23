@@ -14,7 +14,7 @@ import { ProductSingleVariant } from '../../types';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  variant: ProductSingleVariant['variantShopifyId'];
+  variantInternalId?: ProductSingleVariant['variantId'];
   productInternalId: ProductSingleVariant['id'];
   price: ProductSingleVariant['price'];
   buyerInternalId?: string;
@@ -65,7 +65,7 @@ const ButtonComponent: React.FC<PropsType & { openModal: () => void }> = (
 const PriceOfferButton: React.FC<PropsType> = (props) => {
   const {
     productInternalId,
-    variant,
+    variantInternalId,
     price,
     buyerInternalId,
     negociationMaxAmountPercent,
@@ -93,7 +93,7 @@ const PriceOfferButton: React.FC<PropsType> = (props) => {
       ContentComponent={({ closeModal }) => (
         <MakeOfferModal
           originalPrice={price}
-          variantId={variant}
+          variantInternalId={variantInternalId}
           productInternalId={productInternalId}
           closeModal={closeModal}
           negociationMaxAmountPercent={negociationMaxAmountPercent}

@@ -9,7 +9,7 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productShopifyId: string;
+  productShopifyId: number;
   intent?: 'secondary' | 'tertiary' | 'square';
 };
 
@@ -48,7 +48,8 @@ const FavoriteButton: React.FC<PropsType> = ({
       className={`flex cursor-pointer flex-col items-center text-lg ${getButtonStyle(intent)}`}
       title={dict.components.productCard.favoriteButtonTitle}
     >
-      {favoriteProducts && favoriteProducts.includes(productShopifyId) ? (
+      {favoriteProducts &&
+      favoriteProducts.includes(productShopifyId.toString()) ? (
         <BsHeartFill onClick={removeFavorite} />
       ) : (
         <BsHeart onClick={addFavorite} />
