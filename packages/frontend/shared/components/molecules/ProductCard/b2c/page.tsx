@@ -200,7 +200,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                       className="flex-1 uppercase"
                       price={price}
                       productInternalId={id}
-                      variant={variantId}
+                      variantInternalId={variantId}
                       negociationMaxAmountPercent={
                         vendor.negociationMaxAmountPercent
                       }

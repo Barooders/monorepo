@@ -72,7 +72,7 @@ const panelConfig: {
               }
               buyerInternalId={conversation.customerInternalId}
               price={productDetails.originalPrice}
-              variant={undefined}
+              variantInternalId={undefined}
               size="small"
             />
           )}

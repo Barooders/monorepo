@@ -90,6 +90,9 @@ export const fromSearchToProductCard = (
     });
   }
 
+  const variantShopifyId = hit.variant_shopify_id?.toString() ?? 'UNKNOWN';
+  const variantId = hit.variant_internal_id ?? 'UNKNOWN';
+
   return {
     tags: productTags,
     variantCondition: hit.condition as Condition,
@@ -111,13 +114,15 @@ export const fromSearchToProductCard = (
       {
         compareAtPrice: hit.compare_at_price,
         price: hit.price,
-        shopifyId: hit.variant_shopify_id?.toString() ?? 'UNKNOWN',
-        id: hit.variant_internal_id ?? 'UNKNOWN',
+        shopifyId: variantShopifyId,
+        id: variantId,
         name: '',
         available: true,
         isRefurbished,
       },
     ],
+    variantShopifyId,
+    variantId,
     isSoldOut: false,
     title: hit.title,
     vendor: {

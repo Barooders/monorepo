@@ -57,8 +57,8 @@ export type ProductMultiVariants = {
   handle: string;
   intent?: 'highlight' | 'card' | 'page' | 'small-card';
   isSoldOut: boolean;
-  variantId?: string;
-  variantShopifyId?: string;
+  variantId: string;
+  variantShopifyId: string;
   variants: Variant[];
   className?: string;
   availableOffers?: AvailableOffers[];

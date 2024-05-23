@@ -18,7 +18,7 @@ type Inputs = {
 };
 
 type PropsType = {
-  variantId?: string;
+  variantInternalId?: string;
   productInternalId: string;
   originalPrice: number;
   buyerInternalId?: string;
@@ -34,7 +34,7 @@ export enum Status {
 }
 
 const MakeOfferModal: React.FC<PropsType> = ({
-  variantId,
+  variantInternalId,
   productInternalId,
   buyerInternalId,
   originalPrice,
@@ -83,7 +83,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
         buyerId: computedBuyerId,
         newPriceInCents: newPrice * 100,
         productId: productInternalId,
-        productVariantId: variantId,
+        productVariantId: variantInternalId,
       };
 
     await fetchAPI('/v1/price-offer', {
@@ -95,7 +95,7 @@ const MakeOfferModal: React.FC<PropsType> = ({
       hasuraToken?.user.id ?? '',
       productInternalId,
       newPrice,
-      variantId,
+      variantInternalId,
     );
     setStatus(Status.AFTER_SEND);
   };
