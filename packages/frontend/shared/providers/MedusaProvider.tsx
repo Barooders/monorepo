@@ -1,3 +1,5 @@
+'use client';
+
 import envConfig from '@/config/env';
 import { QueryClient } from '@tanstack/react-query';
 import { MedusaProvider as RawMedusaProvider } from 'medusa-react';

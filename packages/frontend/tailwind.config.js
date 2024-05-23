@@ -3,6 +3,7 @@ const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  presets: [require('@medusajs/ui-preset')],
   content: [
     './web/**/*.{js,ts,jsx,tsx}',
     './shared/components/**/*.{js,ts,jsx,tsx}',
