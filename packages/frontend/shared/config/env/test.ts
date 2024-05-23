@@ -12,6 +12,9 @@ const testEnv = {
     bike: '1',
   },
   shouldProxyAlgolia: true,
+  medusa: {
+    baseUrl: '',
+  },
   baseUrl: '',
   gtag: {
     id: '',

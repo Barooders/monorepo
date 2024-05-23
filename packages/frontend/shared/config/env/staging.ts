@@ -13,6 +13,9 @@ const developmentEnv = {
   },
   shouldProxyAlgolia: true,
   baseUrl: 'https://staging.barooders.com',
+	medusa: {
+		baseUrl: 'https://store-staging.barooders.com'
+	},
   gtag: {
     id: 'AW-11250764440',
     conversionLabels: {

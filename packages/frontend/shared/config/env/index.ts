@@ -4,7 +4,7 @@ import test from './test';
 
 const DEFAULT_ENV = 'staging';
 
-const envConfig = {
+const envConfigByEnvName = {
   production,
   staging,
   test,
@@ -14,11 +14,13 @@ const envConfig = {
 const getEnvConfig = () => {
   if (
     !process.env.NEXT_PUBLIC_BAROODERS_ENV ||
-    !envConfig[process.env.NEXT_PUBLIC_BAROODERS_ENV]
+    !envConfigByEnvName[process.env.NEXT_PUBLIC_BAROODERS_ENV]
   )
-    return envConfig[DEFAULT_ENV];
+    return envConfigByEnvName[DEFAULT_ENV];
 
-  return envConfig[process.env.NEXT_PUBLIC_BAROODERS_ENV];
+  return envConfigByEnvName[process.env.NEXT_PUBLIC_BAROODERS_ENV];
 };
 
-export default getEnvConfig();
+const envConfig = getEnvConfig();
+
+export default envConfig;
