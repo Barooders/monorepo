@@ -29,7 +29,7 @@ export const fetchCommission = async ({
       `/v1/commission/product?${fetchCommissionParams.toString()}`,
     );
   } catch (e) {
-    console.error(e);
+    console.info(e);
     return undefined;
   }
 };
