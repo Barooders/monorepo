@@ -1,7 +1,7 @@
 import { sendClickProduct } from '@/analytics';
+import Link from '@/components/atoms/Link';
 import ProductVendor from '@/components/molecules/ProductVendor';
 import first from 'lodash/first';
-import Link from '@/components/atoms/Link';
 import Characteristics from '../_components/Characteristics';
 import FavoriteButton from '../_components/FavoriteButton';
 import ProductImage from '../_components/ProductImage';
@@ -47,7 +47,7 @@ const MediumProductCard: React.FC<ProductSingleVariant> = ({
         </div>
         <div className="relative col-span-2 my-auto flex flex-grow flex-col">
           <div className="absolute right-0 top-0 rounded-full bg-white p-1">
-            <FavoriteButton productShopifyId={shopifyId} />
+            <FavoriteButton internalProductId={id} />
           </div>
           <Characteristics
             tags={tags}

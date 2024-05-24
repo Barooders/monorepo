@@ -9,12 +9,12 @@ import { BsHeart, BsHeartFill } from 'react-icons/bs';
 const dict = getDictionary('fr');
 
 type PropsType = {
-  productShopifyId: number;
+  internalProductId: string;
   intent?: 'secondary' | 'tertiary' | 'square';
 };
 
 const FavoriteButton: React.FC<PropsType> = ({
-  productShopifyId,
+  internalProductId,
   intent = 'tertiary',
 }) => {
   const { addFavoriteProducts, removeFavoriteProducts } = useFavoriteProducts();
@@ -22,13 +22,13 @@ const FavoriteButton: React.FC<PropsType> = ({
   const addFavorite: MouseEventHandler = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    await addFavoriteProducts(productShopifyId);
+    await addFavoriteProducts(internalProductId);
   };
 
   const removeFavorite: MouseEventHandler = async (e) => {
     e.stopPropagation();
     e.preventDefault();
-    await removeFavoriteProducts(productShopifyId);
+    await removeFavoriteProducts(internalProductId);
   };
 
   const getButtonStyle = (intent: PropsType['intent']) => {
@@ -49,7 +49,7 @@ const FavoriteButton: React.FC<PropsType> = ({
       title={dict.components.productCard.favoriteButtonTitle}
     >
       {favoriteProducts &&
-      favoriteProducts.includes(productShopifyId.toString()) ? (
+      favoriteProducts.includes(internalProductId.toString()) ? (
         <BsHeartFill onClick={removeFavorite} />
       ) : (
         <BsHeart onClick={addFavorite} />
