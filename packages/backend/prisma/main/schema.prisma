@@ -301,9 +301,9 @@ model FavoriteProducts {
   id                 String    @id @default(dbgenerated("(gen_random_uuid())::text"))
   customerId         String?   @db.Uuid
   createdAt          DateTime? @default(now())
-  productId          BigInt?
-  internalProductId  String?
+  internalProductId  String
   customer           Customer? @relation(fields: [customerId], references: [authUserId])
+  product            Product   @relation(fields: [internalProductId], references: [id])
 
   @@schema("public")
 }
@@ -407,6 +407,7 @@ model Product {
   productSalesChannels ProductSalesChannel[]
   bundlePrices         BundlePrice[]
   conversations        Conversation[]
+  favorites            FavoriteProducts[]
 
   @@schema("public")
 }
