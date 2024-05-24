@@ -11,17 +11,17 @@ type ItemsTemplateProps = {
 
 const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
   return (
-    <div>
+    <div className="medusa">
       <div className="flex items-center pb-3">
         <Heading className="text-[2rem] leading-[2.75rem]">Cart</Heading>
       </div>
       <Table>
         <Table.Header className="border-t-0">
-          <Table.Row className="text-ui-fg-subtle txt-medium-plus">
+          <Table.Row className="txt-medium-plus text-ui-fg-subtle">
             <Table.HeaderCell className="!pl-0">Item</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
-            <Table.HeaderCell className="small:table-cell hidden">
+            <Table.HeaderCell className="hidden small:table-cell">
               Price
             </Table.HeaderCell>
             <Table.HeaderCell className="!pr-0 text-right">

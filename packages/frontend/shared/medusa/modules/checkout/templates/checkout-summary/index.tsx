@@ -1,12 +1,12 @@
 import { Heading } from '@medusajs/ui';
 
+import { getDictionary } from '@/i18n/translate';
 import { getCart } from '@/medusa/lib/data';
 import ItemsPreviewTemplate from '@/medusa/modules/cart/templates/preview';
 import DiscountCode from '@/medusa/modules/checkout/components/discount-code';
 import CartTotals from '@/medusa/modules/common/components/cart-totals';
 import Divider from '@/medusa/modules/common/components/divider';
 import { cookies } from 'next/headers';
-import { getDictionary } from '@/i18n/translate';
 
 const dict = getDictionary('fr');
 
@@ -24,7 +24,7 @@ const CheckoutSummary = async () => {
   }
 
   return (
-    <div className="sticky top-0 flex flex-col-reverse gap-y-8 py-8 small:flex-col small:py-0 ">
+    <div className="medusa sticky top-0 flex flex-col-reverse gap-y-8 py-8 small:flex-col small:py-0 ">
       <div className="flex w-full flex-col bg-white">
         <Divider className="my-6 small:hidden" />
         <Heading
