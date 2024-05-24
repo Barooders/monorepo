@@ -3,6 +3,7 @@ export type VendorSecretsType = {
   tuvalumApiUrl: string;
   tuvalumUsername: string;
   tuvalumPassword: string;
+  tuvalumV2AccessToken: string;
   freeglisseApiKey: string;
   freeglisseApiUrl: string;
   alpinstoreApiUrl: string;

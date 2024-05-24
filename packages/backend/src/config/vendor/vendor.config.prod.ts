@@ -9,6 +9,14 @@ export const prodVendorConfig: EnvVendorsConfig = {
       { commandName: 'updateProductStatuses', cron: '20 */2 * * *' },
     ],
   },
+  tuvalum_v2: {
+    vendorId: 'f20e7bf7-66f9-4e1e-a710-ac524282e72a',
+    synchros: [
+      { commandName: 'syncProducts', cron: '0 6 * * *' },
+      { commandName: 'syncProducts', cron: '0 18 * * *' },
+      { commandName: 'updateProductStatuses', cron: '20 */2 * * *' },
+    ],
+  },
   freeglisse: {
     vendorId: '9405edd7-43c8-47f6-8883-2738cc869531',
     synchros: [

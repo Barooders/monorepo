@@ -150,6 +150,18 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
       },
     },
   },
+  tuvalum_v2: {
+    slug: 'tuvalum_v2',
+    mappingKey: 'tuvalum_v2',
+    type: VendorType.SHOPIFY,
+    apiUrl: 'tuvalum.myshopify.com',
+    accessToken: vendorSecrets.tuvalumV2AccessToken,
+    catalog: {
+      common: {
+        priceCorrections: [{ amount: -15 }],
+      },
+    },
+  },
   freeglisse: {
     slug: 'freeglisse',
     mappingKey: 'freeglisse',
