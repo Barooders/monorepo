@@ -37,7 +37,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     value: null,
     hideReduction: true,
     startsAt: dayjs('2024-05-16').toDate(),
-    endsAt: dayjs('2024-05-23').toDate(),
+    endsAt: dayjs('2024-05-27').toDate(),
   },
   // Ends on 30/05
   {
