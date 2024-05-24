@@ -4,6 +4,8 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
+import Link from '@/components/atoms/Link';
+import BaroodersLogo from '@/components/icons/BaroodersLogo';
 import { getCart } from '@/medusa/lib/data';
 import { enrichLineItems } from '@/medusa/modules/cart/actions';
 import Wrapper from '@/medusa/modules/checkout/components/payment-wrapper';
@@ -44,7 +46,15 @@ export default async function Checkout() {
 
   return (
     <MedusaProvider>
-      <div className="small:grid-cols-[1fr_416px] content-container grid grid-cols-1 gap-x-40 py-12">
+      <div className="content-container flex h-20 items-center">
+        <Link
+          href="/"
+          className="flex w-[225px] items-center"
+        >
+          <BaroodersLogo />
+        </Link>
+      </div>
+      <div className="content-container grid grid-cols-1 gap-x-40 py-6 small:grid-cols-[1fr_416px]">
         <Wrapper cart={cart}>
           <CheckoutForm />
         </Wrapper>
