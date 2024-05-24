@@ -21,6 +21,7 @@
     "SENDCLOUD",
     "strapi",
     "Strapi",
-    "STRAPI"
+    "STRAPI",
+    "upserted"
   ]
 }
