@@ -47,7 +47,7 @@ TRAFFICTOT as (
 FAV as (
     SELECT
         count(distinct fav.id) as nb_fav,
-        productid
+        internalProductId
 
     FROM backend__public.FavoriteProducts as fav
 
@@ -69,8 +69,8 @@ SELECT * FROM (
     LEFT JOIN TRAFFIC30 AS TRAFFIC30 ON TRAFFIC30.productid = cast(p.id AS string)
     LEFT JOIN TRAFFIC7 AS TRAFFIC7 ON TRAFFIC7.productid = cast(p.id AS string)
     LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.productid = cast(p.id AS string)
-    LEFT JOIN FAV AS FAV ON cast(FAV.productid AS string) = cast(p.id AS string)
     LEFT JOIN backend__dbt.store_product_for_analytics AS prod ON prod.shopify_id = p.id
+    LEFT JOIN FAV AS FAV ON cast(FAV.productid AS string) = cast(prod.id AS string)
 
     GROUP BY p.id, prod.id
     ORDER BY nb_fav DESC

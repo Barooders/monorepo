@@ -73,7 +73,7 @@ favorites AS (
     bp.id,
     count(DISTINCT fp.id) AS favorites_count
   FROM public."FavoriteProducts" AS fp
-  LEFT JOIN {{ ref("store_base_product") }} AS bp ON fp."productId" = bp."shopifyId"
+  LEFT JOIN {{ ref("store_base_product") }} AS bp ON fp."internalProductId" = bp."id"
   GROUP BY bp.id
 ),
 
