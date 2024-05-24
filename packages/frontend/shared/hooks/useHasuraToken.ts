@@ -60,6 +60,7 @@ export const useHasuraToken = () => {
         body: JSON.stringify({ refreshToken }),
       });
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!accessToken) {
         throw new Error('Could not consume refresh token');
       }
@@ -96,6 +97,7 @@ export const useHasuraToken = () => {
 
   const extractTokenInfo = () => {
     const accessToken = hasuraToken?.accessToken;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!accessToken) return {};
     const tokenContent =
       decodeJWT<HasuraAuthJwtType>(accessToken)['https://hasura.io/jwt/claims'];

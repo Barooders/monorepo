@@ -12,6 +12,7 @@ const useUpdateProduct = () => {
     productInternalId: string,
     variantInternalId: string,
   ) => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!isLoggedIn) {
       throw new Error(
         "Jeton d'authentification expiré, veuillez vous reconnecter",
@@ -29,12 +30,15 @@ const useUpdateProduct = () => {
       handDeliveryPostalCode,
     } = useSellForm.getState().productInfos;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!!price) {
       const variantBody:
         | operations['ProductController_updateProductVariant']['requestBody']['content']['application/json']
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         | null = !!price
         ? {
             compareAtPrice:
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               !compare_at_price || compare_at_price <= price
                 ? undefined
                 : { amountInCents: Math.round(compare_at_price * 100) },

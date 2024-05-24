@@ -12,6 +12,7 @@ export class BasicAuthMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const reqCreds = req.get('authorization')?.split('Basic ')?.[1] ?? null;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!reqCreds || reqCreds !== this.encodedCreds) {
       res.setHeader(
         'WWW-Authenticate',

@@ -39,6 +39,7 @@ const mapOrderToRefund = (
       ? `${order.customer.firstName} ${order.customer.lastName}`
       : '',
   },
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   vendor: vendor?.user.email
     ? {
         email: vendor.user.email,
@@ -114,6 +115,7 @@ export class RefundService {
       order,
     )} vient d'être annulée par le vendeur :
 		${this.getNotificationDetails(order, {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       isPro: !!vendor?.isPro,
       sellerName: vendor?.sellerName ?? '',
     })}`);
@@ -139,6 +141,7 @@ export class RefundService {
           await this.internalNotificationClient.sendOrderCanceledNotification(`
         🤖 La commande ${orderLink} vient d'être annulée automatiquement:
 				${this.getNotificationDetails(order, {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           isPro: !!firstOrderLine.vendor?.isPro,
           sellerName: firstOrderLine.vendor?.sellerName ?? '',
         })}`);
@@ -257,6 +260,7 @@ export class RefundService {
       await this.storeClient.filterBikesVariantIdsFromVariantIdList(
         orders.flatMap((o) =>
           o.orderLines.flatMap((ol) =>
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             ol.productVariantId ? [ol.productVariantId] : [],
           ),
         ),
@@ -264,6 +268,7 @@ export class RefundService {
 
     return orders.filter((order) => {
       const orderVariantIds = order.orderLines.flatMap((ol) =>
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ol.productVariantId ? [ol.productVariantId] : [],
       );
       return !orderVariantIds.some((variantId) =>

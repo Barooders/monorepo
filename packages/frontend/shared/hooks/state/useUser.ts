@@ -30,6 +30,7 @@ const useUser = createPersistedStore<UserState>(
               ? { ...value, creationDate: Date.now() }
               : null,
         }));
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (value?.user.email) {
           identify(value?.user.email);
         }
@@ -74,8 +75,11 @@ const useUser = createPersistedStore<UserState>(
       validateHasuraToken: (hasuraToken) => {
         return (
           !!hasuraToken &&
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !!hasuraToken.accessToken &&
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !!hasuraToken.user &&
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !!hasuraToken.refreshToken
         );
       },

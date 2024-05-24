@@ -19,6 +19,7 @@ export const getServerSideProps: GetServerSideProps<PropsType> = async ({
   query,
 }) => {
   const searchQuery = extractQueryParam(query?.q);
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const protocol = req.headers.referer?.split('://')[0] || 'https';
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
 

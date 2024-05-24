@@ -49,6 +49,7 @@ export class OrderMapper {
   async mapOrderToStore(orderData: IOrder): Promise<OrderToStore> {
     const { id } = orderData;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!orderData.customer?.email) {
       throw new Error(`No customer email found for order ${id}`);
     }
@@ -80,6 +81,7 @@ export class OrderMapper {
 
     const orderLines = await Promise.all(
       shippableOrderLines.map(async (soldProduct) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!soldProduct?.product_id) {
           throw new Error(`No shippable product found in order ${id}`);
         }
@@ -106,6 +108,7 @@ export class OrderMapper {
           );
         };
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         const productVariant = soldProduct.variant_id
           ? await this.mainPrisma.productVariant.findUnique({
               where: { shopifyId: soldProduct.variant_id },
@@ -358,6 +361,7 @@ export class OrderMapper {
 
     const soldProduct = getSingleProductInOrder(orderData);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!soldProduct?.product_id) {
       throw new Error(`No shippable product found in order ${id}`);
     }
@@ -400,6 +404,7 @@ export class OrderMapper {
       handle,
     } = await this.getVendorFromProductShopifyId(soldProduct.product_id);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email) {
       throw new Error(
         `Cannot map order paid because no vendor email found for order ${id}`,
@@ -508,6 +513,7 @@ export class OrderMapper {
   async mapOrderCreated(orderData: IOrder): Promise<OrderCreatedData> {
     const soldProduct = getSingleProductInOrder(orderData);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!soldProduct?.product_id) {
       throw new Error(`No shippable product found in order ${orderData.id}`);
     }
@@ -574,6 +580,7 @@ export class OrderMapper {
   private getOrderPaymentName(orderData: IOrder): string {
     const paymentMethodName = last(orderData.payment_gateway_names);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!paymentMethodName) {
       throw new Error(
         `No payment method found for order ${orderData.id}, received: ${orderData.payment_gateway_names}`,
@@ -617,6 +624,7 @@ export class OrderMapper {
     const hasBikesInOrder = await this.hasBikeInVariantsArray(
       orderData.line_items
         .map(({ variant_id }) => variant_id)
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         .flatMap((v) => (v ? [v] : [])),
     );
 
@@ -653,6 +661,7 @@ export class OrderMapper {
   private async getCustomerId({ customer }: IOrder): Promise<string | null> {
     const shopifyId = customer?.id;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!shopifyId) return null;
 
     const storedCustomer = await this.mainPrisma.customer.findFirst({

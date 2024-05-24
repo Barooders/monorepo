@@ -89,6 +89,7 @@ export async function generateMetadata({
     `${config.baseUrl}/products/${params.productHandle}`,
   );
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (searchParams.variant) {
     canonical.searchParams.append('variant', String(searchParams.variant));
   }

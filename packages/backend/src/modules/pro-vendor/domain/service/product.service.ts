@@ -186,6 +186,7 @@ export class ProductService {
         storeValue: StoreType,
       ) => MappedType = (v) => v,
     ): unknown | null =>
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       mappedValue && compareFunction(mappedValue, storeValue)
         ? mergeFunction(mappedValue, storeValue)
         : null;
@@ -290,6 +291,7 @@ export class ProductService {
     productStoreId: number,
     productFromStore: StoredProduct,
   ) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!mappedProduct.variants || mappedProduct.variants.length === 0) return;
 
     const createdVariants = await Promise.all(
@@ -390,6 +392,7 @@ export class ProductService {
         price:
           Number(price).toFixed(2) !== variantFromStore.price ? price : null,
         compare_at_price:
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !!compare_at_price &&
           Number(compare_at_price).toFixed(2) !==
             variantFromStore.compare_at_price

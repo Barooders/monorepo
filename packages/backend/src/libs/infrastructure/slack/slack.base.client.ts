@@ -29,6 +29,7 @@ export const fetchMessages = async (channelId: string) => {
 
     messages = messages.concat(response.messages ?? []);
     cursor = response.response_metadata?.next_cursor;
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   } while (cursor);
 
   return messages;
@@ -61,8 +62,10 @@ export const getMessagesWithThreadDetails = async (channelId: string) => {
   const result = [];
 
   for (const message of messages) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!message?.ts) continue;
     const messageSentDate = tsToDate(message.ts);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const lastThreadMessageDate = !message.thread_ts
       ? messageSentDate
       : tsToDate(

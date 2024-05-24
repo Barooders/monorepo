@@ -42,6 +42,7 @@ export class OrderSyncService implements IOrderSyncService {
       this.vendorOrderServiceProvider.setVendorConfigFromVendorId(vendorId);
       const config = this.vendorConfigService.getVendorConfig();
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!config?.order?.common.isSyncActivated) {
         this.logger.debug(
           `Vendor ${vendorId} does not need to sync order. Skipping...`,
@@ -57,6 +58,7 @@ export class OrderSyncService implements IOrderSyncService {
 
     const products = await Promise.all(
       content.products.map(async (product) => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!product.variantId) {
           throw new Error(
             `Order line ${name} has no product variant. Can't create external order`,

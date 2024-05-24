@@ -39,5 +39,5 @@
     "environment.d.ts",
     "web/next.config.js"
   ],
-  "exclude": ["node_modules", "cypress"]
+  "exclude": ["node_modules", "cypress", ".eslintrc.js"]
 }

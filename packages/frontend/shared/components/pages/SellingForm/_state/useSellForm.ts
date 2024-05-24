@@ -70,6 +70,7 @@ const createDefaultProductInfos = () => ({
 });
 
 const extractTagByPrefix = (tags: string[], prefix?: string) =>
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   prefix
     ? tags?.find((tag) => tag.startsWith(prefix))?.split(':')[1] ?? null
     : null;
@@ -114,16 +115,20 @@ const useSellForm = create<SellFormState>()(
           if (stepName === SellFormSteps.CONDITION_AND_PRICE) {
             const productInfos = get().productInfos;
 
-            return !!productInfos?.price && !!productInfos?.condition;
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            return !!productInfos?.price && !((productInfos?.condition) == null);
           }
 
           if (stepName === SellFormSteps.VENDOR) {
             const productInfos = get().productInfos;
             const isValidHandDeliveryPostalCode =
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               !productInfos.handDelivery ||
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               (!!productInfos.handDeliveryPostalCode &&
                 !!productInfos.handDeliveryPostalCode.match(/\d{5}$/));
 
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             return isValidHandDeliveryPostalCode && !!phoneNumber;
           }
 
@@ -131,6 +136,7 @@ const useSellForm = create<SellFormState>()(
             const description = get().productInfos.body_html;
 
             return (
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               !!description &&
               description.length >= 20 &&
               description.length <= 2000
@@ -181,6 +187,7 @@ const useSellForm = create<SellFormState>()(
         getSelectedProductType: () => {
           const selectedProductTypeName = get().selectedProductType;
 
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           return !selectedProductTypeName
             ? null
             : get().sellFormConfig?.productTypeConfig[
@@ -237,6 +244,7 @@ const useSellForm = create<SellFormState>()(
               ),
               status: product.status,
               compare_at_price: product.compareAtPrice,
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               handDelivery: !!product.handDeliveryPostalCode,
               handDeliveryPostalCode: product.handDeliveryPostalCode,
               images: product.images,

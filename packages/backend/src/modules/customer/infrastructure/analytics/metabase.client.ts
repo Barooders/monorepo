@@ -26,6 +26,7 @@ export class MetabaseClient implements IAnalyticsProvider {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!sellerName) {
       throw new Error('Vendor seller name not found');
     }

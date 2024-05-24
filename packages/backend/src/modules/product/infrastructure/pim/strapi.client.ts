@@ -108,6 +108,7 @@ export class StrapiClient implements IPIMClient {
     const results = await getPimCategoryFromId(categoryId);
     const firstMatch = results[0];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!firstMatch) {
       throw new Error(`Category ${categoryId} does not exist in PIM`);
     }
@@ -138,6 +139,7 @@ export class StrapiClient implements IPIMClient {
       manufacturer_suggested_retail_price:
         model.manufacturer_suggested_retail_price,
       imageUrl: uploadImage.url,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       pictures: uploadImage.id ? [uploadImage.id] : [],
       year: model.year,
       brandId: pimBrand.id,
@@ -176,6 +178,7 @@ export class StrapiClient implements IPIMClient {
       limit: 1,
     })[0];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!brand) {
       throw new Error(`Brand ${brandName} does not exist in PIM`);
     }

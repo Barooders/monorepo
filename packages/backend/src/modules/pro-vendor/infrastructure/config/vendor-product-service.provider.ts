@@ -32,6 +32,7 @@ export class VendorProductServiceProvider
   ) {}
 
   setVendorConfigFromSlug(vendorSlug: SynchronizedProVendor) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendorConfig[vendorSlug]) {
       throw new Error(`Vendor slug ${vendorSlug} is not configured.`);
     }

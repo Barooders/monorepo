@@ -123,6 +123,7 @@ export class ShopifyClient {
         ?.sendDiscountedPrice;
 
     const orderToCreate = {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(sendDiscountedPrice
         ? { total_discounts: order.discount.toFixed(2) }
         : {}),
@@ -136,6 +137,7 @@ export class ShopifyClient {
         first_name: sharedAddress.first_name,
         last_name: sharedAddress.last_name,
         email: obfuscatedEmail,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(this.vendorConfigService.getVendorConfig().order?.shopify
           ?.sendRealCustomerEmail
           ? { note: realEmail }

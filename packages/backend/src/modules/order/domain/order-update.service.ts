@@ -138,6 +138,7 @@ export class OrderUpdateService {
 
     const allowedPreviousStatuses = ALLOWED_PREVIOUS_STATUSES[newStatus];
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (allowedPreviousStatuses?.includes(oldStatus)) return true;
 
     throw new OrderStatusUpdateNotAllowed(orderId, newStatus, oldStatus);

@@ -140,6 +140,7 @@ export class SavedSearchController {
     { refinements, ...createSavedSearchDTO }: CreateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,
@@ -165,6 +166,7 @@ export class SavedSearchController {
     { refinements, ...updateSavedSearchDTO }: UpdateSavedSearchDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,
@@ -190,6 +192,7 @@ export class SavedSearchController {
     @Param('savedSearchId') savedSearchId: string,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,

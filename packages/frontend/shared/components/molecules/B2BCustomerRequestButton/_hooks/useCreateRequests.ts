@@ -9,7 +9,9 @@ const mapRequest = (
   return {
     requests: requests.map((request) => ({
       ...request,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       budgetMinInCents: request.minBudget ? request.minBudget * 100 : undefined,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       budgetMaxInCents: request.maxBudget ? request.maxBudget * 100 : undefined,
       neededAtDate: new Date(request.neededAtDate).toISOString(),
     })),

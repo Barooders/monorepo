@@ -254,6 +254,7 @@ export class ProductController {
       type: 'user',
     };
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!sellerId)
       throw new Error(`Cannot find vendor with sellerId: ${sellerId}`);
 
@@ -366,6 +367,7 @@ export class ProductController {
     productUpdates: ProductUpdateInputDto,
   ): Promise<void> {
     try {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!userId) {
         throw new UnauthorizedException(
           `User not found in token, user (${userId})`,
@@ -375,6 +377,7 @@ export class ProductController {
       const { bodyHtml } = productUpdates;
       const concreteUpdates = {
         ...productUpdates,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(bodyHtml && { body_html: bodyHtml }),
       };
 
@@ -403,6 +406,7 @@ export class ProductController {
     productVariantUpdates: ProductVariantUpdateInputDto,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,
@@ -540,6 +544,7 @@ export class ProductController {
     compareAtPrice,
     condition,
   }: ProductVariantUpdateInputDto) => ({
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     ...(condition && { condition }),
     ...(quantity !== undefined && { inventory_quantity: quantity }),
     ...(compareAtPrice !== undefined && {

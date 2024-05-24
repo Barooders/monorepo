@@ -95,6 +95,7 @@ export const getValidTags = (tags: string[]): string[] => {
     const [key, ...valueEntries] = tag.split(':');
     const value = valueEntries.join(':');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!key || !value) return acc;
 
     return [...acc, `${key.toLowerCase().trim()}:${value.trim()}`];
@@ -119,7 +120,7 @@ export const getDiscountRange = (discount: number): DiscountRange => {
     (step) => discount <= step.limit,
   )?.range;
 
-  if (!range) {
+  if (range === undefined) {
     throw new Error(`Cannot find discount range for ${discount}`);
   }
 
@@ -277,6 +278,7 @@ export const addFormattedBikeSizeToTags = (
     ...tags,
     'formatted-bike-size': existingSizeTags
       .map(isMountainBike ? mapMountainBikeSize : mapBikeSize)
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       .flatMap((size) => (size ? [size] : [])),
   };
 };

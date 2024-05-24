@@ -49,6 +49,7 @@ const useDiscounts = createPersistedStore<DiscountsState>(
               (discount) =>
                 isDiscountAvailable(discount, isAdmin) &&
                 discount.collections.length === 0 &&
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 (!discount.minAmount || discount.minAmount < price),
             ) ?? null
         );

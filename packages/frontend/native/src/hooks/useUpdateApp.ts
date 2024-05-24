@@ -14,6 +14,7 @@ const useUpdateApp = (): { isVisible: boolean; news: { value: string }[] } => {
 
     const attributes = resultJson?.data?.[0]?.attributes;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (attributes?.version) {
       const lastMandatoryVersion = attributes.version;
       const { version: currentAppVersion } = await App.getInfo();

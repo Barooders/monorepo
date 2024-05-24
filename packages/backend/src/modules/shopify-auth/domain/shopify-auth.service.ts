@@ -51,6 +51,7 @@ export class ShopifyAuthService {
     const shopify = this.shopifyApiBySession.getInstance();
     const sanitizedShop = shopify.utils.sanitizeShop(shop, true);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!sanitizedShop) {
       throw new Error('Invalid shop');
     }

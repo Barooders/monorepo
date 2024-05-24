@@ -24,6 +24,7 @@ const mapValidKeyValuePair = ({
   key,
   value,
 }: Option): { key: string; value: string } | undefined => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return key && value ? { key, value } : undefined;
 };
 
@@ -31,6 +32,7 @@ const getColumnValue = (
   array: string[],
   columnNumber: number | undefined,
 ): string | undefined => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return columnNumber ? nth(array, columnNumber - 1) : undefined;
 };
 
@@ -84,6 +86,7 @@ export class CSVClient {
 
     const cachedRawCSV = await this.cacheManager.get<string>(cacheKey);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (cachedRawCSV) {
       return cachedRawCSV;
     }
@@ -126,6 +129,7 @@ export class CSVClient {
     });
 
     const rows = extractedRows.filter((row) => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!productId) return true;
 
       return getColumnValue(row, csvColumnsConfig.productId) === productId;
@@ -172,9 +176,11 @@ export class CSVClient {
       images: csvColumnsConfig.images.map((image) =>
         getColumnValue(row, image),
       ),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       inventoryQuantity: csvColumnsConfig.inventoryQuantity
         ? getColumnValue(row, csvColumnsConfig.inventoryQuantity)
         : '1',
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       isActive: getColumnValue(row, csvColumnsConfig.isActive)
         ? getColumnValue(row, csvColumnsConfig.isActive) === '1'
         : true,
@@ -207,6 +213,7 @@ export class CSVClient {
         (product) => product.id === variant.productId,
       );
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!variant.variantId) {
         this.logger.warn(
           `Variant ID not found for product ID: ${variant.productId}`,
@@ -224,12 +231,18 @@ export class CSVClient {
       }
 
       if (
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productId ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.variantCondition ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productTitle ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.productType ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.price ||
         isNaN(parseFloat(variant.price)) ||
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !variant.inventoryQuantity ||
         isNaN(parseInt(variant.inventoryQuantity))
       ) {
@@ -248,6 +261,7 @@ export class CSVClient {
           amountInCents: Math.floor(parseAmountString(variant.price) * 100),
         }),
         compareAtPrice:
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           variant.compareAtPrice && !isNaN(parseFloat(variant.compareAtPrice))
             ? new Amount({
                 amountInCents: Math.floor(
@@ -270,6 +284,7 @@ export class CSVClient {
           title: variant.productTitle,
           description: variant.description,
           images: variant.images
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             .flatMap((image) => (image ? [image] : []))
             .map((image) => new URL({ url: image })),
           variants: [mappedVariant],

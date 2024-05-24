@@ -22,9 +22,8 @@ export class CustomerRepository {
     // @ts-ignore
     fields.forEach((field) => (selectedFields[field] = true));
 
-    const select = Object.keys(selectedFields).length
-      ? selectedFields
-      : undefined;
+    const select =
+      Object.keys(selectedFields).length > 0 ? selectedFields : undefined;
 
     const customers = await this.prisma.customer.findMany({ select });
 

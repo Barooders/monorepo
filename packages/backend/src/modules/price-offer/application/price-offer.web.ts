@@ -161,6 +161,7 @@ export class PriceOfferController {
     }: NewPublicPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<PriceOfferDTO> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,
@@ -184,6 +185,7 @@ export class PriceOfferController {
         buyerUUID,
         new Amount({ amountInCents: newPriceInCents }),
         new UUID({ uuid: productId }),
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         productVariantId ? new UUID({ uuid: productVariantId }) : undefined,
       );
 
@@ -215,6 +217,7 @@ export class PriceOfferController {
     }: NewB2BPriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId || !isUUID(userId)) {
       throw new UnauthorizedException(
         `User UUID not found in token, user (${userId})`,
@@ -238,6 +241,7 @@ export class PriceOfferController {
     @Body() body: UpdatePriceOfferDTO,
     @User() { userId }: ExtractedUser,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,

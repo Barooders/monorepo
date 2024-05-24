@@ -17,9 +17,11 @@ import { LoggerService } from './logger.service';
               ...serializedRequest,
               headers: {
                 ...serializedRequest.headers,
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 ...(serializedRequest.headers['authorization']
                   ? { authorization: 'REDACTED' }
                   : {}),
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 ...(serializedRequest.headers['x-api-key']
                   ? { 'x-api-key': 'REDACTED' }
                   : {}),

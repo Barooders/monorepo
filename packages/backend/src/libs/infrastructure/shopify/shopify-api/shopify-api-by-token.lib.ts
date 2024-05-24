@@ -297,6 +297,7 @@ export const parseShopifyError = (
 ): string => {
   const shopifyError = error as ShopifyError;
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return shopifyError?.response?.body?.error ||
     shopifyError?.response?.body?.errors
     ? jsonStringify(shopifyError.response.body.errors)
@@ -326,12 +327,14 @@ export const isHandDeliveryOrder = (orderData: Shopify.IOrder) => {
 export const getSingleProductInOrder = (orderData: Shopify.IOrder) => {
   return orderData.line_items.find(
     ({ product_id, requires_shipping }) =>
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       !!product_id && requires_shipping === true,
   );
 };
 
 // Prevents too many instances of shopify api node to be initialized
 export const shopifyApiByToken =
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   globalForShopifyApiByToken.shopifyApiByToken ||
   new InstrumentedShopify({
     shopName: shopifyConfig.shop,

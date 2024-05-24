@@ -34,6 +34,7 @@ export class ExternalOrderService {
     const vendorIdsInFulfillmentOrders = fulfillmentOrders
       .map(({ orderLines }) => orderLines.map(({ vendorId }) => vendorId))
       .flat()
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       .flatMap((vendorId) => (vendorId ? [vendorId] : []));
     const hasMultipleFullfillmentOrdersForSameVendor =
       vendorIdsInFulfillmentOrders.length !==
@@ -68,7 +69,7 @@ export class ExternalOrderService {
     try {
       this.logger.debug(`Handling fulfillment order ${fulfillmentOrder.id}`);
 
-      if (!orderLines.length) {
+      if (orderLines.length === 0) {
         this.logger.debug(
           `Fulfillment order ${fulfillmentOrder.id} has no order lines. Skipping...`,
         );
@@ -77,6 +78,7 @@ export class ExternalOrderService {
 
       const firstVendorId = orderLines[0].vendorId;
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!firstVendorId) {
         this.logger.debug(
           `First order line of fulfillment order ${fulfillmentOrder.id} has no vendor id. Skipping...`,
@@ -110,7 +112,7 @@ export class ExternalOrderService {
         },
       );
 
-      if (!productVariants.length) {
+      if (productVariants.length === 0) {
         this.logger.debug(
           `No product variants found for fulfillment order ${fulfillmentOrder.id}. Skipping...`,
         );
@@ -141,6 +143,7 @@ export class ExternalOrderService {
         },
       });
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!externalOrderId) {
         this.logger.debug(
           `No order was created for fulfillment order ${fulfillmentOrder.id} from order (${order.name})`,

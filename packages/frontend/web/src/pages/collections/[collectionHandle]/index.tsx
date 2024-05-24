@@ -35,6 +35,7 @@ export const getServerSideProps: GetServerSideProps<
   PropsType,
   { collectionHandle: string }
 > = async ({ req, params, query }) => {
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!params?.collectionHandle)
     throw new Error('Need to provide a collectionHandle');
 
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps<
   const searchPageProps = await getSearchPageData({
     collectionHandle,
     productHandle,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     productVariantShopifyId: variantQueryParam
       ? Number(variantQueryParam)
       : undefined,
@@ -54,11 +56,14 @@ export const getServerSideProps: GetServerSideProps<
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const Sentry = useSentry();
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const protocol = req.headers.referer?.split('://')[0] || 'https';
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
 
   if (
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !searchPageProps.collectionData?.id &&
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !searchPageProps.vendorInfo?.sellerName
   ) {
     return {
@@ -110,7 +115,9 @@ const CollectionPage: React.FC<PropsType> = ({
   vendorSellerName,
 }) => {
   if (
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !searchPageProps.collectionData?.id &&
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !searchPageProps.vendorInfo?.sellerName
   ) {
     return (
@@ -120,6 +127,7 @@ const CollectionPage: React.FC<PropsType> = ({
   const canonicalUrl = new URL(
     `${config.baseUrl}/collections/${collectionHandle}`,
   );
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (vendorSellerName) canonicalUrl.searchParams.append('q', vendorSellerName);
 
   const metadata = {

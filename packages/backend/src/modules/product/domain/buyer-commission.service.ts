@@ -129,10 +129,12 @@ export class BuyerCommissionService {
     productInternalId?: string,
     variantInternalId?: string,
   ): Promise<number> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productHandle && !productInternalId) {
       throw new Error('Need id or handle to find product');
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const productWhereClause = productInternalId
       ? { id: productInternalId }
       : { handle: productHandle };
@@ -151,17 +153,20 @@ export class BuyerCommissionService {
 
     const variant =
       product.variants.find((variant) =>
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         variantInternalId
           ? variant.id === variantInternalId
           : variant.quantity > 0,
       ) ?? first(product.variants);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!variant?.priceInCents) {
       throw new VariantNotFound(product.id, variantInternalId ?? 'None');
     }
 
     const vendorName = product.vendor?.sellerName;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const buyerCommissionRate = vendorName
       ? await this.getBuyerCommissionRate(vendorName)
       : 100;

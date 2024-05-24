@@ -45,6 +45,7 @@ export class XMLMapper {
       metadata,
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(`Category not mapped, skipping product ${product.id}`);
       return null;
@@ -97,22 +98,25 @@ export class XMLMapper {
 
   private async getTags(xmlProduct: XMLProduct): Promise<string[]> {
     return (
-      await Promise.all(
-        xmlProduct.tags.map(({ key, value }) => {
-          return this.tagService.getOrCreateTag(
-            key,
-            String(value),
-            key,
-            this.vendorConfigService.getVendorConfig().mappingKey,
-            {
-              externalId: String(xmlProduct.id),
-              title: xmlProduct.title,
-            },
-          );
-        }),
+      (
+        await Promise.all(
+          xmlProduct.tags.map(({ key, value }) => {
+            return this.tagService.getOrCreateTag(
+              key,
+              String(value),
+              key,
+              this.vendorConfigService.getVendorConfig().mappingKey,
+              {
+                externalId: String(xmlProduct.id),
+                title: xmlProduct.title,
+              },
+            );
+          }),
+        )
       )
-    )
-      .flat()
-      .flatMap((f) => (f ? [f] : []));
+        .flat()
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        .flatMap((f) => (f ? [f] : []))
+    );
   }
 }

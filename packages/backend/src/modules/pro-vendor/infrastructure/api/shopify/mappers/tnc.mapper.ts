@@ -36,6 +36,7 @@ export class TNCMapper extends ShopifyDefaultMapper {
     _productMetafields: IMetafield[],
     productType: string | null,
   ): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (productType && (await this.pimClient.isBike(productType)))
       return shopifyProduct.body_html;
 

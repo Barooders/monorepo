@@ -13,6 +13,7 @@ export class FastlapMapper extends WooCommerceDefaultMapper {
       ?.options.sort()
       .join('-');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!key) {
       return { key: 'unknown', name: 'unknown' };
     }

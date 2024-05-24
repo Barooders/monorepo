@@ -13,6 +13,7 @@ const mapJsonConditionToTypeAndValue = (
   name: string,
 ): { type: Prisma.JsonValue; value: Prisma.JsonValue } => {
   if (
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     !jsonCondition ||
     typeof jsonCondition !== 'object' ||
     Array.isArray(jsonCondition)
@@ -21,6 +22,7 @@ const mapJsonConditionToTypeAndValue = (
 
   const { type, value } = jsonCondition;
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!type || !value)
     throw new Error(
       `${name} does not have type and value: ${jsonStringify(jsonCondition)}`,
@@ -58,6 +60,7 @@ export class CommissionRepository implements ICommissionRepository {
     });
 
     return rules.map((rule) => {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!rule.rules || !Array.isArray(rule.rules))
         throw new Error('Commission rules are not an array');
 

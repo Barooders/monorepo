@@ -62,6 +62,7 @@ export class ShopifyApiBySession {
           const graphqlError = e as {
             response: { errors: { message: string }[] | undefined };
           };
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (graphqlError.response) {
             const errors = graphqlError.response.errors;
             throw new GraphQLException(

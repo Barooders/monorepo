@@ -40,6 +40,7 @@ export class ShopifyController {
     @User() tokenInfo: ExtractedUser,
     @Query() { redirect_to }: { redirect_to?: string },
   ): Promise<ShopifyLoginResponse> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!tokenInfo) throw new UnauthorizedException();
 
     const user = await this.prismaService.users.findUnique({
@@ -47,6 +48,7 @@ export class ShopifyController {
     });
 
     if (!user) throw new UnauthorizedException();
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!user.email) throw new Error('User email not found');
 
     await this.checkShopifyCustomerIsCreated(tokenInfo.userId);
@@ -55,6 +57,7 @@ export class ShopifyController {
       email: user.email,
     };
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (redirect_to) payload.return_to = redirect_to;
 
     return {
@@ -77,6 +80,7 @@ export class ShopifyController {
       where: { authUserId: userId },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!customer?.shopifyId)
       throw new Error(`Customer ${userId} not found in shopify`);
   }

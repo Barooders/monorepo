@@ -268,9 +268,12 @@ export class ChatService implements IChatService {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!customer?.sellerName || !customer?.user.email) {
       const missingFields = [];
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!customer?.sellerName) missingFields.push('sellerName');
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!customer?.user.email) missingFields.push('email');
 
       throw new IncompleteUserException(authUserId.uuid, missingFields);

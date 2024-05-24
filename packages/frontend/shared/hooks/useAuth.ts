@@ -39,6 +39,7 @@ export const useAuth = () => {
   ): Promise<void> => {
     await fetchFavoriteProducts();
     sendLogin(hasuraToken.user.id);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!hasuraToken)
       throw new Error('Could not redirect to Multipass as token is missing');
     if (!checkProfileCompleteness(hasuraToken?.accessToken)) {
@@ -52,6 +53,7 @@ export const useAuth = () => {
   const checkProfileCompleteness = (accessToken: string): boolean => {
     const tokenContent = decodeJWT<HasuraAuthJwtType>(accessToken);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return !!tokenContent['https://hasura.io/jwt/claims'][
       'x-hasura-sellerName'
     ];
@@ -100,10 +102,12 @@ export const useAuth = () => {
   };
 
   const isAdmin = () => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return hasuraToken?.user.roles.includes(HASURA_ROLES.ADMIN) || false;
   };
 
   const isB2BUser = () => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return hasuraToken?.user.roles.includes(HASURA_ROLES.B2B_USER) || false;
   };
 

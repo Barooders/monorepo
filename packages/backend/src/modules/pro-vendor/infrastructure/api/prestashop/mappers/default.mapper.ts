@@ -50,6 +50,7 @@ export class PrestashopDefaultMapper {
     images?: { id?: string }[];
     productId?: number;
   }): Promise<{ attachment: string }[]> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!images || images.length === 0 || !productId) {
       return [];
     }
@@ -57,16 +58,20 @@ export class PrestashopDefaultMapper {
     const imageLimit = 5;
 
     return (
-      await Promise.all(
-        images.slice(0, imageLimit).map(async ({ id: imageId }) => {
-          return {
-            attachment: await this.prestashopClient.getProductImage(
-              `${productId}/${imageId}`,
-            ),
-          };
-        }),
+      (
+        await Promise.all(
+          images.slice(0, imageLimit).map(async ({ id: imageId }) => {
+            return {
+              attachment: await this.prestashopClient.getProductImage(
+                `${productId}/${imageId}`,
+              ),
+            };
+          }),
+        )
       )
-    ).filter(({ attachment }) => !!attachment) as { attachment: string }[];
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        .filter(({ attachment }) => !!attachment) as { attachment: string }[]
+    );
   }
 
   private async generateTags(
@@ -82,7 +87,9 @@ export class PrestashopDefaultMapper {
 
       for (const product_feature of product_features) {
         if (
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !product_feature.id ||
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           !product_feature.id_feature_value ||
           product_feature.id === '0'
         ) {
@@ -116,6 +123,7 @@ export class PrestashopDefaultMapper {
         const hasMappedTagValue =
           tagValue.length > 0 && tagValue[0].internalTagValue;
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (hasMappedTagName && hasMappedTagValue) {
           tags.push(
             `${tagName[0].internalTagName}:${tagValue[0].internalTagValue}`,
@@ -123,11 +131,13 @@ export class PrestashopDefaultMapper {
           continue;
         }
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (hasMappedTagName && tagName[0].useDefaultTagValues) {
           const productFeatureValues =
             await this.prestashopClient.getProductFeatureValues(
               productFeature.id_feature_value,
             );
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!productFeatureValues || !productFeatureValues.value) continue;
           tags.push(
             `${tagName[0].internalTagName}:${this.getSingleValue(
@@ -141,6 +151,7 @@ export class PrestashopDefaultMapper {
           productFeature.id,
         );
 
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!productFeatures || !productFeatures.name) {
           continue;
         }
@@ -153,6 +164,7 @@ export class PrestashopDefaultMapper {
               productFeature.id_feature_value,
             );
 
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!productFeatureValues || !productFeatureValues.value) {
             continue;
           }
@@ -216,6 +228,7 @@ export class PrestashopDefaultMapper {
 
     for (const category of categoriesSorted) {
       const categoryName = await this.extractCategoryName(category);
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!categoryName) continue;
 
       categoriesNames.push(categoryName);
@@ -240,6 +253,7 @@ export class PrestashopDefaultMapper {
     if (!categoryData) return;
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       !this.vendorConfigService.getVendorConfig().catalog.prestashop
         ?.fetchRecursiveCategories
     ) {
@@ -271,6 +285,7 @@ export class PrestashopDefaultMapper {
       this.vendorConfigService.getVendorConfig().catalog.prestashop
         ?.externalLanguageId;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!languageId) return value[0].value;
 
     return value.find(({ id }) => id === languageId)?.value ?? value[0].value;
@@ -330,6 +345,7 @@ export class PrestashopDefaultMapper {
 
     for (const combination of combinations) {
       const { id } = combination;
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!id) continue;
 
       const combinationData = await this.prestashopClient.getCombination(id);
@@ -341,16 +357,19 @@ export class PrestashopDefaultMapper {
 
       const variantOptions = await Promise.all(
         product_option_values.map(async ({ id }) => {
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!id) return null;
 
           const optionValueData =
             await this.prestashopClient.getProductOptionValues(id);
 
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!optionValueData || !optionValueData.name) return null;
 
           const optionData = await this.prestashopClient.getProductOptions(
             optionValueData.id_attribute_group,
           );
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (!optionData || !optionData.name) return null;
 
           const key = this.getSingleValue(optionData.name).replace('/', '-');
@@ -363,6 +382,7 @@ export class PrestashopDefaultMapper {
       const stock_available = stock_availables.find(
         (stock) => stock.id_product_attribute === id,
       );
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!stock_available || !stock_available.id) continue;
 
       const variantLevel = await this.prestashopClient.getStockItem(
@@ -431,6 +451,7 @@ export class PrestashopDefaultMapper {
       ...(await this.generateTags(mappingMetadata, product_features)),
       ...(await this.tagService.getOrCreateTag(
         'Marque',
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         id_manufacturer ? id_manufacturer.toString() : 'unknown_brand_id',
         'id_manufacturer',
         this.vendorConfigService.getVendorConfig().mappingKey,
@@ -443,6 +464,7 @@ export class PrestashopDefaultMapper {
       categories,
       mappingMetadata,
     );
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(
         `Category ${jsonStringify(
@@ -466,6 +488,7 @@ export class PrestashopDefaultMapper {
       body_html: this.getSingleValue(description ?? '').replace(/nbsp;/g, ''),
       product_type: productType,
       images: imagesFormatted,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       tags: tagsFormatted.flatMap((f) => (f ? [f] : [])),
       variants: [],
     };
@@ -531,6 +554,7 @@ export class PrestashopDefaultMapper {
   }
 
   getQuantity(_product: ProductDTO, variant: StockAvailableDTO | null): number {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return variant?.quantity ? Number(variant.quantity) : 0;
   }
 

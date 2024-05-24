@@ -41,6 +41,7 @@ export class ShopifyClient implements IStoreClient {
 
     const orderShopifyId = dbOrder.shopifyId;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!orderShopifyId) {
       throw new Error(`Not implemented yet, we should loop on DB order lines`);
     }
@@ -122,6 +123,7 @@ export class ShopifyClient implements IStoreClient {
         },
       });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!shopifyId) {
       return {
         fulfilledItems: itemsToBeFulfilled,
@@ -167,6 +169,7 @@ export class ShopifyClient implements IStoreClient {
         },
       });
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!dbOrder.shopifyId) return [];
 
       const orderStoreId = Number(dbOrder.shopifyId);
@@ -234,6 +237,7 @@ export class ShopifyClient implements IStoreClient {
         },
       });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return bikeVariantIdsFromOrders.flatMap(({ id }) => (id ? [id] : []));
   }
 
@@ -248,6 +252,7 @@ export class ShopifyClient implements IStoreClient {
         },
       });
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!dbOrder.shopifyId) {
         throw new Error(
           `Not implemented yet: cannot refund order ${orderId.uuid} because it has no Shopify ID`,

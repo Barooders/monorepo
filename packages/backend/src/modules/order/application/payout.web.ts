@@ -242,6 +242,7 @@ export class PayoutController {
         },
       });
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!vendorId) {
         throw new NotFoundException(
           `Cannot payout order line ${orderLineShopifyId} because it has no vendor in database`,
@@ -253,6 +254,7 @@ export class PayoutController {
         id: authorId,
       };
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       const manualAmount = amountInCents
         ? new AmountObject({ amountInCents })
         : null;

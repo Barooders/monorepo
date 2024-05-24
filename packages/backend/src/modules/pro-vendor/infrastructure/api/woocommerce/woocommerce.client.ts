@@ -107,6 +107,7 @@ export class WooCommerceClient {
     const { apiKey: consumerKey, apiSecret: consumerSecret } =
       this.vendorConfigService.getVendorConfig();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!consumerKey || !consumerSecret) {
       throw new Error('WooCommerce API credentials not found');
     }

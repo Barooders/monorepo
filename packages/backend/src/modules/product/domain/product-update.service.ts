@@ -55,12 +55,14 @@ export class ProductUpdateService {
       ...(data.images?.length === 0 && { status: ProductStatus.DRAFT }),
       metafields: [
         ...(data.metafields ?? []),
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(data.handDeliveryPostalCode
           ? getHandDeliveryMetafields(true, data.handDeliveryPostalCode)
           : []),
       ],
     };
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (data.product_type)
       await this.pimClient.checkIfProductTypeExists(data.product_type);
 
@@ -296,6 +298,7 @@ export class ProductUpdateService {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!vendor) throw new Error('Vendor not found');
 
     return vendor;
@@ -318,7 +321,9 @@ export class ProductUpdateService {
     const concreteUpdates: Prisma.ProductVariantUpdateInput = {
       ...(inventory_quantity !== undefined && { quantity: inventory_quantity }),
       ...(condition !== undefined && { condition }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(price && { priceInCents: toCents(price) }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(compare_at_price && {
         compareAtPriceInCents: toCents(compare_at_price),
       }),
@@ -368,13 +373,21 @@ export class ProductUpdateService {
     },
   ) {
     const concreteUpdates = {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(status && { status }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(manualNotation && { manualNotation }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(EANCode && { EANCode }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(GTINCode && { GTINCode }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(source && { source }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(vendorId && { vendorId }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(productType && { productType }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(body_html && { description: body_html }),
     };
 

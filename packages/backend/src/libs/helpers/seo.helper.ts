@@ -39,12 +39,15 @@ export const getSEOMetafields = async (product: {
     {
       key: 'description_tag',
       value: `Achat de ${productType}${
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         singleBrand ? `, de la marque ${singleBrand}` : ''
       }${
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         singleGender && singleGender.toLowerCase() !== 'mixte'
           ? `, pour ${singleGender}`
           : ''
       }${
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         singleColor ? `, de couleur ${singleColor}` : ''
       } au meilleur prix sur Barooders !`,
       type: MetafieldType.SINGLE_LINE_TEXT_FIELD,

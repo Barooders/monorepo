@@ -111,6 +111,7 @@ export class CustomerController {
   async fetchCustomerWallet(
     @User() { userId }: ExtractedUser,
   ): Promise<Wallet> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,
@@ -127,6 +128,7 @@ export class CustomerController {
     @Body()
     updateUserInputDto: UpdateUserInputDto,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!userId) {
       throw new UnauthorizedException(
         `User not found in token, user (${userId})`,

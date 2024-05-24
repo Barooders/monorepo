@@ -44,6 +44,7 @@ const getHighestDiscount = (
   variants: PublicVariantToIndex['variant'][],
 ): number => {
   return variants.reduce((acc: number, { compareAtPrice, price }) => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!compareAtPrice || !price || compareAtPrice.amount < price.amount) {
       return acc;
     }
@@ -162,6 +163,7 @@ export class StoreMapper {
       isActive:
         exposedProduct.status === ProductStatus.ACTIVE &&
         !!exposedProduct.publishedAt,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       imageSrc: exposedProduct.firstImage
         ? new URL({ url: exposedProduct.firstImage })
         : undefined,
@@ -256,6 +258,7 @@ export class StoreMapper {
       isActive:
         exposedProduct.status === ProductStatus.ACTIVE &&
         !!exposedProduct.publishedAt,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       imageSrc: exposedProduct.firstImage
         ? new URL({ url: exposedProduct.firstImage })
         : undefined,
@@ -275,6 +278,7 @@ export class StoreMapper {
       totalQuantity: new Stock({
         stock: Number(exposedProduct.totalQuantity),
       }),
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       largestBundlePrice: storeB2BProduct?.largestBundlePriceInCents
         ? new Amount({
             amountInCents: Number(storeB2BProduct.largestBundlePriceInCents),
@@ -320,6 +324,7 @@ export class StoreMapper {
 
           try {
             return {
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               shopifyId: shopifyId
                 ? new ShopifyID({
                     id: Number(shopifyId),
@@ -333,6 +338,7 @@ export class StoreMapper {
               createdAt: new ValueDate({
                 date: createdAt,
               }),
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               quantityAvailable: exposedProductVariant.inventoryQuantity
                 ? new Stock({
                     stock: Number(exposedProductVariant.inventoryQuantity),
@@ -394,6 +400,7 @@ export class StoreMapper {
 
           try {
             return {
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               shopifyId: shopifyId
                 ? new ShopifyID({
                     id: Number(shopifyId),
@@ -406,6 +413,7 @@ export class StoreMapper {
               createdAt: new ValueDate({
                 date: createdAt,
               }),
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               quantityAvailable: exposedProductVariant.inventoryQuantity
                 ? new Stock({
                     stock: Number(exposedProductVariant.inventoryQuantity),

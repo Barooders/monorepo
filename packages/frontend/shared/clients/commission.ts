@@ -12,9 +12,12 @@ export const fetchCommission = async ({
   productVariantShopifyId,
 }: ArgsType) => {
   const fetchCommissionParams = new URLSearchParams();
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (productHandle) fetchCommissionParams.set('productHandle', productHandle);
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (productInternalId)
     fetchCommissionParams.set('productInternalId', productInternalId);
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (productVariantShopifyId)
     fetchCommissionParams.set(
       'variantShopifyId',
@@ -26,7 +29,7 @@ export const fetchCommission = async ({
       `/v1/commission/product?${fetchCommissionParams.toString()}`,
     );
   } catch (e) {
-    console.error(e);
+    console.info(e);
     return undefined;
   }
 };

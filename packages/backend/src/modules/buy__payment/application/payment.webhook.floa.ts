@@ -99,6 +99,7 @@ export class PaymentFloaWebhookController {
       )?.description ??
       `${body.returnCode?.toString()} - ${body.complementaryReturnCode?.toString()}`;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!newStatus)
       throw new Error(
         `Could not determine status from Floa return code ${body.returnCode}`,
@@ -120,6 +121,7 @@ export class PaymentFloaWebhookController {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     while (notification[`scheduleDate${period}`]) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

@@ -118,12 +118,14 @@ export class FulfillmentService {
       },
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (orderLines.some(({ vendorId }) => !vendorId)) {
       throw new Error(
         `Cannot fulfill ${fulfillmentOrderId} because at least one orderline has no vendor id`,
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (orderLines.some(({ vendorId }) => vendorId && vendorId !== userId)) {
       throw new UnauthorizedException(
         `User ${userId} can't fulfill fulfillment order ${fulfillmentOrderId} because it is not the vendor`,
@@ -171,6 +173,7 @@ export class FulfillmentService {
     try {
       this.logger.debug(`Fulfilling external order ${externalOrderId}`);
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!externalOrderId) {
         this.logger.debug(
           `No external order id found for fulfillment order ${fulfillmentOrder.id}`,
@@ -180,6 +183,7 @@ export class FulfillmentService {
 
       const firstVendorId = first(fulfillmentOrder.orderLines)?.vendorId;
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!firstVendorId) {
         throw new Error(
           `No vendor id found in first order line of fulfillment order ${fulfillmentOrder.id}`,
@@ -224,6 +228,7 @@ export class FulfillmentService {
   ) {
     const itemsToBeFulfilled = orderLines.flatMap(
       ({ productVariantId, quantity }) =>
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         productVariantId ? [{ productVariantId, quantity }] : [],
     );
 

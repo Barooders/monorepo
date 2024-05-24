@@ -38,6 +38,7 @@ export class QueueClient implements IQueueClient {
         attempts: 2,
         removeOnComplete: true,
         removeOnFail: true,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         delay: options?.withoutDelay ? 0 : QUEUE_DELAY,
       },
     );

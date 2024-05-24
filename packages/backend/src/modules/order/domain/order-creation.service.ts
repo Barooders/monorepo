@@ -121,6 +121,7 @@ export class OrderCreationService {
       return existingOrder.id;
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!shippingAddressPhone) {
       throw new Error(
         `Can't create an order without a phone number: ${order.name}`,

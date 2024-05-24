@@ -39,6 +39,7 @@ export const createGraphQLClient =
 
     const { data, errors } = await result.json();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (errors) {
       if (span) {
         span.setStatus('unknown_error');

@@ -91,6 +91,7 @@ export const getPimDynamicAttribute = async (
     )}&pagination[limit]=1&populate=pim_product_attributes`,
   );
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!data || data.length === 0)
     throw new Error(`Cannot find PIM dynamic attribute: ${dynamicAttribute}`);
 

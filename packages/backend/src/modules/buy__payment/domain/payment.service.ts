@@ -61,6 +61,7 @@ export class PaymentService implements IPaymentService {
 
     if (existingCheckout) return existingCheckout;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!cartInfo.storeId) throw new Error(`Missing store id for cart`);
 
     const checkout = await this.prisma.checkout.create({
@@ -107,6 +108,7 @@ export class PaymentService implements IPaymentService {
           provider: PaymentProvider.FLOA,
           type: PaymentAccountType.VENDOR,
           customerId: existingUser?.id,
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           email: existingUser?.id ? null : customerInfo.email,
         },
       }));
@@ -244,6 +246,7 @@ export class PaymentService implements IPaymentService {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (relatedPayments) {
       await Promise.all(
         relatedPayments.map((payment) =>
@@ -258,6 +261,7 @@ export class PaymentService implements IPaymentService {
       checkoutLabel: payment.methodName,
     })?.code;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!paymentCode)
       throw new Error(
         `Unknown payment ${payment.methodName} for order ${order.name}`,
@@ -280,6 +284,7 @@ export class PaymentService implements IPaymentService {
     orderId: UUID,
     checkoutId: string | null,
   ): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!checkoutId) {
       this.logger.debug(`No checkout id to link to order ${orderId.uuid}`);
       return;
@@ -311,6 +316,7 @@ export class PaymentService implements IPaymentService {
       throw new Error(`Could not find payment for payment ${paymentId}`);
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!payment.paymentAccountId) {
       throw new Error(`No account linked to payment ${paymentId}`);
     }
@@ -395,7 +401,9 @@ export class PaymentService implements IPaymentService {
     code?: PaymentSolutionCode;
     checkoutLabel?: string;
   }): PaymentSolutionConfigType | null {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (code) return paymentSolutionConfig[code];
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (checkoutLabel)
       return (
         Object.values(paymentSolutionConfig).find(
@@ -417,6 +425,7 @@ export class PaymentService implements IPaymentService {
 
     let checkoutDetails: CheckoutDetailsType | null = null;
     try {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!payment.checkout.storeId)
         throw new Error('No store id for this cart');
       checkoutDetails = await this.storeRepository.getCheckoutDetails(
@@ -429,6 +438,7 @@ export class PaymentService implements IPaymentService {
       this.logger.warn(e);
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!payment.token)
       throw new Error(`No token found for payment ${paymentId}`);
 

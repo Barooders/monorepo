@@ -196,7 +196,9 @@ export class ProductCreationService {
               shopifyId: variant.id,
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               priceInCents: variant.price ? toCents(variant.price) : 0,
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               compareAtPriceInCents: variant.compare_at_price
                 ? toCents(variant.compare_at_price)
                 : null,
@@ -237,6 +239,7 @@ export class ProductCreationService {
       data,
     );
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!data.price) {
       throw new Error('Cannot create variant without price');
     }
@@ -247,6 +250,7 @@ export class ProductCreationService {
         shopifyId: createdVariant.id,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         compareAtPriceInCents: data.compare_at_price
           ? toCents(data.compare_at_price)
           : null,
@@ -305,6 +309,7 @@ export class ProductCreationService {
       vendorId,
       author,
       {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         bypassImageCheck: !!price && Number(price) > 0,
       },
     );
@@ -324,6 +329,7 @@ export class ProductCreationService {
   }
 
   private async validateBundlePrices({ bundlePrices, variants }: Product) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!bundlePrices?.length) return;
 
     const highestBundlePriceInCents = Math.min(
@@ -332,6 +338,7 @@ export class ProductCreationService {
 
     if (
       variants.some(
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ({ price }) => price && toCents(price) <= highestBundlePriceInCents,
       )
     ) {
@@ -394,6 +401,7 @@ export class ProductCreationService {
       source,
       sourceUrl,
       metafields: [
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...getHandDeliveryMetafields(!!handDelivery, handDeliveryPostalCode),
         ...metafields.filter(({ key }) => key !== 'source'),
       ],
@@ -461,9 +469,10 @@ export class ProductCreationService {
     bypassImageCheck: boolean = false,
   ): boolean {
     return !!(
-      (product.price ||
+      (product.price !== undefined ||
         product.variants.every(({ price }) => Number(price) > 0)) &&
       (bypassImageCheck || product.images.length > 0) &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       product.product_type
     );
   }

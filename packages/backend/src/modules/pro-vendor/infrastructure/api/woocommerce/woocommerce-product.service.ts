@@ -54,6 +54,7 @@ export class WooCommerceProductService implements ProVendorStrategy {
     const productsFromWooCommerce =
       await this.wooCommerceClient.getAllProducts(sinceDate);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productsFromWooCommerce)
       throw new Error('Products not found on WooCommerce');
 

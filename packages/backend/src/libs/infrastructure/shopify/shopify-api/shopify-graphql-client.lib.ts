@@ -25,11 +25,13 @@ export const fetchShopifyGraphQL = async <
 
   const response = await result.json();
   const hasUserErrors = Object.values(response.data ?? {})
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     .filter((result) => !!result)
     // @ts-expect-error implicit-any
     .map((result: Record<string, unknown>) => result.userErrors)
     .some((userErrors) => Array.isArray(userErrors) && userErrors.length > 0);
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (response.errors || hasUserErrors) {
     throw Error(jsonStringify(response.errors));
   }

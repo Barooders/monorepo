@@ -53,6 +53,7 @@ export class PrestashopProductService implements ProVendorStrategy {
     // Code to retrieve all products from the Prestashop API using the provided inputs
     let prestashopProducts = await this.prestashopClient.getAllProducts();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!prestashopProducts) return [];
     if (sinceDate) {
       prestashopProducts = prestashopProducts.filter(

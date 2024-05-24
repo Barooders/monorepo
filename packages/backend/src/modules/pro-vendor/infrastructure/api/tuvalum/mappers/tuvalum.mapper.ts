@@ -126,6 +126,7 @@ export class TuvalumMapper {
 
     const mappedTags = await defineTags();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!productType) {
       this.logger.warn(
         `Category ${tuvalumProduct.category_id} not mapped on product ${tuvalumProduct.uuid}`,
@@ -140,6 +141,7 @@ export class TuvalumMapper {
       ...(await this.mapperLight(tuvalumProduct)),
       body_html: generateBodyHTML(),
       product_type: productType,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       tags: mappedTags.flatMap((f) => (f ? [f] : [])),
       EANCode: tuvalumProduct.ean,
       variants: [

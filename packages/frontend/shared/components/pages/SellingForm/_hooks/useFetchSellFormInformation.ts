@@ -64,6 +64,7 @@ const mapSellFormConfig = (
     productTypeConfig: keyBy(
       productTypeConfig.data.map(({ attributes }) => ({
         name: attributes.name,
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         required: !!attributes.required,
         brands: mapBrands(attributes.brands),
         fieldDefinitions: attributes.productAttributes.data.map(

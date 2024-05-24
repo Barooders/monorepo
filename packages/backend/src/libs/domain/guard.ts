@@ -12,7 +12,7 @@ export class Guard {
     if (value instanceof Date) {
       return false;
     }
-    if (value instanceof Object && !Object.keys(value).length) {
+    if (value instanceof Object && Object.keys(value).length === 0) {
       return true;
     }
     if (Array.isArray(value)) {

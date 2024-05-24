@@ -73,6 +73,7 @@ export class PaymentAccountProviderService {
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email) throw new Error(`No email found for vendor ${vendorId}`);
 
     const { completeAccountIds, allAccountIds } =

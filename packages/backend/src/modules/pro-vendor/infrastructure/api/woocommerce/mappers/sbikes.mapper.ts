@@ -14,6 +14,7 @@ export class SBikesMapper extends WooCommerceDefaultMapper {
       ?.options.sort()
       .join('-');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!key) {
       return super.getCategory(wooCommerceProduct);
     }

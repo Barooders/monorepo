@@ -60,8 +60,14 @@ export class CustomerRequestService {
 📦 *Quantité*: ${quantity}
 📅 *Date de besoin*: ${neededAtDate.toLocaleDateString('fr-FR')}
 💰 *Budget*:
-  - Min: ${budgetMinInCents ? budgetMinInCents / 100 : 'N/A'}€
-  - Max: ${budgetMaxInCents ? budgetMaxInCents / 100 : 'N/A'}€
+  - Min: ${
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    budgetMinInCents ? budgetMinInCents / 100 : 'N/A'
+  }€
+  - Max: ${
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    budgetMaxInCents ? budgetMaxInCents / 100 : 'N/A'
+  }€
 📝 *Description*:
 ${description}`,
       )

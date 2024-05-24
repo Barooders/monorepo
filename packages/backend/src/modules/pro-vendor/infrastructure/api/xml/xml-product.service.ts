@@ -28,6 +28,7 @@ export class XMLProductService implements ProVendorStrategy {
   ): Promise<XMLProduct[]> {
     const XMLProducts = await this.xmlClient.getAllProducts();
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!XMLProducts) throw new Error('Products not found on provided XML');
 
     return XMLProducts;

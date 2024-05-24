@@ -17,6 +17,7 @@ export class CustomerService {
 
   async updateUserInfo(userId: UUID, { phoneNumber }: { phoneNumber: string }) {
     const concreteUpdates = {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       ...(phoneNumber && { phone_number: phoneNumber }),
     };
 
@@ -129,6 +130,7 @@ export class CustomerService {
     this.logger.log('Anonymize in Shopify');
     await this.storeRepository.anonymizeCustomer(userId, anonymousEmail);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (formerEmail) {
       this.logger.log('Deletion request in Klaviyo');
       await this.marketingClient.deleteProfile(formerEmail);

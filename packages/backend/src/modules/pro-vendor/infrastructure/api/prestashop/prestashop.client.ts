@@ -58,6 +58,7 @@ export class PrestashopClient {
       const res = await this.getOrCreatePrestashopClient()
         .fetchPrestashop(`product_options/${id}`, FETCH_OPTIONS)
         .then((res: { json: () => any }) => res.json());
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.product_option) {
         return res.product_option;
       }
@@ -77,6 +78,7 @@ export class PrestashopClient {
         .fetchPrestashop(`product_option_values/${id}`, FETCH_OPTIONS)
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.product_option_value) {
         return res.product_option_value;
       } else {
@@ -95,6 +97,7 @@ export class PrestashopClient {
         .fetchPrestashop(`product_features/${id}`, FETCH_OPTIONS)
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.product_feature) {
         return res.product_feature;
       }
@@ -114,6 +117,7 @@ export class PrestashopClient {
         .fetchPrestashop(`product_feature_values/${id}`, FETCH_OPTIONS)
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.product_feature_value) {
         return res.product_feature_value;
       }
@@ -127,6 +131,7 @@ export class PrestashopClient {
 
   async getProduct(id: string): Promise<ProductDTO | null> {
     try {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!id) throw new Error('id is required');
 
       const res = await this.getOrCreatePrestashopClient()
@@ -136,6 +141,7 @@ export class PrestashopClient {
         )
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.product) {
         return res.product;
       }
@@ -149,6 +155,7 @@ export class PrestashopClient {
 
   async getStockItem(id: string): Promise<StockAvailableDTO | null> {
     try {
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!id) throw new Error('id is required');
 
       const response = await this.getOrCreatePrestashopClient().fetchPrestashop(
@@ -168,6 +175,7 @@ export class PrestashopClient {
       }
 
       const res = await response.json();
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.stock_available) {
         return res.stock_available;
       }
@@ -189,6 +197,7 @@ export class PrestashopClient {
         )
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.combination) {
         return res.combination;
       }
@@ -209,6 +218,7 @@ export class PrestashopClient {
         )
         .then((res: { json: () => any }) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.carriers) {
         return res.carriers;
       }
@@ -225,6 +235,7 @@ export class PrestashopClient {
       const res = await this.getOrCreatePrestashopClient()
         .fetchPrestashop(`categories/${id}`, FETCH_OPTIONS)
         .then((res: { json: () => any }) => res.json());
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (res.category) {
         return res.category;
       }
@@ -285,6 +296,7 @@ export class PrestashopClient {
         FETCH_OPTIONS,
       )
       .then((res: { json: () => any }) => res.json());
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (res.products) {
       return res.products;
     }
@@ -304,6 +316,7 @@ export class PrestashopClient {
 
       const order = get(response, 'order');
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       if (!order) {
         throw new Error('Missing order field in response');
       }
@@ -343,6 +356,7 @@ export class PrestashopClient {
             id_default_group:
               this.vendorConfigService.getVendorConfig().order?.prestashop
                 ?.customerDefaultGroupId ?? '0',
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             ...(customerGroupId
               ? {
                   associations: {
@@ -525,6 +539,7 @@ export class PrestashopClient {
     );
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       this.vendorConfigService.getVendorConfig()?.order?.prestashop
         ?.forceOrderStatusAfterCreation
     ) {
@@ -588,6 +603,7 @@ export class PrestashopClient {
     const data = await response.json();
     const createdId = get(data, `${resourceName}.id`);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (response.status !== 201 || !createdId) {
       throw new Error(
         `Failed to create new ${resourceName}: ${jsonStringify(
@@ -617,6 +633,7 @@ export class PrestashopClient {
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       !this.vendorConfigService.getVendorConfig().order?.prestashop
         ?.fetchProductWeightForShippingCompute
     ) {
@@ -638,6 +655,7 @@ export class PrestashopClient {
     return (
       productsTotalPrice +
       getShippingCost({
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         weight: product.weight ? Number(product.weight) : 0,
         productsTotalPrice: productsTotalPrice,
         productType,

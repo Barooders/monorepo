@@ -29,6 +29,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
       this.vendorConfigService.getVendorConfig().catalog.scrapfly
         ?.productCollectionHandle;
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!collectionHandle) {
       throw new Error('No collection handle found in config');
     }

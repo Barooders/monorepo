@@ -23,10 +23,12 @@ export class NotificationService {
   ) {}
 
   async notify(email: string | null, firstName: string | null) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!email) {
       this.logger.debug(`Cannot notify customer without email`);
       return;
     }
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!firstName) {
       this.logger.debug(`Notifying customer (${email}) without firstName`);
     }
@@ -96,6 +98,7 @@ export class NotificationService {
 
     for (const vendor of vendors) {
       try {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!vendor.user?.email)
           throw new Error(`Vendor ${vendor.authUserId} has no email`);
         if (vendor.user.disabled)

@@ -30,6 +30,7 @@ export class CategoryService {
     }
     if (
       existingCategory.length > 0 &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       existingCategory[0].internalCategoryName
     ) {
       return existingCategory[0].internalCategoryName.trim();

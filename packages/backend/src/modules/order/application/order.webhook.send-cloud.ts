@@ -38,6 +38,7 @@ export class OrderWebhookSendCloudController {
 
     const newOrderStatus = mapOrderStatus(statusId);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!newOrderStatus) {
       this.logger.warn(
         `Unknown status id: ${statusId} for order ${orderNumber}, tracking url: ${trackingUrl}`,
@@ -71,6 +72,7 @@ export class OrderWebhookSendCloudController {
 
     try {
       if (newOrderStatus === OrderStatus.SHIPPED) {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!firstFulfillmentOrderId) {
           throw new InternalServerErrorException(
             `Cannot find fulfillment order for order ${orderNumber}`,
