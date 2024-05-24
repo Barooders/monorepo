@@ -1,4 +1,7 @@
 const productionEnv = {
+  features: {
+    medusaCheckout: false,
+  },
   search: {
     publicVariantsCollection: 'backend_products',
     publicVariantSuggestionsCollection: 'backend_products_query_suggestions',

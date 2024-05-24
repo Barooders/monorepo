@@ -4,6 +4,7 @@ import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
+import envConfig from '@/config/env';
 import useUser from '@/hooks/state/useUser';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
@@ -19,8 +20,6 @@ import { createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
 import first from 'lodash/first';
 import { useEffect } from 'react';
-
-const USE_MEDUSA_CHECKOUT = true;
 
 const dict = getDictionary('fr');
 
@@ -124,7 +123,9 @@ const BuyButton: React.FC<{
   };
 
   const [createState, doCreate] = useWrappedAsyncFn(
-    USE_MEDUSA_CHECKOUT ? createMedusaCheckout : createShopifyCheckout,
+    envConfig.features.medusaCheckout
+      ? createMedusaCheckout
+      : createShopifyCheckout,
     [hasuraToken, createCheckout],
   );
 

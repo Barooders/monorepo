@@ -1,4 +1,7 @@
 const testEnv = {
+  features: {
+    medusaCheckout: true,
+  },
   search: {
     publicVariantsCollection: 'staging_backend_products',
     publicVariantSuggestionsCollection:

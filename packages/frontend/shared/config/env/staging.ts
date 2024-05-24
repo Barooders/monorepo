@@ -1,4 +1,7 @@
 const developmentEnv = {
+  features: {
+    medusaCheckout: true,
+  },
   search: {
     publicVariantsCollection: 'staging_backend_products',
     publicVariantSuggestionsCollection:
@@ -13,9 +16,9 @@ const developmentEnv = {
   },
   shouldProxyAlgolia: true,
   baseUrl: 'https://staging.barooders.com',
-	medusa: {
-		baseUrl: 'https://store-staging.barooders.com'
-	},
+  medusa: {
+    baseUrl: 'https://store-staging.barooders.com',
+  },
   gtag: {
     id: 'AW-11250764440',
     conversionLabels: {
