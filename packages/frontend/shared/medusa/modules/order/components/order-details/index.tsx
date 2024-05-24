@@ -29,13 +29,13 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         .
       </Text>
       <Text className="mt-2">
-        {dict.checkout.thankYouPage.orderDate}
+        {dict.checkout.thankYouPage.orderDate}{' '}
         <span data-testid="order-date">
-          {new Date(order.created_at).toDateString()}
+          {new Date(order.created_at).toLocaleDateString()}
         </span>
       </Text>
       <Text className="mt-2 text-ui-fg-interactive">
-        {dict.checkout.thankYouPage.orderNumber}
+        {dict.checkout.thankYouPage.orderNumber}{' '}
         <span data-testid="order-id">{order.display_id}</span>
       </Text>
 
