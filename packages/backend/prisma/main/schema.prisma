@@ -445,6 +445,7 @@ model BundlePrice {
 model VendorProProduct {
   id                String     @id @default(dbgenerated("(gen_random_uuid())::text"))
   internalProductId String?    @unique
+  internalId        String?    @unique
   externalProductId String
   vendorSlug        String
   createdAt         DateTime   @default(now())
@@ -457,6 +458,7 @@ model VendorProProduct {
 model VendorProVariant {
   id                String    @id @default(dbgenerated("(gen_random_uuid())::text"))
   internalVariantId String    @unique
+  internalId        String?   @unique
   externalVariantId String
   vendorSlug        String
   createdAt         DateTime  @default(now())

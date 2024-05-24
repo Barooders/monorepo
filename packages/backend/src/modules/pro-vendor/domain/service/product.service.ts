@@ -103,6 +103,7 @@ export class ProductService {
     await this.prisma.vendorProProduct.create({
       data: {
         internalProductId: String(newProduct.shopifyId),
+        internalId: newProduct.internalId,
         externalProductId: product.external_id,
         syncStatus: SyncStatus.ACTIVE,
         vendorSlug,
@@ -121,6 +122,7 @@ export class ProductService {
         data: {
           externalVariantId: product.variants[index].external_id,
           internalVariantId: String(newVariant.id),
+          internalId: newVariant.internalId,
           vendorSlug,
         },
       });
@@ -479,6 +481,7 @@ export class ProductService {
       data: {
         externalVariantId: variantFromVendor.external_id,
         internalVariantId: String(storeVariant.id),
+        internalId: storeVariant.internalId,
         vendorSlug: vendorSlug,
       },
     });
