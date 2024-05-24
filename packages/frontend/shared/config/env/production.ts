@@ -1,4 +1,6 @@
-const productionEnv = {
+import { EnvType } from './types';
+
+const productionEnv: EnvType = {
   features: {
     medusaCheckout: false,
   },

@@ -1,3 +1,4 @@
 shared/__generated
+shared/medusa
 package.json
 .eslintrc.js

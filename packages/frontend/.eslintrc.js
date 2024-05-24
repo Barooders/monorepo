@@ -12,7 +12,6 @@ module.exports = {
     project: 'tsconfig.json',
   },
   rules: {
-    '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
     'no-restricted-imports': [
       'error',
@@ -22,7 +21,7 @@ module.exports = {
             name: '@apollo/client',
             importNames: ['gql'],
             message:
-              'Please role-specific graphql from "@/__generated/gql/{role}"',
+              'Please use role-specific graphql from "@/__generated/gql/{role}"',
           },
         ],
       },

@@ -1,4 +1,6 @@
-const testEnv = {
+import { EnvType } from './types';
+
+const testEnv: EnvType = {
   features: {
     medusaCheckout: true,
   },

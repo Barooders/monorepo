@@ -86,6 +86,12 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     </div>
   );
 
+  const firstVariant = head(variants);
+
+  const hasVariants =
+    firstVariant !== undefined &&
+    !firstVariant.name.includes(SINGLE_VARIANT_TITLE);
+
   return (
     <>
       <ProductJsonLd
@@ -96,15 +102,15 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
         price={price}
         title={title}
         image={
-          images.length > 0 && images[0]?.src
-            ? { src: images[0]?.src }
+          images.length > 0 && images[0] !== null
+            ? { src: images[0].src }
             : undefined
         }
       />
 
       <div className="grid w-full grid-cols-5 items-start gap-5 overflow-hidden">
         <div className="relative col-span-5 flex w-full flex-col gap-5 lg:col-span-3">
-          {images && (
+          {images.length > 0 && (
             <div className="relative h-96 w-full overflow-hidden sm:h-[450px]">
               <ProductGallery
                 images={compact(images)}
@@ -124,7 +130,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               variantCondition={variantCondition}
               componentSize="large"
             />
-            {vendor.name && (
+            {vendor.name !== null && (
               <ProductVendor
                 vendor={vendor.name}
                 withLink={true}
@@ -163,7 +169,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             />
           )}
 
-          {informativeComponent && (
+          {informativeComponent !== undefined && (
             <Modal
               ButtonComponent={({ openModal }) => (
                 <div
@@ -181,21 +187,23 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           <div className="flex flex-col gap-3">
             <ProductViews numberOfViews={numberOfViews} />
 
-            {(variants.length > 1 ||
-              !head(variants)?.name?.includes(SINGLE_VARIANT_TITLE)) && (
-              <div>
-                <VariantSelector
-                  variants={variants}
-                  selectedVariantId={variantShopifyId.toString()}
-                  onSelectVariant={(variantId) => setSelectedVariant(variantId)}
-                />
-              </div>
-            )}
+            {variants.length > 1 ||
+              (hasVariants && (
+                <div>
+                  <VariantSelector
+                    variants={variants}
+                    selectedVariantId={variantShopifyId.toString()}
+                    onSelectVariant={(variantId) =>
+                      setSelectedVariant(variantId)
+                    }
+                  />
+                </div>
+              ))}
 
             {!isSoldOut && (
               <div className="flex w-full flex-col gap-3">
                 <div className="flex gap-2">
-                  {!!vendor.negociationMaxAmountPercent && (
+                  {vendor.negociationMaxAmountPercent !== null && (
                     <PriceOfferButton
                       className="flex-1 uppercase"
                       price={price}
@@ -225,7 +233,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
               variantShopifyId={variantShopifyId ?? ''}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
-            {collections.find(
+            {collections.some(
               (collection) => collection === config.collectionIds.bike,
             ) && <Support productPrice={price} />}
           </div>

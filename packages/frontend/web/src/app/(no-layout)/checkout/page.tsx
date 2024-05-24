@@ -23,13 +23,13 @@ export const metadata: Metadata = {
 const fetchCart = async () => {
   const cartId = cookies().get('_medusa_cart_id')?.value;
 
-  if (!cartId) {
+  if (cartId === undefined) {
     return notFound();
   }
 
   const cart = await getCart(cartId).then((cart) => cart);
 
-  if (cart?.items.length) {
+  if (cart?.items !== undefined && cart?.items.length > 0) {
     const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id);
     cart.items = enrichedItems as LineItem[];
   }

@@ -1,4 +1,6 @@
-const developmentEnv = {
+import { EnvType } from './types';
+
+const developmentEnv: EnvType = {
   features: {
     medusaCheckout: true,
   },

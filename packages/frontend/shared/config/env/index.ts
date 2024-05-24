@@ -1,10 +1,11 @@
 import production from './production';
 import staging from './staging';
 import test from './test';
+import { EnvType } from './types';
 
 const DEFAULT_ENV = 'staging';
 
-const envConfigByEnvName = {
+const envConfigByEnvName: { [envName: string]: EnvType } = {
   production,
   staging,
   test,

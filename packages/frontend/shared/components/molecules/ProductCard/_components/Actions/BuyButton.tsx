@@ -89,7 +89,7 @@ const BuyButton: React.FC<{
       ],
     };
 
-    if (hasuraToken?.user.email) {
+    if (hasuraToken?.user.email !== undefined) {
       input.email = hasuraToken.user.email;
     }
 
@@ -97,7 +97,7 @@ const BuyButton: React.FC<{
       input,
     });
 
-    if (isLoggedIn) {
+    if (Boolean(isLoggedIn)) {
       await associateCheckout({
         checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
         customerAccessToken: await getShopifyToken(),
@@ -110,7 +110,7 @@ const BuyButton: React.FC<{
   const createMedusaCheckout = async () => {
     const { products } = await medusaClient.products.list({ handle });
     const medusaVariantId = first(first(products)?.variants)?.id;
-    if (!medusaVariantId) {
+    if (medusaVariantId === undefined) {
       throw new Error('Product does not exist in medusa');
     }
 
@@ -123,14 +123,14 @@ const BuyButton: React.FC<{
   };
 
   const [createState, doCreate] = useWrappedAsyncFn(
-    envConfig.features.medusaCheckout
+    Boolean(envConfig.features.medusaCheckout)
       ? createMedusaCheckout
       : createShopifyCheckout,
     [hasuraToken, createCheckout],
   );
 
   useEffect(() => {
-    if (createState.value) {
+    if (createState.value !== undefined) {
       window.location.href = createState.value;
     }
   }, [createState.value]);
@@ -146,7 +146,7 @@ const BuyButton: React.FC<{
       intent="secondary"
       onClick={onClick}
     >
-      {createState.loading || createState.value ? (
+      {createState.loading || createState.value !== undefined ? (
         <Loader />
       ) : (
         dict.components.productCard.buyNow

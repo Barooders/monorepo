@@ -5,7 +5,7 @@ import useUser from './state/useUser';
 
 const useIsLoggedIn = () => {
   const { hasuraToken } = useUser.getState();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(!!hasuraToken);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!hasuraToken);
 
   useEffect(() => {
     setIsLoggedIn(!!hasuraToken);
