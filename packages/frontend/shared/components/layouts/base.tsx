@@ -3,10 +3,13 @@ import {
   MODAL_ROOT_ANCHOR,
   SNOWFALL_OVERLAY_ANCHOR,
 } from '@/config';
+
 import { metadataConfig, viewportConfig } from '@/document/metadata/global';
 import AnalyticsProvider from '@/providers/AnalyticsProvider';
 import FeatureFlagsProvider from '@/providers/FeatureFlagsProvider';
 import HasuraApolloProvider from '@/providers/HasuraApolloProvider';
+import MedusaProvider from '@/providers/MedusaProvider';
+import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { MdCheckCircle } from 'react-icons/md';
 import NoSSR from '../atoms/NoSSR';
@@ -31,7 +34,9 @@ const BaseLayout: React.FC<PropsType> = ({ children, header }) => {
         <HasuraApolloProvider>
           {header}
           <div id={INNER_PAGE_BANNER_ANCHOR} />
-          <AnalyticsProvider>{children}</AnalyticsProvider>
+          <AnalyticsProvider>
+            <MedusaProvider>{children}</MedusaProvider>
+          </AnalyticsProvider>
         </HasuraApolloProvider>
       </FeatureFlagsProvider>
       <NoSSR>

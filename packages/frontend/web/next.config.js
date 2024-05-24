@@ -11,6 +11,16 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BUILD_NAME: 'web',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   async rewrites() {
     return {
       fallback: [

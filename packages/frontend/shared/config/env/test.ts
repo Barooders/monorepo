@@ -1,4 +1,7 @@
 const testEnv = {
+  features: {
+    medusaCheckout: true,
+  },
   search: {
     publicVariantsCollection: 'staging_backend_products',
     publicVariantSuggestionsCollection:
@@ -12,6 +15,9 @@ const testEnv = {
     bike: '1',
   },
   shouldProxyAlgolia: true,
+  medusa: {
+    baseUrl: '',
+  },
   baseUrl: '',
   gtag: {
     id: '',

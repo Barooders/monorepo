@@ -18,7 +18,7 @@ const BaroodersLogo: React.FC<Props> = ({ className, version = 'classic' }) => {
   }
   return (
     <svg
-      className={`w-full ${className}`}
+      className={`w-full ${className} fill-red-600`}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 10"
     >

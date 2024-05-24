@@ -16,7 +16,7 @@ const HeaderContainer: React.FC<{
     id={id}
     className={`relative my-0 flex w-full justify-center border-0 bg-white px-2 lg:px-4 ${className}`}
   >
-    <div className="flex w-full max-w-page-content flex-col items-center justify-center">
+    <div className="max-w-page-content flex w-full flex-col items-center justify-center">
       {children}
     </div>
   </div>
@@ -44,7 +44,7 @@ const B2BHeader: React.FC<HeaderProps> = ({ menu }) => {
               href={'/'}
               className="flex h-10 items-center"
             >
-              <BaroodersLogo className="fill-red-600" />
+              <BaroodersLogo />
             </Link>
           </div>
           <div className="flex h-full w-full flex-grow">

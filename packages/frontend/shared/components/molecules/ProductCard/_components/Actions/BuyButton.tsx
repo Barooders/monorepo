@@ -4,6 +4,7 @@ import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
+import envConfig from '@/config/env';
 import useUser from '@/hooks/state/useUser';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
@@ -14,15 +15,19 @@ import useStorefront, {
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { medusaClient } from '@/medusa/lib/config';
+import { createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
+import first from 'lodash/first';
 import { useEffect } from 'react';
 
 const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
   variantShopifyId: number;
+  handle: string;
   className?: string;
-}> = ({ variantShopifyId, className }) => {
+}> = ({ variantShopifyId, className, handle }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -51,57 +56,76 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const [createState, doCreate] = useWrappedAsyncFn(
-    async (variantShopifyId: number) => {
-      const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
-        {
-          cartLineIds: [variantShopifyId.toString()],
-        };
-      const commissionProduct = await fetchAPI<
-        operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
-      >('/v1/commission/create', {
-        method: 'POST',
-        body: JSON.stringify(commissionBody),
-      });
-
-      const input: {
-        allowPartialAddresses?: boolean;
-        lineItems: { quantity: number; variantId: string }[];
-        email?: string;
-      } = {
-        allowPartialAddresses: true,
-        lineItems: [
-          {
-            quantity: 1,
-            variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
-          },
-          {
-            quantity: 1,
-            variantId: toStorefrontId(
-              commissionProduct.variantStoreId,
-              'ProductVariant',
-            ),
-          },
-        ],
+  const createShopifyCheckout = async (variantShopifyId: number) => {
+    const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
+      {
+        cartLineIds: [variantShopifyId.toString()],
       };
+    const commissionProduct = await fetchAPI<
+      operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
+    >('/v1/commission/create', {
+      method: 'POST',
+      body: JSON.stringify(commissionBody),
+    });
 
-      if (hasuraToken?.user.email) {
-        input.email = hasuraToken.user.email;
-      }
+    const input: {
+      allowPartialAddresses?: boolean;
+      lineItems: { quantity: number; variantId: string }[];
+      email?: string;
+    } = {
+      allowPartialAddresses: true,
+      lineItems: [
+        {
+          quantity: 1,
+          variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
+        },
+        {
+          quantity: 1,
+          variantId: toStorefrontId(
+            commissionProduct.variantStoreId,
+            'ProductVariant',
+          ),
+        },
+      ],
+    };
 
-      const createCheckoutResponse = await createCheckout({
-        input,
+    if (hasuraToken?.user.email) {
+      input.email = hasuraToken.user.email;
+    }
+
+    const createCheckoutResponse = await createCheckout({
+      input,
+    });
+
+    if (isLoggedIn) {
+      await associateCheckout({
+        checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
+        customerAccessToken: await getShopifyToken(),
       });
+    }
 
-      if (isLoggedIn) {
-        await associateCheckout({
-          checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
-          customerAccessToken: await getShopifyToken(),
-        });
-      }
+    return createCheckoutResponse.checkoutCreate.checkout.webUrl;
+  };
 
-      return createCheckoutResponse.checkoutCreate.checkout.webUrl;
-    },
+  const createMedusaCheckout = async () => {
+    const { products } = await medusaClient.products.list({ handle });
+    const medusaVariantId = first(first(products)?.variants)?.id;
+    if (!medusaVariantId) {
+      throw new Error('Product does not exist in medusa');
+    }
+
+    await createSingleItemCart({
+      variantId: medusaVariantId,
+      countryCode: 'fr',
+    });
+
+    return '/checkout';
+  };
+
+  const [createState, doCreate] = useWrappedAsyncFn(
+    envConfig.features.medusaCheckout
+      ? createMedusaCheckout
+      : createShopifyCheckout,
     [hasuraToken, createCheckout],
   );
 

@@ -1,4 +1,7 @@
 const productionEnv = {
+  features: {
+    medusaCheckout: false,
+  },
   search: {
     publicVariantsCollection: 'backend_products',
     publicVariantSuggestionsCollection: 'backend_products_query_suggestions',
@@ -12,6 +15,9 @@ const productionEnv = {
   },
   shouldProxyAlgolia: true,
   baseUrl: 'https://barooders.com',
+  medusa: {
+    baseUrl: 'https://store.barooders.com',
+  },
   gtag: {
     id: 'AW-10777839175',
     conversionLabels: {
