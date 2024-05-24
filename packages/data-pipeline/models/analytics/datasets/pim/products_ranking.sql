@@ -53,7 +53,7 @@ FAV as (
 
     where fav.createdat >= date_sub(current_date(), interval 90 day)
 
-    group by productid
+    group by internalProductId
 )
 
 SELECT * FROM (
