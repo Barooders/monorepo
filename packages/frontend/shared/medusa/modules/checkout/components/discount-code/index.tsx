@@ -144,7 +144,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               >
                 {dict.checkout.discounts.addDiscountOrGift}
               </button>
-              <Tooltip content="You can add multiple gift cards, but only one discount code.">
+              <Tooltip content={dict.checkout.discounts.giftCardExplanation}>
                 <InformationCircleSolid color="var(--fg-muted)" />
               </Tooltip>
             </Label>

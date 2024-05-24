@@ -1290,6 +1290,17 @@ const fr = {
       taxes: 'Taxes',
       total: 'Total',
       inYourCart: 'Dans votre panier',
+      subtotalExplanation:
+        'Total de la commande sans les commissions et la livraison.',
+    },
+    order: {
+      summary: 'Récapitulatif',
+      subTotal: 'Sous total',
+      discountTotal: 'Réductions',
+      giftCard: 'Carte cadeau',
+      shipping: 'Livraison',
+      taxes: 'Taxes',
+      total: 'Total',
     },
     shippingAddress: {
       title: 'Adresse de livraison',
@@ -1330,11 +1341,23 @@ const fr = {
     discounts: {
       addDiscountOrGift: 'Ajouter une carte cadeau ou réduction',
       giftCardsApplied: 'Carte(s) cadeau appliquée(s) :',
+      giftCardExplanation:
+        'Vous pouvez ajouter plusieurs cartes cadeau mais un seul code de réduction',
       removeGiftCards: 'Retirer les cartes cadeau de la commande',
       discountsApplied: 'Réductions appliquées',
       removeDiscounts: 'Retirer les réductions de la commande',
       code: 'Code',
       apply: 'Appliquer',
+    },
+    thankYouPage: {
+      title: 'Merci !',
+      subtitle: 'Votre commande a été passée avec succès.',
+      summary: 'Récapitulatif',
+      emailSentTo: "Nous avons envoyé un email de confirmatin à l'adresse ",
+      orderDate: 'Date de la commande :',
+      orderNumber: 'Numéro de commande :',
+      orderStatus: 'Statut de la commande :',
+      paymentStatus: 'Statut du paiement',
     },
   },
   b2b: {

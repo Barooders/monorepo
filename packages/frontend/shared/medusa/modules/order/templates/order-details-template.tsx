@@ -5,7 +5,6 @@ import { Order } from '@medusajs/medusa';
 import React from 'react';
 
 import Link from '@/components/atoms/Link';
-import Help from '@/medusa/modules/order/components/help';
 import Items from '@/medusa/modules/order/components/items';
 import OrderDetails from '@/medusa/modules/order/components/order-details';
 import OrderSummary from '@/medusa/modules/order/components/order-summary';
@@ -41,7 +40,6 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         />
         <ShippingDetails order={order} />
         <OrderSummary order={order} />
-        <Help />
       </div>
     </div>
   );

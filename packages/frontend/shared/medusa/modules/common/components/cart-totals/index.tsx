@@ -37,7 +37,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-x-1">
             {dict.checkout.cart.subTotal}
-            <Tooltip content="Cart total excluding shipping and taxes.">
+            <Tooltip content={dict.checkout.cart.subtotalExplanation}>
               <InformationCircleSolid color="var(--fg-muted)" />
             </Tooltip>
           </span>

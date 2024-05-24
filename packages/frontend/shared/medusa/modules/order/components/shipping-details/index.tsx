@@ -2,7 +2,10 @@ import { formatAmount } from '@/medusa/lib/util/prices';
 import { Order } from '@medusajs/medusa';
 import { Heading, Text } from '@medusajs/ui';
 
+import { getDictionary } from '@/i18n/translate';
 import Divider from '@/medusa/modules/common/components/divider';
+
+const dict = getDictionary('fr');
 
 type ShippingDetailsProps = {
   order: Order;
@@ -15,7 +18,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         level="h2"
         className="text-3xl-regular my-6 flex flex-row"
       >
-        Delivery
+        {dict.checkout.shippingAddress.title}
       </Heading>
       <div className="flex items-start gap-x-8">
         <div
@@ -23,7 +26,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           data-testid="shipping-address-summary"
         >
           <Text className="txt-medium-plus mb-1 text-ui-fg-base">
-            Shipping Address
+            {dict.checkout.shippingAddress.address}
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.first_name}{' '}
@@ -45,7 +48,9 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           className="flex w-1/3 flex-col "
           data-testid="shipping-contact-summary"
         >
-          <Text className="txt-medium-plus mb-1 text-ui-fg-base">Contact</Text>
+          <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+            {dict.checkout.shippingAddress.contact}
+          </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.phone}
           </Text>
@@ -56,7 +61,9 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           className="flex w-1/3 flex-col"
           data-testid="shipping-method-summary"
         >
-          <Text className="txt-medium-plus mb-1 text-ui-fg-base">Method</Text>
+          <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+            {dict.checkout.shippingAddress.method}
+          </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_methods[0].shipping_option?.name} (
             {formatAmount({

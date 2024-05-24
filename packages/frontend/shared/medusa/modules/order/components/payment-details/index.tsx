@@ -2,8 +2,11 @@ import { formatAmount } from '@/medusa/lib/util/prices';
 import { Order } from '@medusajs/medusa';
 import { Container, Heading, Text } from '@medusajs/ui';
 
+import { getDictionary } from '@/i18n/translate';
 import { paymentInfoMap } from '@/medusa/lib/constants';
 import Divider from '@/medusa/modules/common/components/divider';
+
+const dict = getDictionary('fr');
 
 type PaymentDetailsProps = {
   order: Order;
@@ -17,14 +20,14 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
         level="h2"
         className="text-3xl-regular my-6 flex flex-row"
       >
-        Payment
+        {dict.checkout.payment.title}
       </Heading>
       <div>
         {payment && (
           <div className="flex w-full items-start gap-x-1">
             <div className="flex w-1/3 flex-col">
               <Text className="txt-medium-plus mb-1 text-ui-fg-base">
-                Payment method
+                {dict.checkout.payment.paymentMethod}
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
@@ -35,7 +38,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
             </div>
             <div className="flex w-2/3 flex-col">
               <Text className="txt-medium-plus mb-1 text-ui-fg-base">
-                Payment details
+                {dict.checkout.payment.paymentDetails}
               </Text>
               <div className="txt-medium flex items-center gap-2 text-ui-fg-subtle">
                 <Container className="flex h-7 w-fit items-center bg-ui-button-neutral-hover p-2">
