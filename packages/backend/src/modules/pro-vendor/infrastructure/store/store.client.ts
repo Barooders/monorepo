@@ -158,6 +158,7 @@ export class StoreClient implements IStoreClient {
         .map(cleanShopifyVariant)
         .find((variant) => variant.title === title);
 
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       return matchedVariant
         ? await this.enrichVariantWithCondition(matchedVariant)
         : null;
@@ -168,15 +169,18 @@ export class StoreClient implements IStoreClient {
   }
 
   private async enrichVariantWithCondition(
-    variant: Omit<StoredVariant, 'condition'>,
+    variant: Omit<StoredVariant, 'condition' | 'internalId'>,
   ): Promise<StoredVariant> {
     const dbVariant = await this.prisma.productVariant.findFirst({
       where: { shopifyId: variant.id },
-      select: { condition: true },
+      select: { condition: true, id: true },
     });
+
+    if (!dbVariant) throw new Error('Variant not found in DB');
 
     return {
       ...variant,
+      internalId: dbVariant.id,
       condition: mapCondition(dbVariant?.condition),
     };
   }

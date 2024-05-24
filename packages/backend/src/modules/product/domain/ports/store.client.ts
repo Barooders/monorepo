@@ -19,14 +19,16 @@ export interface ProductCreationInput {
 
 export abstract class IStoreClient {
   abstract getProductDetails(productId: UUID): Promise<StoredProduct>;
-  abstract createProduct(
-    product: ProductToStore,
-  ): Promise<Omit<StoredProduct, 'internalId'>>;
+  abstract createProduct(product: ProductToStore): Promise<
+    Omit<StoredProduct, 'internalId' | 'variants'> & {
+      variants: Omit<StoredVariant, 'internalId'>[];
+    }
+  >;
   abstract updateProduct(productId: UUID, data: ProductToUpdate): Promise<void>;
   abstract createProductVariant(
     productId: number,
     data: Variant,
-  ): Promise<StoredVariant>;
+  ): Promise<Omit<StoredVariant, 'internalId'>>;
   abstract updateProductVariant(
     variantId: UUID,
     data: Partial<Variant>,
