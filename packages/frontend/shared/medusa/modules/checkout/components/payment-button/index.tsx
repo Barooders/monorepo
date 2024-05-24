@@ -109,7 +109,6 @@ const StripePaymentButton = ({
               line1: cart.billing_address.address_1 ?? undefined,
               line2: cart.billing_address.address_2 ?? undefined,
               postal_code: cart.billing_address.postal_code ?? undefined,
-              state: cart.billing_address.province ?? undefined,
             },
             email: cart.email,
             phone: cart.billing_address.phone ?? undefined,

@@ -19,7 +19,6 @@ const BillingAddress = ({
     'billing_address.city': cart?.billing_address?.city || '',
     'billing_address.country_code':
       cart?.billing_address?.country_code || countryCode || '',
-    'billing_address.province': cart?.billing_address?.province || '',
     'billing_address.phone': cart?.billing_address?.phone || '',
   });
 
@@ -32,7 +31,6 @@ const BillingAddress = ({
       'billing_address.postal_code': cart?.billing_address?.postal_code || '',
       'billing_address.city': cart?.billing_address?.city || '',
       'billing_address.country_code': cart?.billing_address?.country_code || '',
-      'billing_address.province': cart?.billing_address?.province || '',
       'billing_address.phone': cart?.billing_address?.phone || '',
     });
   }, [cart?.billing_address]);
@@ -112,14 +110,6 @@ const BillingAddress = ({
           onChange={handleChange}
           required
           data-testid="billing-country-select"
-        />
-        <Input
-          label="State / Province"
-          name="billing_address.province"
-          autoComplete="address-level1"
-          value={formData['billing_address.province']}
-          onChange={handleChange}
-          data-testid="billing-province-input"
         />
         <Input
           label="Phone"

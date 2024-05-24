@@ -103,10 +103,7 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
                         <span>
                           {address.postal_code}, {address.city}
                         </span>
-                        <span>
-                          {address.province && `${address.province}, `}
-                          {address.country_code?.toUpperCase()}
-                        </span>
+                        <span>{address.country_code?.toUpperCase()}</span>
                       </div>
                     </div>
                   </div>
