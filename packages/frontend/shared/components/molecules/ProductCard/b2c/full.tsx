@@ -84,7 +84,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             />
             <FavoriteButton
               intent="square"
-              productShopifyId={shopifyId}
+              internalProductId={id}
             />
           </div>
         )}

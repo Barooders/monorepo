@@ -9,16 +9,15 @@ const FETCH_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
     FavoriteProducts {
       product {
         id
-        shopifyId
       }
     }
   }
 `;
 
 const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
-  mutation addFavoriteProduct($customerId: uuid!, $productShopifyId: bigint) {
+  mutation addFavoriteProduct($customerId: uuid!, $internalProductId: String!) {
     insert_FavoriteProducts_one(
-      object: { customerId: $customerId, productId: $productShopifyId }
+      object: { customerId: $customerId, internalProductId: $internalProductId }
     ) {
       id
     }
@@ -28,13 +27,13 @@ const ADD_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
 const REMOVE_FAVORITE_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   mutation removeFavoriteProducts(
     $customerId: uuid!
-    $productShopifyId: bigint
+    $internalProductId: String!
   ) {
     delete_FavoriteProducts(
       where: {
         _and: {
           customerId: { _eq: $customerId }
-          productId: { _eq: $productShopifyId }
+          internalProductId: { _eq: $internalProductId }
         }
       }
     ) {
@@ -65,36 +64,34 @@ const useFavoriteProducts = () => {
         product ? [product] : [],
       );
 
-      setFavoriteProducts(
-        favoriteProducts.map(({ shopifyId }) => shopifyId).map(String),
-      );
+      setFavoriteProducts(favoriteProducts.map(({ id }) => id).map(String));
 
       return favoriteProducts;
     },
-    addFavoriteProducts: needsLogin<[number], Promise<void>>(
-      async (productShopifyId: number) => {
+    addFavoriteProducts: needsLogin<[string], Promise<void>>(
+      async (internalProductId: string) => {
         try {
-          addFavoriteProductState(productShopifyId);
+          addFavoriteProductState(internalProductId);
           addFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId,
+            internalProductId,
           });
         } catch (e) {
-          removeFavoriteProductState(productShopifyId);
+          removeFavoriteProductState(internalProductId);
           throw e;
         }
       },
     ),
-    removeFavoriteProducts: needsLogin<[number], Promise<void>>(
-      async (productShopifyId: number) => {
+    removeFavoriteProducts: needsLogin<[string], Promise<void>>(
+      async (internalProductId: string) => {
         try {
-          removeFavoriteProductState(productShopifyId);
+          removeFavoriteProductState(internalProductId);
           removeFavoriteProduct({
             customerId: extractTokenInfo().id,
-            productShopifyId,
+            internalProductId,
           });
         } catch (e) {
-          addFavoriteProductState(productShopifyId);
+          addFavoriteProductState(internalProductId);
           throw e;
         }
       },

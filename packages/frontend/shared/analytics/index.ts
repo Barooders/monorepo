@@ -52,10 +52,10 @@ export const searchTriggered = (query: string, totalHits: number) => {
 };
 
 export const sendAddToWishlist = (
-  productShopifyId: number,
+  internalProductId: string,
   customerId: string,
 ) => {
-  const payload = { productId: productShopifyId.toString(), customerId };
+  const payload = { productId: internalProductId.toString(), customerId };
   gtag('event', 'addToWishlist', payload);
   sendEvent('addToWishlist', payload);
 };

@@ -37,7 +37,6 @@ const SINGLE_VARIANT_TITLE = 'Default Title';
 const ProductPage: React.FC<ProductSingleVariant> = (product) => {
   const {
     id,
-    shopifyId,
     images,
     vendor,
     title,
@@ -213,7 +212,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   />
                   <FavoriteButton
                     intent="square"
-                    productShopifyId={shopifyId}
+                    internalProductId={id}
                   />
                 </div>
               </div>
