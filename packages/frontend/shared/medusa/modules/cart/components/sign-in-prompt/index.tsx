@@ -1,4 +1,4 @@
-import LocalizedClientLink from '@/medusa/modules/common/components/localized-client-link';
+import Link from '@/components/atoms/Link';
 import { Button, Heading, Text } from '@medusajs/ui';
 
 const SignInPrompt = () => {
@@ -11,12 +11,12 @@ const SignInPrompt = () => {
         >
           Already have an account?
         </Heading>
-        <Text className="txt-medium text-ui-fg-subtle mt-2">
+        <Text className="txt-medium mt-2 text-ui-fg-subtle">
           Sign in for a better experience.
         </Text>
       </div>
       <div>
-        <LocalizedClientLink href="/account">
+        <Link href="/account">
           <Button
             variant="secondary"
             className="h-10"
@@ -24,7 +24,7 @@ const SignInPrompt = () => {
           >
             Sign in
           </Button>
-        </LocalizedClientLink>
+        </Link>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { LineItem, Region } from '@medusajs/medusa';
 import { Table, Text, clx } from '@medusajs/ui';
 
+import Link from '@/components/atoms/Link';
 import { updateLineItem } from '@/medusa/modules/cart/actions';
 import CartItemSelect from '@/medusa/modules/cart/components/cart-item-select';
 import ErrorMessage from '@/medusa/modules/checkout/components/error-message';
@@ -10,7 +11,6 @@ import DeleteButton from '@/medusa/modules/common/components/delete-button';
 import LineItemOptions from '@/medusa/modules/common/components/line-item-options';
 import LineItemPrice from '@/medusa/modules/common/components/line-item-price';
 import LineItemUnitPrice from '@/medusa/modules/common/components/line-item-unit-price';
-import LocalizedClientLink from '@/medusa/modules/common/components/localized-client-link';
 import Spinner from '@/medusa/modules/common/icons/spinner';
 import { useState } from 'react';
 import Thumbnail from '../thumbnail';
@@ -51,18 +51,18 @@ const Item = ({ item, region, type = 'full' }: ItemProps) => {
       data-testid="product-row"
     >
       <Table.Cell className="w-24 p-4 !pl-0">
-        <LocalizedClientLink
+        <Link
           href={`/products/${handle}`}
           className={clx('flex', {
             'w-16': type === 'preview',
-            'small:w-24 w-12': type === 'full',
+            'w-12 small:w-24': type === 'full',
           })}
         >
           <Thumbnail
             thumbnail={item.thumbnail}
             size="square"
           />
-        </LocalizedClientLink>
+        </Link>
       </Table.Cell>
 
       <Table.Cell className="text-left">
@@ -120,7 +120,7 @@ const Item = ({ item, region, type = 'full' }: ItemProps) => {
       )}
 
       {type === 'full' && (
-        <Table.Cell className="small:table-cell hidden">
+        <Table.Cell className="hidden small:table-cell">
           <LineItemUnitPrice
             item={item}
             region={region}

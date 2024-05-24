@@ -5,8 +5,8 @@ import { Button, Heading } from '@medusajs/ui';
 import DiscountCode from '@/medusa/modules/checkout/components/discount-code';
 import CartTotals from '@/medusa/modules/common/components/cart-totals';
 import Divider from '@/medusa/modules/common/components/divider';
-import LocalizedClientLink from '@/medusa/modules/common/components/localized-client-link';
 import { CartWithCheckoutStep } from '@/medusa/types/global';
+import Link from '@/components/atoms/Link';
 
 type SummaryProps = {
   cart: CartWithCheckoutStep;
@@ -24,12 +24,12 @@ const Summary = ({ cart }: SummaryProps) => {
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals data={cart} />
-      <LocalizedClientLink
+      <Link
         href={'/checkout?step=' + cart.checkout_step}
         data-testid="checkout-button"
       >
         <Button className="h-10 w-full">Go to checkout</Button>
-      </LocalizedClientLink>
+      </Link>
     </div>
   );
 };
