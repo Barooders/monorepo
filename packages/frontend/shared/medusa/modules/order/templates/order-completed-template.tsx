@@ -1,5 +1,4 @@
 import CartTotals from '@/medusa/modules/common/components/cart-totals';
-import Help from '@/medusa/modules/order/components/help';
 import Items from '@/medusa/modules/order/components/items';
 import OrderDetails from '@/medusa/modules/order/components/order-details';
 import PaymentDetails from '@/medusa/modules/order/components/payment-details';
@@ -42,7 +41,6 @@ export default function OrderCompletedTemplate({
           <CartTotals data={order} />
           <ShippingDetails order={order} />
           <PaymentDetails order={order} />
-          <Help />
         </div>
       </div>
     </div>
