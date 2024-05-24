@@ -14,8 +14,10 @@ import useStorefront, {
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
+import { medusaClient } from '@/medusa/lib/config';
 import { createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
+import first from 'lodash/first';
 import { useEffect } from 'react';
 
 const USE_MEDUSA_CHECKOUT = true;
@@ -24,8 +26,9 @@ const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
   variantShopifyId: number;
+  handle: string;
   className?: string;
-}> = ({ variantShopifyId, className }) => {
+}> = ({ variantShopifyId, className, handle }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -106,8 +109,14 @@ const BuyButton: React.FC<{
   };
 
   const createMedusaCheckout = async () => {
+    const { products } = await medusaClient.products.list({ handle });
+    const medusaVariantId = first(first(products)?.variants)?.id;
+    if (!medusaVariantId) {
+      throw new Error('Product does not exist in medusa');
+    }
+
     await createSingleItemCart({
-      variantId: 'variant_01HV8MZTACYXFYNSVDX77GR9KM',
+      variantId: medusaVariantId,
       countryCode: 'fr',
     });
 

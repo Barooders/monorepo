@@ -81,6 +81,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             <BuyButton
               className="flex-grow"
               variantShopifyId={variantShopifyId}
+              handle={handle}
             />
             <FavoriteButton
               intent="square"
