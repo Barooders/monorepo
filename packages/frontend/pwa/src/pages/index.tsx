@@ -4,9 +4,8 @@ import { getData as getProductCardData } from '@/components/molecules/ProductCar
 import HomePage from '@/components/pages/Homepage';
 import { getHomepageConfig } from '@/components/pages/Homepage/getHomepageConfig';
 import ProductPage from '@/components/pages/ProductPage';
-import SearchPage, {
-  getData as getSearchPageData,
-} from '@/components/pages/SearchPage';
+import SearchPage from '@/components/pages/SearchPage';
+import { getData as getSearchPageData } from '@/components/pages/SearchPage/container';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import FullPageIframe from '../components/FullPageIframe';
 import Root from '../components/Root';

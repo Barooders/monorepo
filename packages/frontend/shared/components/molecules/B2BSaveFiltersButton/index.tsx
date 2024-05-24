@@ -1,10 +1,7 @@
 import { getDictionary } from '@/i18n/translate';
 import { memo } from 'react';
 import { FiSave } from 'react-icons/fi';
-import {
-  useCurrentRefinements,
-  useSearchBox,
-} from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements, useSearchBox } from 'react-instantsearch';
 import Button from '../../atoms/Button';
 import Modal from '../../atoms/Modal';
 import NoSSR from '../../atoms/NoSSR';

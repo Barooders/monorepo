@@ -2,7 +2,7 @@ import Dropdown from '@/components/atoms/Dropdown';
 import { searchCollections } from '@/config';
 import { getDictionary } from '@/i18n/translate';
 import { useState } from 'react';
-import { useSortBy } from 'react-instantsearch-hooks-web';
+import { useSortBy } from 'react-instantsearch';
 import { SalesChannelName } from 'shared-types';
 
 const dict = getDictionary('fr');

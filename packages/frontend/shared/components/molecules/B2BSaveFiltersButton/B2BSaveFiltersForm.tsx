@@ -6,7 +6,7 @@ import { mapCurrentSearch } from '@/mappers/search';
 import { memo, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements } from 'react-instantsearch';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
 import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';

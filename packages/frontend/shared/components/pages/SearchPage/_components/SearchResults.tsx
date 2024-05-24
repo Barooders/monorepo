@@ -3,7 +3,7 @@ import ProductCard from '@/components/molecules/ProductCard/b2c';
 import SavedSearchButton from '@/components/molecules/SavedSearchButton/index.desktop';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToProductCard } from '@/mappers/search';
-import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
+import { Hits, useInstantSearch } from 'react-instantsearch';
 import { SearchPublicVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 

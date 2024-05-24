@@ -8,7 +8,7 @@ import { memo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FiMail } from 'react-icons/fi';
-import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements } from 'react-instantsearch';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
 import FormCheckbox from '../FormCheckbox';

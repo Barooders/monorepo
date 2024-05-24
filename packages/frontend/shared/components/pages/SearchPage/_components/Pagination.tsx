@@ -1,13 +1,13 @@
-import slice from 'lodash/slice';
+import Link from '@/components/atoms/Link';
 import last from 'lodash/last';
-import { useInstantSearch, usePagination } from 'react-instantsearch-hooks-web';
+import slice from 'lodash/slice';
 import {
   HiChevronDoubleLeft,
   HiChevronDoubleRight,
   HiChevronLeft,
   HiChevronRight,
 } from 'react-icons/hi';
-import Link from '@/components/atoms/Link';
+import { useInstantSearch, usePagination } from 'react-instantsearch';
 
 const CURRENT_PAGE_PADDING = 4;
 const PAGE_LARGE_STEP = 5;

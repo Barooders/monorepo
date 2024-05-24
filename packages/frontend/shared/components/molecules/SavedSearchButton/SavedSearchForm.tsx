@@ -6,9 +6,10 @@ import useStoreSavedSearch from '@/hooks/useStoreSavedSearch';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { mapCurrentSearchToString } from '@/mappers/search';
+import isEmpty from 'lodash/isEmpty';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useCurrentRefinements } from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements } from 'react-instantsearch';
 import Button from '../../atoms/Button';
 import Loader from '../../atoms/Loader';
 
@@ -36,7 +37,7 @@ const SavedSearchForm: React.FC<PropsType> = ({ onSave, onClose }) => {
       value: String(value),
     }));
 
-  if (collection?.id && collection.name) {
+  if (collection?.id !== undefined && !isEmpty(collection.name)) {
     refinements.unshift({
       attribute: 'collection_handles',
       value: collection.handle,

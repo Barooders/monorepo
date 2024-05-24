@@ -1,7 +1,7 @@
 import config from '@/config/env';
 import { useCallback, useEffect, useState } from 'react';
 import { RxDragHandleVertical } from 'react-icons/rx';
-import { useRange, useRefinementList } from 'react-instantsearch-hooks-web';
+import { useRange, useRefinementList } from 'react-instantsearch';
 import ReactSlider from 'react-slider';
 import { getFacetLabel } from './utils/getFacetLabel';
 
