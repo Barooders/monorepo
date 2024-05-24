@@ -141,13 +141,16 @@ export const createProductFromFragment = (
     ({ shopifyId, exposedVariant, b2cVariant, id }) => ({
       name: exposedVariant ? createVariantName(exposedVariant) : '',
       id: id ?? '',
-      shopifyId,
+      // TODO: Remove this when we remove shopifyIds
+      shopifyId: shopifyId!,
       price: Number(b2cVariant?.price),
       compareAtPrice: Number(b2cVariant?.compare_at_price),
       available:
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         !!exposedVariant?.inventory_quantity &&
         exposedVariant?.inventory_quantity > 0,
       condition: (exposedVariant?.condition as Condition) ?? Condition.GOOD,
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       isRefurbished: !!exposedVariant?.isRefurbished,
     }),
   );
@@ -156,7 +159,7 @@ export const createProductFromFragment = (
     variants.find((variant) => variant.shopifyId === productVariantShopifyId) ??
     variants[0];
 
-  const isPro = vendorDetails?.isPro;
+  const isPro = vendorDetails?.isPro ?? false;
   const hasRefurbishedVariant = !!variant.isRefurbished;
 
   const labels: CardLabel[] = [];
@@ -188,7 +191,7 @@ export const createProductFromFragment = (
       name: vendorDetails?.sellerName ?? null,
       createdAt: vendorDetails?.createdAt ?? null,
       profilePicture: vendorDetails?.profilePictureShopifyCdnUrl ?? null,
-      isPro: !!vendorDetails?.isPro,
+      isPro,
       shipmentTimeframeSentence:
         dict.components.productCard.delivery.getShipmentTimeframeSentence(
           vendorDetails?.shipmentTimeframe,
@@ -209,7 +212,8 @@ export const createProductFromFragment = (
     description: productFromDBT.description ?? '',
     handle: productFromDBT.handle ?? '',
     variantId: variant.id ?? '',
-    variantShopifyId: variant.shopifyId,
+    // TODO: Remove this when we remove shopifyIds
+    variantShopifyId: variant.shopifyId!,
     variants,
     productType: productFromDBT.productType ?? '',
     numberOfViews: productFromDBT.numberOfViews ?? 0,
@@ -267,7 +271,7 @@ export const getData = async ({
   productHandle,
   productVariantShopifyId,
 }: ContainerPropsType): Promise<Omit<ProductMultiVariants, 'intent'>> => {
-  if (!productInternalId && !productHandle) {
+  if (productInternalId === undefined && productHandle === undefined) {
     throw new Error('Should pass either productId or productHandle');
   }
 

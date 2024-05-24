@@ -37,6 +37,6 @@ export const createVariantName = (variant: RawVariant): string =>
     { name: variant?.option2Name, value: variant?.option2 },
     { name: variant?.option3Name, value: variant?.option3 },
   ]
-    .filter((option) => !!option.name)
+    .filter((option) => option.name !== null)
     .map((selectedOption) => `${selectedOption.name}: ${selectedOption.value}`)
     .join(' / ');

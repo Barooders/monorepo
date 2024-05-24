@@ -326,27 +326,13 @@ export type FavoriteProducts = {
   internalProductId: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Maybe<Product>;
-  productId: Scalars['bigint']['output'];
 };
 
 /** order by aggregate values of table "FavoriteProducts" */
 export type FavoriteProducts_Aggregate_Order_By = {
-  avg: InputMaybe<FavoriteProducts_Avg_Order_By>;
   count: InputMaybe<Order_By>;
   max: InputMaybe<FavoriteProducts_Max_Order_By>;
   min: InputMaybe<FavoriteProducts_Min_Order_By>;
-  stddev: InputMaybe<FavoriteProducts_Stddev_Order_By>;
-  stddev_pop: InputMaybe<FavoriteProducts_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<FavoriteProducts_Stddev_Samp_Order_By>;
-  sum: InputMaybe<FavoriteProducts_Sum_Order_By>;
-  var_pop: InputMaybe<FavoriteProducts_Var_Pop_Order_By>;
-  var_samp: InputMaybe<FavoriteProducts_Var_Samp_Order_By>;
-  variance: InputMaybe<FavoriteProducts_Variance_Order_By>;
-};
-
-/** order by avg() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Avg_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "FavoriteProducts". All fields are combined with a logical 'AND'. */
@@ -359,7 +345,6 @@ export type FavoriteProducts_Bool_Exp = {
   id: InputMaybe<String_Comparison_Exp>;
   internalProductId: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
-  productId: InputMaybe<Bigint_Comparison_Exp>;
 };
 
 /** order by max() on columns of table "FavoriteProducts" */
@@ -368,7 +353,6 @@ export type FavoriteProducts_Max_Order_By = {
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** order by min() on columns of table "FavoriteProducts" */
@@ -377,7 +361,6 @@ export type FavoriteProducts_Min_Order_By = {
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** Ordering options when selecting data from "FavoriteProducts". */
@@ -387,7 +370,6 @@ export type FavoriteProducts_Order_By = {
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** select columns of table "FavoriteProducts" */
@@ -399,25 +381,8 @@ export enum FavoriteProducts_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  InternalProductId = 'internalProductId',
-  /** column name */
-  ProductId = 'productId'
+  InternalProductId = 'internalProductId'
 }
-
-/** order by stddev() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** order by stddev_pop() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Pop_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** order by stddev_samp() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Samp_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
 
 /** Streaming cursor of the table "FavoriteProducts" */
 export type FavoriteProducts_Stream_Cursor_Input = {
@@ -433,27 +398,6 @@ export type FavoriteProducts_Stream_Cursor_Value_Input = {
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   internalProductId: InputMaybe<Scalars['String']['input']>;
-  productId: InputMaybe<Scalars['bigint']['input']>;
-};
-
-/** order by sum() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Sum_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** order by var_pop() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Var_Pop_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** order by var_samp() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Var_Samp_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** order by variance() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Variance_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "Fulfillment" */
@@ -2251,7 +2195,7 @@ export type Dbt_Store_Base_Product_Variant = {
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
-  shopify_id: Scalars['bigint']['output'];
+  shopify_id: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   variant: Maybe<Dbt_Store_Exposed_Product_Variant>;
 };

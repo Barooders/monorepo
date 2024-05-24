@@ -2799,7 +2799,7 @@ export type FavoriteProducts = {
   internalProductId: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Maybe<Product>;
-  productId: Scalars['bigint']['output'];
+  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregated selection of "FavoriteProducts" */
@@ -14470,7 +14470,7 @@ export type Dbt_Store_Base_Product_Variant = {
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
-  shopify_id: Scalars['bigint']['output'];
+  shopify_id: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   variant: Maybe<Dbt_Store_Exposed_Product_Variant>;
 };
