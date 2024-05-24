@@ -93,6 +93,7 @@ export type SynchronizedProVendor =
   | 'tribici_presta'
   | 'trocsport'
   | 'tuvalum'
+  | 'tuvalum_v2'
   | 'velo_meldois'
   | 'velosport20'
   | 'willemd'

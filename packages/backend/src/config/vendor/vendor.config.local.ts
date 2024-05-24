@@ -17,6 +17,7 @@ const DEFAULT_CONFIG_WITHOUT_ORDER = {
 
 export const localVendorConfig: EnvVendorsConfig = {
   tuvalum: DEFAULT_CONFIG,
+  tuvalum_v2: DEFAULT_CONFIG,
   fiets: DEFAULT_CONFIG,
   le_bon_coin: {
     ...DEFAULT_CONFIG,
