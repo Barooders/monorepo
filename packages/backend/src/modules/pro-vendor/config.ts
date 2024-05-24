@@ -35,7 +35,7 @@ import { ShopifyProductService } from '@modules/pro-vendor/infrastructure/api/sh
 import { ShopifyClient } from '@modules/pro-vendor/infrastructure/api/shopify/shopify.client';
 import { TuvalumMapper } from '@modules/pro-vendor/infrastructure/api/tuvalum/mappers/tuvalum.mapper';
 import { TuvalumProductService } from '@modules/pro-vendor/infrastructure/api/tuvalum/tuvalum-product.service';
-import { TuvalumClient } from '@modules/pro-vendor/infrastructure/api/tuvalum/tuvalum.client';
+import { TuvalumClient as DeprecatedTuvalumClient } from '@modules/pro-vendor/infrastructure/api/tuvalum/tuvalum.client';
 import { BikeFMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/bikef.mapper';
 import { WooCommerceDefaultMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/default.mapper';
 import { FastlapMapper } from '@modules/pro-vendor/infrastructure/api/woocommerce/mappers/fastlap.mapper';
@@ -74,6 +74,7 @@ import { LoewiClient } from './infrastructure/api/shopify/clients/loewi.client';
 import { PilatClient } from './infrastructure/api/shopify/clients/pilat.client';
 import { SavoldelliClient } from './infrastructure/api/shopify/clients/savoldelli.client';
 import { TechniCyclesClient } from './infrastructure/api/shopify/clients/techni-cycles.client';
+import { TuvalumClient } from './infrastructure/api/shopify/clients/tuvalum.client';
 import { WillemClient } from './infrastructure/api/shopify/clients/willem.client';
 import { AllCyclesMapper } from './infrastructure/api/shopify/mappers/all-cycles.mapper';
 import { BaroudeurMapper } from './infrastructure/api/shopify/mappers/baroudeur.mapper';
@@ -104,7 +105,7 @@ export const proVendorSharedServices = [
   DefaultPrestashopClient,
   FreeglisseClient,
   MontaniniClient,
-  TuvalumClient,
+  DeprecatedTuvalumClient,
   WooCommerceClient,
   MintBikesClient,
   CyclinkClient,
@@ -112,6 +113,7 @@ export const proVendorSharedServices = [
   PastelClient,
   TechniCyclesClient,
   WillemClient,
+  TuvalumClient,
   LoewiClient,
   SavoldelliClient,
   BaroudeurClient,

@@ -21,6 +21,7 @@ import { ProjetBoussoleClient } from './clients/projet-boussole.client';
 import { SavoldelliClient } from './clients/savoldelli.client';
 import { TechniCyclesClient } from './clients/techni-cycles.client';
 import { TNCClient } from './clients/tnc.client';
+import { TuvalumClient } from './clients/tuvalum.client';
 import { VeloMeldoisClient } from './clients/velo-meldois.client';
 import { WillemClient } from './clients/willem.client';
 
@@ -60,6 +61,7 @@ export class ShopifyClient {
     private pastelClient: PastelClient,
     private techniCyclesClient: TechniCyclesClient,
     private willemClient: WillemClient,
+    private tuvalumClient: TuvalumClient,
     private loewiClient: LoewiClient,
     private savoldelliClient: SavoldelliClient,
     private baroudeurClient: BaroudeurClient,
@@ -205,6 +207,8 @@ export class ShopifyClient {
         return this.pastelClient.getClient();
       case 'techni_cycles':
         return this.techniCyclesClient.getClient();
+      case 'tuvalum_v2':
+        return this.tuvalumClient.getClient();
       case 'willemd':
         return this.willemClient.getClient();
       case 'loewi':
