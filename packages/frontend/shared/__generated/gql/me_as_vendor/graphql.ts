@@ -323,6 +323,7 @@ export type FavoriteProducts = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Scalars['String']['output'];
+  internalProductId: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Maybe<Product>;
   productId: Scalars['bigint']['output'];
@@ -356,6 +357,7 @@ export type FavoriteProducts_Bool_Exp = {
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   customerId: InputMaybe<Uuid_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  internalProductId: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
   productId: InputMaybe<Bigint_Comparison_Exp>;
 };
@@ -365,6 +367,7 @@ export type FavoriteProducts_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  internalProductId: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
 };
 
@@ -373,6 +376,7 @@ export type FavoriteProducts_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  internalProductId: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
 };
 
@@ -381,6 +385,7 @@ export type FavoriteProducts_Order_By = {
   createdAt: InputMaybe<Order_By>;
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  internalProductId: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
   productId: InputMaybe<Order_By>;
 };
@@ -393,6 +398,8 @@ export enum FavoriteProducts_Select_Column {
   CustomerId = 'customerId',
   /** column name */
   Id = 'id',
+  /** column name */
+  InternalProductId = 'internalProductId',
   /** column name */
   ProductId = 'productId'
 }
@@ -425,6 +432,7 @@ export type FavoriteProducts_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  internalProductId: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
