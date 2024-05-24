@@ -16,6 +16,9 @@ import ErrorMessage from '@/medusa/modules/checkout/components/error-message';
 import { SubmitButton } from '@/medusa/modules/checkout/components/submit-button';
 import Input from '@/medusa/modules/common/components/input';
 import Trash from '@/medusa/modules/common/icons/trash';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 type DiscountCodeProps = {
   cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -41,7 +44,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         })}`;
 
       default:
-        return 'Free shipping';
+        return dict.discounts.freeShipping;
     }
   }, [discounts, region]);
 
@@ -60,7 +63,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       <div className="txt-medium">
         {gift_cards.length > 0 && (
           <div className="mb-4 flex flex-col">
-            <Heading className="txt-medium">Gift card(s) applied:</Heading>
+            <Heading className="txt-medium">
+              {dict.checkout.discounts.giftCardsApplied}
+            </Heading>
             {gift_cards?.map((gc) => (
               <div
                 className="txt-small-plus flex items-center justify-between"
@@ -68,7 +73,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 data-testid="gift-card"
               >
                 <Text className="flex items-baseline gap-x-1">
-                  <span>Code: </span>
+                  <span>{dict.checkout.discounts.code}: </span>
                   <span
                     className="truncate"
                     data-testid="gift-card-code"
@@ -92,7 +97,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   data-testid="remove-gift-card-button"
                 >
                   <Trash size={14} />
-                  <span className="sr-only">Remove gift card from order</span>
+                  <span className="sr-only">
+                    {dict.checkout.discounts.removeGiftCards}
+                  </span>
                 </button>
               </div>
             ))}
@@ -102,10 +109,12 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         {appliedDiscount ? (
           <div className="flex w-full items-center">
             <div className="flex w-full flex-col">
-              <Heading className="txt-medium">Discount applied:</Heading>
+              <Heading className="txt-medium">
+                {dict.checkout.discounts.discountsApplied}:
+              </Heading>
               <div className="flex w-full max-w-full items-center justify-between">
                 <Text className="txt-small-plus flex w-4/5 items-baseline gap-x-1 pr-1">
-                  <span>Code:</span>
+                  <span>{dict.checkout.discounts.code}:</span>
                   <span className="truncate">{discounts[0].code}</span>
                   <span className="min-w-fit">({appliedDiscount})</span>
                 </Text>
@@ -115,7 +124,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 >
                   <Trash size={14} />
                   <span className="sr-only">
-                    Remove discount code from order
+                    {dict.checkout.discounts.removeDiscounts}
                   </span>
                 </button>
               </div>
@@ -133,7 +142,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="add-discount-button"
               >
-                Add gift card or discount code
+                {dict.checkout.discounts.addDiscountOrGift}
               </button>
               <Tooltip content="You can add multiple gift cards, but only one discount code.">
                 <InformationCircleSolid color="var(--fg-muted)" />
@@ -153,7 +162,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     variant="secondary"
                     data-testid="discount-apply-button"
                   >
-                    Apply
+                    {dict.checkout.discounts.apply}
                   </SubmitButton>
                 </div>
                 <ErrorMessage

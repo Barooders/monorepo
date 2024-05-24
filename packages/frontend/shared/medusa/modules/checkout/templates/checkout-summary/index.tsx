@@ -6,6 +6,9 @@ import DiscountCode from '@/medusa/modules/checkout/components/discount-code';
 import CartTotals from '@/medusa/modules/common/components/cart-totals';
 import Divider from '@/medusa/modules/common/components/divider';
 import { cookies } from 'next/headers';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 const CheckoutSummary = async () => {
   const cartId = cookies().get('_medusa_cart_id')?.value;
@@ -21,14 +24,14 @@ const CheckoutSummary = async () => {
   }
 
   return (
-    <div className="small:flex-col small:py-0 sticky top-0 flex flex-col-reverse gap-y-8 py-8 ">
+    <div className="sticky top-0 flex flex-col-reverse gap-y-8 py-8 small:flex-col small:py-0 ">
       <div className="flex w-full flex-col bg-white">
-        <Divider className="small:hidden my-6" />
+        <Divider className="my-6 small:hidden" />
         <Heading
           level="h2"
           className="text-3xl-regular flex flex-row items-baseline"
         >
-          In your Cart
+          {dict.checkout.cart.inYourCart}
         </Heading>
         <Divider className="my-6" />
         <CartTotals data={cart} />

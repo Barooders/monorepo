@@ -14,6 +14,9 @@ import Radio from '@/medusa/modules/common/components/radio';
 import Spinner from '@/medusa/modules/common/icons/spinner';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 type ShippingProps = {
   cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -76,7 +79,7 @@ const Shipping: React.FC<ShippingProps> = ({
             },
           )}
         >
-          Delivery
+          {dict.checkout.shippingAddress.delivery}
           {!isOpen && cart.shipping_methods.length > 0 && <CheckCircleSolid />}
         </Heading>
         {!isOpen &&
@@ -89,7 +92,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="edit-delivery-button"
               >
-                Edit
+                {dict.checkout.edit}
               </button>
             </Text>
           )}
@@ -109,7 +112,7 @@ const Shipping: React.FC<ShippingProps> = ({
                       value={option.id}
                       data-testid="delivery-option-radio"
                       className={clx(
-                        'text-small-regular rounded-rounded hover:shadow-borders-interactive-with-active mb-2 flex cursor-pointer items-center justify-between border px-8 py-4',
+                        'text-small-regular rounded-rounded mb-2 flex cursor-pointer items-center justify-between border px-8 py-4 hover:shadow-borders-interactive-with-active',
                         {
                           'border-ui-border-interactive':
                             option.id ===
@@ -126,7 +129,7 @@ const Shipping: React.FC<ShippingProps> = ({
                         />
                         <span className="text-base-regular">{option.name}</span>
                       </div>
-                      <span className="text-ui-fg-base justify-self-end">
+                      <span className="justify-self-end text-ui-fg-base">
                         {formatAmount({
                           amount: option.amount!,
                           region: cart?.region,
@@ -137,7 +140,7 @@ const Shipping: React.FC<ShippingProps> = ({
                   );
                 })
               ) : (
-                <div className="text-ui-fg-base flex flex-col items-center justify-center px-4 py-8">
+                <div className="flex flex-col items-center justify-center px-4 py-8 text-ui-fg-base">
                   <Spinner />
                 </div>
               )}
@@ -157,7 +160,7 @@ const Shipping: React.FC<ShippingProps> = ({
             disabled={!cart.shipping_methods[0]}
             data-testid="submit-delivery-option-button"
           >
-            Continue to payment
+            {dict.checkout.shippingAddress.goToPayment}
           </Button>
         </div>
       ) : (
@@ -165,8 +168,8 @@ const Shipping: React.FC<ShippingProps> = ({
           <div className="text-small-regular">
             {cart && cart.shipping_methods.length > 0 && (
               <div className="flex w-1/3 flex-col">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Method
+                <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                  {dict.checkout.shippingAddress.method}
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods[0].shipping_option.name} (

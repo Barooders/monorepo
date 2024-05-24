@@ -1,5 +1,6 @@
 'use client';
 
+import { getDictionary } from '@/i18n/translate';
 import { placeOrder } from '@/medusa/modules/checkout/actions';
 import Spinner from '@/medusa/modules/common/icons/spinner';
 import { Cart, PaymentSession } from '@medusajs/medusa';
@@ -9,6 +10,8 @@ import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useState } from 'react';
 import ErrorMessage from '../error-message';
+
+const dict = getDictionary('fr');
 
 type PaymentButtonProps = {
   cart: Omit<Cart, 'refundable_amount' | 'refunded_total'>;
@@ -150,7 +153,7 @@ const StripePaymentButton = ({
         isLoading={submitting}
         data-testid={dataTestId}
       >
-        Place order
+        {dict.checkout.review.placeOrder}
       </Button>
       <ErrorMessage
         error={errorMessage}
@@ -251,7 +254,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
         size="large"
         data-testid="submit-order-button"
       >
-        Place order
+        {dict.checkout.review.placeOrder}
       </Button>
       <ErrorMessage
         error={errorMessage}

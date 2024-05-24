@@ -13,6 +13,7 @@ import {
 import Divider from '@/medusa/modules/common/components/divider';
 import Spinner from '@/medusa/modules/common/icons/spinner';
 
+import { getDictionary } from '@/i18n/translate';
 import compareAddresses from '@/medusa/lib/util/compare-addresses';
 import { useFormState } from 'react-dom';
 import { setAddresses } from '../../actions';
@@ -20,6 +21,8 @@ import BillingAddress from '../billing_address';
 import ErrorMessage from '../error-message';
 import ShippingAddress from '../shipping-address';
 import { SubmitButton } from '../submit-button';
+
+const dict = getDictionary('fr');
 
 const Addresses = ({
   cart,
@@ -56,7 +59,7 @@ const Addresses = ({
           level="h2"
           className="text-3xl-regular flex flex-row items-baseline gap-x-2"
         >
-          Shipping Address
+          {dict.checkout.shippingAddress.title}
           {!isOpen && <CheckCircleSolid />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
@@ -66,7 +69,7 @@ const Addresses = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-address-button"
             >
-              Edit
+              {dict.checkout.edit}
             </button>
           </Text>
         )}
@@ -88,7 +91,7 @@ const Addresses = ({
                   level="h2"
                   className="text-3xl-regular gap-x-4 pb-6 pt-8"
                 >
-                  Billing address
+                  {dict.checkout.shippingAddress.billingAddress}
                 </Heading>
 
                 <BillingAddress
@@ -101,7 +104,7 @@ const Addresses = ({
               className="mt-6"
               data-testid="submit-address-button"
             >
-              Continue to delivery
+              {dict.checkout.shippingAddress.continueToDelivery}
             </SubmitButton>
             <ErrorMessage
               error={message}
@@ -119,8 +122,8 @@ const Addresses = ({
                     className="flex w-1/3 flex-col"
                     data-testid="shipping-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Shipping Address
+                    <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                      {dict.checkout.shippingAddress.title}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.first_name}{' '}
@@ -143,8 +146,8 @@ const Addresses = ({
                     className="flex w-1/3 flex-col "
                     data-testid="shipping-contact-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Contact
+                    <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                      {dict.checkout.shippingAddress.contact}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.phone}
@@ -158,13 +161,13 @@ const Addresses = ({
                     className="flex w-1/3 flex-col"
                     data-testid="billing-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Billing Address
+                    <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                      {dict.checkout.shippingAddress.billingAddress}
                     </Text>
 
                     {sameAsSBilling ? (
                       <Text className="txt-medium text-ui-fg-subtle">
-                        Billing- and delivery address are the same.
+                        {dict.checkout.shippingAddress.sameBillingAndShipping}
                       </Text>
                     ) : (
                       <>

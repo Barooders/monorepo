@@ -1280,6 +1280,63 @@ const fr = {
       editProduct: 'Modifier',
     },
   },
+  checkout: {
+    edit: 'Modifier',
+    cart: {
+      subTotal: 'Sous total',
+      discountTotal: 'Réductions',
+      giftCard: 'Carte cadeau',
+      shipping: 'Livraison',
+      taxes: 'Taxes',
+      total: 'Total',
+      inYourCart: 'Dans votre panier',
+    },
+    shippingAddress: {
+      title: 'Adresse de livraison',
+      billingAddress: 'Adresse de facturation',
+      chooseSavedAddress: 'Sélectionnez une adresse',
+      welcome: (customerFirstName: string) =>
+        `Hi ${customerFirstName}, do you want to use one of your saved addresses?`,
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      address: 'Adresse',
+      company: 'Entreprise',
+      zipCode: 'Code postal',
+      city: 'Ville',
+      sameBillingAndShipping: 'Même adresse pour la facturation',
+      useSameBillingAndShipping: 'Utiliser la même adresse pour la facturation',
+      enterAValidAddress: 'Veuillez entrer une adresse valide',
+      phone: 'Téléphone',
+      delivery: 'Livraison',
+      method: 'Méthode',
+      goToPayment: 'Continuer vers le paiement',
+      continueToDelivery: 'Continuer vers la livraison',
+      contact: 'Contact',
+    },
+    payment: {
+      title: 'Paiement',
+      enterCardDetails: 'Remplissez les informations de votre carte',
+      continueToReview: 'Continuer vers le récapitulatif',
+      paymentMethod: 'Méthode de paiement',
+      paymentDetails: 'Détails du paiement',
+      anotherStepWillAppear: 'La prochaine étape va apparaître',
+    },
+    review: {
+      title: 'Récapitulatif',
+      agreement:
+        "En cliquant sur le bouton Acheter, je confirme avoir lu, compris et accepté nos conditions d'utilisation et politique de retour",
+      placeOrder: 'Acheter',
+    },
+    discounts: {
+      addDiscountOrGift: 'Ajouter une carte cadeau ou réduction',
+      giftCardsApplied: 'Carte(s) cadeau appliquée(s) :',
+      removeGiftCards: 'Retirer les cartes cadeau de la commande',
+      discountsApplied: 'Réductions appliquées',
+      removeDiscounts: 'Retirer les réductions de la commande',
+      code: 'Code',
+      apply: 'Appliquer',
+    },
+  },
   b2b: {
     unauthorizedUser: 'Vous n’êtes pas autorisé à accéder à cette page',
     proPage: {
@@ -1292,7 +1349,7 @@ const fr = {
         ),
         content: () => (
           <>
-						Les produits ci-dessous sont disponibles à l’achat. Vous pouvez :
+            Les produits ci-dessous sont disponibles à l’achat. Vous pouvez :
             <ul className="list-disc py-2 pl-4">
               <li>
                 Utiliser le bouton sauvegarder pour configurer les filtres qui

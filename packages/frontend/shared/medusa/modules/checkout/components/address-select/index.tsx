@@ -8,6 +8,9 @@ import { Fragment, useMemo } from 'react';
 import compareAddresses from '@/medusa/lib/util/compare-addresses';
 import { cartUpdate } from '@/medusa/modules/checkout/actions';
 import Radio from '@/medusa/modules/common/components/radio';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 type AddressSelectProps = {
   addresses: Address[];
@@ -51,7 +54,7 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
               <span className="block truncate">
                 {selectedAddress
                   ? selectedAddress.address_1
-                  : 'Choose an address'}
+                  : dict.checkout.shippingAddress.chooseSavedAddress}
               </span>
               <ChevronUpDown
                 className={clx('transition-rotate duration-200', {

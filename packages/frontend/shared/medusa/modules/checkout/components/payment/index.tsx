@@ -16,6 +16,9 @@ import PaymentContainer from '@/medusa/modules/checkout/components/payment-conta
 import { StripeContext } from '@/medusa/modules/checkout/components/payment-wrapper';
 import Divider from '@/medusa/modules/common/components/divider';
 import Spinner from '@/medusa/modules/common/icons/spinner';
+import { getDictionary } from '@/i18n/translate';
+
+const dict = getDictionary('fr');
 
 const Payment = ({
   cart,
@@ -112,7 +115,7 @@ const Payment = ({
             },
           )}
         >
-          Payment
+          {dict.checkout.payment.title}
           {!isOpen && paymentReady && <CheckCircleSolid />}
         </Heading>
         {!isOpen && paymentReady && (
@@ -122,7 +125,7 @@ const Payment = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-payment-button"
             >
-              Edit
+              {dict.checkout.edit}
             </button>
           </Text>
         )}
@@ -154,8 +157,8 @@ const Payment = ({
 
             {isStripe && stripeReady && (
               <div className="mt-5 transition-all duration-150 ease-in-out">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Enter your card details:
+                <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                  {dict.checkout.payment.enterCardDetails}
                 </Text>
 
                 <CardElement
@@ -185,11 +188,11 @@ const Payment = ({
               disabled={(isStripe && !cardComplete) || !cart.payment_session}
               data-testid="submit-payment-button"
             >
-              Continue to review
+              {dict.checkout.payment.continueToReview}
             </Button>
           </div>
         ) : (
-          <div className="text-ui-fg-base flex flex-col items-center justify-center px-4 py-16">
+          <div className="flex flex-col items-center justify-center px-4 py-16 text-ui-fg-base">
             <Spinner />
           </div>
         )}
@@ -198,8 +201,8 @@ const Payment = ({
           {cart && paymentReady && cart.payment_session && (
             <div className="flex w-full items-start gap-x-1">
               <div className="flex w-1/3 flex-col">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment method
+                <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                  {dict.checkout.payment.paymentMethod}
                 </Text>
                 <Text
                   className="txt-medium text-ui-fg-subtle"
@@ -217,14 +220,14 @@ const Payment = ({
                   )}
               </div>
               <div className="flex w-1/3 flex-col">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment details
+                <Text className="txt-medium-plus mb-1 text-ui-fg-base">
+                  {dict.checkout.payment.paymentDetails}
                 </Text>
                 <div
-                  className="txt-medium text-ui-fg-subtle flex items-center gap-2"
+                  className="txt-medium flex items-center gap-2 text-ui-fg-subtle"
                   data-testid="payment-details-summary"
                 >
-                  <Container className="bg-ui-button-neutral-hover flex h-7 w-fit items-center p-2">
+                  <Container className="flex h-7 w-fit items-center bg-ui-button-neutral-hover p-2">
                     {paymentInfoMap[cart.payment_session.provider_id]?.icon || (
                       <CreditCard />
                     )}
@@ -232,7 +235,7 @@ const Payment = ({
                   <Text>
                     {cart.payment_session.provider_id === 'stripe' && cardBrand
                       ? cardBrand
-                      : 'Another step will appear'}
+                      : dict.checkout.payment.anotherStepWillAppear}
                   </Text>
                 </div>
               </div>
