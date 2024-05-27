@@ -2,7 +2,6 @@ import { Condition, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import {
   Product,
   ProductToUpdate,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
@@ -16,6 +15,7 @@ import {
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import {
   CreatedProductForSync,
+  CreatedVariantForSync,
   IStoreClient,
   ProductFromStore,
   VariantToUpdate,
@@ -58,7 +58,7 @@ export class StoreClient implements IStoreClient {
   async createProductVariant(
     productInternalId: string,
     data: Variant,
-  ): Promise<StoredVariant> {
+  ): Promise<CreatedVariantForSync> {
     return await this.productCreationService.createProductVariant(
       productInternalId,
       data,

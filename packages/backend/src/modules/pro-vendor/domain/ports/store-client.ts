@@ -48,12 +48,16 @@ export type CreatedProductForSync = {
   }[];
 };
 
+export type CreatedVariantForSync = {
+  internalId: string;
+};
+
 export abstract class IStoreClient {
   abstract createProduct(data: Product): Promise<CreatedProductForSync | null>;
   abstract createProductVariant(
     productInternalId: string,
     data: Variant,
-  ): Promise<StoredVariant>;
+  ): Promise<CreatedVariantForSync>;
   abstract updateProduct(
     productInternalId: string,
     data: ProductToUpdate,
