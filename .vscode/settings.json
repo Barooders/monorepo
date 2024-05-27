@@ -23,5 +23,6 @@
     "Strapi",
     "STRAPI",
     "upserted"
-  ]
+  ],
+  "dbt.queryLimit": 500
 }

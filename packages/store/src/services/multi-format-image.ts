@@ -1,9 +1,6 @@
 import { IFileService, Logger, TransactionBaseService } from '@medusajs/medusa';
 import { S3 } from 'aws-sdk';
 import axios from 'axios';
-import fs from 'fs';
-import { parse } from 'path';
-import { ParsedPath } from 'path/posix';
 import sharp from 'sharp';
 import envConfig from '../config/env/env.config';
 
@@ -96,42 +93,6 @@ class MultiFormatImageService extends TransactionBaseService {
     );
 
     return results;
-  }
-
-  async multiFormatUpload(file: Express.Multer.File): Promise<any> {
-    const parsedFilename = parse(file.originalname);
-
-    const results = await Promise.all(
-      Object.keys(SIZE_CONFIG).map(
-        async (size) =>
-          await this.uploadResizedImage(file, size, parsedFilename),
-      ),
-    );
-
-    fs.unlinkSync(file.path);
-    return results;
-  }
-
-  private async uploadResizedImage(
-    file: Express.Multer.File,
-    size: string,
-    parsedFilename: ParsedPath,
-  ) {
-    const tempFile = `uploads/${file.filename}-${size}`;
-
-    const { width, height } = SIZE_CONFIG[size];
-
-    await sharp(file.path).resize(width, height).toFile(tempFile);
-
-    const result = await this.fileService_.upload({
-      ...file,
-      filename: `${file.filename}-${size}`,
-      path: tempFile,
-      originalname: `${parsedFilename.name}-${size}${parsedFilename.ext}`,
-    });
-
-    fs.unlinkSync(tempFile);
-    return result;
   }
 }
 
