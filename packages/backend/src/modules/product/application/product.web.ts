@@ -8,7 +8,6 @@ import {
   ProductNotation,
   ProductStatus,
 } from '@libs/domain/prisma.main.client';
-import { StoredProduct } from '@libs/domain/product.interface';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 
 import { CustomerRepository } from '@libs/domain/customer.repository';
@@ -246,7 +245,7 @@ export class ProductController {
     @Query()
     { sellerId }: { sellerId: string; isAdminMode?: string },
   ): Promise<{
-    body?: { product: StoredProduct };
+    body?: { product: { internalId: string } };
     status: 'success' | 'error';
     reason?: string;
   }> {
@@ -259,15 +258,18 @@ export class ProductController {
       throw new Error(`Cannot find vendor with sellerId: ${sellerId}`);
 
     try {
-      const product = await this.productCreationService.createProductByAdmin(
-        draftProductInputDto,
-        new UUID({ uuid: sellerId }),
-        author,
-      );
+      const { internalId } =
+        await this.productCreationService.createProductByAdmin(
+          draftProductInputDto,
+          new UUID({ uuid: sellerId }),
+          author,
+        );
       return {
         status: 'success',
         body: {
-          product,
+          product: {
+            internalId,
+          },
         },
       };
     } catch (error: any) {
