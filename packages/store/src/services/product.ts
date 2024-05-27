@@ -21,8 +21,12 @@ class ProductService extends MedusaProductService {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
-    this.logger_ = container.logger;
-    this.multiFormatImageService_ = container.multiFormatImageService;
+    try {
+      this.logger_ = container.logger;
+      this.multiFormatImageService_ = container.multiFormatImageService;
+    } catch (e) {
+      // avoid errors when the backend first loads
+    }
   }
 
   async create(productObject: CreateProductInput): Promise<Product> {
