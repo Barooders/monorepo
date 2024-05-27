@@ -33,26 +33,19 @@ class ProductService extends MedusaProductService {
   async create(productObject: CreateProductInput): Promise<Product> {
     this.logger_.info('Creating product');
 
-    const uploadedImages = await Promise.all(
-      (productObject.images ?? []).map(
-        async (imageUrl) =>
-          await this.multiFormatImageService_.multiFormatUploadFromUrl({
-            url: imageUrl,
-            fileName: uuidv4(),
-          }),
-      ),
-    );
+    const mappedImages = (productObject.images ?? []).map((imageUrl) => ({
+      url: imageUrl,
+      fileName: uuidv4(),
+    }));
 
-    const originalImages = uploadedImages.flatMap(
-      (urls) => urls[urls.length - 1],
+    mappedImages.forEach((image) =>
+      this.multiFormatImageService_.multiFormatUploadFromUrl(image),
     );
-
-    this.logger_.info(`Images uploaded: ${uploadedImages.join(', ')}`);
 
     return await super.create({
       ...productObject,
-      images: originalImages,
-      thumbnail: uploadedImages[0].find((url) => url.includes('thumbnail')),
+      images: mappedImages.map((image) => `${image.fileName}.png`),
+      thumbnail: mappedImages[0]?.fileName + '-thumbnail.png',
     });
   }
 }
