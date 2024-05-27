@@ -22,6 +22,7 @@ export type EnvironmentsType = {
   };
   redis: {
     url: string;
+    tls: boolean;
   };
   cors: string[];
   sendgrid: {
