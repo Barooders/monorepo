@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
+    "preinstall": "yarn config set ignore-engines true",
     "decrypt-secrets": "../../decrypt-secrets.sh",
     "clean": "rimraf dist && yarn run decrypt-secrets",
     "build": "yarn clean && yarn build:server && yarn build:admin",
