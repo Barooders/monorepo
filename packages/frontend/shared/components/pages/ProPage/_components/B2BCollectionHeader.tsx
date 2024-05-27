@@ -3,7 +3,7 @@ import SortBy from '@/components/molecules/Filters/SortBy';
 import { B2BGuarantees } from '@/components/molecules/ProductCard/_components/Guarantees';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
 import { getDictionary } from '@/i18n/translate';
-import { useInstantSearch } from 'react-instantsearch-hooks-web';
+import { useInstantSearch } from 'react-instantsearch';
 import { useLocalStorage } from 'react-use';
 import { SalesChannelName } from 'shared-types';
 
@@ -20,7 +20,7 @@ const B2BCollectionHeader: React.FC = () => {
     [],
   );
 
-  const needToWelcome = !readTutorials?.find(() => B2B_TUTORIAL_NAME);
+  const needToWelcome = !(readTutorials ?? []).some(() => B2B_TUTORIAL_NAME);
 
   return (
     <div className="mb-1 flex flex-col justify-between">

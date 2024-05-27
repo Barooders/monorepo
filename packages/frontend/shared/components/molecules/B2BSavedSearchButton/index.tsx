@@ -3,10 +3,7 @@ import NoSSR from '@/components/atoms/NoSSR';
 import { getDictionary } from '@/i18n/translate';
 import { memo } from 'react';
 import { MdNotificationsNone } from 'react-icons/md';
-import {
-  useCurrentRefinements,
-  useSearchBox,
-} from 'react-instantsearch-hooks-web';
+import { useCurrentRefinements, useSearchBox } from 'react-instantsearch';
 import B2BSavedSearchForm from './B2BSavedSearchForm';
 
 const dict = getDictionary('fr');

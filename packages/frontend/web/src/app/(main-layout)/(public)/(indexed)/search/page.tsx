@@ -1,48 +1,25 @@
-import { GetServerSideProps } from 'next';
-import { extractQueryParam } from '@/utils/extractQueryParam';
-import Head from 'next/head';
+import SearchPage from '@/components/pages/SearchPage';
+import { getData as getSearchPageData } from '@/components/pages/SearchPage/container';
 import config from '@/config/env/index';
 import { metadataConfig } from '@/document/metadata/global';
-import SearchPage, {
-  GetDataType as SearchPagePropsType,
-  getData as getSearchPageData,
-} from '@/components/pages/SearchPage';
+import { AppRouterPage } from '@/types';
+import Head from 'next/head';
 
-type PropsType = {
-  serverUrl: string;
-  searchQuery: string;
-  searchPageProps: SearchPagePropsType;
+type PageProps = {
+  searchParams: { q?: string };
 };
 
-export const getServerSideProps: GetServerSideProps<PropsType> = async ({
-  req,
-  query,
+const TextSearchPage: AppRouterPage<null, PageProps['searchParams']> = async ({
+  searchParams,
 }) => {
-  const searchQuery = extractQueryParam(query?.q);
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  const protocol = req.headers.referer?.split('://')[0] || 'https';
-  const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
+  const searchQuery = searchParams?.q;
 
   const searchPageProps = await getSearchPageData({
     searchQuery,
   });
 
-  return {
-    props: {
-      serverUrl,
-      searchQuery,
-      searchPageProps,
-    },
-  };
-};
-
-const CollectionPage: React.FC<PropsType> = ({
-  searchQuery,
-  serverUrl,
-  searchPageProps,
-}) => {
   const canonicalUrl = new URL(`${config.baseUrl}/search`);
-  canonicalUrl.searchParams.append('q', searchQuery);
+  canonicalUrl.searchParams.append('q', searchQuery ?? '');
 
   const metadata = {
     title: metadataConfig.title,
@@ -117,12 +94,9 @@ const CollectionPage: React.FC<PropsType> = ({
           content="500"
         />
       </Head>
-      <SearchPage
-        {...searchPageProps}
-        serverUrl={serverUrl}
-      />
+      <SearchPage {...searchPageProps} />
     </>
   );
 };
 
-export default CollectionPage;
+export default TextSearchPage;

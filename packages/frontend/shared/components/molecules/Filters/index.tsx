@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@/components/atoms/Button';
 import Checkbox from '@/components/atoms/Checkbox';
 import Collapse from '@/components/atoms/Collapse';
@@ -14,10 +16,7 @@ import { find, groupBy, map, mapValues, sortBy, sumBy } from 'lodash';
 import debounce from 'lodash/debounce';
 import { useEffect } from 'react';
 import { HiOutlineAdjustmentsHorizontal } from 'react-icons/hi2';
-import {
-  useInstantSearch,
-  useRefinementList,
-} from 'react-instantsearch-hooks-web';
+import { useInstantSearch, useRefinementList } from 'react-instantsearch';
 import B2BSaveFiltersButton from '../B2BSaveFiltersButton';
 import useB2BSearchContext from '../B2BSearchBar/_state/useB2BSearchContext';
 import ActiveFilters from './ActiveFilters';
@@ -54,13 +53,14 @@ const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
   const facetObject = results.disjunctiveFacets.find(
     (facet) => facet.name === attribute.attributeName,
   );
-  const facetValuesCount = facetObject
-    ? Object.values(facetObject.data).reduce((a, b) => a + b, 0)
-    : 0;
+  const facetValuesCount =
+    facetObject !== undefined
+      ? Object.values(facetObject.data).reduce((a, b) => a + b, 0)
+      : 0;
   const facetCoverage = facetValuesCount / results.nbHits;
 
   if (
-    (!isFromSearch && (!items || items.length === 0)) ||
+    (!Boolean(isFromSearch) && items.length === 0) ||
     facetCoverage < REMOVED_FILTER_THRESHOLD
   ) {
     return <></>;
@@ -83,7 +83,7 @@ const FallbackComponent: React.FC<{ attribute: ProductAttributeConfig }> = ({
       renderTitle={() => (
         <div className="flex gap-2">
           <p>{getFacetLabel(attribute.attributeName)}</p>
-          {attribute.informativeComponent && (
+          {attribute.informativeComponent !== undefined && (
             <InfoModal contentComponent={attribute.informativeComponent} />
           )}
         </div>
@@ -172,7 +172,9 @@ export const B2BFilters = () => {
     const { query: savedQuery, FacetFilters, NumericFilters } = savedSearch;
 
     const query =
-      savedQuery && b2BSearchBar === undefined ? savedQuery : b2BSearchBar;
+      savedQuery !== null && b2BSearchBar === undefined
+        ? savedQuery
+        : b2BSearchBar;
 
     const facetFilters = groupBy(FacetFilters, 'facetName');
     const numericFilters = groupBy(NumericFilters, 'facetName');
@@ -194,7 +196,7 @@ export const B2BFilters = () => {
       query: query === '' ? undefined : query,
     }));
 
-    if (savedQuery && b2BSearchBar === undefined) {
+    if (savedQuery !== null && b2BSearchBar === undefined) {
       setB2BSearchBar(savedQuery);
       return;
     }

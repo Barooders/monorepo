@@ -15,6 +15,7 @@ import InstantSearchProvider from '@/components/pages/SearchPage/_components/Ins
 import Pagination from '@/components/pages/SearchPage/_components/Pagination';
 import { searchCollections } from '@/config';
 import { useHasuraToken } from '@/hooks/useHasuraToken';
+import isEmpty from 'lodash/isEmpty';
 import { useEffect, useState } from 'react';
 import AdminProductBanner from '../ProductPage/_components/AdminProductBanner';
 import B2BCollectionHeader from './_components/B2BCollectionHeader';
@@ -36,7 +37,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchQuery }) => {
   const { setB2BSearchBar } = useB2BSearchContext();
 
   useEffect(() => {
-    if (productInternalId) {
+    if (!isEmpty(productInternalId)) {
       setSelectedProductId(productInternalId);
     }
   }, [productInternalId]);
@@ -76,7 +77,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchQuery }) => {
 
   return (
     <PageContainer includeVerticalPadding={true}>
-      {selectedProductId && (
+      {selectedProductId !== null && (
         <AdminProductBanner
           productInternalId={selectedProductId}
           showByDefault={false}
@@ -88,6 +89,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchQuery }) => {
         filters={filters}
         query={''}
         ruleContexts={[]}
+        withRouter={false}
       >
         <div className="mt-1">
           <div className="grid grid-cols-5 gap-10">
@@ -111,7 +113,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchQuery }) => {
       </InstantSearchProvider>
       <PortalDrawer
         ContentComponent={() =>
-          selectedProductId ? (
+          selectedProductId !== null ? (
             <div className="w-[360px] md:w-[400px] lg:w-[450px]">
               <B2BProductPanel
                 productInternalId={selectedProductId}
@@ -127,7 +129,7 @@ const ProPage: React.FC<PropsType> = ({ productInternalId, searchQuery }) => {
           removeProductFromUrl();
           setSelectedProductId(null);
         }}
-        isOpen={!!selectedProductId}
+        isOpen={selectedProductId !== null}
       />
     </PageContainer>
   );

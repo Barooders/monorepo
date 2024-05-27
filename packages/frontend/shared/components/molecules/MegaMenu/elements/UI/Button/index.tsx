@@ -29,7 +29,7 @@ const Button = ({
   target,
   hasIconOnly,
 }: Props) => {
-  const ButtonTag = url ? 'a' : ('button' as keyof JSX.IntrinsicElements);
+  const ButtonTag = url ? 'a' : 'button';
 
   const modifiersArr: string[] = [];
 

@@ -1,57 +1,52 @@
+'use client';
+
 import { searchClient } from '@/config';
 import config from '@/config/env';
-import singletonRouter from 'next/router';
-import { createInstantSearchRouterNext } from 'react-instantsearch-hooks-router-nextjs';
-import { Configure, InstantSearch } from 'react-instantsearch-hooks-web';
+import { Configure } from 'react-instantsearch';
+import { InstantSearchNext } from 'react-instantsearch-nextjs';
 
 type PropsType = {
   collectionName: string;
   filters: string[];
   query: string;
-  serverUrl?: string;
   children: React.ReactNode;
   ruleContexts: string[];
+  withRouter?: boolean;
 };
 
 const InstantSearchProvider: React.FC<PropsType> = ({
   collectionName,
   filters,
   query,
-  serverUrl,
   ruleContexts,
   children,
+  withRouter = true,
 }) => {
-  const router = createInstantSearchRouterNext({
-    singletonRouter,
-    serverUrl,
-    routerOptions: {
-      createURL({ location, qsModule, routeState }) {
-        const { origin, pathname, hash, search } = location;
-
-        const params = qsModule.parse(search, {
-          ignoreQueryPrefix: true,
-        });
-        const queryString = qsModule.stringify(
-          {
-            ...params,
-            ...routeState,
-          },
-          { addQueryPrefix: true },
-        );
-
-        return `${origin}${pathname}${queryString}${hash}`;
-      },
-    },
-  });
-
   return (
-    <InstantSearch
+    <InstantSearchNext
       searchClient={searchClient}
       indexName={collectionName}
       routing={
-        serverUrl
+        withRouter
           ? {
-              router,
+              router: {
+                createURL({ location, qsModule, routeState }) {
+                  const { origin, pathname, hash, search } = location;
+
+                  const params = qsModule.parse(search, {
+                    ignoreQueryPrefix: true,
+                  });
+                  const queryString = qsModule.stringify(
+                    {
+                      ...params,
+                      ...routeState,
+                    },
+                    { addQueryPrefix: true },
+                  );
+
+                  return `${origin}${pathname}${queryString}${hash}`;
+                },
+              },
             }
           : false
       }
@@ -64,7 +59,7 @@ const InstantSearchProvider: React.FC<PropsType> = ({
         maxValuesPerFacet={config.search.maxValuesPerFacet}
       />
       {children}
-    </InstantSearch>
+    </InstantSearchNext>
   );
 };
 

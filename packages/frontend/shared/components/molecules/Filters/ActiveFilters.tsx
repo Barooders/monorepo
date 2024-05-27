@@ -3,7 +3,7 @@ import { HiTrash, HiX } from 'react-icons/hi';
 import {
   useClearRefinements,
   useCurrentRefinements,
-} from 'react-instantsearch-hooks-web';
+} from 'react-instantsearch';
 import { getFacetValueLabel } from './utils/getFacetLabel';
 
 const ActiveFilters = (props: {

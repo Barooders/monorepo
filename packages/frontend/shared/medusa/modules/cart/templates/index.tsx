@@ -14,13 +14,13 @@ const CartTemplate = ({
   customer: Omit<Customer, 'password_hash'> | null;
 }) => {
   return (
-    <div className="py-12">
+    <div className="medusa py-12">
       <div
         className="content-container"
         data-testid="cart-container"
       >
         {cart?.items.length ? (
-          <div className="small:grid-cols-[1fr_360px] grid grid-cols-1 gap-x-40">
+          <div className="grid grid-cols-1 gap-x-40 small:grid-cols-[1fr_360px]">
             <div className="flex flex-col gap-y-6 bg-white py-6">
               {!customer && (
                 <>

@@ -17,7 +17,7 @@ export default function OrderCompletedTemplate({
   order,
 }: OrderCompletedTemplateProps) {
   return (
-    <div className="min-h-[calc(100vh-64px)] py-6">
+    <div className="medusa min-h-[calc(100vh-64px)] py-6">
       <div className="content-container flex h-full w-full max-w-4xl flex-col items-center justify-center gap-y-10">
         <div
           className="flex h-full w-full max-w-4xl flex-col gap-4 bg-white py-10"

@@ -42,7 +42,7 @@ export default async function CheckoutForm() {
   const customer = await getCustomer();
 
   return (
-    <div>
+    <div className="medusa">
       <div className="grid w-full grid-cols-1 gap-y-8">
         <div>
           <Addresses

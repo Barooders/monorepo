@@ -2,3 +2,4 @@ node_modules/
 
 # Prisma
 dumps/*
+yarn-error.log

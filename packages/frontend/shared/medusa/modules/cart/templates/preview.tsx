@@ -17,7 +17,7 @@ const ItemsPreviewTemplate = ({ items, region }: ItemsTemplateProps) => {
   return (
     <div
       className={clx({
-        'no-scrollbar max-h-[420px] overflow-x-hidden overflow-y-scroll pl-[1px]':
+        'medusa no-scrollbar max-h-[420px] overflow-x-hidden overflow-y-scroll pl-[1px]':
           hasOverflow,
       })}
     >

@@ -1,11 +1,11 @@
-import { ReviewType } from '@/components/molecules/Reviews/container';
+import SortBy from '@/components/molecules/Filters/SortBy';
 import SmallReviewLink from '@/components/molecules/Reviews/SmallReviewLink';
+import { ReviewType } from '@/components/molecules/Reviews/container';
 import { TrackedElements } from '@/config/e2e';
 import { getDictionary } from '@/i18n/translate';
 import { calculateAverageRatings } from '@/utils/rating';
 import { useEffect, useState } from 'react';
-import { useInstantSearch } from 'react-instantsearch-hooks-web';
-import SortBy from '@/components/molecules/Filters/SortBy';
+import { useInstantSearch } from 'react-instantsearch';
 
 const dict = getDictionary('fr');
 

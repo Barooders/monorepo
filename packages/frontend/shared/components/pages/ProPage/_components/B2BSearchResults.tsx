@@ -1,7 +1,7 @@
 import B2BProductCard from '@/components/molecules/ProductCard/b2b/card';
 import { getDictionary } from '@/i18n/translate';
 import { fromSearchToB2BProductCard } from '@/mappers/search';
-import { Hits, useInstantSearch } from 'react-instantsearch-hooks-web';
+import { Hits, useInstantSearch } from 'react-instantsearch';
 import { SearchB2BVariantDocument } from 'shared-types';
 import AdminHitHelper from './AdminHitHelper';
 

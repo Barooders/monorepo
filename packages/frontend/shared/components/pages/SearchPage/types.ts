@@ -1,3 +1,19 @@
+import { MegaMenuChunk } from '@/components/molecules/MegaMenu/shared/types/app/MegaMenu.types';
+import { ProductMultiVariants as ProductCardPropsType } from '@/components/molecules/ProductCard/types';
+import { PropsType as VendorHeaderPropsType } from './VendorPage/VendorHeader';
+
+export type GetDataType = {
+  parentCollections?: ParentCollectionType[];
+  collectionData?: CollectionData | null;
+  childCollections?: ChildCollectionType[];
+  relatedCollections?: RelatedCollectionType[];
+  highlightedProduct?: ProductCardPropsType | null;
+  vendorInfo?: VendorHeaderPropsType | null;
+  filters: string[];
+  query: string;
+  menuData: MegaMenuChunk;
+};
+
 export type ParentCollectionType = {
   id: string;
   handle: string;
