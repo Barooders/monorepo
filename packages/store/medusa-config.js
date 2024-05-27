@@ -35,6 +35,22 @@ const plugins = [
       secret_access_key: envConfig.s3.secretAccessKey,
     },
   },
+  {
+    resolve: `medusa-payment-paypal`,
+    options: {
+      sandbox: envConfig.paypal.isSandbox,
+      clientId: envConfig.paypal.clientId,
+      clientSecret: envConfig.paypal.clientSecret,
+      authWebhookId: envConfig.paypal.authWebhookId,
+    },
+  },
+  {
+    resolve: `medusa-payment-stripe`,
+    options: {
+      api_key: envConfig.stripe.apiKey,
+      webhook_secret: envConfig.stripe.webhookSecret,
+    },
+  },
 ];
 
 /** @type {import('@medusajs/medusa').ConfigModule["modules"]} */

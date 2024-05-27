@@ -23,6 +23,8 @@ const localConfig: EnvironmentsType = {
     apiKey: 'fake',
     from: 'outdoor@barooders.com',
   },
+  paypal: stagingConfig.paypal,
+  stripe: stagingConfig.stripe,
 };
 
 export default localConfig;

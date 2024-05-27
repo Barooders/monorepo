@@ -28,4 +28,14 @@ export type EnvironmentsType = {
     apiKey: string;
     from: string;
   };
+  paypal: {
+    isSandbox: boolean;
+    clientId: string;
+    clientSecret: string;
+    authWebhookId: string;
+  };
+  stripe: {
+    apiKey: string;
+    webhookSecret: string;
+  };
 };
