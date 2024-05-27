@@ -4,6 +4,7 @@ import {
   Product,
 } from '@medusajs/medusa';
 import { CreateProductInput } from '@medusajs/medusa/dist/types/product';
+import { v4 as uuidv4 } from 'uuid';
 import MultiFormatImageService from './multi-format-image';
 
 type InjectedDependencies = ConstructorParameters<
@@ -37,7 +38,7 @@ class ProductService extends MedusaProductService {
         async (imageUrl) =>
           await this.multiFormatImageService_.multiFormatUploadFromUrl({
             url: imageUrl,
-            fileName: imageUrl.split('/').pop() ?? '',
+            fileName: uuidv4(),
           }),
       ),
     );
