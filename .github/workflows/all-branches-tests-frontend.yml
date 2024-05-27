@@ -29,10 +29,3 @@ jobs:
           NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
           NEXT_PUBLIC_SHOP_BASE_URL: http://localhost:3000
           NODE_OPTIONS: '--max_old_space_size=4096'
-      - name: Build TS app pwa
-        run: yarn workspace frontend build:pwa
-        env:
-          NEXT_PUBLIC_STRAPI_URL: https://strapi.barooders.com/api
-          NEXT_PUBLIC_BUILDER_IO_API_KEY: ${{ secrets.NEXT_PUBLIC_BUILDER_IO_API_KEY }}
-          NEXT_PUBLIC_SHOP_BASE_URL: http://localhost:3000
-          NODE_OPTIONS: '--max_old_space_size=4096'
