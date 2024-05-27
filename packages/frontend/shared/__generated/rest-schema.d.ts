@@ -260,49 +260,22 @@ export interface components {
     };
     VariantDTO: {
       internalId: string;
-      option1: string;
-      option2: string;
-      option3: string;
-      inventory_management: string;
-      inventory_policy: string;
-      title: string;
       price: string;
-      compare_at_price: string;
-      sku: string;
-      inventory_quantity: number;
+      compare_at_price?: string;
       condition: string;
-    };
-    OptionDTO: {
-      name: string;
-      values: unknown[][];
     };
     SimpleImageDTO: {
       src: string;
       shopifyId: number;
     };
     ProductAdminDTO: {
-      internalId: string;
       status: string;
       vendor: string;
       tags: string[];
       variants: components["schemas"]["VariantDTO"][];
-      options: components["schemas"]["OptionDTO"][];
-      created_at: string;
-      updated_at: string;
-      template_suffix: string;
-      handle: string;
-      published_at: string;
-      published_scope: string;
-      image: components["schemas"]["SimpleImageDTO"];
-      title: string;
       body_html: string;
       product_type: string;
       images: components["schemas"]["SimpleImageDTO"][];
-      price: number;
-      compare_at_price: number;
-      EANCode: string;
-      GTINCode: string;
-      source: string;
     };
     ProductUpdateInputDto: {
       /** @enum {string} */
@@ -448,7 +421,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-27T11:17:40.875Z
+       * @example 2024-05-27T13:42:41.184Z
        */
       birthDate: string;
       /**

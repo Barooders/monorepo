@@ -48,6 +48,7 @@ import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import {
   IStoreClient,
   ProductCreationInput,
+  ProductDetails,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
@@ -94,27 +95,37 @@ export class ShopifyClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  async getProductDetails({ uuid: productId }: UUID): Promise<StoredProduct> {
-    const { shopifyId, variants } = await this.prisma.product.findUniqueOrThrow(
-      {
+  async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
+    const { shopifyId, variants, vendor, status } =
+      await this.prisma.product.findUniqueOrThrow({
         where: { id: productId },
-        select: { shopifyId: true, variants: true },
-      },
-    );
+        select: {
+          shopifyId: true,
+          variants: true,
+          status: true,
+          vendor: { select: { sellerName: true } },
+        },
+      });
     const product = await shopifyApiByToken.product.get(Number(shopifyId));
 
-    const storeProduct = cleanShopifyProduct(product);
+    const { images, tags, product_type, body_html } =
+      cleanShopifyProduct(product);
 
     return {
-      ...storeProduct,
-      internalId: productId,
+      images,
+      tags,
+      product_type,
+      body_html,
+      status,
+      vendor: vendor.sellerName ?? '',
       variants: variants.map((variant) => ({
         internalId: variant.id,
         condition: variant.condition ?? Condition.GOOD,
         price: fromCents(Number(variant.priceInCents)).toString(),
-        inventory_quantity: variant.quantity,
-        inventory_management: '',
-        inventory_policy: '',
+        compare_at_price:
+          variant.compareAtPriceInCents !== null
+            ? fromCents(Number(variant.compareAtPriceInCents)).toString()
+            : undefined,
       })),
     };
   }

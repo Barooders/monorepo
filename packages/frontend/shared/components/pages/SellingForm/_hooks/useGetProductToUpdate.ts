@@ -25,7 +25,10 @@ const useGetProductToUpdate = () => {
 
     loadProductInForm({
       variantInternalId: mainVariant.internalId,
-      compareAtPrice: Number(mainVariant.compare_at_price),
+      compareAtPrice:
+        mainVariant.compare_at_price !== undefined
+          ? Number(mainVariant.compare_at_price)
+          : null,
       price: Number(mainVariant.price),
       description: rawProduct.body_html,
       handDeliveryPostalCode: null,

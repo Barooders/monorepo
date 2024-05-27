@@ -1,3 +1,4 @@
+import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
   ProductToStore,
   ProductToUpdate,
@@ -17,8 +18,26 @@ export interface ProductCreationInput {
   variants: { price: Amount }[];
 }
 
+export type ProductDetails = {
+  body_html: string;
+  status: ProductStatus;
+  product_type: string;
+  tags: string[];
+  vendor: string;
+  variants: {
+    internalId: string;
+    price: string;
+    compare_at_price?: string;
+    condition: Condition;
+  }[];
+  images: {
+    src: string;
+    shopifyId: number;
+  }[];
+};
+
 export abstract class IStoreClient {
-  abstract getProductDetails(productId: UUID): Promise<StoredProduct>;
+  abstract getProductDetails(productId: UUID): Promise<ProductDetails>;
   abstract createProduct(product: ProductToStore): Promise<
     Omit<StoredProduct, 'internalId' | 'variants'> & {
       variants: Omit<StoredVariant, 'internalId'>[];

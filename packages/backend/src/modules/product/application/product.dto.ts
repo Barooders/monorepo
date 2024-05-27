@@ -1,11 +1,7 @@
 import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
-import {
-  Option,
-  StoredProduct,
-  StoredVariant,
-} from '@libs/domain/product.interface';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
+import { ProductDetails } from '../domain/ports/store.client';
 
 class SimpleImageDTO {
   @ApiProperty()
@@ -14,56 +10,22 @@ class SimpleImageDTO {
   @ApiProperty()
   shopifyId!: number;
 }
-class OptionDTO {
-  @ApiProperty()
-  name!: string;
 
-  @ApiProperty({ isArray: true })
-  values!: string[];
-}
-
-class VariantDTO implements StoredVariant {
+class VariantDTO {
   @ApiProperty()
   internalId!: string;
 
   @ApiProperty()
-  option1?: string;
+  price!: string;
 
-  @ApiProperty()
-  option2?: string;
-
-  @ApiProperty()
-  option3?: string;
-
-  @ApiProperty()
-  inventory_management!: string;
-
-  @ApiProperty()
-  inventory_policy!: string;
-
-  @ApiProperty()
-  title?: string;
-
-  @ApiProperty()
-  price?: string;
-
-  @ApiProperty()
+  @ApiProperty({ required: false })
   compare_at_price?: string;
-
-  @ApiProperty()
-  sku?: string;
-
-  @ApiProperty()
-  inventory_quantity?: number;
 
   @ApiProperty()
   condition!: Condition;
 }
 
-export class ProductAdminDTO implements StoredProduct {
-  @ApiProperty()
-  internalId!: string;
-
+export class ProductAdminDTO implements ProductDetails {
   @ApiProperty()
   status!: ProductStatus;
 
@@ -74,34 +36,7 @@ export class ProductAdminDTO implements StoredProduct {
   tags!: string[];
 
   @ApiProperty({ isArray: true, type: VariantDTO })
-  variants!: StoredVariant[];
-
-  @ApiProperty({ isArray: true, type: OptionDTO })
-  options!: Option[];
-
-  @ApiProperty()
-  created_at!: string;
-
-  @ApiProperty()
-  updated_at!: string;
-
-  @ApiProperty()
-  template_suffix?: string;
-
-  @ApiProperty()
-  handle!: string;
-
-  @ApiProperty()
-  published_at?: string;
-
-  @ApiProperty()
-  published_scope?: string;
-
-  @ApiProperty({ type: SimpleImageDTO })
-  image!: SimpleImageDTO;
-
-  @ApiProperty()
-  title!: string;
+  variants!: VariantDTO[];
 
   @ApiProperty()
   body_html!: string;
@@ -111,21 +46,6 @@ export class ProductAdminDTO implements StoredProduct {
 
   @ApiProperty({ isArray: true, type: SimpleImageDTO })
   images!: SimpleImageDTO[];
-
-  @ApiProperty()
-  price?: number;
-
-  @ApiProperty()
-  compare_at_price?: number;
-
-  @ApiProperty()
-  EANCode?: string;
-
-  @ApiProperty()
-  GTINCode?: string;
-
-  @ApiProperty()
-  source?: string;
 }
 
 class PimBrand {
