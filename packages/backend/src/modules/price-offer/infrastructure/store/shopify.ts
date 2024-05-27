@@ -1,5 +1,5 @@
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
-import { UUID, ValueDate, Amount } from '@libs/domain/value-objects';
+import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { readableCode } from '@libs/helpers/safe-id';
 import { fetchShopifyGraphQL } from '@libs/infrastructure/shopify/shopify-api/shopify-graphql-client.lib';
 import { toStorefrontId } from '@libs/infrastructure/shopify/shopify-id';
@@ -77,12 +77,20 @@ export class ShopifyClient implements IStoreClient {
             customerGets: {
               items: {
                 products: {
-                  productVariantsToAdd: entitled_variant_ids.map((id) =>
-                    toStorefrontId(id.toString(), 'ProductVariant'),
-                  ),
-                  productsToAdd: entitled_product_ids.map((id) =>
-                    toStorefrontId(id.toString(), 'Product'),
-                  ),
+                  productVariantsToAdd: entitled_variant_ids.map((id) => {
+                    if (id === null)
+                      throw new Error(
+                        'Trying to create a discount code for a product variant that does not exist in Shopify',
+                      );
+                    return toStorefrontId(id.toString(), 'ProductVariant');
+                  }),
+                  productsToAdd: entitled_product_ids.map((id) => {
+                    if (id === null)
+                      throw new Error(
+                        'Trying to create a discount code for a product that does not exist in Shopify',
+                      );
+                    return toStorefrontId(id.toString(), 'Product');
+                  }),
                 },
               },
               value: {

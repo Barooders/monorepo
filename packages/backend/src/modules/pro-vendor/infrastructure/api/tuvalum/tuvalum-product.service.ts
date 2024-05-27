@@ -1,3 +1,4 @@
+import { jsonStringify } from '@libs/helpers/json';
 import { ProVendorStrategy } from '@modules/pro-vendor/domain/ports/pro-vendor.strategy';
 import {
   SyncedVendorProProduct,
@@ -10,7 +11,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { TuvalumProductDto } from './dto/tuvalum-product.input.dto';
 import { TuvalumMapper } from './mappers/tuvalum.mapper';
 import { TuvalumClient } from './tuvalum.client';
-import { jsonStringify } from '@libs/helpers/json';
 
 @Injectable()
 export class TuvalumProductService implements ProVendorStrategy {
@@ -83,7 +83,7 @@ export class TuvalumProductService implements ProVendorStrategy {
     const variant = variantStocksToUpdate[0];
 
     await this.productService.updateProductVariantStock(
-      Number(variant.internalVariantId),
+      variant.internalId,
       this.tuvalumMapper.getProductQuantity(productFromVendor),
       variant.currentStock,
     );

@@ -76,14 +76,14 @@ export class OrderSyncService implements IOrderSyncService {
         const { externalProductId } =
           await this.prisma.vendorProProduct.findUniqueOrThrow({
             where: {
-              internalProductId: String(internalVariant.product.shopifyId),
+              internalId: internalVariant.product.id,
             },
           });
 
         const { externalVariantId } =
           await this.prisma.vendorProVariant.findUniqueOrThrow({
             where: {
-              internalVariantId: String(internalVariant.shopifyId),
+              internalId: internalVariant.id,
             },
           });
 

@@ -1,8 +1,8 @@
+import { operations } from '@/__generated/rest-schema';
 import useBackend from '@/hooks/useBackend';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
-import { operations } from '@/__generated/rest-schema';
-import first from 'lodash/first';
 import { ProductStatus } from '@/types';
+import first from 'lodash/first';
 import useSellForm from '../_state/useSellForm';
 import { Condition } from '../types';
 
@@ -25,13 +25,16 @@ const useGetProductToUpdate = () => {
 
     loadProductInForm({
       variantInternalId: mainVariant.internalId,
-      compareAtPrice: Number(mainVariant.compare_at_price),
+      compareAtPrice:
+        mainVariant.compare_at_price !== undefined
+          ? Number(mainVariant.compare_at_price)
+          : null,
       price: Number(mainVariant.price),
       description: rawProduct.body_html,
       handDeliveryPostalCode: null,
       images: rawProduct.images.map((image) => ({
         src: image.src,
-        id: image.id,
+        id: image.shopifyId,
       })),
       status: rawProduct.status as ProductStatus,
       productType: rawProduct.product_type,

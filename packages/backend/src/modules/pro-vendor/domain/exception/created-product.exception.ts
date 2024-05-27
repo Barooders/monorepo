@@ -1,3 +1,3 @@
 export class CreatedProductException {
-  constructor(readonly productId: number) {}
+  constructor(readonly productInternalId: string) {}
 }

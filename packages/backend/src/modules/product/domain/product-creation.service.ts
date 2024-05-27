@@ -9,8 +9,6 @@ import {
   Image,
   Metafield,
   Product,
-  StoredProduct,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import {
@@ -30,9 +28,13 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { IStoreClient } from './ports/store.client';
+import {
+  IStoreClient,
+  ProductCreatedInStore,
+  VariantCreatedInStore,
+} from './ports/store.client';
 
-import { toCents } from '@libs/helpers/currency';
+import { fromCents, toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
 import { UUID } from '@libs/domain/value-objects';
 import { jsonStringify } from '@libs/helpers/json';
@@ -113,6 +115,16 @@ export interface ProductCreationOptions {
   bypassImageCheck?: boolean;
 }
 
+export type CreatedProduct = Omit<
+  ProductCreatedInStore,
+  'variants' | 'shopifyId'
+> & {
+  internalId: string;
+  variants: (Omit<VariantCreatedInStore, 'shopifyId'> & {
+    internalId: string;
+  })[];
+};
+
 @Injectable()
 export class ProductCreationService {
   private readonly logger = new Logger(ProductCreationService.name);
@@ -130,7 +142,7 @@ export class ProductCreationService {
     { uuid: vendorId }: UUID,
     options: ProductCreationOptions,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const { product_type: productType, variants, metafields } = product;
 
     await this.pimClient.checkIfProductTypeExists(productType);
@@ -156,7 +168,7 @@ export class ProductCreationService {
 
     if (createdProduct.images.length !== product.images.length) {
       await this.internalNotificationClient.sendErrorNotification(
-        `🎨 Some images failed to upload when creating product ${createdProduct.shopifyId}`,
+        `🎨 Some images failed to upload when creating product ${createdProduct.title}`,
       );
     }
 
@@ -168,10 +180,9 @@ export class ProductCreationService {
 
     const productInDB = await this.prisma.product.create({
       data: {
-        createdAt: new Date(),
         vendorId,
-        shopifyId: createdProduct.shopifyId,
         status: productStatus,
+        shopifyId: createdProduct.shopifyId,
         description: product.body_html,
         handle: createdProduct.handle,
         productType,
@@ -192,9 +203,9 @@ export class ProductCreationService {
         },
         variants: {
           createMany: {
-            data: createdProduct.variants.map((variant) => ({
-              createdAt: new Date(),
-              shopifyId: variant.id,
+            data: product.variants.map((variant, index) => ({
+              //TODO: stop using index here as shopify can return variants in different order
+              shopifyId: createdProduct.variants[index].shopifyId,
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -203,6 +214,7 @@ export class ProductCreationService {
               compareAtPriceInCents: variant.compare_at_price
                 ? toCents(variant.compare_at_price)
                 : null,
+
               condition: variant.condition,
             })),
           },
@@ -214,12 +226,7 @@ export class ProductCreationService {
         },
       },
       include: {
-        variants: {
-          select: {
-            id: true,
-            shopifyId: true,
-          },
-        },
+        variants: true,
       },
     });
 
@@ -229,43 +236,36 @@ export class ProductCreationService {
         aggregateId: vendorId,
         aggregateName: AggregateName.VENDOR,
         productInternalId: productInDB.id,
-        productShopifyId: productInDB.shopifyId,
         metadata: {
           author,
         },
       }),
     );
 
-    const getVariantInternalId = (variantShopifyId: number) => {
-      const matchDBVariantId = productInDB.variants.find(
-        ({ shopifyId }) => Number(shopifyId) === variantShopifyId,
-      )?.id;
-
-      if (matchDBVariantId === undefined)
-        throw new Error(
-          `Variant ${variantShopifyId} was not created during product creation`,
-        );
-
-      return matchDBVariantId;
-    };
-
     return {
-      ...createdProduct,
+      handle: createdProduct.handle,
+      title: createdProduct.title,
+      images: createdProduct.images,
       internalId: productInDB.id,
-      variants: createdProduct.variants.map((variant) => ({
-        ...variant,
-        internalId: getVariantInternalId(variant.id),
+      variants: productInDB.variants.map((variant) => ({
+        internalId: variant.id,
+        inventory_quantity: variant.quantity,
+        price: fromCents(Number(variant.priceInCents)).toString(),
+        compare_at_price: fromCents(
+          Number(variant.compareAtPriceInCents),
+        ).toString(),
+        condition: variant.condition ?? Condition.GOOD,
       })),
     };
   }
 
   async createProductVariant(
-    productId: number,
+    productInternalId: string,
     data: Variant,
     author: Author,
-  ): Promise<StoredVariant> {
+  ): Promise<string> {
     const createdVariant = await this.storeClient.createProductVariant(
-      productId,
+      new UUID({ uuid: productInternalId }),
       data,
     );
 
@@ -277,7 +277,7 @@ export class ProductCreationService {
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
         createdAt: new Date(),
-        shopifyId: createdVariant.id,
+        shopifyId: createdVariant.shopifyId,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -287,7 +287,7 @@ export class ProductCreationService {
         condition: data.condition,
         product: {
           connect: {
-            shopifyId: productId,
+            id: productInternalId,
           },
         },
       },
@@ -304,8 +304,7 @@ export class ProductCreationService {
         productInternalId: productVariantInDB.product.id,
         payload: {
           newVariantId: productVariantInDB.id,
-          newVariantShopifyId: createdVariant.id,
-          productShopifyId: productId,
+          productInternalId,
         },
         metadata: {
           author,
@@ -313,17 +312,14 @@ export class ProductCreationService {
       }),
     );
 
-    return {
-      ...createdVariant,
-      internalId: productVariantInDB.id,
-    };
+    return productVariantInDB.id;
   }
 
   async createDraftProduct(
     draftProductInputDto: DraftProductInputDto,
     vendorId: UUID,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const { price } = draftProductInputDto;
 
     return await this.createProductFromWeb(
@@ -352,7 +348,7 @@ export class ProductCreationService {
     draftProductInputDto: DraftProductInputDto,
     vendorId: UUID,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     return await this.createProductFromWeb(
       draftProductInputDto,
       vendorId,
@@ -386,7 +382,7 @@ export class ProductCreationService {
     vendorId: UUID,
     author: Author,
     options: ProductCreationOptions,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const {
       tags,
       images,
