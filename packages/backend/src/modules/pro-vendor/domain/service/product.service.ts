@@ -120,14 +120,14 @@ export class ProductService {
   }
 
   async updateProductStatusOnDbOnly(
-    dbId: string,
+    productInternalId: string,
     syncStatus: SyncStatus,
   ): Promise<void> {
     await this.prisma.vendorProProduct.update({
       data: {
         syncStatus,
       },
-      where: { id: dbId },
+      where: { internalId: productInternalId },
     });
   }
 
@@ -138,20 +138,15 @@ export class ProductService {
     await this.storeClient.updateProduct(productInternalId, { status });
   }
 
-  async archiveProductIfNotInAPI(
-    productToUpdate: SyncedVendorProProduct,
-  ): Promise<void> {
-    const productInternalId = productToUpdate.internalId;
-
+  async archiveProductIfNotInAPI({
+    internalId,
+  }: SyncedVendorProProduct): Promise<void> {
     this.logger.debug(
-      `Product (${productInternalId}) not found vendor (or not mapped properly), archiving on store and DB`,
+      `Product (${internalId}) not found vendor (or not mapped properly), archiving on store and DB`,
     );
-    await this.updateProductStatusOnDbOnly(
-      productToUpdate.id,
-      SyncStatus.INACTIVE,
-    );
+    await this.updateProductStatusOnDbOnly(internalId, SyncStatus.INACTIVE);
     await this.updateProductStatusOnStoreOnly(
-      productInternalId,
+      internalId,
       ProductStatus.ARCHIVED,
     );
   }
@@ -323,10 +318,10 @@ export class ProductService {
     });
 
     await Promise.all(
-      variantsToDelete.map(async ({ internalId, id }) => {
+      variantsToDelete.map(async ({ internalId }) => {
         await this.storeClient.deleteProductVariant(internalId);
         await this.prisma.vendorProVariant.delete({
-          where: { id },
+          where: { internalId },
         });
         this.logger.warn(`Deleted outdated variant ${internalId}`);
       }),
