@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import { Button, Text } from '@medusajs/ui';
 import {
-  useAdminCreateProduct,
   useAdminCreateCollection,
+  useAdminCreateProduct,
   useMedusa,
 } from 'medusa-react';
-import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
-import { Button, Text } from '@medusajs/ui';
-import getSampleProducts from '../../../../utils/sample-products';
+import { useMemo } from 'react';
 import prepareRegions from '../../../../utils/prepare-region';
+import getSampleProducts from '../../../../utils/sample-products';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const ProductsListDefault = ({ onNext, isComplete }: StepContentProps) => {
   const { mutateAsync: createCollection, isLoading: collectionLoading } =
@@ -35,7 +35,7 @@ const ProductsListDefault = ({ onNext, isComplete }: StepContentProps) => {
         collection_id: collection.id,
       });
       const { product } = await createProduct(sampleProducts[0]);
-      onNext(product);
+      onNext?.(product);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -54,7 +54,7 @@ const ProductsListDefault = ({ onNext, isComplete }: StepContentProps) => {
         Alternatively, if you're not ready to create your own product, we can
         create a sample one for you.
       </Text>
-      {!isComplete && (
+      {!(isComplete ?? false) && (
         <div className="flex gap-2 mt-6">
           <Button
             variant="primary"
