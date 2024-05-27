@@ -107,13 +107,6 @@ export interface Variant extends VariantBase {
   optionProperties: { key: string; value: string }[];
 }
 
-export interface StoredVariant extends VariantBase {
-  internalId: string;
-  option1?: string;
-  option2?: string;
-  option3?: string;
-}
-
 export interface Option {
   name: string;
   values: string[];
