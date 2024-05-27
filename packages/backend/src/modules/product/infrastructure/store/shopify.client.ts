@@ -109,7 +109,6 @@ export class ShopifyClient implements IStoreClient {
       ...storeProduct,
       internalId: productId,
       variants: variants.map((variant) => ({
-        id: Number(variant.shopifyId),
         internalId: variant.id,
         condition: variant.condition ?? Condition.GOOD,
         price: fromCents(Number(variant.priceInCents)).toString(),
@@ -210,18 +209,25 @@ export class ShopifyClient implements IStoreClient {
   }
 
   async createProductVariant(
-    productId: number,
+    productInternalId: UUID,
     data: Variant,
   ): Promise<Omit<StoredVariant, 'internalId'>> {
     try {
-      const { product_type } = await shopifyApiByToken.product.get(productId);
+      const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
+        where: { id: productInternalId.uuid },
+        select: { shopifyId: true },
+      });
+      const productShopifyId = Number(shopifyId);
+
+      const { product_type } =
+        await shopifyApiByToken.product.get(productShopifyId);
       const {
         attributes: { weight },
       } = await this.pimClient.getPimProductType(product_type);
       const validVariant = await this.getValidVariantToCreate(data, weight);
 
       const productVariant = await shopifyApiByToken.productVariant.create(
-        productId,
+        productShopifyId,
         validVariant,
       );
 

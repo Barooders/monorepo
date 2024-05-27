@@ -61,7 +61,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
       });
 
     return productsToUpdate.map((product) => ({
-      internalProductId: String(product.shopifyId),
+      internalId: product.id,
       referenceUrl: product.storeProductForAdmin?.sourceUrl ?? '',
     }));
   }
@@ -86,13 +86,13 @@ export class ScrapflyProductService implements ProVendorStrategy {
   async updateProductStocks(
     productToUpdate: ProductWithReferenceUrl,
   ): Promise<void> {
-    const { referenceUrl, internalProductId } = productToUpdate;
+    const { referenceUrl, internalId } = productToUpdate;
 
     const vendorApiUrl = this.vendorConfigService.getVendorConfig().apiUrl;
 
     if (!referenceUrl.includes(vendorApiUrl)) {
       this.logger.warn(
-        `[Product: ${internalProductId}] Reference URL ${referenceUrl} does not contain ${vendorApiUrl}`,
+        `[Product: ${internalId}] Reference URL ${referenceUrl} does not contain ${vendorApiUrl}`,
       );
       return;
     }
@@ -107,7 +107,7 @@ export class ScrapflyProductService implements ProVendorStrategy {
 
     if (mappedUrl?.status === 'error') {
       this.logger.warn(
-        `[Product: ${internalProductId}] Error while mapping reference URL: ${mappedUrl.message}`,
+        `[Product: ${internalId}] Error while mapping reference URL: ${mappedUrl.message}`,
       );
       return;
     }
@@ -135,9 +135,9 @@ export class ScrapflyProductService implements ProVendorStrategy {
 
     if (status_code >= 400 && status_code < 500) {
       this.logger.warn(
-        `Product ${internalProductId} is not available anymore (vendor returned a ${status_code}), archiving it`,
+        `Product ${internalId} is not available anymore (vendor returned a ${status_code}), archiving it`,
       );
-      await this.storeClient.updateProduct(Number(internalProductId), {
+      await this.storeClient.updateProduct(internalId, {
         status: ProductStatus.ARCHIVED,
       });
       return;
@@ -150,16 +150,14 @@ export class ScrapflyProductService implements ProVendorStrategy {
 
     if (!isAvailable) {
       this.logger.warn(
-        `Product ${internalProductId} page is 200 but a user can't buy it, archiving it`,
+        `Product ${internalId} page is 200 but a user can't buy it, archiving it`,
       );
-      await this.storeClient.updateProduct(Number(internalProductId), {
+      await this.storeClient.updateProduct(internalId, {
         status: ProductStatus.ARCHIVED,
       });
       return;
     }
 
-    this.logger.warn(
-      `Product ${internalProductId} is still available for sale`,
-    );
+    this.logger.warn(`Product ${internalId} is still available for sale`);
   }
 }

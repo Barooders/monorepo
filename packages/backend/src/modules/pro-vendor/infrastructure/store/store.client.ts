@@ -1,6 +1,5 @@
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { Condition, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import {
-  mapCondition,
   Product,
   ProductToUpdate,
   StoredProduct,
@@ -58,27 +57,22 @@ export class StoreClient implements IStoreClient {
   }
 
   async createProductVariant(
-    product_id: number,
+    productInternalId: string,
     data: Variant,
   ): Promise<StoredVariant> {
     return await this.productCreationService.createProductVariant(
-      product_id,
+      productInternalId,
       data,
       backendAuthor,
     );
   }
 
   async updateProduct(
-    product_id: number,
+    productInternalId: string,
     data: ProductToUpdate,
   ): Promise<void> {
-    const { id } = await this.prisma.product.findUniqueOrThrow({
-      where: {
-        shopifyId: product_id,
-      },
-    });
     await this.productUpdateService.updateProduct(
-      new UUID({ uuid: id }),
+      new UUID({ uuid: productInternalId }),
       data,
       { notifyVendor: false },
       backendAuthor,
@@ -86,10 +80,10 @@ export class StoreClient implements IStoreClient {
   }
 
   async updateProductVariant(
-    variant_id: number,
+    variantInternalId: string,
     data: VariantToUpdate,
   ): Promise<void> {
-    const { product, id } = await this.getInternalVariant(variant_id);
+    const { product, id } = await this.getInternalVariant(variantInternalId);
 
     await this.productUpdateService.updateProductVariant(
       new UUID({ uuid: product.id }),
@@ -99,8 +93,8 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  async deleteProductVariant(variantShopifyId: number): Promise<void> {
-    const { product, id } = await this.getInternalVariant(variantShopifyId);
+  async deleteProductVariant(variantInternalId: string): Promise<void> {
+    const { product, id } = await this.getInternalVariant(variantInternalId);
 
     await this.productUpdateService.deleteProductVariant(
       new UUID({ uuid: product.id }),
@@ -109,15 +103,23 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  async getProduct(productId: number): Promise<StoredProduct | null> {
+  async getProduct(productInternalId: string): Promise<StoredProduct | null> {
     try {
-      const product =
-        await this.getOrCreateShopifyApiByToken().product.get(productId);
       const productInDB = await this.prisma.product.findUniqueOrThrow({
         where: {
-          shopifyId: productId,
+          id: productInternalId,
+        },
+        include: {
+          variants: true,
         },
       });
+
+      if (productInDB?.shopifyId === null)
+        throw new Error('Product not found in Shopify');
+
+      const product = await this.getOrCreateShopifyApiByToken().product.get(
+        Number(productInDB.shopifyId),
+      );
 
       const cleanProduct = cleanShopifyProduct(product);
 
@@ -127,11 +129,11 @@ export class StoreClient implements IStoreClient {
         EANCode: productInDB?.EANCode ?? undefined,
         GTINCode: productInDB?.GTINCode ?? undefined,
         source: productInDB?.source ?? undefined,
-        variants: await Promise.all(
-          cleanProduct.variants.map((variant) => {
-            return this.enrichVariantWithCondition(variant);
-          }),
-        ),
+        variants: productInDB.variants.map((variant) => ({
+          ...variant,
+          condition: variant.condition ?? Condition.GOOD,
+          internalId: variant.id,
+        })),
       };
     } catch (error) {
       this.logger.debug(
@@ -142,52 +144,49 @@ export class StoreClient implements IStoreClient {
   }
 
   async getVariantByTitle(
-    product_id: number,
+    productInternalId: string,
     variant: Variant,
-  ): Promise<StoredVariant | null> {
+  ): Promise<string | null> {
     try {
+      const shopifyId = await this.getProductShopifyId(productInternalId);
+
       const title = compact(
         variant.optionProperties.map(({ value }) => value).slice(0, 3),
       ).join(' / ');
       this.logger.debug(`get Product Variant in Shopify with id : ${title}`);
       const variants =
         await this.getOrCreateShopifyApiByToken().productVariant.list(
-          product_id,
+          shopifyId,
         );
       const matchedVariant = variants
         .map(cleanShopifyVariant)
         .find((variant) => variant.title === title);
 
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      return matchedVariant
-        ? await this.enrichVariantWithCondition(matchedVariant)
-        : null;
+      if (matchedVariant === undefined) return null;
+
+      const { id } = await this.prisma.productVariant.findFirstOrThrow({
+        where: {
+          shopifyId: matchedVariant?.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      return id;
     } catch (error) {
       this.logger.debug(parseShopifyError(error));
       return null;
     }
   }
 
-  private async enrichVariantWithCondition(
-    variant: Omit<StoredVariant, 'condition' | 'internalId'>,
-  ): Promise<StoredVariant> {
-    const dbVariant = await this.prisma.productVariant.findFirst({
-      where: { shopifyId: variant.id },
-      select: { condition: true, id: true },
-    });
+  async getProductMetafields(
+    productInternalId: string,
+  ): Promise<Shopify.IMetafield[]> {
+    const shopifyId = await this.getProductShopifyId(productInternalId);
 
-    if (!dbVariant) throw new Error('Variant not found in DB');
-
-    return {
-      ...variant,
-      internalId: dbVariant.id,
-      condition: mapCondition(dbVariant?.condition),
-    };
-  }
-
-  async getProductMetafields(productId: number): Promise<Shopify.IMetafield[]> {
     return await this.getOrCreateShopifyApiByToken().metafield.list({
-      metafield: { owner_resource: 'product', owner_id: productId },
+      metafield: { owner_resource: 'product', owner_id: shopifyId },
       limit: 250,
     });
   }
@@ -204,13 +203,31 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  private async getInternalVariant(variantShopifyId: number) {
+  private async getProductShopifyId(productInternalId: string) {
+    const productInDB = await this.prisma.product.findUniqueOrThrow({
+      where: {
+        id: productInternalId,
+      },
+    });
+
+    if (productInDB?.shopifyId === null) {
+      throw new Error('Product not found in Shopify');
+    }
+
+    return Number(productInDB.shopifyId);
+  }
+
+  private async getInternalVariant(variantInternalId: string) {
     return await this.prisma.productVariant.findUniqueOrThrow({
       where: {
-        shopifyId: variantShopifyId,
+        id: variantInternalId,
       },
       include: {
-        product: true,
+        product: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }

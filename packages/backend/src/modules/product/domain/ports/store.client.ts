@@ -26,7 +26,7 @@ export abstract class IStoreClient {
   >;
   abstract updateProduct(productId: UUID, data: ProductToUpdate): Promise<void>;
   abstract createProductVariant(
-    productId: number,
+    productInternalId: UUID,
     data: Variant,
   ): Promise<Omit<StoredVariant, 'internalId'>>;
   abstract updateProductVariant(

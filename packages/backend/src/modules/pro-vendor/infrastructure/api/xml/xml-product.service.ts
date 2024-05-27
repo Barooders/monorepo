@@ -53,7 +53,7 @@ export class XMLProductService implements ProVendorStrategy {
 
     await Promise.allSettled(
       variantStocksToUpdate.map(
-        async ({ internalVariantId, externalVariantId, currentStock }) => {
+        async ({ internalId, externalVariantId, currentStock }) => {
           try {
             const variant = await this.xmlClient.getProductVariant(
               productFromVendor.id,
@@ -61,7 +61,7 @@ export class XMLProductService implements ProVendorStrategy {
             );
 
             await this.productService.updateProductVariantStock(
-              Number(internalVariantId),
+              internalId,
               variant?.inventoryQuantity.stock ?? 0,
               currentStock,
             );

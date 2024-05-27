@@ -136,13 +136,13 @@ export class PrestashopProductService implements ProVendorStrategy {
 
     await Promise.allSettled(
       variantStocksToUpdate.map(
-        async ({ internalVariantId, externalVariantId, currentStock }) => {
+        async ({ internalId, externalVariantId, currentStock }) => {
           try {
             const stock =
               await this.prestashopClient.getStockItem(externalVariantId);
 
             await this.productService.updateProductVariantStock(
-              Number(internalVariantId),
+              internalId,
               this.getMapper().getQuantity(productFromVendor, stock),
               currentStock,
             );

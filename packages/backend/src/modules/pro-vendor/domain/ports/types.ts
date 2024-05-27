@@ -100,7 +100,7 @@ export type OrderVendorInput = {
 };
 
 export type ProductWithReferenceUrl = {
-  internalProductId: string;
+  internalId: string;
   referenceUrl: string;
 };
 
@@ -113,14 +113,14 @@ export type VendorProduct =
   | IProduct;
 
 export type SyncedVendorProProduct = VendorProProduct & {
-  internalProductId: string;
+  internalId: string;
 };
 export type SyncedProductToUpdate =
   | SyncedVendorProProduct
   | ProductWithReferenceUrl;
 
 export type VariantStockToUpdate = {
-  internalVariantId: string;
+  internalId: string;
   externalVariantId: string;
   currentStock?: number;
 };

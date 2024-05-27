@@ -31,12 +31,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { omit, omitBy } from 'lodash';
 import { SkippedProductException } from '../exception/skipped-product.exception';
 
-const hasInternalProductId = (
-  product: VendorProProduct,
-): product is VendorProProduct & { internalProductId: string } => {
-  return product.internalProductId !== null;
-};
-
 export const getProductStatus = ({ isVisibleInStore }: SyncLightProduct) => {
   return isVisibleInStore ? ProductStatus.ACTIVE : ProductStatus.DRAFT;
 };
@@ -65,20 +59,18 @@ export class ProductService {
   }
 
   async findAll(): Promise<SyncedVendorProProduct[]> {
-    const products = await this.prisma.vendorProProduct.findMany({
+    return await this.prisma.vendorProProduct.findMany({
       where: {
         vendorSlug: this.vendorConfigService.getVendorConfig().slug,
         syncStatus: SyncStatus.ACTIVE,
-        internalProductId: { not: null },
       },
     });
-
-    //Note: the following filter is only here to fix Prisma typing
-    return products.filter(hasInternalProductId);
   }
 
-  async getProductFromStore(storeId: number): Promise<StoredProduct | null> {
-    return await this.storeClient.getProduct(storeId);
+  async getProductFromStore(
+    productInternalId: string,
+  ): Promise<StoredProduct | null> {
+    return await this.storeClient.getProduct(productInternalId);
   }
 
   async createProduct(product: SyncProduct): Promise<StoredProduct> {
@@ -102,7 +94,6 @@ export class ProductService {
 
     await this.prisma.vendorProProduct.create({
       data: {
-        internalProductId: String(newProduct.shopifyId),
         internalId: newProduct.internalId,
         externalProductId: product.external_id,
         syncStatus: SyncStatus.ACTIVE,
@@ -112,7 +103,7 @@ export class ProductService {
 
     if (newProduct.variants.length !== product.variants.length) {
       throw new Error(
-        `Created product ${newProduct.shopifyId} has not the same number of variants as the product from the vendor (${newProduct.variants.length} instead of ${product.variants.length})`,
+        `Created product ${newProduct.internalId} has not the same number of variants as the product from the vendor (${newProduct.variants.length} instead of ${product.variants.length})`,
       );
     }
 
@@ -121,7 +112,6 @@ export class ProductService {
       await this.prisma.vendorProVariant.create({
         data: {
           externalVariantId: product.variants[index].external_id,
-          internalVariantId: String(newVariant.id),
           internalId: newVariant.internalId,
           vendorSlug,
         },
@@ -145,36 +135,43 @@ export class ProductService {
   }
 
   async updateProductStatusOnStoreOnly(
-    storeId: number,
+    productInternalId: string,
     status: ProductStatus,
   ): Promise<void> {
-    await this.storeClient.updateProduct(storeId, { status });
+    await this.storeClient.updateProduct(productInternalId, { status });
   }
 
   async archiveProductIfNotInAPI(
     productToUpdate: SyncedVendorProProduct,
   ): Promise<void> {
-    const storeId = Number(productToUpdate.internalProductId);
+    const productInternalId = productToUpdate.internalId;
 
     this.logger.debug(
-      `Product (${storeId}) not found vendor (or not mapped properly), archiving on store and DB`,
+      `Product (${productInternalId}) not found vendor (or not mapped properly), archiving on store and DB`,
     );
     await this.updateProductStatusOnDbOnly(
       productToUpdate.id,
       SyncStatus.INACTIVE,
     );
-    await this.updateProductStatusOnStoreOnly(storeId, ProductStatus.ARCHIVED);
+    await this.updateProductStatusOnStoreOnly(
+      productInternalId,
+      ProductStatus.ARCHIVED,
+    );
   }
 
   async updateProductOnStore(
     mappedProduct: SyncProduct,
     shouldUpdateImages: boolean,
     productFromStore: StoredProduct,
-  ): Promise<number> {
-    const productStoreId = productFromStore.shopifyId;
+  ): Promise<string> {
+    const productInternalId = productFromStore.internalId;
 
-    await this.updateVariants(mappedProduct, productStoreId, productFromStore);
-    await this.updateSEOMetafields(productStoreId, mappedProduct);
+    await this.updateVariants(
+      mappedProduct,
+      productInternalId,
+      productFromStore,
+    );
+    await this.updateSEOMetafields(productInternalId, mappedProduct);
 
     const addUpdate = <MappedType, StoreType>(
       mappedValue: MappedType | undefined,
@@ -271,26 +268,26 @@ export class ProductService {
     if (Object.keys(concreteProductUpdates).length > 0) {
       // update product on Shopify
       this.logger.debug(
-        `Will update product ${productStoreId} with: ${jsonStringify(
+        `Will update product ${productInternalId} with: ${jsonStringify(
           concreteProductUpdates,
         )}`,
       );
-      await this.storeClient.updateProduct(productStoreId, {
+      await this.storeClient.updateProduct(productInternalId, {
         ...concreteProductUpdates,
       });
 
-      return productStoreId;
+      return productInternalId;
     }
 
     throw new SkippedProductException(
-      String(productStoreId),
+      String(productInternalId),
       'No updates to be made',
     );
   }
 
   private async updateVariants(
     mappedProduct: SyncProduct,
-    productStoreId: number,
+    productInternalId: string,
     productFromStore: StoredProduct,
   ) {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -300,7 +297,10 @@ export class ProductService {
       mappedProduct.variants.map(async (variant) => {
         return {
           ...variant,
-          internal_id: await this.getOrCreateVariantId(variant, productStoreId), //TODO: we know here which variants already exist
+          internal_id: await this.getOrCreateVariantId(
+            variant,
+            productInternalId,
+          ), //TODO: we know here which variants already exist
         };
       }),
     );
@@ -314,8 +314,8 @@ export class ProductService {
 
     const internalVariants = await this.prisma.vendorProVariant.findMany({
       where: {
-        internalVariantId: {
-          in: productFromStore.variants.map(({ id }) => String(id)),
+        internalId: {
+          in: productFromStore.variants.map(({ internalId }) => internalId),
         },
       },
     });
@@ -326,12 +326,12 @@ export class ProductService {
     });
 
     await Promise.all(
-      variantsToDelete.map(async ({ internalVariantId, id }) => {
-        await this.storeClient.deleteProductVariant(Number(internalVariantId));
+      variantsToDelete.map(async ({ internalId, id }) => {
+        await this.storeClient.deleteProductVariant(internalId);
         await this.prisma.vendorProVariant.delete({
           where: { id },
         });
-        this.logger.warn(`Deleted outdated variant ${internalVariantId}`);
+        this.logger.warn(`Deleted outdated variant ${internalId}`);
       }),
     );
 
@@ -339,16 +339,16 @@ export class ProductService {
   }
 
   private async updateSEOMetafields(
-    productStoreId: number,
+    productInternalId: string,
     mappedProduct: SyncProduct,
   ): Promise<void> {
     const newSEOMetafields = await getSEOMetafields(mappedProduct);
     const productFromStoreMetafields =
-      await this.storeClient.getProductMetafields(productStoreId);
+      await this.storeClient.getProductMetafields(productInternalId);
 
     if (!Array.isArray(productFromStoreMetafields)) {
       this.logger.error(
-        `Could not get metafields for product ${productStoreId}`,
+        `Could not get metafields for product ${productInternalId}`,
       );
     }
 
@@ -360,7 +360,7 @@ export class ProductService {
             newMetafield.value,
           );
           this.logger.debug(
-            `Updated SEO metafield (${namespace}.${key}) from (${value}) to (${newMetafield.value}) for product ${productStoreId}`,
+            `Updated SEO metafield (${namespace}.${key}) from (${value}) to (${newMetafield.value}) for product ${productInternalId}`,
           );
         }
       }
@@ -380,7 +380,7 @@ export class ProductService {
         condition,
       } = variantFromVendor;
       const variantFromStore = variantsFromStore.find(
-        (variant) => variant.id === internal_id,
+        (variant) => variant.internalId === internal_id,
       );
       if (!variantFromStore)
         throw new Error(
@@ -418,13 +418,13 @@ export class ProductService {
 
       if (Object.keys(concreteVariantUpdates).length > 0) {
         this.logger.debug(
-          `Updating variant ${variantFromStore.id}. Update: ${jsonStringify(
+          `Updating variant ${variantFromStore.internalId}. Update: ${jsonStringify(
             concreteVariantUpdates,
           )}`,
         );
 
         await this.storeClient.updateProductVariant(
-          variantFromStore.id,
+          variantFromStore.internalId,
           concreteVariantUpdates,
         );
       }
@@ -432,16 +432,16 @@ export class ProductService {
   }
 
   async updateProductVariantStock(
-    variantId: number,
+    variantInternalId: string,
     newStock: number,
     currentStock?: number,
   ): Promise<void> {
     if (newStock === currentStock) return;
 
     this.logger.warn(
-      `Updating stock for variant ${variantId} from ${currentStock} to ${newStock}`,
+      `Updating stock for variant ${variantInternalId} from ${currentStock} to ${newStock}`,
     );
-    await this.storeClient.updateProductVariant(variantId, {
+    await this.storeClient.updateProductVariant(variantInternalId, {
       inventory_quantity: newStock,
     });
   }
@@ -458,34 +458,34 @@ export class ProductService {
 
   private async getOrCreateVariantId(
     variantFromVendor: Variant,
-    productStoreId: number,
-  ): Promise<number> {
+    productInternalId: string,
+  ): Promise<string> {
     const vendorSlug = this.vendorConfigService.getVendorConfig().slug;
     const variantFromDb = await this.prisma.vendorProVariant.findMany({
       where: { externalVariantId: variantFromVendor.external_id, vendorSlug },
     });
-    if (variantFromDb.length > 0)
-      return Number(variantFromDb[0].internalVariantId);
-    let storeVariant = await this.storeClient.getVariantByTitle(
-      productStoreId,
+    if (variantFromDb.length > 0) return variantFromDb[0].internalId;
+    let variantInternalId = await this.storeClient.getVariantByTitle(
+      productInternalId,
       variantFromVendor,
     );
-    if (!storeVariant) {
-      storeVariant = await this.storeClient.createProductVariant(
-        productStoreId,
-        omit(variantFromVendor, 'inventory_quantity'),
-      );
+    if (variantInternalId === null) {
+      variantInternalId = (
+        await this.storeClient.createProductVariant(
+          productInternalId,
+          omit(variantFromVendor, 'inventory_quantity'),
+        )
+      ).internalId;
     }
 
     await this.prisma.vendorProVariant.create({
       data: {
         externalVariantId: variantFromVendor.external_id,
-        internalVariantId: String(storeVariant.id),
-        internalId: storeVariant.internalId,
+        internalId: variantInternalId,
         vendorSlug: vendorSlug,
       },
     });
 
-    return storeVariant.id;
+    return variantInternalId;
   }
 }

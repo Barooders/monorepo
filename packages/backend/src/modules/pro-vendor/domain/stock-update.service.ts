@@ -45,9 +45,7 @@ export class StockUpdateService {
 
     return {
       payload: {
-        updatedProductIds: productsToUpdate.map(
-          ({ internalProductId }) => internalProductId,
-        ),
+        updatedProductIds: productsToUpdate.map(({ internalId }) => internalId),
       },
       metadata: { productsToUpdateCount: productsToUpdate.length },
     };
@@ -59,25 +57,24 @@ export class StockUpdateService {
     const internalVariants = await this.prisma.productVariant.findMany({
       where: {
         product: {
-          shopifyId: Number(product.internalProductId),
+          id: product.internalId,
         },
       },
     });
     const externalVariants = await this.prisma.vendorProVariant.findMany({
       where: {
-        internalVariantId: {
-          in: internalVariants.map(({ shopifyId }) => shopifyId.toString()),
+        internalId: {
+          in: internalVariants.map(({ id }) => id),
         },
       },
     });
 
     const variantStocksToUpdate = externalVariants.map(
-      ({ internalVariantId, externalVariantId }) => ({
-        internalVariantId,
+      ({ internalId, externalVariantId }) => ({
+        internalId,
         externalVariantId,
-        currentStock: internalVariants.find(
-          ({ shopifyId }) => shopifyId.toString() === internalVariantId,
-        )?.quantity,
+        currentStock: internalVariants.find(({ id }) => id === internalId)
+          ?.quantity,
       }),
     );
 

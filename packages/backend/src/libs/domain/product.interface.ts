@@ -81,7 +81,6 @@ export type ProductToUpdate = Partial<
 >;
 
 export interface StoredProduct extends ProductBase {
-  shopifyId: number;
   internalId: string;
   status: ProductStatus;
   vendor: string;
@@ -94,18 +93,14 @@ export interface StoredProduct extends ProductBase {
   handle: string;
   published_at?: string;
   published_scope?: string;
-  image: Image & {
+  image: {
     src: string;
-    created_at: string;
-    id: number;
-    position: number;
-    updated_at: string;
-    product_id: number;
-    variant_ids: number[];
-    width: number;
-    height: number;
-    alt?: string;
+    shopifyId: number;
   };
+  images: {
+    src: string;
+    shopifyId: number;
+  }[];
 }
 
 export type StoreProductWithoutCondition = Omit<
@@ -137,19 +132,16 @@ interface VariantBase {
 }
 
 export interface Variant extends VariantBase {
-  internal_id?: number; // This is the id of the StoredVariant in our database
+  internal_id?: string; // This is the id of the StoredVariant in our database
   external_id: string;
   optionProperties: { key: string; value: string }[];
 }
 
 export interface StoredVariant extends VariantBase {
-  id: number;
   internalId: string;
   option1?: string;
   option2?: string;
   option3?: string;
-  inventory_management: string;
-  inventory_policy: string;
 }
 
 export interface Option {

@@ -96,7 +96,7 @@ export class WooCommerceProductService implements ProVendorStrategy {
 
     await Promise.allSettled(
       variantStocksToUpdate.map(
-        async ({ internalVariantId, externalVariantId, currentStock }) => {
+        async ({ internalId, externalVariantId, currentStock }) => {
           try {
             const stock = await this.wooCommerceClient.getProductVariation(
               productFromVendor.id,
@@ -104,7 +104,7 @@ export class WooCommerceProductService implements ProVendorStrategy {
             );
 
             await this.productService.updateProductVariantStock(
-              Number(internalVariantId),
+              internalId,
               this.getMapper().getVariantQuantity(
                 productFromVendor,
                 stock?.stock_quantity ?? 0,

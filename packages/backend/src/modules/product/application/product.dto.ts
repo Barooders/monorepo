@@ -1,6 +1,5 @@
 import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
-  Image,
   Option,
   StoredProduct,
   StoredVariant,
@@ -8,49 +7,13 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 
-class SimpleImageDTO implements Image {
-  @ApiProperty()
-  src?: string;
-
-  @ApiProperty()
-  attachment?: string;
-
-  @ApiProperty()
-  id?: number;
-}
-
-class MainProductImageDTO extends SimpleImageDTO {
-  @ApiProperty()
-  created_at!: string;
-
-  @ApiProperty()
-  id!: number;
-
-  @ApiProperty()
-  position!: number;
-
-  @ApiProperty()
-  updated_at!: string;
-
-  @ApiProperty()
-  product_id!: number;
-
-  @ApiProperty({ isArray: true })
-  variant_ids!: number[];
-
-  @ApiProperty()
-  width!: number;
-
-  @ApiProperty()
-  height!: number;
-
-  @ApiProperty()
-  alt?: string;
-
+class SimpleImageDTO {
   @ApiProperty()
   src!: string;
-}
 
+  @ApiProperty()
+  shopifyId!: number;
+}
 class OptionDTO {
   @ApiProperty()
   name!: string;
@@ -60,9 +23,6 @@ class OptionDTO {
 }
 
 class VariantDTO implements StoredVariant {
-  @ApiProperty()
-  id!: number;
-
   @ApiProperty()
   internalId!: string;
 
@@ -102,9 +62,6 @@ class VariantDTO implements StoredVariant {
 
 export class ProductAdminDTO implements StoredProduct {
   @ApiProperty()
-  shopifyId!: number;
-
-  @ApiProperty()
   internalId!: string;
 
   @ApiProperty()
@@ -140,8 +97,8 @@ export class ProductAdminDTO implements StoredProduct {
   @ApiProperty()
   published_scope?: string;
 
-  @ApiProperty({ type: MainProductImageDTO })
-  image!: MainProductImageDTO;
+  @ApiProperty({ type: SimpleImageDTO })
+  image!: SimpleImageDTO;
 
   @ApiProperty()
   title!: string;

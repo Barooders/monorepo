@@ -18,24 +18,26 @@ export type VariantToUpdate = Partial<
 export abstract class IStoreClient {
   abstract createProduct(data: Product): Promise<StoredProduct | null>;
   abstract createProductVariant(
-    product_id: number,
+    productInternalId: string,
     data: Variant,
   ): Promise<StoredVariant>;
   abstract updateProduct(
-    product_id: number,
+    productInternalId: string,
     data: ProductToUpdate,
   ): Promise<void>;
   abstract updateProductVariant(
-    variant_id: number,
+    variantInternalId: string,
     data: VariantToUpdate,
   ): Promise<void>;
-  abstract deleteProductVariant(variantShopifyId: number): Promise<void>;
-  abstract getProduct(product_id: number): Promise<StoredProduct | null>;
+  abstract deleteProductVariant(variantInternalId: string): Promise<void>;
+  abstract getProduct(productInternalId: string): Promise<StoredProduct | null>;
   abstract getVariantByTitle(
-    product_id: number,
+    productInternalId: string,
     variant: Variant,
-  ): Promise<StoredVariant | null | undefined>;
-  abstract getProductMetafields(productId: number): Promise<StoredMetafield[]>;
+  ): Promise<string | null>;
+  abstract getProductMetafields(
+    productInternalId: string,
+  ): Promise<StoredMetafield[]>;
   abstract updateProductMetafieldValue(
     metafieldId: number,
     metafieldValue: Metafield['value'],
