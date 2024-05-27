@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useAdminProduct, useCreateCart, useMedusa } from 'medusa-react';
-import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 import { Button, Text } from '@medusajs/ui';
+import { useAdminProduct, useCreateCart, useMedusa } from 'medusa-react';
+import { useEffect, useState } from 'react';
+import isEmpty from '../../../../utils/is-empty';
 import prepareRegions from '../../../../utils/prepare-region';
 import prepareShippingOptions from '../../../../utils/prepare-shipping-options';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
+  if (data === undefined) {
+    return null;
+  }
+
   const { product } = useAdminProduct(data.product_id);
+
+  if (product === undefined) {
+    return null;
+  }
+
   const { mutateAsync: createCart, isLoading: cartIsLoading } = useCreateCart();
   const { client } = useMedusa();
   const [cartId, setCartId] = useState<string | null>(null);
@@ -34,7 +44,7 @@ const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
   };
 
   useEffect(() => {
-    if (!cartId && product) {
+    if (isEmpty(cartId) && product !== undefined) {
       prepareNextjsCheckout();
     }
   }, [cartId, product]);
@@ -54,7 +64,7 @@ const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
         </Text>
       </div>
       <div className="flex gap-2">
-        {!isComplete && (
+        {!(isComplete ?? false) && (
           <a
             href={`http://localhost:8000/checkout?cart_id=${cartId}&onboarding=true`}
             target="_blank"
@@ -62,7 +72,7 @@ const OrdersListNextjs = ({ isComplete, data }: StepContentProps) => {
             <Button
               variant="primary"
               size="base"
-              isLoading={!cartId || cartIsLoading}
+              isLoading={isEmpty(cartId) || cartIsLoading}
             >
               Place an order in your storefront
             </Button>

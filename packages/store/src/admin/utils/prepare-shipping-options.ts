@@ -8,7 +8,7 @@ export default async function prepareShippingOptions(
   let { shipping_options } = await client.admin.shippingOptions.list({
     region_id: region.id,
   });
-  if (!shipping_options.length) {
+  if (shipping_options.length === 0) {
     shipping_options = [
       (
         await client.admin.shippingOptions.create({

@@ -21,6 +21,8 @@
     "SENDCLOUD",
     "strapi",
     "Strapi",
-    "STRAPI"
-  ]
+    "STRAPI",
+    "upserted"
+  ],
+  "dbt.queryLimit": 500
 }

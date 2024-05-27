@@ -1,14 +1,13 @@
-import React from 'react';
+import { AdminPostProductsReq, Product } from '@medusajs/medusa';
+import { Button, Text } from '@medusajs/ui';
 import {
-  useAdminCreateProduct,
   useAdminCreateCollection,
+  useAdminCreateProduct,
   useMedusa,
 } from 'medusa-react';
-import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
-import { Button, Text } from '@medusajs/ui';
-import { AdminPostProductsReq, Product } from '@medusajs/medusa';
-import getSampleProducts from '../../../../utils/sample-products';
 import prepareRegions from '../../../../utils/prepare-region';
+import getSampleProducts from '../../../../utils/sample-products';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const ProductsListNextjs = ({ onNext, isComplete }: StepContentProps) => {
   const { mutateAsync: createCollection, isLoading: collectionLoading } =
@@ -39,7 +38,7 @@ const ProductsListNextjs = ({ onNext, isComplete }: StepContentProps) => {
         }
       };
 
-      let product: Product;
+      let product: Product | undefined = undefined;
       const sampleProducts = getSampleProducts({
         regions,
         collection_id: collection.id,
@@ -47,12 +46,13 @@ const ProductsListNextjs = ({ onNext, isComplete }: StepContentProps) => {
       await Promise.all(
         sampleProducts.map(async (sampleProduct, index) => {
           const createdProduct = await tryCreateProduct(sampleProduct);
-          if (index === 0 && createProduct) {
+          if (index === 0 && createdProduct !== null) {
             product = createdProduct;
           }
         }),
       );
-      onNext(product);
+
+      onNext?.(product);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

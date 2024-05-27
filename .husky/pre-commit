@@ -4,7 +4,7 @@
 git diff --cached --name-only | grep 'packages/frontend' && yarn workspace frontend lint-staged
 git diff --cached --name-only | grep 'packages/backend' && yarn workspace backend lint-staged
 git diff --cached --name-only | grep 'packages/shared-types' && yarn workspace shared-types lint-staged
-git diff --cached --name-only | grep 'packages/store' && yarn --cwd lint-staged
+git diff --cached --name-only | grep 'packages/store' && yarn --cwd packages/store lint-staged
 git diff --cached --name-only | grep 'package.json' && node ./scripts/ci/enforceFixedNodeDependencies.js
 git diff --cached --name-only | grep 'packages/dbt' && cd packages/dbt && sqlfluff fix && cd ../..
 

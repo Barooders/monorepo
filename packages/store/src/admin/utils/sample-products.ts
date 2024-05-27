@@ -21,7 +21,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       collection_id,
       discountable: true,
-      subtitle: null,
       description:
         'Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.',
       handle: 'medusa-t-shirt',
@@ -201,7 +200,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description:
         'Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.',
       handle: 'sweatshirt',
@@ -288,7 +286,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description:
         'Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.',
       handle: 'sweatpants',
@@ -375,7 +372,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description:
         'Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.',
       handle: 'shorts',
@@ -462,7 +458,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description:
         'Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.',
       handle: 'hoodie',
@@ -549,7 +544,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description:
         'Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.',
       handle: 'longsleeve',
@@ -636,7 +630,6 @@ export default function getSampleProducts({
       status: ProductStatus.PUBLISHED,
       discountable: true,
       collection_id,
-      subtitle: null,
       description: "Every programmer's best friend.",
       handle: 'coffee-mug',
       is_giftcard: false,

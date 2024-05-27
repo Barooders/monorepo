@@ -1,14 +1,18 @@
+import { Button, Text } from '@medusajs/ui';
 import { useAdminProduct } from 'medusa-react';
 import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
-import { Button, Text } from '@medusajs/ui';
 
 const ProductDetailNextjs = ({
   onNext,
   isComplete,
   data,
 }: StepContentProps) => {
+  if (data === undefined) {
+    return null;
+  }
+
   const { product, isLoading: productIsLoading } = useAdminProduct(
-    data?.product_id,
+    data.product_id,
   );
   return (
     <div>
@@ -62,7 +66,7 @@ const ProductDetailNextjs = ({
           <Button
             variant="secondary"
             size="base"
-            onClick={() => onNext()}
+            onClick={() => onNext?.()}
           >
             Next step
           </Button>

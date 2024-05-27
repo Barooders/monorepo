@@ -93,7 +93,9 @@ const projectConfig = {
   ...(redisUrl
     ? {
         redis_url: redisUrl,
-        redis_options: { tls: { rejectUnauthorized: false } },
+        ...(envConfig.redis.tls
+          ? { redis_options: { tls: { rejectUnauthorized: false } } }
+          : {}),
       }
     : {}),
 };

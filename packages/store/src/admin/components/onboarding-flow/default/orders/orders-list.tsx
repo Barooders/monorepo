@@ -9,7 +9,16 @@ import prepareShippingOptions from '../../../../utils/prepare-shipping-options';
 import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
+  if (data === undefined) {
+    return null;
+  }
+
   const { product } = useAdminProduct(data.product_id);
+
+  if (product === undefined) {
+    return null;
+  }
+
   const { mutateAsync: createDraftOrder, isLoading } =
     useAdminCreateDraftOrder();
   const { client } = useMedusa();
@@ -25,7 +34,7 @@ const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
       const { draft_order } = await createDraftOrder({
         email: 'customer@medusajs.com',
         items: [
-          variant
+          variant !== null
             ? {
                 quantity: 1,
                 variant_id: variant?.id,
@@ -46,7 +55,7 @@ const OrdersListDefault = ({ onNext, isComplete, data }: StepContentProps) => {
 
       const { order } = await client.admin.draftOrders.markPaid(draft_order.id);
 
-      onNext(order);
+      onNext?.(order);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
