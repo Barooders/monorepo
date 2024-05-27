@@ -41,7 +41,7 @@ export type ProductFromStore = {
   variants: VariantFromStore[];
 };
 
-export type CreatedProduct = {
+export type CreatedProductForSync = {
   internalId: string;
   variants: {
     internalId: string;
@@ -49,7 +49,7 @@ export type CreatedProduct = {
 };
 
 export abstract class IStoreClient {
-  abstract createProduct(data: Product): Promise<CreatedProduct | null>;
+  abstract createProduct(data: Product): Promise<CreatedProductForSync | null>;
   abstract createProductVariant(
     productInternalId: string,
     data: Variant,

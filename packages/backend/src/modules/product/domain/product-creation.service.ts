@@ -9,7 +9,6 @@ import {
   Image,
   Metafield,
   Product,
-  StoredProduct,
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
@@ -30,7 +29,11 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { IStoreClient } from './ports/store.client';
+import {
+  IStoreClient,
+  ProductCreatedInStore,
+  VariantCreatedInStore,
+} from './ports/store.client';
 
 import { fromCents, toCents } from '@libs/helpers/currency';
 // eslint-disable-next-line import/no-restricted-paths
@@ -39,6 +42,7 @@ import { jsonStringify } from '@libs/helpers/json';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { get } from 'lodash';
 import { ProductCreatedDomainEvent } from './events/product.created.domain-event';
 import { ProductUpdatedDomainEvent } from './events/product.updated.domain-event';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
@@ -113,6 +117,16 @@ export interface ProductCreationOptions {
   bypassImageCheck?: boolean;
 }
 
+export type CreatedProduct = Omit<
+  ProductCreatedInStore,
+  'variants' | 'shopifyId'
+> & {
+  internalId: string;
+  variants: (Omit<VariantCreatedInStore, 'shopifyId'> & {
+    internalId: string;
+  })[];
+};
+
 @Injectable()
 export class ProductCreationService {
   private readonly logger = new Logger(ProductCreationService.name);
@@ -130,7 +144,7 @@ export class ProductCreationService {
     { uuid: vendorId }: UUID,
     options: ProductCreationOptions,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const { product_type: productType, variants, metafields } = product;
 
     await this.pimClient.checkIfProductTypeExists(productType);
@@ -171,6 +185,7 @@ export class ProductCreationService {
         createdAt: new Date(),
         vendorId,
         status: productStatus,
+        shopifyId: createdProduct.shopifyId,
         description: product.body_html,
         handle: createdProduct.handle,
         productType,
@@ -191,8 +206,9 @@ export class ProductCreationService {
         },
         variants: {
           createMany: {
-            data: createdProduct.variants.map((variant) => ({
+            data: createdProduct.variants.map((variant, index) => ({
               createdAt: new Date(),
+              shopifyId: variant.shopifyId,
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -201,7 +217,9 @@ export class ProductCreationService {
               compareAtPriceInCents: variant.compare_at_price
                 ? toCents(variant.compare_at_price)
                 : null,
-              condition: variant.condition,
+              //TODO: stop using index here as shopify can return variants in different order
+              condition:
+                get(product.variants, `[${index}].condition`) ?? Condition.GOOD,
             })),
           },
         },
@@ -229,12 +247,15 @@ export class ProductCreationService {
     );
 
     return {
-      ...createdProduct,
+      handle: createdProduct.handle,
+      title: createdProduct.title,
+      images: createdProduct.images,
       internalId: productInDB.id,
       variants: productInDB.variants.map((variant) => ({
         internalId: variant.id,
+        inventory_quantity: variant.quantity,
         price: fromCents(Number(variant.priceInCents)).toString(),
-        compareAtPrice: fromCents(
+        compare_at_price: fromCents(
           Number(variant.compareAtPriceInCents),
         ).toString(),
         condition: variant.condition ?? Condition.GOOD,
@@ -304,7 +325,7 @@ export class ProductCreationService {
     draftProductInputDto: DraftProductInputDto,
     vendorId: UUID,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const { price } = draftProductInputDto;
 
     return await this.createProductFromWeb(
@@ -333,7 +354,7 @@ export class ProductCreationService {
     draftProductInputDto: DraftProductInputDto,
     vendorId: UUID,
     author: Author,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     return await this.createProductFromWeb(
       draftProductInputDto,
       vendorId,
@@ -367,7 +388,7 @@ export class ProductCreationService {
     vendorId: UUID,
     author: Author,
     options: ProductCreationOptions,
-  ): Promise<StoredProduct> {
+  ): Promise<CreatedProduct> {
     const {
       tags,
       images,

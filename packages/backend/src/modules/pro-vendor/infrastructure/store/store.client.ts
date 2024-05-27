@@ -8,17 +8,14 @@ import {
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents } from '@libs/helpers/currency';
-import {
-  cleanShopifyProduct,
-  cleanShopifyVariant,
-} from '@libs/infrastructure/shopify/mappers';
+import { cleanShopifyVariant } from '@libs/infrastructure/shopify/mappers';
 import {
   InstrumentedShopify,
   parseShopifyError,
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import {
-  CreatedProduct,
+  CreatedProductForSync,
   IStoreClient,
   ProductFromStore,
   VariantToUpdate,
@@ -46,7 +43,7 @@ export class StoreClient implements IStoreClient {
     private prisma: PrismaMainClient,
   ) {}
 
-  async createProduct(product: Product): Promise<CreatedProduct | null> {
+  async createProduct(product: Product): Promise<CreatedProductForSync | null> {
     return await this.productCreationService.createProduct(
       {
         ...product,
@@ -115,21 +112,34 @@ export class StoreClient implements IStoreClient {
         },
         include: {
           variants: true,
+          vendor: {
+            select: {
+              sellerName: true,
+            },
+          },
         },
       });
 
       if (productInDB?.shopifyId === null)
         throw new Error('Product not found in Shopify');
 
-      const product = await this.getOrCreateShopifyApiByToken().product.get(
-        Number(productInDB.shopifyId),
-      );
-
-      const cleanProduct = cleanShopifyProduct(product);
+      const { title, body_html, product_type, tags, images } =
+        await this.getOrCreateShopifyApiByToken().product.get(
+          Number(productInDB.shopifyId),
+        );
 
       return {
-        ...cleanProduct,
+        title,
+        body_html,
+        product_type,
+        tags: tags.split(', '),
+        images: images.map(({ src, id }) => ({
+          src,
+          shopifyId: id,
+        })),
+        vendor: productInDB.vendor.sellerName ?? '',
         internalId: productInDB.id,
+        status: productInDB.status,
         EANCode: productInDB?.EANCode ?? undefined,
         GTINCode: productInDB?.GTINCode ?? undefined,
         source: productInDB?.source ?? undefined,

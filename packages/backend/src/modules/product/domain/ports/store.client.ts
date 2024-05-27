@@ -2,7 +2,6 @@ import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
   ProductToStore,
   ProductToUpdate,
-  StoredProduct,
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
@@ -36,13 +35,26 @@ export type ProductDetails = {
   }[];
 };
 
+export type VariantCreatedInStore = {
+  shopifyId: number;
+  inventory_quantity: number;
+  price: string;
+  compare_at_price: string | null;
+};
+
+export type ProductCreatedInStore = {
+  shopifyId: number;
+  handle: string;
+  title: string;
+  images: { src: string; shopifyId: number }[];
+  variants: VariantCreatedInStore[];
+};
+
 export abstract class IStoreClient {
   abstract getProductDetails(productId: UUID): Promise<ProductDetails>;
-  abstract createProduct(product: ProductToStore): Promise<
-    Omit<StoredProduct, 'internalId' | 'variants'> & {
-      variants: Omit<StoredVariant, 'internalId'>[];
-    }
-  >;
+  abstract createProduct(
+    product: ProductToStore,
+  ): Promise<ProductCreatedInStore>;
   abstract updateProduct(productId: UUID, data: ProductToUpdate): Promise<void>;
   abstract createProductVariant(
     productInternalId: UUID,

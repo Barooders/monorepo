@@ -103,13 +103,6 @@ export interface StoredProduct extends ProductBase {
   }[];
 }
 
-export type StoreProductWithoutCondition = Omit<
-  StoredProduct,
-  'variants' | 'internalId'
-> & {
-  variants: Omit<StoredVariant, 'condition' | 'internalId'>[];
-};
-
 export interface Metafield {
   key: string;
   value: string | number;

@@ -16,7 +16,6 @@ import {
   ProductToUpdate,
   ShopifyProductStatus,
   StoredMetafield,
-  StoredProduct,
   StoredVariant,
   Variant,
   getVariantsOptions,
@@ -29,10 +28,7 @@ import {
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
-import {
-  cleanShopifyProduct,
-  cleanShopifyVariant,
-} from '@libs/infrastructure/shopify/mappers';
+import { cleanShopifyVariant } from '@libs/infrastructure/shopify/mappers';
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import {
   findMetafield,
@@ -47,6 +43,7 @@ import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import {
   IStoreClient,
+  ProductCreatedInStore,
   ProductCreationInput,
   ProductDetails,
 } from '@modules/product/domain/ports/store.client';
@@ -62,7 +59,6 @@ import {
 } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
 import dayjs from 'dayjs';
-import { get } from 'lodash';
 import { IProductVariant } from 'shopify-api-node';
 
 const mapShopifyStatus = (status: ProductStatus): ShopifyProductStatus => {
@@ -108,14 +104,14 @@ export class ShopifyClient implements IStoreClient {
       });
     const product = await shopifyApiByToken.product.get(Number(shopifyId));
 
-    const { images, tags, product_type, body_html } =
-      cleanShopifyProduct(product);
-
     return {
-      images,
-      tags,
-      product_type,
-      body_html,
+      images: product.images.map((image) => ({
+        src: image.src,
+        shopifyId: image.id,
+      })),
+      tags: product.tags.split(', '),
+      product_type: product.product_type,
+      body_html: product.body_html,
       status,
       vendor: vendor.sellerName ?? '',
       variants: variants.map((variant) => ({
@@ -130,11 +126,7 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  async createProduct(product: ProductToStore): Promise<
-    Omit<StoredProduct, 'internalId' | 'variants'> & {
-      variants: Omit<StoredVariant, 'internalId'>[];
-    }
-  > {
+  async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );
@@ -196,18 +188,17 @@ export class ShopifyClient implements IStoreClient {
         });
       }
 
-      const cleanProduct = cleanShopifyProduct(createdProduct);
-
       return {
-        ...cleanProduct,
-        EANCode: product.EANCode,
-        GTINCode: product.GTINCode,
-        source: product.source,
-        variants: cleanProduct.variants.map((variant, index) => ({
+        shopifyId: createdProduct.id,
+        handle: createdProduct.handle,
+        title: createdProduct.title,
+        images: createdProduct.images.map((image) => ({
+          src: image.src,
+          shopifyId: image.id,
+        })),
+        variants: createdProduct.variants.map((variant) => ({
           ...variant,
-          //TODO: stop using index here as shopify can return variants in different order
-          condition:
-            get(product.variants, `[${index}].condition`) ?? Condition.GOOD,
+          shopifyId: variant.id,
         })),
       };
     } catch (e: any) {
