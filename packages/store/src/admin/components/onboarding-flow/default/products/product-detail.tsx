@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
-import {
-  useAdminPublishableApiKeys,
-  useAdminCreatePublishableApiKey,
-} from 'medusa-react';
-import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 import { Button, CodeBlock, Text } from '@medusajs/ui';
+import {
+  useAdminCreatePublishableApiKey,
+  useAdminPublishableApiKeys,
+} from 'medusa-react';
+import { useEffect, useMemo } from 'react';
+import { StepContentProps } from '../../../../widgets/onboarding-flow/onboarding-flow';
 
 const ProductDetailDefault = ({
   onNext,
@@ -21,17 +21,17 @@ const ProductDetailDefault = ({
   });
   const createPublishableApiKey = useAdminCreatePublishableApiKey();
 
-  const api_key = useMemo(() => keys?.[0]?.id || '', [keys]);
+  const api_key = useMemo(() => keys?.[0]?.id ?? '', [keys]);
   const backendUrl =
     process.env.MEDUSA_BACKEND_URL === '/' ||
     process.env.MEDUSA_ADMIN_BACKEND_URL === '/'
       ? location.origin
-      : process.env.MEDUSA_BACKEND_URL ||
-        process.env.MEDUSA_ADMIN_BACKEND_URL ||
+      : process.env.MEDUSA_BACKEND_URL ??
+        process.env.MEDUSA_ADMIN_BACKEND_URL ??
         'http://localhost:9000';
 
   useEffect(() => {
-    if (!isLoading && !keys?.length) {
+    if (!isLoading && (keys?.length ?? 0) === 0) {
       createPublishableApiKey.mutate(
         {
           title: 'Development',
@@ -63,12 +63,12 @@ const ProductDetailDefault = ({
               {
                 label: 'cURL',
                 language: 'bash',
-                code: `curl "${backendUrl}/store/products/${data?.product_id}"${api_key ? ` -H "x-publishable-key: ${api_key}"` : ``}`,
+                code: `curl "${backendUrl}/store/products/${data?.product_id}"${api_key !== '' ? ` -H "x-publishable-key: ${api_key}"` : ``}`,
               },
               {
                 label: 'Medusa JS Client',
                 language: 'js',
-                code: `// Install the JS Client in your storefront project: @medusajs/medusa-js\n\nimport Medusa from "@medusajs/medusa-js"\n\nconst medusa = new Medusa(${api_key ? `{ publishableApiKey: "${api_key}"}` : ``})\nconst product = await medusa.products.retrieve("${data?.product_id}")\nconsole.log(product.id)`,
+                code: `// Install the JS Client in your storefront project: @medusajs/medusa-js\n\nimport Medusa from "@medusajs/medusa-js"\n\nconst medusa = new Medusa(${api_key !== '' ? `{ publishableApiKey: "${api_key}"}` : ``})\nconst product = await medusa.products.retrieve("${data?.product_id}")\nconsole.log(product.id)`,
               },
               {
                 label: 'Medusa React',
@@ -100,11 +100,11 @@ const ProductDetailDefault = ({
             Open preview in browser
           </Button>
         </a>
-        {!isComplete && (
+        {!(isComplete ?? false) && (
           <Button
             variant="primary"
             size="base"
-            onClick={() => onNext()}
+            onClick={() => onNext?.()}
           >
             Next step
           </Button>

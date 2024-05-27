@@ -13,6 +13,7 @@ const localConfig: EnvironmentsType = {
   },
   redis: {
     url: 'redis://default:@0.0.0.0:6379',
+    tls: false,
   },
   cors: [
     'http://localhost:8000',

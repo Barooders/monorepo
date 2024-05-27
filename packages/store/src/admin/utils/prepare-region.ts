@@ -4,9 +4,9 @@ import { ExtendedStoreDTO } from '@medusajs/medusa/dist/types/store';
 
 export default async function prepareRegions(client: Medusa) {
   let { regions } = await client.admin.regions.list();
-  if (!regions.length) {
+  if (regions.length === 0) {
     let { store } = await client.admin.store.retrieve();
-    if (!store.currencies) {
+    if (store.currencies == null) {
       store = (
         await client.admin.store.update({
           currencies: ['eur'],
