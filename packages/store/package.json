@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "preinstall": "yarn config set ignore-engines true",
     "decrypt-secrets": "../../decrypt-secrets.sh",
     "clean": "rimraf dist && yarn run decrypt-secrets",
     "build": "yarn clean && yarn build:server && yarn build:admin",
@@ -42,7 +41,7 @@
     "medusa-payment-stripe": "6.0.9",
     "medusa-plugin-sendgrid": "1.3.12",
     "prism-react-renderer": "2.0.4",
-    "sharp": "0.33.4",
+    "sharp": "0.32.6",
     "typeorm": "0.3.16",
     "uuid": "9.0.1"
   },
