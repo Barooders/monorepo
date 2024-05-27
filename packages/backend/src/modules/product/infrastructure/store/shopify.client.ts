@@ -120,9 +120,11 @@ export class ShopifyClient implements IStoreClient {
     };
   }
 
-  async createProduct(
-    product: ProductToStore,
-  ): Promise<Omit<StoredProduct, 'internalId'>> {
+  async createProduct(product: ProductToStore): Promise<
+    Omit<StoredProduct, 'internalId' | 'variants'> & {
+      variants: Omit<StoredVariant, 'internalId'>[];
+    }
+  > {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );
@@ -210,7 +212,7 @@ export class ShopifyClient implements IStoreClient {
   async createProductVariant(
     productId: number,
     data: Variant,
-  ): Promise<StoredVariant> {
+  ): Promise<Omit<StoredVariant, 'internalId'>> {
     try {
       const { product_type } = await shopifyApiByToken.product.get(productId);
       const {
@@ -547,6 +549,7 @@ export class ShopifyClient implements IStoreClient {
     });
     const statusMetafield = findMetafield(productMetafields, 'status');
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!statusMetafield)
       throw new Error(`Cannot find status metafield for product ${productId}`);
 

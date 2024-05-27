@@ -112,7 +112,7 @@ export type StoreProductWithoutCondition = Omit<
   StoredProduct,
   'variants' | 'internalId'
 > & {
-  variants: Omit<StoredVariant, 'condition'>[];
+  variants: Omit<StoredVariant, 'condition' | 'internalId'>[];
 };
 
 export interface Metafield {
@@ -144,7 +144,7 @@ export interface Variant extends VariantBase {
 
 export interface StoredVariant extends VariantBase {
   id: number;
-  internalId?: string;
+  internalId: string;
   option1?: string;
   option2?: string;
   option3?: string;

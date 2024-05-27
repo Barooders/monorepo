@@ -10,6 +10,7 @@ import {
   Metafield,
   Product,
   StoredProduct,
+  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import {
@@ -212,6 +213,14 @@ export class ProductCreationService {
           },
         },
       },
+      include: {
+        variants: {
+          select: {
+            id: true,
+            shopifyId: true,
+          },
+        },
+      },
     });
 
     this.eventEmitter.emit(
@@ -227,13 +236,34 @@ export class ProductCreationService {
       }),
     );
 
+    const getVariantInternalId = (variantShopifyId: number) => {
+      const matchDBVariantId = productInDB.variants.find(
+        ({ shopifyId }) => Number(shopifyId) === variantShopifyId,
+      )?.id;
+
+      if (matchDBVariantId === undefined)
+        throw new Error(
+          `Variant ${variantShopifyId} was not created during product creation`,
+        );
+
+      return matchDBVariantId;
+    };
+
     return {
       ...createdProduct,
       internalId: productInDB.id,
+      variants: createdProduct.variants.map((variant) => ({
+        ...variant,
+        internalId: getVariantInternalId(variant.id),
+      })),
     };
   }
 
-  async createProductVariant(productId: number, data: Variant, author: Author) {
+  async createProductVariant(
+    productId: number,
+    data: Variant,
+    author: Author,
+  ): Promise<StoredVariant> {
     const createdVariant = await this.storeClient.createProductVariant(
       productId,
       data,
@@ -283,7 +313,10 @@ export class ProductCreationService {
       }),
     );
 
-    return createdVariant;
+    return {
+      ...createdVariant,
+      internalId: productVariantInDB.id,
+    };
   }
 
   async createDraftProduct(
