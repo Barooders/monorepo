@@ -275,7 +275,7 @@ export class ProductSyncService {
       );
 
       await this.productService.updateProductStatusOnDbOnly(
-        vendorProductFromDb.id,
+        vendorProductFromDb.internalId,
         SyncStatus.ACTIVE,
       );
     }
