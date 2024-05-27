@@ -16,7 +16,6 @@ import {
   ProductToUpdate,
   ShopifyProductStatus,
   StoredMetafield,
-  StoredVariant,
   Variant,
   getVariantsOptions,
 } from '@libs/domain/product.interface';
@@ -28,7 +27,6 @@ import {
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
-import { cleanShopifyVariant } from '@libs/infrastructure/shopify/mappers';
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import {
   findMetafield,
@@ -46,6 +44,7 @@ import {
   ProductCreatedInStore,
   ProductCreationInput,
   ProductDetails,
+  VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
@@ -196,9 +195,8 @@ export class ShopifyClient implements IStoreClient {
           src: image.src,
           shopifyId: image.id,
         })),
-        variants: createdProduct.variants.map((variant) => ({
-          ...variant,
-          shopifyId: variant.id,
+        variants: createdProduct.variants.map(({ id }) => ({
+          shopifyId: id,
         })),
       };
     } catch (e: any) {
@@ -213,7 +211,7 @@ export class ShopifyClient implements IStoreClient {
   async createProductVariant(
     productInternalId: UUID,
     data: Variant,
-  ): Promise<Omit<StoredVariant, 'internalId'>> {
+  ): Promise<VariantCreatedInStore> {
     try {
       const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
         where: { id: productInternalId.uuid },
@@ -234,8 +232,7 @@ export class ShopifyClient implements IStoreClient {
       );
 
       return {
-        ...cleanShopifyVariant(productVariant),
-        condition: data.condition,
+        shopifyId: productVariant.id,
       };
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);

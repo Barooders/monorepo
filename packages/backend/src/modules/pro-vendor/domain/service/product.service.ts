@@ -467,12 +467,10 @@ export class ProductService {
       variantFromVendor,
     );
     if (variantInternalId === null) {
-      variantInternalId = (
-        await this.storeClient.createProductVariant(
-          productInternalId,
-          omit(variantFromVendor, 'inventory_quantity'),
-        )
-      ).internalId;
+      variantInternalId = await this.storeClient.createProductVariant(
+        productInternalId,
+        omit(variantFromVendor, 'inventory_quantity'),
+      );
     }
 
     await this.prisma.vendorProVariant.create({

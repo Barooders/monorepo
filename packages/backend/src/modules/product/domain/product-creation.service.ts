@@ -9,7 +9,6 @@ import {
   Image,
   Metafield,
   Product,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import {
@@ -42,7 +41,6 @@ import { jsonStringify } from '@libs/helpers/json';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { get } from 'lodash';
 import { ProductCreatedDomainEvent } from './events/product.created.domain-event';
 import { ProductUpdatedDomainEvent } from './events/product.updated.domain-event';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
@@ -182,7 +180,6 @@ export class ProductCreationService {
 
     const productInDB = await this.prisma.product.create({
       data: {
-        createdAt: new Date(),
         vendorId,
         status: productStatus,
         shopifyId: createdProduct.shopifyId,
@@ -206,9 +203,9 @@ export class ProductCreationService {
         },
         variants: {
           createMany: {
-            data: createdProduct.variants.map((variant, index) => ({
-              createdAt: new Date(),
-              shopifyId: variant.shopifyId,
+            data: product.variants.map((variant, index) => ({
+              //TODO: stop using index here as shopify can return variants in different order
+              shopifyId: createdProduct.variants[index].shopifyId,
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -217,9 +214,8 @@ export class ProductCreationService {
               compareAtPriceInCents: variant.compare_at_price
                 ? toCents(variant.compare_at_price)
                 : null,
-              //TODO: stop using index here as shopify can return variants in different order
-              condition:
-                get(product.variants, `[${index}].condition`) ?? Condition.GOOD,
+
+              condition: variant.condition,
             })),
           },
         },
@@ -267,7 +263,7 @@ export class ProductCreationService {
     productInternalId: string,
     data: Variant,
     author: Author,
-  ): Promise<StoredVariant> {
+  ): Promise<string> {
     const createdVariant = await this.storeClient.createProductVariant(
       new UUID({ uuid: productInternalId }),
       data,
@@ -281,6 +277,7 @@ export class ProductCreationService {
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
         createdAt: new Date(),
+        shopifyId: createdVariant.shopifyId,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -315,10 +312,7 @@ export class ProductCreationService {
       }),
     );
 
-    return {
-      ...createdVariant,
-      internalId: productVariantInDB.id,
-    };
+    return productVariantInDB.id;
   }
 
   async createDraftProduct(
