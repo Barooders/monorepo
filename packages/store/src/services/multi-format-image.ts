@@ -81,7 +81,9 @@ class MultiFormatImageService extends TransactionBaseService {
       Object.keys(SIZE_CONFIG).map(async (size) => {
         const { width, height } = SIZE_CONFIG[size];
         const output = await sharp(input)
-          .resize(width, height)
+          .resize(width, height, {
+            fit: 'contain',
+          })
           .png()
           .toBuffer();
 
