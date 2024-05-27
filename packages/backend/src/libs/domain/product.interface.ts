@@ -102,7 +102,6 @@ interface VariantBase {
 }
 
 export interface Variant extends VariantBase {
-  internal_id?: string; // This is the id of the StoredVariant in our database
   external_id: string;
   optionProperties: { key: string; value: string }[];
 }

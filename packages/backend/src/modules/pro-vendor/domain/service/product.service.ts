@@ -16,12 +16,12 @@ import {
   IStoreClient,
   ProductFromStore,
   VariantFromStore,
-  VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/store-client';
 import {
   SyncLightProduct,
   SyncProduct,
   SyncedVendorProProduct,
+  VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Injectable, Logger } from '@nestjs/common';
@@ -294,7 +294,7 @@ export class ProductService {
       mappedProduct.variants.map(async (variant) => {
         return {
           ...variant,
-          internal_id: await this.getOrCreateVariantId(
+          internalId: await this.getOrCreateVariantId(
             variant,
             productInternalId,
           ), //TODO: we know here which variants already exist
@@ -365,23 +365,23 @@ export class ProductService {
   }
 
   private async updateVariantsPricesAndQuantities(
-    variantsFromVendor: Variant[],
+    variantsFromVendor: VariantToUpdate[],
     variantsFromStore: VariantFromStore[],
   ): Promise<void> {
     for (const variantFromVendor of variantsFromVendor) {
       const {
-        internal_id,
+        internalId,
         price,
         compare_at_price,
         inventory_quantity,
         condition,
       } = variantFromVendor;
       const variantFromStore = variantsFromStore.find(
-        (variant) => variant.internalId === internal_id,
+        (variant) => variant.internalId === internalId,
       );
       if (!variantFromStore)
         throw new Error(
-          `Could not link variant to shopify variant: ${internal_id}, ${jsonStringify(
+          `Could not link variant to shopify variant: ${internalId}, ${jsonStringify(
             variantsFromStore,
           )}`,
         );
@@ -404,10 +404,11 @@ export class ProductService {
         condition: variantFromStore.condition !== condition ? condition : null,
       };
 
-      const concreteVariantUpdates: VariantToUpdate = omitBy(
-        variantUpdates,
-        (value) => value === null || value === undefined,
-      );
+      const concreteVariantUpdates: Omit<VariantToUpdate, 'internalId'> =
+        omitBy(
+          variantUpdates,
+          (value) => value === null || value === undefined,
+        );
 
       this.logger.debug(
         jsonStringify({ variantUpdates, concreteVariantUpdates }),
@@ -420,10 +421,10 @@ export class ProductService {
           )}`,
         );
 
-        await this.storeClient.updateProductVariant(
-          variantFromStore.internalId,
-          concreteVariantUpdates,
-        );
+        await this.storeClient.updateProductVariant({
+          internalId: variantFromStore.internalId,
+          ...concreteVariantUpdates,
+        });
       }
     }
   }
@@ -438,7 +439,8 @@ export class ProductService {
     this.logger.warn(
       `Updating stock for variant ${variantInternalId} from ${currentStock} to ${newStock}`,
     );
-    await this.storeClient.updateProductVariant(variantInternalId, {
+    await this.storeClient.updateProductVariant({
+      internalId: variantInternalId,
       inventory_quantity: newStock,
     });
   }

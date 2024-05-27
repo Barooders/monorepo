@@ -17,8 +17,8 @@ import {
   CreatedProductForSync,
   IStoreClient,
   ProductFromStore,
-  VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/store-client';
+import { VariantToUpdate } from '@modules/pro-vendor/domain/ports/types';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { ProductCreationService } from '@modules/product/domain/product-creation.service';
 import { ProductUpdateService } from '@modules/product/domain/product-update.service';
@@ -77,11 +77,11 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  async updateProductVariant(
-    variantInternalId: string,
-    data: VariantToUpdate,
-  ): Promise<void> {
-    const { product, id } = await this.getInternalVariant(variantInternalId);
+  async updateProductVariant({
+    internalId,
+    ...data
+  }: VariantToUpdate): Promise<void> {
+    const { product, id } = await this.getInternalVariant(internalId);
 
     await this.productUpdateService.updateProductVariant(
       new UUID({ uuid: product.id }),

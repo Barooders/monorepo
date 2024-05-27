@@ -6,13 +6,7 @@ import {
   StoredMetafield,
   Variant,
 } from '@libs/domain/product.interface';
-
-export type VariantToUpdate = Partial<
-  Pick<
-    Variant,
-    'price' | 'compare_at_price' | 'inventory_quantity' | 'condition'
-  >
->;
+import { VariantToUpdate } from './types';
 
 export type VariantFromStore = {
   internalId: string;
@@ -57,10 +51,7 @@ export abstract class IStoreClient {
     productInternalId: string,
     data: ProductToUpdate,
   ): Promise<void>;
-  abstract updateProductVariant(
-    variantInternalId: string,
-    data: VariantToUpdate,
-  ): Promise<void>;
+  abstract updateProductVariant(data: VariantToUpdate): Promise<void>;
   abstract deleteProductVariant(variantInternalId: string): Promise<void>;
   abstract getProduct(
     productInternalId: string,
