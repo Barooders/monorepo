@@ -4,11 +4,7 @@ import {
   SyncStatus,
   VendorProProduct,
 } from '@libs/domain/prisma.main.client';
-import {
-  ProductToUpdate,
-  StoredProduct,
-  Variant,
-} from '@libs/domain/product.interface';
+import { ProductToUpdate, Variant } from '@libs/domain/product.interface';
 import {
   BAROODERS_NAMESPACE,
   MetafieldType,
@@ -74,7 +70,7 @@ export class ProductService {
     return await this.storeClient.getProduct(productInternalId);
   }
 
-  async createProduct(product: SyncProduct): Promise<StoredProduct> {
+  async createProduct(product: SyncProduct): Promise<string> {
     const vendorSlug = this.vendorConfigService.getVendorConfig().slug;
 
     const newProduct = await this.storeClient.createProduct({
@@ -120,7 +116,7 @@ export class ProductService {
       index++;
     }
 
-    return newProduct;
+    return newProduct.internalId;
   }
 
   async updateProductStatusOnDbOnly(

@@ -4,7 +4,6 @@ import {
   Product,
   ProductToUpdate,
   StoredMetafield,
-  StoredProduct,
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
@@ -42,8 +41,15 @@ export type ProductFromStore = {
   variants: VariantFromStore[];
 };
 
+export type CreatedProduct = {
+  internalId: string;
+  variants: {
+    internalId: string;
+  }[];
+};
+
 export abstract class IStoreClient {
-  abstract createProduct(data: Product): Promise<StoredProduct | null>;
+  abstract createProduct(data: Product): Promise<CreatedProduct | null>;
   abstract createProductVariant(
     productInternalId: string,
     data: Variant,

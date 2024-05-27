@@ -2,7 +2,6 @@ import { Condition, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import {
   Product,
   ProductToUpdate,
-  StoredProduct,
   StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
@@ -19,6 +18,7 @@ import {
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import {
+  CreatedProduct,
   IStoreClient,
   ProductFromStore,
   VariantToUpdate,
@@ -46,7 +46,7 @@ export class StoreClient implements IStoreClient {
     private prisma: PrismaMainClient,
   ) {}
 
-  async createProduct(product: Product): Promise<StoredProduct | null> {
+  async createProduct(product: Product): Promise<CreatedProduct | null> {
     return await this.productCreationService.createProduct(
       {
         ...product,

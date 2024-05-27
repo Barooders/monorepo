@@ -100,9 +100,9 @@ export class ProductSyncService {
         );
 
         if (!vendorProductFromDb) {
-          const newProduct =
+          const newProductId =
             await this.productService.createProduct(mappedProduct);
-          throw new CreatedProductException(newProduct.internalId);
+          throw new CreatedProductException(newProductId);
         }
 
         if (!productFromStore) {
