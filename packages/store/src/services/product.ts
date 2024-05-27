@@ -17,7 +17,7 @@ class ProductService extends MedusaProductService {
   protected readonly logger_: Logger;
   protected readonly multiFormatImageService_: MultiFormatImageService;
 
-  constructor(container) {
+  constructor(container: InjectedDependencies) {
     // eslint-disable-next-line prefer-rest-params
     super(arguments[0]);
 
@@ -29,11 +29,11 @@ class ProductService extends MedusaProductService {
     this.logger_.info('Creating product');
 
     const uploadedImages = await Promise.all(
-      productObject.images.map(
+      (productObject.images ?? []).map(
         async (imageUrl) =>
           await this.multiFormatImageService_.multiFormatUploadFromUrl({
             url: imageUrl,
-            fileName: imageUrl.split('/').pop(),
+            fileName: imageUrl.split('/').pop() ?? '',
           }),
       ),
     );

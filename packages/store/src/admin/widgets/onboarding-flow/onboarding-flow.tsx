@@ -65,7 +65,7 @@ const QUERY_KEY = ['onboarding_state'];
 const OnboardingFlow = (props: OnboardingWidgetProps) => {
   // create custom hooks for custom endpoints
   const { data, isLoading } = useAdminCustomQuery<
-    undefined,
+    { [key: string]: any },
     OnboardingStateRes
   >('/onboarding', QUERY_KEY);
   const { mutate } = useAdminCustomPost<

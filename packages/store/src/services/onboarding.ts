@@ -1,7 +1,7 @@
 import { TransactionBaseService } from '@medusajs/medusa';
-import OnboardingRepository from '../repositories/onboarding';
-import { OnboardingState } from '../models/onboarding';
 import { EntityManager, IsNull, Not } from 'typeorm';
+import { OnboardingState } from '../models/onboarding';
+import OnboardingRepository from '../repositories/onboarding';
 import { UpdateOnboardingStateInput } from '../types/onboarding';
 
 type InjectedDependencies = {
@@ -19,7 +19,7 @@ class OnboardingService extends TransactionBaseService {
     this.onboardingRepository_ = onboardingRepository;
   }
 
-  async retrieve(): Promise<OnboardingState | undefined> {
+  async retrieve(): Promise<OnboardingState | null> {
     const onboardingRepo = this.activeManager_.withRepository(
       this.onboardingRepository_,
     );
@@ -39,6 +39,10 @@ class OnboardingService extends TransactionBaseService {
         );
 
         const status = await this.retrieve();
+
+        if (status === null) {
+          throw new Error('No onboarding status found');
+        }
 
         for (const [key, value] of Object.entries(data)) {
           status[key] = value;
