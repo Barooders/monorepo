@@ -7,7 +7,6 @@ import {
 import {
   ProductToUpdate,
   StoredProduct,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import {
@@ -19,6 +18,8 @@ import { jsonStringify } from '@libs/helpers/json';
 import { getSEOMetafields } from '@libs/helpers/seo.helper';
 import {
   IStoreClient,
+  ProductFromStore,
+  VariantFromStore,
   VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/store-client';
 import {
@@ -69,7 +70,7 @@ export class ProductService {
 
   async getProductFromStore(
     productInternalId: string,
-  ): Promise<StoredProduct | null> {
+  ): Promise<ProductFromStore | null> {
     return await this.storeClient.getProduct(productInternalId);
   }
 
@@ -162,7 +163,7 @@ export class ProductService {
   async updateProductOnStore(
     mappedProduct: SyncProduct,
     shouldUpdateImages: boolean,
-    productFromStore: StoredProduct,
+    productFromStore: ProductFromStore,
   ): Promise<string> {
     const productInternalId = productFromStore.internalId;
 
@@ -288,7 +289,7 @@ export class ProductService {
   private async updateVariants(
     mappedProduct: SyncProduct,
     productInternalId: string,
-    productFromStore: StoredProduct,
+    productFromStore: ProductFromStore,
   ) {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!mappedProduct.variants || mappedProduct.variants.length === 0) return;
@@ -369,7 +370,7 @@ export class ProductService {
 
   private async updateVariantsPricesAndQuantities(
     variantsFromVendor: Variant[],
-    variantsFromStore: StoredVariant[],
+    variantsFromStore: VariantFromStore[],
   ): Promise<void> {
     for (const variantFromVendor of variantsFromVendor) {
       const {

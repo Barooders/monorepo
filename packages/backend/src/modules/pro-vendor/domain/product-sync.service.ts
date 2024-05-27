@@ -3,13 +3,13 @@ import {
   SyncStatus,
   VendorProProduct,
 } from '@libs/domain/prisma.main.client';
-import { StoredProduct } from '@libs/domain/product.interface';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { CreatedProductException } from './exception/created-product.exception';
 import { SkippedProductException } from './exception/skipped-product.exception';
 import { UpdatedProductException } from './exception/updated-product.exception';
+import { ProductFromStore } from './ports/store-client';
 import {
   SkippedProduct,
   SyncLightProduct,
@@ -265,7 +265,7 @@ export class ProductSyncService {
   private async updateProduct(
     mappedProduct: SyncProduct,
     vendorProductFromDb: VendorProProduct,
-    productFromStore: StoredProduct,
+    productFromStore: ProductFromStore,
     wasSyncActive: boolean,
     shouldUpdateImages: boolean,
   ) {

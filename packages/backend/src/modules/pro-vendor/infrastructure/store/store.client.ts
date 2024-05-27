@@ -8,6 +8,7 @@ import {
 } from '@libs/domain/product.interface';
 import { Author } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
+import { fromCents } from '@libs/helpers/currency';
 import {
   cleanShopifyProduct,
   cleanShopifyVariant,
@@ -19,6 +20,7 @@ import {
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import {
   IStoreClient,
+  ProductFromStore,
   VariantToUpdate,
 } from '@modules/pro-vendor/domain/ports/store-client';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
@@ -103,7 +105,9 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  async getProduct(productInternalId: string): Promise<StoredProduct | null> {
+  async getProduct(
+    productInternalId: string,
+  ): Promise<ProductFromStore | null> {
     try {
       const productInDB = await this.prisma.product.findUniqueOrThrow({
         where: {
@@ -130,9 +134,14 @@ export class StoreClient implements IStoreClient {
         GTINCode: productInDB?.GTINCode ?? undefined,
         source: productInDB?.source ?? undefined,
         variants: productInDB.variants.map((variant) => ({
-          ...variant,
-          condition: variant.condition ?? Condition.GOOD,
           internalId: variant.id,
+          price: fromCents(Number(variant.priceInCents)).toString(),
+          compare_at_price:
+            variant.compareAtPriceInCents === null
+              ? null
+              : fromCents(Number(variant.compareAtPriceInCents)).toString(),
+          inventory_quantity: variant.quantity,
+          condition: variant.condition ?? Condition.GOOD,
         })),
       };
     } catch (error) {

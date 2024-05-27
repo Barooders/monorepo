@@ -1,3 +1,4 @@
+import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
   Metafield,
   Product,
@@ -15,6 +16,32 @@ export type VariantToUpdate = Partial<
   >
 >;
 
+export type VariantFromStore = {
+  internalId: string;
+  price: string;
+  compare_at_price: string | null;
+  inventory_quantity: number;
+  condition: Condition;
+};
+
+export type ProductFromStore = {
+  internalId: string;
+  title: string;
+  body_html: string;
+  product_type: string;
+  status: ProductStatus;
+  vendor: string;
+  tags: string[];
+  EANCode?: string;
+  GTINCode?: string;
+  source?: string;
+  images: {
+    src: string;
+    shopifyId: number;
+  }[];
+  variants: VariantFromStore[];
+};
+
 export abstract class IStoreClient {
   abstract createProduct(data: Product): Promise<StoredProduct | null>;
   abstract createProductVariant(
@@ -30,7 +57,9 @@ export abstract class IStoreClient {
     data: VariantToUpdate,
   ): Promise<void>;
   abstract deleteProductVariant(variantInternalId: string): Promise<void>;
-  abstract getProduct(productInternalId: string): Promise<StoredProduct | null>;
+  abstract getProduct(
+    productInternalId: string,
+  ): Promise<ProductFromStore | null>;
   abstract getVariantByTitle(
     productInternalId: string,
     variant: Variant,
