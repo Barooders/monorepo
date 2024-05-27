@@ -42,14 +42,17 @@ class ProductService extends MedusaProductService {
           }),
       ),
     );
-    const flattenImages = uploadedImages.flatMap((url) => url);
+
+    const originalImages = uploadedImages.flatMap(
+      (urls) => urls[urls.length - 1],
+    );
 
     this.logger_.info(`Images uploaded: ${uploadedImages.join(', ')}`);
 
     return await super.create({
       ...productObject,
-      images: flattenImages.filter((url) => url.includes('large')),
-      thumbnail: flattenImages.find((url) => url.includes('small')),
+      images: originalImages,
+      thumbnail: uploadedImages[0].find((url) => url.includes('thumbnail')),
     });
   }
 }

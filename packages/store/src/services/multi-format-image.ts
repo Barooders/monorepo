@@ -10,17 +10,21 @@ type InjectedDependencies = {
 };
 
 const SIZE_CONFIG = {
+  thumbnail: {
+    width: 250,
+    height: 250,
+  },
   small: {
-    width: 200,
-    height: 200,
+    width: 500,
+    height: 500,
   },
   medium: {
-    width: 400,
-    height: 400,
-  },
-  large: {
     width: 800,
     height: 800,
+  },
+  large: {
+    width: 1000,
+    height: 1000,
   },
 };
 
@@ -69,7 +73,7 @@ class MultiFormatImageService extends TransactionBaseService {
   }: {
     url: string;
     fileName: string;
-  }): Promise<any> {
+  }): Promise<string[]> {
     const input = (
       await axios({
         url,
@@ -92,6 +96,14 @@ class MultiFormatImageService extends TransactionBaseService {
             .Key,
         );
       }),
+    );
+
+    const originalOutput = await sharp(input).png().toBuffer();
+    results.push(
+      this.publicUrl(
+        (await this.uploadFile(`${fileName}.png`, originalOutput).promise())
+          .Key,
+      ),
     );
 
     return results;
