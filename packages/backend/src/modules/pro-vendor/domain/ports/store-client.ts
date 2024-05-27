@@ -4,13 +4,12 @@ import {
   Product,
   ProductToUpdate,
   StoredMetafield,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 
 export type VariantToUpdate = Partial<
   Pick<
-    StoredVariant,
+    Variant,
     'price' | 'compare_at_price' | 'inventory_quantity' | 'condition'
   >
 >;
