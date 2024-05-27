@@ -40,9 +40,6 @@ module.exports = {
       },
     },
     extend: {
-      maxWidth: {
-        'page-content': '1300px',
-      },
       boxShadow: {
         'no-offset':
           '0 0px 10px 0px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -91,6 +88,7 @@ module.exports = {
       },
       maxWidth: {
         '8xl': '100rem',
+        'page-content': '1300px',
       },
       fontSize: {
         '3xl': '2rem',
