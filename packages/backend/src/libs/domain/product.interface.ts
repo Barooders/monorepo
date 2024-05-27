@@ -80,29 +80,6 @@ export type ProductToUpdate = Partial<
   Omit<Product, 'variants'> & { vendorId: string }
 >;
 
-export interface StoredProduct extends ProductBase {
-  internalId: string;
-  status: ProductStatus;
-  vendor: string;
-  tags: string[];
-  variants: StoredVariant[];
-  options: Option[];
-  created_at: string;
-  updated_at: string;
-  template_suffix?: string;
-  handle: string;
-  published_at?: string;
-  published_scope?: string;
-  image: {
-    src: string;
-    shopifyId: number;
-  };
-  images: {
-    src: string;
-    shopifyId: number;
-  }[];
-}
-
 export interface Metafield {
   key: string;
   value: string | number;
