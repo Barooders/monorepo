@@ -78,32 +78,32 @@ export interface paths {
   "/v1/admin/products/create": {
     post: operations["ProductController_createProduct"];
   };
-  "/v1/products/{productId}/image": {
+  "/v1/products/{productInternalId}/image": {
     post: operations["ProductController_addProductImage"];
   };
-  "/v1/products/{productId}/image/{imageId}": {
+  "/v1/products/{productInternalId}/image/{imageId}": {
     delete: operations["ProductController_deleteProductImage"];
   };
   "/v1/products/by-handle/{productHandle}": {
     get: operations["ProductController_getProductByHandle"];
   };
-  "/v1/products/{productId}": {
+  "/v1/products/{productInternalId}": {
     get: operations["ProductController_getProduct"];
     patch: operations["ProductController_updateProduct"];
   };
-  "/v1/products/{productId}/variants/{productVariantId}": {
+  "/v1/products/{productInternalId}/variants/{productVariantInternalId}": {
     patch: operations["ProductController_updateProductVariant"];
   };
-  "/v1/admin/products/{productId}": {
+  "/v1/admin/products/{productInternalId}": {
     patch: operations["ProductController_updateProductByAdmin"];
   };
   "/v1/admin/vendors/{vendorId}/products": {
     post: operations["ProductController_triggerVendorProductsUpdateByAdmin"];
   };
-  "/v1/admin/products/{productId}/variants/{productVariantId}": {
+  "/v1/admin/products/{productInternalId}/variants/{productVariantInternalId}": {
     patch: operations["ProductController_updateProductVariantByAdmin"];
   };
-  "/v1/admin/products/{productId}/moderate": {
+  "/v1/admin/products/{productInternalId}/moderate": {
     post: operations["ProductController_moderateProduct"];
   };
   "/v1/products/models": {
@@ -151,7 +151,7 @@ export interface paths {
   "/v1/buy/payment/notify": {
     post: operations["PaymentFloaWebhookController_notifyPaymentResult"];
   };
-  "/v1/delivery-profile/product-variant/{shopifyProductVariantId}": {
+  "/v1/delivery-profile/product-variant/{variantShopifyId}": {
     get: operations["DeliveryProfileController_getProductDeliveryProfile"];
   };
   "/v1/__internal__/heartbeat": {
@@ -259,7 +259,6 @@ export interface components {
       id: string;
     };
     VariantDTO: {
-      id: number;
       internalId: string;
       option1: string;
       option2: string;
@@ -277,26 +276,11 @@ export interface components {
       name: string;
       values: unknown[][];
     };
-    MainProductImageDTO: {
-      src: string;
-      attachment: string;
-      id: number;
-      created_at: string;
-      position: number;
-      updated_at: string;
-      product_id: number;
-      variant_ids: unknown[][];
-      width: number;
-      height: number;
-      alt: string;
-    };
     SimpleImageDTO: {
       src: string;
-      attachment: string;
-      id: number;
+      shopifyId: number;
     };
     ProductAdminDTO: {
-      shopifyId: number;
       internalId: string;
       status: string;
       vendor: string;
@@ -309,7 +293,7 @@ export interface components {
       handle: string;
       published_at: string;
       published_scope: string;
-      image: components["schemas"]["MainProductImageDTO"];
+      image: components["schemas"]["SimpleImageDTO"];
       title: string;
       body_html: string;
       product_type: string;
@@ -464,7 +448,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-21T17:00:02.752Z
+       * @example 2024-05-27T11:17:40.875Z
        */
       birthDate: string;
       /**
@@ -815,7 +799,7 @@ export interface operations {
   ProductController_addProductImage: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
       };
     };
     requestBody: {
@@ -834,7 +818,7 @@ export interface operations {
   ProductController_deleteProductImage: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
         imageId: string;
       };
     };
@@ -859,7 +843,7 @@ export interface operations {
   ProductController_getProduct: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
       };
     };
     responses: {
@@ -873,7 +857,7 @@ export interface operations {
   ProductController_updateProduct: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
       };
     };
     requestBody: {
@@ -890,8 +874,8 @@ export interface operations {
   ProductController_updateProductVariant: {
     parameters: {
       path: {
-        productId: string;
-        productVariantId: string;
+        productInternalId: string;
+        productVariantInternalId: string;
       };
     };
     requestBody: {
@@ -908,7 +892,7 @@ export interface operations {
   ProductController_updateProductByAdmin: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
       };
     };
     requestBody: {
@@ -937,8 +921,8 @@ export interface operations {
   ProductController_updateProductVariantByAdmin: {
     parameters: {
       path: {
-        productId: string;
-        productVariantId: string;
+        productInternalId: string;
+        productVariantInternalId: string;
       };
     };
     requestBody: {
@@ -955,7 +939,7 @@ export interface operations {
   ProductController_moderateProduct: {
     parameters: {
       path: {
-        productId: string;
+        productInternalId: string;
       };
     };
     requestBody: {
@@ -1025,9 +1009,9 @@ export interface operations {
          * @description The id of a product
          * @example 73829019283
          */
-        productId: string;
+        productInternalId: string;
         /** @description The shopify id of a variant. */
-        variantId: number;
+        variantShopifyId: number;
       };
     };
     responses: {
@@ -1176,7 +1160,7 @@ export interface operations {
   DeliveryProfileController_getProductDeliveryProfile: {
     parameters: {
       path: {
-        shopifyProductVariantId: number;
+        variantShopifyId: number;
       };
     };
     responses: {

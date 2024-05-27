@@ -18,7 +18,7 @@ const useRefreshImages = () => {
       refreshImages(
         rawProduct.images.map((image) => ({
           src: image.src,
-          id: image.id,
+          id: image.shopifyId,
         })),
       );
     },
