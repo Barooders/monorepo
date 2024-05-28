@@ -493,8 +493,8 @@ export const prodVendorConfig: EnvVendorsConfig = {
   bikef: {
     vendorId: '28553b01-476c-4afc-b412-8faf57fa428d',
     synchros: [
-      { commandName: 'syncProducts', cron: '0 16 * * *' },
-      { commandName: 'updateProductStatuses', cron: '10 */3 * * *' },
+      // { commandName: 'syncProducts', cron: '0 16 * * *' },
+      // { commandName: 'updateProductStatuses', cron: '10 */3 * * *' },
     ],
   },
   sbikes: {
