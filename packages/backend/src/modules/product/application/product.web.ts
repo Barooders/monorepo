@@ -14,7 +14,6 @@ import { CustomerRepository } from '@libs/domain/customer.repository';
 import { Author, BAROODERS_NAMESPACE, MetafieldType } from '@libs/domain/types';
 import { Amount, AmountDTO, UUID } from '@libs/domain/value-objects';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
-import { InjectQueue } from '@nestjs/bull';
 import {
   BadRequestException,
   Body,
@@ -37,7 +36,6 @@ import {
   ApiProperty,
   ApiResponse,
 } from '@nestjs/swagger';
-import { Queue } from 'bull';
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
@@ -51,7 +49,6 @@ import {
   IsUUID,
   ValidateNested,
 } from 'class-validator';
-import { QueueNames } from '../config';
 import { CollectionService } from '../domain/collection.service';
 import { UserNotAllowedException } from '../domain/ports/exceptions';
 import { IPIMClient } from '../domain/ports/pim.client';
@@ -65,11 +62,7 @@ import {
   ModerationAction,
   ProductUpdateService,
 } from '../domain/product-update.service';
-import {
-  CreateProductModelDto,
-  ProductAdminDTO,
-  UploadImagesDto,
-} from './product.dto';
+import { CreateProductModelDto, ProductAdminDTO } from './product.dto';
 
 type CollectionType = {
   id: string;
@@ -211,8 +204,6 @@ export class ProductController {
   private readonly logger = new Logger(ProductController.name);
 
   constructor(
-    @InjectQueue(QueueNames.IMPORT_IMAGES)
-    private importImageQueue: Queue,
     private productCreationService: ProductCreationService,
     private productUpdateService: ProductUpdateService,
     private customerRepository: CustomerRepository,
@@ -547,29 +538,6 @@ export class ProductController {
       documentType: DocumentType.PRODUCT_MODEL,
       data: model,
     });
-  }
-
-  @Post(routesV1.product.importImages)
-  @UseGuards(OrGuard([AuthGuard('header-api-key'), AdminGuard]))
-  async uploadImages(
-    @Body()
-    data: UploadImagesDto,
-  ): Promise<void> {
-    this.logger.log(
-      `Planning import of ${data.imageUrls.length} images for product ${data.storeProductId}`,
-    );
-
-    await this.importImageQueue.add(
-      {
-        storeProductId: data.storeProductId,
-        imageUrls: data.imageUrls,
-      },
-      {
-        attempts: 2,
-        removeOnComplete: true,
-        removeOnFail: true,
-      },
-    );
   }
 
   private mapProductVariantUpdate = ({

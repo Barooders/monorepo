@@ -6,7 +6,6 @@ import { IndexationConsumerModule } from '@modules/product/indexation.module';
 import { SearchAlertConsumerModule } from '@modules/search-alert/module';
 import { Module } from '@nestjs/common';
 import { BaseModule } from './base.module';
-import { ImagesImportConsumerModule } from '@modules/product/images-import.module';
 
 @Module({
   imports: [
@@ -14,7 +13,6 @@ import { ImagesImportConsumerModule } from '@modules/product/images-import.modul
     BaseModule,
     SearchAlertConsumerModule,
     IndexationConsumerModule,
-    ImagesImportConsumerModule,
     BullBoardModule.forRoot({
       route: '/queues',
       adapter: ExpressAdapter,

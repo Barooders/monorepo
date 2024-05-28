@@ -20,6 +20,7 @@ import { CollectionService } from './domain/collection.service';
 import { NotificationService } from './domain/notification.service';
 import { ICommissionRepository } from './domain/ports/commission.repository';
 import { IEmailClient } from './domain/ports/email.client';
+import { IImageUploadsClient } from './domain/ports/image-uploads.client';
 import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
 import { IPIMClient } from './domain/ports/pim.client';
 import { IQueueClient } from './domain/ports/queue-client';
@@ -31,6 +32,7 @@ import { VariantIndexationService } from './domain/variant-indexation.service';
 import { CommissionRepository } from './infrastructure/config/commission.repository';
 import { EventRepository } from './infrastructure/database/event.repository';
 import { SendGridClient } from './infrastructure/email/sendgrid.client';
+import { ImageUploadsClient } from './infrastructure/images/image-uploads-client';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
@@ -43,10 +45,6 @@ const commonImports = [
   PrismaModule,
   BullModule.registerQueueAsync({
     name: QueueNames.PRODUCTS_TO_INDEX,
-    useFactory: getRedisConfig,
-  }),
-  BullModule.registerQueueAsync({
-    name: QueueNames.IMPORT_IMAGES,
     useFactory: getRedisConfig,
   }),
 ];
@@ -89,6 +87,10 @@ const commonProviders = [
   {
     provide: IInternalNotificationClient,
     useClass: SlackClient,
+  },
+  {
+    provide: IImageUploadsClient,
+    useClass: ImageUploadsClient,
   },
   NotificationService,
   ProductCreationService,

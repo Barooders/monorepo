@@ -74,11 +74,3 @@ export class CreateProductModelDto {
   @ApiProperty({ type: PimBrand })
   brand!: PimBrand;
 }
-
-export class UploadImagesDto {
-  @ApiProperty()
-  imageUrls!: string[];
-
-  @ApiProperty()
-  storeProductId!: string;
-}
