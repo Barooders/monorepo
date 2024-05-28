@@ -43,6 +43,7 @@ select_permissions:
     permission:
       columns:
         - shopify_id
+        - merchant_item_id
         - id
         - productId
         - createdAt
@@ -52,6 +53,7 @@ select_permissions:
     permission:
       columns:
         - shopify_id
+        - merchant_item_id
         - createdAt
         - id
         - productId
@@ -60,6 +62,7 @@ select_permissions:
     permission:
       columns:
         - shopify_id
+        - merchant_item_id
         - createdAt
         - id
         - productId
@@ -68,6 +71,7 @@ select_permissions:
     permission:
       columns:
         - shopify_id
+        - merchant_item_id
         - createdAt
         - id
         - productId
@@ -76,6 +80,7 @@ select_permissions:
     permission:
       columns:
         - shopify_id
+        - merchant_item_id
         - createdAt
         - id
         - productId

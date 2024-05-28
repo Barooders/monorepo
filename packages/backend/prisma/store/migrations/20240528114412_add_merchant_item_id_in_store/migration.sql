@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE "store_base_product" ADD COLUMN     "merchant_item_id" TEXT NOT NULL;
+ALTER TABLE "store_base_product" ADD COLUMN     "merchant_item_id" TEXT;
 
 -- AlterTable
-ALTER TABLE "store_base_product_variant" ADD COLUMN     "merchant_item_id" TEXT NOT NULL;
+ALTER TABLE "store_base_product_variant" ADD COLUMN     "merchant_item_id" TEXT;

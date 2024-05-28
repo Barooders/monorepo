@@ -86,7 +86,7 @@ model StoreProductCollectionWithManualCollections {
 model StoreBaseProduct {
   id             String   @id
   shopifyId      BigInt   @unique
-  merchantItemId String   @map("merchant_item_id")
+  merchantItemId String?  @map("merchant_item_id")
   createdAt      DateTime @db.Timestamptz(6)
   vendorId       String   @db.Uuid
 
@@ -106,7 +106,7 @@ model StoreBaseProduct {
 model StoreBaseProductVariant {
   id             String   @id
   shopifyId      BigInt?  @unique @map("shopify_id")
-  merchantItemId String   @map("merchant_item_id")
+  merchantItemId String?  @map("merchant_item_id")
   createdAt      DateTime @db.Timestamptz(6)
   productId      String
 
