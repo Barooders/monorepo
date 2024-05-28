@@ -101,6 +101,14 @@
       "type": "string"
     },
     {
+      "name": "product_merchant_item_id",
+      "type": "string"
+    },
+    {
+      "name": "variant_merchant_item_id",
+      "type": "string"
+    },
+    {
       "name": "product_image",
       "type": "string",
       "index": false,
