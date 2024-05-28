@@ -35,7 +35,7 @@ const CollectionPreview: React.FC<PropsType> = ({ collectionHandle }) => {
         fetchState.value &&
         compact(fetchState.value).map((product) => (
           <ProductCard
-            key={product.shopifyId}
+            key={product.id}
             intent="small-card"
             {...product}
           />

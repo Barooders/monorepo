@@ -72,7 +72,7 @@ export type ProductSingleVariant = ProductMultiVariants & {
   price: number;
   discounts: Discount[];
   productLink: Url;
-  setSelectedVariant: (variantShopifyId: string) => void;
+  setSelectedVariant: (variantInternal: string) => void;
 };
 
 export type B2BProductCardProps = {

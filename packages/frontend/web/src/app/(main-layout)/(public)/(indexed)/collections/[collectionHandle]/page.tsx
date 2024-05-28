@@ -22,15 +22,15 @@ const CollectionPage: AppRouterPage<
   const collectionHandle = params.collectionHandle;
   const productHandle = searchParams.handle;
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  const productVariantShopifyId = searchParams.variant
-    ? Number(searchParams.variant)
+  const productVariantInternalId = searchParams.variant
+    ? searchParams.variant
     : undefined;
   const vendorSellerName = searchParams.q;
 
   const searchPageProps = await getSearchPageData({
     collectionHandle,
     productHandle,
-    productVariantShopifyId,
+    productVariantInternalId,
     vendorSellerName,
   });
 
