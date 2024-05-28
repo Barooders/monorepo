@@ -5,8 +5,8 @@ import { getData as getProductData } from '@/components/molecules/ProductCard/b2
 import { mapReviewsFromFragment } from '@/components/molecules/Reviews/container';
 
 import { ProductNotFoundException } from '@/exceptions/ProductNotFoundException';
+import isEmpty from '@/utils/isEmpty';
 import first from 'lodash/first';
-import isEmpty from 'lodash/isEmpty';
 import { PropsType as VendorHeaderPropsType } from './VendorPage/VendorHeader';
 import {
   ChildCollectionType,
