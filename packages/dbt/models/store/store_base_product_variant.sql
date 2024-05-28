@@ -7,6 +7,7 @@
 SELECT
   ppv.id,
   pv.id AS "shopify_id",
+  ppv."merchantItemId" AS "merchant_item_id",
   pv.created_at AS "createdAt",
   ppv."productId"
 FROM
