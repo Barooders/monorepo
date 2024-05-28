@@ -7,6 +7,7 @@
 SELECT
   bp.id,
   p.id AS "shopifyId",
+  bp."merchantItemId" AS "merchant_item_id",
   bp."createdAt",
   bp."vendorId"::uuid AS "vendorId"
 FROM public."Product" AS bp
