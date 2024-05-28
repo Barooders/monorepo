@@ -107,6 +107,16 @@ services:
       - redis-data:/data
       - redis-conf:/usr/local/etc/redis/redis.conf
 
+  bullboard:
+    container_name: bullboard
+    image: deadly0/bull-board
+    restart: always
+    ports:
+      - 13000:3000
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
 volumes:
   barooders-data:
   redis-data:

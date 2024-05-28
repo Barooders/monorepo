@@ -1,3 +1,4 @@
+import envConfig from '@config/env/env.config';
 import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import { PrismaModule } from '@libs/domain/prisma.module';
@@ -19,6 +20,8 @@ import { CollectionService } from './domain/collection.service';
 import { NotificationService } from './domain/notification.service';
 import { ICommissionRepository } from './domain/ports/commission.repository';
 import { IEmailClient } from './domain/ports/email.client';
+import { IImageUploadsClient } from './domain/ports/image-uploads.client';
+import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
 import { IPIMClient } from './domain/ports/pim.client';
 import { IQueueClient } from './domain/ports/queue-client';
 import { ISearchClient } from './domain/ports/search-client';
@@ -27,15 +30,16 @@ import { ProductCreationService } from './domain/product-creation.service';
 import { ProductUpdateService } from './domain/product-update.service';
 import { VariantIndexationService } from './domain/variant-indexation.service';
 import { CommissionRepository } from './infrastructure/config/commission.repository';
+import { EventRepository } from './infrastructure/database/event.repository';
 import { SendGridClient } from './infrastructure/email/sendgrid.client';
+import { ImageUploadsClient } from './infrastructure/images/image-uploads-client';
+import { SlackClient } from './infrastructure/internal-notification/slack.client';
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
+import { MedusaClient } from './infrastructure/store/medusa.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
-import { IInternalNotificationClient } from './domain/ports/internal-notification.client';
-import { SlackClient } from './infrastructure/internal-notification/slack.client';
-import { EventRepository } from './infrastructure/database/event.repository';
 
 const commonImports = [
   PrismaModule,
@@ -72,7 +76,9 @@ const commonProviders = [
   },
   {
     provide: IStoreClient,
-    useClass: ShopifyClient,
+    useClass: envConfig.featureFlags.useMedusaClient
+      ? MedusaClient
+      : ShopifyClient,
   },
   {
     provide: IEmailClient,
@@ -81,6 +87,10 @@ const commonProviders = [
   {
     provide: IInternalNotificationClient,
     useClass: SlackClient,
+  },
+  {
+    provide: IImageUploadsClient,
+    useClass: ImageUploadsClient,
   },
   NotificationService,
   ProductCreationService,

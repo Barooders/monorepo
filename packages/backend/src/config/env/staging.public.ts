@@ -13,6 +13,9 @@ const stagingPublicConfig: EnvPublicConfig = {
   technicalAccountId: '52355f01-31c9-4f47-a062-d4a7564d4791',
   mobileAppPublicationId: 'gid://shopify/Publication/94244602097',
   isSentryEnabled: false,
+  featureFlags: {
+    useMedusaClient: true,
+  },
 };
 
 export default stagingPublicConfig;
