@@ -23,9 +23,6 @@ import ChatPanel, { AssociatedOrderLine, AssociatedProductDetails } from '.';
 
 export const ORDER_LINE_FRAGMENT = /* GraphQL */ /* typed_for_registered_user */ `
   fragment HandDeliveryOrderLineFragment on OrderLines {
-    order {
-      shopifyId
-    }
     shippingSolution
     productVariant {
       product {
@@ -100,12 +97,11 @@ const extractAssociatedOrderLine = (
       currentProductInternalId,
     );
 
-  if (!rawAssociatedOrderLine?.order.shopifyId) return null;
-
-  return {
-    orderShopifyId: Number(rawAssociatedOrderLine.order.shopifyId),
-    shippingSolution: rawAssociatedOrderLine.shippingSolution,
-  };
+  return rawAssociatedOrderLine !== null
+    ? {
+        shippingSolution: rawAssociatedOrderLine.shippingSolution,
+      }
+    : null;
 };
 
 const extractNegociationAgreement = (
@@ -129,6 +125,7 @@ const extractOriginalPrice = (
   const price = first(first(response.Product)?.variants)?.storeB2CVariant
     ?.price;
 
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!price) throw new Error('Could not find price on product');
 
   return price;
@@ -212,7 +209,7 @@ const WrappedChatPanel: React.FC<PropsType> = ({
   useEffect(() => {
     (async () => {
       const userInternalId = extractTokenInfo().id;
-      if (!userInternalId) return;
+      if (userInternalId === undefined) return;
       doFetchUser(userInternalId);
     })();
   }, []);
@@ -232,9 +229,8 @@ const WrappedChatPanel: React.FC<PropsType> = ({
     ? extractNegociationAgreement(productDetailsState.value)
     : null;
 
-  const proposedPriceOffer = priceOfferResult
-    ? extractPriceOffer(priceOfferResult)
-    : null;
+  const proposedPriceOffer =
+    priceOfferResult !== undefined ? extractPriceOffer(priceOfferResult) : null;
 
   return (
     <>
