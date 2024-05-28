@@ -1,9 +1,12 @@
+import envConfig from '@config/env/env.config';
+import { ProductStatus } from '@libs/domain/prisma.main.client';
 import {
   Product,
   ProductToStore,
   Variant,
 } from '@libs/domain/product.interface';
 import { UUID } from '@libs/domain/value-objects';
+import { createHttpClient } from '@libs/infrastructure/http/clients';
 import {
   IStoreClient,
   ProductCreatedInStore,
@@ -13,6 +16,16 @@ import {
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
+import { CreateProductRequest, CreateProductResponse } from './medusa.dto';
+
+export const medusaClient = createHttpClient(
+  envConfig.externalServices.medusa.baseUrl,
+  {
+    headers: {
+      'x-medusa-access-token': `${envConfig.externalServices.medusa.apiKey}`,
+    },
+  },
+);
 
 @Injectable()
 export class MedusaClient implements IStoreClient {
@@ -23,10 +36,25 @@ export class MedusaClient implements IStoreClient {
     throw new Error('Method not implemented.');
   }
 
-  createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
+  async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
     this.logger.log(`Creating product ${product.title}`);
 
-    throw new Error('Method not implemented.');
+    const requestBody: CreateProductRequest = {
+      title: product.title,
+      description: product.body_html,
+      status: product.status === ProductStatus.ACTIVE ? 'published' : 'draft',
+      images: product.images
+        ?.filter((image) => image.src !== undefined)
+        .map((image) => image.src as string),
+    };
+
+    const { product: createdProduct } =
+      await medusaClient<CreateProductResponse>('/admin/products', {
+        method: 'POST',
+        data: requestBody,
+      });
+
+    throw new Error('Product created in Medusa with id ' + createdProduct.id);
   }
 
   updateProduct(

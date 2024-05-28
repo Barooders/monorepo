@@ -97,6 +97,10 @@ export type EnvSecretConfig = {
       baseUrl: string;
       apiToken: string;
     };
+    medusa: {
+      baseUrl: string;
+      apiKey: string;
+    };
   };
 };
 
