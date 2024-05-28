@@ -1,5 +1,4 @@
 import envConfig from '@config/env/env.config';
-import { IImageUploadsClient } from '@modules/product/domain/ports/image-uploads.client';
 import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk'; // eslint-disable-line import/named
 import axios from 'axios';
@@ -27,7 +26,7 @@ const SIZE_CONFIG: Record<Size, { width: number; height: number }> = {
 };
 
 @Injectable()
-export class ImageUploadsClient implements IImageUploadsClient {
+export class ImageUploadsClient {
   private readonly PATH_PREFIX = 'products';
 
   private readonly s3 = new S3({

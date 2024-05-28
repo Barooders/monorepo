@@ -7,7 +7,6 @@ import {
 } from '@libs/domain/product.interface';
 import { UUID } from '@libs/domain/value-objects';
 import { createHttpClient } from '@libs/infrastructure/http/clients';
-import { IImageUploadsClient } from '@modules/product/domain/ports/image-uploads.client';
 import {
   IStoreClient,
   ProductCreatedInStore,
@@ -17,6 +16,7 @@ import {
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
+import { ImageUploadsClient } from './image-uploads-client';
 import { CreateProductRequest, CreateProductResponse } from './medusa.dto';
 
 export const medusaClient = createHttpClient(
@@ -32,7 +32,7 @@ export const medusaClient = createHttpClient(
 export class MedusaClient implements IStoreClient {
   private readonly logger = new Logger(MedusaClient.name);
 
-  constructor(private readonly imageUploadsClient: IImageUploadsClient) {}
+  constructor(private readonly imageUploadsClient: ImageUploadsClient) {}
 
   getProductDetails(productId: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
