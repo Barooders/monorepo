@@ -1,6 +1,6 @@
 /* eslint-disable import/no-restricted-paths */
 import { SynchronizedProVendor } from '@config/vendor/types';
-import { VendorProProduct } from '@libs/domain/prisma.main.client';
+import { Condition, VendorProProduct } from '@libs/domain/prisma.main.client';
 import { FullProduct } from '@libs/domain/product.interface';
 import { CSVProduct } from '@modules/pro-vendor/infrastructure/api/csv/types';
 import { ProductDTO } from '@modules/pro-vendor/infrastructure/api/prestashop/dto/prestashop-product.dto';
@@ -100,7 +100,7 @@ export type OrderVendorInput = {
 };
 
 export type ProductWithReferenceUrl = {
-  internalProductId: string;
+  internalId: string;
   referenceUrl: string;
 };
 
@@ -113,14 +113,22 @@ export type VendorProduct =
   | IProduct;
 
 export type SyncedVendorProProduct = VendorProProduct & {
-  internalProductId: string;
+  internalId: string;
 };
 export type SyncedProductToUpdate =
   | SyncedVendorProProduct
   | ProductWithReferenceUrl;
 
 export type VariantStockToUpdate = {
-  internalVariantId: string;
+  internalId: string;
   externalVariantId: string;
   currentStock?: number;
+};
+
+export type VariantToUpdate = {
+  internalId: string;
+  price?: string;
+  compare_at_price?: string | null;
+  inventory_quantity?: number;
+  condition?: Condition;
 };

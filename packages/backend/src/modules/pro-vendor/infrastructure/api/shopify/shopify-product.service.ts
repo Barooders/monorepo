@@ -107,7 +107,7 @@ export class ShopifyProductService implements ProVendorStrategy {
 
     await Promise.allSettled(
       variantStocksToUpdate.map(
-        async ({ internalVariantId, externalVariantId, currentStock }) => {
+        async ({ internalId, externalVariantId, currentStock }) => {
           try {
             const newStock =
               productFromVendor?.variants.find(
@@ -115,7 +115,7 @@ export class ShopifyProductService implements ProVendorStrategy {
               )?.inventory_quantity ?? 0;
 
             await this.productService.updateProductVariantStock(
-              Number(internalVariantId),
+              internalId,
               newStock,
               currentStock,
             );

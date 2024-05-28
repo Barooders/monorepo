@@ -3,7 +3,6 @@ import {
   CaptureBackgroundTransaction,
 } from '@libs/application/decorators/capture-background-transaction';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
-import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IVendorConfigService } from '@modules/pro-vendor/domain/ports/vendor-config.service';
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
@@ -41,14 +40,14 @@ export class StockUpdateConsumer {
     });
 
     this.logger.log(
-      `Handling job ${job.id} for product ${product.internalProductId} emitted at ${job.timestamp}`,
+      `Handling job ${job.id} for product ${product.internalId} emitted at ${job.timestamp}`,
     );
 
     const startExecutionTime = Date.now();
     const waitingTime = startExecutionTime - job.timestamp;
     if (waitingTime > ONE_HOUR) {
       this.logger.warn(
-        `Job ${job.id} for updating stock of product ${product.internalProductId} was waiting for ${waitingTime}ms`,
+        `Job ${job.id} for updating stock of product ${product.internalId} was waiting for ${waitingTime}ms`,
       );
     }
 
@@ -57,15 +56,9 @@ export class StockUpdateConsumer {
       this.vendorProductServiceProvider.setVendorConfigFromSlug(vendorSlug);
       await this.stockUpdateService.updateProductStocks({
         ...product,
-        internalProductId: getValidShopifyId(
-          product.internalProductId,
-        ).toString(),
       });
     } catch (e: any) {
-      this.logger.error(
-        `[${product.internalProductId}] Error: ${e.message}`,
-        e,
-      );
+      this.logger.error(`[${product.internalId}] Error: ${e.message}`, e);
 
       Sentry.captureException(e, {
         tags: {
@@ -77,7 +70,7 @@ export class StockUpdateConsumer {
       const executionTime = Date.now() - startExecutionTime;
       if (executionTime > TEN_SECONDS) {
         this.logger.warn(
-          `Job ${job.id} for product ${product.internalProductId} took ${executionTime}ms`,
+          `Job ${job.id} for product ${product.internalId} took ${executionTime}ms`,
         );
       }
     }

@@ -16,8 +16,6 @@ import {
   ProductToUpdate,
   ShopifyProductStatus,
   StoredMetafield,
-  StoredProduct,
-  StoredVariant,
   Variant,
   getVariantsOptions,
 } from '@libs/domain/product.interface';
@@ -29,10 +27,6 @@ import {
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
-import {
-  cleanShopifyProduct,
-  cleanShopifyVariant,
-} from '@libs/infrastructure/shopify/mappers';
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 import {
   findMetafield,
@@ -47,7 +41,10 @@ import { getValidShopifyId } from '@libs/infrastructure/shopify/validators';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import {
   IStoreClient,
+  ProductCreatedInStore,
   ProductCreationInput,
+  ProductDetails,
+  VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { Injectable, Logger } from '@nestjs/common';
@@ -61,7 +58,6 @@ import {
 } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
 import dayjs from 'dayjs';
-import { get } from 'lodash';
 import { IProductVariant } from 'shopify-api-node';
 
 const mapShopifyStatus = (status: ProductStatus): ShopifyProductStatus => {
@@ -94,37 +90,42 @@ export class ShopifyClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  async getProductDetails({ uuid: productId }: UUID): Promise<StoredProduct> {
-    const { shopifyId, variants } = await this.prisma.product.findUniqueOrThrow(
-      {
+  async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
+    const { shopifyId, variants, vendor, status } =
+      await this.prisma.product.findUniqueOrThrow({
         where: { id: productId },
-        select: { shopifyId: true, variants: true },
-      },
-    );
+        select: {
+          shopifyId: true,
+          variants: true,
+          status: true,
+          vendor: { select: { sellerName: true } },
+        },
+      });
     const product = await shopifyApiByToken.product.get(Number(shopifyId));
 
-    const storeProduct = cleanShopifyProduct(product);
-
     return {
-      ...storeProduct,
-      internalId: productId,
+      images: product.images.map((image) => ({
+        src: image.src,
+        shopifyId: image.id,
+      })),
+      tags: product.tags.split(', '),
+      product_type: product.product_type,
+      body_html: product.body_html,
+      status,
+      vendor: vendor.sellerName ?? '',
       variants: variants.map((variant) => ({
-        id: Number(variant.shopifyId),
         internalId: variant.id,
         condition: variant.condition ?? Condition.GOOD,
         price: fromCents(Number(variant.priceInCents)).toString(),
-        inventory_quantity: variant.quantity,
-        inventory_management: '',
-        inventory_policy: '',
+        compare_at_price:
+          variant.compareAtPriceInCents !== null
+            ? fromCents(Number(variant.compareAtPriceInCents)).toString()
+            : undefined,
       })),
     };
   }
 
-  async createProduct(product: ProductToStore): Promise<
-    Omit<StoredProduct, 'internalId' | 'variants'> & {
-      variants: Omit<StoredVariant, 'internalId'>[];
-    }
-  > {
+  async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
     const customer = await this.customerRepository.getCustomerFromVendorId(
       product.vendorId,
     );
@@ -186,18 +187,16 @@ export class ShopifyClient implements IStoreClient {
         });
       }
 
-      const cleanProduct = cleanShopifyProduct(createdProduct);
-
       return {
-        ...cleanProduct,
-        EANCode: product.EANCode,
-        GTINCode: product.GTINCode,
-        source: product.source,
-        variants: cleanProduct.variants.map((variant, index) => ({
-          ...variant,
-          //TODO: stop using index here as shopify can return variants in different order
-          condition:
-            get(product.variants, `[${index}].condition`) ?? Condition.GOOD,
+        shopifyId: createdProduct.id,
+        handle: createdProduct.handle,
+        title: createdProduct.title,
+        images: createdProduct.images.map((image) => ({
+          src: image.src,
+          shopifyId: image.id,
+        })),
+        variants: createdProduct.variants.map(({ id }) => ({
+          shopifyId: id,
         })),
       };
     } catch (e: any) {
@@ -210,24 +209,30 @@ export class ShopifyClient implements IStoreClient {
   }
 
   async createProductVariant(
-    productId: number,
+    productInternalId: UUID,
     data: Variant,
-  ): Promise<Omit<StoredVariant, 'internalId'>> {
+  ): Promise<VariantCreatedInStore> {
     try {
-      const { product_type } = await shopifyApiByToken.product.get(productId);
+      const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
+        where: { id: productInternalId.uuid },
+        select: { shopifyId: true },
+      });
+      const productShopifyId = Number(shopifyId);
+
+      const { product_type } =
+        await shopifyApiByToken.product.get(productShopifyId);
       const {
         attributes: { weight },
       } = await this.pimClient.getPimProductType(product_type);
       const validVariant = await this.getValidVariantToCreate(data, weight);
 
       const productVariant = await shopifyApiByToken.productVariant.create(
-        productId,
+        productShopifyId,
         validVariant,
       );
 
       return {
-        ...cleanShopifyVariant(productVariant),
-        condition: data.condition,
+        shopifyId: productVariant.id,
       };
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);

@@ -1,8 +1,7 @@
+import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import {
   ProductToStore,
   ProductToUpdate,
-  StoredProduct,
-  StoredVariant,
   Variant,
 } from '@libs/domain/product.interface';
 import { Amount, URL, UUID } from '@libs/domain/value-objects';
@@ -17,18 +16,46 @@ export interface ProductCreationInput {
   variants: { price: Amount }[];
 }
 
+export type ProductDetails = {
+  body_html: string;
+  status: ProductStatus;
+  product_type: string;
+  tags: string[];
+  vendor: string;
+  variants: {
+    internalId: string;
+    price: string;
+    compare_at_price?: string;
+    condition: Condition;
+  }[];
+  images: {
+    src: string;
+    shopifyId: number;
+  }[];
+};
+
+export type ProductCreatedInStore = {
+  shopifyId: number;
+  handle: string;
+  title: string;
+  images: { src: string; shopifyId: number }[];
+  variants: VariantCreatedInStore[];
+};
+
+export type VariantCreatedInStore = {
+  shopifyId: number;
+};
+
 export abstract class IStoreClient {
-  abstract getProductDetails(productId: UUID): Promise<StoredProduct>;
-  abstract createProduct(product: ProductToStore): Promise<
-    Omit<StoredProduct, 'internalId' | 'variants'> & {
-      variants: Omit<StoredVariant, 'internalId'>[];
-    }
-  >;
+  abstract getProductDetails(productId: UUID): Promise<ProductDetails>;
+  abstract createProduct(
+    product: ProductToStore,
+  ): Promise<ProductCreatedInStore>;
   abstract updateProduct(productId: UUID, data: ProductToUpdate): Promise<void>;
   abstract createProductVariant(
-    productId: number,
+    productInternalId: UUID,
     data: Variant,
-  ): Promise<Omit<StoredVariant, 'internalId'>>;
+  ): Promise<VariantCreatedInStore>;
   abstract updateProductVariant(
     variantId: UUID,
     data: Partial<Variant>,

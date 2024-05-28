@@ -3,13 +3,13 @@ import {
   SyncStatus,
   VendorProProduct,
 } from '@libs/domain/prisma.main.client';
-import { StoredProduct } from '@libs/domain/product.interface';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { CreatedProductException } from './exception/created-product.exception';
 import { SkippedProductException } from './exception/skipped-product.exception';
 import { UpdatedProductException } from './exception/updated-product.exception';
+import { ProductFromStore } from './ports/store-client';
 import {
   SkippedProduct,
   SyncLightProduct,
@@ -72,17 +72,17 @@ export class ProductSyncService {
         const vendorProductFromDb =
           await this.productService.findByExternalIdAndVendor(externalId);
 
-        this.throwIfProductInDbNotLinkedToInternalProduct(vendorProductFromDb);
         this.skipInactiveVendorProductUnknownFromUs(
           lightProduct,
           vendorProductFromDb,
         );
 
-        const storeId = Number(vendorProductFromDb?.internalProductId);
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        const productFromStore = storeId
-          ? await this.productService.getProductFromStore(storeId)
-          : null;
+        const productFromStore =
+          vendorProductFromDb !== null
+            ? await this.productService.getProductFromStore(
+                vendorProductFromDb.internalId,
+              )
+            : null;
         const isArchivedOnStore =
           productFromStore?.status === ProductStatus.ARCHIVED;
         const wasSyncActive =
@@ -90,8 +90,8 @@ export class ProductSyncService {
 
         await this.setProductInDraftIfNotVisibleInVendor(
           lightProduct,
-          storeId,
-          !productFromStore || isArchivedOnStore,
+          vendorProductFromDb?.internalId,
+          isArchivedOnStore,
         );
 
         const mappedProduct = await this.mapExternalProduct(
@@ -100,9 +100,9 @@ export class ProductSyncService {
         );
 
         if (!vendorProductFromDb) {
-          const newProduct =
+          const newProductId =
             await this.productService.createProduct(mappedProduct);
-          throw new CreatedProductException(newProduct.shopifyId);
+          throw new CreatedProductException(newProductId);
         }
 
         if (!productFromStore) {
@@ -114,7 +114,7 @@ export class ProductSyncService {
 
         if (wasSyncActive && isArchivedOnStore) {
           throw new SkippedProductException(
-            storeId.toString(),
+            vendorProductFromDb.internalId,
             'Active product in DB is archived in store',
           );
         }
@@ -139,11 +139,11 @@ export class ProductSyncService {
           );
           skippedProducts.push({ id: e.productId, reason: e.message });
         } else if (e instanceof UpdatedProductException) {
-          this.logger.debug(`Updated product (${e.productId})`);
-          updatedProductIds.push(String(e.productId));
+          this.logger.debug(`Updated product (${e.productInternalId})`);
+          updatedProductIds.push(String(e.productInternalId));
         } else if (e instanceof CreatedProductException) {
-          this.logger.debug(`Created product (${e.productId})`);
-          createdProductIds.push(String(e.productId));
+          this.logger.debug(`Created product (${e.productInternalId})`);
+          createdProductIds.push(String(e.productInternalId));
         } else {
           this.logger.error(
             `Failed to sync product with error: ${e.message}`,
@@ -250,17 +250,6 @@ export class ProductSyncService {
     return productsFromVendor;
   }
 
-  private throwIfProductInDbNotLinkedToInternalProduct(
-    vendorProductFromDb: VendorProProduct | null,
-  ) {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!vendorProductFromDb || vendorProductFromDb.internalProductId) return;
-
-    throw new Error(
-      `Product id: ${vendorProductFromDb.id}, externalId: ${vendorProductFromDb.externalProductId}} is missing internalProductId`,
-    );
-  }
-
   private skipInactiveVendorProductUnknownFromUs(
     lightProduct: SyncLightProduct,
     vendorProductFromDb: VendorProProduct | null,
@@ -276,17 +265,17 @@ export class ProductSyncService {
   private async updateProduct(
     mappedProduct: SyncProduct,
     vendorProductFromDb: VendorProProduct,
-    productFromStore: StoredProduct,
+    productFromStore: ProductFromStore,
     wasSyncActive: boolean,
     shouldUpdateImages: boolean,
   ) {
     if (!wasSyncActive) {
       this.logger.warn(
-        `Product ${productFromStore.shopifyId} sync is not active but product is active in vendor API`,
+        `Product ${productFromStore.internalId} sync is not active but product is active in vendor API`,
       );
 
       await this.productService.updateProductStatusOnDbOnly(
-        vendorProductFromDb.id,
+        vendorProductFromDb.internalId,
         SyncStatus.ACTIVE,
       );
     }
@@ -301,23 +290,30 @@ export class ProductSyncService {
 
   private async setProductInDraftIfNotVisibleInVendor(
     lightProduct: SyncLightProduct,
-    storeId: number,
-    isArchivedOrMissingInOurStore: boolean,
+    productInternalId: string | undefined,
+    isArchivedInOurStore: boolean,
   ): Promise<void> {
     if (lightProduct.isVisibleInStore) return;
 
-    if (isArchivedOrMissingInOurStore) {
+    if (isArchivedInOurStore) {
       throw new SkippedProductException(
         lightProduct.external_id,
-        'Product is already archived or missing in store',
+        'Product is already archived in store',
+      );
+    }
+
+    if (productInternalId === undefined) {
+      throw new SkippedProductException(
+        lightProduct.external_id,
+        'Product is already missing in store',
       );
     }
 
     await this.productService.updateProductStatusOnStoreOnly(
-      storeId,
+      productInternalId,
       getProductStatus(lightProduct),
     );
 
-    throw new UpdatedProductException(storeId);
+    throw new UpdatedProductException(productInternalId);
   }
 }

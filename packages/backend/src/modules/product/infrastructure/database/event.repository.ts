@@ -69,7 +69,6 @@ export class EventRepository {
     aggregateId,
     aggregateName,
     productInternalId: productId, // Renamed to productId to keep consistency in Event table
-    productShopifyId,
     metadata,
   }: ProductCreatedDomainEvent) {
     this.logger.log(`Created product ${productId}`);
@@ -81,7 +80,6 @@ export class EventRepository {
         name: EventName.PRODUCT_CREATED,
         payload: {
           productId,
-          productShopifyId: productShopifyId.toString(),
         },
         metadata,
       },
