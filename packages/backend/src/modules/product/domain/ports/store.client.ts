@@ -6,6 +6,8 @@ import {
 } from '@libs/domain/product.interface';
 import { Amount, URL, UUID } from '@libs/domain/value-objects';
 import { ImageToUpload, ProductImage } from '../types';
+import { ProductStoreId } from '../value-objects/product-store-id.value-object';
+import { VariantStoreId } from '../value-objects/variant-store-id.value-object';
 
 export interface ProductCreationInput {
   title: string;
@@ -35,7 +37,7 @@ export type ProductDetails = {
 };
 
 export type ProductCreatedInStore = {
-  shopifyId: number;
+  storeId: ProductStoreId;
   handle: string;
   title: string;
   images: { src: string; shopifyId: number }[];
@@ -43,7 +45,8 @@ export type ProductCreatedInStore = {
 };
 
 export type VariantCreatedInStore = {
-  shopifyId: number;
+  storeId: VariantStoreId;
+  // shopifyId: number;
 };
 
 export abstract class IStoreClient {

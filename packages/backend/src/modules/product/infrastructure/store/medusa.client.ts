@@ -15,6 +15,8 @@ import {
   VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
+import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
+import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { ImageUploadsClient } from './image-uploads-client';
 import { CreateProductRequest, CreateProductResponse } from './medusa.dto';
@@ -62,7 +64,19 @@ export class MedusaClient implements IStoreClient {
         data: requestBody,
       });
 
-    throw new Error('Product created in Medusa with id ' + createdProduct.id);
+    return {
+      storeId: new ProductStoreId({ medusaId: createdProduct.id }),
+      title: createdProduct.title,
+      handle: createdProduct.handle,
+      images: createdProduct.images.map((image) => ({
+        id: image.id,
+        src: image.url,
+        shopifyId: -1,
+      })),
+      variants: createdProduct.variants.map((variant) => ({
+        storeId: new VariantStoreId({ medusaId: variant.id }),
+      })),
+    };
   }
 
   updateProduct(
