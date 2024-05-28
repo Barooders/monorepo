@@ -27,6 +27,7 @@ import { TNCMapper } from './mappers/tnc.mapper';
 import { VeloMeldoisMapper } from './mappers/velo-meldois.mapper';
 import { WillemMapper } from './mappers/willem.mapper';
 import { ShopifyClient } from './shopify.client';
+import { TuvalumV2Mapper } from './mappers/tuvalum-v2.mapper';
 
 @Injectable()
 export class ShopifyProductService implements ProVendorStrategy {
@@ -40,6 +41,7 @@ export class ShopifyProductService implements ProVendorStrategy {
     private boussoleMapper: BoussoleMapper,
     private pilatMapper: PilatMapper,
     private cyclinkMapper: CyclinkMapper,
+    private tuvalumV2Mapper: TuvalumV2Mapper,
     private techniCyclesMapper: TechniCyclesMapper,
     private hbeMapper: HbeMapper,
     private pastelMapper: PastelMapper,
@@ -142,6 +144,8 @@ export class ShopifyProductService implements ProVendorStrategy {
         return this.tncMapper;
       case 'cyclink':
         return this.cyclinkMapper;
+      case 'tuvalum_v2':
+        return this.tuvalumV2Mapper;
       case 'techni_cycles':
         return this.techniCyclesMapper;
       case 'hbe_shopify':
