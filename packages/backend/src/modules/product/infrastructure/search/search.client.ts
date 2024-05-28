@@ -42,6 +42,7 @@ const DOCUMENT_CONFIG = {
       id: variant.id.uuid,
       variant_shopify_id: variant.shopifyId?.id,
       variant_internal_id: variant.id.uuid,
+      variant_merchant_item_id: variant.merchantItemId,
       title: product.title,
       vendor: vendor.name,
       vendor_informations: {
@@ -77,6 +78,7 @@ const DOCUMENT_CONFIG = {
             variant.compareAtPrice.amount,
       product_internal_id: product.id.uuid,
       product_shopify_id: product.shopifyId?.id,
+      product_merchant_item_id: product.merchantItemId,
       product_image: product.imageSrc?.url,
       compare_at_price: variant.compareAtPrice.amount,
       collection_internal_ids: product.collections.map(

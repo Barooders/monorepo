@@ -54,6 +54,8 @@ export type SearchPublicVariantDocument = SearchBaseVariantDocument & {
     };
   };
   variant_title: string;
+  product_merchant_item_id: string;
+  variant_merchant_item_id: string;
   is_refurbished?: string;
   collection_internal_ids: string[];
   collection_handles: string[];

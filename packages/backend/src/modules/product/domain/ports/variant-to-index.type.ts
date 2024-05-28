@@ -16,6 +16,7 @@ import { ProductType } from '../value-objects/product-type.value-object';
 export interface PublicVariantToIndex {
   variant: {
     shopifyId?: ShopifyID;
+    merchantItemId: string;
     id: UUID;
     title: string;
     updatedAt: ValueDate;
@@ -29,6 +30,7 @@ export interface PublicVariantToIndex {
   product: {
     shopifyId?: ShopifyID;
     id: UUID;
+    merchantItemId: string;
     isActive: boolean;
     imageSrc?: URL;
     title: string;
