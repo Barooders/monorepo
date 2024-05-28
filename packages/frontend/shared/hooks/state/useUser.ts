@@ -50,7 +50,12 @@ const useUser = createPersistedStore<UserState>(
             ? state.favoriteProducts
             : [...state.favoriteProducts, internalProductId.toString()],
         }));
-        sendAddToWishlist(internalProductId, get().hasuraToken?.user.id ?? '');
+        sendAddToWishlist({
+          // Note: this is currently broken because the event send internalId
+          // where it should be merchantItemId (= shopifyId for old products)
+          productMerchantItemId: internalProductId,
+          customerId: get().hasuraToken?.user.id ?? '',
+        });
       },
 
       removeFavoriteProduct: (internalProductId: string) => {

@@ -11,16 +11,21 @@ const dict = getDictionary('fr');
 const DetailsButton: React.FC<{
   handle: ProductSingleVariant['handle'];
   productVariantShopifyId: ProductSingleVariant['variantShopifyId'];
-  productShopifyId: ProductSingleVariant['shopifyId'];
+  productMerchantItemId: ProductSingleVariant['productMerchantItemId'];
   className?: string;
-}> = ({ handle, productVariantShopifyId, className, productShopifyId }) => {
+}> = ({
+  handle,
+  productVariantShopifyId,
+  className,
+  productMerchantItemId,
+}) => {
   return (
     <Button
       className={`text-sm uppercase ${className}`}
       intent="tertiary"
       href={`/products/${handle}?variant=${productVariantShopifyId}`}
       onClick={() => {
-        sendClickProduct(productShopifyId);
+        sendClickProduct({ productMerchantItemId });
       }}
     >
       {dict.components.productCard.seeDetails}

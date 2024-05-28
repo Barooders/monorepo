@@ -35,6 +35,7 @@ export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
         collection_id
       }
       shopifyId
+      merchantItemId: merchant_item_id
       variants(limit: 30) {
         id
         shopifyId: shopify_id
@@ -185,6 +186,7 @@ export const createProductFromFragment = (
   return {
     id: String(productFromDBT.product.id),
     shopifyId: productFromDBT.product.shopifyId,
+    productMerchantItemId: productFromDBT.product.merchantItemId,
     labels,
     vendor: {
       id: vendorDetails?.authUserId,

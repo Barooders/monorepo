@@ -28,7 +28,7 @@ type Props = {
 const GET_PRODUCT = /* GraphQL */ /* typed_for_registered_user */ `
   query getProduct($productInternalId: String!) {
     dbt_store_base_product(where: { id: { _eq: $productInternalId } }) {
-      shopifyId
+      merchantItemId: merchant_item_id
       variants(
         limit: 1
         where: { variant: { inventory_quantity: { _gt: 0 } } }
@@ -108,28 +108,29 @@ const Inbox: React.FC<Props> = ({
   }, []);
 
   const initConversation = useCallback(async () => {
-    if (initialConversationId) {
+    if (initialConversationId !== undefined) {
       setSelectedConversationId(initialConversationId);
       return;
     }
 
-    if (productInternalId) {
+    if (productInternalId !== null) {
       try {
         const product = await getProduct(productInternalId);
 
-        if (!product?.shopifyId) {
+        if (product === undefined) {
           throw new Error('Product not found');
         }
+
         const { conversationId, isNewConversation } =
           await startChatConversation(productInternalId);
 
         setSelectedConversationId(conversationId);
         if (isNewConversation) {
-          sendOpenNewConversation(
-            product.shopifyId,
+          sendOpenNewConversation({
+            productMerchantItemId: product.merchantItemId,
             customerId,
-            first(product.variants)?.b2cVariant?.price,
-          );
+            productPrice: first(product.variants)?.b2cVariant?.price,
+          });
         }
         return;
       } catch (e) {}

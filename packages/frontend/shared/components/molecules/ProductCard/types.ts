@@ -31,6 +31,7 @@ export type Variant = {
 export type ProductMultiVariants = {
   id: string;
   shopifyId: number;
+  productMerchantItemId: string;
   labels: CardLabel[];
   vendor: {
     id: string | null;

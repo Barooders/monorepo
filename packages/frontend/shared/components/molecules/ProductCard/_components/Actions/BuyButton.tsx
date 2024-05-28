@@ -25,9 +25,10 @@ const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
   variantShopifyId: number;
+  productMerchantItemId: string;
   handle: string;
   className?: string;
-}> = ({ variantShopifyId, className, handle }) => {
+}> = ({ variantShopifyId, productMerchantItemId, className, handle }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -136,7 +137,7 @@ const BuyButton: React.FC<{
   }, [createState.value]);
 
   const onClick = () => {
-    sendBeginCheckout(variantShopifyId ?? '');
+    sendBeginCheckout({ productMerchantItemId });
     doCreate(variantShopifyId);
   };
 

@@ -10,7 +10,7 @@ import { ProductSingleVariant } from '../types';
 
 const MediumProductCard: React.FC<ProductSingleVariant> = ({
   id,
-  shopifyId,
+  productMerchantItemId,
   title,
   images,
   labels,
@@ -32,7 +32,7 @@ const MediumProductCard: React.FC<ProductSingleVariant> = ({
   return (
     <Link
       href={productLink.toString()}
-      onClick={() => sendClickProduct(shopifyId)}
+      onClick={() => sendClickProduct({ productMerchantItemId })}
       className={`${className}`}
     >
       <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
@@ -64,7 +64,7 @@ const MediumProductCard: React.FC<ProductSingleVariant> = ({
               price={price}
             />
           </div>
-          {vendor.name && (
+          {vendor.name !== null && (
             <ProductVendor
               vendor={vendor.name}
               reviewCount={vendor.reviews.count}

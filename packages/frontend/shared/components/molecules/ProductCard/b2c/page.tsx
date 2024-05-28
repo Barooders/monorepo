@@ -37,6 +37,7 @@ const SINGLE_VARIANT_TITLE = 'Default Title';
 const ProductPage: React.FC<ProductSingleVariant> = (product) => {
   const {
     id,
+    productMerchantItemId,
     images,
     vendor,
     title,
@@ -218,6 +219,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   <BuyButton
                     className="flex-1"
                     variantShopifyId={variantShopifyId}
+                    productMerchantItemId={productMerchantItemId}
                     handle={handle}
                   />
                   <FavoriteButton
@@ -248,6 +250,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             discounts={discounts}
             price={price}
             productInternalId={id}
+            productMerchantItemId={productMerchantItemId}
             productType={productType}
             variantCondition={variantCondition}
             tags={tags}

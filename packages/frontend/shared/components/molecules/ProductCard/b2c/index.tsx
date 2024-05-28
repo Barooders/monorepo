@@ -39,11 +39,11 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
       (variant) => variant.shopifyId.toString() === selectedVariantShopifyId,
     ) ?? defaultVariant;
   const productLink = new URL(`/products/${props.handle}`, config.baseUrl);
-  if (selectedVariantShopifyId)
-    productLink.searchParams.append(
-      'variant',
-      selectedVariantShopifyId.toString(),
-    );
+
+  productLink.searchParams.append(
+    'variant',
+    selectedVariantShopifyId.toString(),
+  );
 
   const discounts = [
     ...getDiscountsByCollectionList(props.collections, isAdmin()),
@@ -63,9 +63,12 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   };
 
   useEffect(() => {
-    if (props.intent && ['page', 'highlight'].includes(props.intent)) {
+    if (
+      props.intent !== undefined &&
+      ['page', 'highlight'].includes(props.intent)
+    ) {
       sendProductViewed({
-        shopifyId: props.shopifyId,
+        merchantItemId: props.productMerchantItemId,
         productType: props.productType,
         brand: props.tags?.marque ?? null,
         compareAtPrice,
