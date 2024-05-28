@@ -84,10 +84,11 @@ model StoreProductCollectionWithManualCollections {
 }
 
 model StoreBaseProduct {
-  id        String   @id
-  shopifyId BigInt   @unique
-  createdAt DateTime @db.Timestamptz(6)
-  vendorId  String   @db.Uuid
+  id             String   @id
+  shopifyId      BigInt   @unique
+  merchantItemId String?  @map("merchant_item_id")
+  createdAt      DateTime @db.Timestamptz(6)
+  vendorId       String   @db.Uuid
 
   exposedImages            StoreExposedProductImage[]
   exposedProduct           StoreExposedProduct?
@@ -103,10 +104,11 @@ model StoreBaseProduct {
 }
 
 model StoreBaseProductVariant {
-  id        String   @id
-  shopifyId BigInt?  @unique @map("shopify_id")
-  createdAt DateTime @db.Timestamptz(6)
-  productId String
+  id             String   @id
+  shopifyId      BigInt?  @unique @map("shopify_id")
+  merchantItemId String?  @map("merchant_item_id")
+  createdAt      DateTime @db.Timestamptz(6)
+  productId      String
 
   product                StoreBaseProduct            @relation(fields: [productId], references: [id])
   exposedProductVariant  StoreExposedProductVariant?

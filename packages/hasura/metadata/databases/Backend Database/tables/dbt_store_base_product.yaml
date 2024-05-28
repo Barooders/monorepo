@@ -71,6 +71,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - merchant_item_id
         - id
         - createdAt
         - vendorId
@@ -80,6 +81,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - merchant_item_id
         - createdAt
         - id
         - vendorId
@@ -88,6 +90,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - merchant_item_id
         - createdAt
         - id
         - vendorId
@@ -96,6 +99,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - merchant_item_id
         - createdAt
         - id
         - vendorId
@@ -104,6 +108,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - merchant_item_id
         - createdAt
         - id
         - vendorId

@@ -392,6 +392,7 @@ model Product {
   createdAt            DateTime              @default(now())
   vendorId             String                @db.Uuid
   shopifyId            BigInt?               @unique
+  merchantItemId       String                @unique
   status               ProductStatus
   description          String?
   manualNotation       ProductNotation?
@@ -416,6 +417,7 @@ model ProductVariant {
   id                    String       @id @default(dbgenerated("(gen_random_uuid())::text"))
   createdAt             DateTime     @default(now())
   shopifyId             BigInt?      @unique
+  merchantItemId        String       @unique
   quantity              Int
   productId             String
   priceInCents          BigInt
