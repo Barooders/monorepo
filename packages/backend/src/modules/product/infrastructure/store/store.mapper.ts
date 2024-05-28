@@ -114,6 +114,7 @@ export class StoreMapper {
       collections,
       shopifyId,
       vendorId,
+      merchantItemId,
     } = await this.prismaStoreClient.storeBaseProduct.findUniqueOrThrow({
       where: {
         id: productId.uuid,
@@ -160,6 +161,7 @@ export class StoreMapper {
     const product = {
       shopifyId: new ShopifyID({ id: Number(shopifyId) }),
       id: productId,
+      merchantItemId,
       isActive:
         exposedProduct.status === ProductStatus.ACTIVE &&
         !!exposedProduct.publishedAt,
@@ -307,6 +309,7 @@ export class StoreMapper {
           id,
           exposedProductVariant,
           storeB2CProductVariant,
+          merchantItemId,
         }) => {
           if (!exposedProductVariant) {
             this.logger.warn(
@@ -331,6 +334,7 @@ export class StoreMapper {
                   })
                 : undefined,
               id: new UUID({ uuid: id }),
+              merchantItemId,
               title: exposedProductVariant.title,
               updatedAt: new ValueDate({
                 date: exposedProductVariant.updatedAt,
