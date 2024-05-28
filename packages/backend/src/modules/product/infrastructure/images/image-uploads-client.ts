@@ -72,8 +72,12 @@ export class ImageUploadsClient implements IImageUploadsClient {
           .toBuffer();
 
         return this.publicUrl(
-          (await this.uploadFile(`${fileName}-${size}.png`, output).promise())
-            .Key,
+          (
+            await this.uploadFile(
+              `${this.PATH_PREFIX}/${fileName}-${size}.png`,
+              output,
+            ).promise()
+          ).Key,
         );
       }),
     );
@@ -105,6 +109,6 @@ export class ImageUploadsClient implements IImageUploadsClient {
   }
 
   private publicUrl(fileName: string) {
-    return `https://${envConfig.externalServices.s3.bucketName}.s3.amazonaws.com/${fileName}`;
+    return `https://${envConfig.externalServices.s3.bucketName}.s3.amazonaws.com/${this.PATH_PREFIX}/${fileName}.png`;
   }
 }

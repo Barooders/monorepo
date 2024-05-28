@@ -7,6 +7,7 @@ import {
 } from '@libs/domain/product.interface';
 import { UUID } from '@libs/domain/value-objects';
 import { createHttpClient } from '@libs/infrastructure/http/clients';
+import { IImageUploadsClient } from '@modules/product/domain/ports/image-uploads.client';
 import {
   IStoreClient,
   ProductCreatedInStore,
@@ -31,6 +32,8 @@ export const medusaClient = createHttpClient(
 export class MedusaClient implements IStoreClient {
   private readonly logger = new Logger(MedusaClient.name);
 
+  constructor(private readonly imageUploadsClient: IImageUploadsClient) {}
+
   getProductDetails(productId: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
     throw new Error('Method not implemented.');
@@ -39,13 +42,18 @@ export class MedusaClient implements IStoreClient {
   async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
     this.logger.log(`Creating product ${product.title}`);
 
+    const imagesUrl = product.images
+      ?.filter((image) => image.src !== undefined)
+      .map((image) => image.src as string);
+
+    const uploadedImages =
+      await this.imageUploadsClient.uploadImages(imagesUrl);
+
     const requestBody: CreateProductRequest = {
       title: product.title,
       description: product.body_html,
       status: product.status === ProductStatus.ACTIVE ? 'published' : 'draft',
-      images: product.images
-        ?.filter((image) => image.src !== undefined)
-        .map((image) => image.src as string),
+      images: uploadedImages,
     };
 
     const { product: createdProduct } =
