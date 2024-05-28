@@ -7,6 +7,8 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ImportImagesConsumer } from './application/import-images.consumer.redis';
 import { QueueNames } from './config';
+import { IImageUploadsClient } from './domain/ports/image-uploads.client';
+import { ImageUploadsClient } from './infrastructure/images/image-uploads-client';
 
 const commonImports = [
   SharedLoggerModule,
@@ -17,7 +19,12 @@ const commonImports = [
   }),
 ];
 
-const commonProviders: [] = [];
+const commonProviders = [
+  {
+    provide: IImageUploadsClient,
+    useClass: ImageUploadsClient,
+  },
+];
 
 @Module({
   imports: [

@@ -73,6 +73,12 @@ export type EnvSecretConfig = {
       shopifyIntegrationId: string;
       webhookSecretKey: string;
     };
+    s3: {
+      bucketName: string;
+      region: string;
+      accessKeyId: string;
+      secretAccessKey: string;
+    };
     shopify: {
       shop: string;
       shopDns: string;
