@@ -12,12 +12,12 @@ const run = async () => {
     from: 2,
   })) as ProductId[];
 
-  for (const [productShopifyId] of rows) {
+  for (const [productInternalId] of rows) {
     try {
-      console.log(`Updating product ${productShopifyId}`);
+      console.log(`Updating product ${productInternalId}`);
 
       const response = await fetch(
-        `https://backend.barooders.com/v1/admin/products/${productShopifyId}`,
+        `https://backend.barooders.com/v1/admin/products/${productInternalId}`,
         {
           headers: {
             'Content-Type': 'application/json',
