@@ -13,6 +13,9 @@ const productionPublicConfig: EnvPublicConfig = {
   mobileAppPublicationId: 'gid://shopify/Publication/92204138723',
   technicalAccountId: '4276ff9e-a377-42bf-a344-cb991fd4b2e9',
   isSentryEnabled: true,
+  featureFlags: {
+    useMedusaClient: false,
+  },
 };
 
 export default productionPublicConfig;

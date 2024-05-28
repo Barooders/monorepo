@@ -111,6 +111,9 @@ export type EnvPublicConfig = {
   mobileAppPublicationId: string;
   technicalAccountId: string;
   isSentryEnabled: boolean;
+  featureFlags: {
+    useMedusaClient: boolean;
+  };
 };
 
 export type EnvCronConfig = {

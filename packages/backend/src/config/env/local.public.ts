@@ -11,6 +11,9 @@ const localPublicConfig: EnvPublicConfig = {
   mobileAppPublicationId: 'gid://shopify/Publication/94244602097',
   locationId: '68533813489',
   isSentryEnabled: false,
+  featureFlags: {
+    useMedusaClient: true,
+  },
 };
 
 export default localPublicConfig;

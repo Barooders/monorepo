@@ -1,0 +1,24 @@
+meta {
+  name: -v1-admin-products-create
+  type: http
+  seq: 53
+}
+
+post {
+  url: {{base_url}}/v1/admin/products/create?sellerId=40723c01-7a96-4c4d-958c-c91920b6f415
+  body: json
+  auth: none
+}
+
+query {
+  sellerId: 40723c01-7a96-4c4d-958c-c91920b6f415
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}
+
+body:json {
+  {}
+}

@@ -1,3 +1,4 @@
+import envConfig from '@config/env/env.config';
 import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import { PrismaModule } from '@libs/domain/prisma.module';
@@ -34,6 +35,7 @@ import { SlackClient } from './infrastructure/internal-notification/slack.client
 import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
+import { MedusaClient } from './infrastructure/store/medusa.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
 
@@ -76,7 +78,9 @@ const commonProviders = [
   },
   {
     provide: IStoreClient,
-    useClass: ShopifyClient,
+    useClass: envConfig.featureFlags.useMedusaClient
+      ? MedusaClient
+      : ShopifyClient,
   },
   {
     provide: IEmailClient,
