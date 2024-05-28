@@ -97,6 +97,7 @@ import { VendorConfigService } from './infrastructure/config/vendor-config.servi
 import { VendorOrderServiceProvider } from './infrastructure/config/vendor-order-service.provider';
 import { VendorProductServiceProvider } from './infrastructure/config/vendor-product-service.provider';
 import { SlackClient } from './infrastructure/internal-notification/slack.client';
+import { TuvalumV2Mapper } from './infrastructure/api/shopify/mappers/tuvalum-v2.mapper';
 
 export const proVendorSharedServices = [
   CustomerRepository,
@@ -158,6 +159,7 @@ export const proVendorSharedServices = [
   BoussoleMapper,
   PilatMapper,
   CyclinkMapper,
+  TuvalumV2Mapper,
   BaroudeurMapper,
   TechniCyclesMapper,
   HbeMapper,
