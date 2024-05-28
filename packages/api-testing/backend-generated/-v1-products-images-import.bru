@@ -1,0 +1,22 @@
+meta {
+  name: -v1-products-images-import
+  type: http
+  seq: 52
+}
+
+post {
+  url: {{base_url}}/v1/products/images/import
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "images": [],
+    "storeProductId": ""
+  }
+}
