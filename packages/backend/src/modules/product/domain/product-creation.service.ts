@@ -183,6 +183,7 @@ export class ProductCreationService {
         vendorId,
         status: productStatus,
         shopifyId: createdProduct.shopifyId,
+        merchantItemId: createdProduct.shopifyId.toString(),
         description: product.body_html,
         handle: createdProduct.handle,
         productType,
@@ -206,6 +207,8 @@ export class ProductCreationService {
             data: product.variants.map((variant, index) => ({
               //TODO: stop using index here as shopify can return variants in different order
               shopifyId: createdProduct.variants[index].shopifyId,
+              merchantItemId:
+                createdProduct.variants[index].shopifyId.toString(),
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -278,6 +281,7 @@ export class ProductCreationService {
       data: {
         createdAt: new Date(),
         shopifyId: createdVariant.shopifyId,
+        merchantItemId: createdVariant.shopifyId.toString(),
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
