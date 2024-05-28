@@ -12,11 +12,16 @@ post {
 
 headers {
   Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
 }
 
 body:json {
   {
-    "images": [],
-    "storeProductId": ""
+    "imageUrls": [
+      "https://http.cat/409",
+      "https://http.cat/201",
+      "https://http.cat/202"
+    ],
+    "storeProductId": "12021"
   }
 }

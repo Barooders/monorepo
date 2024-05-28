@@ -556,13 +556,13 @@ export class ProductController {
     data: UploadImagesDto,
   ): Promise<void> {
     this.logger.log(
-      `Planning import of ${data.images.length} images for product ${data.storeProductId}`,
+      `Planning import of ${data.imageUrls.length} images for product ${data.storeProductId}`,
     );
 
     await this.importImageQueue.add(
       {
         storeProductId: data.storeProductId,
-        images: data.images,
+        imageUrls: data.imageUrls,
       },
       {
         attempts: 2,

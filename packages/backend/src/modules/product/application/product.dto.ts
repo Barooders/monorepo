@@ -77,7 +77,7 @@ export class CreateProductModelDto {
 
 export class UploadImagesDto {
   @ApiProperty()
-  images!: string[];
+  imageUrls!: string[];
 
   @ApiProperty()
   storeProductId!: string;
