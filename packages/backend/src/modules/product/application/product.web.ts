@@ -294,7 +294,7 @@ export class ProductController {
       addProductImageDTO,
     );
 
-    return { src: image.src, id: image.id };
+    return { src: image.src, id: image.storeId.value };
   }
 
   @ApiOkResponse()

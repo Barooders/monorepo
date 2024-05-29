@@ -676,7 +676,10 @@ export class ShopifyClient implements IStoreClient {
       },
     );
 
-    return { src: productImage.src, id: productImage.id.toString() };
+    return {
+      src: productImage.src,
+      storeId: new ImageStoreId({ shopifyId: productImage.id }),
+    };
   }
   async deleteProductImage(
     { uuid: productId }: UUID,

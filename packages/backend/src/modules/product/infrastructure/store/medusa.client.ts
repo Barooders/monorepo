@@ -361,13 +361,53 @@ export class MedusaClient implements IStoreClient {
     throw new Error('Method not implemented.');
   }
 
-  addProductImage(
+  async addProductImage(
     productId: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage> {
     this.logger.log(`Adding image to product ${productId}`, image);
 
-    throw new Error('Method not implemented.');
+    if (image.src === undefined) {
+      throw new Error('Image source is required');
+    }
+
+    const { medusaId } = await this.prisma.product.findUniqueOrThrow({
+      where: { id: productId.uuid },
+      select: { medusaId: true },
+    });
+
+    if (medusaId == null) {
+      throw new Error(`Product ${productId} not found in Medusa`);
+    }
+
+    const { product } = await medusaClient.admin.products.retrieve(medusaId);
+
+    const uploadedImage = await this.imageUploadsClient.uploadImages([
+      image.src,
+    ]);
+    const images = [
+      ...product.images.map((image) => image.url),
+      ...uploadedImage,
+    ];
+
+    const { product: updatedProduct } =
+      await medusaClient.admin.products.update(medusaId, {
+        images,
+      });
+
+    const previousImages = product.images.map((image) => image.id);
+    const newImage = updatedProduct.images.find(
+      (img) => !previousImages.includes(img.id),
+    );
+
+    if (newImage === undefined) {
+      throw new Error('Failed to find new image');
+    }
+
+    return {
+      src: newImage.url,
+      storeId: new ImageStoreId({ medusaId: newImage.id }),
+    };
   }
 
   deleteProductImage(productId: UUID, imageId: string): Promise<void> {
