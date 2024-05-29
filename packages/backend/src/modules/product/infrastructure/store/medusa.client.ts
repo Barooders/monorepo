@@ -161,6 +161,10 @@ export class MedusaClient implements IStoreClient {
         product.variants.map(
           (variant): MedusaVariantRequest => ({
             title: variant.title ?? 'Default',
+            sku: variant.sku,
+            weight,
+            inventory_quantity: variant.inventory_quantity,
+            // TODO: add compare at price
             prices: [
               ...(variant.price !== undefined
                 ? [
@@ -322,10 +326,29 @@ export class MedusaClient implements IStoreClient {
     };
   }
 
-  updateProductVariant(variantId: UUID, data: Partial<Variant>): Promise<void> {
+  async updateProductVariant(
+    { uuid: variantId }: UUID,
+    data: Partial<Variant>,
+  ): Promise<void> {
     this.logger.log(`Updating variant ${variantId}`, data);
 
-    throw new Error('Method not implemented.');
+    const {
+      medusaId: variantStoreId,
+      product: { medusaId: productStoreId },
+    } = await this.prisma.productVariant.findUniqueOrThrow({
+      where: { id: variantId },
+      select: { medusaId: true, product: { select: { medusaId: true } } },
+    });
+
+    if (variantStoreId == null || productStoreId == null) {
+      throw new Error(`Variant ${variantId} not found in Medusa`);
+    }
+
+    await medusaClient.admin.products.updateVariant(
+      productStoreId,
+      variantStoreId,
+      data,
+    );
   }
 
   async deleteProductVariant({ uuid: variantId }: UUID): Promise<void> {
