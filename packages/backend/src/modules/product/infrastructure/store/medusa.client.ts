@@ -268,10 +268,25 @@ export class MedusaClient implements IStoreClient {
     throw new Error('Method not implemented.');
   }
 
-  deleteProductVariant(variantId: UUID): Promise<void> {
+  async deleteProductVariant({ uuid: variantId }: UUID): Promise<void> {
     this.logger.log(`Deleting variant ${variantId}`);
 
-    throw new Error('Method not implemented.');
+    const {
+      medusaId: variantMedusaId,
+      product: { medusaId: productMedusaId },
+    } = await this.prisma.productVariant.findUniqueOrThrow({
+      where: { id: variantId },
+      select: { medusaId: true, product: { select: { medusaId: true } } },
+    });
+
+    if (variantMedusaId == null || productMedusaId == null) {
+      throw new Error(`Variant ${variantId} is not present in Medusa`);
+    }
+
+    await medusaClient.admin.products.deleteVariant(
+      productMedusaId,
+      variantMedusaId,
+    );
   }
 
   approveProduct(productId: UUID): Promise<void> {
