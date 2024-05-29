@@ -58,21 +58,19 @@ FAV as (
 
 SELECT * FROM (
     SELECT
-        prod.id as id,
-        p.id as shopifyid,
+        p.internal_id as id,
         case when sum(TRAFFIC30.nb_events) IS NULL THEN 0 ELSE sum(TRAFFIC30.nb_events) END AS traffic30,
         case when sum(TRAFFIC7.nb_events) IS NULL THEN 0 ELSE sum(TRAFFIC7.nb_events) END AS traffic7,
         case when sum(TRAFFICTOT.nb_events) IS NULL THEN 0 ELSE sum(TRAFFICTOT.nb_events) END AS traffictot,
         case when sum(FAV.nb_fav) IS NULL THEN 0 ELSE sum(FAV.nb_fav) END AS nb_fav,
 
     FROM {{ref('dim_product')}} AS p
-    LEFT JOIN TRAFFIC30 AS TRAFFIC30 ON TRAFFIC30.productid = cast(p.id AS string)
-    LEFT JOIN TRAFFIC7 AS TRAFFIC7 ON TRAFFIC7.productid = cast(p.id AS string)
-    LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.productid = cast(p.id AS string)
-    LEFT JOIN backend__dbt.store_product_for_analytics AS prod ON prod.shopify_id = p.id
-    LEFT JOIN FAV AS FAV ON cast(FAV.internalProductId AS string) = cast(prod.id AS string)
+    LEFT JOIN TRAFFIC30 AS TRAFFIC30 ON TRAFFIC30.productid = p.merchant_item_id
+    LEFT JOIN TRAFFIC7 AS TRAFFIC7 ON TRAFFIC7.productid = p.merchant_item_id
+    LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.productid = p.merchant_item_id
+    LEFT JOIN FAV AS FAV ON FAV.internalProductId = p.internal_id
 
-    GROUP BY p.id, prod.id
+    GROUP BY p.id
     ORDER BY nb_fav DESC
 )
 WHERE id IS NOT NULL AND traffic30 > 0

@@ -18,7 +18,7 @@ with dim_vendor as (
         b_u.email as email,
         b_c.scoring,
         b_c.usedshipping
-    from backend__public.Product b_p
+    from backend__dbt.store_base_product b_p
     left join backend__public.Customer b_c ON b_c.authUserId = b_p.vendorId
     left join backend__auth.users b_u on b_u.id = b_c.authUserId
     group by 1,2,3,4,5,6,7,8,9,10,11,12,13

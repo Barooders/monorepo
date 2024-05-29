@@ -18,8 +18,8 @@ SELECT
 ),
 feed_gmc as (
     SELECT
-        p.id as product_id,
-        v.id as variant_id,
+        p.merchant_item_id as product_id,
+        v.merchant_item_id as variant_id,
         p.title as product_title,
         case when v.title = 'Default Title' then null else v.title end as variant_title,
         p.product_type as product_type,
@@ -58,7 +58,7 @@ feed_gmc as (
         i.image_url_5 as image_url_5,
         i.image_url_6 as image_url_6,
         concat("https://barooders.com/products/", p.handle) as product_url,
-        concat("https://barooders.com/products/", p.handle, "?variant=", v.id) as variant_url,
+        concat("https://barooders.com/products/", p.handle, "?variant=", v.internal_id) as variant_url,
         v.compare_at_price as compare_at_price,
         v.price as price,
         v.grams / 1000 as weight,
@@ -112,13 +112,13 @@ feed_gmc as (
 
 
     FROM {{ref('dim_product')}} as p
-    left JOIN {{ref('dim_product_variant')}} as v on v.product_id = p.id
-    left JOIN images_feed as i on i.product_id = p.id
-    left JOIN backend__dbt.store_product_for_analytics as b on b.shopify_id = p.id
+    left JOIN {{ref('dim_product_variant')}} as v on v.product_id = p.internal_id
+    left JOIN images_feed as i on i.product_id = p.shopify_id
+    left JOIN backend__dbt.store_product_for_analytics as b on b.shopify_id = p.internal_id
     left JOIN backend__dbt.store_discount_product as dp on dp.product_id = p.internal_id
     left JOIN {{ref('breadcrumbs')}} as bc on bc.product_type = p.product_type
-    left JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.id as string) and snap.date = date_sub(current_date, interval 1 day)
-    left join backend__public.Customer as c on cast(c.shopifyid as string) = cast(p.vendor_id as string)
+    left JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.shopify_id as string) and snap.date = date_sub(current_date, interval 1 day)
+    left join backend__public.Customer as c on c.authUserId = p.vendor_id
     left join backend__public.ProductSalesChannel ON productsaleschannel.productid = p.internal_id
     where
         (
