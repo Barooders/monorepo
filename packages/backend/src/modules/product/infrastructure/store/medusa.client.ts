@@ -349,18 +349,6 @@ export class MedusaClient implements IStoreClient {
     );
   }
 
-  approveProduct(productId: UUID): Promise<void> {
-    this.logger.log(`Approving product ${productId}`);
-
-    throw new Error('Method not implemented.');
-  }
-
-  rejectProduct(productId: UUID): Promise<void> {
-    this.logger.log(`Rejecting product ${productId}`);
-
-    throw new Error('Method not implemented.');
-  }
-
   async addProductImage(
     productId: UUID,
     image: ImageToUpload,
@@ -440,6 +428,18 @@ export class MedusaClient implements IStoreClient {
     await medusaClient.admin.products.update(productMedusaId, {
       images,
     });
+
+    throw new Error('Method not implemented.');
+  }
+
+  approveProduct(productId: UUID): Promise<void> {
+    this.logger.log(`Approving product ${productId}`);
+
+    throw new Error('Method not implemented.');
+  }
+
+  rejectProduct(productId: UUID): Promise<void> {
+    this.logger.log(`Rejecting product ${productId}`);
 
     throw new Error('Method not implemented.');
   }
