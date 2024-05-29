@@ -10,7 +10,7 @@ with ecommerce_subscribers as (
         from {{ref('dim_customer')}} c
         group by 1
         union all 
-        select v.creation_date , count(distinct v.id) subscribers
+        select v.creation_date , count(distinct v.internal_id) subscribers
         from {{ref('dim_vendor')}} v
         group by 1)
     group by date, owner, indicator_name
