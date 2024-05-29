@@ -2,6 +2,8 @@ const { config } = require('dotenv');
 try {
   config({ path: '.env' });
 } catch (e) {}
+const { DataSource } = require('typeorm');
+const { parse } = require('pg-connection-string');
 
 const envConfig = require(`${__dirname}/dist/config/env/env.config`).default;
 
@@ -73,6 +75,24 @@ const DATABASE_SCHEMA = 'medusa';
 const databaseBaseUrl = process.env.DATABASE_URL ?? envConfig.database.url;
 const redisUrl = process.env.REDIS_URL ?? envConfig.redis.url;
 
+const databaseInfo = parse(databaseBaseUrl);
+const AppDataSource = new DataSource({
+  type: 'postgres',
+  port: databaseInfo.port,
+  username: databaseInfo.user,
+  password: databaseInfo.password,
+  database: databaseInfo.database,
+  schema: DATABASE_SCHEMA,
+  entities: [
+    'dist/models/*.js',
+    'node_modules/@medusajs/medusa/dist/models/*.js',
+  ],
+  migrations: [
+    'dist/migrations/*.js',
+    'node_modules/@medusajs/medusa/dist/migrations/*.js',
+  ],
+});
+
 /** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
 const projectConfig = {
   jwt_secret: envConfig.authentication.jwtSecret,
@@ -112,4 +132,5 @@ module.exports = {
   plugins,
   modules,
   featureFlags,
+  datasource: AppDataSource,
 };

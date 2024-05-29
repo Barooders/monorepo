@@ -9,6 +9,7 @@ export class Store extends MedusaStore {
     cascade: true,
   })
   users: Relation<Product>[];
+
   @OneToMany(() => Product, (product) => product.store, {
     cascade: true,
   })
