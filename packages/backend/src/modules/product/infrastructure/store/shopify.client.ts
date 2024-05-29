@@ -47,6 +47,8 @@ import {
   VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
+import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
+import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { MutationProductCreateArgs } from '@quasarwork/shopify-api-types/api/admin/2023-01';
 import {
@@ -188,15 +190,16 @@ export class ShopifyClient implements IStoreClient {
       }
 
       return {
-        shopifyId: createdProduct.id,
+        storeId: new ProductStoreId({ shopifyId: createdProduct.id }),
         handle: createdProduct.handle,
         title: createdProduct.title,
         images: createdProduct.images.map((image) => ({
           src: image.src,
-          shopifyId: image.id,
         })),
         variants: createdProduct.variants.map(({ id }) => ({
-          shopifyId: id,
+          storeId: new VariantStoreId({
+            shopifyId: id,
+          }),
         })),
       };
     } catch (e: any) {
@@ -232,7 +235,7 @@ export class ShopifyClient implements IStoreClient {
       );
 
       return {
-        shopifyId: productVariant.id,
+        storeId: new VariantStoreId({ shopifyId: productVariant.id }),
       };
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);

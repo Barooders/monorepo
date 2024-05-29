@@ -117,10 +117,10 @@ export interface ProductCreationOptions {
 
 export type CreatedProduct = Omit<
   ProductCreatedInStore,
-  'variants' | 'shopifyId'
+  'variants' | 'storeId'
 > & {
   internalId: string;
-  variants: (Omit<VariantCreatedInStore, 'shopifyId'> & {
+  variants: (Omit<VariantCreatedInStore, 'storeId'> & {
     internalId: string;
   })[];
 };
@@ -182,8 +182,9 @@ export class ProductCreationService {
       data: {
         vendorId,
         status: productStatus,
-        shopifyId: createdProduct.shopifyId,
-        merchantItemId: createdProduct.shopifyId.toString(),
+        shopifyId: createdProduct.storeId.shopifyIdIfExists,
+        medusaId: createdProduct.storeId.medusaIdIfExists,
+        merchantItemId: createdProduct.storeId.value,
         description: product.body_html,
         handle: createdProduct.handle,
         productType,
@@ -206,9 +207,10 @@ export class ProductCreationService {
           createMany: {
             data: product.variants.map((variant, index) => ({
               //TODO: stop using index here as shopify can return variants in different order
-              shopifyId: createdProduct.variants[index].shopifyId,
-              merchantItemId:
-                createdProduct.variants[index].shopifyId.toString(),
+              shopifyId:
+                createdProduct.variants[index].storeId.shopifyIdIfExists,
+              medusaId: createdProduct.variants[index].storeId.medusaIdIfExists,
+              merchantItemId: createdProduct.variants[index].storeId.value,
               quantity: variant.inventory_quantity ?? 0,
               // TODO: remove this 0
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -280,8 +282,9 @@ export class ProductCreationService {
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
         createdAt: new Date(),
-        shopifyId: createdVariant.shopifyId,
-        merchantItemId: createdVariant.shopifyId.toString(),
+        shopifyId: createdVariant.storeId.shopifyIdIfExists,
+        medusaId: createdVariant.storeId.medusaIdIfExists,
+        merchantItemId: createdVariant.storeId.value,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
