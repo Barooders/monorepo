@@ -9,6 +9,7 @@
     "libs/i18n/**",
     "libs/infrastructure/**",
     "libs/types/**",
+    "modules/scripts/**",
     "modules/*/application",
     "modules/*/domain/**",
     "modules/*/infrastructure/chat",
