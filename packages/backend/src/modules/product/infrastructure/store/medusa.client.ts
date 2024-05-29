@@ -207,6 +207,7 @@ export class MedusaClient implements IStoreClient {
       tags,
       status,
       vendorId,
+      images,
       ...data
     }: Partial<Omit<Product, 'variants'> & { vendorId: string }>,
   ): Promise<void> {
@@ -240,6 +241,13 @@ export class MedusaClient implements IStoreClient {
         ? await this.getOrCreateCategory(data.product_type)
         : undefined;
 
+    const updatedImages =
+      images === undefined
+        ? undefined
+        : await this.imageUploadsClient.uploadImages(
+            compact(images.map((image) => image.src)),
+          );
+
     const dataToUpdate: AdminPostProductsProductReq = {
       title: data.title,
       description: data.body_html,
@@ -263,6 +271,7 @@ export class MedusaClient implements IStoreClient {
             ),
           }
         : {}),
+      ...(updatedImages !== undefined ? { images: updatedImages } : {}),
     };
 
     await medusaClient.admin.products.update(medusaId, dataToUpdate);
