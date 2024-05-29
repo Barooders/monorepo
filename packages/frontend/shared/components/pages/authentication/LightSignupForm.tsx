@@ -91,6 +91,9 @@ const LightSignupForm = () => {
             name="phoneNumber"
             type="tel"
             placeholder="+33 "
+            options={{
+              required: dict.global.forms.required,
+            }}
           />
           <Button
             className="flex w-[200px] justify-center self-start"

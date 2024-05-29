@@ -88,6 +88,9 @@ const SignupForm = () => {
             name="phoneNumber"
             type="tel"
             placeholder="+33 "
+            options={{
+              required: dict.global.forms.required,
+            }}
           />
           <Input
             name="cguConsent"
