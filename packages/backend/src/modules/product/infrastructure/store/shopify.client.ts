@@ -683,15 +683,19 @@ export class ShopifyClient implements IStoreClient {
   }
   async deleteProductImage(
     { uuid: productId }: UUID,
-    imageId: string,
+    imageId: ImageStoreId,
   ): Promise<void> {
+    if (imageId.shopifyIdIfExists == null) {
+      return;
+    }
+
     const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productId },
       select: { shopifyId: true },
     });
     await shopifyApiByToken.productImage.delete(
       Number(shopifyId),
-      Number(imageId),
+      imageId.shopifyIdIfExists,
     );
   }
 }

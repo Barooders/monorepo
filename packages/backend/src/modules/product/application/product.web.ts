@@ -62,6 +62,7 @@ import {
   ModerationAction,
   ProductUpdateService,
 } from '../domain/product-update.service';
+import { ImageStoreId } from '../domain/value-objects/image-store-id.value-object';
 import { CreateProductModelDto, ProductAdminDTO } from './product.dto';
 
 type CollectionType = {
@@ -303,9 +304,13 @@ export class ProductController {
     @Param('productInternalId') productInternalId: string,
     @Param('imageId') imageId: string,
   ): Promise<void> {
+    const imageStoreId = imageId.includes('-')
+      ? new ImageStoreId({ medusaId: imageId })
+      : new ImageStoreId({ shopifyId: Number(imageId) });
+
     await this.productUpdateService.deleteProductImage(
       new UUID({ uuid: productInternalId }),
-      imageId,
+      imageStoreId,
     );
   }
 

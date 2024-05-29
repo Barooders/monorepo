@@ -70,7 +70,10 @@ export abstract class IStoreClient {
     productId: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage>;
-  abstract deleteProductImage(productId: UUID, imageId: string): Promise<void>;
+  abstract deleteProductImage(
+    productId: UUID,
+    imageId: ImageStoreId,
+  ): Promise<void>;
 
   abstract createCommissionProduct(
     product: ProductCreationInput,

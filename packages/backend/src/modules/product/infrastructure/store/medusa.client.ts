@@ -410,8 +410,36 @@ export class MedusaClient implements IStoreClient {
     };
   }
 
-  deleteProductImage(productId: UUID, imageId: string): Promise<void> {
+  async deleteProductImage(
+    productId: UUID,
+    imageId: ImageStoreId,
+  ): Promise<void> {
     this.logger.log(`Deleting image ${imageId} from product ${productId}`);
+
+    if (imageId.medusaIdIfExists === undefined) {
+      throw new Error('Image id is required');
+    }
+
+    const { medusaId: productMedusaId } =
+      await this.prisma.product.findUniqueOrThrow({
+        where: { id: productId.uuid },
+        select: { medusaId: true },
+      });
+
+    if (productMedusaId == null) {
+      throw new Error(`Product ${productId} not found in Medusa`);
+    }
+
+    const { product } =
+      await medusaClient.admin.products.retrieve(productMedusaId);
+
+    const images = product.images
+      .filter((img) => img.id !== imageId.medusaIdIfExists)
+      .map((img) => img.url);
+
+    await medusaClient.admin.products.update(productMedusaId, {
+      images,
+    });
 
     throw new Error('Method not implemented.');
   }
