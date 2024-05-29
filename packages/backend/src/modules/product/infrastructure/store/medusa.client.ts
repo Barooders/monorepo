@@ -14,6 +14,7 @@ import { UUID } from '@libs/domain/value-objects';
 import { fromCents, toCents } from '@libs/helpers/currency';
 import { medusaClient } from '@libs/infrastructure/medusa/client';
 import {
+  AdminPostProductsProductVariantsReq,
   AdminPostProductsReq,
   ProductStatus as MedusaProductStatus,
 } from '@medusajs/medusa';
@@ -203,13 +204,62 @@ export class MedusaClient implements IStoreClient {
     throw new Error('Method not implemented.');
   }
 
-  createProductVariant(
+  async createProductVariant(
     productInternalId: UUID,
     data: Variant,
   ): Promise<VariantCreatedInStore> {
     this.logger.log(`Creating variant for product ${productInternalId}`, data);
 
-    throw new Error('Method not implemented.');
+    const { medusaId, variants } = await this.prisma.product.findUniqueOrThrow({
+      where: { id: productInternalId.uuid },
+      select: {
+        medusaId: true,
+        variants: {
+          select: {
+            medusaId: true,
+          },
+        },
+      },
+    });
+
+    if (medusaId == null) {
+      throw new Error(`Product ${productInternalId} not found in Medusa`);
+    }
+
+    const request: AdminPostProductsProductVariantsReq = {
+      title: data.title ?? 'Default',
+      prices: [
+        ...(data.price !== undefined
+          ? [
+              {
+                amount: toCents(data.price),
+                currency_code: 'EUR',
+              },
+            ]
+          : []),
+      ],
+      options: data.optionProperties.map((option) => ({
+        option_id: option.key,
+        value: option.value,
+      })),
+    };
+    const { product } = await medusaClient.admin.products.createVariant(
+      medusaId,
+      request,
+    );
+
+    const previousVariantIds = variants.map((variant) => variant.medusaId);
+    const newVariant = product.variants.find(
+      (variant) => !previousVariantIds.includes(variant.id),
+    );
+
+    if (newVariant === undefined) {
+      throw new Error('Failed to find new variant');
+    }
+
+    return {
+      storeId: new VariantStoreId({ medusaId: newVariant.id }),
+    };
   }
 
   updateProductVariant(variantId: UUID, data: Partial<Variant>): Promise<void> {
