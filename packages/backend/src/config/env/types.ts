@@ -73,6 +73,12 @@ export type EnvSecretConfig = {
       shopifyIntegrationId: string;
       webhookSecretKey: string;
     };
+    s3: {
+      bucketName: string;
+      region: string;
+      accessKeyId: string;
+      secretAccessKey: string;
+    };
     shopify: {
       shop: string;
       shopDns: string;
@@ -91,6 +97,10 @@ export type EnvSecretConfig = {
       baseUrl: string;
       apiToken: string;
     };
+    medusa: {
+      baseUrl: string;
+      apiKey: string;
+    };
   };
 };
 
@@ -105,6 +115,9 @@ export type EnvPublicConfig = {
   mobileAppPublicationId: string;
   technicalAccountId: string;
   isSentryEnabled: boolean;
+  featureFlags: {
+    useMedusaClient: boolean;
+  };
 };
 
 export type EnvCronConfig = {
