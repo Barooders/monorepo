@@ -14,6 +14,7 @@ import { UUID } from '@libs/domain/value-objects';
 import { fromCents, toCents } from '@libs/helpers/currency';
 import { medusaClient } from '@libs/infrastructure/medusa/client';
 import {
+  AdminPostProductsProductReq,
   AdminPostProductsProductVariantsReq,
   AdminPostProductsReq,
   ProductStatus as MedusaProductStatus,
@@ -195,13 +196,72 @@ export class MedusaClient implements IStoreClient {
     };
   }
 
-  updateProduct(
-    productId: UUID,
-    data: Partial<Omit<Product, 'variants'> & { vendorId: string }>,
+  async updateProduct(
+    { uuid: productId }: UUID,
+    {
+      metafields,
+      tags,
+      status,
+      vendorId,
+      ...data
+    }: Partial<Omit<Product, 'variants'> & { vendorId: string }>,
   ): Promise<void> {
     this.logger.log(`Updating product ${productId}`, data);
 
-    throw new Error('Method not implemented.');
+    const { medusaId } = await this.prisma.product.findUniqueOrThrow({
+      where: { id: productId },
+      select: { medusaId: true },
+    });
+
+    if (medusaId == null) {
+      throw new Error(`Product ${productId} not created in Medusa`);
+    }
+
+    // TODO: update vendor
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const newVendor =
+      vendorId !== undefined
+        ? await this.customerRepository.getCustomerFromVendorId(vendorId)
+        : null;
+
+    let weight: number | undefined;
+    if (data.product_type !== undefined) {
+      const {
+        attributes: { weight: newWeight },
+      } = await this.pimClient.getPimProductType(data.product_type);
+      weight = newWeight;
+    }
+    const productTypeId =
+      data.product_type !== undefined
+        ? await this.getOrCreateCategory(data.product_type)
+        : undefined;
+
+    const dataToUpdate: AdminPostProductsProductReq = {
+      title: data.title,
+      description: data.body_html,
+      handle: data.title !== undefined ? handle(data.title) : undefined,
+      weight,
+      categories:
+        productTypeId !== undefined ? [{ id: productTypeId }] : undefined,
+      ...(tags !== undefined
+        ? {
+            tags: getValidTags(tags).map((value) => ({
+              value,
+            })),
+          }
+        : {}),
+      ...(status !== undefined ? { status: this.mapStatus(status) } : {}),
+      ...(metafields !== undefined
+        ? {
+            metadata: metafields.reduce(
+              (acc, { key, value }) => ({ ...acc, [key]: value }),
+              {},
+            ),
+          }
+        : {}),
+    };
+
+    await medusaClient.admin.products.update(medusaId, dataToUpdate);
   }
 
   async createProductVariant(
