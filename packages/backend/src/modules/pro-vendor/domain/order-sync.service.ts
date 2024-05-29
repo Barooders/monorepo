@@ -4,6 +4,7 @@ import {
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { Injectable, Logger } from '@nestjs/common';
+import { isEmpty } from 'class-validator';
 import { sumBy } from 'lodash';
 import { ProductOutOfStockException } from './ports/exceptions';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
@@ -99,6 +100,10 @@ export class OrderSyncService implements IOrderSyncService {
       this.logger.debug(`Calling vendor service to create order`);
       const obfuscatedEmail = `notifications+${orderId}@barooders.com`;
 
+      const priceCorrectionConfig =
+        this.vendorConfigService.getVendorConfig().catalog.common
+          ?.priceCorrections;
+
       const externalOrderId = await this.vendorOrderServiceProvider
         .getService()
         .createOrder({
@@ -111,7 +116,17 @@ export class OrderSyncService implements IOrderSyncService {
             obfuscatedEmail,
             password: DEFAULT_USER_PASSWORD,
           },
-          products,
+          products: products.map((product) => ({
+            ...product,
+            price:
+              product.price -
+              sumBy(priceCorrectionConfig, ({ amount, filter }) => {
+                if (!isEmpty(filter))
+                  throw new Error('Filter is not empty, not implemented');
+
+                return amount;
+              }),
+          })),
         });
 
       await this.prisma.event.create({

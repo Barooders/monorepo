@@ -161,6 +161,9 @@ export const baseVendorConfig: AllBaseVendorsConfig = {
         priceCorrections: [{ amount: -15 }],
       },
     },
+    order: {
+      common: { isSyncActivated: true },
+    },
   },
   freeglisse: {
     slug: 'freeglisse',
