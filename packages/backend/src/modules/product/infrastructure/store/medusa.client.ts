@@ -1,5 +1,9 @@
 import { CustomerRepository } from '@libs/domain/customer.repository';
-import { ProductStatus } from '@libs/domain/prisma.main.client';
+import {
+  Condition,
+  PrismaMainClient,
+  ProductStatus,
+} from '@libs/domain/prisma.main.client';
 import {
   Product,
   ProductToStore,
@@ -7,7 +11,7 @@ import {
 } from '@libs/domain/product.interface';
 import { getValidTags } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
-import { toCents } from '@libs/helpers/currency';
+import { fromCents, toCents } from '@libs/helpers/currency';
 import { medusaClient } from '@libs/infrastructure/medusa/client';
 import {
   AdminPostProductsReq,
@@ -22,6 +26,7 @@ import {
   VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
+import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-id.value-object';
 import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
 import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
@@ -49,13 +54,51 @@ export class MedusaClient implements IStoreClient {
 
   constructor(
     private customerRepository: CustomerRepository,
+    private prisma: PrismaMainClient,
     private readonly imageUploadsClient: ImageUploadsClient,
     private pimClient: IPIMClient,
   ) {}
 
-  getProductDetails(productId: UUID): Promise<ProductDetails> {
+  async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
-    throw new Error('Method not implemented.');
+
+    const { medusaId, vendor, status, variants } =
+      await this.prisma.product.findUniqueOrThrow({
+        where: { id: productId },
+        select: {
+          medusaId: true,
+          variants: true,
+          status: true,
+          vendor: { select: { sellerName: true } },
+        },
+      });
+
+    if (medusaId == null) {
+      throw new Error(`Product ${productId} not found in Medusa`);
+    }
+
+    const { product } = await medusaClient.admin.products.retrieve(medusaId);
+
+    return {
+      body_html: product.description ?? '',
+      images: product.images.map((image) => ({
+        src: image.url,
+        storeId: new ImageStoreId({ medusaId: image.id }),
+      })),
+      tags: product.tags.map((tag) => tag.value),
+      product_type: product.categories[0].name,
+      status,
+      vendor: vendor.sellerName ?? '',
+      variants: variants.map((variant) => ({
+        internalId: variant.id,
+        condition: variant.condition ?? Condition.GOOD,
+        price: fromCents(Number(variant.priceInCents)).toString(),
+        compare_at_price:
+          variant.compareAtPriceInCents !== null
+            ? fromCents(Number(variant.compareAtPriceInCents)).toString()
+            : undefined,
+      })),
+    };
   }
 
   // TODO: add vendor link

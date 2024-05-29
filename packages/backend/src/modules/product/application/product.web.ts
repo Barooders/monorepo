@@ -354,9 +354,17 @@ export class ProductController {
         `Not authorized to access product ${productInternalId}`,
       );
     }
-    return await this.storeClient.getProductDetails(
+    const productDetails = await this.storeClient.getProductDetails(
       new UUID({ uuid: productInternalId }),
     );
+
+    return {
+      ...productDetails,
+      images: productDetails.images.map((image) => ({
+        src: image.src,
+        storeId: image.storeId.value,
+      })),
+    };
   }
 
   @Patch(routesV1.product.updateProduct)

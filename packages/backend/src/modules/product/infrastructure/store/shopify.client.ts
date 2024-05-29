@@ -47,6 +47,7 @@ import {
   VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
+import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-id.value-object';
 import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
 import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
@@ -108,7 +109,7 @@ export class ShopifyClient implements IStoreClient {
     return {
       images: product.images.map((image) => ({
         src: image.src,
-        shopifyId: image.id,
+        storeId: new ImageStoreId({ shopifyId: image.id }),
       })),
       tags: product.tags.split(', '),
       product_type: product.product_type,

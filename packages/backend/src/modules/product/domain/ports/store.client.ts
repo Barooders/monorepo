@@ -6,6 +6,7 @@ import {
 } from '@libs/domain/product.interface';
 import { Amount, URL, UUID } from '@libs/domain/value-objects';
 import { ImageToUpload, ProductImage } from '../types';
+import { ImageStoreId } from '../value-objects/image-store-id.value-object';
 import { ProductStoreId } from '../value-objects/product-store-id.value-object';
 import { VariantStoreId } from '../value-objects/variant-store-id.value-object';
 
@@ -32,7 +33,7 @@ export type ProductDetails = {
   }[];
   images: {
     src: string;
-    shopifyId: number;
+    storeId: ImageStoreId;
   }[];
 };
 
