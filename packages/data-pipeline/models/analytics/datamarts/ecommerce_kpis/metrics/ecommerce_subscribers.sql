@@ -6,7 +6,7 @@ with ecommerce_subscribers as (
         'subscribers' as indicator_name,
         sum(subscribers) as indicator_value
     from (
-        select c.creation_date , count(distinct c.customer_id) subscribers
+        select c.creation_date , count(distinct c.internal_id) subscribers
         from {{ref('dim_customer')}} c
         group by 1
         union all 
