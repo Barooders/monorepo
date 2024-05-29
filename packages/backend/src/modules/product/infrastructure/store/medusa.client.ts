@@ -69,9 +69,7 @@ export class MedusaClient implements IStoreClient {
       title: createdProduct.title,
       handle: createdProduct.handle,
       images: createdProduct.images.map((image) => ({
-        id: image.id,
         src: image.url,
-        shopifyId: -1,
       })),
       variants: createdProduct.variants.map((variant) => ({
         storeId: new VariantStoreId({ medusaId: variant.id }),

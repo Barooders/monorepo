@@ -195,7 +195,6 @@ export class ShopifyClient implements IStoreClient {
         title: createdProduct.title,
         images: createdProduct.images.map((image) => ({
           src: image.src,
-          shopifyId: image.id,
         })),
         variants: createdProduct.variants.map(({ id }) => ({
           storeId: new VariantStoreId({

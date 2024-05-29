@@ -40,13 +40,12 @@ export type ProductCreatedInStore = {
   storeId: ProductStoreId;
   handle: string;
   title: string;
-  images: { src: string; shopifyId: number }[];
+  images: { src: string }[];
   variants: VariantCreatedInStore[];
 };
 
 export type VariantCreatedInStore = {
   storeId: VariantStoreId;
-  // shopifyId: number;
 };
 
 export abstract class IStoreClient {
