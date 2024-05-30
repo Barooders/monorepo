@@ -12,13 +12,17 @@ import {
 import { getValidTags } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents, toCents } from '@libs/helpers/currency';
-import { medusaClient } from '@libs/infrastructure/medusa/client';
+import {
+  handleMedusaResponse,
+  medusaClient,
+} from '@libs/infrastructure/medusa/client';
 import {
   AdminPostProductsProductReq,
   AdminPostProductsProductVariantsReq,
   AdminPostProductsReq,
   ProductStatus as MedusaProductStatus,
 } from '@medusajs/medusa';
+import { ResponsePromise } from '@medusajs/medusa-js';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import {
   IStoreClient,
@@ -61,6 +65,9 @@ export class MedusaClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
+  private handleMedusaResponse = async <T>(call: ResponsePromise<T>) =>
+    await handleMedusaResponse(call, this.logger);
+
   async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
 
@@ -79,7 +86,9 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Product ${productId} not found in Medusa`);
     }
 
-    const { product } = await medusaClient.admin.products.retrieve(medusaId);
+    const { product } = await this.handleMedusaResponse(
+      medusaClient.admin.products.retrieve(medusaId),
+    );
 
     return {
       body_html: product.description ?? '',
@@ -184,8 +193,9 @@ export class MedusaClient implements IStoreClient {
       metadata,
     };
 
-    const { product: createdProduct } =
-      await medusaClient.admin.products.create(requestBody);
+    const { product: createdProduct } = await this.handleMedusaResponse(
+      medusaClient.admin.products.create(requestBody),
+    );
 
     return {
       storeId: new ProductStoreId({ medusaId: createdProduct.id }),
@@ -274,7 +284,9 @@ export class MedusaClient implements IStoreClient {
       ...(updatedImages !== undefined ? { images: updatedImages } : {}),
     };
 
-    await medusaClient.admin.products.update(medusaId, dataToUpdate);
+    await this.handleMedusaResponse(
+      medusaClient.admin.products.update(medusaId, dataToUpdate),
+    );
   }
 
   async createProductVariant(
@@ -316,9 +328,8 @@ export class MedusaClient implements IStoreClient {
         value: option.value,
       })),
     };
-    const { product } = await medusaClient.admin.products.createVariant(
-      medusaId,
-      request,
+    const { product } = await this.handleMedusaResponse(
+      medusaClient.admin.products.createVariant(medusaId, request),
     );
 
     const previousVariantIds = variants.map((variant) => variant.medusaId);
@@ -353,10 +364,12 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Variant ${variantId} not found in Medusa`);
     }
 
-    await medusaClient.admin.products.updateVariant(
-      productStoreId,
-      variantStoreId,
-      data,
+    await this.handleMedusaResponse(
+      medusaClient.admin.products.updateVariant(
+        productStoreId,
+        variantStoreId,
+        data,
+      ),
     );
   }
 
@@ -375,9 +388,11 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Variant ${variantId} is not present in Medusa`);
     }
 
-    await medusaClient.admin.products.deleteVariant(
-      productMedusaId,
-      variantMedusaId,
+    await this.handleMedusaResponse(
+      medusaClient.admin.products.deleteVariant(
+        productMedusaId,
+        variantMedusaId,
+      ),
     );
   }
 
@@ -400,7 +415,9 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Product ${productId} not found in Medusa`);
     }
 
-    const { product } = await medusaClient.admin.products.retrieve(medusaId);
+    const { product } = await this.handleMedusaResponse(
+      medusaClient.admin.products.retrieve(medusaId),
+    );
 
     const uploadedImage = await this.imageUploadsClient.uploadImages([
       image.src,
@@ -410,10 +427,11 @@ export class MedusaClient implements IStoreClient {
       ...uploadedImage,
     ];
 
-    const { product: updatedProduct } =
-      await medusaClient.admin.products.update(medusaId, {
+    const { product: updatedProduct } = await this.handleMedusaResponse(
+      medusaClient.admin.products.update(medusaId, {
         images,
-      });
+      }),
+    );
 
     const previousImages = product.images.map((image) => image.id);
     const newImage = updatedProduct.images.find(
@@ -450,18 +468,19 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Product ${productId} not found in Medusa`);
     }
 
-    const { product } =
-      await medusaClient.admin.products.retrieve(productMedusaId);
+    const { product } = await this.handleMedusaResponse(
+      medusaClient.admin.products.retrieve(productMedusaId),
+    );
 
     const images = product.images
       .filter((img) => img.id !== imageId.medusaIdIfExists)
       .map((img) => img.url);
 
-    await medusaClient.admin.products.update(productMedusaId, {
-      images,
-    });
-
-    throw new Error('Method not implemented.');
+    await this.handleMedusaResponse(
+      medusaClient.admin.products.update(productMedusaId, {
+        images,
+      }),
+    );
   }
 
   approveProduct(productId: UUID): Promise<void> {
@@ -498,9 +517,11 @@ export class MedusaClient implements IStoreClient {
 
   private async getOrCreateCategory(categoryName: string) {
     try {
-      const response = await medusaClient.admin.productCategories.list({
-        q: categoryName,
-      });
+      const response = await this.handleMedusaResponse(
+        medusaClient.admin.productCategories.list({
+          q: categoryName,
+        }),
+      );
       const existingCategory = first(response.product_categories);
       if (existingCategory) return existingCategory.id;
 
@@ -512,10 +533,12 @@ export class MedusaClient implements IStoreClient {
 
   private async createCategory(categoryName: string) {
     this.logger.log(`Creating category ${categoryName}`);
-    const createResponse = await medusaClient.admin.productCategories.create({
-      name: categoryName,
-      is_active: true,
-    });
+    const createResponse = await this.handleMedusaResponse(
+      medusaClient.admin.productCategories.create({
+        name: categoryName,
+        is_active: true,
+      }),
+    );
 
     return createResponse.product_category.id;
   }

@@ -1,19 +1,28 @@
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Amount, UUID, ValueDate } from '@libs/domain/value-objects';
 import { readableCode } from '@libs/helpers/safe-id';
-import { medusaClient } from '@libs/infrastructure/medusa/client';
+import {
+  handleMedusaResponse,
+  medusaClient,
+} from '@libs/infrastructure/medusa/client';
 import {
   AdminCreateCondition,
   AllocationType,
   DiscountConditionOperator,
   DiscountRuleType,
 } from '@medusajs/medusa';
+import { ResponsePromise } from '@medusajs/medusa-js';
 import { IStoreClient } from '@modules/price-offer/domain/ports/store.client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class MedusaClient implements IStoreClient {
+  private readonly logger = new Logger(MedusaClient.name);
+
   constructor(protected readonly prisma: PrismaMainClient) {}
+
+  private handleMedusaResponse = async <T>(call: ResponsePromise<T>) =>
+    await handleMedusaResponse(call, this.logger);
 
   // TODO: handle user id
   async createDiscountCode(
@@ -62,23 +71,27 @@ export class MedusaClient implements IStoreClient {
       });
     }
 
-    const { regions } = await medusaClient.admin.regions.list();
+    const { regions } = await this.handleMedusaResponse(
+      medusaClient.admin.regions.list(),
+    );
 
-    const { discount } = await medusaClient.admin.discounts.create({
-      code,
-      is_disabled: false,
-      is_dynamic: false,
-      rule: {
-        type: DiscountRuleType.FIXED,
-        value: amountOffProduct.amountInCents,
-        allocation: AllocationType.ITEM,
-        conditions,
-      },
-      starts_at: new Date(),
-      ends_at: limitDate.date,
-      regions: regions.map(({ id }) => id),
-      usage_limit: 1,
-    });
+    const { discount } = await this.handleMedusaResponse(
+      medusaClient.admin.discounts.create({
+        code,
+        is_disabled: false,
+        is_dynamic: false,
+        rule: {
+          type: DiscountRuleType.FIXED,
+          value: amountOffProduct.amountInCents,
+          allocation: AllocationType.ITEM,
+          conditions,
+        },
+        starts_at: new Date(),
+        ends_at: limitDate.date,
+        regions: regions.map(({ id }) => id),
+        usage_limit: 1,
+      }),
+    );
 
     return { discountCode: discount.code };
   }
