@@ -4,6 +4,7 @@
 with dim_product_variant as (
     select 
         b_pv.id as internal_id,
+        b_pv.shopifyId as shopify_id,
         b_pv.merchantItemId as merchant_item_id,
         DATETIME(b_pv.createdAt, 'Europe/Paris') as creation_datetime,
         date_trunc(DATETIME(b_pv.createdAt, 'Europe/Paris'), day) as creation_date,
