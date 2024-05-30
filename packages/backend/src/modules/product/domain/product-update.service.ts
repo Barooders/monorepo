@@ -22,6 +22,7 @@ import { IPIMClient } from './ports/pim.client';
 import { IStoreClient } from './ports/store.client';
 import { getHandDeliveryMetafields } from './product.methods';
 import { ImageToUpload, ProductImage } from './types';
+import { ImageStoreId } from './value-objects/image-store-id.value-object';
 
 export enum ModerationAction {
   APPROVE = 'APPROVE',
@@ -103,7 +104,10 @@ export class ProductUpdateService {
     return await this.storeClient.addProductImage(productId, image);
   }
 
-  async deleteProductImage(productId: UUID, imageId: string): Promise<void> {
+  async deleteProductImage(
+    productId: UUID,
+    imageId: ImageStoreId,
+  ): Promise<void> {
     return await this.storeClient.deleteProductImage(productId, imageId);
   }
 

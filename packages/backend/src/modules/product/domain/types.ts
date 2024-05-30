@@ -1,3 +1,5 @@
+import { ImageStoreId } from './value-objects/image-store-id.value-object';
+
 export type ImageToUpload = {
   attachment?: string;
   filename?: string;
@@ -7,7 +9,7 @@ export type ImageToUpload = {
 
 export type ProductImage = {
   src: string;
-  id: string;
+  storeId: ImageStoreId;
 };
 
 export type CreateProductModel = {

@@ -62,6 +62,7 @@ import {
   ModerationAction,
   ProductUpdateService,
 } from '../domain/product-update.service';
+import { ImageStoreId } from '../domain/value-objects/image-store-id.value-object';
 import { CreateProductModelDto, ProductAdminDTO } from './product.dto';
 
 type CollectionType = {
@@ -294,7 +295,7 @@ export class ProductController {
       addProductImageDTO,
     );
 
-    return { src: image.src, id: image.id };
+    return { src: image.src, id: image.storeId.value };
   }
 
   @ApiOkResponse()
@@ -303,9 +304,13 @@ export class ProductController {
     @Param('productInternalId') productInternalId: string,
     @Param('imageId') imageId: string,
   ): Promise<void> {
+    const imageStoreId = imageId.includes('-')
+      ? new ImageStoreId({ medusaId: imageId })
+      : new ImageStoreId({ shopifyId: Number(imageId) });
+
     await this.productUpdateService.deleteProductImage(
       new UUID({ uuid: productInternalId }),
-      imageId,
+      imageStoreId,
     );
   }
 
@@ -354,9 +359,17 @@ export class ProductController {
         `Not authorized to access product ${productInternalId}`,
       );
     }
-    return await this.storeClient.getProductDetails(
+    const productDetails = await this.storeClient.getProductDetails(
       new UUID({ uuid: productInternalId }),
     );
+
+    return {
+      ...productDetails,
+      images: productDetails.images.map((image) => ({
+        src: image.src,
+        storeId: image.storeId.value,
+      })),
+    };
   }
 
   @Patch(routesV1.product.updateProduct)
