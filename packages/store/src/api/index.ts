@@ -6,20 +6,12 @@ import { IsOptional, IsString } from 'class-validator';
 class AdminPostProductsReq extends MedusaAdminPostProductsReq {
   @IsOptional()
   @IsString()
-  store_id?: string;
-
-  @IsOptional()
-  @IsString()
   vendor_id?: string;
 }
 
 registerOverriddenValidators(AdminPostProductsReq);
 
 class AdminGetProductsParams extends MedusaAdminGetProductsParams {
-  @IsOptional()
-  @IsString()
-  store_id?: string;
-
   @IsOptional()
   @IsString()
   vendor_id?: string;
