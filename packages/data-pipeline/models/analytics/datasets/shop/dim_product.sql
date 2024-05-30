@@ -25,7 +25,7 @@ with
             date_trunc(
                 datetime(b_ep.publishedAt, 'Europe/Paris'), day
             ) as publication_date,
-            .product_type,
+            b_ep.product_type,
             LOWER(b_ep.status),
             b_ep.title,
             b_ep.vendor,
