@@ -576,6 +576,7 @@ export type Dbt_Store_Base_Product = {
   id: Scalars['String']['output'];
   /** An array relationship */
   images: Array<Dbt_Store_Exposed_Product_Image>;
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Exposed_Product>;
   shopifyId: Scalars['bigint']['output'];
@@ -636,6 +637,7 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   tags: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
@@ -650,6 +652,7 @@ export type Dbt_Store_Base_Product_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   images_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Image_Aggregate_Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Order_By>;
   shopifyId: InputMaybe<Order_By>;
   tags_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Tag_Aggregate_Order_By>;
@@ -663,6 +666,8 @@ export enum Dbt_Store_Base_Product_Select_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
@@ -681,6 +686,7 @@ export type Dbt_Store_Base_Product_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -692,6 +698,7 @@ export type Dbt_Store_Base_Product_Variant = {
   b2bVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   createdAt: Scalars['timestamptz']['output'];
   id: Scalars['String']['output'];
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
@@ -728,6 +735,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
@@ -738,6 +746,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
 export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -746,6 +755,7 @@ export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
 export type Dbt_Store_Base_Product_Variant_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -755,6 +765,7 @@ export type Dbt_Store_Base_Product_Variant_Order_By = {
   b2bVariant: InputMaybe<Dbt_Store_B2b_Product_Variant_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
@@ -767,6 +778,8 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ProductId = 'productId',
   /** column name */
@@ -800,6 +813,7 @@ export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };

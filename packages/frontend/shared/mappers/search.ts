@@ -149,6 +149,7 @@ export const fromSearchToProductCard = (
     handle: hit.handle,
     shopifyId: hit.product_shopify_id ?? 0,
     id: hit.product_internal_id,
+    productMerchantItemId: hit.product_merchant_item_id,
     collections: hit.collection_internal_ids ?? [],
   };
 };

@@ -14,36 +14,25 @@ import SmallProductCard from './small';
 
 const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const availableVariants = props.variants.filter(({ available }) => available);
-  const defaultVariant = getVariantToSelect(
-    props.variants,
-    props.variantShopifyId,
-  );
+  const defaultVariant = getVariantToSelect(props.variants, props.variantId);
 
-  const [selectedVariantShopifyId, setSelectedVariant] = useState(
-    defaultVariant.shopifyId.toString(),
+  const [selectedVariantInternalId, setSelectedVariant] = useState(
+    defaultVariant.id,
   );
   const { getDiscountsByCollectionList, getDiscountByPrice } = useDiscounts();
   const { isAdmin } = useAuth();
 
   useEffect(() => {
-    setSelectedVariant(
-      getVariantToSelect(
-        props.variants,
-        props.variantShopifyId,
-      ).shopifyId.toString(),
-    );
-  }, [props.variantShopifyId]);
+    setSelectedVariant(getVariantToSelect(props.variants, props.variantId).id);
+  }, [props.variantId]);
 
   const { compareAtPrice, price } =
     props.variants.find(
-      (variant) => variant.shopifyId.toString() === selectedVariantShopifyId,
+      (variant) => variant.id === selectedVariantInternalId,
     ) ?? defaultVariant;
   const productLink = new URL(`/products/${props.handle}`, config.baseUrl);
-  if (selectedVariantShopifyId)
-    productLink.searchParams.append(
-      'variant',
-      selectedVariantShopifyId.toString(),
-    );
+
+  productLink.searchParams.append('variant', selectedVariantInternalId);
 
   const discounts = [
     ...getDiscountsByCollectionList(props.collections, isAdmin()),
@@ -54,7 +43,7 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   const productSingleVariant: ProductSingleVariant = {
     ...props,
     variants: availableVariants,
-    variantShopifyId: Number(selectedVariantShopifyId),
+    variantId: selectedVariantInternalId,
     productLink: `${productLink.pathname}${productLink.search}`,
     price,
     compareAtPrice,
@@ -63,9 +52,12 @@ const ProductCard: React.FC<ProductMultiVariants> = (props) => {
   };
 
   useEffect(() => {
-    if (props.intent && ['page', 'highlight'].includes(props.intent)) {
+    if (
+      props.intent !== undefined &&
+      ['page', 'highlight'].includes(props.intent)
+    ) {
       sendProductViewed({
-        shopifyId: props.shopifyId,
+        merchantItemId: props.productMerchantItemId,
         productType: props.productType,
         brand: props.tags?.marque ?? null,
         compareAtPrice,

@@ -68,11 +68,11 @@ const MakeOfferModal: React.FC<PropsType> = ({
   };
 
   const onSubmit: SubmitHandler<Inputs> = async ({ newPrice }) => {
-    if (!newPrice) return;
+    if (newPrice === null) return;
 
     const computedBuyerId = buyerInternalId ?? hasuraToken?.user.id;
 
-    if (!computedBuyerId) {
+    if (computedBuyerId === undefined) {
       throw new Error(
         `Could not determine buyer id when creating offer on ${productInternalId}`,
       );
@@ -91,12 +91,14 @@ const MakeOfferModal: React.FC<PropsType> = ({
       body: JSON.stringify(priceOfferBody),
     });
 
-    sendPriceOffer(
-      hasuraToken?.user.id ?? '',
-      productInternalId,
-      newPrice,
-      variantInternalId,
-    );
+    sendPriceOffer({
+      // Note: this is currently broken because the event send internalId
+      // where it should be merchantItemId (= shopifyId for old products)
+      productMerchantItemId: productInternalId,
+      customerId: hasuraToken?.user.id ?? '',
+      productPrice: newPrice,
+      variantId: variantInternalId,
+    });
     setStatus(Status.AFTER_SEND);
   };
 

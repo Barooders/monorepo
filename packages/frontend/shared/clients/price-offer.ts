@@ -20,9 +20,6 @@ export const SUBSCRIBE_TO_OPENED_PRICE_OFFERS = /* GraphQL */ /* typed_for_regis
       initiatedBy
       status
       discountCode
-      product {
-        shopifyId
-      }
     }
   }
 `;

@@ -10,7 +10,7 @@ import { ProductSingleVariant } from '../types';
 
 const SmallProductCard: React.FC<ProductSingleVariant> = ({
   id,
-  shopifyId,
+  productMerchantItemId,
   title,
   images,
   labels,
@@ -33,7 +33,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
   return (
     <Link
       href={productLink}
-      onClick={() => sendClickProduct(shopifyId)}
+      onClick={() => sendClickProduct({ productMerchantItemId })}
       className={`h-full w-36 shrink-0 sm:w-52 lg:w-72 ${className}`}
     >
       <div className="grid w-full grid-cols-2 gap-1 overflow-hidden">
@@ -67,7 +67,7 @@ const SmallProductCard: React.FC<ProductSingleVariant> = ({
               discounts={discounts}
             />
           </div>
-          {vendor.name && <ProductVendor vendor={vendor.name} />}
+          {vendor.name !== null && <ProductVendor vendor={vendor.name} />}
         </div>
       </div>
     </Link>

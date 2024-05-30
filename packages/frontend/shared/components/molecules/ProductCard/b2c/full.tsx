@@ -11,7 +11,7 @@ import { ProductSingleVariant } from '../types';
 
 const FullProductCard: React.FC<ProductSingleVariant> = ({
   id,
-  shopifyId,
+  productMerchantItemId,
   images,
   vendor,
   labels,
@@ -21,6 +21,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
   productType,
   variantCondition,
   handle,
+  variantId,
   variantShopifyId,
   compareAtPrice,
   price,
@@ -30,13 +31,11 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
   return (
     <div className="grid w-full grid-cols-2 gap-5 overflow-hidden">
       <div className="relative col-span-2 h-72 w-full flex-grow overflow-hidden lg:col-span-1">
-        {images && (
-          <ProductGallery
-            images={compact(images)}
-            labels={labels}
-            isSoldOut={isSoldOut}
-          />
-        )}
+        <ProductGallery
+          images={compact(images)}
+          labels={labels}
+          isSoldOut={isSoldOut}
+        />
       </div>
       <div className="col-span-2 my-auto flex w-full flex-grow flex-col gap-3 lg:col-span-1">
         <div className="flex w-full justify-between">
@@ -48,7 +47,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
               variantCondition={variantCondition}
               componentSize="large"
             />
-            {vendor.name && (
+            {vendor.name !== null && (
               <div className="w-full">
                 <ProductVendor
                   vendor={vendor.name}
@@ -75,12 +74,13 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             <DetailsButton
               className="flex-grow"
               handle={handle}
-              productVariantShopifyId={variantShopifyId}
-              productShopifyId={shopifyId}
+              productVariantInternalId={variantId}
+              productMerchantItemId={productMerchantItemId}
             />
             <BuyButton
               className="flex-grow"
               variantShopifyId={variantShopifyId}
+              productMerchantItemId={productMerchantItemId}
               handle={handle}
             />
             <FavoriteButton

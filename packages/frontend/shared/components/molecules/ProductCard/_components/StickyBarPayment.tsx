@@ -14,6 +14,7 @@ type PropsType = {
   compareAtPrice: number;
   price: number;
   productInternalId: string;
+  productMerchantItemId: string;
   variantShopifyId: number;
   discounts: Discount[];
   handle: string;
@@ -29,6 +30,7 @@ const StickyBarPayment: React.FC<PropsType> = ({
   tags,
   title,
   productInternalId,
+  productMerchantItemId,
   variantShopifyId,
   discounts,
   handle,
@@ -63,6 +65,7 @@ const StickyBarPayment: React.FC<PropsType> = ({
             />
             <BuyButton
               variantShopifyId={variantShopifyId}
+              productMerchantItemId={productMerchantItemId}
               handle={handle}
               className="flex-grow sm:flex-grow-0 lg:w-80"
             />

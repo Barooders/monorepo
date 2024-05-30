@@ -4,7 +4,7 @@ with ecommerce_submitted_products as (
         date_trunc(p.creation_date, day) as date, 
         p.owner as owner,
         'submitted_products' as indicator_name,
-        count(distinct p.id) as indicator_value
+        count(distinct p.internal_id) as indicator_value
     from {{ref('dim_product')}} p
     group by date, owner, indicator_name
 

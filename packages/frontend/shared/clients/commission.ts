@@ -3,13 +3,13 @@ import { fetchBackend } from './backend';
 type ArgsType = {
   productHandle?: string;
   productInternalId?: string;
-  productVariantShopifyId?: number;
+  productVariantInternalId?: string;
 };
 
 export const fetchCommission = async ({
   productHandle,
   productInternalId,
-  productVariantShopifyId,
+  productVariantInternalId,
 }: ArgsType) => {
   const fetchCommissionParams = new URLSearchParams();
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -18,10 +18,10 @@ export const fetchCommission = async ({
   if (productInternalId)
     fetchCommissionParams.set('productInternalId', productInternalId);
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (productVariantShopifyId)
+  if (productVariantInternalId)
     fetchCommissionParams.set(
-      'variantShopifyId',
-      productVariantShopifyId.toString(),
+      'variantInternalId',
+      productVariantInternalId.toString(),
     );
 
   try {

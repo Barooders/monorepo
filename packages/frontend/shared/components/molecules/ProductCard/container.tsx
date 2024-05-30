@@ -7,11 +7,11 @@ import { RawVariant, Variant } from './types';
 
 export const getVariantToSelect = (
   variants: Variant[],
-  variantShopifyId?: number,
+  variantInternalId?: string,
 ) => {
   const availableVariants = variants.filter(({ available }) => available);
   return (
-    availableVariants.find(({ shopifyId }) => shopifyId === variantShopifyId) ??
+    availableVariants.find(({ id }) => id === variantInternalId) ??
     availableVariants[0] ??
     variants[0]
   );

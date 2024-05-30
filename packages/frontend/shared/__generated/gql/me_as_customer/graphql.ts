@@ -325,9 +325,9 @@ export type FavoriteProducts = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Scalars['String']['output'];
-  internalProductId: Maybe<Scalars['String']['output']>;
+  internalProductId: Scalars['String']['output'];
   /** An object relationship */
-  product: Maybe<Product>;
+  product: Product;
 };
 
 /** order by aggregate values of table "FavoriteProducts" */
@@ -1453,7 +1453,7 @@ export type Product = {
   handle: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   productType: Maybe<Scalars['String']['output']>;
-  shopifyId: Scalars['bigint']['output'];
+  shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Scalars['ProductStatus']['output'];
   /** An object relationship */
   storeExposedProduct: Maybe<Dbt_Store_Exposed_Product>;
@@ -1940,6 +1940,7 @@ export type Dbt_Store_Base_Product = {
   id: Scalars['String']['output'];
   /** An array relationship */
   images: Array<Dbt_Store_Exposed_Product_Image>;
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Exposed_Product>;
   shopifyId: Scalars['bigint']['output'];
@@ -1999,6 +2000,7 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   tags: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
@@ -2012,6 +2014,7 @@ export type Dbt_Store_Base_Product_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   images_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Image_Aggregate_Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Order_By>;
   shopifyId: InputMaybe<Order_By>;
   tags_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Tag_Aggregate_Order_By>;
@@ -2025,6 +2028,8 @@ export enum Dbt_Store_Base_Product_Select_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
@@ -2043,6 +2048,7 @@ export type Dbt_Store_Base_Product_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -2054,6 +2060,7 @@ export type Dbt_Store_Base_Product_Variant = {
   b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
   createdAt: Scalars['timestamptz']['output'];
   id: Scalars['String']['output'];
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
@@ -2090,6 +2097,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
@@ -2100,6 +2108,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
 export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -2108,6 +2117,7 @@ export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
 export type Dbt_Store_Base_Product_Variant_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -2117,6 +2127,7 @@ export type Dbt_Store_Base_Product_Variant_Order_By = {
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
@@ -2129,6 +2140,8 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ProductId = 'productId',
   /** column name */
@@ -2162,6 +2175,7 @@ export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
@@ -11308,7 +11322,7 @@ export type FetchAccountPageCustomerDataQueryVariables = Exact<{
 }>;
 
 
-export type FetchAccountPageCustomerDataQuery = { __typename?: 'query_root', Customer: Array<{ __typename?: 'Customer', lastName: string | null, firstName: string | null, sellerName: string | null, isPro: boolean, profilePictureShopifyCdnUrl: string | null, createdAt: any, favorites: Array<{ __typename?: 'FavoriteProducts', product: { __typename?: 'Product', storeProduct: { __typename?: 'dbt_store_exposed_product', firstImage: string | null, handle: string, productType: string, size: string | null, gender: string | null, modelYear: string | null, brand: string | null, product: { __typename?: 'dbt_store_base_product', variants: Array<{ __typename?: 'dbt_store_base_product_variant', variant: { __typename?: 'dbt_store_exposed_product_variant', condition: any | null } | null, b2cVariant: { __typename?: 'dbt_store_b2c_product_variant', price: any } | null }> } | null } | null } | null }>, purchasedOrders: Array<{ __typename?: 'Order', id: string, totalPriceInCents: any, name: string, status: any, orderLines: Array<{ __typename?: 'OrderLines', name: string, productBrand: string | null, productImage: string | null }> }> }> };
+export type FetchAccountPageCustomerDataQuery = { __typename?: 'query_root', Customer: Array<{ __typename?: 'Customer', lastName: string | null, firstName: string | null, sellerName: string | null, isPro: boolean, profilePictureShopifyCdnUrl: string | null, createdAt: any, favorites: Array<{ __typename?: 'FavoriteProducts', product: { __typename?: 'Product', storeProduct: { __typename?: 'dbt_store_exposed_product', firstImage: string | null, handle: string, productType: string, size: string | null, gender: string | null, modelYear: string | null, brand: string | null, product: { __typename?: 'dbt_store_base_product', variants: Array<{ __typename?: 'dbt_store_base_product_variant', variant: { __typename?: 'dbt_store_exposed_product_variant', condition: any | null } | null, b2cVariant: { __typename?: 'dbt_store_b2c_product_variant', price: any } | null }> } | null } | null } }>, purchasedOrders: Array<{ __typename?: 'Order', id: string, totalPriceInCents: any, name: string, status: any, orderLines: Array<{ __typename?: 'OrderLines', name: string, productBrand: string | null, productImage: string | null }> }> }> };
 
 export type FetchCustomerQueryVariables = Exact<{ [key: string]: never; }>;
 

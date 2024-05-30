@@ -40,7 +40,7 @@ const ProductRecommendations: React.FC<PropsType> = ({ productCardProps }) => {
         ) : (
           fetchState.value.map((productCardProps) => (
             <ErrorBoundary
-              key={productCardProps.shopifyId}
+              key={productCardProps.id}
               showDialog={false}
             >
               <ProductCard

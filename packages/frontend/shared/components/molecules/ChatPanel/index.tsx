@@ -15,7 +15,6 @@ import PriceOfferPanel from './_components/PriceOfferPanel';
 
 export type AssociatedOrderLine = {
   shippingSolution: ShippingSolution;
-  orderShopifyId: number;
 };
 
 export type AssociatedProductDetails = {
@@ -83,7 +82,8 @@ const panelConfig: {
       ),
   },
   [PANELS.PRICE_OFFER]: {
-    canDisplay: ({ proposedPriceOffer }) => !!proposedPriceOffer?.id,
+    canDisplay: ({ proposedPriceOffer }) =>
+      proposedPriceOffer !== null && proposedPriceOffer.id !== null,
     height: SMALL_PANEL_HEIGHT,
     renderPanel: ({
       proposedPriceOffer,
@@ -121,14 +121,14 @@ const ChatPanel: React.FC<PropsType> = (props) => {
   }, [props]);
 
   useEffect(() => {
-    if (!panelToRender) {
+    if (panelToRender === null) {
       setPanelHeight(0);
     } else {
       setPanelHeight(panelConfig[panelToRender].height);
     }
   }, [panelToRender, setPanelHeight]);
 
-  if (!panelToRender) return <></>;
+  if (panelToRender === null) return <></>;
   if (loading) return <Loader />;
 
   const panelToRenderConfig = panelConfig[panelToRender];

@@ -105,20 +105,6 @@ export type Product = {
   productType: string;
 };
 
-export type VendorAPI = {
-  authUserId: Uuid;
-  coverPictureShopifyCdnUrl: Url;
-  description: string;
-  firstName: string;
-  id: Uuid;
-  isPro: boolean;
-  lastName: string;
-  profilePictureShopifyCdnUrl: Url;
-  rating: number | null;
-  sellerName: string;
-  shopifyId: ShopifyId;
-};
-
 type Price = {
   amount: string;
   currencyCode: CurrencyCode;
@@ -184,7 +170,6 @@ export type AppRouterPage<
 export type URL = string;
 export type Slug = string;
 export type ShopifyGlobalId = string;
-export type ShopifyId = number;
 export type CurrencyCode = string;
 export type Tag = string;
 export type Timestamp = number;
