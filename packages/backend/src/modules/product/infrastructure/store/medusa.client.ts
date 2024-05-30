@@ -210,7 +210,7 @@ export class MedusaClient implements IStoreClient {
       ...data
     }: Partial<Omit<Product, 'variants'> & { vendorId: string }>,
   ): Promise<void> {
-    this.logger.log(`Updating product ${productId}`, data);
+    this.logger.log(`Updating product ${productId}`);
 
     const { medusaId } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productId },
@@ -280,7 +280,7 @@ export class MedusaClient implements IStoreClient {
     productInternalId: UUID,
     data: Variant,
   ): Promise<VariantCreatedInStore> {
-    this.logger.log(`Creating variant for product ${productInternalId}`, data);
+    this.logger.log(`Creating variant for product ${productInternalId}`);
 
     const { medusaId, variants } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productInternalId.uuid },
@@ -338,7 +338,7 @@ export class MedusaClient implements IStoreClient {
     { uuid: variantId }: UUID,
     data: Partial<Variant>,
   ): Promise<void> {
-    this.logger.log(`Updating variant ${variantId}`, data);
+    this.logger.log(`Updating variant ${variantId}`);
 
     const {
       medusaId: variantStoreId,
@@ -384,8 +384,6 @@ export class MedusaClient implements IStoreClient {
     productId: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage> {
-    this.logger.log(`Adding image to product ${productId}`, image);
-
     const { medusaId } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productId.uuid },
       select: { medusaId: true },
@@ -399,8 +397,12 @@ export class MedusaClient implements IStoreClient {
 
     let uploadedImage: string[] = [];
     if (image.attachment !== undefined) {
+      const base64Content = image.attachment.split(';base64,').pop();
+      if (base64Content === undefined) {
+        throw new Error('Failed to extract base64 content');
+      }
       uploadedImage = [
-        await this.imageUploadsClient.uploadBase64Image(image.attachment),
+        await this.imageUploadsClient.uploadBase64Image(base64Content),
       ];
     } else if (image.src !== undefined) {
       uploadedImage = await this.imageUploadsClient.uploadImages([image.src]);
