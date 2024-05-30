@@ -1,14 +1,13 @@
 import { Condition, ProductStatus } from '@libs/domain/prisma.main.client';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { ProductDetails } from '../domain/ports/store.client';
 
 class SimpleImageDTO {
   @ApiProperty()
   src!: string;
 
   @ApiProperty()
-  shopifyId!: number;
+  storeId!: string;
 }
 
 class VariantDTO {
@@ -25,7 +24,7 @@ class VariantDTO {
   condition!: Condition;
 }
 
-export class ProductAdminDTO implements ProductDetails {
+export class ProductAdminDTO {
   @ApiProperty()
   status!: ProductStatus;
 

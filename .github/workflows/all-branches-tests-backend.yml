@@ -10,6 +10,7 @@ on:
 
 env:
   TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+  NODE_OPTIONS: '--max_old_space_size=4096'
 
 jobs:
   static_analysis:

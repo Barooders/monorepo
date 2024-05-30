@@ -47,6 +47,7 @@ import {
   VariantCreatedInStore,
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
+import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-id.value-object';
 import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
 import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
@@ -108,7 +109,7 @@ export class ShopifyClient implements IStoreClient {
     return {
       images: product.images.map((image) => ({
         src: image.src,
-        shopifyId: image.id,
+        storeId: new ImageStoreId({ shopifyId: image.id }),
       })),
       tags: product.tags.split(', '),
       product_type: product.product_type,
@@ -675,19 +676,26 @@ export class ShopifyClient implements IStoreClient {
       },
     );
 
-    return { src: productImage.src, id: productImage.id.toString() };
+    return {
+      src: productImage.src,
+      storeId: new ImageStoreId({ shopifyId: productImage.id }),
+    };
   }
   async deleteProductImage(
     { uuid: productId }: UUID,
-    imageId: string,
+    imageId: ImageStoreId,
   ): Promise<void> {
+    if (imageId.shopifyIdIfExists == null) {
+      return;
+    }
+
     const { shopifyId } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productId },
       select: { shopifyId: true },
     });
     await shopifyApiByToken.productImage.delete(
       Number(shopifyId),
-      Number(imageId),
+      imageId.shopifyIdIfExists,
     );
   }
 }
