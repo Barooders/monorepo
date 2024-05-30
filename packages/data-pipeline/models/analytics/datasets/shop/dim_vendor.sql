@@ -4,8 +4,8 @@
 with dim_vendor as (
     select distinct
         b_c.authUserId as internal_id,
-        DATETIME(b_c.createdAt, 'Europe/Paris') as creation_datetime,
-        date_trunc(DATETIME(b_c.createdAt, 'Europe/Paris'), day) as creation_date,
+        DATETIME(TIMESTAMP(b_c.createdAt), 'Europe/Paris') as creation_datetime,
+        date_trunc(DATETIME(TIMESTAMP(b_c.createdAt), 'Europe/Paris'), day) as creation_date,
         null as state,
         CAST(b_c.ispro as STRING) as is_pro,
         b_c.sellerName as username,
