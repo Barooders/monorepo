@@ -6,7 +6,7 @@ with ecommerce_bike_gmv as (
         'bike_gmv' as indicator_name,
         sum(o.total_price) as indicator_value
     from {{ref('fact_order_line')}} o 
-    join {{ref('dim_product')}} p on p.id = o.product_id
+    join {{ref('dim_product')}} p on p.shopify_id = o.product_id
     where p.product_type in (
         'VTT',
         'Vélos de course',
