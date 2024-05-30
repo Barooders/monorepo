@@ -3,6 +3,7 @@ import { Entity, OneToMany, Relation } from 'typeorm';
 import { Product } from './product';
 import { User } from './user';
 
+// Not in use right now, products are linked to vendors with vendor id
 @Entity()
 export class Store extends MedusaStore {
   @OneToMany(() => User, (user) => user.store, {

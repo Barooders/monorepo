@@ -5,11 +5,13 @@ export default async function () {
   // @ts-expect-error no override
   storeProductAPI.allowedStoreProductsFields = [
     ...storeProductAPI.allowedStoreProductsFields,
+    'vendor_id',
     'store_id',
   ];
   // @ts-expect-error no override
   storeProductAPI.defaultStoreProductsFields = [
     ...storeProductAPI.defaultStoreProductsFields,
+    'vendor_id',
     'store_id',
   ];
   // @ts-expect-error no override
@@ -25,6 +27,7 @@ export default async function () {
   // @ts-expect-error no override
   adminProductAPI.defaultAdminProductFields = [
     ...adminProductAPI.defaultAdminProductFields,
+    'vendor_id',
     'store_id',
   ];
 

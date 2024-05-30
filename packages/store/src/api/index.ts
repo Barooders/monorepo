@@ -1,18 +1,28 @@
 import { registerOverriddenValidators } from '@medusajs/medusa';
 import { AdminPostProductsReq as MedusaAdminPostProductsReq } from '@medusajs/medusa/dist/api/routes/admin/products/create-product';
 import { AdminGetProductsParams as MedusaAdminGetProductsParams } from '@medusajs/medusa/dist/api/routes/admin/products/list-products';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 class AdminPostProductsReq extends MedusaAdminPostProductsReq {
+  @IsOptional()
   @IsString()
-  store_id: string;
+  store_id?: string;
+
+  @IsOptional()
+  @IsString()
+  vendor_id?: string;
 }
 
 registerOverriddenValidators(AdminPostProductsReq);
 
 class AdminGetProductsParams extends MedusaAdminGetProductsParams {
+  @IsOptional()
   @IsString()
-  store_id: string;
+  store_id?: string;
+
+  @IsOptional()
+  @IsString()
+  vendor_id?: string;
 }
 
 registerOverriddenValidators(AdminGetProductsParams);

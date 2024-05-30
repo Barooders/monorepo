@@ -15,6 +15,10 @@ export class Product extends MedusaProduct {
   @Column({ nullable: true })
   store_id?: string;
 
+  @Index('ProductVendorId')
+  @Column({ nullable: true })
+  vendor_id?: string;
+
   @ManyToOne(() => Store, (store) => store.products)
   @JoinColumn({ name: 'store_id' })
   store: Relation<Store>;
