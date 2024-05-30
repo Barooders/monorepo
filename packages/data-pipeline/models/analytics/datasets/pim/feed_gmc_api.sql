@@ -36,7 +36,7 @@ slugs as (
     SELECT
 			id,
 			slug.collection_slug,
-			concat('https://barooders.com/collections/', COALESCE(slug.collection_slug, "all"), '?handle=', f.handle, '&cache=false&utm_source=google&utm_medium=cpc&variant=', variant_id) as link
+			concat('https://barooders.com/collections/', COALESCE(slug.collection_slug, "all"), '?handle=', f.handle, '&cache=false&utm_source=google&utm_medium=cpc&variant=', variant_internal_id) as link
 	FROM unique_variant_feed AS f
 	LEFT JOIN config.product_type_slug as slug on slug.product_type = f.product_type
 ),

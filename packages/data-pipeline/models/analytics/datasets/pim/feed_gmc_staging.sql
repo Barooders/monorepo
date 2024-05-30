@@ -20,6 +20,7 @@ feed_gmc as (
     SELECT
         p.merchant_item_id as product_id,
         v.merchant_item_id as variant_id,
+        v.internal_id as variant_internal_id,
         p.title as product_title,
         case when v.title = 'Default Title' then null else v.title end as variant_title,
         p.product_type as product_type,

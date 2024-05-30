@@ -41,7 +41,7 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
   },
   // Ends on 30/05
   {
-    title: 'PRIVATE_SALE',
+    title: 'PRIVATE_SALE_3T',
     label: 'Vente Privée',
     type: 'static',
     collections: ['f00c084f-9c0a-4cb2-b90b-5521bc3871a4'],
@@ -50,6 +50,17 @@ export const DISCOUNTS_CONFIG: DiscountConfig[] = [
     hideReduction: true,
     startsAt: dayjs('2024-05-23').toDate(),
     endsAt: dayjs('2024-06-05').toDate(),
+  },
+  {
+    title: 'PRIVATE_SALE_BIANCHI',
+    label: 'Vente Privée',
+    type: 'static',
+    collections: ['6b4a138b-0601-4176-a8b9-3f2aaca1fd0a'],
+    valueType: 'custom',
+    value: null,
+    hideReduction: true,
+    startsAt: dayjs('2024-05-30').toDate(),
+    endsAt: dayjs('2024-06-15').toDate(),
   },
   {
     // Ends on 23/05
