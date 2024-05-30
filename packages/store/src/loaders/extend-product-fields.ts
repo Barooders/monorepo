@@ -5,17 +5,12 @@ export default async function () {
   // @ts-expect-error no override
   storeProductAPI.allowedStoreProductsFields = [
     ...storeProductAPI.allowedStoreProductsFields,
-    'store_id',
+    'vendor_id',
   ];
   // @ts-expect-error no override
   storeProductAPI.defaultStoreProductsFields = [
     ...storeProductAPI.defaultStoreProductsFields,
-    'store_id',
-  ];
-  // @ts-expect-error no override
-  storeProductAPI.allowedStoreProductsRelations = [
-    ...storeProductAPI.defaultStoreProductsFields,
-    'store',
+    'vendor_id',
   ];
 
   const adminProductAPI = await import(
@@ -25,14 +20,6 @@ export default async function () {
   // @ts-expect-error no override
   adminProductAPI.defaultAdminProductFields = [
     ...adminProductAPI.defaultAdminProductFields,
-    'store_id',
+    'vendor_id',
   ];
-
-  // @ts-expect-error no override
-  adminProductAPI.defaultAdminProductRemoteQueryObject = {
-    ...adminProductAPI.defaultAdminProductRemoteQueryObject,
-    store: {
-      fields: ['id', 'name'],
-    },
-  };
 }

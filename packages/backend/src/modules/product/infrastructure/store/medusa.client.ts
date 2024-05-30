@@ -112,7 +112,6 @@ export class MedusaClient implements IStoreClient {
     };
   }
 
-  // TODO: add vendor link
   async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
     this.logger.log(`Creating product ${product.title}`);
 
@@ -164,6 +163,7 @@ export class MedusaClient implements IStoreClient {
       handle: productHandle,
       tags: tags.map((tag) => ({ value: tag })),
       weight,
+      vendor_id: product.vendorId,
       categories: [{ id: productTypeId }],
       options: options.map((name) => ({ title: name })),
       variants: compact(
@@ -231,13 +231,6 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Product ${productId} not created in Medusa`);
     }
 
-    // TODO: update vendor
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const newVendor =
-      vendorId !== undefined
-        ? await this.customerRepository.getCustomerFromVendorId(vendorId)
-        : null;
-
     let weight: number | undefined;
     if (data.product_type !== undefined) {
       const {
@@ -262,6 +255,7 @@ export class MedusaClient implements IStoreClient {
       description: data.body_html,
       handle: data.title !== undefined ? handle(data.title) : undefined,
       weight,
+      vendor_id: vendorId,
       categories:
         productTypeId !== undefined ? [{ id: productTypeId }] : undefined,
       ...(tags !== undefined
@@ -528,7 +522,7 @@ export class MedusaClient implements IStoreClient {
         }),
       );
       const existingCategory = first(response.product_categories);
-      if (existingCategory) return existingCategory.id;
+      if (existingCategory !== undefined) return existingCategory.id;
 
       return await this.createCategory(categoryName);
     } catch (e) {
