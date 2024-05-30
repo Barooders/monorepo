@@ -47,7 +47,7 @@ const B2BProductsFromSameVendor: React.FC<PropsType> = ({
       >
         {productsFromSameVendor.map((productCardProps) => (
           <ErrorBoundary
-            key={productCardProps.shopifyId}
+            key={productCardProps.id}
             showDialog={false}
           >
             <B2BProductSmallCard

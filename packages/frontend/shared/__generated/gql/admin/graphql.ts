@@ -2796,10 +2796,9 @@ export type FavoriteProducts = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Scalars['String']['output'];
-  internalProductId: Maybe<Scalars['String']['output']>;
+  internalProductId: Scalars['String']['output'];
   /** An object relationship */
-  product: Maybe<Product>;
-  productId: Maybe<Scalars['bigint']['output']>;
+  product: Product;
 };
 
 /** aggregated selection of "FavoriteProducts" */
@@ -2823,17 +2822,9 @@ export type FavoriteProducts_Aggregate_Bool_Exp_Count = {
 /** aggregate fields of "FavoriteProducts" */
 export type FavoriteProducts_Aggregate_Fields = {
   __typename?: 'FavoriteProducts_aggregate_fields';
-  avg: Maybe<FavoriteProducts_Avg_Fields>;
   count: Scalars['Int']['output'];
   max: Maybe<FavoriteProducts_Max_Fields>;
   min: Maybe<FavoriteProducts_Min_Fields>;
-  stddev: Maybe<FavoriteProducts_Stddev_Fields>;
-  stddev_pop: Maybe<FavoriteProducts_Stddev_Pop_Fields>;
-  stddev_samp: Maybe<FavoriteProducts_Stddev_Samp_Fields>;
-  sum: Maybe<FavoriteProducts_Sum_Fields>;
-  var_pop: Maybe<FavoriteProducts_Var_Pop_Fields>;
-  var_samp: Maybe<FavoriteProducts_Var_Samp_Fields>;
-  variance: Maybe<FavoriteProducts_Variance_Fields>;
 };
 
 
@@ -2845,17 +2836,9 @@ export type FavoriteProducts_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "FavoriteProducts" */
 export type FavoriteProducts_Aggregate_Order_By = {
-  avg: InputMaybe<FavoriteProducts_Avg_Order_By>;
   count: InputMaybe<Order_By>;
   max: InputMaybe<FavoriteProducts_Max_Order_By>;
   min: InputMaybe<FavoriteProducts_Min_Order_By>;
-  stddev: InputMaybe<FavoriteProducts_Stddev_Order_By>;
-  stddev_pop: InputMaybe<FavoriteProducts_Stddev_Pop_Order_By>;
-  stddev_samp: InputMaybe<FavoriteProducts_Stddev_Samp_Order_By>;
-  sum: InputMaybe<FavoriteProducts_Sum_Order_By>;
-  var_pop: InputMaybe<FavoriteProducts_Var_Pop_Order_By>;
-  var_samp: InputMaybe<FavoriteProducts_Var_Samp_Order_By>;
-  variance: InputMaybe<FavoriteProducts_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "FavoriteProducts" */
@@ -2863,17 +2846,6 @@ export type FavoriteProducts_Arr_Rel_Insert_Input = {
   data: Array<FavoriteProducts_Insert_Input>;
   /** upsert condition */
   on_conflict: InputMaybe<FavoriteProducts_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type FavoriteProducts_Avg_Fields = {
-  __typename?: 'FavoriteProducts_avg_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by avg() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Avg_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "FavoriteProducts". All fields are combined with a logical 'AND'. */
@@ -2886,7 +2858,6 @@ export type FavoriteProducts_Bool_Exp = {
   id: InputMaybe<String_Comparison_Exp>;
   internalProductId: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
-  productId: InputMaybe<Bigint_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "FavoriteProducts" */
@@ -2895,11 +2866,6 @@ export enum FavoriteProducts_Constraint {
   FavoriteProductsPkey = 'FavoriteProducts_pkey'
 }
 
-/** input type for incrementing numeric columns in table "FavoriteProducts" */
-export type FavoriteProducts_Inc_Input = {
-  productId: InputMaybe<Scalars['bigint']['input']>;
-};
-
 /** input type for inserting data into table "FavoriteProducts" */
 export type FavoriteProducts_Insert_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
@@ -2907,7 +2873,6 @@ export type FavoriteProducts_Insert_Input = {
   id: InputMaybe<Scalars['String']['input']>;
   internalProductId: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
-  productId: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
@@ -2917,7 +2882,6 @@ export type FavoriteProducts_Max_Fields = {
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Maybe<Scalars['String']['output']>;
   internalProductId: Maybe<Scalars['String']['output']>;
-  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "FavoriteProducts" */
@@ -2926,7 +2890,6 @@ export type FavoriteProducts_Max_Order_By = {
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -2936,7 +2899,6 @@ export type FavoriteProducts_Min_Fields = {
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Maybe<Scalars['String']['output']>;
   internalProductId: Maybe<Scalars['String']['output']>;
-  productId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "FavoriteProducts" */
@@ -2945,7 +2907,6 @@ export type FavoriteProducts_Min_Order_By = {
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "FavoriteProducts" */
@@ -2971,7 +2932,6 @@ export type FavoriteProducts_Order_By = {
   id: InputMaybe<Order_By>;
   internalProductId: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
-  productId: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: FavoriteProducts */
@@ -2988,9 +2948,7 @@ export enum FavoriteProducts_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  InternalProductId = 'internalProductId',
-  /** column name */
-  ProductId = 'productId'
+  InternalProductId = 'internalProductId'
 }
 
 /** input type for updating data in table "FavoriteProducts" */
@@ -2999,40 +2957,6 @@ export type FavoriteProducts_Set_Input = {
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   internalProductId: InputMaybe<Scalars['String']['input']>;
-  productId: InputMaybe<Scalars['bigint']['input']>;
-};
-
-/** aggregate stddev on columns */
-export type FavoriteProducts_Stddev_Fields = {
-  __typename?: 'FavoriteProducts_stddev_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type FavoriteProducts_Stddev_Pop_Fields = {
-  __typename?: 'FavoriteProducts_stddev_pop_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_pop() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Pop_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type FavoriteProducts_Stddev_Samp_Fields = {
-  __typename?: 'FavoriteProducts_stddev_samp_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by stddev_samp() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Stddev_Samp_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "FavoriteProducts" */
@@ -3049,18 +2973,6 @@ export type FavoriteProducts_Stream_Cursor_Value_Input = {
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   internalProductId: InputMaybe<Scalars['String']['input']>;
-  productId: InputMaybe<Scalars['bigint']['input']>;
-};
-
-/** aggregate sum on columns */
-export type FavoriteProducts_Sum_Fields = {
-  __typename?: 'FavoriteProducts_sum_fields';
-  productId: Maybe<Scalars['bigint']['output']>;
-};
-
-/** order by sum() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Sum_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** update columns of table "FavoriteProducts" */
@@ -3072,51 +2984,14 @@ export enum FavoriteProducts_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  InternalProductId = 'internalProductId',
-  /** column name */
-  ProductId = 'productId'
+  InternalProductId = 'internalProductId'
 }
 
 export type FavoriteProducts_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc: InputMaybe<FavoriteProducts_Inc_Input>;
   /** sets the columns of the filtered rows to the given values */
   _set: InputMaybe<FavoriteProducts_Set_Input>;
   /** filter the rows which have to be updated */
   where: FavoriteProducts_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type FavoriteProducts_Var_Pop_Fields = {
-  __typename?: 'FavoriteProducts_var_pop_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_pop() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Var_Pop_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type FavoriteProducts_Var_Samp_Fields = {
-  __typename?: 'FavoriteProducts_var_samp_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by var_samp() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Var_Samp_Order_By = {
-  productId: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type FavoriteProducts_Variance_Fields = {
-  __typename?: 'FavoriteProducts_variance_fields';
-  productId: Maybe<Scalars['Float']['output']>;
-};
-
-/** order by variance() on columns of table "FavoriteProducts" */
-export type FavoriteProducts_Variance_Order_By = {
-  productId: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "Fulfillment" */
@@ -8100,12 +7975,13 @@ export type Product = {
   handle: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  merchantItemId: Scalars['String']['output'];
   productType: Maybe<Scalars['String']['output']>;
   /** An array relationship */
   salesChannels: Array<ProductSalesChannel>;
   /** An aggregate relationship */
   salesChannels_aggregate: ProductSalesChannel_Aggregate;
-  shopifyId: Scalars['bigint']['output'];
+  shopifyId: Maybe<Scalars['bigint']['output']>;
   source: Maybe<Scalars['String']['output']>;
   sourceUrl: Maybe<Scalars['String']['output']>;
   status: Scalars['ProductStatus']['output'];
@@ -8397,12 +8273,13 @@ export type ProductVariant = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Scalars['timestamp']['output'];
   id: Scalars['String']['output'];
+  merchantItemId: Scalars['String']['output'];
   priceInCents: Scalars['bigint']['output'];
   /** An object relationship */
   product: Product;
   productId: Scalars['String']['output'];
   quantity: Scalars['Int']['output'];
-  shopifyId: Scalars['bigint']['output'];
+  shopifyId: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   storeB2BVariant: Maybe<Dbt_Store_B2b_Product_Variant>;
   /** An object relationship */
@@ -8500,6 +8377,7 @@ export type ProductVariant_Bool_Exp = {
   condition: InputMaybe<Condition_Comparison_Exp>;
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  merchantItemId: InputMaybe<String_Comparison_Exp>;
   priceInCents: InputMaybe<Bigint_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
@@ -8512,6 +8390,8 @@ export type ProductVariant_Bool_Exp = {
 
 /** unique or primary key constraints on table "ProductVariant" */
 export enum ProductVariant_Constraint {
+  /** unique or primary key constraint on columns "merchantItemId" */
+  ProductVariantMerchantItemIdKey = 'ProductVariant_merchantItemId_key',
   /** unique or primary key constraint on columns "id" */
   ProductVariantPkey = 'ProductVariant_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -8532,6 +8412,7 @@ export type ProductVariant_Insert_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
   productId: InputMaybe<Scalars['String']['input']>;
@@ -8549,6 +8430,7 @@ export type ProductVariant_Max_Fields = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Maybe<Scalars['timestamp']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchantItemId: Maybe<Scalars['String']['output']>;
   priceInCents: Maybe<Scalars['bigint']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   quantity: Maybe<Scalars['Int']['output']>;
@@ -8561,6 +8443,7 @@ export type ProductVariant_Max_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
@@ -8574,6 +8457,7 @@ export type ProductVariant_Min_Fields = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Maybe<Scalars['timestamp']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchantItemId: Maybe<Scalars['String']['output']>;
   priceInCents: Maybe<Scalars['bigint']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   quantity: Maybe<Scalars['Int']['output']>;
@@ -8586,6 +8470,7 @@ export type ProductVariant_Min_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
@@ -8621,6 +8506,7 @@ export type ProductVariant_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
   productId: InputMaybe<Order_By>;
@@ -8647,6 +8533,8 @@ export enum ProductVariant_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MerchantItemId = 'merchantItemId',
+  /** column name */
   PriceInCents = 'priceInCents',
   /** column name */
   ProductId = 'productId',
@@ -8662,6 +8550,7 @@ export type ProductVariant_Set_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
@@ -8733,6 +8622,7 @@ export type ProductVariant_Stream_Cursor_Value_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
@@ -8766,6 +8656,8 @@ export enum ProductVariant_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchantItemId',
   /** column name */
   PriceInCents = 'priceInCents',
   /** column name */
@@ -8923,6 +8815,7 @@ export type Product_Bool_Exp = {
   handle: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   manualNotation: InputMaybe<ProductNotation_Comparison_Exp>;
+  merchantItemId: InputMaybe<String_Comparison_Exp>;
   productType: InputMaybe<String_Comparison_Exp>;
   salesChannels: InputMaybe<ProductSalesChannel_Bool_Exp>;
   salesChannels_aggregate: InputMaybe<ProductSalesChannel_Aggregate_Bool_Exp>;
@@ -8941,6 +8834,8 @@ export type Product_Bool_Exp = {
 export enum Product_Constraint {
   /** unique or primary key constraint on columns "handle" */
   ProductHandleKey = 'Product_handle_key',
+  /** unique or primary key constraint on columns "merchantItemId" */
+  ProductMerchantItemIdKey = 'Product_merchantItemId_key',
   /** unique or primary key constraint on columns "id" */
   ProductPkey = 'Product_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -8962,6 +8857,7 @@ export type Product_Insert_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   salesChannels: InputMaybe<ProductSalesChannel_Arr_Rel_Insert_Input>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
@@ -8984,6 +8880,7 @@ export type Product_Max_Fields = {
   handle: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  merchantItemId: Maybe<Scalars['String']['output']>;
   productType: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   source: Maybe<Scalars['String']['output']>;
@@ -9001,6 +8898,7 @@ export type Product_Max_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   source: InputMaybe<Order_By>;
@@ -9019,6 +8917,7 @@ export type Product_Min_Fields = {
   handle: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  merchantItemId: Maybe<Scalars['String']['output']>;
   productType: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   source: Maybe<Scalars['String']['output']>;
@@ -9036,6 +8935,7 @@ export type Product_Min_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   source: InputMaybe<Order_By>;
@@ -9077,6 +8977,7 @@ export type Product_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   salesChannels_aggregate: InputMaybe<ProductSalesChannel_Aggregate_Order_By>;
   shopifyId: InputMaybe<Order_By>;
@@ -9111,6 +9012,8 @@ export enum Product_Select_Column {
   /** column name */
   ManualNotation = 'manualNotation',
   /** column name */
+  MerchantItemId = 'merchantItemId',
+  /** column name */
   ProductType = 'productType',
   /** column name */
   ShopifyId = 'shopifyId',
@@ -9133,6 +9036,7 @@ export type Product_Set_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   source: InputMaybe<Scalars['String']['input']>;
@@ -9191,6 +9095,7 @@ export type Product_Stream_Cursor_Value_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   source: InputMaybe<Scalars['String']['input']>;
@@ -9226,6 +9131,8 @@ export enum Product_Update_Column {
   Id = 'id',
   /** column name */
   ManualNotation = 'manualNotation',
+  /** column name */
+  MerchantItemId = 'merchantItemId',
   /** column name */
   ProductType = 'productType',
   /** column name */
@@ -14097,6 +14004,7 @@ export type Dbt_Store_Base_Product = {
   images: Array<Dbt_Store_Exposed_Product_Image>;
   /** An aggregate relationship */
   images_aggregate: Dbt_Store_Exposed_Product_Image_Aggregate;
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Exposed_Product>;
   shopifyId: Scalars['bigint']['output'];
@@ -14261,6 +14169,7 @@ export type Dbt_Store_Base_Product_Bool_Exp = {
   id: InputMaybe<String_Comparison_Exp>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Bool_Exp>;
   images_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Image_Aggregate_Bool_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Bool_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   tags: InputMaybe<Dbt_Store_Exposed_Product_Tag_Bool_Exp>;
@@ -14291,6 +14200,7 @@ export type Dbt_Store_Base_Product_Insert_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   images: InputMaybe<Dbt_Store_Exposed_Product_Image_Arr_Rel_Insert_Input>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Obj_Rel_Insert_Input>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   tags: InputMaybe<Dbt_Store_Exposed_Product_Tag_Arr_Rel_Insert_Input>;
@@ -14303,6 +14213,7 @@ export type Dbt_Store_Base_Product_Max_Fields = {
   __typename?: 'dbt_store_base_product_max_fields';
   createdAt: Maybe<Scalars['timestamptz']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchant_item_id: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   vendorId: Maybe<Scalars['uuid']['output']>;
 };
@@ -14312,6 +14223,7 @@ export type Dbt_Store_Base_Product_Min_Fields = {
   __typename?: 'dbt_store_base_product_min_fields';
   createdAt: Maybe<Scalars['timestamptz']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchant_item_id: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   vendorId: Maybe<Scalars['uuid']['output']>;
 };
@@ -14347,6 +14259,7 @@ export type Dbt_Store_Base_Product_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   images_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Image_Aggregate_Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Exposed_Product_Order_By>;
   shopifyId: InputMaybe<Order_By>;
   tags_aggregate: InputMaybe<Dbt_Store_Exposed_Product_Tag_Aggregate_Order_By>;
@@ -14366,6 +14279,8 @@ export enum Dbt_Store_Base_Product_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MerchantItemId = 'merchant_item_id',
+  /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
   VendorId = 'vendorId'
@@ -14375,6 +14290,7 @@ export enum Dbt_Store_Base_Product_Select_Column {
 export type Dbt_Store_Base_Product_Set_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -14409,6 +14325,7 @@ export type Dbt_Store_Base_Product_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   vendorId: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -14425,6 +14342,8 @@ export enum Dbt_Store_Base_Product_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
@@ -14467,6 +14386,7 @@ export type Dbt_Store_Base_Product_Variant = {
   b2cVariant: Maybe<Dbt_Store_B2c_Product_Variant>;
   createdAt: Scalars['timestamptz']['output'];
   id: Scalars['String']['output'];
+  merchant_item_id: Scalars['String']['output'];
   /** An object relationship */
   product: Maybe<Dbt_Store_Base_Product>;
   productId: Scalars['String']['output'];
@@ -14558,6 +14478,7 @@ export type Dbt_Store_Base_Product_Variant_Bool_Exp = {
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Bool_Exp>;
   createdAt: InputMaybe<Timestamptz_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  merchant_item_id: InputMaybe<String_Comparison_Exp>;
   product: InputMaybe<Dbt_Store_Base_Product_Bool_Exp>;
   productId: InputMaybe<String_Comparison_Exp>;
   shopify_id: InputMaybe<Bigint_Comparison_Exp>;
@@ -14583,6 +14504,7 @@ export type Dbt_Store_Base_Product_Variant_Insert_Input = {
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Obj_Rel_Insert_Input>;
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   product: InputMaybe<Dbt_Store_Base_Product_Obj_Rel_Insert_Input>;
   productId: InputMaybe<Scalars['String']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
@@ -14594,6 +14516,7 @@ export type Dbt_Store_Base_Product_Variant_Max_Fields = {
   __typename?: 'dbt_store_base_product_variant_max_fields';
   createdAt: Maybe<Scalars['timestamptz']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchant_item_id: Maybe<Scalars['String']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   shopify_id: Maybe<Scalars['bigint']['output']>;
 };
@@ -14602,6 +14525,7 @@ export type Dbt_Store_Base_Product_Variant_Max_Fields = {
 export type Dbt_Store_Base_Product_Variant_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -14611,6 +14535,7 @@ export type Dbt_Store_Base_Product_Variant_Min_Fields = {
   __typename?: 'dbt_store_base_product_variant_min_fields';
   createdAt: Maybe<Scalars['timestamptz']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  merchant_item_id: Maybe<Scalars['String']['output']>;
   productId: Maybe<Scalars['String']['output']>;
   shopify_id: Maybe<Scalars['bigint']['output']>;
 };
@@ -14619,6 +14544,7 @@ export type Dbt_Store_Base_Product_Variant_Min_Fields = {
 export type Dbt_Store_Base_Product_Variant_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
 };
@@ -14652,6 +14578,7 @@ export type Dbt_Store_Base_Product_Variant_Order_By = {
   b2cVariant: InputMaybe<Dbt_Store_B2c_Product_Variant_Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  merchant_item_id: InputMaybe<Order_By>;
   product: InputMaybe<Dbt_Store_Base_Product_Order_By>;
   productId: InputMaybe<Order_By>;
   shopify_id: InputMaybe<Order_By>;
@@ -14670,6 +14597,8 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MerchantItemId = 'merchant_item_id',
+  /** column name */
   ProductId = 'productId',
   /** column name */
   ShopifyId = 'shopify_id'
@@ -14679,6 +14608,7 @@ export enum Dbt_Store_Base_Product_Variant_Select_Column {
 export type Dbt_Store_Base_Product_Variant_Set_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
@@ -14728,6 +14658,7 @@ export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Input = {
 export type Dbt_Store_Base_Product_Variant_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamptz']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  merchant_item_id: InputMaybe<Scalars['String']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
   shopify_id: InputMaybe<Scalars['bigint']['input']>;
 };
@@ -14749,6 +14680,8 @@ export enum Dbt_Store_Base_Product_Variant_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MerchantItemId = 'merchant_item_id',
   /** column name */
   ProductId = 'productId',
   /** column name */
@@ -20350,7 +20283,6 @@ export type Mutation_RootUpdate_FacetFilter_ManyArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_FavoriteProductsArgs = {
-  _inc: InputMaybe<FavoriteProducts_Inc_Input>;
   _set: InputMaybe<FavoriteProducts_Set_Input>;
   where: FavoriteProducts_Bool_Exp;
 };
@@ -20358,7 +20290,6 @@ export type Mutation_RootUpdate_FavoriteProductsArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_FavoriteProducts_By_PkArgs = {
-  _inc: InputMaybe<FavoriteProducts_Inc_Input>;
   _set: InputMaybe<FavoriteProducts_Set_Input>;
   pk_columns: FavoriteProducts_Pk_Columns_Input;
 };

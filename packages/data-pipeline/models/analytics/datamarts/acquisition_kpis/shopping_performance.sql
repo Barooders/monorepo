@@ -12,7 +12,7 @@ SELECT
 	sum(shp.metrics_impressions) as impressions1J,
 	sum(shp.metrics_all_conversions) as conversions1J
 FROM ads_direct_export.p_ads_ShoppingProductStats_5663401656 as shp
-LEFT JOIN {{ ref('dim_product_variant') }} pv on cast(pv.id as string) = shp.segments_product_item_id
-LEFT JOIN {{ ref('dim_product') }} as p on p.id = pv.product_id
+LEFT JOIN {{ ref('dim_product') }} as p on p.merchant_item_id = shp.segments_product_item_id
+LEFT JOIN {{ ref('dim_product_variant') }} pv on pv.product_id = p.internal_id
 
 group by vendor, id, product_type, category, date

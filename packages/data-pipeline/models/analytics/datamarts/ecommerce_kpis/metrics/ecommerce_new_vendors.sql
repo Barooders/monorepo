@@ -7,7 +7,7 @@ with ecommerce_new_vendors as (
         count(distinct p.vendor_id) as indicator_value
     from {{ref('dim_product')}} p
     left join {{ref('dim_product')}} p_before on p_before.vendor_id = p.vendor_id and p_before.creation_date < p.creation_date and p_before.status != 'draft'
-    where p_before.id is null
+    where p_before.internal_id is null
     and p.status != 'draft'
     group by date, owner, indicator_name
 

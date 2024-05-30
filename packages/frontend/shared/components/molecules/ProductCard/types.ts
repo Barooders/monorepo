@@ -31,6 +31,7 @@ export type Variant = {
 export type ProductMultiVariants = {
   id: string;
   shopifyId: number;
+  productMerchantItemId: string;
   labels: CardLabel[];
   vendor: {
     id: string | null;
@@ -71,7 +72,7 @@ export type ProductSingleVariant = ProductMultiVariants & {
   price: number;
   discounts: Discount[];
   productLink: Url;
-  setSelectedVariant: (variantShopifyId: string) => void;
+  setSelectedVariant: (variantInternal: string) => void;
 };
 
 export type B2BProductCardProps = {

@@ -16,7 +16,6 @@ import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
-  IsInt,
   IsNotEmpty,
   IsNumberString,
   IsOptional,
@@ -61,11 +60,10 @@ class ProductInputDto {
   @IsOptional()
   productInternalId?: string;
 
-  @ApiProperty({ description: 'The shopify id of a variant.' })
+  @ApiProperty({ description: 'The id of a variant.' })
   @IsOptional()
-  @IsInt()
-  @Type(() => Number)
-  variantShopifyId?: number;
+  @Type(() => String)
+  variantInternalId?: string;
 }
 
 @Controller(routesV1.version)
@@ -120,22 +118,8 @@ export class BuyerCommissionController {
     @Query()
     productInputDto: ProductInputDto,
   ) {
-    const { productHandle, productInternalId, variantShopifyId } =
+    const { productHandle, productInternalId, variantInternalId } =
       productInputDto;
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const variantInternalId = variantShopifyId
-      ? (
-          await this.prisma.productVariant.findUniqueOrThrow({
-            where: {
-              shopifyId: variantShopifyId,
-            },
-            select: {
-              id: true,
-            },
-          })
-        ).id
-      : undefined;
 
     try {
       const commissionCost =

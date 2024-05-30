@@ -63,9 +63,7 @@ const useFavoriteProducts = () => {
 
     const { FavoriteProducts } = await fetchFavoriteProducts();
 
-    const favoriteProducts = FavoriteProducts.flatMap(({ product }) =>
-      product ? [product] : [],
-    );
+    const favoriteProducts = FavoriteProducts.map(({ product }) => product);
 
     setFavoriteProducts(favoriteProducts.map(({ id }) => id).map(String));
 

@@ -94,7 +94,7 @@ const FETCH_COLLECTION_PAGE = /* GraphQL */ /* typed_for_public */ `
 export const getData = async ({
   collectionHandle = '',
   productHandle = '',
-  productVariantShopifyId = 0,
+  productVariantInternalId = '',
   vendorSellerName = '',
   searchQuery = '',
 }): Promise<GetDataType> => {
@@ -114,11 +114,11 @@ export const getData = async ({
         })
       : Promise.resolve(),
     (async () => {
-      if (!isEmpty(productHandle) && !isEmpty(productVariantShopifyId)) {
+      if (!isEmpty(productHandle) && !isEmpty(productVariantInternalId)) {
         try {
           return await getProductData({
             productHandle,
-            productVariantShopifyId,
+            productVariantInternalId,
           });
         } catch (e) {
           if (e instanceof ProductNotFoundException) {
