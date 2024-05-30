@@ -70,7 +70,7 @@ SELECT * FROM (
     LEFT JOIN TRAFFICTOT AS TRAFFICTOT ON TRAFFICTOT.productid = p.merchant_item_id
     LEFT JOIN FAV AS FAV ON FAV.internalProductId = p.internal_id
 
-    GROUP BY p.id
+    GROUP BY p.internal_id
     ORDER BY nb_fav DESC
 )
 WHERE id IS NOT NULL AND traffic30 > 0
