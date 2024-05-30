@@ -12,12 +12,13 @@ patch {
 
 headers {
   Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
 }
 
 body:json {
   {
     "status": "string",
-    "bodyHtml": "string",
+    "body_html": "string",
     "title": "string",
     "scoring": "string",
     "tags": [
