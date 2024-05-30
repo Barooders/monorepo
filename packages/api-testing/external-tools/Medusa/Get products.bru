@@ -1,17 +1,13 @@
 meta {
-  name: Create product
+  name: Get products
   type: http
-  seq: 4
+  seq: 6
 }
 
-get {
-  url: {{medusaUrl}}/admin/products?store_id=store_01HZ4S4HHKT2NKE3E7Y5V2EBKT
+post {
+  url: {{medusaUrl}}/admin/products
   body: json
   auth: none
-}
-
-query {
-  store_id: store_01HZ4S4HHKT2NKE3E7Y5V2EBKT
 }
 
 headers {
