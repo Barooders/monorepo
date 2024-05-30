@@ -46,6 +46,16 @@ export class ImageUploadsClient {
     );
   }
 
+  async uploadBase64Image(base64Content: string): Promise<string> {
+    const fileName = randomUUID();
+    await this.multiFormatUploadFromBase64Content({
+      content: base64Content,
+      fileName,
+    });
+
+    return this.publicUrl(fileName);
+  }
+
   private async multiFormatUploadFromUrl({
     url,
     fileName,
@@ -60,10 +70,31 @@ export class ImageUploadsClient {
       })
     ).data as Buffer;
 
+    return await this.multiFormatUploadFromBuffer({ buffer: input, fileName });
+  }
+
+  private async multiFormatUploadFromBase64Content({
+    content,
+    fileName,
+  }: {
+    content: string;
+    fileName: string;
+  }) {
+    const buffer = Buffer.from(content, 'base64');
+    return await this.multiFormatUploadFromBuffer({ buffer, fileName });
+  }
+
+  private async multiFormatUploadFromBuffer({
+    buffer,
+    fileName,
+  }: {
+    buffer: Buffer;
+    fileName: string;
+  }) {
     const results = await Promise.all(
       Object.keys(SIZE_CONFIG).map(async (size) => {
         const { width, height } = SIZE_CONFIG[size as Size];
-        const output = await sharp(input)
+        const output = await sharp(buffer)
           .resize(width, height, {
             fit: 'contain',
           })
@@ -81,7 +112,7 @@ export class ImageUploadsClient {
       }),
     );
 
-    const originalOutput = await sharp(input).png().toBuffer();
+    const originalOutput = await sharp(buffer).png().toBuffer();
     results.push(
       this.publicUrl(
         (await this.uploadFile(`${fileName}.png`, originalOutput).promise())

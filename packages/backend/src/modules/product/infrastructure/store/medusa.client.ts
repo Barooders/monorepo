@@ -164,7 +164,6 @@ export class MedusaClient implements IStoreClient {
             sku: variant.sku,
             weight,
             inventory_quantity: variant.inventory_quantity,
-            // TODO: add compare at price
             prices: [
               ...(variant.price !== undefined
                 ? [
@@ -387,10 +386,6 @@ export class MedusaClient implements IStoreClient {
   ): Promise<ProductImage> {
     this.logger.log(`Adding image to product ${productId}`, image);
 
-    if (image.src === undefined) {
-      throw new Error('Image source is required');
-    }
-
     const { medusaId } = await this.prisma.product.findUniqueOrThrow({
       where: { id: productId.uuid },
       select: { medusaId: true },
@@ -402,9 +397,17 @@ export class MedusaClient implements IStoreClient {
 
     const { product } = await medusaClient.admin.products.retrieve(medusaId);
 
-    const uploadedImage = await this.imageUploadsClient.uploadImages([
-      image.src,
-    ]);
+    let uploadedImage: string[] = [];
+    if (image.attachment !== undefined) {
+      uploadedImage = [
+        await this.imageUploadsClient.uploadBase64Image(image.attachment),
+      ];
+    } else if (image.src !== undefined) {
+      uploadedImage = await this.imageUploadsClient.uploadImages([image.src]);
+    } else {
+      throw new Error('Image attachment or src is required');
+    }
+
     const images = [
       ...product.images.map((image) => image.url),
       ...uploadedImage,
