@@ -19,14 +19,14 @@ with
             b_p.id as internal_id,
             b_p.shopifyId as shopify_id,
             b_p.merchant_item_id,
-            datetime(b_p.created_at, 'Europe/Paris') as creation_datetime,
-            date_trunc(datetime(b_p.created_at, 'Europe/Paris'), day) as creation_date,
+            datetime(b_p.createdAt, 'Europe/Paris') as creation_datetime,
+            date_trunc(datetime(b_p.createdAt, 'Europe/Paris'), day) as creation_date,
             datetime(b_ep.publishedAt, 'Europe/Paris') as publication_datetime,
             date_trunc(
                 datetime(b_ep.publishedAt, 'Europe/Paris'), day
             ) as publication_date,
-            b_ep.product_type,
-            LOWER(b_ep.status),
+            b_ep.productType,
+            LOWER(b_ep.status) as status,
             b_ep.title,
             b_ep.vendor,
             b_ep.handle,
@@ -72,7 +72,7 @@ with
                 then pv.inventory_quantity
                 else former_p.inventory_quantity
             end as former_quantity,
-            date_diff(o.created_at, b_p.created_at, day) as product_lifetime,
+            date_diff(o.created_at, b_p.createdAt, day) as product_lifetime,
 						cat.name AS parent_category
 
         from  backend__dbt.store_base_product b_p
@@ -145,7 +145,7 @@ with
             on ol.product_id = b_p.shopifyId
             and ol.fulfillment_status = 'fulfilled'
         left join shopify.order o on o.id = ol.order_id and o.financial_status = 'paid'
-        left join backend__strapi.pim_product_types ppt on ppt.name = b_ep.product_type
+        left join backend__strapi.pim_product_types ppt on ppt.name = b_ep.productType
         left join backend__strapi.pim_product_types_categories_links ppt_cat on ppt_cat.pim_product_type_id = ppt.id
 				left join backend__strapi.pim_categories cat on ppt_cat.pim_category_id = cat.id
     ),
