@@ -66,7 +66,7 @@ export class MedusaClient implements IStoreClient {
   ) {}
 
   private handleMedusaResponse = async <T>(call: ResponsePromise<T>) =>
-    await handleMedusaResponse(call, this.logger);
+    handleMedusaResponse(call, this.logger);
 
   async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
@@ -528,7 +528,7 @@ export class MedusaClient implements IStoreClient {
         }),
       );
       const existingCategory = first(response.product_categories);
-      if (existingCategory) return existingCategory.id;
+      if (existingCategory !== undefined) return existingCategory.id;
 
       return await this.createCategory(categoryName);
     } catch (e) {

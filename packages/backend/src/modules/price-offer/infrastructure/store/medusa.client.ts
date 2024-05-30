@@ -22,7 +22,7 @@ export class MedusaClient implements IStoreClient {
   constructor(protected readonly prisma: PrismaMainClient) {}
 
   private handleMedusaResponse = async <T>(call: ResponsePromise<T>) =>
-    await handleMedusaResponse(call, this.logger);
+    handleMedusaResponse(call, this.logger);
 
   // TODO: handle user id
   async createDiscountCode(
