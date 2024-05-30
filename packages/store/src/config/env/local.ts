@@ -12,7 +12,7 @@ const localConfig: EnvironmentsType = {
     ssl: false,
   },
   redis: {
-    url: 'redis://default:@0.0.0.0:6379',
+    url: '',
     tls: false,
   },
   cors: [
