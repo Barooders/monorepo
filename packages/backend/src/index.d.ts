@@ -9,6 +9,11 @@ export declare module '@medusajs/medusa/dist/api/routes/admin/products/create-pr
     vendor_id?: string;
   }
 }
+export declare module '@medusajs/medusa/dist/api/routes/admin/products/update-product' {
+  declare interface AdminPostProductsProductReq {
+    vendor_id?: string;
+  }
+}
 
 export declare module '@medusajs/medusa/dist/types/product' {
   declare interface FilterableProductProps {
