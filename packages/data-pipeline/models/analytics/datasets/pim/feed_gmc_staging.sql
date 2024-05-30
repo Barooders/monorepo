@@ -78,7 +78,7 @@ feed_gmc as (
         case when c.buyercommissionrate < 100 then true else false end as new_commission
 
     FROM {{ref('dim_product')}} as p
-    left JOIN {{ref('dim_product_variant')}} as v on v.product_id = p.internal_id
+    left JOIN {{ref('dim_product_variant')}} as v on v.product_internal_id = p.internal_id
     left JOIN images_feed as i on i.product_id = p.shopify_id
     left JOIN backend__dbt.store_product_for_analytics as b on b.id = p.internal_id
     left JOIN backend__dbt.store_discount_product as dp on dp.product_id = p.internal_id
