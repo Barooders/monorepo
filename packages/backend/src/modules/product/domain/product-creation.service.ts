@@ -41,6 +41,7 @@ import { jsonStringify } from '@libs/helpers/json';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { v4 as uuidv4 } from 'uuid';
 import { ProductCreatedDomainEvent } from './events/product.created.domain-event';
 import { ProductUpdatedDomainEvent } from './events/product.updated.domain-event';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
@@ -178,13 +179,15 @@ export class ProductCreationService {
       ? product.salesChannels.map((salesChannelName) => ({ salesChannelName }))
       : [{ salesChannelName: SalesChannelName.PUBLIC }];
 
+    const productId = uuidv4();
     const productInDB = await this.prisma.product.create({
       data: {
+        id: productId,
         vendorId,
         status: productStatus,
         shopifyId: createdProduct.storeId.shopifyIdIfExists,
         medusaId: createdProduct.storeId.medusaIdIfExists,
-        merchantItemId: createdProduct.storeId.value,
+        merchantItemId: productId,
         description: product.body_html,
         handle: createdProduct.handle,
         productType,
@@ -205,23 +208,28 @@ export class ProductCreationService {
         },
         variants: {
           createMany: {
-            data: product.variants.map((variant, index) => ({
-              //TODO: stop using index here as shopify can return variants in different order
-              shopifyId:
-                createdProduct.variants[index].storeId.shopifyIdIfExists,
-              medusaId: createdProduct.variants[index].storeId.medusaIdIfExists,
-              merchantItemId: createdProduct.variants[index].storeId.value,
-              quantity: variant.inventory_quantity ?? 0,
-              // TODO: remove this 0
-              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-              priceInCents: variant.price ? toCents(variant.price) : 0,
-              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-              compareAtPriceInCents: variant.compare_at_price
-                ? toCents(variant.compare_at_price)
-                : null,
+            data: product.variants.map((variant, index) => {
+              const variantId = uuidv4();
+              return {
+                id: variantId,
+                //TODO: stop using index here as shopify can return variants in different order
+                shopifyId:
+                  createdProduct.variants[index].storeId.shopifyIdIfExists,
+                medusaId:
+                  createdProduct.variants[index].storeId.medusaIdIfExists,
+                merchantItemId: variantId,
+                quantity: variant.inventory_quantity ?? 0,
+                // TODO: remove this 0
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                priceInCents: variant.price ? toCents(variant.price) : 0,
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                compareAtPriceInCents: variant.compare_at_price
+                  ? toCents(variant.compare_at_price)
+                  : null,
 
-              condition: variant.condition,
-            })),
+                condition: variant.condition,
+              };
+            }),
           },
         },
         productSalesChannels: {
@@ -279,12 +287,14 @@ export class ProductCreationService {
       throw new Error('Cannot create variant without price');
     }
 
+    const variantId = uuidv4();
+
     const productVariantInDB = await this.prisma.productVariant.create({
       data: {
-        createdAt: new Date(),
+        id: variantId,
         shopifyId: createdVariant.storeId.shopifyIdIfExists,
         medusaId: createdVariant.storeId.medusaIdIfExists,
-        merchantItemId: createdVariant.storeId.value,
+        merchantItemId: variantId,
         quantity: data.inventory_quantity ?? 0,
         priceInCents: toCents(data.price),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
