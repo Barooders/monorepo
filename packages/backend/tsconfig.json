@@ -27,5 +27,8 @@
     },
     "lib": ["ES2021.String"]
   },
-  "exclude": ["extensions", "dist"]
+  "exclude": ["extensions", "dist"],
+  "ts-node": {
+    "files": true
+  }
 }

@@ -1,0 +1,21 @@
+meta {
+  name: Get product categories
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{medusaUrl}}/admin/product-categories
+  body: json
+  auth: none
+}
+
+headers {
+  x-medusa-access-token: {{medusaAdminToken}}
+}
+
+body:json {
+  {
+    "q": "Gravel"
+  }
+}
