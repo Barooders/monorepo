@@ -1042,6 +1042,7 @@ enum CustomerScoring {
 }
 
 enum Condition {
+  REFURBISHED_AS_NEW
   AS_NEW
   VERY_GOOD
   GOOD
