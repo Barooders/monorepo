@@ -84,7 +84,7 @@ feed_gmc as (
     left JOIN backend__dbt.store_product_for_analytics as b on b.id = p.internal_id
     left JOIN backend__dbt.store_discount_product as dp on dp.product_id = p.internal_id
     left JOIN {{ref('breadcrumbs')}} as bc on bc.product_type = p.product_type
-    JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.shopify_id as string) and snap.date = date_sub(current_date, interval 1 day)
+    JOIN snapshots.catalog_snapshot_variants as snap on snap.variant_id = cast(v.merchant_item_id as string) and snap.date = date_sub(current_date, interval 1 day)
     left join backend__public.Customer as c on c.authUserId = p.vendor_id
 
     where
