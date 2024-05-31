@@ -72,8 +72,8 @@ const modules = {
 };
 
 const DATABASE_SCHEMA = 'medusa';
-const databaseBaseUrl = process.env.DATABASE_URL ?? envConfig.database.url;
-const redisUrl = process.env.REDIS_URL ?? envConfig.redis.url;
+const databaseBaseUrl = envConfig.database.url;
+const redisUrl = envConfig.redis.url;
 
 const databaseInfo = parse(databaseBaseUrl);
 const AppDataSource = new DataSource({
