@@ -120,7 +120,7 @@ const BuyButton: React.FC<{
       countryCode: 'fr',
     });
 
-    return '/checkout';
+    return '/checkout?step=address';
   };
 
   const [createState, doCreate] = useWrappedAsyncFn(
