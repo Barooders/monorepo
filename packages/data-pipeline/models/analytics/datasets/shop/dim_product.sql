@@ -131,14 +131,14 @@ with
         left join
             (
                 select
-                    pv.product_id,
+                    pv.product_internal_id as product_id,
                     sum(pv.inventory_quantity) inventory_quantity,
                     min(pv.price) product_price,
                     min(pv.compare_at_price) compare_at_price
-                from shopify.product_variant pv
+                from  {{ref('dim_product_variant')}} pv
                 group by pv.product_id
             ) pv
-            on pv.product_id = b_p.shopifyId
+            on pv.product_id = b_p.id
 
         left join
             shopify.order_line ol
