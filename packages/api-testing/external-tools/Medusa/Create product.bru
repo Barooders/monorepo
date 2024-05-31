@@ -1,17 +1,13 @@
 meta {
   name: Create product
   type: http
-  seq: 4
+  seq: 6
 }
 
-get {
+post {
   url: {{medusaUrl}}/admin/products
   body: json
   auth: none
-}
-
-query {
-  vendor_id: a2c381be-84ec-4b6c-b819-410988bd3ae8
 }
 
 headers {

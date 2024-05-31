@@ -65,8 +65,9 @@ export class MedusaClient implements IStoreClient {
     private pimClient: IPIMClient,
   ) {}
 
-  private handleMedusaResponse = async <T>(call: ResponsePromise<T>) =>
-    await handleMedusaResponse(call, this.logger);
+  private handleMedusaResponse = async <T>(
+    call: ResponsePromise<T>,
+  ): Promise<T> => await handleMedusaResponse(call, this.logger);
 
   async getProductDetails({ uuid: productId }: UUID): Promise<ProductDetails> {
     this.logger.log(`Getting product details for ${productId}`);
@@ -96,7 +97,7 @@ export class MedusaClient implements IStoreClient {
         src: image.url,
         storeId: new ImageStoreId({ medusaId: image.id }),
       })),
-      tags: product.tags.map((tag) => tag.value),
+      tags: (product.metadata?.tags as string[]) ?? [],
       product_type: product.categories[0].name,
       status,
       vendor: vendor.sellerName ?? '',
@@ -131,8 +132,6 @@ export class MedusaClient implements IStoreClient {
     const uploadedImages =
       await this.imageUploadsClient.uploadImages(imagesUrl);
 
-    const tags = getValidTags(product.tags);
-
     const {
       attributes: { weight },
     } = await this.pimClient.getPimProductType(product.product_type);
@@ -147,6 +146,7 @@ export class MedusaClient implements IStoreClient {
     const metadata: Record<string, unknown> = {
       owner: isPro ? 'pro' : 'c2c',
       source: product.source,
+      tags: getValidTags(product.tags),
     };
     product.metafields.forEach(({ key, value }) => {
       metadata[key] = value;
@@ -161,7 +161,6 @@ export class MedusaClient implements IStoreClient {
       status: this.mapStatus(product.status),
       images: uploadedImages,
       handle: productHandle,
-      tags: tags.map((tag) => ({ value: tag })),
       weight,
       vendor_id: product.vendorId,
       categories: [{ id: productTypeId }],
@@ -170,7 +169,6 @@ export class MedusaClient implements IStoreClient {
         product.variants.map(
           (variant): MedusaVariantRequest => ({
             title: variant.title ?? 'Default',
-            sku: variant.sku,
             weight,
             inventory_quantity: variant.inventory_quantity,
             prices: [
@@ -250,6 +248,14 @@ export class MedusaClient implements IStoreClient {
             compact(images.map((image) => image.src)),
           );
 
+    const metadata: Record<string, unknown> = {
+      tags: tags !== undefined ? getValidTags(tags) : undefined,
+    };
+    if (metafields !== undefined) {
+      for (const { key, value } of metafields) {
+        metadata[key] = value;
+      }
+    }
     const dataToUpdate: AdminPostProductsProductReq = {
       title: data.title,
       description: data.body_html,
@@ -258,20 +264,10 @@ export class MedusaClient implements IStoreClient {
       vendor_id: vendorId,
       categories:
         productTypeId !== undefined ? [{ id: productTypeId }] : undefined,
-      ...(tags !== undefined
-        ? {
-            tags: getValidTags(tags).map((value) => ({
-              value,
-            })),
-          }
-        : {}),
       ...(status !== undefined ? { status: this.mapStatus(status) } : {}),
-      ...(metafields !== undefined
+      ...(metafields !== undefined || tags !== undefined
         ? {
-            metadata: metafields.reduce(
-              (acc, { key, value }) => ({ ...acc, [key]: value }),
-              {},
-            ),
+            metadata,
           }
         : {}),
       ...(updatedImages !== undefined ? { images: updatedImages } : {}),
