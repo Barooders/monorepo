@@ -35,7 +35,7 @@ export async function getOrSetCart(countryCode: string) {
   const region = await getRegion(countryCode);
 
   if (!region) {
-    return null;
+    throw new Error('Need to set up a Region');
   }
 
   const region_id = region.id;
