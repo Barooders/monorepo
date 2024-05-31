@@ -136,7 +136,7 @@ with
                     min(pv.price) product_price,
                     min(pv.compare_at_price) compare_at_price
                 from  {{ref('dim_product_variant')}} pv
-                group by pv.product_id
+                group by pv.product_internal_id
             ) pv
             on pv.product_id = b_p.id
 
