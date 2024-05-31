@@ -60,7 +60,11 @@ export class ProductService {
                 },
               },
             }
-          : {}),
+          : {
+              product: {
+                medusaId: null,
+              },
+            }),
       },
     });
   }
