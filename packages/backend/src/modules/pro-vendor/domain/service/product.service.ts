@@ -1,3 +1,4 @@
+import envConfig from '@config/env/env.config';
 import {
   PrismaMainClient,
   ProductStatus,
@@ -51,6 +52,15 @@ export class ProductService {
       where: {
         externalProductId,
         vendorSlug: this.vendorConfigService.getVendorConfig().slug,
+        ...(envConfig.featureFlags.useMedusaClient
+          ? {
+              product: {
+                medusaId: {
+                  not: null,
+                },
+              },
+            }
+          : {}),
       },
     });
   }

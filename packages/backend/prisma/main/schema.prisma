@@ -410,6 +410,7 @@ model Product {
   bundlePrices         BundlePrice[]
   conversations        Conversation[]
   favorites            FavoriteProducts[]
+  vendorProProducts    VendorProProduct[]
 
   @@schema("public")
 }
@@ -453,6 +454,7 @@ model VendorProProduct {
   createdAt         DateTime   @default(now())
   updatedAt         DateTime?  @updatedAt
   syncStatus        SyncStatus
+  product           Product    @relation(fields: [internalId], references: [id])
 
   @@schema("public")
 }
