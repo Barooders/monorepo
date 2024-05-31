@@ -17,9 +17,9 @@ export class AddStoreRelations1712935028301 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP INDEX "public"."UserStoreId"`);
+    await queryRunner.query(`DROP INDEX "medusa"."UserStoreId"`);
     await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "store_id"`);
-    await queryRunner.query(`DROP INDEX "public"."ProductStoreId"`);
+    await queryRunner.query(`DROP INDEX "medusa"."ProductStoreId"`);
     await queryRunner.query(`ALTER TABLE "product" DROP COLUMN "store_id"`);
   }
 }
