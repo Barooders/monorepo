@@ -2,6 +2,10 @@ import stagingConfig from './staging';
 import { EnvironmentsType } from './types';
 
 const localConfig: EnvironmentsType = {
+  backend: {
+    baseUrl: 'http://localhost:3000',
+    apiKey: '03115fc60a80b0c095272f082620a3fdabfc45834d59ffe9265a2f75c1ffbd84',
+  },
   s3: stagingConfig.s3,
   authentication: {
     jwtSecret: 'something',
