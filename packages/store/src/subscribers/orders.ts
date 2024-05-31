@@ -1,4 +1,5 @@
 import {
+  Order,
   OrderService,
   SubscriberArgs,
   SubscriberConfig,
@@ -18,8 +19,16 @@ export default async function orderPlacedHandler({
   const orderService: OrderService =
     container.resolve<OrderService>('orderService');
 
-  const order = await orderService.retrieve(data.id, {
-    relations: ['items', 'items.variant', 'items.variant.product'],
+  const order: Order = await orderService.retrieve(data.id, {
+    relations: [
+      'items',
+      'items.variant',
+      'items.variant.product',
+      'fulfillments',
+      'discounts',
+      'shipping_address',
+      'payments',
+    ],
   });
 
   await backendClient<{ data: { id: number } }>(
