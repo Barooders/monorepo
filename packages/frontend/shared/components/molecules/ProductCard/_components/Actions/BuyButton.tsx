@@ -72,7 +72,7 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const createShopifyCheckout = async (variantInternalId: string) => {
+  const createShopifyCheckout = async () => {
     const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
     if (variantShopifyId === null || variantShopifyId === undefined)
       throw new Error('Variant not found');
@@ -155,7 +155,7 @@ const BuyButton: React.FC<{
 
   const onClick = () => {
     sendBeginCheckout({ productMerchantItemId });
-    doCreate(variantInternalId);
+    doCreate();
   };
 
   return (
