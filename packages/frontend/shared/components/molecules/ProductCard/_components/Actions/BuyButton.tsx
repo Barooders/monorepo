@@ -53,8 +53,9 @@ const BuyButton: React.FC<{
     };
   }>(CREATE_CHECKOUT);
   const fetchVariant = useHasura(graphql(FETCH_VARIANT));
-  const [{ value: fetchedVariant }, doFetchVariant] =
-    useWrappedAsyncFn(fetchVariant);
+  const [{ value: fetchedVariant }, doFetchVariant] = useWrappedAsyncFn(() =>
+    fetchVariant({ internalId: variantInternalId }),
+  );
 
   useEffect(() => {
     doFetchVariant();
