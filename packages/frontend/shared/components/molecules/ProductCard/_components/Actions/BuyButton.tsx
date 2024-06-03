@@ -20,6 +20,7 @@ import { getDictionary } from '@/i18n/translate';
 import { addToCart, createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
 import { useEffect } from 'react';
+import { HASURA_ROLES } from 'shared-types';
 
 const dict = getDictionary('fr');
 
@@ -52,7 +53,7 @@ const BuyButton: React.FC<{
       };
     };
   }>(CREATE_CHECKOUT);
-  const fetchVariant = useHasura(graphql(FETCH_VARIANT));
+  const fetchVariant = useHasura(graphql(FETCH_VARIANT), HASURA_ROLES.PUBLIC);
   const [{ value: fetchedVariant }, doFetchVariant] = useWrappedAsyncFn(() =>
     fetchVariant({ internalId: variantInternalId }),
   );
