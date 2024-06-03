@@ -14,6 +14,7 @@ import {
 } from '@modules/product/domain/ports/store.client';
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-id.value-object';
+import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Injectable } from '@nestjs/common';
 import { MedusaClient } from './medusa.client';
 import { ShopifyClient } from './shopify.client';
@@ -32,13 +33,20 @@ export class StoreClient implements IStoreClient {
     productId: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage> {
-    return await this.makeCallsOnExisting<[UUID, ImageToUpload], ProductImage>(
-      productId,
-      'addProductImage',
-      productId,
-      image,
-    );
+    const [shopifyResponse, medusaResponse] = await this.makeCallsOnExisting<
+      [UUID, ImageToUpload],
+      ProductImage
+    >(productId, 'addProductImage', productId, image);
+
+    return {
+      src: medusaResponse?.src ?? shopifyResponse?.src ?? '',
+      storeId: new StoreId({
+        medusaId: medusaResponse?.storeId.value,
+        shopifyId: parseInt(shopifyResponse?.storeId.value ?? ''),
+      }),
+    };
   }
+
   async approveProduct(productId: UUID): Promise<void> {
     await this.makeCallsOnExisting<[UUID], ProductImage>(
       productId,
@@ -66,29 +74,45 @@ export class StoreClient implements IStoreClient {
   }
 
   async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
-    const [medusaProduct] = await Promise.all([
+    const [medusaProduct, shopifyProduct] = await Promise.all([
       this.medusaClient.createProduct(product),
       this.shopifyClient.createProduct(product),
     ]);
 
-    return medusaProduct;
+    return {
+      handle: medusaProduct.handle,
+      images: medusaProduct.images,
+      storeId: new StoreId({
+        medusaId: medusaProduct.storeId.value,
+        shopifyId: parseInt(shopifyProduct.storeId.value),
+      }),
+      title: medusaProduct.title,
+      variants: medusaProduct.variants,
+    };
   }
 
   async createProductVariant(
     productInternalId: UUID,
     data: Variant,
   ): Promise<VariantCreatedInStore> {
-    return await this.makeCallsOnExisting<
+    const [shopifyResponse, medusaResponse] = await this.makeCallsOnExisting<
       [UUID, Variant],
       VariantCreatedInStore
     >(productInternalId, 'createProductVariant', productInternalId, data);
+
+    return {
+      storeId: new StoreId({
+        medusaId: medusaResponse?.storeId.value,
+        shopifyId: parseInt(shopifyResponse?.storeId.value ?? ''),
+      }),
+    };
   }
 
   async deleteProductImage(
     productId: UUID,
     imageId: ImageStoreId,
   ): Promise<void> {
-    return await this.makeCallsOnExisting<[UUID, ImageStoreId], void>(
+    await this.makeCallsOnExisting<[UUID, ImageStoreId], void>(
       productId,
       'createProductVariant',
       productId,
@@ -109,15 +133,23 @@ export class StoreClient implements IStoreClient {
   }
 
   async getProductDetails(productId: UUID): Promise<ProductDetails> {
-    return await this.makeCallsOnExisting<[UUID], ProductDetails>(
-      productId,
-      'getProductDetails',
-      productId,
-    );
+    const [shopifyResponse, medusaResponse] = await this.makeCallsOnExisting<
+      [UUID],
+      ProductDetails
+    >(productId, 'getProductDetails', productId);
+
+    if (medusaResponse !== null) {
+      return medusaResponse;
+    }
+    if (shopifyResponse !== null) {
+      return shopifyResponse;
+    }
+
+    throw new Error('No results');
   }
 
   async rejectProduct(productId: UUID): Promise<void> {
-    return await this.makeCallsOnExisting<[UUID], void>(
+    await this.makeCallsOnExisting<[UUID], void>(
       productId,
       'rejectProduct',
       productId,
@@ -153,7 +185,7 @@ export class StoreClient implements IStoreClient {
     productId: UUID,
     methodName: string,
     ...args: ArgsType
-  ): Promise<ReturnType> {
+  ) {
     const { medusaId, shopifyId } = await this.prisma.product.findUniqueOrThrow(
       {
         where: { id: productId.uuid },
@@ -161,19 +193,20 @@ export class StoreClient implements IStoreClient {
       },
     );
 
-    const storeCalls = [];
+    const storeCalls = [
+      shopifyId !== null
+        ? // @ts-expect-error no index signature
+          this.shopifyClient[methodName](...args)
+        : Promise.resolve(null),
+      medusaId !== null
+        ? // @ts-expect-error no index signature
+          this.medusaClient[methodName](...args)
+        : Promise.resolve(null),
+    ];
 
-    if (shopifyId !== null) {
-      // @ts-expect-error no index signature
-      storeCalls.push(this.shopifyClient[methodName](...args));
-    }
-    if (medusaId !== null) {
-      // @ts-expect-error no index signature
-      storeCalls.push(this.medusaClient[methodName](...args));
-    }
-
-    const [firstResponse] = await Promise.all(storeCalls);
-
-    return firstResponse as ReturnType;
+    return (await Promise.all(storeCalls)) as [
+      ReturnType | null,
+      ReturnType | null,
+    ];
   }
 }
