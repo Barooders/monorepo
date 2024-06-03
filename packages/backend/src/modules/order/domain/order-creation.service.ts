@@ -166,17 +166,33 @@ export class OrderCreationService {
         const { id } = await wrappedPrisma.order.create({
           data: {
             ...order,
+            shopifyId:
+              order.storeId?.shopifyIdIfExists !== undefined
+                ? String(order.storeId?.shopifyIdIfExists)
+                : undefined,
+            medusaId: order.storeId?.medusaIdIfExists,
             shippingAddressPhone,
             fulfillmentOrders: {
               createMany: {
-                data: fulfillmentOrders,
+                data: fulfillmentOrders.map(
+                  ({ storeId, ...fulfillmentOrder }) => ({
+                    ...fulfillmentOrder,
+                    shopifyId: storeId?.shopifyIdIfExists,
+                    medusaId: storeId?.medusaIdIfExists,
+                  }),
+                ),
               },
             },
             orderLines: {
               createMany: {
                 data: orderLinesWithCommission.map(
-                  ({ fulfillmentOrder, ...orderLine }) => ({
+                  ({ fulfillmentOrder, storeId, ...orderLine }) => ({
                     ...orderLine,
+                    shopifyId:
+                      storeId?.shopifyIdIfExists !== undefined
+                        ? String(storeId?.shopifyIdIfExists)
+                        : undefined,
+                    medusaId: storeId?.medusaIdIfExists,
                     fulfillmentOrderId: fulfillmentOrder?.id,
                   }),
                 ),
@@ -190,7 +206,27 @@ export class OrderCreationService {
             aggregateName: AggregateName.ORDER,
             aggregateId: id,
             name: EventName.ORDER_CREATED,
-            payload: { order, orderLines },
+            payload: {
+              order: {
+                ...order,
+                medusaId: order.storeId?.medusaIdIfExists,
+                shopifyId: order.storeId?.shopifyIdIfExists,
+                storeId: undefined,
+              },
+              orderLines: orderLines.map(({ storeId, ...orderLine }) => ({
+                ...orderLine,
+                fulfillmentOrder: {
+                  ...orderLine.fulfillmentOrder,
+                  medusaId:
+                    orderLine.fulfillmentOrder?.storeId?.medusaIdIfExists,
+                  shopifyId:
+                    orderLine.fulfillmentOrder?.storeId?.shopifyIdIfExists,
+                  storeId: undefined,
+                },
+                medusaId: storeId?.medusaIdIfExists,
+                shopifyId: storeId?.shopifyIdIfExists,
+              })),
+            },
             metadata: {
               orderName: order.name,
               author,

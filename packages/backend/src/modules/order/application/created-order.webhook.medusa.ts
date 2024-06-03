@@ -1,18 +1,27 @@
 import { routesV2 } from '@config/routes.config';
 import {
-  Condition,
   Currency,
   OrderStatus,
+  PrismaMainClient,
   SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
-import { LineItem, Order } from '@medusajs/medusa';
+import { getTagsObject } from '@libs/helpers/shopify.helper';
+import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
+import { Fulfillment, LineItem, Order } from '@medusajs/medusa';
+import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import head from 'lodash/head';
+import { v4 as uuidv4 } from 'uuid';
 import { OrderCreationService } from '../domain/order-creation.service';
-import { OrderLineToStore, OrderToStore } from '../domain/ports/types';
+import {
+  FulfillmentOrderToStore,
+  OrderLineToStore,
+  OrderToStore,
+} from '../domain/ports/types';
 
 type OrderData = Pick<
   Order,
@@ -52,7 +61,10 @@ export class CreatedOrderWebhookMedusaController {
     CreatedOrderWebhookMedusaController.name,
   );
 
-  constructor(private orderCreationService: OrderCreationService) {}
+  constructor(
+    private orderCreationService: OrderCreationService,
+    private mainPrisma: PrismaMainClient,
+  ) {}
 
   @Post(routesV2.order.onCreatedEvent)
   @UseGuards(AuthGuard('header-api-key'))
@@ -63,17 +75,17 @@ export class CreatedOrderWebhookMedusaController {
       type: 'medusa',
     };
 
-    const orderToStore = this.mapOrderData(orderData);
+    const orderToStore = await this.mapOrderData(orderData);
     await this.orderCreationService.storeOrder(orderToStore, author);
   }
 
-  private mapOrderData(order: OrderData): OrderToStore {
+  private async mapOrderData(order: OrderData): Promise<OrderToStore> {
     return {
       order: {
         name: '', // TODO
-        shopifyId: undefined, // TODO
+        storeId: new StoreId({ medusaId: order.id }),
         salesChannelName: SalesChannelName.PUBLIC, // TODO
-        status: OrderStatus.CREATED, // TODO
+        status: OrderStatus.CREATED,
         customerEmail: order.email,
         customerId: null, // TODO
         totalPriceInCents: -1, // TODO
@@ -88,8 +100,8 @@ export class CreatedOrderWebhookMedusaController {
         shippingAddressLastName: order.shipping_address.last_name ?? '',
         shippingAddressZip: order.shipping_address.postal_code ?? '',
       },
-      orderLines: order.items.map(this.mapOrderItem),
-      fulfillmentOrders: [], // TODO
+      orderLines: await Promise.all(order.items.map(this.mapOrderItem)),
+      fulfillmentOrders: order.fulfillments.map(this.mapFulfillment),
       priceOfferIds: [], // TODO
       payment: {
         checkoutToken: null, // TODO
@@ -98,27 +110,68 @@ export class CreatedOrderWebhookMedusaController {
     };
   }
 
-  private mapOrderItem(lineItem: LineItem): OrderLineToStore {
+  private async mapOrderItem(lineItem: LineItem): Promise<OrderLineToStore> {
+    const { metadata, categories } = lineItem.variant.product;
+
+    const tagsObject = getTagsObject((metadata?.tags as string[]) ?? []);
+    const sizeArray = await getPimDynamicAttribute('size', tagsObject);
+    const displayedSize = this.getDisplayedSize(sizeArray, lineItem);
+
+    if (lineItem.variant_id == null) {
+      throw new Error('Line item does not have a variant id');
+    }
+
+    const productVariant =
+      await this.mainPrisma.productVariant.findUniqueOrThrow({
+        where: {
+          medusaId: lineItem.variant_id,
+        },
+      });
+
+    const productType = categories[0].name;
+
     return {
-      shopifyId: '', // TODO
+      storeId: new StoreId({ medusaId: lineItem.id }),
       name: lineItem.variant.product.title,
       vendorId: lineItem.variant.product.vendor_id,
       priceInCents: lineItem.unit_price,
       buyerCommissionInCents: -1, // TODO
       discountInCents: -1, // TODO
       shippingSolution: ShippingSolution.GEODIS, // TODO
-      priceCurrency: Currency.EUR, // TODO
-      productType: '', // TODO
+      priceCurrency: Currency.EUR,
+      productType,
       productHandle: lineItem.variant.product.handle ?? '',
       productImage: lineItem.variant.product.thumbnail,
-      variantCondition: Condition.AS_NEW, // TODO
-      productModelYear: null, // TODO
-      productGender: null, // TODO
-      productBrand: null, // TODO
-      productSize: null, // TODO
-      quantity: lineItem.quantity, // TODO
-      productVariantId: '', // TODO
+      variantCondition: productVariant.condition,
+      productModelYear: head(tagsObject['année']),
+      productGender: head(tagsObject['genre']),
+      productBrand: head(tagsObject['marque']),
+      productSize: displayedSize,
+      quantity: lineItem.quantity,
+      productVariantId: productVariant.id,
       fulfillmentOrder: undefined, // TODO
     };
+  }
+
+  // TODO: check if should find correct fulfillment ?
+  private mapFulfillment(fulfillment: Fulfillment): FulfillmentOrderToStore {
+    return {
+      id: uuidv4(),
+      storeId: new StoreId({ medusaId: fulfillment.id }),
+    };
+  }
+
+  private getDisplayedSize(sizeArray: string[] | null, soldProduct: LineItem) {
+    if (!sizeArray) return null;
+
+    if (sizeArray.length === 1) return head(sizeArray);
+
+    return sizeArray.find((size) =>
+      (
+        soldProduct.title ??
+        soldProduct.variant.title ??
+        soldProduct.variant.product.title
+      ).includes(size),
+    );
   }
 }
