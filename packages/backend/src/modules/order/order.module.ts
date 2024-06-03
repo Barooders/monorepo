@@ -29,6 +29,7 @@ import { PriceOfferModule } from '@modules/price-offer/price-offer.module';
 import { ProVendorConsoleModule } from '@modules/pro-vendor/console.module';
 import { ProductModule } from '@modules/product/product.module';
 import { Module } from '@nestjs/common';
+import { CreatedOrderWebhookMedusaController } from './application/created-order.webhook.medusa';
 import { CreatedOrderWebhookShopifyController } from './application/created-order.webhook.shopify';
 import { OrderCLIConsole } from './application/order.cli';
 import { OrderController } from './application/order.web';
@@ -103,6 +104,7 @@ const commonImports = [
   controllers: [
     PaidOrderWebhookShopifyController,
     CreatedOrderWebhookShopifyController,
+    CreatedOrderWebhookMedusaController,
     OrderWebhookSendCloudController,
     OrderController,
     PayoutController,

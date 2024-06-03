@@ -4,11 +4,13 @@ import {
   Currency,
   Order,
   OrderStatus,
+  PaymentSolutionCode,
   PriceOffer,
   SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { CurrencyCode } from '@libs/types/common/money.types';
+import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 
 export type OrderPaidData = {
   order: {
@@ -148,7 +150,7 @@ export interface DiscountApplication {
 }
 
 export type OrderLineToStore = {
-  shopifyId?: string;
+  storeId?: StoreId;
   name: string;
   vendorId?: string;
   priceInCents: number;
@@ -171,13 +173,13 @@ export type OrderLineToStore = {
 
 export type FulfillmentOrderToStore = {
   id: string;
-  shopifyId?: number;
+  storeId?: StoreId;
 };
 
 export type OrderToStore = {
   order: {
+    storeId?: StoreId;
     salesChannelName: SalesChannelName;
-    shopifyId?: string;
     name: string;
     status: OrderStatus;
     customerEmail: string;
@@ -197,7 +199,7 @@ export type OrderToStore = {
   orderLines: OrderLineToStore[];
   fulfillmentOrders: FulfillmentOrderToStore[];
   payment?: {
-    methodName: string;
+    methodName: PaymentSolutionCode;
     checkoutToken: string | null;
   };
   priceOfferIds: Pick<PriceOffer, 'id'>[];

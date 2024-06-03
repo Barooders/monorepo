@@ -101,3 +101,10 @@ export const routesV1 = {
     authCallback: '/shopify/auth/callback',
   },
 };
+
+export const routesV2 = {
+  version: 'v2',
+  order: {
+    onCreatedEvent: '/orders/webhook/created-event',
+  },
+};

@@ -5,6 +5,10 @@ export enum Environments {
 }
 
 export type EnvironmentsType = {
+  backend: {
+    baseUrl: string;
+    apiKey: string;
+  };
   s3: {
     s3Url: string;
     bucket: string;
