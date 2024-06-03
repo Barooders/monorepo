@@ -1,13 +1,17 @@
 import { routesV2 } from '@config/routes.config';
+import { getOrderShippingSolution } from '@libs/domain/order.interface';
 import {
+  Condition,
   Currency,
   OrderStatus,
   PaymentSolutionCode,
   PrismaMainClient,
   SalesChannelName,
   ShippingSolution,
+  ShippingType,
 } from '@libs/domain/prisma.main.client';
-import { Author } from '@libs/domain/types';
+import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import { Author, BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
 import {
@@ -61,6 +65,10 @@ type OrderData = Pick<
   | 'payments'
   | 'shipping_address'
 >;
+type MedusaLineItem = Omit<
+  LineItem,
+  'beforeInsert' | 'beforeUpdate' | 'afterUpdateOrLoad'
+>;
 
 @Controller(routesV2.version)
 export class CreatedOrderWebhookMedusaController {
@@ -70,6 +78,7 @@ export class CreatedOrderWebhookMedusaController {
 
   constructor(
     private orderCreationService: OrderCreationService,
+    private storePrisma: PrismaStoreClient,
     private mainPrisma: PrismaMainClient,
   ) {}
 
@@ -94,6 +103,35 @@ export class CreatedOrderWebhookMedusaController {
       0,
     );
 
+    const orderItemsWithInternalVariant = await Promise.all(
+      order.items.map(async (item) => {
+        const medusaVariantId = item.variant_id;
+        if (medusaVariantId == null) {
+          throw new Error('Line item does not have a variant id');
+        }
+
+        const productVariant =
+          await this.mainPrisma.productVariant.findUniqueOrThrow({
+            where: {
+              medusaId: medusaVariantId,
+            },
+          });
+
+        return {
+          ...item,
+          internalProductVariant: {
+            id: productVariant.id,
+            condition: productVariant.condition,
+          },
+        };
+      }),
+    );
+    const internalVariantIds = orderItemsWithInternalVariant.map(
+      (item) => item.internalProductVariant.id,
+    );
+    const hasBikesInOrder =
+      await this.hasBikeInVariantsArray(internalVariantIds);
+
     return {
       order: {
         name: `#${order.display_id}`,
@@ -115,7 +153,9 @@ export class CreatedOrderWebhookMedusaController {
         shippingAddressZip: order.shipping_address.postal_code ?? '',
       },
       orderLines: await Promise.all(
-        order.items.map((item) => this.mapOrderItem(item, fulfillmentOrders)),
+        orderItemsWithInternalVariant.map((item) =>
+          this.mapOrderItem(item, fulfillmentOrders, hasBikesInOrder),
+        ),
       ),
       fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
@@ -127,10 +167,13 @@ export class CreatedOrderWebhookMedusaController {
   }
 
   private async mapOrderItem(
-    lineItem: LineItem,
+    lineItem: MedusaLineItem & {
+      internalProductVariant: { id: string; condition: Condition | null };
+    },
     fulfillmentOrders: (FulfillmentOrderToStore & {
       variantIds: { variantId: string | null }[];
     })[],
+    hasBikesInOrder: boolean,
   ): Promise<OrderLineToStore> {
     const { metadata, categories } = lineItem.variant.product;
 
@@ -138,43 +181,45 @@ export class CreatedOrderWebhookMedusaController {
     const sizeArray = await getPimDynamicAttribute('size', tagsObject);
     const displayedSize = this.getDisplayedSize(sizeArray, lineItem);
 
-    const medusaVariantId = lineItem.variant_id;
-    if (medusaVariantId == null) {
-      throw new Error('Line item does not have a variant id');
-    }
+    const productType = categories[0].name;
 
-    const productVariant =
-      await this.mainPrisma.productVariant.findUniqueOrThrow({
+    const { authUserId: vendorId, usedShipping } =
+      await this.mainPrisma.customer.findUniqueOrThrow({
         where: {
-          medusaId: medusaVariantId,
+          authUserId: lineItem.variant.product.vendor_id,
+        },
+        select: {
+          authUserId: true,
+          usedShipping: true,
         },
       });
-
-    const productType = categories[0].name;
 
     return {
       storeId: new StoreId({ medusaId: lineItem.id }),
       name: lineItem.variant.product.title,
-      vendorId: lineItem.variant.product.vendor_id,
+      vendorId,
       priceInCents: lineItem.unit_price,
       buyerCommissionInCents: -1, // TODO
       discountInCents: lineItem.discount_total ?? 0,
-      shippingSolution: ShippingSolution.GEODIS, // TODO
+      shippingSolution: await this.getOrderShippingSolution(
+        hasBikesInOrder,
+        usedShipping,
+      ),
       priceCurrency: Currency.EUR,
       productType,
       productHandle: lineItem.variant.product.handle ?? '',
       productImage: lineItem.variant.product.thumbnail,
-      variantCondition: productVariant.condition,
+      variantCondition: lineItem.internalProductVariant.condition,
       productModelYear: head(tagsObject['année']),
       productGender: head(tagsObject['genre']),
       productBrand: head(tagsObject['marque']),
       productSize: displayedSize,
       quantity: lineItem.quantity,
-      productVariantId: productVariant.id,
+      productVariantId: lineItem.internalProductVariant.id,
       fulfillmentOrder: fulfillmentOrders.find((fulfillmentOrder) =>
         fulfillmentOrder.variantIds.find(
           ({ variantId: fulfillmentVariantId }) =>
-            fulfillmentVariantId === medusaVariantId,
+            fulfillmentVariantId === lineItem.variant_id,
         ),
       ),
     };
@@ -192,7 +237,10 @@ export class CreatedOrderWebhookMedusaController {
     };
   }
 
-  private getDisplayedSize(sizeArray: string[] | null, soldProduct: LineItem) {
+  private getDisplayedSize(
+    sizeArray: string[] | null,
+    soldProduct: MedusaLineItem,
+  ) {
     if (!sizeArray) return null;
 
     if (sizeArray.length === 1) return head(sizeArray);
@@ -236,5 +284,40 @@ export class CreatedOrderWebhookMedusaController {
       default:
         throw new Error(`Unknown payment provider: ${payment.provider_id}`);
     }
+  }
+
+  private async getOrderShippingSolution(
+    hasBikesInOrder: boolean,
+    vendorUsedShipping?: ShippingType,
+  ): Promise<ShippingSolution> {
+    const isHandDelivery = false;
+    return await getOrderShippingSolution(
+      isHandDelivery,
+      hasBikesInOrder,
+      vendorUsedShipping,
+    );
+  }
+
+  private async hasBikeInVariantsArray(
+    variantInternalIds: string[],
+  ): Promise<boolean> {
+    const bikesCount = await this.storePrisma.storeBaseProductVariant.count({
+      where: {
+        id: {
+          in: variantInternalIds,
+        },
+        product: {
+          collections: {
+            some: {
+              collection: {
+                handle: BIKES_COLLECTION_HANDLE,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return bikesCount > 0;
   }
 }
