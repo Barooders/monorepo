@@ -502,13 +502,13 @@ export class MedusaClient implements IStoreClient {
       discountable: false,
       description: product.description,
       status: MedusaProductStatus.PUBLISHED,
-      images: [], // TOOD: Use commission image
+      images: [product.featuredImgSrc.url],
       handle: productHandle,
       categories: [{ id: productTypeId }],
       variants: compact(
         product.variants.map(
           (variant): MedusaVariantRequest => ({
-            title: 'Default',
+            title: 'Unique',
             inventory_quantity: 1,
             prices: [
               {
