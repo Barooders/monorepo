@@ -10,10 +10,17 @@ import { Author } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
-import { Discount, Fulfillment, LineItem, Order } from '@medusajs/medusa';
+import {
+  Discount,
+  Fulfillment,
+  LineItem,
+  Order,
+  Payment,
+} from '@medusajs/medusa';
 import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { last } from 'lodash';
 import head from 'lodash/head';
 import { v4 as uuidv4 } from 'uuid';
 import { OrderCreationService } from '../domain/order-creation.service';
@@ -113,8 +120,8 @@ export class CreatedOrderWebhookMedusaController {
       fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
       payment: {
-        checkoutToken: null, // TODO
-        methodName: '', // TODO
+        checkoutToken: order.cart_id, // TODO: check with Nico and JP where it is used
+        methodName: this.getPaymentMethodName(order.payments), // TODO: handle different name from Shopify
       },
     };
   }
@@ -212,5 +219,15 @@ export class CreatedOrderWebhookMedusaController {
     });
 
     return relatedPriceOffers.map(({ id }) => ({ id }));
+  }
+
+  private getPaymentMethodName(payments: Payment[]): string {
+    const payment = last(payments);
+
+    if (!payment) {
+      throw new Error('Order does not have any payments');
+    }
+
+    return payment.provider_id;
   }
 }
