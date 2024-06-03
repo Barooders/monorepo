@@ -156,6 +156,8 @@ export class OrderCreationService {
       ),
     );
 
+    const { storeId: orderStoreId, ...orderWithoutStoreId } = order;
+
     const createdOrderId = await this.prisma.$transaction(
       async (wrappedPrisma) => {
         this.logger.warn(
@@ -165,12 +167,12 @@ export class OrderCreationService {
         );
         const { id } = await wrappedPrisma.order.create({
           data: {
-            ...order,
+            ...orderWithoutStoreId,
             shopifyId:
-              order.storeId?.shopifyIdIfExists !== undefined
-                ? String(order.storeId?.shopifyIdIfExists)
+              orderStoreId?.shopifyIdIfExists !== undefined
+                ? String(orderStoreId?.shopifyIdIfExists)
                 : undefined,
-            medusaId: order.storeId?.medusaIdIfExists,
+            medusaId: orderStoreId?.medusaIdIfExists,
             shippingAddressPhone,
             fulfillmentOrders: {
               createMany: {
