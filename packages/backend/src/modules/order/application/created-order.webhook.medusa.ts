@@ -82,6 +82,11 @@ export class CreatedOrderWebhookMedusaController {
   private async mapOrderData(order: OrderData): Promise<OrderToStore> {
     const fulfillmentOrders = order.fulfillments.map(this.mapFulfillment);
 
+    const totalPriceInCents = order.items.reduce(
+      (acc, item) => acc + item.unit_price * item.quantity,
+      0,
+    );
+
     return {
       order: {
         name: '', // TODO
@@ -90,7 +95,7 @@ export class CreatedOrderWebhookMedusaController {
         status: OrderStatus.CREATED,
         customerEmail: order.email,
         customerId: null, // TODO
-        totalPriceInCents: -1, // TODO
+        totalPriceInCents: totalPriceInCents,
         totalPriceCurrency: Currency.EUR,
         shippingAddressAddress1: order.shipping_address.address_1 ?? '',
         shippingAddressAddress2: order.shipping_address.address_2,
