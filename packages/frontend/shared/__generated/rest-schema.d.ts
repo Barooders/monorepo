@@ -36,6 +36,9 @@ export interface paths {
   "/v1/orders/webhook/created-event": {
     post: operations["CreatedOrderWebhookShopifyController_handleCreatedOrderEvent"];
   };
+  "/v2/orders/webhook/created-event": {
+    post: operations["CreatedOrderWebhookMedusaController_handleCreatedOrderEvent"];
+  };
   "/v1/orders/webhook/update": {
     post: operations["OrderWebhookSendCloudController_notifyOnParcelUpdate"];
   };
@@ -266,7 +269,7 @@ export interface components {
     };
     SimpleImageDTO: {
       src: string;
-      shopifyId: number;
+      storeId: string;
     };
     ProductAdminDTO: {
       status: string;
@@ -332,12 +335,14 @@ export interface components {
       brand: components["schemas"]["PimBrand"];
     };
     CommissionInputDto: {
-      cartLineIds?: string[];
+      /** @description The internal id of a single cart line. */
+      singleCartLineInternalId: string;
     };
-    Commission: {
-      productStoreId: string;
-      variantStoreId: string;
-      amountInCents: number;
+    CreatedCommissionDto: {
+      /** @description The medusa id of the created commission product. */
+      variantMedusaId: string;
+      /** @description The shopify id of the created commission product. */
+      variantShopifyId: number;
     };
     NewPublicPriceOfferDTO: {
       buyerId: string;
@@ -421,7 +426,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-27T13:42:41.184Z
+       * @example 2024-06-03T16:33:22.323Z
        */
       birthDate: string;
       /**
@@ -579,6 +584,13 @@ export interface operations {
     };
   };
   CreatedOrderWebhookShopifyController_handleCreatedOrderEvent: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  CreatedOrderWebhookMedusaController_handleCreatedOrderEvent: {
     responses: {
       201: {
         content: never;
@@ -947,7 +959,7 @@ export interface operations {
     responses: {
       default: {
         content: {
-          "application/json": components["schemas"]["Commission"];
+          "application/json": components["schemas"]["CreatedCommissionDto"];
         };
       };
     };
@@ -983,8 +995,8 @@ export interface operations {
          * @example 73829019283
          */
         productInternalId: string;
-        /** @description The shopify id of a variant. */
-        variantShopifyId: number;
+        /** @description The id of a variant. */
+        variantInternalId: string;
       };
     };
     responses: {

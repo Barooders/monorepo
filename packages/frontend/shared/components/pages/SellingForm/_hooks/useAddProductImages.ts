@@ -20,7 +20,7 @@ const useAddProductImages = () => {
       operations['ProductController_addProductImage']['responses']['201']['content']['application/json']
     >(uri, { method: 'POST', body });
 
-    return { src: result.src, id: parseInt(result.id) };
+    return { src: result.src, storeId: result.id };
   };
 
   const addProductImages = async (
@@ -31,7 +31,7 @@ const useAddProductImages = () => {
     for (const imageContent of imagesBase64) {
       const image = await addProductImage(productInternalId, imageContent);
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (image.id) imageUrls.push(image);
+      if (image.storeId) imageUrls.push(image);
     }
     addProductInfo('images', [...productInfos.images, ...imageUrls]);
   };

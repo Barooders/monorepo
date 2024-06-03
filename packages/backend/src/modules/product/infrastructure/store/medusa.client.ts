@@ -490,12 +490,48 @@ export class MedusaClient implements IStoreClient {
     throw new Error('Method not implemented.');
   }
 
-  createCommissionProduct(
+  async createCommissionProduct(
     product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }> {
-    this.logger.log(`Creating commission product ${product.title}`);
+  ): Promise<VariantStoreId> {
+    const productHandle = handle(product.title);
+    const productTypeId = await this.getOrCreateCategory(product.productType);
 
-    throw new Error('Method not implemented.');
+    const requestBody: AdminPostProductsReq = {
+      title: product.title,
+      is_giftcard: false,
+      discountable: false,
+      description: product.description,
+      status: MedusaProductStatus.PUBLISHED,
+      images: [], // TOOD: Use commission image
+      handle: productHandle,
+      categories: [{ id: productTypeId }],
+      variants: compact(
+        product.variants.map(
+          (variant): MedusaVariantRequest => ({
+            title: 'Default',
+            inventory_quantity: 1,
+            prices: [
+              {
+                amount: variant.price.amountInCents,
+                currency_code: 'EUR',
+              },
+            ],
+          }),
+        ),
+      ),
+    };
+
+    const { product: createdProduct } = await this.handleMedusaResponse(
+      medusaClient.admin.products.create(requestBody),
+    );
+
+    const variant = first(createdProduct.variants);
+
+    if (variant === undefined) {
+      throw new Error('Failed to create commission variant');
+    }
+
+    return new VariantStoreId({ medusaId: variant.id });
   }
 
   cleanOldCommissions(): Promise<void> {

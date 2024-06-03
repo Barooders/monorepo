@@ -15,6 +15,7 @@ import {
 import { ImageToUpload, ProductImage } from '@modules/product/domain/types';
 import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-id.value-object';
 import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
+import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable } from '@nestjs/common';
 import { MedusaClient } from './medusa.client';
 import { ShopifyClient } from './shopify.client';
@@ -64,13 +65,22 @@ export class StoreClient implements IStoreClient {
 
   async createCommissionProduct(
     product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }> {
-    const [medusaProduct] = await Promise.all([
+  ): Promise<VariantStoreId> {
+    const [medusaVariant, shopifyVariant] = await Promise.all([
       this.medusaClient.createCommissionProduct(product),
       this.shopifyClient.createCommissionProduct(product),
     ]);
 
-    return medusaProduct;
+    const shopifyId = shopifyVariant.shopifyIdIfExists;
+    const medusaId = medusaVariant.medusaIdIfExists;
+
+    if (shopifyId === undefined || medusaId === undefined)
+      throw new Error('Commission was not created in both stores');
+
+    return new VariantStoreId({
+      shopifyId,
+      medusaId,
+    });
   }
 
   async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {

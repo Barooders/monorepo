@@ -3006,6 +3006,7 @@ export type Fulfillment = {
   fulfillmentOrder: Maybe<FulfillmentOrder>;
   fulfillmentOrderId: Scalars['String']['output'];
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['bigint']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Scalars['FulfillmentStatus']['output'];
   trackingId: Maybe<Scalars['String']['output']>;
@@ -3038,6 +3039,7 @@ export type FulfillmentItem = {
   createdAt: Scalars['timestamp']['output'];
   fulfillmentId: Scalars['String']['output'];
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['bigint']['output']>;
   /** An object relationship */
   productVariant: Maybe<ProductVariant>;
   productVariantId: Scalars['String']['output'];
@@ -3111,12 +3113,14 @@ export type FulfillmentItem_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type FulfillmentItem_Avg_Fields = {
   __typename?: 'FulfillmentItem_avg_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Avg_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3129,6 +3133,7 @@ export type FulfillmentItem_Bool_Exp = {
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   fulfillmentId: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<Bigint_Comparison_Exp>;
   productVariant: InputMaybe<ProductVariant_Bool_Exp>;
   productVariantId: InputMaybe<String_Comparison_Exp>;
   quantity: InputMaybe<Int_Comparison_Exp>;
@@ -3137,6 +3142,8 @@ export type FulfillmentItem_Bool_Exp = {
 
 /** unique or primary key constraints on table "FulfillmentItem" */
 export enum FulfillmentItem_Constraint {
+  /** unique or primary key constraint on columns "medusaId" */
+  FulfillmentItemMedusaIdKey = 'FulfillmentItem_medusaId_key',
   /** unique or primary key constraint on columns "id" */
   FulfillmentItemPkey = 'FulfillmentItem_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -3145,6 +3152,7 @@ export enum FulfillmentItem_Constraint {
 
 /** input type for incrementing numeric columns in table "FulfillmentItem" */
 export type FulfillmentItem_Inc_Input = {
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
@@ -3154,6 +3162,7 @@ export type FulfillmentItem_Insert_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   productVariant: InputMaybe<ProductVariant_Obj_Rel_Insert_Input>;
   productVariantId: InputMaybe<Scalars['String']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
@@ -3166,6 +3175,7 @@ export type FulfillmentItem_Max_Fields = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   fulfillmentId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['bigint']['output']>;
   productVariantId: Maybe<Scalars['String']['output']>;
   quantity: Maybe<Scalars['Int']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
@@ -3176,6 +3186,7 @@ export type FulfillmentItem_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   fulfillmentId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   productVariantId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
@@ -3187,6 +3198,7 @@ export type FulfillmentItem_Min_Fields = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   fulfillmentId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['bigint']['output']>;
   productVariantId: Maybe<Scalars['String']['output']>;
   quantity: Maybe<Scalars['Int']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
@@ -3197,6 +3209,7 @@ export type FulfillmentItem_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   fulfillmentId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   productVariantId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
@@ -3230,6 +3243,7 @@ export type FulfillmentItem_Order_By = {
   createdAt: InputMaybe<Order_By>;
   fulfillmentId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   productVariant: InputMaybe<ProductVariant_Order_By>;
   productVariantId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
@@ -3250,6 +3264,8 @@ export enum FulfillmentItem_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MedusaId = 'medusaId',
+  /** column name */
   ProductVariantId = 'productVariantId',
   /** column name */
   Quantity = 'quantity',
@@ -3262,6 +3278,7 @@ export type FulfillmentItem_Set_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   productVariantId: InputMaybe<Scalars['String']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
@@ -3270,12 +3287,14 @@ export type FulfillmentItem_Set_Input = {
 /** aggregate stddev on columns */
 export type FulfillmentItem_Stddev_Fields = {
   __typename?: 'FulfillmentItem_stddev_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Stddev_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3283,12 +3302,14 @@ export type FulfillmentItem_Stddev_Order_By = {
 /** aggregate stddev_pop on columns */
 export type FulfillmentItem_Stddev_Pop_Fields = {
   __typename?: 'FulfillmentItem_stddev_pop_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Stddev_Pop_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3296,12 +3317,14 @@ export type FulfillmentItem_Stddev_Pop_Order_By = {
 /** aggregate stddev_samp on columns */
 export type FulfillmentItem_Stddev_Samp_Fields = {
   __typename?: 'FulfillmentItem_stddev_samp_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Stddev_Samp_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3319,6 +3342,7 @@ export type FulfillmentItem_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   productVariantId: InputMaybe<Scalars['String']['input']>;
   quantity: InputMaybe<Scalars['Int']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
@@ -3327,12 +3351,14 @@ export type FulfillmentItem_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type FulfillmentItem_Sum_Fields = {
   __typename?: 'FulfillmentItem_sum_fields';
+  medusaId: Maybe<Scalars['bigint']['output']>;
   quantity: Maybe<Scalars['Int']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Sum_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3345,6 +3371,8 @@ export enum FulfillmentItem_Update_Column {
   FulfillmentId = 'fulfillmentId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   ProductVariantId = 'productVariantId',
   /** column name */
@@ -3365,12 +3393,14 @@ export type FulfillmentItem_Updates = {
 /** aggregate var_pop on columns */
 export type FulfillmentItem_Var_Pop_Fields = {
   __typename?: 'FulfillmentItem_var_pop_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Var_Pop_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3378,12 +3408,14 @@ export type FulfillmentItem_Var_Pop_Order_By = {
 /** aggregate var_samp on columns */
 export type FulfillmentItem_Var_Samp_Fields = {
   __typename?: 'FulfillmentItem_var_samp_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Var_Samp_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3391,12 +3423,14 @@ export type FulfillmentItem_Var_Samp_Order_By = {
 /** aggregate variance on columns */
 export type FulfillmentItem_Variance_Fields = {
   __typename?: 'FulfillmentItem_variance_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   quantity: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "FulfillmentItem" */
 export type FulfillmentItem_Variance_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   quantity: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
@@ -3410,6 +3444,7 @@ export type FulfillmentOrder = {
   /** An aggregate relationship */
   fulfillments_aggregate: Fulfillment_Aggregate;
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   order: Maybe<Order>;
   orderId: Scalars['String']['output'];
@@ -3557,6 +3592,7 @@ export type FulfillmentOrder_Bool_Exp = {
   fulfillments: InputMaybe<Fulfillment_Bool_Exp>;
   fulfillments_aggregate: InputMaybe<Fulfillment_Aggregate_Bool_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<String_Comparison_Exp>;
   order: InputMaybe<Order_Bool_Exp>;
   orderId: InputMaybe<String_Comparison_Exp>;
   orderLines: InputMaybe<OrderLines_Bool_Exp>;
@@ -3567,6 +3603,8 @@ export type FulfillmentOrder_Bool_Exp = {
 
 /** unique or primary key constraints on table "FulfillmentOrder" */
 export enum FulfillmentOrder_Constraint {
+  /** unique or primary key constraint on columns "medusaId" */
+  FulfillmentOrderMedusaIdKey = 'FulfillmentOrder_medusaId_key',
   /** unique or primary key constraint on columns "id" */
   FulfillmentOrderPkey = 'FulfillmentOrder_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -3583,6 +3621,7 @@ export type FulfillmentOrder_Insert_Input = {
   externalOrderId: InputMaybe<Scalars['String']['input']>;
   fulfillments: InputMaybe<Fulfillment_Arr_Rel_Insert_Input>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   order: InputMaybe<Order_Obj_Rel_Insert_Input>;
   orderId: InputMaybe<Scalars['String']['input']>;
   orderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
@@ -3595,6 +3634,7 @@ export type FulfillmentOrder_Max_Fields = {
   __typename?: 'FulfillmentOrder_max_fields';
   externalOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   orderId: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Maybe<Scalars['FulfillmentOrderStatus']['output']>;
@@ -3604,6 +3644,7 @@ export type FulfillmentOrder_Max_Fields = {
 export type FulfillmentOrder_Max_Order_By = {
   externalOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   orderId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
@@ -3614,6 +3655,7 @@ export type FulfillmentOrder_Min_Fields = {
   __typename?: 'FulfillmentOrder_min_fields';
   externalOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   orderId: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Maybe<Scalars['FulfillmentOrderStatus']['output']>;
@@ -3623,6 +3665,7 @@ export type FulfillmentOrder_Min_Fields = {
 export type FulfillmentOrder_Min_Order_By = {
   externalOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   orderId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
@@ -3656,6 +3699,7 @@ export type FulfillmentOrder_Order_By = {
   externalOrderId: InputMaybe<Order_By>;
   fulfillments_aggregate: InputMaybe<Fulfillment_Aggregate_Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   order: InputMaybe<Order_Order_By>;
   orderId: InputMaybe<Order_By>;
   orderLines_aggregate: InputMaybe<OrderLines_Aggregate_Order_By>;
@@ -3675,6 +3719,8 @@ export enum FulfillmentOrder_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MedusaId = 'medusaId',
+  /** column name */
   OrderId = 'orderId',
   /** column name */
   ShopifyId = 'shopifyId',
@@ -3686,6 +3732,7 @@ export enum FulfillmentOrder_Select_Column {
 export type FulfillmentOrder_Set_Input = {
   externalOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   orderId: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
@@ -3736,6 +3783,7 @@ export type FulfillmentOrder_Stream_Cursor_Input = {
 export type FulfillmentOrder_Stream_Cursor_Value_Input = {
   externalOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   orderId: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['FulfillmentOrderStatus']['input']>;
@@ -3758,6 +3806,8 @@ export enum FulfillmentOrder_Update_Column {
   ExternalOrderId = 'externalOrderId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   OrderId = 'orderId',
   /** column name */
@@ -3887,11 +3937,13 @@ export type Fulfillment_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Fulfillment_Avg_Fields = {
   __typename?: 'Fulfillment_avg_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "Fulfillment" */
 export type Fulfillment_Avg_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
@@ -3906,6 +3958,7 @@ export type Fulfillment_Bool_Exp = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Bool_Exp>;
   fulfillmentOrderId: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<Bigint_Comparison_Exp>;
   shopifyId: InputMaybe<Bigint_Comparison_Exp>;
   status: InputMaybe<FulfillmentStatus_Comparison_Exp>;
   trackingId: InputMaybe<String_Comparison_Exp>;
@@ -3914,6 +3967,8 @@ export type Fulfillment_Bool_Exp = {
 
 /** unique or primary key constraints on table "Fulfillment" */
 export enum Fulfillment_Constraint {
+  /** unique or primary key constraint on columns "medusaId" */
+  FulfillmentMedusaIdKey = 'Fulfillment_medusaId_key',
   /** unique or primary key constraint on columns "id" */
   FulfillmentPkey = 'Fulfillment_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -3922,6 +3977,7 @@ export enum Fulfillment_Constraint {
 
 /** input type for incrementing numeric columns in table "Fulfillment" */
 export type Fulfillment_Inc_Input = {
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
 };
 
@@ -3932,6 +3988,7 @@ export type Fulfillment_Insert_Input = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Obj_Rel_Insert_Input>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
   trackingId: InputMaybe<Scalars['String']['input']>;
@@ -3944,6 +4001,7 @@ export type Fulfillment_Max_Fields = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   fulfillmentOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['bigint']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Maybe<Scalars['FulfillmentStatus']['output']>;
   trackingId: Maybe<Scalars['String']['output']>;
@@ -3955,6 +4013,7 @@ export type Fulfillment_Max_Order_By = {
   createdAt: InputMaybe<Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
   trackingId: InputMaybe<Order_By>;
@@ -3967,6 +4026,7 @@ export type Fulfillment_Min_Fields = {
   createdAt: Maybe<Scalars['timestamp']['output']>;
   fulfillmentOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['bigint']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
   status: Maybe<Scalars['FulfillmentStatus']['output']>;
   trackingId: Maybe<Scalars['String']['output']>;
@@ -3978,6 +4038,7 @@ export type Fulfillment_Min_Order_By = {
   createdAt: InputMaybe<Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
   trackingId: InputMaybe<Order_By>;
@@ -4007,6 +4068,7 @@ export type Fulfillment_Order_By = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
   status: InputMaybe<Order_By>;
   trackingId: InputMaybe<Order_By>;
@@ -4027,6 +4089,8 @@ export enum Fulfillment_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MedusaId = 'medusaId',
+  /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
   Status = 'status',
@@ -4041,6 +4105,7 @@ export type Fulfillment_Set_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
   trackingId: InputMaybe<Scalars['String']['input']>;
@@ -4050,33 +4115,39 @@ export type Fulfillment_Set_Input = {
 /** aggregate stddev on columns */
 export type Fulfillment_Stddev_Fields = {
   __typename?: 'Fulfillment_stddev_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "Fulfillment" */
 export type Fulfillment_Stddev_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Fulfillment_Stddev_Pop_Fields = {
   __typename?: 'Fulfillment_stddev_pop_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "Fulfillment" */
 export type Fulfillment_Stddev_Pop_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Fulfillment_Stddev_Samp_Fields = {
   __typename?: 'Fulfillment_stddev_samp_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "Fulfillment" */
 export type Fulfillment_Stddev_Samp_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
@@ -4093,6 +4164,7 @@ export type Fulfillment_Stream_Cursor_Value_Input = {
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['bigint']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
   status: InputMaybe<Scalars['FulfillmentStatus']['input']>;
   trackingId: InputMaybe<Scalars['String']['input']>;
@@ -4102,11 +4174,13 @@ export type Fulfillment_Stream_Cursor_Value_Input = {
 /** aggregate sum on columns */
 export type Fulfillment_Sum_Fields = {
   __typename?: 'Fulfillment_sum_fields';
+  medusaId: Maybe<Scalars['bigint']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "Fulfillment" */
 export type Fulfillment_Sum_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
@@ -4118,6 +4192,8 @@ export enum Fulfillment_Update_Column {
   FulfillmentOrderId = 'fulfillmentOrderId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   ShopifyId = 'shopifyId',
   /** column name */
@@ -4140,33 +4216,39 @@ export type Fulfillment_Updates = {
 /** aggregate var_pop on columns */
 export type Fulfillment_Var_Pop_Fields = {
   __typename?: 'Fulfillment_var_pop_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "Fulfillment" */
 export type Fulfillment_Var_Pop_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Fulfillment_Var_Samp_Fields = {
   __typename?: 'Fulfillment_var_samp_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "Fulfillment" */
 export type Fulfillment_Var_Samp_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Fulfillment_Variance_Fields = {
   __typename?: 'Fulfillment_variance_fields';
+  medusaId: Maybe<Scalars['Float']['output']>;
   shopifyId: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "Fulfillment" */
 export type Fulfillment_Variance_Order_By = {
+  medusaId: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
 };
 
@@ -4761,6 +4843,7 @@ export type Order = {
   /** An aggregate relationship */
   fulfillmentOrders_aggregate: FulfillmentOrder_Aggregate;
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   /** An array relationship */
   orderLines: Array<OrderLines>;
@@ -4840,6 +4923,7 @@ export type OrderLines = {
   fulfillmentOrder: Maybe<FulfillmentOrder>;
   fulfillmentOrderId: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   /** An object relationship */
   order: Order;
@@ -5085,6 +5169,7 @@ export type OrderLines_Bool_Exp = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Bool_Exp>;
   fulfillmentOrderId: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<String_Comparison_Exp>;
   name: InputMaybe<String_Comparison_Exp>;
   order: InputMaybe<Order_Bool_Exp>;
   orderId: InputMaybe<String_Comparison_Exp>;
@@ -5113,6 +5198,8 @@ export type OrderLines_Bool_Exp = {
 
 /** unique or primary key constraints on table "OrderLines" */
 export enum OrderLines_Constraint {
+  /** unique or primary key constraint on columns "medusaId" */
+  OrderLinesMedusaIdKey = 'OrderLines_medusaId_key',
   /** unique or primary key constraint on columns "id" */
   OrderLinesPkey = 'OrderLines_pkey',
   /** unique or primary key constraint on columns "shopifyId" */
@@ -5141,6 +5228,7 @@ export type OrderLines_Insert_Input = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Obj_Rel_Insert_Input>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   order: InputMaybe<Order_Obj_Rel_Insert_Input>;
   orderId: InputMaybe<Scalars['String']['input']>;
@@ -5177,6 +5265,7 @@ export type OrderLines_Max_Fields = {
   discountInCents: Maybe<Scalars['float8']['output']>;
   fulfillmentOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   orderId: Maybe<Scalars['String']['output']>;
   priceCurrency: Maybe<Scalars['Currency']['output']>;
@@ -5208,6 +5297,7 @@ export type OrderLines_Max_Order_By = {
   discountInCents: InputMaybe<Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   orderId: InputMaybe<Order_By>;
   priceCurrency: InputMaybe<Order_By>;
@@ -5240,6 +5330,7 @@ export type OrderLines_Min_Fields = {
   discountInCents: Maybe<Scalars['float8']['output']>;
   fulfillmentOrderId: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   orderId: Maybe<Scalars['String']['output']>;
   priceCurrency: Maybe<Scalars['Currency']['output']>;
@@ -5271,6 +5362,7 @@ export type OrderLines_Min_Order_By = {
   discountInCents: InputMaybe<Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   orderId: InputMaybe<Order_By>;
   priceCurrency: InputMaybe<Order_By>;
@@ -5327,6 +5419,7 @@ export type OrderLines_Order_By = {
   fulfillmentOrder: InputMaybe<FulfillmentOrder_Order_By>;
   fulfillmentOrderId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   order: InputMaybe<Order_Order_By>;
   orderId: InputMaybe<Order_By>;
@@ -5375,6 +5468,8 @@ export enum OrderLines_Select_Column {
   FulfillmentOrderId = 'fulfillmentOrderId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   Name = 'name',
   /** column name */
@@ -5537,6 +5632,7 @@ export type OrderLines_Set_Input = {
   discountInCents: InputMaybe<Scalars['float8']['input']>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   orderId: InputMaybe<Scalars['String']['input']>;
   priceCurrency: InputMaybe<Scalars['Currency']['input']>;
@@ -5639,6 +5735,7 @@ export type OrderLines_Stream_Cursor_Value_Input = {
   discountInCents: InputMaybe<Scalars['float8']['input']>;
   fulfillmentOrderId: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   orderId: InputMaybe<Scalars['String']['input']>;
   priceCurrency: InputMaybe<Scalars['Currency']['input']>;
@@ -5699,6 +5796,8 @@ export enum OrderLines_Update_Column {
   FulfillmentOrderId = 'fulfillmentOrderId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   Name = 'name',
   /** column name */
@@ -5985,6 +6084,7 @@ export type Order_Bool_Exp = {
   fulfillmentOrders: InputMaybe<FulfillmentOrder_Bool_Exp>;
   fulfillmentOrders_aggregate: InputMaybe<FulfillmentOrder_Aggregate_Bool_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<String_Comparison_Exp>;
   name: InputMaybe<String_Comparison_Exp>;
   orderLines: InputMaybe<OrderLines_Bool_Exp>;
   orderLines_aggregate: InputMaybe<OrderLines_Aggregate_Bool_Exp>;
@@ -6009,6 +6109,8 @@ export type Order_Bool_Exp = {
 export enum Order_Constraint {
   /** unique or primary key constraint on columns "checkoutId" */
   OrderCheckoutIdKey = 'Order_checkoutId_key',
+  /** unique or primary key constraint on columns "medusaId" */
+  OrderMedusaIdKey = 'Order_medusaId_key',
   /** unique or primary key constraint on columns "name" */
   OrderNameKey = 'Order_name_key',
   /** unique or primary key constraint on columns "id" */
@@ -6031,6 +6133,7 @@ export type Order_Insert_Input = {
   customerId: InputMaybe<Scalars['uuid']['input']>;
   fulfillmentOrders: InputMaybe<FulfillmentOrder_Arr_Rel_Insert_Input>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   orderLines: InputMaybe<OrderLines_Arr_Rel_Insert_Input>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
@@ -6058,6 +6161,7 @@ export type Order_Max_Fields = {
   customerEmail: Maybe<Scalars['String']['output']>;
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   paidAt: Maybe<Scalars['timestamp']['output']>;
   salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
@@ -6083,6 +6187,7 @@ export type Order_Max_Order_By = {
   customerEmail: InputMaybe<Order_By>;
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   paidAt: InputMaybe<Order_By>;
   salesChannelName: InputMaybe<Order_By>;
@@ -6109,6 +6214,7 @@ export type Order_Min_Fields = {
   customerEmail: Maybe<Scalars['String']['output']>;
   customerId: Maybe<Scalars['uuid']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   name: Maybe<Scalars['String']['output']>;
   paidAt: Maybe<Scalars['timestamp']['output']>;
   salesChannelName: Maybe<Scalars['SalesChannelName']['output']>;
@@ -6134,6 +6240,7 @@ export type Order_Min_Order_By = {
   customerEmail: InputMaybe<Order_By>;
   customerId: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   paidAt: InputMaybe<Order_By>;
   salesChannelName: InputMaybe<Order_By>;
@@ -6184,6 +6291,7 @@ export type Order_Order_By = {
   customerId: InputMaybe<Order_By>;
   fulfillmentOrders_aggregate: InputMaybe<FulfillmentOrder_Aggregate_Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   name: InputMaybe<Order_By>;
   orderLines_aggregate: InputMaybe<OrderLines_Aggregate_Order_By>;
   paidAt: InputMaybe<Order_By>;
@@ -6220,6 +6328,8 @@ export enum Order_Select_Column {
   CustomerId = 'customerId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   Name = 'name',
   /** column name */
@@ -6309,6 +6419,7 @@ export type Order_Set_Input = {
   customerEmail: InputMaybe<Scalars['String']['input']>;
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
   salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
@@ -6375,6 +6486,7 @@ export type Order_Stream_Cursor_Value_Input = {
   customerEmail: InputMaybe<Scalars['String']['input']>;
   customerId: InputMaybe<Scalars['uuid']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   name: InputMaybe<Scalars['String']['input']>;
   paidAt: InputMaybe<Scalars['timestamp']['input']>;
   salesChannelName: InputMaybe<Scalars['SalesChannelName']['input']>;
@@ -6416,6 +6528,8 @@ export enum Order_Update_Column {
   CustomerId = 'customerId',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   Name = 'name',
   /** column name */
@@ -7975,6 +8089,7 @@ export type Product = {
   handle: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Scalars['String']['output'];
   productType: Maybe<Scalars['String']['output']>;
   /** An array relationship */
@@ -8273,6 +8388,7 @@ export type ProductVariant = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Scalars['timestamp']['output'];
   id: Scalars['String']['output'];
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Scalars['String']['output'];
   priceInCents: Scalars['bigint']['output'];
   /** An object relationship */
@@ -8377,6 +8493,7 @@ export type ProductVariant_Bool_Exp = {
   condition: InputMaybe<Condition_Comparison_Exp>;
   createdAt: InputMaybe<Timestamp_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
+  medusaId: InputMaybe<String_Comparison_Exp>;
   merchantItemId: InputMaybe<String_Comparison_Exp>;
   priceInCents: InputMaybe<Bigint_Comparison_Exp>;
   product: InputMaybe<Product_Bool_Exp>;
@@ -8390,6 +8507,8 @@ export type ProductVariant_Bool_Exp = {
 
 /** unique or primary key constraints on table "ProductVariant" */
 export enum ProductVariant_Constraint {
+  /** unique or primary key constraint on columns "medusaId" */
+  ProductVariantMedusaIdKey = 'ProductVariant_medusaId_key',
   /** unique or primary key constraint on columns "merchantItemId" */
   ProductVariantMerchantItemIdKey = 'ProductVariant_merchantItemId_key',
   /** unique or primary key constraint on columns "id" */
@@ -8412,6 +8531,7 @@ export type ProductVariant_Insert_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   product: InputMaybe<Product_Obj_Rel_Insert_Input>;
@@ -8430,6 +8550,7 @@ export type ProductVariant_Max_Fields = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Maybe<Scalars['timestamp']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Maybe<Scalars['String']['output']>;
   priceInCents: Maybe<Scalars['bigint']['output']>;
   productId: Maybe<Scalars['String']['output']>;
@@ -8443,6 +8564,7 @@ export type ProductVariant_Max_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
@@ -8457,6 +8579,7 @@ export type ProductVariant_Min_Fields = {
   condition: Maybe<Scalars['Condition']['output']>;
   createdAt: Maybe<Scalars['timestamp']['output']>;
   id: Maybe<Scalars['String']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Maybe<Scalars['String']['output']>;
   priceInCents: Maybe<Scalars['bigint']['output']>;
   productId: Maybe<Scalars['String']['output']>;
@@ -8470,6 +8593,7 @@ export type ProductVariant_Min_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   productId: InputMaybe<Order_By>;
@@ -8506,6 +8630,7 @@ export type ProductVariant_Order_By = {
   condition: InputMaybe<Order_By>;
   createdAt: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   priceInCents: InputMaybe<Order_By>;
   product: InputMaybe<Product_Order_By>;
@@ -8533,6 +8658,8 @@ export enum ProductVariant_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  MedusaId = 'medusaId',
+  /** column name */
   MerchantItemId = 'merchantItemId',
   /** column name */
   PriceInCents = 'priceInCents',
@@ -8550,6 +8677,7 @@ export type ProductVariant_Set_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
@@ -8622,6 +8750,7 @@ export type ProductVariant_Stream_Cursor_Value_Input = {
   condition: InputMaybe<Scalars['Condition']['input']>;
   createdAt: InputMaybe<Scalars['timestamp']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   priceInCents: InputMaybe<Scalars['bigint']['input']>;
   productId: InputMaybe<Scalars['String']['input']>;
@@ -8656,6 +8785,8 @@ export enum ProductVariant_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   MerchantItemId = 'merchantItemId',
   /** column name */
@@ -8815,6 +8946,7 @@ export type Product_Bool_Exp = {
   handle: InputMaybe<String_Comparison_Exp>;
   id: InputMaybe<String_Comparison_Exp>;
   manualNotation: InputMaybe<ProductNotation_Comparison_Exp>;
+  medusaId: InputMaybe<String_Comparison_Exp>;
   merchantItemId: InputMaybe<String_Comparison_Exp>;
   productType: InputMaybe<String_Comparison_Exp>;
   salesChannels: InputMaybe<ProductSalesChannel_Bool_Exp>;
@@ -8834,6 +8966,8 @@ export type Product_Bool_Exp = {
 export enum Product_Constraint {
   /** unique or primary key constraint on columns "handle" */
   ProductHandleKey = 'Product_handle_key',
+  /** unique or primary key constraint on columns "medusaId" */
+  ProductMedusaIdKey = 'Product_medusaId_key',
   /** unique or primary key constraint on columns "merchantItemId" */
   ProductMerchantItemIdKey = 'Product_merchantItemId_key',
   /** unique or primary key constraint on columns "id" */
@@ -8857,6 +8991,7 @@ export type Product_Insert_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   salesChannels: InputMaybe<ProductSalesChannel_Arr_Rel_Insert_Input>;
@@ -8880,6 +9015,7 @@ export type Product_Max_Fields = {
   handle: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Maybe<Scalars['String']['output']>;
   productType: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
@@ -8898,6 +9034,7 @@ export type Product_Max_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
@@ -8917,6 +9054,7 @@ export type Product_Min_Fields = {
   handle: Maybe<Scalars['String']['output']>;
   id: Maybe<Scalars['String']['output']>;
   manualNotation: Maybe<Scalars['ProductNotation']['output']>;
+  medusaId: Maybe<Scalars['String']['output']>;
   merchantItemId: Maybe<Scalars['String']['output']>;
   productType: Maybe<Scalars['String']['output']>;
   shopifyId: Maybe<Scalars['bigint']['output']>;
@@ -8935,6 +9073,7 @@ export type Product_Min_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   shopifyId: InputMaybe<Order_By>;
@@ -8977,6 +9116,7 @@ export type Product_Order_By = {
   handle: InputMaybe<Order_By>;
   id: InputMaybe<Order_By>;
   manualNotation: InputMaybe<Order_By>;
+  medusaId: InputMaybe<Order_By>;
   merchantItemId: InputMaybe<Order_By>;
   productType: InputMaybe<Order_By>;
   salesChannels_aggregate: InputMaybe<ProductSalesChannel_Aggregate_Order_By>;
@@ -9012,6 +9152,8 @@ export enum Product_Select_Column {
   /** column name */
   ManualNotation = 'manualNotation',
   /** column name */
+  MedusaId = 'medusaId',
+  /** column name */
   MerchantItemId = 'merchantItemId',
   /** column name */
   ProductType = 'productType',
@@ -9036,6 +9178,7 @@ export type Product_Set_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
@@ -9095,6 +9238,7 @@ export type Product_Stream_Cursor_Value_Input = {
   handle: InputMaybe<Scalars['String']['input']>;
   id: InputMaybe<Scalars['String']['input']>;
   manualNotation: InputMaybe<Scalars['ProductNotation']['input']>;
+  medusaId: InputMaybe<Scalars['String']['input']>;
   merchantItemId: InputMaybe<Scalars['String']['input']>;
   productType: InputMaybe<Scalars['String']['input']>;
   shopifyId: InputMaybe<Scalars['bigint']['input']>;
@@ -9131,6 +9275,8 @@ export enum Product_Update_Column {
   Id = 'id',
   /** column name */
   ManualNotation = 'manualNotation',
+  /** column name */
+  MedusaId = 'medusaId',
   /** column name */
   MerchantItemId = 'merchantItemId',
   /** column name */
@@ -27832,7 +27978,7 @@ export type Shopify_MailingAddress = Shopify_Node & {
   /** The region of the address, such as the province, state, or district. */
   province: Maybe<Scalars['String']['output']>;
   /**
-   * The two-letter code for the region.
+   * The alphanumeric code for the region.
    *
    * For example, ON.
    *

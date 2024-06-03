@@ -34,7 +34,7 @@ const useGetProductToUpdate = () => {
       handDeliveryPostalCode: null,
       images: rawProduct.images.map((image) => ({
         src: image.src,
-        id: image.shopifyId,
+        storeId: image.storeId,
       })),
       status: rawProduct.status as ProductStatus,
       productType: rawProduct.product_type,

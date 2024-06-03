@@ -86,7 +86,7 @@ export type FormStepType = {
   hideValidateButton?: boolean;
 };
 
-export type ImageType = { src: string; id: number };
+export type ImageType = { src: string; storeId: string };
 
 export type ProductInfoValueType =
   | boolean
@@ -182,7 +182,7 @@ export type ProductToUpdate = {
     phoneNumber: string | null;
   };
   status: ProductStatus;
-  images: { src: string; id: number }[];
+  images: { src: string; storeId: string }[];
   description: string | null;
   productType: string;
   tags: string[];

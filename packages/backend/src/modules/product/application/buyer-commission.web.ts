@@ -10,27 +10,26 @@ import {
 
 import { routesV1 } from '@config/routes.config';
 
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
-  ArrayMinSize,
-  IsArray,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { BuyerCommissionService } from '../domain/buyer-commission.service';
-import { Commission } from '../domain/ports/commission.entity';
 import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 
 class CommissionInputDto {
+  @ApiProperty({
+    description: 'The internal id of a single cart line.',
+    required: true,
+  })
   @IsNotEmpty()
-  @IsArray()
-  @ArrayMinSize(1)
-  @Type(() => String)
-  @ApiProperty({ required: false, isArray: true, minItems: 1, type: String })
-  cartLineIds!: string[];
+  @IsString()
+  singleCartLineInternalId!: string;
 }
 
 class LineItemInputDto {
@@ -66,26 +65,43 @@ class ProductInputDto {
   variantInternalId?: string;
 }
 
+class CreatedCommissionDto {
+  @ApiProperty({
+    description: 'The medusa id of the created commission product.',
+  })
+  @IsString()
+  @IsOptional()
+  variantMedusaId?: string;
+
+  @ApiProperty({
+    description: 'The shopify id of the created commission product.',
+  })
+  @IsNumber()
+  @IsOptional()
+  variantShopifyId?: number;
+}
+
 @Controller(routesV1.version)
 export class BuyerCommissionController {
   private readonly logger = new Logger(BuyerCommissionController.name);
 
-  constructor(
-    private buyerCommissionService: BuyerCommissionService,
-    private prisma: PrismaMainClient,
-  ) {}
+  constructor(private buyerCommissionService: BuyerCommissionService) {}
 
-  @ApiResponse({ type: Commission })
+  @ApiResponse({ type: CreatedCommissionDto })
   @Post(routesV1.product.createCommission)
   async createAndPublishCommissionProduct(
     @Body()
-    commissionInputDto: CommissionInputDto,
-  ) {
-    const { cartLineIds } = commissionInputDto;
+    { singleCartLineInternalId }: CommissionInputDto,
+  ): Promise<CreatedCommissionDto> {
+    const commission =
+      await this.buyerCommissionService.createAndPublishCommissionProduct(
+        singleCartLineInternalId,
+      );
 
-    return await this.buyerCommissionService.createAndPublishCommissionProduct(
-      cartLineIds,
-    );
+    return {
+      variantMedusaId: commission.medusaIdIfExists,
+      variantShopifyId: commission.shopifyIdIfExists,
+    };
   }
 
   @Get(routesV1.product.computeLineItemCommission)

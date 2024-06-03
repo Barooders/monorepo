@@ -21,7 +21,7 @@ interface SellFormState {
   sellFormConfig: SellFormConfig | null;
   selectedProductType: string | null;
   productInfos: {
-    images: { src: string; id: number }[];
+    images: { src: string; storeId: string }[];
     status: ProductStatus;
     tags: string[];
     price: null | number;
@@ -116,19 +116,19 @@ const useSellForm = create<SellFormState>()(
             const productInfos = get().productInfos;
 
             // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-            return !!productInfos?.price && !((productInfos?.condition) == null);
+            return !!productInfos?.price && !(productInfos?.condition == null);
           }
 
           if (stepName === SellFormSteps.VENDOR) {
             const productInfos = get().productInfos;
             const isValidHandDeliveryPostalCode =
-            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               !productInfos.handDelivery ||
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
               (!!productInfos.handDeliveryPostalCode &&
                 !!productInfos.handDeliveryPostalCode.match(/\d{5}$/));
 
-                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             return isValidHandDeliveryPostalCode && !!phoneNumber;
           }
 

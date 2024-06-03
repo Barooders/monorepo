@@ -1,5 +1,6 @@
 'use client';
 
+import { graphql } from '@/__generated/gql/public';
 import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
@@ -8,6 +9,7 @@ import envConfig from '@/config/env';
 import useUser from '@/hooks/state/useUser';
 import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
+import { useHasura } from '@/hooks/useHasura';
 import useIsLoggedIn from '@/hooks/useIsLoggedIn';
 import useStorefront, {
   ASSOCIATE_CHECKOUT,
@@ -15,20 +17,26 @@ import useStorefront, {
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { medusaClient } from '@/medusa/lib/config';
-import { createSingleItemCart } from '@/medusa/modules/cart/actions';
+import { addToCart, createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
-import first from 'lodash/first';
 import { useEffect } from 'react';
 
 const dict = getDictionary('fr');
 
+const FETCH_VARIANT = /* GraphQL */ /* typed_for_public */ `
+  query fetchVariant($internalId: String!) {
+    ProductVariant(where: { id: { _eq: $internalId } }) {
+      medusaId
+      shopifyId
+    }
+  }
+`;
+
 const BuyButton: React.FC<{
-  variantShopifyId: number;
+  variantInternalId: string;
   productMerchantItemId: string;
-  handle: string;
   className?: string;
-}> = ({ variantShopifyId, productMerchantItemId, className, handle }) => {
+}> = ({ variantInternalId, productMerchantItemId, className }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -44,6 +52,13 @@ const BuyButton: React.FC<{
       };
     };
   }>(CREATE_CHECKOUT);
+  const fetchVariant = useHasura(graphql(FETCH_VARIANT));
+  const [{ value: fetchedVariant }, doFetchVariant] =
+    useWrappedAsyncFn(fetchVariant);
+
+  useEffect(() => {
+    doFetchVariant();
+  }, []);
 
   const associateCheckout = useStorefront<{
     checkoutCreate: {
@@ -57,17 +72,30 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const createShopifyCheckout = async (variantShopifyId: number) => {
+  const createCommissionOnStore = async () => {
+    const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
+    if (variantShopifyId === null || variantShopifyId === undefined)
+      throw new Error('Variant not found');
+
     const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
       {
-        cartLineIds: [variantShopifyId.toString()],
+        singleCartLineInternalId: variantInternalId,
       };
-    const commissionProduct = await fetchAPI<
+    return await fetchAPI<
       operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
     >('/v1/commission/create', {
       method: 'POST',
       body: JSON.stringify(commissionBody),
     });
+  };
+
+  const createShopifyCheckout = async () => {
+    const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
+    if (variantShopifyId === null || variantShopifyId === undefined)
+      throw new Error('Variant not found');
+
+    const { variantShopifyId: commissionShopifyId } =
+      await createCommissionOnStore();
 
     const input: {
       allowPartialAddresses?: boolean;
@@ -82,10 +110,7 @@ const BuyButton: React.FC<{
         },
         {
           quantity: 1,
-          variantId: toStorefrontId(
-            commissionProduct.variantStoreId,
-            'ProductVariant',
-          ),
+          variantId: toStorefrontId(commissionShopifyId, 'ProductVariant'),
         },
       ],
     };
@@ -109,18 +134,25 @@ const BuyButton: React.FC<{
   };
 
   const createMedusaCheckout = async () => {
-    const { products } = await medusaClient.products.list({ handle });
-    const medusaVariantId = first(first(products)?.variants)?.id;
-    if (medusaVariantId === undefined) {
-      throw new Error('Product does not exist in medusa');
-    }
+    const variantMedusaId = fetchedVariant?.ProductVariant[0].medusaId;
+    if (variantMedusaId === null || variantMedusaId === undefined)
+      throw new Error('Variant not found');
+
+    const { variantMedusaId: commissionMedusaId } =
+      await createCommissionOnStore();
 
     await createSingleItemCart({
-      variantId: medusaVariantId,
+      variantId: variantMedusaId,
       countryCode: 'fr',
     });
 
-    return '/checkout';
+    await addToCart({
+      variantId: commissionMedusaId,
+      quantity: 1,
+      countryCode: 'fr',
+    });
+
+    return '/checkout?step=address';
   };
 
   const [createState, doCreate] = useWrappedAsyncFn(
@@ -138,21 +170,23 @@ const BuyButton: React.FC<{
 
   const onClick = () => {
     sendBeginCheckout({ productMerchantItemId });
-    doCreate(variantShopifyId);
+    doCreate();
   };
 
   return (
-    <Button
-      className={`flex flex-grow text-sm uppercase ${className} items-center justify-center`}
-      intent="secondary"
-      onClick={onClick}
-    >
-      {createState.loading || createState.value !== undefined ? (
-        <Loader />
-      ) : (
-        dict.components.productCard.buyNow
-      )}
-    </Button>
+    fetchedVariant !== undefined && (
+      <Button
+        className={`flex flex-grow text-sm uppercase ${className} items-center justify-center`}
+        intent="secondary"
+        onClick={onClick}
+      >
+        {createState.loading || createState.value !== undefined ? (
+          <Loader />
+        ) : (
+          dict.components.productCard.buyNow
+        )}
+      </Button>
+    )
   );
 };
 
