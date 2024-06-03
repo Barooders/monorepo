@@ -1,67 +1,51 @@
-import {
-  PrismaStoreClient,
-  ProductStatus,
-} from '@libs/domain/prisma.store.client';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { Condition, PrismaStoreClient } from '@libs/domain/prisma.store.client';
+import { Variant } from '@libs/domain/product.interface';
 import { LoggerService } from '@libs/infrastructure/logging/logger.service';
-import Medusa from '@medusajs/medusa-js';
-import { ProductStatus as MedusaStatus } from '@medusajs/types';
-import { ProductUpdateService } from '@modules/product/domain/product-update.service';
-import { Logger } from '@nestjs/common';
-import { compact, first } from 'lodash';
+import { MedusaClient } from '@modules/product/infrastructure/store/medusa.client';
+import compact from 'lodash/compact';
+import first from 'lodash/first';
 import { Command, Console } from 'nestjs-console';
-
-const MEDUSA_BACKEND_URL = 'https://store.barooders.com';
 
 @Console()
 export class SyncProductsInMedusaCLI {
-  private readonly logger: Logger = new Logger(SyncProductsInMedusaCLI.name);
-  private medusaClient = new Medusa({
-    baseUrl: MEDUSA_BACKEND_URL,
-    maxRetries: 3,
-    apiKey: process.env.MEDUSA_DEVELOPER_API_TOKEN,
-  });
-
   constructor(
-    private prisma: PrismaStoreClient,
+    private prismaMain: PrismaMainClient,
+    private prismaStore: PrismaStoreClient,
     private readonly loggerService: LoggerService,
-    private productUpdateService: ProductUpdateService,
+    private medusaClient: MedusaClient,
   ) {}
 
   @Command({
     command: 'syncMedusa',
     options: [
       {
-        flags: '-a, --onlyActive',
-        description: 'sync only shopify active products',
+        flags: '-p, --productType <productType>',
+        description: 'Sync only products of a specific productType',
         required: false,
       },
     ],
   })
-  async syncMedusa({
-    onlyActive = false,
-  }: {
-    onlyActive: boolean;
-  }): Promise<void> {
-    const statusWhereClause = onlyActive
-      ? { status: { equals: ProductStatus.ACTIVE } }
-      : {};
-    const productIds = await this.prisma.storeExposedProduct.findMany({
-      select: { id: true, handle: true },
-      where: statusWhereClause,
+  async syncMedusa({ productType }: { productType?: string }): Promise<void> {
+    const productIds = await this.prismaMain.product.findMany({
+      select: { id: true },
+      where: {
+        status: { equals: 'ACTIVE' },
+        variants: {
+          some: { quantity: { gt: 0 } },
+        },
+        medusaId: { equals: null },
+        ...(productType !== undefined
+          ? { productType: { equals: productType } }
+          : {}),
+      },
     });
 
-    this.logger.log(`Syncing ${productIds.length} products in Medusa`);
+    this.loggerService.info(`Syncing ${productIds.length} products in Medusa`);
 
-    for (const { id, handle } of productIds) {
-      try {
-        const existingProduct = await this.medusaClient.admin.products.list({
-          handle,
-        });
-        if (existingProduct.count > 0) continue;
-      } catch (e) {}
-
-      this.logger.log(`Treating product ${id} `);
-      const product = await this.prisma.storeExposedProduct.findFirstOrThrow({
+    for (const { id } of productIds) {
+      this.loggerService.info(`Treating product ${id} `);
+      const product = await this.prismaStore.storeExposedProduct.findFirst({
         where: { id },
         include: {
           product: {
@@ -69,6 +53,7 @@ export class SyncProductsInMedusaCLI {
               exposedImages: true,
               storeProductForAnalytics: true,
               collections: true,
+              exposedProductTags: true,
               baseProductVariants: {
                 include: {
                   exposedProductVariant: true,
@@ -79,92 +64,86 @@ export class SyncProductsInMedusaCLI {
           },
         },
       });
-      const firstVariant = first(
-        product.product.baseProductVariants,
-      )?.exposedProductVariant;
 
-      if (!firstVariant) {
-        this.logger.error(`No variant found on product ${product.id}`);
+      if (!product) {
+        this.loggerService.error(
+          `Product not found in store database, continuing...`,
+        );
         continue;
       }
 
-      const productTypeId = await this.getOrCreateCategory(product.productType);
+      const firstVariant = first(product.product.baseProductVariants);
 
-      await this.medusaClient.admin.products.create({
+      if (!firstVariant) {
+        this.loggerService.error(`No variant found on product ${product.id}`);
+        continue;
+      }
+
+      const vendorId = (
+        await this.prismaMain.customer.findFirstOrThrow({
+          where: { sellerName: product.vendor },
+          select: { authUserId: true },
+        })
+      ).authUserId;
+
+      const { storeId } = await this.medusaClient.createProduct({
         title: product.title,
-        is_giftcard: false,
-        discountable: true,
-        status: this.mapStatus(product.status),
-        thumbnail: product.firstImage ?? undefined,
-        images: product.product.exposedImages.map((image) => image.src),
-        handle: product.handle,
-        description: product.description ?? undefined,
-        options: compact([
-          firstVariant.option1Name,
-          firstVariant.option2Name,
-          firstVariant.option3Name,
-        ]).map((name) => ({ title: name })),
-        categories: [{ id: productTypeId }],
+        status: product.status,
+        images: product.product.exposedImages.map(({ src }) => ({ src })),
+        vendorId,
+        tags: product.product.exposedProductTags.map(
+          (tag) => `${tag.tag}:${tag.value}`,
+        ),
+        body_html: product.description ?? '',
+        published: true,
+        metafields: [],
+        source: 'medusa-migration',
+        compare_at_price:
+          firstVariant.storeB2CProductVariant?.compareAtPrice ?? undefined,
+        price: firstVariant.storeB2CProductVariant?.price ?? undefined,
+        product_type: product.productType,
         variants: compact(
-          product.product.baseProductVariants.map((variant) => {
+          product.product.baseProductVariants.map((variant): Variant | null => {
             if (!variant.exposedProductVariant) return null;
             return {
-              prices: [
+              optionProperties: [
                 {
-                  amount: Math.round(
-                    Number(variant.storeB2CProductVariant?.price ?? 0) * 100,
-                  ),
-                  currency_code: 'EUR',
+                  key: variant.exposedProductVariant.option1Name,
+                  value: variant.exposedProductVariant.option1,
                 },
-              ],
+                {
+                  key: variant.exposedProductVariant.option2Name,
+                  value: variant.exposedProductVariant.option2,
+                },
+                {
+                  key: variant.exposedProductVariant.option3Name,
+                  value: variant.exposedProductVariant.option3,
+                },
+              ].filter((opt) => opt.key !== null && opt.value !== null) as {
+                key: string;
+                value: string;
+              }[],
+              price: variant.storeB2CProductVariant?.price.toString(),
               title: variant.exposedProductVariant.title,
-              options: compact([
-                firstVariant.option1,
-                firstVariant.option2,
-                firstVariant.option3,
-              ]).map((option) => ({ value: option })),
-              ean:
+              sku:
                 product.product.storeProductForAnalytics?.EANCode ?? undefined,
               inventory_quantity: Number(
                 variant.exposedProductVariant.inventoryQuantity,
               ),
+              condition:
+                variant.exposedProductVariant.condition ?? Condition.VERY_GOOD,
+              external_id: id,
+              compare_at_price:
+                variant.storeB2CProductVariant?.compareAtPrice?.toString(),
             };
           }),
         ),
       });
-    }
-  }
 
-  private mapStatus(status: ProductStatus): MedusaStatus {
-    return status === 'ACTIVE'
-      ? MedusaStatus.PUBLISHED
-      : status === 'ARCHIVED'
-        ? MedusaStatus.REJECTED
-        : MedusaStatus.DRAFT;
-  }
-
-  private async createCategory(categoryName: string) {
-    this.logger.log(`Creating category ${categoryName}`);
-    const createResponse =
-      await this.medusaClient.admin.productCategories.create({
-        name: categoryName,
-        is_active: true,
+      await this.prismaMain.product.update({
+        where: { id },
+        data: { medusaId: storeId.medusaIdIfExists },
       });
-
-    return createResponse.product_category.id;
-  }
-
-  private async getOrCreateCategory(categoryName: string) {
-    try {
-      const response = await this.medusaClient.admin.productCategories.list({
-        q: categoryName,
-      });
-      const existingCategory = first(response.product_categories);
-      if (existingCategory) return existingCategory.id;
-
-      return await this.createCategory(categoryName);
-    } catch (e) {
-      return await this.createCategory(categoryName);
     }
   }
 }

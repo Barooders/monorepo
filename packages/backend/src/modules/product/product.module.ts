@@ -1,4 +1,3 @@
-import envConfig from '@config/env/env.config';
 import { AdminGuard } from '@libs/application/decorators/admin.guard';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import { PrismaModule } from '@libs/domain/prisma.module';
@@ -36,6 +35,7 @@ import { StrapiClient } from './infrastructure/pim/strapi.client';
 import { QueueClient } from './infrastructure/queue/queue.client';
 import { SearchClient } from './infrastructure/search/search.client';
 import { ImageUploadsClient } from './infrastructure/store/image-uploads-client';
+import { StoreClient } from './infrastructure/store/index.client';
 import { MedusaClient } from './infrastructure/store/medusa.client';
 import { ShopifyClient } from './infrastructure/store/shopify.client';
 import { StoreMapper } from './infrastructure/store/store.mapper';
@@ -75,9 +75,7 @@ const commonProviders = [
   },
   {
     provide: IStoreClient,
-    useClass: envConfig.featureFlags.useMedusaClient
-      ? MedusaClient
-      : ShopifyClient,
+    useClass: StoreClient,
   },
   {
     provide: IEmailClient,
@@ -87,6 +85,8 @@ const commonProviders = [
     provide: IInternalNotificationClient,
     useClass: SlackClient,
   },
+  MedusaClient,
+  ShopifyClient,
   ImageUploadsClient,
   NotificationService,
   ProductCreationService,
@@ -107,6 +107,7 @@ const commonProviders = [
     BuyerCommissionService,
     IPIMClient,
     ICommissionRepository,
+    MedusaClient,
   ],
 })
 export class ProductModule {}
