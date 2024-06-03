@@ -96,7 +96,7 @@ export class CreatedOrderWebhookMedusaController {
 
     return {
       order: {
-        name: '', // TODO
+        name: `#${order.display_id}`,
         storeId: new StoreId({ medusaId: order.id }),
         salesChannelName: SalesChannelName.PUBLIC, // TODO
         status: OrderStatus.CREATED,
