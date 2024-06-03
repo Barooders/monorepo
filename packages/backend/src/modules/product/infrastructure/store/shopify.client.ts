@@ -474,7 +474,6 @@ export class ShopifyClient implements IStoreClient {
 
     return new VariantStoreId({
       shopifyId: Number(fromStorefrontId(firstVariant.id, 'ProductVariant')),
-      medusaId: '',
     });
   }
 

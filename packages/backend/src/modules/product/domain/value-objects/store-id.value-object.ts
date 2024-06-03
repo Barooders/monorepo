@@ -17,23 +17,27 @@ interface MedusaStoreIdProps {
   medusaId: string;
 }
 
-const isShopifyStoreId = (
+const hasShopifyStoreId = (
   props: StoreIdProps,
 ): props is ShopifyStoreIdProps => {
   return (props as ShopifyStoreIdProps).shopifyId !== undefined;
+};
+
+const hasMedusaStoreId = (props: StoreIdProps): props is MedusaStoreIdProps => {
+  return (props as MedusaStoreIdProps).medusaId !== undefined;
 };
 
 export type StoreIdProps = ShopifyStoreIdProps | MedusaStoreIdProps;
 
 export class StoreId extends ValueObject<StoreIdProps> {
   get value(): string {
-    return isShopifyStoreId(this.props)
+    return hasShopifyStoreId(this.props)
       ? String(this.props.shopifyId)
       : this.props.medusaId;
   }
 
   get medusaIdIfExists(): string | undefined {
-    if (!isShopifyStoreId(this.props)) {
+    if (hasMedusaStoreId(this.props)) {
       return this.props.medusaId;
     }
 
@@ -41,7 +45,7 @@ export class StoreId extends ValueObject<StoreIdProps> {
   }
 
   get shopifyIdIfExists(): number | undefined {
-    if (isShopifyStoreId(this.props)) {
+    if (hasShopifyStoreId(this.props)) {
       return this.props.shopifyId;
     }
 
@@ -49,7 +53,7 @@ export class StoreId extends ValueObject<StoreIdProps> {
   }
 
   protected validate(props: StoreIdProps): void {
-    const id = isShopifyStoreId(props) ? props.shopifyId : props.medusaId;
+    const id = hasShopifyStoreId(props) ? props.shopifyId : props.medusaId;
     if (isEmpty(id)) {
       throw new StoreIdShouldNotBeEmpty();
     }
