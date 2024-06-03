@@ -5,6 +5,7 @@ import {
   Currency,
   Customer,
   OrderStatus,
+  PaymentSolutionCode,
   PrismaMainClient,
   Product,
   SalesChannelName,
@@ -31,6 +32,7 @@ import {
   OrderToStore,
   OrderToStoreFromAdminInput,
 } from '@modules/order/domain/ports/types';
+import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { get, head, isMatch, last, reduce } from 'lodash';
 import { IOrder } from 'shopify-api-node';
@@ -76,6 +78,7 @@ export class OrderMapper {
         shopifyId: id,
         lineItems: line_items,
         id: uuidv4(),
+        storeId: new StoreId({ shopifyId: id }),
       }),
     );
 
@@ -149,7 +152,7 @@ export class OrderMapper {
           );
 
         return {
-          shopifyId: String(soldProduct.id),
+          storeId: new StoreId({ shopifyId: soldProduct.id }),
           vendorId: vendor?.user.id,
           shippingSolution: await this.getOrderShippingSolution(
             orderData,
@@ -193,7 +196,7 @@ export class OrderMapper {
 
     return {
       order: {
-        shopifyId: String(id),
+        storeId: new StoreId({ shopifyId: id }),
         name: orderData.name,
         status: OrderStatus.CREATED,
         customerEmail: orderData.customer?.email,
@@ -577,7 +580,7 @@ export class OrderMapper {
     });
   }
 
-  private getOrderPaymentName(orderData: IOrder): string {
+  private getOrderPaymentName(orderData: IOrder): PaymentSolutionCode {
     const paymentMethodName = last(orderData.payment_gateway_names);
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -587,7 +590,7 @@ export class OrderMapper {
       );
     }
 
-    return paymentMethodName;
+    return paymentMethodName as PaymentSolutionCode;
   }
 
   private async getChatConversationLink(

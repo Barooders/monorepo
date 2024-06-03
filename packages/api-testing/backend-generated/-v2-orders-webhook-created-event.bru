@@ -1,0 +1,22 @@
+meta {
+  name: -v2-orders-webhook-created-event
+  type: http
+  seq: 53
+}
+
+post {
+  url: {{base_url}}/v2/orders/webhook/created-event
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  x-api-key: Api-Key {{xApiKey}}
+}
+
+body:json {
+  {
+    "toto": "toto"
+  }
+}

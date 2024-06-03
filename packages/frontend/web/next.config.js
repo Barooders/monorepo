@@ -19,6 +19,14 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'barooders-medusa-staging.s3.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'barooders-medusa-production.s3.amazonaws.com',
+      },
     ],
   },
   async rewrites() {

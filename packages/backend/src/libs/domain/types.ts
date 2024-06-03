@@ -5,7 +5,7 @@ export const DISABLED_VARIANT_OPTION = 'Default Title';
 export const BAROODERS_NAMESPACE = 'barooders';
 
 export type Author = {
-  type: 'backend' | 'shopify' | 'send_cloud' | 'admin' | 'user';
+  type: 'backend' | 'shopify' | 'send_cloud' | 'admin' | 'user' | 'medusa';
   id?: string | null;
 };
 

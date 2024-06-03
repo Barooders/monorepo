@@ -18,9 +18,10 @@ export type PaymentSolutionConfigType = {
   needManualRefund: boolean;
 };
 
-export const paymentSolutionConfig: {
-  [key: string]: PaymentSolutionConfigType;
-} = {
+export const paymentSolutionConfig: Record<
+  PaymentSolutionCode,
+  PaymentSolutionConfigType
+> = {
   [PaymentSolutionCode.CREDIT_CARD]: {
     provider: PaymentProvider.STRIPE,
     externalCode: null,
