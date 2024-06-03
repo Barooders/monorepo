@@ -2,6 +2,7 @@ import { routesV2 } from '@config/routes.config';
 import {
   Currency,
   OrderStatus,
+  PaymentSolutionCode,
   PrismaMainClient,
   SalesChannelName,
   ShippingSolution,
@@ -220,13 +221,20 @@ export class CreatedOrderWebhookMedusaController {
     return relatedPriceOffers.map(({ id }) => ({ id }));
   }
 
-  private getPaymentMethodName(payments: Payment[]): string {
+  private getPaymentMethodName(payments: Payment[]): PaymentSolutionCode {
     const payment = last(payments);
 
     if (!payment) {
       throw new Error('Order does not have any payments');
     }
 
-    return payment.provider_id;
+    switch (payment.provider_id) {
+      case 'stripe':
+        return PaymentSolutionCode.CREDIT_CARD;
+      case 'paypal':
+        return PaymentSolutionCode.PAYPAL;
+      default:
+        throw new Error(`Unknown payment provider: ${payment.provider_id}`);
+    }
   }
 }

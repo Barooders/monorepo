@@ -5,6 +5,7 @@ import {
   Currency,
   Customer,
   OrderStatus,
+  PaymentSolutionCode,
   PrismaMainClient,
   Product,
   SalesChannelName,
@@ -579,7 +580,7 @@ export class OrderMapper {
     });
   }
 
-  private getOrderPaymentName(orderData: IOrder): string {
+  private getOrderPaymentName(orderData: IOrder): PaymentSolutionCode {
     const paymentMethodName = last(orderData.payment_gateway_names);
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -589,7 +590,7 @@ export class OrderMapper {
       );
     }
 
-    return paymentMethodName;
+    return paymentMethodName as PaymentSolutionCode;
   }
 
   private async getChatConversationLink(

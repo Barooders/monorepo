@@ -4,6 +4,7 @@ import {
   Currency,
   Order,
   OrderStatus,
+  PaymentSolutionCode,
   PriceOffer,
   SalesChannelName,
   ShippingSolution,
@@ -198,7 +199,7 @@ export type OrderToStore = {
   orderLines: OrderLineToStore[];
   fulfillmentOrders: FulfillmentOrderToStore[];
   payment?: {
-    methodName: string;
+    methodName: PaymentSolutionCode;
     checkoutToken: string | null;
   };
   priceOfferIds: Pick<PriceOffer, 'id'>[];
