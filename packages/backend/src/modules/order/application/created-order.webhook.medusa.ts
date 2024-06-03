@@ -112,29 +112,8 @@ export class CreatedOrderWebhookMedusaController {
       0,
     );
 
-    const orderItemsWithInternalVariant = await Promise.all(
-      order.items.map(async (item) => {
-        const medusaVariantId = item.variant_id;
-        if (medusaVariantId == null) {
-          throw new Error('Line item does not have a variant id');
-        }
-
-        const productVariant =
-          await this.mainPrisma.productVariant.findUniqueOrThrow({
-            where: {
-              medusaId: medusaVariantId,
-            },
-          });
-
-        return {
-          ...item,
-          internalProductVariant: {
-            id: productVariant.id,
-            condition: productVariant.condition,
-          },
-        };
-      }),
-    );
+    const orderItemsWithInternalVariant =
+      await this.enrichOrderItemsWithInternalVariant(order);
     const internalVariantIds = orderItemsWithInternalVariant.map(
       (item) => item.internalProductVariant.id,
     );
@@ -173,6 +152,32 @@ export class CreatedOrderWebhookMedusaController {
         methodName: this.getPaymentMethodName(order.payments), // TODO: handle different name from Shopify
       },
     };
+  }
+
+  private async enrichOrderItemsWithInternalVariant(order: OrderData) {
+    return await Promise.all(
+      order.items.map(async (item) => {
+        const medusaVariantId = item.variant_id;
+        if (medusaVariantId == null) {
+          throw new Error('Line item does not have a variant id');
+        }
+
+        const productVariant =
+          await this.mainPrisma.productVariant.findUniqueOrThrow({
+            where: {
+              medusaId: medusaVariantId,
+            },
+          });
+
+        return {
+          ...item,
+          internalProductVariant: {
+            id: productVariant.id,
+            condition: productVariant.condition,
+          },
+        };
+      }),
+    );
   }
 
   private async mapOrderItem(
