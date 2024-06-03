@@ -43,25 +43,22 @@ export class BuyerCommissionService {
   }
 
   async createCommissionProduct(
-    cartLineStoreIds: string[],
+    singleCartLineInternalId: string,
   ): Promise<Commission | null> {
-    let cartCommissionCost = 0;
-    const cartLines = await this.prisma.productVariant.findMany({
-      where: { shopifyId: { in: cartLineStoreIds.map(Number) } },
+    const cartLine = await this.prisma.productVariant.findUniqueOrThrow({
+      where: { id: singleCartLineInternalId },
       include: { product: { select: { vendor: true } } },
     });
 
-    for (const cartLine of cartLines) {
-      const amount = new Amount({
-        amountInCents: Number(cartLine.priceInCents),
-      });
-      const { vendor } = cartLine.product;
+    const amount = new Amount({
+      amountInCents: Number(cartLine.priceInCents),
+    });
+    const { vendor } = cartLine.product;
 
-      cartCommissionCost += this.computeLineItemCommission(
-        amount.amount,
-        vendor.buyerCommissionRate,
-      );
-    }
+    const cartCommissionCost = this.computeLineItemCommission(
+      amount.amount,
+      vendor.buyerCommissionRate,
+    );
 
     const cartLineAmount = new Amount({
       amountInCents: toCents(cartCommissionCost),
@@ -94,9 +91,11 @@ export class BuyerCommissionService {
   }
 
   async createAndPublishCommissionProduct(
-    cartLineIds: string[],
+    singleCartLineInternalId: string,
   ): Promise<Commission> {
-    const commissionProduct = await this.createCommissionProduct(cartLineIds);
+    const commissionProduct = await this.createCommissionProduct(
+      singleCartLineInternalId,
+    );
     if (!commissionProduct) {
       throw new Error('Could not create commission product in store');
     }

@@ -22,7 +22,6 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
   variantCondition,
   handle,
   variantId,
-  variantShopifyId,
   compareAtPrice,
   price,
   isSoldOut,
@@ -79,7 +78,7 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
             />
             <BuyButton
               className="flex-grow"
-              variantShopifyId={variantShopifyId}
+              variantInternalId={variantId}
               productMerchantItemId={productMerchantItemId}
               handle={handle}
             />

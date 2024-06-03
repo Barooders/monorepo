@@ -24,11 +24,11 @@ import { useEffect } from 'react';
 const dict = getDictionary('fr');
 
 const BuyButton: React.FC<{
-  variantShopifyId: number;
+  variantInternalId: string;
   productMerchantItemId: string;
   handle: string;
   className?: string;
-}> = ({ variantShopifyId, productMerchantItemId, className, handle }) => {
+}> = ({ variantInternalId, productMerchantItemId, className, handle }) => {
   const { hasuraToken } = useUser();
   const { getShopifyToken } = useAuth();
   const { isLoggedIn } = useIsLoggedIn();
@@ -57,10 +57,10 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const createShopifyCheckout = async (variantShopifyId: number) => {
+  const createShopifyCheckout = async (variantInternalId: string) => {
     const commissionBody: operations['BuyerCommissionController_createAndPublishCommissionProduct']['requestBody']['content']['application/json'] =
       {
-        cartLineIds: [variantShopifyId.toString()],
+        singleCartLineInternalId: variantInternalId,
       };
     const commissionProduct = await fetchAPI<
       operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
@@ -76,10 +76,11 @@ const BuyButton: React.FC<{
     } = {
       allowPartialAddresses: true,
       lineItems: [
-        {
-          quantity: 1,
-          variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
-        },
+        // TODO: fetch variantShopifyId from hasura
+        // {
+        //   quantity: 1,
+        //   variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
+        // },
         {
           quantity: 1,
           variantId: toStorefrontId(
@@ -138,7 +139,7 @@ const BuyButton: React.FC<{
 
   const onClick = () => {
     sendBeginCheckout({ productMerchantItemId });
-    doCreate(variantShopifyId);
+    doCreate(variantInternalId);
   };
 
   return (

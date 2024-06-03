@@ -218,7 +218,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                   )}
                   <BuyButton
                     className="flex-1"
-                    variantShopifyId={variantShopifyId}
+                    variantInternalId={variantId}
                     productMerchantItemId={productMerchantItemId}
                     handle={handle}
                   />
@@ -255,7 +255,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             variantCondition={variantCondition}
             tags={tags}
             title={title}
-            variantShopifyId={variantShopifyId ?? ''}
+            variantInternalId={variantId}
             handle={handle}
           />,
           pageBottomElementRef,

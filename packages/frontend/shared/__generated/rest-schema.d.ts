@@ -266,7 +266,7 @@ export interface components {
     };
     SimpleImageDTO: {
       src: string;
-      shopifyId: number;
+      storeId: string;
     };
     ProductAdminDTO: {
       status: string;
@@ -332,7 +332,8 @@ export interface components {
       brand: components["schemas"]["PimBrand"];
     };
     CommissionInputDto: {
-      cartLineIds?: string[];
+      /** @description The internal id of a single cart line. */
+      singleCartLineInternalId: string;
     };
     Commission: {
       productStoreId: string;
@@ -421,7 +422,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-05-27T13:42:41.184Z
+       * @example 2024-06-03T14:31:14.113Z
        */
       birthDate: string;
       /**
@@ -983,8 +984,8 @@ export interface operations {
          * @example 73829019283
          */
         productInternalId: string;
-        /** @description The shopify id of a variant. */
-        variantShopifyId: number;
+        /** @description The id of a variant. */
+        variantInternalId: string;
       };
     };
     responses: {

@@ -15,7 +15,7 @@ type PropsType = {
   price: number;
   productInternalId: string;
   productMerchantItemId: string;
-  variantShopifyId: number;
+  variantInternalId: string;
   discounts: Discount[];
   handle: string;
 };
@@ -31,7 +31,7 @@ const StickyBarPayment: React.FC<PropsType> = ({
   title,
   productInternalId,
   productMerchantItemId,
-  variantShopifyId,
+  variantInternalId,
   discounts,
   handle,
 }) => {
@@ -64,7 +64,7 @@ const StickyBarPayment: React.FC<PropsType> = ({
               componentSize="large"
             />
             <BuyButton
-              variantShopifyId={variantShopifyId}
+              variantInternalId={variantInternalId}
               productMerchantItemId={productMerchantItemId}
               handle={handle}
               className="flex-grow sm:flex-grow-0 lg:w-80"
