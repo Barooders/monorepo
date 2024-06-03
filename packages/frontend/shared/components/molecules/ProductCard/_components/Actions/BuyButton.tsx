@@ -17,7 +17,7 @@ import useStorefront, {
 } from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
-import { createSingleItemCart } from '@/medusa/modules/cart/actions';
+import { addToCart, createSingleItemCart } from '@/medusa/modules/cart/actions';
 import { toStorefrontId } from '@/utils/shopifyId';
 import { useEffect } from 'react';
 
@@ -138,8 +138,17 @@ const BuyButton: React.FC<{
     if (variantMedusaId === null || variantMedusaId === undefined)
       throw new Error('Variant not found');
 
+    const { variantMedusaId: commissionMedusaId } =
+      await createCommissionOnStore();
+
     await createSingleItemCart({
       variantId: variantMedusaId,
+      countryCode: 'fr',
+    });
+
+    await addToCart({
+      variantId: commissionMedusaId,
+      quantity: 1,
       countryCode: 'fr',
     });
 
