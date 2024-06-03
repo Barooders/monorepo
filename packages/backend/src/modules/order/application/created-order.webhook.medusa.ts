@@ -7,7 +7,6 @@ import {
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
-import { jsonStringify } from '@libs/helpers/json';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
 import {
@@ -76,7 +75,7 @@ export class CreatedOrderWebhookMedusaController {
   @Post(routesV2.order.onCreatedEvent)
   @UseGuards(AuthGuard('header-api-key'))
   async handleCreatedOrderEvent(@Body() orderData: OrderData): Promise<void> {
-    this.logger.log(`Received order data: ${jsonStringify(orderData)}`);
+    this.logger.log(`Received order data for order ${orderData.id}`);
 
     const author: Author = {
       type: 'medusa',
@@ -120,7 +119,7 @@ export class CreatedOrderWebhookMedusaController {
       fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
       payment: {
-        checkoutToken: order.cart_id, // TODO: check with Nico and JP where it is used
+        checkoutToken: null, // TODO: handle checkout token when implementing FLOA
         methodName: this.getPaymentMethodName(order.payments), // TODO: handle different name from Shopify
       },
     };
