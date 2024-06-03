@@ -10,7 +10,7 @@ import { Author } from '@libs/domain/types';
 import { jsonStringify } from '@libs/helpers/json';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
-import { Fulfillment, LineItem, Order } from '@medusajs/medusa';
+import { Discount, Fulfillment, LineItem, Order } from '@medusajs/medusa';
 import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -102,7 +102,7 @@ export class CreatedOrderWebhookMedusaController {
       },
       orderLines: await Promise.all(order.items.map(this.mapOrderItem)),
       fulfillmentOrders: order.fulfillments.map(this.mapFulfillment),
-      priceOfferIds: [], // TODO
+      priceOfferIds: await this.getPriceOffers(order.discounts),
       payment: {
         checkoutToken: null, // TODO
         methodName: '', // TODO
@@ -173,5 +173,20 @@ export class CreatedOrderWebhookMedusaController {
         soldProduct.variant.product.title
       ).includes(size),
     );
+  }
+
+  private async getPriceOffers(
+    discounts: Discount[],
+  ): Promise<{ id: string }[]> {
+    const relatedPriceOffers = await this.mainPrisma.priceOffer.findMany({
+      where: {
+        discountCode: {
+          in: discounts.map((discount) => discount.code),
+        },
+      },
+      select: { id: true },
+    });
+
+    return relatedPriceOffers.map(({ id }) => ({ id }));
   }
 }
