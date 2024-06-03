@@ -65,12 +65,12 @@ export class StoreClient implements IStoreClient {
   async createCommissionProduct(
     product: ProductCreationInput,
   ): Promise<{ id: string; variants: { id: string }[] }> {
-    const [medusaProduct] = await Promise.all([
-      this.medusaClient.createCommissionProduct(product),
+    const [shopifyProduct] = await Promise.all([
+      //this.medusaClient.createCommissionProduct(product),
       this.shopifyClient.createCommissionProduct(product),
     ]);
 
-    return medusaProduct;
+    return shopifyProduct;
   }
 
   async createProduct(product: ProductToStore): Promise<ProductCreatedInStore> {
