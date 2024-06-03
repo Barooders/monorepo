@@ -57,6 +57,8 @@ select_permissions:
         - createdAt
         - id
         - productId
+        - shopifyId
+        - medusaId
         - quantity
         - condition
       filter: {}
