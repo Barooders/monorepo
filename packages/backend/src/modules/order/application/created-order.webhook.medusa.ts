@@ -98,6 +98,15 @@ export class CreatedOrderWebhookMedusaController {
   private async mapOrderData(order: OrderData): Promise<OrderToStore> {
     const fulfillmentOrders = order.fulfillments.map(this.mapFulfillment);
 
+    const { id: customerId } = await this.mainPrisma.users.findUniqueOrThrow({
+      where: {
+        email: order.email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
     const totalPriceInCents = order.items.reduce(
       (acc, item) => acc + item.unit_price * item.quantity,
       0,
@@ -139,7 +148,7 @@ export class CreatedOrderWebhookMedusaController {
         salesChannelName: SalesChannelName.PUBLIC, // TODO
         status: OrderStatus.CREATED,
         customerEmail: order.email,
-        customerId: null, // TODO
+        customerId,
         totalPriceInCents: totalPriceInCents,
         totalPriceCurrency: Currency.EUR,
         shippingAddressAddress1: order.shipping_address.address_1 ?? '',
