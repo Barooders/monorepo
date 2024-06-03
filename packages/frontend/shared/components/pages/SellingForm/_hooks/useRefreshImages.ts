@@ -13,12 +13,12 @@ const useRefreshImages = () => {
       >(`/v1/products/${productInternalId}`);
 
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      if (!rawProduct) throw new Error('Product not found in Shopify');
+      if (!rawProduct) throw new Error('Product not found in backend');
 
       refreshImages(
         rawProduct.images.map((image) => ({
           src: image.src,
-          id: image.shopifyId,
+          storeId: image.storeId,
         })),
       );
     },

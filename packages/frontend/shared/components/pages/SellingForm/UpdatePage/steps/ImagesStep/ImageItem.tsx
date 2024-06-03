@@ -15,7 +15,7 @@ const ImageItem = ({ image }: ImageItemProps) => {
         <div className="relative h-[106px] items-center justify-center rounded-lg border border-[#E3E6E8]">
           <div
             className="absolute right-2 top-2 z-20 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-[#E3E6E8]"
-            onClick={() => deleteImage(image.id)}
+            onClick={() => deleteImage(image.storeId)}
           >
             {deleteImageState.loading ? <Loader /> : <MdClose />}
           </div>
