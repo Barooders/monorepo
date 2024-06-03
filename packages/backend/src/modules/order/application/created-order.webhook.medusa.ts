@@ -80,6 +80,8 @@ export class CreatedOrderWebhookMedusaController {
   }
 
   private async mapOrderData(order: OrderData): Promise<OrderToStore> {
+    const fulfillmentOrders = order.fulfillments.map(this.mapFulfillment);
+
     return {
       order: {
         name: '', // TODO
@@ -100,8 +102,10 @@ export class CreatedOrderWebhookMedusaController {
         shippingAddressLastName: order.shipping_address.last_name ?? '',
         shippingAddressZip: order.shipping_address.postal_code ?? '',
       },
-      orderLines: await Promise.all(order.items.map(this.mapOrderItem)),
-      fulfillmentOrders: order.fulfillments.map(this.mapFulfillment),
+      orderLines: await Promise.all(
+        order.items.map((item) => this.mapOrderItem(item, fulfillmentOrders)),
+      ),
+      fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
       payment: {
         checkoutToken: null, // TODO
@@ -110,21 +114,27 @@ export class CreatedOrderWebhookMedusaController {
     };
   }
 
-  private async mapOrderItem(lineItem: LineItem): Promise<OrderLineToStore> {
+  private async mapOrderItem(
+    lineItem: LineItem,
+    fulfillmentOrders: (FulfillmentOrderToStore & {
+      variantIds: { variantId: string | null }[];
+    })[],
+  ): Promise<OrderLineToStore> {
     const { metadata, categories } = lineItem.variant.product;
 
     const tagsObject = getTagsObject((metadata?.tags as string[]) ?? []);
     const sizeArray = await getPimDynamicAttribute('size', tagsObject);
     const displayedSize = this.getDisplayedSize(sizeArray, lineItem);
 
-    if (lineItem.variant_id == null) {
+    const medusaVariantId = lineItem.variant_id;
+    if (medusaVariantId == null) {
       throw new Error('Line item does not have a variant id');
     }
 
     const productVariant =
       await this.mainPrisma.productVariant.findUniqueOrThrow({
         where: {
-          medusaId: lineItem.variant_id,
+          medusaId: medusaVariantId,
         },
       });
 
@@ -136,7 +146,7 @@ export class CreatedOrderWebhookMedusaController {
       vendorId: lineItem.variant.product.vendor_id,
       priceInCents: lineItem.unit_price,
       buyerCommissionInCents: -1, // TODO
-      discountInCents: -1, // TODO
+      discountInCents: lineItem.discount_total ?? 0,
       shippingSolution: ShippingSolution.GEODIS, // TODO
       priceCurrency: Currency.EUR,
       productType,
@@ -149,15 +159,24 @@ export class CreatedOrderWebhookMedusaController {
       productSize: displayedSize,
       quantity: lineItem.quantity,
       productVariantId: productVariant.id,
-      fulfillmentOrder: undefined, // TODO
+      fulfillmentOrder: fulfillmentOrders.find((fulfillmentOrder) =>
+        fulfillmentOrder.variantIds.find(
+          ({ variantId: fulfillmentVariantId }) =>
+            fulfillmentVariantId === medusaVariantId,
+        ),
+      ),
     };
   }
 
-  // TODO: check if should find correct fulfillment ?
-  private mapFulfillment(fulfillment: Fulfillment): FulfillmentOrderToStore {
+  private mapFulfillment(
+    fulfillment: Fulfillment,
+  ): FulfillmentOrderToStore & { variantIds: { variantId: string | null }[] } {
     return {
       id: uuidv4(),
       storeId: new StoreId({ medusaId: fulfillment.id }),
+      variantIds: fulfillment.items.map((item) => ({
+        variantId: item.item.variant_id,
+      })),
     };
   }
 
