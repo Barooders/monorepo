@@ -77,6 +77,6 @@ export abstract class IStoreClient {
 
   abstract createCommissionProduct(
     product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }>;
+  ): Promise<VariantStoreId>;
   abstract cleanOldCommissions(): Promise<void>;
 }

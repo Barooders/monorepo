@@ -11,9 +11,9 @@ import { toCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import { Injectable, Logger } from '@nestjs/common';
 import { first } from 'lodash';
-import { Commission } from './ports/commission.entity';
 import { ProductNotFound, VariantNotFound } from './ports/exceptions';
 import { IStoreClient } from './ports/store.client';
+import { VariantStoreId } from './value-objects/variant-store-id.value-object';
 
 interface CommissionParams {
   threshold: number;
@@ -44,7 +44,7 @@ export class BuyerCommissionService {
 
   async createCommissionProduct(
     singleCartLineInternalId: string,
-  ): Promise<Commission | null> {
+  ): Promise<VariantStoreId | null> {
     const cartLine = await this.prisma.productVariant.findUniqueOrThrow({
       where: { id: singleCartLineInternalId },
       include: { product: { select: { vendor: true } } },
@@ -65,7 +65,7 @@ export class BuyerCommissionService {
     });
 
     try {
-      const commissionProduct = await this.storeClient.createCommissionProduct({
+      return await this.storeClient.createCommissionProduct({
         title: PRODUCT_NAME,
         description: PRODUCT_DESCRIPTION,
         vendor: PRODUCT_VENDOR,
@@ -77,12 +77,6 @@ export class BuyerCommissionService {
           },
         ],
       });
-
-      return {
-        amountInCents: cartLineAmount.amountInCents,
-        productStoreId: commissionProduct.id,
-        variantStoreId: first(commissionProduct.variants)!.id,
-      };
     } catch (err) {
       this.logger.error((err as Error)?.message, err);
 
@@ -92,7 +86,7 @@ export class BuyerCommissionService {
 
   async createAndPublishCommissionProduct(
     singleCartLineInternalId: string,
-  ): Promise<Commission> {
+  ): Promise<VariantStoreId> {
     const commissionProduct = await this.createCommissionProduct(
       singleCartLineInternalId,
     );

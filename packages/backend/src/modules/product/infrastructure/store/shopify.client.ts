@@ -61,6 +61,7 @@ import {
 } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
 import dayjs from 'dayjs';
+import { first } from 'lodash';
 import { IProductVariant } from 'shopify-api-node';
 
 const mapShopifyStatus = (status: ProductStatus): ShopifyProductStatus => {
@@ -398,7 +399,7 @@ export class ShopifyClient implements IStoreClient {
 
   async createCommissionProduct(
     product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }> {
+  ): Promise<VariantStoreId> {
     const variables: MutationProductCreateArgs = {
       input: {
         title: product.title,
@@ -467,12 +468,14 @@ export class ShopifyClient implements IStoreClient {
       `Created product { legacyResourceId: "${createdProduct?.product?.legacyResourceId}" }`,
     );
 
-    return {
-      id: commissionProductId,
-      variants: createdProduct.product.variants.nodes.map((variant) => ({
-        id: fromStorefrontId(variant.id, 'ProductVariant'),
-      })),
-    };
+    const firstVariant = first(createdProduct.product.variants.nodes);
+
+    if (!firstVariant) throw new Error('No variant created for commission');
+
+    return new VariantStoreId({
+      shopifyId: Number(fromStorefrontId(firstVariant.id, 'ProductVariant')),
+      medusaId: '',
+    });
   }
 
   private async publishProduct(productId: string): Promise<void> {

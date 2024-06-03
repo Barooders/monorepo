@@ -14,12 +14,12 @@ import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
 } from 'class-validator';
 import { BuyerCommissionService } from '../domain/buyer-commission.service';
-import { Commission } from '../domain/ports/commission.entity';
 import { ProductNotFound, VariantNotFound } from '../domain/ports/exceptions';
 
 class CommissionInputDto {
@@ -65,21 +65,43 @@ class ProductInputDto {
   variantInternalId?: string;
 }
 
+class CreatedCommissionDto {
+  @ApiProperty({
+    description: 'The medusa id of the created commission product.',
+  })
+  @IsString()
+  @IsOptional()
+  variantMedusaId?: string;
+
+  @ApiProperty({
+    description: 'The shopify id of the created commission product.',
+  })
+  @IsNumber()
+  @IsOptional()
+  variantShopifyId?: number;
+}
+
 @Controller(routesV1.version)
 export class BuyerCommissionController {
   private readonly logger = new Logger(BuyerCommissionController.name);
 
   constructor(private buyerCommissionService: BuyerCommissionService) {}
 
-  @ApiResponse({ type: Commission })
+  @ApiResponse({ type: CreatedCommissionDto })
   @Post(routesV1.product.createCommission)
   async createAndPublishCommissionProduct(
     @Body()
     { singleCartLineInternalId }: CommissionInputDto,
-  ) {
-    return await this.buyerCommissionService.createAndPublishCommissionProduct(
-      singleCartLineInternalId,
-    );
+  ): Promise<CreatedCommissionDto> {
+    const commission =
+      await this.buyerCommissionService.createAndPublishCommissionProduct(
+        singleCartLineInternalId,
+      );
+
+    return {
+      variantMedusaId: commission.medusaIdIfExists,
+      variantShopifyId: commission.shopifyIdIfExists,
+    };
   }
 
   @Get(routesV1.product.computeLineItemCommission)

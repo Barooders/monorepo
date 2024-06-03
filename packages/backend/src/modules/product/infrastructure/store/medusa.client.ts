@@ -492,7 +492,7 @@ export class MedusaClient implements IStoreClient {
 
   createCommissionProduct(
     product: ProductCreationInput,
-  ): Promise<{ id: string; variants: { id: string }[] }> {
+  ): Promise<VariantStoreId> {
     this.logger.log(`Creating commission product ${product.title}`);
 
     throw new Error('Method not implemented.');

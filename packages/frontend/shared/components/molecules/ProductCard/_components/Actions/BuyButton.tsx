@@ -72,7 +72,7 @@ const BuyButton: React.FC<{
     };
   }>(ASSOCIATE_CHECKOUT);
 
-  const createShopifyCheckout = async () => {
+  const createCommissionOnStore = async () => {
     const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
     if (variantShopifyId === null || variantShopifyId === undefined)
       throw new Error('Variant not found');
@@ -81,12 +81,21 @@ const BuyButton: React.FC<{
       {
         singleCartLineInternalId: variantInternalId,
       };
-    const commissionProduct = await fetchAPI<
+    return await fetchAPI<
       operations['BuyerCommissionController_createAndPublishCommissionProduct']['responses']['default']['content']['application/json']
     >('/v1/commission/create', {
       method: 'POST',
       body: JSON.stringify(commissionBody),
     });
+  };
+
+  const createShopifyCheckout = async () => {
+    const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
+    if (variantShopifyId === null || variantShopifyId === undefined)
+      throw new Error('Variant not found');
+
+    const { variantShopifyId: commissionShopifyId } =
+      await createCommissionOnStore();
 
     const input: {
       allowPartialAddresses?: boolean;
@@ -101,10 +110,7 @@ const BuyButton: React.FC<{
         },
         {
           quantity: 1,
-          variantId: toStorefrontId(
-            commissionProduct.variantStoreId,
-            'ProductVariant',
-          ),
+          variantId: toStorefrontId(commissionShopifyId, 'ProductVariant'),
         },
       ],
     };
