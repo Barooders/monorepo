@@ -6761,7 +6761,7 @@ export type Shopify_MailingAddress = Shopify_Node & {
   /** The region of the address, such as the province, state, or district. */
   province: Maybe<Scalars['String']['output']>;
   /**
-   * The two-letter code for the region.
+   * The alphanumeric code for the region.
    *
    * For example, ON.
    *

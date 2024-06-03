@@ -80,7 +80,6 @@ const FullProductCard: React.FC<ProductSingleVariant> = ({
               className="flex-grow"
               variantInternalId={variantId}
               productMerchantItemId={productMerchantItemId}
-              handle={handle}
             />
             <FavoriteButton
               intent="square"

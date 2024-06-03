@@ -17,7 +17,6 @@ type PropsType = {
   productMerchantItemId: string;
   variantInternalId: string;
   discounts: Discount[];
-  handle: string;
 };
 
 const STICKY_BAR_THRESHOLD_PX = 100;
@@ -33,7 +32,6 @@ const StickyBarPayment: React.FC<PropsType> = ({
   productMerchantItemId,
   variantInternalId,
   discounts,
-  handle,
 }) => {
   const { y } = useWindowScroll();
 
@@ -66,7 +64,6 @@ const StickyBarPayment: React.FC<PropsType> = ({
             <BuyButton
               variantInternalId={variantInternalId}
               productMerchantItemId={productMerchantItemId}
-              handle={handle}
               className="flex-grow sm:flex-grow-0 lg:w-80"
             />
           </div>

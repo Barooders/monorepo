@@ -58,7 +58,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     availableOffers,
     discounts,
     collections,
-    handle,
   } = product;
 
   const [pageBottomElementRef, setPageBottomElementRef] =
@@ -220,7 +219,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
                     className="flex-1"
                     variantInternalId={variantId}
                     productMerchantItemId={productMerchantItemId}
-                    handle={handle}
                   />
                   <FavoriteButton
                     intent="square"
@@ -256,7 +254,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             tags={tags}
             title={title}
             variantInternalId={variantId}
-            handle={handle}
           />,
           pageBottomElementRef,
         )}
