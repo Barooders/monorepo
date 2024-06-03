@@ -24,6 +24,7 @@ export default async function orderPlacedHandler({
       'items',
       'items.variant',
       'items.variant.product',
+      'items.variant.product.categories',
       'fulfillments',
       'fulfillments.items',
       'discounts',

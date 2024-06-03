@@ -295,6 +295,8 @@ export class CreatedOrderWebhookMedusaController {
         return PaymentSolutionCode.CREDIT_CARD;
       case 'paypal':
         return PaymentSolutionCode.PAYPAL;
+      case 'manual':
+        return PaymentSolutionCode.BANK_WIRE;
       default:
         throw new Error(`Unknown payment provider: ${payment.provider_id}`);
     }
