@@ -14,7 +14,6 @@ import { StoreId } from '@modules/product/domain/value-objects/store-id.value-ob
 
 export type OrderPaidData = {
   order: {
-    shopifyId: string;
     name: string;
     shipmentEmail: string;
     createdAt: string;
@@ -39,7 +38,6 @@ export type OrderPaidData = {
     fullName: string;
   };
   vendor: {
-    shopifyId: string;
     email: string;
     sellerName: string;
     firstName: string;

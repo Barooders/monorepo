@@ -393,7 +393,6 @@ export class OrderMapper {
 
     const {
       vendor: {
-        shopifyId: vendorShopifyId,
         firstName,
         lastName,
         sellerName,
@@ -454,7 +453,6 @@ export class OrderMapper {
 
     return {
       order: {
-        shopifyId: String(id),
         name,
         shipmentEmail: `notifications+${id}@barooders.com`,
         createdAt: new Date(orderData.created_at).toLocaleDateString('fr-FR'),
@@ -497,7 +495,6 @@ export class OrderMapper {
           .join(' '),
       },
       vendor: {
-        shopifyId: String(vendorShopifyId),
         firstName: firstName ?? '',
         sellerName: sellerName ?? 'seller-name-not-found',
         fullName: [firstName, lastName].filter(Boolean).join(' '),
