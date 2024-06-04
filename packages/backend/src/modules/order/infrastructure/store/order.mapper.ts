@@ -1,4 +1,3 @@
-import envConfig from '@config/env/env.config';
 import { shopifyConfig } from '@config/shopify.config';
 import { getOrderShippingSolution } from '@libs/domain/order.interface';
 import {
@@ -19,16 +18,13 @@ import { toCents } from '@libs/helpers/currency';
 import { readableCode } from '@libs/helpers/safe-id';
 import { getTagsObject } from '@libs/helpers/shopify.helper';
 import {
-  findMetafield,
   getSingleProductInOrder,
   isHandDeliveryOrder,
   shopifyApiByToken,
 } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { getPimDynamicAttribute } from '@libs/infrastructure/strapi/strapi.helper';
-import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
 import {
   OrderCreatedData,
-  OrderPaidData,
   OrderToStore,
   OrderToStoreFromAdminInput,
 } from '@modules/order/domain/ports/types';
@@ -45,7 +41,6 @@ export class OrderMapper {
   constructor(
     private mainPrisma: PrismaMainClient,
     private storePrisma: PrismaStoreClient,
-    private handDeliveryService: HandDeliveryService,
   ) {}
 
   async mapOrderToStore(orderData: IOrder): Promise<OrderToStore> {
@@ -359,157 +354,6 @@ export class OrderMapper {
     };
   }
 
-  async mapOrderPaid(orderData: IOrder): Promise<OrderPaidData> {
-    const { id, name } = orderData;
-
-    const soldProduct = getSingleProductInOrder(orderData);
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!soldProduct?.product_id) {
-      throw new Error(`No shippable product found in order ${id}`);
-    }
-
-    const { id: productInternalId } =
-      await this.mainPrisma.product.findUniqueOrThrow({
-        where: {
-          shopifyId: soldProduct.product_id,
-        },
-      });
-
-    const productMetafields = await shopifyApiByToken.metafield.list({
-      metafield: {
-        owner_resource: 'product',
-        owner_id: soldProduct.product_id,
-      },
-      limit: 250,
-    });
-    const productVariantMetafields = await shopifyApiByToken.metafield.list({
-      metafield: {
-        owner_resource: 'variant',
-        owner_id: soldProduct.variant_id,
-      },
-      limit: 250,
-    });
-
-    const {
-      vendor: {
-        firstName,
-        lastName,
-        sellerName,
-        usedShipping: vendorUsedShipping,
-        user: { email },
-        authUserId,
-        isPro,
-      },
-      sourceUrl,
-      createdAt,
-      handle,
-    } = await this.getVendorFromProductShopifyId(soldProduct.product_id);
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!email) {
-      throw new Error(
-        `Cannot map order paid because no vendor email found for order ${id}`,
-      );
-    }
-
-    if (!orderData.customer) {
-      throw new Error(
-        `Cannot map order because no customer found for order ${id}`,
-      );
-    }
-
-    const chatConversationLink = await this.getChatConversationLink(
-      productInternalId,
-      String(orderData.customer.id),
-      orderData,
-    );
-
-    const previousOrderLines = await this.mainPrisma.orderLines.findMany({
-      where: {
-        vendor: {
-          authUserId,
-        },
-        order: {
-          shopifyId: {
-            not: String(id),
-          },
-        },
-      },
-      select: {
-        shippingSolution: true,
-        productType: true,
-      },
-    });
-
-    const soldProductType = await this.mainPrisma.product.findUnique({
-      where: {
-        shopifyId: soldProduct.product_id,
-      },
-      select: {
-        productType: true,
-      },
-    });
-
-    return {
-      order: {
-        name,
-        shipmentEmail: `notifications+${id}@barooders.com`,
-        createdAt: new Date(orderData.created_at).toLocaleDateString('fr-FR'),
-        totalPrice: orderData.total_price,
-      },
-      product: {
-        shippingSolution: await this.getOrderShippingSolution(
-          orderData,
-          vendorUsedShipping,
-        ),
-        name: soldProduct.name,
-        price: soldProduct.price,
-        referenceId: [
-          findMetafield(productMetafields, 'reference_id')?.value,
-          findMetafield(productVariantMetafields, 'reference_id')?.value,
-        ]
-          .filter(Boolean)
-          .join(' '),
-        referenceUrl: sourceUrl ?? '',
-        variantTitle: soldProduct.name,
-        createdAt,
-        handle: handle ?? '',
-        chatConversationLink,
-        productType: soldProductType?.productType ?? '',
-      },
-      customer: {
-        email: orderData.customer.email,
-        address: [
-          orderData.shipping_address?.address1,
-          orderData.shipping_address?.address2,
-          orderData.shipping_address?.city,
-          orderData.shipping_address?.zip,
-          orderData.shipping_address?.country,
-        ]
-          .filter(Boolean)
-          .join(' '),
-        phone: orderData.shipping_address?.phone ?? '',
-        fullName: [orderData.customer.first_name, orderData.customer.last_name]
-          .filter(Boolean)
-          .join(' '),
-      },
-      vendor: {
-        firstName: firstName ?? '',
-        sellerName: sellerName ?? 'seller-name-not-found',
-        fullName: [firstName, lastName].filter(Boolean).join(' '),
-        email,
-        isPro,
-        previousOrderLines: previousOrderLines.map(
-          ({ shippingSolution, productType }) => ({
-            shippingSolution: shippingSolution,
-            productType,
-          }),
-        ),
-      },
-    };
-  }
-
   async mapOrderCreated(orderData: IOrder): Promise<OrderCreatedData> {
     const soldProduct = getSingleProductInOrder(orderData);
 
@@ -588,32 +432,6 @@ export class OrderMapper {
     }
 
     return paymentMethodName as PaymentSolutionCode;
-  }
-
-  private async getChatConversationLink(
-    productInternalId: string,
-    customerShopifyId: string,
-    orderData: IOrder,
-  ) {
-    const frontendChatPage = `https://${envConfig.externalServices.shopify.shopDns}/pages/chat`;
-
-    if (!isHandDeliveryOrder(orderData)) return frontendChatPage;
-
-    const isUnknownCustomer = (await this.getCustomerId(orderData)) === null;
-    if (isUnknownCustomer) return frontendChatPage;
-
-    try {
-      const conversationId =
-        await this.handDeliveryService.updateChatConversationAndGetConversationId(
-          productInternalId,
-          customerShopifyId,
-        );
-
-      return `${frontendChatPage}?conversationId=${conversationId}`;
-    } catch (error: any) {
-      this.logger.error(error.message, error);
-      return frontendChatPage;
-    }
   }
 
   private async getOrderShippingSolution(
