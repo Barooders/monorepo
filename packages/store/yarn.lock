@@ -4391,20 +4391,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@newrelic/aws-sdk@npm:^7.3.0":
-  version: 7.4.1
-  resolution: "@newrelic/aws-sdk@npm:7.4.1"
-  checksum: 10c0/11816062bd4c061cb366a42302a7e2c527a6271eda1390914884cdf9793168ba4dff8ee3cc5a4d66541e600e4a3bb239b0c384c3a5b92057ffefc26b08870452
-  languageName: node
-  linkType: hard
-
-"@newrelic/koa@npm:^9.0.0":
-  version: 9.1.0
-  resolution: "@newrelic/koa@npm:9.1.0"
-  checksum: 10c0/3b88ee4b1c20778b55136a951f4afe64ab98c494915d22d9094d0a3b43113096464e16b4fc181abd3bc64c89d8a06310aab3613ed7d86274cabe4600e8e74c5c
-  languageName: node
-  linkType: hard
-
 "@newrelic/native-metrics@npm:^10.0.0":
   version: 10.1.1
   resolution: "@newrelic/native-metrics@npm:10.1.1"
@@ -4429,11 +4415,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@newrelic/security-agent@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@newrelic/security-agent@npm:1.0.1"
+"@newrelic/security-agent@npm:^1.1.1":
+  version: 1.3.0
+  resolution: "@newrelic/security-agent@npm:1.3.0"
   dependencies:
-    axios: "npm:^1.6.5"
+    axios: "npm:^1.6.8"
     check-disk-space: "npm:^3.4.0"
     content-type: "npm:^1.0.5"
     fast-safe-stringify: "npm:^2.1.1"
@@ -4454,14 +4440,7 @@ __metadata:
     unescape-js: "npm:^1.1.4"
     uuid: "npm:^9.0.1"
     ws: "npm:^8.14.2"
-  checksum: 10c0/8b09a577c64b1c7bbb07cebfdd3a7db01463f03145c16249a8865784818f8de757ae583fbf38565777442a0838ee46fdd12bcb4f72bf527175babd288106ee66
-  languageName: node
-  linkType: hard
-
-"@newrelic/superagent@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@newrelic/superagent@npm:7.0.1"
-  checksum: 10c0/e45255114590ddeed36d871b14536f3c58c18fdb52a0760d93aa6c9a91063729793230db0eeee57e6fb65ed93cc7ccb7290222f564df958f2d5a1b4dbed721f9
+  checksum: 10c0/7833f912e077f82b87229fe39beb8bb28ad54e300b54b55a8a06c38e3d41013acc1f805142d808965c96c1bf3bc4d5166b24bf41832f69cdc021439316fc4d9f
   languageName: node
   linkType: hard
 
@@ -9833,7 +9812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.7.2, axios@npm:^1.3.4":
+"axios@npm:1.7.2, axios@npm:^1.3.4, axios@npm:^1.6.8":
   version: 1.7.2
   resolution: "axios@npm:1.7.2"
   dependencies:
@@ -9868,17 +9847,6 @@ __metadata:
   dependencies:
     follow-redirects: "npm:^1.14.8"
   checksum: 10c0/77ad7f1e6ca04fcd3fa8af1795b09d8b7c005b71a31f28d99ba40cda0bdcc12a4627801d7fac5efa62b9f667a8402bd54c669039694373bc8d44f6be611f785c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.6.5":
-  version: 1.6.8
-  resolution: "axios@npm:1.6.8"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/0f22da6f490335479a89878bc7d5a1419484fbb437b564a80c34888fc36759ae4f56ea28d55a191695e5ed327f0bad56e7ff60fb6770c14d1be6501505d47ab9
   languageName: node
   linkType: hard
 
@@ -17546,19 +17514,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"newrelic@npm:11.14.0":
-  version: 11.14.0
-  resolution: "newrelic@npm:11.14.0"
+"newrelic@npm:11.18.0":
+  version: 11.18.0
+  resolution: "newrelic@npm:11.18.0"
   dependencies:
     "@contrast/fn-inspect": "npm:^3.3.0"
     "@grpc/grpc-js": "npm:^1.9.4"
     "@grpc/proto-loader": "npm:^0.7.5"
-    "@newrelic/aws-sdk": "npm:^7.3.0"
-    "@newrelic/koa": "npm:^9.0.0"
     "@newrelic/native-metrics": "npm:^10.0.0"
     "@newrelic/ritm": "npm:^7.2.0"
-    "@newrelic/security-agent": "npm:1.0.1"
-    "@newrelic/superagent": "npm:^7.0.1"
+    "@newrelic/security-agent": "npm:^1.1.1"
     "@prisma/prisma-fmt-wasm": "npm:^4.17.0-16.27eb2449f178cd9fe1a4b892d732cc4795f75085"
     "@tyriar/fibonacci-heap": "npm:^2.0.7"
     concat-stream: "npm:^2.0.0"
@@ -17579,7 +17544,7 @@ __metadata:
       optional: true
   bin:
     newrelic-naming-rules: bin/test-naming-rules.js
-  checksum: 10c0/731d0e63ebd2054f915398eedd7866b376b2557af193ada1e0fb973c086141aa9f10dccad28689e9b5458c4627f8b44b47a7c10fe646058236741747cb6c1e52
+  checksum: 10c0/19b9e256aacf61ccf8f9d1c6e339e52deb2ea67de3fc426f489255a2efc96cc5464984673a75bbafe08fa216dcc7771fd04993cccfaff96a0a71cbaa3aa911e2
   languageName: node
   linkType: hard
 
@@ -21329,7 +21294,7 @@ __metadata:
     medusa-payment-paypal: "npm:6.0.3"
     medusa-payment-stripe: "npm:6.0.9"
     medusa-plugin-sendgrid: "npm:1.3.12"
-    newrelic: "npm:11.14.0"
+    newrelic: "npm:11.18.0"
     prettier: "npm:3.2.5"
     prism-react-renderer: "npm:2.0.4"
     rimraf: "npm:3.0.2"
