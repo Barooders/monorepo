@@ -28,7 +28,6 @@ export type OrderPaidData = {
     handle: string;
     referenceUrl: string;
     createdAt: Date;
-    chatConversationLink: string;
     productType: string;
   };
   customer: {

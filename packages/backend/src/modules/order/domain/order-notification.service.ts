@@ -8,6 +8,8 @@ import {
   SalesChannelName,
   ShippingSolution,
 } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
+import { fromCents } from '@libs/helpers/currency';
 import { jsonStringify } from '@libs/helpers/json';
 import { IPIMClient } from '@modules/product/domain/ports/pim.client';
 import { Injectable, Logger } from '@nestjs/common';
@@ -124,7 +126,9 @@ export class OrderNotificationService {
     }
   }
 
-  async notifyOrderPaid(mappedOrder: OrderPaidData) {
+  async notifyOrderPaid(orderInternalId: UUID) {
+    const mappedOrder = await this.mapOrderPaidData(orderInternalId);
+
     this.logger.warn(
       `Order ${mappedOrder.order.name} was paid, will send notifications to vendor and customer`,
     );
@@ -445,57 +449,7 @@ export class OrderNotificationService {
       orderName: order.name,
     };
 
-    const customerMetadata = {
-      email: customer.email,
-      orderName: order.name,
-    };
-
     switch (product.shippingSolution) {
-      case ShippingSolution.HAND_DELIVERY:
-        await this.sendNotificationIfNotAlreadySent(
-          NotificationType.EMAIL,
-          NotificationName.HAND_DELIVERY_PROCEDURE,
-          CustomerType.seller,
-          vendorMetadata,
-          {
-            metadata: vendorMetadata,
-          },
-          async () => {
-            await this.emailClient.sendHandDeliveryVendorEmail(
-              vendor.email,
-              vendor.fullName,
-              {
-                product,
-                vendor,
-                order,
-                chatConversationLink: product.chatConversationLink,
-              },
-            );
-          },
-        );
-
-        await this.sendNotificationIfNotAlreadySent(
-          NotificationType.EMAIL,
-          NotificationName.HAND_DELIVERY_PROCEDURE,
-          CustomerType.buyer,
-          customerMetadata,
-          {
-            metadata: customerMetadata,
-          },
-          async () => {
-            await this.emailClient.sendHandDeliveryCustomerEmail(
-              customer.email,
-              customer.fullName,
-              {
-                product,
-                order,
-                customer: { firstName: customer.fullName },
-                chatConversationLink: product.chatConversationLink,
-              },
-            );
-          },
-        );
-        break;
       case ShippingSolution.GEODIS:
         await this.triggerGeodisOrderPaidActions({
           vendor,
@@ -604,6 +558,138 @@ export class OrderNotificationService {
         }
       },
     );
+  }
+
+  private async mapOrderPaidData(orderId: UUID): Promise<OrderPaidData> {
+    const orderData = await this.prisma.order.findUniqueOrThrow({
+      where: {
+        id: orderId.uuid,
+      },
+      include: {
+        customer: true,
+        orderLines: {
+          include: {
+            vendor: {
+              include: { user: true },
+            },
+          },
+        },
+      },
+    });
+
+    const [mainOrderLine] = orderData.orderLines;
+
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (!mainOrderLine?.productVariantId) {
+      throw new Error(`No shippable product found in order ${orderId.uuid}`);
+    }
+
+    const {
+      product: {
+        vendor: {
+          firstName,
+          lastName,
+          sellerName,
+          user: { email },
+          authUserId,
+          isPro,
+        },
+        productType,
+        sourceUrl,
+        createdAt,
+        handle,
+      },
+    } = await this.prisma.productVariant.findUniqueOrThrow({
+      where: {
+        id: mainOrderLine.productVariantId,
+      },
+      select: {
+        product: {
+          include: {
+            vendor: { include: { user: true } },
+          },
+        },
+      },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (!email) {
+      throw new Error(
+        `Cannot map order paid because no vendor email found for order ${orderId.uuid}`,
+      );
+    }
+
+    if (!orderData.customer) {
+      throw new Error(
+        `Cannot map order because no customer found for order ${orderId.uuid}`,
+      );
+    }
+
+    const previousOrderLines = await this.prisma.orderLines.findMany({
+      where: {
+        vendor: {
+          authUserId,
+        },
+        order: {
+          id: {
+            not: orderId.uuid,
+          },
+        },
+      },
+      select: {
+        shippingSolution: true,
+        productType: true,
+      },
+    });
+
+    return {
+      order: {
+        name: orderData.name,
+        shipmentEmail: `notifications+${orderId.uuid}@barooders.com`,
+        createdAt: new Date(orderData.createdAt).toLocaleDateString('fr-FR'),
+        totalPrice: fromCents(orderData.totalPriceInCents).toString(),
+      },
+      product: {
+        shippingSolution: mainOrderLine.shippingSolution,
+        name: mainOrderLine.name,
+        price: fromCents(mainOrderLine.priceInCents).toString(),
+        referenceId: '', //TODO: fix this?
+        referenceUrl: sourceUrl ?? '',
+        variantTitle: mainOrderLine.name,
+        createdAt,
+        handle: handle ?? '',
+        productType: productType ?? '',
+      },
+      customer: {
+        email: orderData.customerEmail,
+        address: [
+          orderData.shippingAddressAddress1,
+          orderData.shippingAddressAddress2,
+          orderData.shippingAddressCity,
+          orderData.shippingAddressZip,
+          orderData.shippingAddressCountry,
+        ]
+          .filter(Boolean)
+          .join(' '),
+        phone: orderData.shippingAddressPhone ?? '',
+        fullName: [orderData.customer.firstName, orderData.customer.lastName]
+          .filter(Boolean)
+          .join(' '),
+      },
+      vendor: {
+        firstName: firstName ?? '',
+        sellerName: sellerName ?? 'seller-name-not-found',
+        fullName: [firstName, lastName].filter(Boolean).join(' '),
+        email,
+        isPro,
+        previousOrderLines: previousOrderLines.map(
+          ({ shippingSolution, productType }) => ({
+            shippingSolution: shippingSolution,
+            productType,
+          }),
+        ),
+      },
+    };
   }
 
   private async hasVendorAlreadyHadAnOrderWithGeodisShipping(
