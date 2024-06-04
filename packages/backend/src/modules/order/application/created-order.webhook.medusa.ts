@@ -1,4 +1,5 @@
 import { routesV2 } from '@config/routes.config';
+import { PRODUCT_NAME } from '@libs/domain/constants/commission-product.constants';
 import { getOrderShippingSolution } from '@libs/domain/order.interface';
 import {
   Condition,
@@ -113,7 +114,7 @@ export class CreatedOrderWebhookMedusaController {
     );
 
     const orderItemsWithInternalVariant =
-      await this.enrichOrderItemsWithInternalVariant(order);
+      await this.getEnrichedOrderItems(order);
     const internalVariantIds = orderItemsWithInternalVariant.map(
       (item) => item.internalProductVariant.id,
     );
@@ -124,7 +125,7 @@ export class CreatedOrderWebhookMedusaController {
       order: {
         name: `#${order.display_id}`,
         storeId: new StoreId({ medusaId: order.id }),
-        salesChannelName: SalesChannelName.PUBLIC, // TODO
+        salesChannelName: SalesChannelName.PUBLIC,
         status: OrderStatus.CREATED,
         customerEmail: order.email,
         customerId,
@@ -154,35 +155,49 @@ export class CreatedOrderWebhookMedusaController {
     };
   }
 
-  private async enrichOrderItemsWithInternalVariant(order: OrderData) {
-    return await Promise.all(
-      order.items.map(async (item) => {
-        const medusaVariantId = item.variant_id;
-        if (medusaVariantId == null) {
-          throw new Error('Line item does not have a variant id');
-        }
+  private async getEnrichedOrderItems(order: OrderData) {
+    const orderItemIsCommission = (item: LineItem) =>
+      item.title === PRODUCT_NAME;
 
-        const productVariant =
-          await this.mainPrisma.productVariant.findUniqueOrThrow({
-            where: {
-              medusaId: medusaVariantId,
-            },
-          });
-
-        return {
-          ...item,
-          internalProductVariant: {
-            id: productVariant.id,
-            condition: productVariant.condition,
-          },
-        };
-      }),
+    //TODO: Handle multiple order items, managing commission at order line level
+    // instead of adding a new order line
+    const commissionItem = order.items.find(orderItemIsCommission);
+    const mainOrderItem = order.items.find(
+      (item) => !orderItemIsCommission(item),
     );
+
+    if (!mainOrderItem) {
+      throw new Error('Order does not have any line items');
+    }
+
+    const medusaVariantId = mainOrderItem.variant_id;
+    if (medusaVariantId == null) {
+      throw new Error('Line item does not have a variant id');
+    }
+
+    const productVariant =
+      await this.mainPrisma.productVariant.findUniqueOrThrow({
+        where: {
+          medusaId: medusaVariantId,
+        },
+      });
+
+    return [
+      {
+        ...mainOrderItem,
+        internalProductVariant: {
+          id: productVariant.id,
+          condition: productVariant.condition,
+        },
+        buyerCommissionInCents: commissionItem?.unit_price ?? 0,
+      },
+    ];
   }
 
   private async mapOrderItem(
     lineItem: MedusaLineItem & {
       internalProductVariant: { id: string; condition: Condition | null };
+      buyerCommissionInCents: number;
     },
     fulfillmentOrders: (FulfillmentOrderToStore & {
       variantIds: { variantId: string | null }[];
@@ -213,7 +228,7 @@ export class CreatedOrderWebhookMedusaController {
       name: lineItem.variant.product.title,
       vendorId,
       priceInCents: lineItem.unit_price,
-      buyerCommissionInCents: -1, // TODO
+      buyerCommissionInCents: lineItem.buyerCommissionInCents,
       discountInCents: lineItem.discount_total ?? 0,
       shippingSolution: await this.getOrderShippingSolution(
         hasBikesInOrder,
