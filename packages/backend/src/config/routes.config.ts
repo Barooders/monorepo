@@ -106,5 +106,6 @@ export const routesV2 = {
   version: 'v2',
   order: {
     onCreatedEvent: '/orders/webhook/created-event',
+    onPaidEvent: '/orders/webhook/paid-event',
   },
 };
