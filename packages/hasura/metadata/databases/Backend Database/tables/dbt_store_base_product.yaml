@@ -71,16 +71,18 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - medusaId
         - merchant_item_id
         - id
         - createdAt
         - vendorId
       filter: {}
-    comment: ""
+    comment: ''
   - role: me_as_customer
     permission:
       columns:
         - shopifyId
+        - medusaId
         - merchant_item_id
         - createdAt
         - id
@@ -90,6 +92,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - medusaId
         - merchant_item_id
         - createdAt
         - id
@@ -99,6 +102,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - medusaId
         - merchant_item_id
         - createdAt
         - id
@@ -108,6 +112,7 @@ select_permissions:
     permission:
       columns:
         - shopifyId
+        - medusaId
         - merchant_item_id
         - createdAt
         - id

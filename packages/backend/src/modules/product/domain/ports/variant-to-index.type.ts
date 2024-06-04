@@ -12,6 +12,7 @@ import {
 } from '@libs/domain/value-objects';
 import { BundleType } from 'shared-types';
 import { ProductType } from '../value-objects/product-type.value-object';
+import { StoreId } from '../value-objects/store-id.value-object';
 
 export interface PublicVariantToIndex {
   variant: {
@@ -57,6 +58,7 @@ export interface PublicVariantToIndex {
 
 export interface B2BVariantToIndex {
   variant: {
+    medusaId?: StoreId;
     shopifyId?: ShopifyID;
     id: UUID;
     updatedAt: ValueDate;
@@ -67,6 +69,7 @@ export interface B2BVariantToIndex {
     compareAtPrice: Amount;
   };
   product: {
+    medusaId?: StoreId;
     shopifyId?: ShopifyID;
     id: UUID;
     vendor: string;

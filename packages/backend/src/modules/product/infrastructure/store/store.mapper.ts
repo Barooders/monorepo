@@ -28,6 +28,7 @@ import {
   VariantToIndexWithTarget,
 } from '@modules/product/domain/ports/variant-to-index.type';
 import { ProductType } from '@modules/product/domain/value-objects/product-type.value-object';
+import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
 import { meanBy } from 'lodash';
 import { BundleType } from 'shared-types';
@@ -305,7 +306,7 @@ export class StoreMapper {
       .map(
         ({
           createdAt,
-          shopifyId,
+          medusaId,
           id,
           exposedProductVariant,
           storeB2CProductVariant,
@@ -328,9 +329,9 @@ export class StoreMapper {
           try {
             return {
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-              shopifyId: shopifyId
-                ? new ShopifyID({
-                    id: Number(shopifyId),
+              medusaId: medusaId
+                ? new StoreId({
+                    medusaId,
                   })
                 : undefined,
               id: new UUID({ uuid: id }),
@@ -384,7 +385,7 @@ export class StoreMapper {
         ({
           createdAt,
           id,
-          shopifyId,
+          medusaId,
           storeB2BProductVariant,
           exposedProductVariant,
         }) => {
@@ -405,9 +406,9 @@ export class StoreMapper {
           try {
             return {
               // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-              shopifyId: shopifyId
-                ? new ShopifyID({
-                    id: Number(shopifyId),
+              medusaId: medusaId
+                ? new StoreId({
+                    medusaId,
                   })
                 : undefined,
               id: new UUID({ uuid: id }),
