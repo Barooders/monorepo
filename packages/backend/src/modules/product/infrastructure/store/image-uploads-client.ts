@@ -104,12 +104,7 @@ export class ImageUploadsClient {
           .toBuffer();
 
         return this.publicUrl(
-          (
-            await this.uploadFile(
-              `${this.PATH_PREFIX}/${fileName}-${size}.png`,
-              output,
-            )
-          ).Key,
+          (await this.uploadFile(`${fileName}-${size}.png`, output)).Key,
         );
       }),
     );
