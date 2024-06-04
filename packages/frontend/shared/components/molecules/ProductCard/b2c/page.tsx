@@ -89,8 +89,9 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
   const firstVariant = head(variants);
 
   const hasVariants =
-    firstVariant !== undefined &&
-    !firstVariant.name.includes(SINGLE_VARIANT_TITLE);
+    (firstVariant !== undefined &&
+      !firstVariant.name.includes(SINGLE_VARIANT_TITLE)) ||
+    variants.length > 1;
 
   return (
     <>
@@ -187,18 +188,15 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           <div className="flex flex-col gap-3">
             <ProductViews numberOfViews={numberOfViews} />
 
-            {variants.length > 1 ||
-              (hasVariants && (
-                <div>
-                  <VariantSelector
-                    variants={variants}
-                    selectedVariantId={variantId}
-                    onSelectVariant={(variantId) =>
-                      setSelectedVariant(variantId)
-                    }
-                  />
-                </div>
-              ))}
+            {hasVariants && (
+              <div>
+                <VariantSelector
+                  variants={variants}
+                  selectedVariantId={variantId}
+                  onSelectVariant={(variantId) => setSelectedVariant(variantId)}
+                />
+              </div>
+            )}
 
             {!isSoldOut && (
               <div className="flex w-full flex-col gap-3">
