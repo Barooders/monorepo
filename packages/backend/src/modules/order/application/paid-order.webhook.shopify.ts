@@ -9,11 +9,9 @@ import {
   OrderStatus,
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
-import { UUID } from '@libs/domain/value-objects';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IOrder } from 'shopify-api-node';
-import { OrderNotificationService } from '../domain/order-notification.service';
 import { OrderUpdateService } from '../domain/order-update.service';
 
 @Controller(routesV1.version)
@@ -22,7 +20,6 @@ export class PaidOrderWebhookShopifyController {
 
   constructor(
     private prisma: PrismaMainClient,
-    private orderNotificationService: OrderNotificationService,
     private orderUpdateService: OrderUpdateService,
   ) {}
 
@@ -46,10 +43,6 @@ export class PaidOrderWebhookShopifyController {
         OrderStatus.PAID,
         { type: 'shopify' },
       );
-      await this.orderNotificationService.notifyOrderPaid(
-        new UUID({ uuid: id }),
-      );
-      this.logger.debug(`Order ${orderData.id} notified on paid event`);
     } catch (error: any) {
       this.logger.error(
         `Error updating order ${orderData.id} on paid event: ${error.message}`,
@@ -70,9 +63,6 @@ export class PaidOrderWebhookShopifyController {
         id,
         OrderStatus.PAID,
         { type: 'admin' },
-      );
-      await this.orderNotificationService.notifyOrderPaid(
-        new UUID({ uuid: id }),
       );
       this.logger.debug(`Order ${id} notified on paid event`);
     } catch (error: any) {
