@@ -42,7 +42,7 @@ select_permissions:
   - role: b2b_user
     permission:
       columns:
-        - shopify_id
+        - medusa_id
         - merchant_item_id
         - id
         - productId
@@ -52,7 +52,7 @@ select_permissions:
   - role: me_as_customer
     permission:
       columns:
-        - shopify_id
+        - medusa_id
         - merchant_item_id
         - createdAt
         - id
@@ -61,7 +61,7 @@ select_permissions:
   - role: me_as_vendor
     permission:
       columns:
-        - shopify_id
+        - medusa_id
         - merchant_item_id
         - createdAt
         - id
@@ -70,7 +70,7 @@ select_permissions:
   - role: public
     permission:
       columns:
-        - shopify_id
+        - medusa_id
         - merchant_item_id
         - createdAt
         - id
@@ -79,7 +79,7 @@ select_permissions:
   - role: registered_user
     permission:
       columns:
-        - shopify_id
+        - medusa_id
         - merchant_item_id
         - createdAt
         - id
