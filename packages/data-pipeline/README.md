@@ -60,7 +60,7 @@ If you stopped the VM, you must launch a script in order to fully relaunch Airby
 2. Run the following script
 
    ```bash
-   cd airbyte
+   cd /home/clementdessoude/airbyte
    ./run-ab-platform.sh -b
    ```
 

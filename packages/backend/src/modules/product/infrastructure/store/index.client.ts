@@ -124,7 +124,7 @@ export class StoreClient implements IStoreClient {
   ): Promise<void> {
     await this.makeCallsOnExisting<[UUID, ImageStoreId], void>(
       productId,
-      'createProductVariant',
+      'deleteProductImage',
       productId,
       imageId,
     );
@@ -169,7 +169,7 @@ export class StoreClient implements IStoreClient {
   async updateProduct(productId: UUID, data: VariantUpdates): Promise<void> {
     await this.makeCallsOnExisting<[UUID, VariantUpdates], void>(
       productId,
-      'rejectProduct',
+      'updateProduct',
       productId,
       data,
     );

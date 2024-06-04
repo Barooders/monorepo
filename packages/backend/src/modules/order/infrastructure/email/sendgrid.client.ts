@@ -8,8 +8,6 @@ import {
   BarooderPaymentProcedureData,
   GenericShippingTemplateData,
   GeodisDeliveryTemplateData,
-  HandDeliveryCustomerTemplateData,
-  HandDeliveryVendorTemplateData,
   IEmailClient,
   RefundedOrderCustomerTemplateData,
   RefundedOrderVendorTemplateData,
@@ -21,8 +19,6 @@ import { Injectable } from '@nestjs/common';
 const GENERIC_SHIPPING_TEMPLATE_ID = 'd-5d628ffeb5b644c09b4551958fc3001e';
 const GEODIS_SHIPPING_TEMPLATE_ID = 'd-055dbe8e84af48dabe772445c6758b7a';
 const VENDOR_SHIPPING_TEMPLATE_ID = 'd-881d8500c68a4210871da5b9ec954c04';
-const HAND_DELIVERY_VENDOR_TEMPLATE_ID = 'd-dd1b2964a13348fdb423110e52dc5d4c';
-const HAND_DELIVERY_CUSTOMER_TEMPLATE_ID = 'd-3155e7d88bcd4356bf8621b52ce1fc2a';
 const MANUAL_PAYMENT_TEMPLATE_ID = 'd-9d7f787e6f084da3a3a9c1bb3eca1833';
 const REFUNDED_ORDER_VENDOR_TEMPLATE_ID = 'd-3efb671e40814cb681c88659e90d9bdf';
 const REFUNDED_ORDER_CUSTOMER_TEMPLATE_ID =
@@ -246,64 +242,6 @@ export class SendGridClient implements IEmailClient {
         shipment_email: shipmentEmail,
       },
       BAROODERS_OPERATIONS_RECIPIENT,
-    );
-  }
-
-  async sendHandDeliveryVendorEmail(
-    toEmail: string,
-    toName: string,
-    {
-      product: { price, variantTitle },
-      order: { createdAt },
-      vendor: { firstName },
-      chatConversationLink,
-    }: HandDeliveryVendorTemplateData,
-  ): Promise<void> {
-    await sendEmailFromTemplate(
-      [
-        {
-          email: toEmail,
-          name: toName,
-        },
-      ],
-      HAND_DELIVERY_VENDOR_TEMPLATE_ID,
-      {
-        first_name: firstName,
-        product_name: variantTitle,
-        product_price: price,
-        variant_title: variantTitle,
-        order_date: createdAt,
-        chat_conversation_link: chatConversationLink,
-      },
-    );
-  }
-
-  async sendHandDeliveryCustomerEmail(
-    toEmail: string,
-    toName: string,
-    {
-      product: { price, variantTitle },
-      order: { createdAt },
-      customer: { firstName },
-      chatConversationLink,
-    }: HandDeliveryCustomerTemplateData,
-  ): Promise<void> {
-    await sendEmailFromTemplate(
-      [
-        {
-          email: toEmail,
-          name: toName,
-        },
-      ],
-      HAND_DELIVERY_CUSTOMER_TEMPLATE_ID,
-      {
-        first_name: firstName,
-        product_name: variantTitle,
-        product_price: price,
-        variant_title: variantTitle,
-        order_date: createdAt,
-        chat_conversation_link: chatConversationLink,
-      },
     );
   }
 

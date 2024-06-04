@@ -8,10 +8,10 @@ import {
   PrismaMainClient,
 } from '@libs/domain/prisma.main.client';
 import { Author } from '@libs/domain/types';
+import { UUID } from '@libs/domain/value-objects';
 import { ProductUpdateService } from '@modules/product/domain/product-update.service';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
-import { CommissionService } from './commission.service';
 import { ExternalOrderService } from './external-order.service';
 import { OrderNotificationService } from './order-notification.service';
 
@@ -27,7 +27,6 @@ export class OrderStatusHandlerService {
   constructor(
     private prisma: PrismaMainClient,
     private productUpdateService: ProductUpdateService,
-    private commissionService: CommissionService,
     private externalOrderService: ExternalOrderService,
     private orderNotificationService: OrderNotificationService,
   ) {}
@@ -94,6 +93,9 @@ export class OrderStatusHandlerService {
           },
         });
         await this.externalOrderService.createExternalOrders({ id: orderId });
+        await this.orderNotificationService.notifyOrderPaid(
+          new UUID({ uuid: orderId }),
+        );
         break;
       case OrderStatus.DELIVERED:
         //TODO: This case should not be handled at order level but at order line level

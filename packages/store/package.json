@@ -14,7 +14,7 @@
     "test": "jest",
     "seed": "yarn medusa seed -f ./data/seed.json",
     "migrate": "yarn medusa migrations run",
-    "start": "yarn medusa start",
+    "start": "node -r newrelic ./node_modules/.bin/medusa start",
     "start:custom": "node --preserve-symlinks --trace-warnings index.js",
     "dev": "yarn build:server && yarn medusa develop"
   },
@@ -69,7 +69,7 @@
     "husky": "9.0.11",
     "jest": "27.3.1",
     "lint-staged": "15.2.5",
-    "newrelic": "11.14.0",
+    "newrelic": "11.18.0",
     "prettier": "3.2.5",
     "rimraf": "3.0.2",
     "ts-jest": "27.0.7",

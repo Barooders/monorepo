@@ -43,6 +43,7 @@ import { OrderService } from './domain/order.service';
 import { IShippingClient } from './domain/ports/shipping.client';
 import { RefundService } from './domain/refund.service';
 import { SendCloudClient } from './infrastructure/shipping/send-cloud.client';
+import { PaidOrderWebhookMedusaController } from './application/paid-order.webhook.medusa';
 
 const commonProviders = [
   CustomerRepository,
@@ -103,6 +104,7 @@ const commonImports = [
   imports: commonImports,
   controllers: [
     PaidOrderWebhookShopifyController,
+    PaidOrderWebhookMedusaController,
     CreatedOrderWebhookShopifyController,
     CreatedOrderWebhookMedusaController,
     OrderWebhookSendCloudController,
