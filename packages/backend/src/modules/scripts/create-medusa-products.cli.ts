@@ -24,11 +24,24 @@ export class SyncProductsInMedusaCLI {
         description: 'Sync only products of a specific productType',
         required: false,
       },
+      {
+        flags: '-l, --limit <limit>',
+        description: 'Sync only the nth first products',
+        required: false,
+      },
     ],
   })
-  async syncMedusa({ productType }: { productType?: string }): Promise<void> {
+  async syncMedusa({
+    productType,
+    limit,
+  }: {
+    productType?: string;
+    limit?: string;
+  }): Promise<void> {
+    const take = parseInt(limit ?? '') ?? 10_000;
     const productIds = await this.prismaMain.product.findMany({
       select: { id: true },
+      take,
       where: {
         status: { equals: 'ACTIVE' },
         variants: {
