@@ -86,7 +86,7 @@ export class SyncProductsInMedusaCLI {
             select: { authUserId: true },
           })
         ).authUserId;
-
+        this.loggerService.debug('Start creating product');
         const { storeId } = await this.medusaClient.createProduct({
           title: product.title,
           status: product.status,
