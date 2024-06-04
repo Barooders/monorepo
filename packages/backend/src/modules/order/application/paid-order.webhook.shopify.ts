@@ -4,11 +4,7 @@ import {
   Retryable,
 } from '@libs/application/decorators/retryable.decorator';
 import { ShopifyBackofficeWebhookGuard } from '@libs/application/decorators/shopify-webhook.guard';
-import {
-  Order,
-  OrderStatus,
-  PrismaMainClient,
-} from '@libs/domain/prisma.main.client';
+import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IOrder } from 'shopify-api-node';
@@ -35,11 +31,11 @@ export class PaidOrderWebhookShopifyController {
   })
   @UseGuards(ShopifyBackofficeWebhookGuard)
   async handlePaidOrderEvent(@Body() orderData: IOrder): Promise<void> {
-    const { id } = await this.getStoredOrder(orderData.id);
+    const orderInternalId = await this.getStoredOrder(orderData.id);
 
     try {
       await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
-        id,
+        orderInternalId,
         OrderStatus.PAID,
         { type: 'shopify' },
       );
@@ -56,26 +52,27 @@ export class PaidOrderWebhookShopifyController {
   async handlePaidOrderEventAsAdmin(
     @Body() { orderShopifyId }: { orderShopifyId: number },
   ): Promise<void> {
-    const { id } = await this.getStoredOrder(orderShopifyId);
+    const orderInternalId = await this.getStoredOrder(orderShopifyId);
 
     try {
       await this.orderUpdateService.triggerActionsAndUpdateOrderStatus(
-        id,
+        orderInternalId,
         OrderStatus.PAID,
         { type: 'admin' },
       );
-      this.logger.debug(`Order ${id} notified on paid event`);
+      this.logger.debug(`Order ${orderInternalId} notified on paid event`);
     } catch (error: any) {
       this.logger.error(
-        `Error updated order ${id} on paid event: ${error.message}`,
+        `Error updated order ${orderInternalId} on paid event: ${error.message}`,
         error,
       );
     }
   }
 
-  private async getStoredOrder(orderShopifyId: number): Promise<Order> {
+  private async getStoredOrder(orderShopifyId: number): Promise<string> {
     const storedOrder = await this.prisma.order.findUnique({
       where: { shopifyId: String(orderShopifyId) },
+      select: { id: true },
     });
 
     if (!storedOrder) {
@@ -84,6 +81,6 @@ export class PaidOrderWebhookShopifyController {
       );
     }
 
-    return storedOrder;
+    return storedOrder.id;
   }
 }
