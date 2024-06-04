@@ -132,10 +132,14 @@ export class MedusaClient implements IStoreClient {
     const uploadedImages =
       await this.imageUploadsClient.uploadImages(imagesUrl);
 
+    this.logger.debug('Images uploaded');
+
     const {
       attributes: { weight },
     } = await this.pimClient.getPimProductType(product.product_type);
     const productTypeId = await this.getOrCreateCategory(product.product_type);
+
+    this.logger.debug('Category retrieved');
 
     const options = uniq(
       product.variants.flatMap((variant) =>
@@ -189,6 +193,8 @@ export class MedusaClient implements IStoreClient {
       ),
       metadata,
     };
+
+    this.logger.debug('Start creating product');
 
     const { product: createdProduct } = await this.handleMedusaResponse(
       medusaClient.admin.products.create(requestBody),

@@ -1,5 +1,5 @@
 import envConfig from '@config/env/env.config';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { S3 } from 'aws-sdk'; // eslint-disable-line import/named
 import axios from 'axios';
 import { randomUUID } from 'crypto';
@@ -27,6 +27,7 @@ const SIZE_CONFIG: Record<Size, { width: number; height: number }> = {
 
 @Injectable()
 export class ImageUploadsClient {
+  private readonly logger: Logger = new Logger(ImageUploadsClient.name);
   private readonly PATH_PREFIX = 'products';
 
   private readonly s3 = new S3({
@@ -41,6 +42,7 @@ export class ImageUploadsClient {
         const fileName = randomUUID();
         await this.multiFormatUploadFromUrl({ url, fileName });
 
+        this.logger.debug(`${url} uploaded`);
         return this.publicUrl(fileName);
       }),
     );
@@ -102,12 +104,7 @@ export class ImageUploadsClient {
           .toBuffer();
 
         return this.publicUrl(
-          (
-            await this.uploadFile(
-              `${this.PATH_PREFIX}/${fileName}-${size}.png`,
-              output,
-            ).promise()
-          ).Key,
+          (await this.uploadFile(`${fileName}-${size}.png`, output)).Key,
         );
       }),
     );
@@ -115,27 +112,30 @@ export class ImageUploadsClient {
     const originalOutput = await sharp(buffer).png().toBuffer();
     results.push(
       this.publicUrl(
-        (await this.uploadFile(`${fileName}.png`, originalOutput).promise())
-          .Key,
+        (await this.uploadFile(`${fileName}.png`, originalOutput)).Key,
       ),
     );
 
     return results;
   }
 
-  private uploadFile(fileName: string, content: Buffer) {
+  private async uploadFile(fileName: string, content: Buffer) {
     const params = {
       Bucket: envConfig.externalServices.s3.bucketName,
       Key: `${this.PATH_PREFIX}/${fileName}`,
       Body: content,
     };
 
-    return this.s3.upload(params, function (err: unknown, data: unknown) {
-      if (err != null) {
-        throw err;
-      }
-      return data;
-    });
+    const result = await this.s3
+      .upload(params, function (err: unknown, data: unknown) {
+        if (err != null) {
+          throw err;
+        }
+        return data;
+      })
+      .promise();
+
+    return result;
   }
 
   private publicUrl(fileName: string) {
