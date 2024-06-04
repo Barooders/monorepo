@@ -94,7 +94,7 @@ const BuyButton: React.FC<{
   const createShopifyCheckout = async () => {
     const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
     if (variantShopifyId === null || variantShopifyId === undefined)
-      throw new Error('Variant not found');
+      throw new Error('Variant not found in hasura');
 
     const { variantShopifyId: commissionShopifyId } =
       await createCommissionOnStore();
