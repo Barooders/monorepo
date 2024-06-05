@@ -11,13 +11,9 @@ import { User } from '@libs/application/decorators/user.decorator';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 
-import {
-  BackOffPolicy,
-  Retryable,
-} from '@libs/application/decorators/retryable.decorator';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { ExtractedUser } from '../domain/strategies/jwt/jwt.strategy';
 import { encode, generateUrl } from '../infrastructure/shopify';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 
 class ShopifyLoginResponse {
   @ApiProperty()
@@ -51,8 +47,6 @@ export class ShopifyController {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!user.email) throw new Error('User email not found');
 
-    await this.checkShopifyCustomerIsCreated(tokenInfo.userId);
-
     const payload: { email: string; return_to?: string } = {
       email: user.email,
     };
@@ -64,24 +58,5 @@ export class ShopifyController {
       multipassToken: encode(payload) ?? '',
       loginUrl: generateUrl(payload),
     };
-  }
-
-  @Retryable({
-    backOff: 500,
-    maxAttempts: 4,
-    exponentialOption: {
-      maxInterval: 5000,
-      multiplier: 3,
-    },
-    backOffPolicy: BackOffPolicy.ExponentialBackOffPolicy,
-  })
-  private async checkShopifyCustomerIsCreated(userId: string): Promise<void> {
-    const customer = await this.prismaService.customer.findFirstOrThrow({
-      where: { authUserId: userId },
-    });
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (!customer?.shopifyId)
-      throw new Error(`Customer ${userId} not found in shopify`);
   }
 }

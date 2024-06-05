@@ -4,11 +4,10 @@ import { DEFAULT_USER } from './constants';
 const prisma = new PrismaClient();
 async function main() {
   await prisma.customer.upsert({
-    where: { shopifyId: 7141905695055 },
+    where: { authUserId: DEFAULT_USER },
     update: {},
     create: {
-      shopifyId: 7141905695055,
-      chatId: '7141905695055',
+      chatId: DEFAULT_USER,
       profilePictureShopifyCdnUrl:
         'https://cdn.shopify.com/s/files/1/0576/4340/1365/files/pdp_mavic.jpg?v=1658763951',
       coverPictureShopifyCdnUrl:
@@ -56,5 +55,6 @@ main()
     // eslint-disable-next-line no-console
     console.error(e);
     await prisma.$disconnect();
+    // eslint-disable-next-line no-process-exit
     process.exit(1);
   });

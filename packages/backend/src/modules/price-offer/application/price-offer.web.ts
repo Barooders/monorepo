@@ -168,21 +168,12 @@ export class PriceOfferController {
       );
     }
 
-    const buyerUUID = new UUID({
-      uuid: isUUID(buyerId)
-        ? buyerId
-        : (
-            await this.prisma.customer.findUniqueOrThrow({
-              where: { shopifyId: parseInt(buyerId) },
-              select: { authUserId: true },
-            })
-          ).authUserId,
-    });
-
     const newPriceOffer =
       await this.priceOfferService.createNewPublicPriceOffer(
         new UUID({ uuid: userId }),
-        buyerUUID,
+        new UUID({
+          uuid: buyerId,
+        }),
         new Amount({ amountInCents: newPriceInCents }),
         new UUID({ uuid: productId }),
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

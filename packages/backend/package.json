@@ -14,7 +14,6 @@
     "run:prod": "BAROODERS_ENV=production ts-node -r tsconfig-paths/register scripts/render-job/index.ts",
     "run:staging": "BAROODERS_ENV=staging ts-node -r tsconfig-paths/register scripts/render-job/index.ts",
     "update:conversations": "ts-node -r tsconfig-paths/register scripts/update-talkjs-conversation/index.ts",
-    "import:customers": "ts-node -r tsconfig-paths/register scripts/sync-customer/index.ts",
     "update:tags": "ts-node -r tsconfig-paths/register scripts/tagging/update-tags.ts",
     "update:transmission-tag": "ts-node -r tsconfig-paths/register scripts/tagging/update-transmission-tag.ts",
     "update:metafield": "ts-node -r tsconfig-paths/register scripts/tagging/update-metafield.ts",

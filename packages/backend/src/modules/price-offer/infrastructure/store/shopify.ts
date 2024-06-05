@@ -44,6 +44,11 @@ export class ShopifyClient implements IStoreClient {
 
     const code = readableCode();
 
+    if (buyer.shopifyId === null)
+      throw new Error(
+        'Trying to create a discount code for a customer that does not exist in Shopify',
+      );
+
     await fetchShopifyGraphQL(
       gql`
         mutation discountCodeBasicCreate(
