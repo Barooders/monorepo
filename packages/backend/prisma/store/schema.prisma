@@ -40,7 +40,7 @@ model StoreDiscountCollection {
 
 model StoreCollection {
   id       String                                        @id
-  medusaId String                                        @map("medusa_id")
+  medusaId String?                                       @map("medusa_id")
   title    String                                        @db.VarChar(256)
   handle   String                                        @default("")
   products StoreProductCollectionWithManualCollections[]
@@ -86,7 +86,7 @@ model StoreProductCollectionWithManualCollections {
 model StoreBaseProduct {
   id             String   @id
   shopifyId      BigInt   @unique
-  medusaId       String   @unique
+  medusaId       String?  @unique
   merchantItemId String   @map("merchant_item_id")
   createdAt      DateTime @db.Timestamptz(6)
   vendorId       String   @db.Uuid
@@ -187,7 +187,7 @@ model StoreProductForAnalytics {
   id                             String           @id @unique
   createdAt                      DateTime         @map("created_at") @db.Timestamptz(6)
   vendorId                       String           @map("vendor_id") @db.Uuid
-  medusaId                       String           @unique @map("medusa_id")
+  medusaId                       String?          @unique @map("medusa_id")
   calculatedScoring              Float            @map("calculated_scoring")
   calculatedB2BScoring           Float?           @map("calculated_b2b_scoring")
   source                         String?
@@ -261,7 +261,7 @@ model StoreB2CProductVariant {
 }
 
 model StoreExposedProductImage {
-  medusaId  String           @id @map("medusa_id")
+  medusaId  String?          @map("medusa_id")
   productId String
   syncDate  DateTime         @db.Date
   src       String           @db.VarChar(512)
@@ -271,6 +271,7 @@ model StoreExposedProductImage {
   position  BigInt
   product   StoreBaseProduct @relation(fields: [productId], references: [id])
 
+  @@id([productId, src])
   @@index([productId])
   @@map("store_exposed_product_image")
 }
