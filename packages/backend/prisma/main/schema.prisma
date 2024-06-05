@@ -583,7 +583,8 @@ model CommissionRule {
 
 model Collection {
   id                 String          @id @default(dbgenerated("(gen_random_uuid())::text"))
-  shopifyId          String          @unique
+  shopifyId          String?         @unique
+  medusaId           String?         @unique
   shortName          String?
   type               CollectionType?
   parentCollectionId String?
