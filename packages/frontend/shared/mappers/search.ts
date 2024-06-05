@@ -185,7 +185,6 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     stock: hit.total_quantity,
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id,
     id: hit.product_internal_id,
     vendorId: hit.vendor_id,
   };
