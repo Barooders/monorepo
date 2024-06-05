@@ -1353,7 +1353,7 @@ const fr = {
       title: 'Merci !',
       subtitle: 'Votre commande a été passée avec succès.',
       summary: 'Récapitulatif',
-      emailSentTo: "Nous avons envoyé un email de confirmatin à l'adresse ",
+      emailSentTo: "Nous avons envoyé un email de confirmation à l'adresse ",
       orderDate: 'Date de la commande :',
       orderNumber: 'Numéro de commande :',
       orderStatus: 'Statut de la commande :',
