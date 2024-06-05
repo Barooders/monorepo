@@ -21,10 +21,10 @@ const productionCronConfig: EnvCronConfig = {
       command:
         'yarn workspace backend console order sendUnfulfilledOrdersEmails 8',
     },
-    {
-      cron: '0 * * * *',
-      command: 'yarn workspace backend console order refundUnfulfilledOrders',
-    },
+    // {
+    //   cron: '0 * * * *',
+    //   command: 'yarn workspace backend console order refundUnfulfilledOrders',
+    // },
     {
       cron: '0 16 * * *',
       command: 'yarn workspace backend console searchAlerts triggerAll',
