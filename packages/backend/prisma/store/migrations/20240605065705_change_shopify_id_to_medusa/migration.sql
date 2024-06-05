@@ -18,24 +18,24 @@
 DROP INDEX "store_product_for_analytics_shopify_id_key";
 
 -- AlterTable
-ALTER TABLE "store_base_product" ADD COLUMN     "medusaId" TEXT NOT NULL;
+ALTER TABLE "store_base_product" ADD COLUMN     "medusaId" TEXT;
 
 -- AlterTable
 ALTER TABLE "store_base_product_variant" ADD COLUMN     "medusa_id" TEXT;
 
 -- AlterTable
 ALTER TABLE "store_collection" DROP COLUMN "shopify_id",
-ADD COLUMN     "medusa_id" TEXT NOT NULL;
+ADD COLUMN     "medusa_id" TEXT;
 
 -- AlterTable
 ALTER TABLE "store_exposed_product_image" DROP CONSTRAINT "store_exposed_product_image_pkey",
 DROP COLUMN "shopify_id",
-ADD COLUMN     "medusa_id" TEXT NOT NULL,
-ADD CONSTRAINT "store_exposed_product_image_pkey" PRIMARY KEY ("medusa_id");
+ADD COLUMN     "medusa_id" TEXT,
+ADD CONSTRAINT "store_exposed_product_image_pkey" PRIMARY KEY ("productId", "src");
 
 -- AlterTable
 ALTER TABLE "store_product_for_analytics" DROP COLUMN "shopify_id",
-ADD COLUMN     "medusa_id" TEXT NOT NULL;
+ADD COLUMN     "medusa_id" TEXT;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "store_base_product_medusaId_key" ON "store_base_product"("medusaId");
