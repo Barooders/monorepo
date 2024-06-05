@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 type CollectionState = {
-  id: number;
+  id: string;
   handle: string;
   name: string;
 } | null;
