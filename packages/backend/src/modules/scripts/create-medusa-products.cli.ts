@@ -137,7 +137,7 @@ export class SyncProductsInMedusaCLI {
                     key: string;
                     value: string;
                   }[],
-                  price: variant.exposedProductVariant?.price.toString(),
+                  price: variant.exposedProductVariant?.price?.toString(),
                   title: variant.exposedProductVariant.title,
                   sku:
                     product.product.storeProductForAnalytics?.EANCode ??
