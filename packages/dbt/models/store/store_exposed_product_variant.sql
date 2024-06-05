@@ -16,7 +16,7 @@ bikes AS (
 
 product_options AS (
   SELECT
-    SELECT po.*,
+    po.*,
     ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY created_at DESC) AS position
   FROM medusa.product_option AS po
 )
@@ -24,19 +24,19 @@ product_options AS (
 SELECT
   bpv.id,
   ppv.quantity AS "inventory_quantity",
-  po1.name AS "option1Name",
+  po1.title AS "option1Name",
   pov1.value AS "option1",
-  po2.name AS "option2Name",
+  po2.title AS "option2Name",
   pov2.value AS "option2",
-  po3.name AS "option3Name",
+  po3.title AS "option3Name",
   pov3.value AS "option3",
-  pv.requires_shipping AS "requiresShipping",
   pv.title,
   pv.updated_at AS "updatedAt",
   ((ppv.condition)::text)::dbt."Condition" AS "condition",
+  pc.handle != 'commission' AS "requiresShipping",
   CURRENT_DATE AS "syncDate",
   COALESCE(
-    (ppv.condition)::text <> 'AS_NEW'
+    (ppv.condition)::text != 'AS_NEW'
     AND c."isRefurbisher" = true
     AND pp.id IN (SELECT product_id FROM bikes), false
   ) AS "isRefurbished",
@@ -47,6 +47,8 @@ FROM {{ ref("store_base_product_variant") }} AS bpv
 LEFT JOIN public."ProductVariant" AS ppv ON bpv.id = ppv.id
 LEFT JOIN public."Product" AS pp ON ppv."productId" = pp.id
 LEFT JOIN public."Customer" AS c ON pp."vendorId" = c."authUserId"
+LEFT JOIN medusa.product_category_product AS pcp ON pp."medusaId" = pcp.product_id
+LEFT JOIN medusa.product_category AS pc ON pcp.product_category_id = pc.id
 LEFT JOIN medusa.product_variant AS pv ON bpv."medusa_id" = pv.id
 
 LEFT JOIN

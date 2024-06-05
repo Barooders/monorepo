@@ -123,6 +123,7 @@ product_with_algo_inputs AS (
     bp."createdAt" AS "created_at",
     bp."vendorId" AS "vendor_id",
     bp."shopifyId" AS "shopify_id",
+    bp."medusaId" AS "medusa_id",
     (bpp."manualNotation"::text)::dbt."ProductNotation" AS "manual_notation",
     bpp.source,
     bc."overridesProductNotation" AS "vendor_overrides_product_scoring",
