@@ -148,10 +148,6 @@ export class CreatedOrderWebhookMedusaController {
       ),
       fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
-      payment: {
-        checkoutToken: null, // TODO: handle checkout token when implementing FLOA
-        methodName: this.getPaymentMethodName(order.payments), // TODO: handle different name from Shopify
-      },
     };
   }
 
