@@ -12,7 +12,7 @@ WITH dc AS (
 )
 
 SELECT
-  pr.id,
+  pr.id::text,
   pr.title,
   pr.starts_at,
   pr.ends_at,
