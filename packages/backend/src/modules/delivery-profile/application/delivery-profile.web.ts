@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 
 import { routesV1 } from '@config/routes.config';
 
@@ -10,11 +10,11 @@ export class DeliveryProfileController {
 
   @Get(routesV1.deliveryProfile.variant)
   async getProductDeliveryProfile(
-    @Param('variantShopifyId', new ParseIntPipe())
-    variantShopifyId: number,
+    @Param('variantInternalId')
+    variantInternalId: string,
   ) {
     return await this.deliveryProfileService.fetchEligibleProductVariantDeliveryProfile(
-      variantShopifyId,
+      variantInternalId,
     );
   }
 }
