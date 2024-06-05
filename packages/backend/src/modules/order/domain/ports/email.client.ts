@@ -45,31 +45,6 @@ export type GeodisDeliveryTemplateData = GenericShippingTemplateData & {
   hasPreviousBikeOrderWithGeodisShipping: boolean;
 };
 
-export type HandDeliveryVendorTemplateData = GenericShippingTemplateData & {
-  product: {
-    variantTitle: string;
-  };
-  order: {
-    createdAt: string;
-  };
-  chatConversationLink: string;
-};
-
-export type HandDeliveryCustomerTemplateData = {
-  product: {
-    name: string;
-    price: string;
-    variantTitle: string;
-  };
-  order: {
-    createdAt: string;
-  };
-  customer: {
-    firstName: string;
-  };
-  chatConversationLink: string;
-};
-
 export type ValidatedHandDeliveryOrderData = {
   firstName: string;
   productName: string;
@@ -124,18 +99,6 @@ export abstract class IEmailClient {
     toEmail: string,
     toName: string,
     templateData: VendorShippingTemplateData,
-  ): Promise<void>;
-
-  abstract sendHandDeliveryVendorEmail(
-    toEmail: string,
-    toName: string,
-    templateData: HandDeliveryVendorTemplateData,
-  ): Promise<void>;
-
-  abstract sendHandDeliveryCustomerEmail(
-    toEmail: string,
-    toName: string,
-    templateData: HandDeliveryCustomerTemplateData,
   ): Promise<void>;
 
   abstract sendUnfulfilledOrderLineEmail(
