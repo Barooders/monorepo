@@ -14,38 +14,28 @@ bikes AS (
   WHERE c.handle = 'velos'
 ),
 
-nested_product_options AS (
-  SELECT
-    id AS shopify_product_id,
-    (jsonb_array_elements(options)) AS option -- noqa: RF04
-  FROM airbyte_shopify.products
-),
-
 product_options AS (
   SELECT
-    shopify_product_id,
-    (option -> 'id')::bigint AS id,
-    (option -> 'position')::int AS position, -- noqa: RF04
-    option ->> 'name' AS name, -- noqa: RF04
-    option -> 'values' AS values -- noqa: RF04
-  FROM nested_product_options
+    SELECT po.*,
+    ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY created_at DESC) AS position
+  FROM medusa.product_option AS po
 )
 
 SELECT
   bpv.id,
   ppv.quantity AS "inventory_quantity",
   po1.name AS "option1Name",
-  pv.option1 AS "option1",
+  pov1.value AS "option1",
   po2.name AS "option2Name",
-  pv.option2 AS "option2",
+  pov2.value AS "option2",
   po3.name AS "option3Name",
-  pv.option3 AS "option3",
+  pov3.value AS "option3",
   pv.requires_shipping AS "requiresShipping",
   pv.title,
   pv.updated_at AS "updatedAt",
   ((ppv.condition)::text)::dbt."Condition" AS "condition",
-  current_date AS "syncDate",
-  coalesce(
+  CURRENT_DATE AS "syncDate",
+  COALESCE(
     (ppv.condition)::text <> 'AS_NEW'
     AND c."isRefurbisher" = true
     AND pp.id IN (SELECT product_id FROM bikes), false
@@ -57,17 +47,26 @@ FROM {{ ref("store_base_product_variant") }} AS bpv
 LEFT JOIN public."ProductVariant" AS ppv ON bpv.id = ppv.id
 LEFT JOIN public."Product" AS pp ON ppv."productId" = pp.id
 LEFT JOIN public."Customer" AS c ON pp."vendorId" = c."authUserId"
-LEFT JOIN airbyte_shopify.product_variants AS pv ON bpv."shopify_id" = pv.id
+LEFT JOIN medusa.product_variant AS pv ON bpv."medusa_id" = pv.id
 
 LEFT JOIN
   product_options AS po1
-  ON (pv.product_id = po1.shopify_product_id AND po1.position = 1)
+  ON (pv.id = po1.product_id AND po1.position = 1)
+LEFT JOIN
+  medusa.product_option_value AS pov1
+  ON (po1.id = pov1.option_id AND pv.id = pov1.variant_id)
 LEFT JOIN
   product_options AS po2
-  ON (pv.product_id = po2.shopify_product_id AND po2.position = 2)
+  ON (pv.id = po2.product_id AND po2.position = 2)
+LEFT JOIN
+  medusa.product_option_value AS pov2
+  ON (po2.id = pov2.option_id AND pv.id = pov2.variant_id)
 LEFT JOIN
   product_options AS po3
-  ON (pv.product_id = po3.shopify_product_id AND po3.position = 3)
+  ON (pv.id = po3.product_id AND po3.position = 3)
+LEFT JOIN
+  medusa.product_option_value AS pov3
+  ON (po3.id = pov3.option_id AND pv.id = pov3.variant_id)
 
 WHERE
   ppv.quantity IS NOT null
