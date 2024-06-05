@@ -6,7 +6,8 @@
 
 SELECT
   bp.id,
-  p.id AS "medusaId",
+	bp."shopifyId",
+	p.id AS "medusaId",
   bp."merchantItemId" AS "merchant_item_id",
   bp."createdAt",
   bp."vendorId"::uuid AS "vendorId"

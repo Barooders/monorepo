@@ -13,8 +13,8 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
   i.url AS src,
   NULL AS alt,
   current_date AS "syncDate"
-FROM medusa.product_images pi.image_id
-LEFT JOIN medusa.images i ON i.id
+FROM medusa.product_images pi
+LEFT JOIN medusa.images i ON i.id = pi.image_id
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
   ON pi.product_id = bp."medusaId"
