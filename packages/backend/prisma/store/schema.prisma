@@ -17,7 +17,7 @@ datasource db {
 //  =============================
 
 model StoreDiscount {
-  id        BigInt    @unique
+  id        String    @unique
   title     String    @db.VarChar(256)
   startsAt  DateTime  @map("starts_at") @db.Timestamptz(6)
   endsAt    DateTime? @map("ends_at") @db.Timestamptz(6)
@@ -32,7 +32,7 @@ model StoreDiscount {
 
 model StoreDiscountCollection {
   collectionInternalId String @map("collection_internal_id")
-  discountId           BigInt @map("discount_id")
+  discountId           String @map("discount_id")
 
   @@id([collectionInternalId, discountId])
   @@map("store_discount_collection")
