@@ -9,7 +9,7 @@ SELECT
   '' AS title,
   d.starts_at,
   d.ends_at,
-  NULL AS min_amount,
+  0 AS min_amount,
   d.code,
   CASE
     WHEN dr.type = 'fixed' THEN 'fixed_amount'
