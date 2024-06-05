@@ -6,7 +6,7 @@
 
 SELECT
   bc.id,
-  bc."shopifyId"::bigint AS shopify_id,
+  bc."medusaId" AS medusa_id,
   bc.title,
   bc.handle
 FROM public."Collection" AS bc
