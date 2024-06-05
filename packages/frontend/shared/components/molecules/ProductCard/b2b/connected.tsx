@@ -98,12 +98,11 @@ export const mapToProps = (
     id: rawProduct.id,
     productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
-    shopifyId: rawProduct.shopifyId,
     stock,
     title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),
     variantCondition: mainVariant.condition,
-    ...(rawProduct.b2bProduct.largest_bundle_price_in_cents && {
+    ...(rawProduct.b2bProduct.largest_bundle_price_in_cents !== null && {
       largestBundlePrice: roundCurrency(
         rawProduct.b2bProduct.largest_bundle_price_in_cents / 100,
       ),

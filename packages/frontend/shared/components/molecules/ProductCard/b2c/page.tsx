@@ -47,7 +47,6 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
     productType,
     variantCondition,
     variantId,
-    variantShopifyId,
     price,
     compareAtPrice,
     setSelectedVariant,
@@ -228,7 +227,7 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
           </div>
           <div className="flex flex-col gap-2">
             <DeliveryInformation
-              variantShopifyId={variantShopifyId ?? ''}
+              variantInternalId={variantId}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
             />
             {collections.some(

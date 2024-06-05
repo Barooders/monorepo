@@ -11,7 +11,7 @@ import {
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
 import { composeGid } from '@shopify/admin-graphql-api-utilities';
 import { uniqBy } from 'lodash';
-
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 // eslint-disable-next-line import/no-restricted-paths
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 
@@ -19,7 +19,10 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 export class DeliveryProfileService {
   private readonly logger: Logger = new Logger(DeliveryProfileService.name);
 
-  constructor(private shopifyApiBySession: ShopifyApiBySession) {}
+  constructor(
+    private shopifyApiBySession: ShopifyApiBySession,
+    private prisma: PrismaMainClient,
+  ) {}
 
   private sortMethodDefinitionsByPrice(
     deliveryMethodDefinitions: DeliveryMethodDefinition[],
@@ -215,12 +218,22 @@ export class DeliveryProfileService {
   }
 
   async fetchEligibleProductVariantDeliveryProfile(
-    variantShopifyId: number,
+    variantInternalId: string,
   ): Promise<{ methodDefinitions: DeliveryMethodDefinition[] } | undefined> {
     try {
+      //TODO: remove this from domain and use store (infra) to fetch delivery profiles
+      const { shopifyId: variantShopifyId } =
+        await this.prisma.productVariant.findUniqueOrThrow({
+          where: { id: variantInternalId },
+          select: { shopifyId: true },
+        });
+
+      if (variantShopifyId === null)
+        throw new Error('Variant shopify id not found');
+
       const [productVariant, matchedMethodDefinitions] = await Promise.all([
-        this.getProductVariant(variantShopifyId),
-        this.getDeliveryProfile(variantShopifyId),
+        this.getProductVariant(Number(variantShopifyId)),
+        this.getDeliveryProfile(Number(variantShopifyId)),
       ]);
 
       const acceptsHandDelivery =
