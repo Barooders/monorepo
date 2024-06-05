@@ -6,10 +6,10 @@
 
 SELECT
   bp.id,
-  p.id AS "shopifyId",
+  p.id AS "medusaId",
   bp."merchantItemId" AS "merchant_item_id",
   bp."createdAt",
   bp."vendorId"::uuid AS "vendorId"
 FROM public."Product" AS bp
-LEFT JOIN airbyte_shopify.products AS p ON bp."shopifyId" = p.id
+LEFT JOIN medusa.product AS p ON bp."medusaId" = p.id
 WHERE p.id IS NOT NULL
