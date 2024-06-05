@@ -6,9 +6,10 @@
 
 SELECT
   ppv.id,
-  pv.id AS "medusa_id",
+  ppv."shopifyId" AS "shopify_id",
+	pv.id AS "medusa_id",
   ppv."merchantItemId" AS "merchant_item_id",
-  pv.created_at AS "created_at",
+  pv.created_at AS "createdAt",
   ppv."productId"
 FROM
   public."ProductVariant" AS ppv
