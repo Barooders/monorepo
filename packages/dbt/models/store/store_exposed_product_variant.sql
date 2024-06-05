@@ -49,7 +49,9 @@ SELECT
     (ppv.condition)::text <> 'AS_NEW'
     AND c."isRefurbisher" = true
     AND pp.id IN (SELECT product_id FROM bikes), false
-  ) AS "isRefurbished"
+  ) AS "isRefurbished",
+  ppv."priceInCents"::float / 100 AS price,
+  ppv."compareAtPriceInCents"::float / 100 AS compare_at_price
 
 FROM {{ ref("store_base_product_variant") }} AS bpv
 LEFT JOIN public."ProductVariant" AS ppv ON bpv.id = ppv.id

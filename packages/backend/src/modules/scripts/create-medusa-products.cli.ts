@@ -71,7 +71,6 @@ export class SyncProductsInMedusaCLI {
                 baseProductVariants: {
                   include: {
                     exposedProductVariant: true,
-                    storeB2CProductVariant: true,
                   },
                 },
               },
@@ -113,8 +112,8 @@ export class SyncProductsInMedusaCLI {
           metafields: [],
           source: 'medusa-migration',
           compare_at_price:
-            firstVariant.storeB2CProductVariant?.compareAtPrice ?? undefined,
-          price: firstVariant.storeB2CProductVariant?.price ?? undefined,
+            firstVariant.exposedProductVariant?.compareAtPrice ?? undefined,
+          price: firstVariant.exposedProductVariant?.price ?? undefined,
           product_type: product.productType,
           variants: compact(
             product.product.baseProductVariants.map(
@@ -138,7 +137,7 @@ export class SyncProductsInMedusaCLI {
                     key: string;
                     value: string;
                   }[],
-                  price: variant.storeB2CProductVariant?.price.toString(),
+                  price: variant.exposedProductVariant?.price.toString(),
                   title: variant.exposedProductVariant.title,
                   sku:
                     product.product.storeProductForAnalytics?.EANCode ??
@@ -151,7 +150,7 @@ export class SyncProductsInMedusaCLI {
                     Condition.VERY_GOOD,
                   external_id: id,
                   compare_at_price:
-                    variant.storeB2CProductVariant?.compareAtPrice?.toString(),
+                    variant.exposedProductVariant?.compareAtPrice?.toString(),
                 };
               },
             ),
