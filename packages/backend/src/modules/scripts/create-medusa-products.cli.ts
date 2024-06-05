@@ -38,7 +38,7 @@ export class SyncProductsInMedusaCLI {
     productType?: string;
     limit?: string;
   }): Promise<void> {
-    const take = parseInt(limit ?? '') ?? 10_000;
+    const take = limit !== undefined ? parseInt(limit ?? '') : 10_000;
     const productIds = await this.prismaMain.product.findMany({
       select: { id: true },
       take,

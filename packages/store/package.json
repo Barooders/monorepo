@@ -14,8 +14,8 @@
     "test": "jest",
     "seed": "yarn medusa seed -f ./data/seed.json",
     "migrate": "yarn medusa migrations run",
-    "start": "node -r newrelic ./node_modules/.bin/medusa start",
-    "start:custom": "node --preserve-symlinks --trace-warnings index.js",
+    "start": "yarn medusa start",
+    "start:custom": "node -r newrelic --preserve-symlinks --trace-warnings index.js",
     "dev": "yarn build:server && yarn medusa develop"
   },
   "dependencies": {
