@@ -14,6 +14,8 @@ type OrderPaidEvent = {
 export default async function orderPaidHandler({
   data,
 }: SubscriberArgs<OrderPaidEvent>) {
+  // eslint-disable-next-line no-console
+  console.log('Order paid event received', data.id);
   await backendClient<{ data: { id: number } }>(
     `/v2/orders/webhook/paid-event`,
     {
