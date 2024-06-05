@@ -34,27 +34,27 @@ type DeliveryMethodDefinition = {
 type MethodDefinitions = { methodDefinitions: DeliveryMethodDefinition[] };
 
 type PropsType = {
-  variantShopifyId: number;
+  variantInternalId: string;
   shipmentTimeframeSentence: string | null;
 };
 
 const DeliveryInformation: React.FC<PropsType> = ({
-  variantShopifyId,
+  variantInternalId,
   shipmentTimeframeSentence,
 }) => {
   const { fetchAPI } = useBackend();
   const [fetchState, doFetch] = useWrappedAsyncFn(
-    async (variantShopifyId) =>
+    async (variantInternalId) =>
       (
         await fetchAPI<MethodDefinitions>(
-          `/v1/delivery-profile/product-variant/${variantShopifyId}`,
+          `/v1/delivery-profile/product-variant/${variantInternalId}`,
         )
       ).methodDefinitions,
   );
 
   useEffect(() => {
-    doFetch(variantShopifyId);
-  }, [variantShopifyId]);
+    doFetch(variantInternalId);
+  }, [variantInternalId]);
 
   return (
     <div className="flex justify-start gap-2 rounded-lg border border-slate-300 p-3">
@@ -62,7 +62,7 @@ const DeliveryInformation: React.FC<PropsType> = ({
       <div className="flex w-full flex-col gap-2">
         <p className="flex items-center gap-2 font-medium uppercase">
           {dict.components.productCard.delivery.title}
-          {shipmentTimeframeSentence && (
+          {shipmentTimeframeSentence !== null && (
             <span className="ml-2 text-sm font-normal normal-case">
               {shipmentTimeframeSentence}
             </span>
