@@ -4,25 +4,21 @@
 	pre_hook='delete from {{this}}'
 ) }}
 
-WITH dc AS (
-  SELECT
-    price_rule_id,
-    MAX(code) AS code
-  FROM airbyte_shopify.discount_codes GROUP BY price_rule_id
-)
-
 SELECT
-  pr.id,
-  pr.title,
-  pr.starts_at,
-  pr.ends_at,
-  (pr.prerequisite_subtotal_range ->> 'greater_than_or_equal_to')::double precision AS min_amount,
-  dc.code,
-  pr.value_type,
-  -(pr.value::double precision) AS value, -- noqa: RF04, (ignore reserved keyword)
-  COALESCE(customer_selection = 'all', FALSE) AS is_public -- noqa: RF02, (references should be qualified if select has more than one referenced table/view)
-FROM airbyte_shopify.price_rules AS pr
-LEFT JOIN
-  dc
-  ON pr.id = dc.price_rule_id
-WHERE pr.deleted_at IS NULL
+  d.id,
+  '' AS title,
+  d.starts_at,
+  d.ends_at,
+  NULL AS min_amount,
+  d.code,
+  CASE
+    WHEN dr.type = 'fixed' THEN 'fixed_amount'
+    ELSE dr.type
+  END AS value_type,
+  dr.value::float / 100 AS value, -- noqa: RF04, (ignore reserved keyword)
+  COALESCE(discount_condition_customer_group.customer_group_id IS NULL, FALSE) AS is_public -- noqa: RF02, (references should be qualified if select has more than one referenced table/view)
+FROM medusa.discount AS d
+LEFT JOIN medusa.discount_rule AS dr ON d.rule_id = dr.id
+LEFT JOIN medusa.discount_condition AS dc ON dr.id = dc.discount_rule_id
+LEFT JOIN medusa.discount_condition_customer_group AS dcg ON dc.id = dcg.condition_id
+WHERE d.deleted_at IS NULL

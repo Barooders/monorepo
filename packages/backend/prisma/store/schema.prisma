@@ -234,7 +234,7 @@ model StoreExposedProductVariant {
   requiresShipping  Boolean?
   title             String     @db.VarChar(256)
   updatedAt         DateTime   @db.Timestamptz(6)
-  price             Float
+  price             Float?
   compareAtPrice    Float?     @map("compare_at_price")
 
   variant StoreBaseProductVariant @relation(fields: [id], references: [id])
@@ -268,10 +268,10 @@ model StoreExposedProductImage {
   productId String
   syncDate  DateTime         @db.Date
   src       String           @db.VarChar(512)
-  width     BigInt
-  height    BigInt
+  width     BigInt?
+  height    BigInt?
   alt       String?          @db.VarChar(256)
-  position  BigInt
+  position  BigInt?
   product   StoreBaseProduct @relation(fields: [productId], references: [id])
 
   @@id([productId, src])

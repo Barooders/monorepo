@@ -40,12 +40,12 @@ total_quantities AS (
 
 SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations and aggregates)
   bp.id,
-  sp.published_at AS "publishedAt",
-  coalesce(p."productType", sp.product_type) AS "productType",
-  sp.title,
-  sp.vendor,
-  replace_phone_number(replace_links_and_mails(sp.body_html)) AS "description",
-  sp.handle,
+  mp.updated_at AS "publishedAt",
+  p."productType",
+  mp.title,
+  c."sellerName" AS vendor,
+  replace_phone_number(replace_links_and_mails(mp.description)) AS "description",
+  mp.handle,
   cast(cast(p.status AS text) AS dbt."ProductStatus") AS status,
   t_brand.value AS brand,
   coalesce(pr.traffictot, 0) AS "numberOfViews",
@@ -59,8 +59,8 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
 
 FROM {{ ref("store_base_product") }} AS bp
 LEFT JOIN public."Product" AS p ON bp.id = p.id
-LEFT JOIN airbyte_shopify.products AS sp ON bp."shopifyId" = sp.id
-
+LEFT JOIN medusa.product AS mp ON bp."medusaId" = mp.id
+LEFT JOIN public."Customer" AS c ON mp.vendor_id = c.id
 LEFT JOIN
   ( -- noqa: ST05, (Join/From clauses should not contain subqueries. Use CTEs instead)
     SELECT
@@ -121,6 +121,6 @@ LEFT JOIN
     bp.id = pr.id
 
 WHERE
-  sp.id IS NOT null
-  AND coalesce(p."productType", sp.product_type) IS NOT null
-  AND sp.title IS NOT null
+  mp.id IS NOT null
+  AND p."productType" IS NOT null
+  AND mp.title IS NOT null
