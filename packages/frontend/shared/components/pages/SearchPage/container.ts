@@ -19,7 +19,7 @@ import {
 type ParentCollection =
   | {
       shortName?: string | null;
-      shopifyId: string;
+      id: string;
       handle: string;
       title: string | null;
       parentCollection?: ParentCollection | null;
@@ -33,7 +33,7 @@ const FETCH_COLLECTION_PAGE = /* GraphQL */ /* typed_for_public */ `
     $vendorSellerName: String!
   ) {
     Collection(where: { handle: { _eq: $collectionHandle } }) {
-      shopifyId
+      id
       handle
       type
       description
@@ -44,23 +44,23 @@ const FETCH_COLLECTION_PAGE = /* GraphQL */ /* typed_for_public */ `
       parentCollection {
         shortName
         handle
-        shopifyId
+        id
         title
         childCollections {
           handle
           shortName
-          shopifyId
+          id
           title
         }
         parentCollection {
           shortName
           handle
-          shopifyId
+          id
           title
           parentCollection {
             shortName
             handle
-            shopifyId
+            id
             title
           }
         }
@@ -140,7 +140,7 @@ export const getData = async ({
     collectionData = {
       descriptionHtml: collection.description ?? '',
       handle: collection.handle,
-      id: Number(collection.shopifyId),
+      id: collection.id,
       image: null,
       title: collectionTitle,
       type: collection.type,
@@ -158,7 +158,7 @@ export const getData = async ({
         link: `/collections/${nextParentCollection.handle}`,
         title:
           nextParentCollection.shortName ?? nextParentCollection?.title ?? '',
-        id: nextParentCollection.shopifyId,
+        id: nextParentCollection.id,
       });
       nextParentCollection = nextParentCollection?.parentCollection;
     }

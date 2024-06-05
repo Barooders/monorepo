@@ -2,7 +2,6 @@ import { fetchBackend } from './backend';
 
 type CollectionType = {
   id: string;
-  shopifyId: number;
   handle: string;
   shortName: string | null;
   title: string | null;

@@ -9,22 +9,22 @@ import {
 export const getAvailableOffers = (
   productCondition: Condition,
   isRefurbished: boolean,
-  breadcrumbs: { shopifyId: number }[],
+  breadcrumbs: { id: string }[],
 ) => {
   const availableOffers: AvailableOffers[] = [];
   if (productCondition !== Condition.AS_NEW && !isRefurbished)
     return availableOffers;
 
-  const isElectricBike = breadcrumbs.some(({ shopifyId }) =>
-    electricBikesCollectionIds.includes(shopifyId),
+  const isElectricBike = breadcrumbs.some(({ id }) =>
+    electricBikesCollectionIds.includes(id),
   );
 
-  const isMuscleBike = breadcrumbs.some(({ shopifyId }) =>
-    bikesCollectionIds.includes(shopifyId),
+  const isMuscleBike = breadcrumbs.some(({ id }) =>
+    bikesCollectionIds.includes(id),
   );
 
-  const isHandicapedBike = breadcrumbs.some(({ shopifyId }) =>
-    handicapedBikesCollectionIds.includes(shopifyId),
+  const isHandicapedBike = breadcrumbs.some(({ id }) =>
+    handicapedBikesCollectionIds.includes(id),
   );
 
   if (isMuscleBike) {
