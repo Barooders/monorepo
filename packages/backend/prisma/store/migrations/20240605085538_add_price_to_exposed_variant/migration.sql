@@ -6,4 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE "store_exposed_product_variant" ADD COLUMN     "compare_at_price" DOUBLE PRECISION,
-ADD COLUMN     "price" DOUBLE PRECISION NOT NULL;
+ADD COLUMN     "price" DOUBLE PRECISION;
