@@ -17,10 +17,12 @@ const SellFormPriceSelection: React.FC<PropsType> = ({ onSelect }) => {
   const { addProductInfo, productInfos } = useSellForm();
   const [knowPrice, setKnowPrice] = useState<boolean>(true);
   const [price, setPrice] = useState<string>(
-    productInfos.price?.toFixed() || '',
+    productInfos.price === null ? '' : productInfos.price.toFixed(2),
   );
   const [originalPrice, setOriginalPrice] = useState<string>(
-    productInfos.compare_at_price?.toFixed() || '',
+    productInfos.compare_at_price === null
+      ? ''
+      : productInfos.compare_at_price.toFixed(2),
   );
 
   const onValidatePrice = () => {
@@ -40,11 +42,13 @@ const SellFormPriceSelection: React.FC<PropsType> = ({ onSelect }) => {
   };
 
   const handleDisabledButton = () => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!price || parseFloat(price) <= 0 || parseFloat(price) > 100000) {
       return true;
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (!originalPrice ||
         parseFloat(originalPrice) <= 0 ||
         parseFloat(originalPrice) > 100000) &&
