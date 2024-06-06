@@ -11,11 +11,6 @@ import {
   TrackingInfo,
 } from './types';
 
-export type OrderInChat = {
-  orderShopifyId: string;
-  chatConversationId: string;
-};
-
 export type StoreFulfilledFulfillmentOrder = {
   shopifyId?: number;
   fulfilledItems: {
