@@ -89,6 +89,10 @@ export class StoreClient implements IStoreClient {
       this.shopifyClient.createProduct(product),
     ]);
 
+    if (medusaProduct.variants.length !== shopifyProduct.variants.length) {
+      throw new Error('Variants mismatch');
+    }
+
     return {
       handle: medusaProduct.handle,
       images: medusaProduct.images,
@@ -97,7 +101,24 @@ export class StoreClient implements IStoreClient {
         shopifyId: parseInt(shopifyProduct.storeId.value),
       }),
       title: medusaProduct.title,
-      variants: medusaProduct.variants,
+      variants: medusaProduct.variants.map(
+        ({ storeId: medusaStoreId }, index) => {
+          if (
+            medusaStoreId.medusaIdIfExists === undefined ||
+            shopifyProduct.variants[index].storeId.shopifyIdIfExists ===
+              undefined
+          ) {
+            throw new Error('Variant storeId is not completely defined');
+          }
+          return {
+            storeId: new VariantStoreId({
+              medusaId: medusaStoreId.medusaIdIfExists,
+              shopifyId:
+                shopifyProduct.variants[index].storeId.shopifyIdIfExists,
+            }),
+          };
+        },
+      ),
     };
   }
 
