@@ -53,19 +53,19 @@ LEFT JOIN medusa.product_variant AS pv ON bpv."medusa_id" = pv.id
 
 LEFT JOIN
   product_options AS po1
-  ON (pv.id = po1.product_id AND po1.position = 1)
+  ON (pp."medusaId" = po1.product_id AND po1.position = 1)
 LEFT JOIN
   medusa.product_option_value AS pov1
   ON (po1.id = pov1.option_id AND pv.id = pov1.variant_id)
 LEFT JOIN
   product_options AS po2
-  ON (pv.id = po2.product_id AND po2.position = 2)
+  ON (pp."medusaId" = po2.product_id AND po2.position = 2)
 LEFT JOIN
   medusa.product_option_value AS pov2
   ON (po2.id = pov2.option_id AND pv.id = pov2.variant_id)
 LEFT JOIN
   product_options AS po3
-  ON (pv.id = po3.product_id AND po3.position = 3)
+  ON (pp."medusaId" = po3.product_id AND po3.position = 3)
 LEFT JOIN
   medusa.product_option_value AS pov3
   ON (po3.id = pov3.option_id AND pv.id = pov3.variant_id)
