@@ -40,6 +40,7 @@ import compact from 'lodash/compact';
 import first from 'lodash/first';
 import uniq from 'lodash/uniq';
 import { ImageUploadsClient } from './image-uploads-client';
+import { jsonStringify } from '@libs/helpers/json';
 
 const handle = (title: string): string => {
   const slugified = title
@@ -343,7 +344,7 @@ export class MedusaClient implements IStoreClient {
 
   async updateProductVariant(
     { uuid: variantId }: UUID,
-    { price, compare_at_price, ...data }: Partial<Variant>,
+    { price, compare_at_price, condition, ...data }: Partial<Variant>,
   ): Promise<void> {
     this.logger.log(`Updating variant ${variantId}`);
 
@@ -359,8 +360,10 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Variant ${variantId} not found in Medusa`);
     }
 
-    if (compare_at_price !== undefined) {
-      this.logger.warn('Compare at price is not supported');
+    if (compare_at_price !== undefined || condition !== undefined) {
+      this.logger.warn(
+        `Compare at price and condition are not supported: ${jsonStringify({ compare_at_price, condition })}`,
+      );
     }
 
     await this.handleMedusaResponse(
