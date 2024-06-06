@@ -9,7 +9,6 @@ import { ChatModule } from '@modules/chat/chat.module';
 import { CustomerModule } from '@modules/customer/customer.module';
 import { PayoutController } from '@modules/order/application/payout.web';
 import { CommissionService } from '@modules/order/domain/commission.service';
-import { HandDeliveryService } from '@modules/order/domain/hand-delivery.service';
 import { OrderCreationService } from '@modules/order/domain/order-creation.service';
 import { OrderNotificationService } from '@modules/order/domain/order-notification.service';
 import { OrderValidationService } from '@modules/order/domain/order-validation.service';
@@ -34,6 +33,7 @@ import { CreatedOrderWebhookShopifyController } from './application/created-orde
 import { OrderCLIConsole } from './application/order.cli';
 import { OrderController } from './application/order.web';
 import { OrderWebhookSendCloudController } from './application/order.webhook.send-cloud';
+import { PaidOrderWebhookMedusaController } from './application/paid-order.webhook.medusa';
 import { PaidOrderWebhookShopifyController } from './application/paid-order.webhook.shopify';
 import { ExternalOrderService } from './domain/external-order.service';
 import { FulfillmentService } from './domain/fulfillment.service';
@@ -43,7 +43,6 @@ import { OrderService } from './domain/order.service';
 import { IShippingClient } from './domain/ports/shipping.client';
 import { RefundService } from './domain/refund.service';
 import { SendCloudClient } from './infrastructure/shipping/send-cloud.client';
-import { PaidOrderWebhookMedusaController } from './application/paid-order.webhook.medusa';
 
 const commonProviders = [
   CustomerRepository,
@@ -60,7 +59,6 @@ const commonProviders = [
     provide: IStoreClient,
     useClass: ShopifyClient,
   },
-  HandDeliveryService,
   FulfillmentService,
   RefundService,
   ExternalOrderService,
