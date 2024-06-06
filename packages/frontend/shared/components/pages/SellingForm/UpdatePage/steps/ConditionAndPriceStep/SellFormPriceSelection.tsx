@@ -29,7 +29,7 @@ const SellFormPriceSelection: React.FC<PropsType> = ({ onSelect }) => {
         ? amount
         : parseFloat(amount) % 1 === 0
           ? parseInt(amount, 10)
-          : parseFloat(amount).toFixed(2);
+          : parseFloat(amount);
 
     addProductInfo('price', parsedPrice(price));
 
