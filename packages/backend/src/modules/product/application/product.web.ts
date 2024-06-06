@@ -10,7 +10,6 @@ import {
 } from '@libs/domain/prisma.main.client';
 import { JwtAuthGuard } from '@modules/auth/domain/strategies/jwt/jwt-auth.guard';
 
-import { CustomerRepository } from '@libs/domain/customer.repository';
 import { Author, BAROODERS_NAMESPACE, MetafieldType } from '@libs/domain/types';
 import { Amount, AmountDTO, UUID } from '@libs/domain/value-objects';
 import { ExtractedUser } from '@modules/auth/domain/strategies/jwt/jwt.strategy';
@@ -207,7 +206,6 @@ export class ProductController {
   constructor(
     private productCreationService: ProductCreationService,
     private productUpdateService: ProductUpdateService,
-    private customerRepository: CustomerRepository,
     private collectionService: CollectionService,
     private storeClient: IStoreClient,
     private prisma: PrismaMainClient,
