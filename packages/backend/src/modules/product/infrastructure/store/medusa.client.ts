@@ -343,7 +343,7 @@ export class MedusaClient implements IStoreClient {
 
   async updateProductVariant(
     { uuid: variantId }: UUID,
-    data: Partial<Variant>,
+    { price, compare_at_price, ...data }: Partial<Variant>,
   ): Promise<void> {
     this.logger.log(`Updating variant ${variantId}`);
 
@@ -359,11 +359,27 @@ export class MedusaClient implements IStoreClient {
       throw new Error(`Variant ${variantId} not found in Medusa`);
     }
 
+    if (compare_at_price !== undefined) {
+      this.logger.warn('Compare at price is not supported');
+    }
+
     await this.handleMedusaResponse(
       medusaClient.admin.products.updateVariant(
         productStoreId,
         variantStoreId,
-        data,
+        {
+          prices: [
+            ...(price !== undefined
+              ? [
+                  {
+                    amount: toCents(price),
+                    currency_code: 'EUR',
+                  },
+                ]
+              : []),
+          ],
+          ...data,
+        },
       ),
     );
   }
