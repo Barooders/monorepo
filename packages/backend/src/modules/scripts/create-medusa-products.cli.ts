@@ -98,69 +98,79 @@ export class SyncProductsInMedusaCLI {
             select: { authUserId: true },
           })
         ).authUserId;
+
+        const variants = compact(
+          product.product.baseProductVariants.map((variant): Variant | null => {
+            if (!variant.exposedProductVariant) return null;
+            return {
+              optionProperties: [
+                {
+                  key: variant.exposedProductVariant.option1Name,
+                  value: variant.exposedProductVariant.option1,
+                },
+                {
+                  key: variant.exposedProductVariant.option2Name,
+                  value: variant.exposedProductVariant.option2,
+                },
+                {
+                  key: variant.exposedProductVariant.option3Name,
+                  value: variant.exposedProductVariant.option3,
+                },
+              ].filter((opt) => opt.key !== null && opt.value !== null) as {
+                key: string;
+                value: string;
+              }[],
+              price: variant.exposedProductVariant?.price?.toString(),
+              title: variant.exposedProductVariant.title,
+              sku:
+                product.product.storeProductForAnalytics?.EANCode ?? undefined,
+              inventory_quantity: Number(
+                variant.exposedProductVariant.inventoryQuantity,
+              ),
+              condition:
+                variant.exposedProductVariant.condition ?? Condition.VERY_GOOD,
+              external_id: id,
+              compare_at_price:
+                variant.exposedProductVariant?.compareAtPrice?.toString(),
+            };
+          }),
+        );
+
         this.loggerService.debug('Start creating product');
-        const { storeId } = await this.medusaClient.createProduct({
-          title: product.title,
-          status: product.status,
-          images: product.product.exposedImages.map(({ src }) => ({ src })),
-          vendorId,
-          tags: product.product.exposedProductTags.map(
-            (tag) => `${tag.tag}:${tag.value}`,
-          ),
-          body_html: product.description ?? '',
-          published: true,
-          metafields: [],
-          source: 'medusa-migration',
-          compare_at_price:
-            firstVariant.exposedProductVariant?.compareAtPrice ?? undefined,
-          price: firstVariant.exposedProductVariant?.price ?? undefined,
-          product_type: product.productType,
-          variants: compact(
-            product.product.baseProductVariants.map(
-              (variant): Variant | null => {
-                if (!variant.exposedProductVariant) return null;
-                return {
-                  optionProperties: [
-                    {
-                      key: variant.exposedProductVariant.option1Name,
-                      value: variant.exposedProductVariant.option1,
-                    },
-                    {
-                      key: variant.exposedProductVariant.option2Name,
-                      value: variant.exposedProductVariant.option2,
-                    },
-                    {
-                      key: variant.exposedProductVariant.option3Name,
-                      value: variant.exposedProductVariant.option3,
-                    },
-                  ].filter((opt) => opt.key !== null && opt.value !== null) as {
-                    key: string;
-                    value: string;
-                  }[],
-                  price: variant.exposedProductVariant?.price?.toString(),
-                  title: variant.exposedProductVariant.title,
-                  sku:
-                    product.product.storeProductForAnalytics?.EANCode ??
-                    undefined,
-                  inventory_quantity: Number(
-                    variant.exposedProductVariant.inventoryQuantity,
-                  ),
-                  condition:
-                    variant.exposedProductVariant.condition ??
-                    Condition.VERY_GOOD,
-                  external_id: id,
-                  compare_at_price:
-                    variant.exposedProductVariant?.compareAtPrice?.toString(),
-                };
-              },
+        const { storeId, variants: createdVariants } =
+          await this.medusaClient.createProduct({
+            title: product.title,
+            status: product.status,
+            images: product.product.exposedImages.map(({ src }) => ({ src })),
+            vendorId,
+            tags: product.product.exposedProductTags.map(
+              (tag) => `${tag.tag}:${tag.value}`,
             ),
-          ),
-        });
+            body_html: product.description ?? '',
+            published: true,
+            metafields: [],
+            source: 'medusa-migration',
+            compare_at_price:
+              firstVariant.exposedProductVariant?.compareAtPrice ?? undefined,
+            price: firstVariant.exposedProductVariant?.price ?? undefined,
+            product_type: product.productType,
+            variants,
+          });
 
         await this.prismaMain.product.update({
           where: { id },
           data: { medusaId: storeId.medusaIdIfExists },
         });
+
+        for (const createdVariant of createdVariants.map((storeVariant, i) => ({
+          medusaId: storeVariant.storeId.medusaIdIfExists,
+          internalId: product.product.baseProductVariants[i].id,
+        }))) {
+          await this.prismaMain.productVariant.update({
+            data: { medusaId: createdVariant.medusaId },
+            where: { id: createdVariant.internalId },
+          });
+        }
       } catch (e: any) {
         this.loggerService.error(e);
         continue;
