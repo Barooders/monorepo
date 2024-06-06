@@ -23,8 +23,8 @@ import {
 
 import { medusaClient } from '@/medusa/lib/config';
 import medusaError from '@/medusa/lib/util/medusa-error';
-import { cookies } from 'next/headers';
 import { SortOptions } from '@/medusa/types/medusa';
+import { cookies } from 'next/headers';
 
 const emptyResponse = {
   response: { products: [], count: 0 },
@@ -204,21 +204,10 @@ export const retrieveOrder = cache(async function (id: string) {
 
 // Shipping actions
 export const listShippingMethods = cache(async function listShippingMethods(
-  regionId: string,
-  productIds?: string[],
+  cartId: string,
 ) {
-  const headers = getMedusaHeaders(['shipping']);
-
-  const product_ids = productIds?.join(',');
-
   return medusaClient.shippingOptions
-    .list(
-      {
-        region_id: regionId,
-        product_ids,
-      },
-      headers,
-    )
+    .listCartOptions(cartId)
     .then(({ shipping_options }) => shipping_options)
     .catch((err) => {
       console.log(err);
