@@ -206,7 +206,6 @@ export class ShopifyClient implements IStoreClient {
       };
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot create product: ${e.message} because ${errorMessage}`,
       );
@@ -241,7 +240,6 @@ export class ShopifyClient implements IStoreClient {
       };
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot create product variant: ${
           e.message
@@ -292,7 +290,6 @@ export class ShopifyClient implements IStoreClient {
       await this.createOrUpdateMetafields(productId, metafieldsToUpdate);
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot update product (${productId}): ${e.message} because ${errorMessage}`,
       );
@@ -330,7 +327,6 @@ export class ShopifyClient implements IStoreClient {
       });
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot update product variant (${variantId}) with data (${jsonStringify(
           data,
@@ -354,7 +350,6 @@ export class ShopifyClient implements IStoreClient {
       );
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot delete product variant (${variantId}): ${e.message} because ${errorMessage}`,
       );
@@ -592,7 +587,6 @@ export class ShopifyClient implements IStoreClient {
       }
     } catch (e: any) {
       const errorMessage = parseShopifyError(e);
-      this.logger.error(errorMessage, e);
       throw new Error(
         `Cannot update product (${productId}) metafields (${jsonStringify(
           metafields,
