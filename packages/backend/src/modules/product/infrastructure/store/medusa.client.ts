@@ -286,13 +286,13 @@ export class MedusaClient implements IStoreClient {
   }
 
   async createProductVariant(
-    productInternalId: UUID,
+    { uuid: productInternalId }: UUID,
     data: Variant,
   ): Promise<VariantCreatedInStore> {
     this.logger.log(`Creating variant for product ${productInternalId}`);
 
     const { medusaId, variants } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productInternalId.uuid },
+      where: { id: productInternalId },
       select: {
         medusaId: true,
         variants: {
@@ -411,11 +411,11 @@ export class MedusaClient implements IStoreClient {
   }
 
   async addProductImage(
-    productId: UUID,
+    { uuid: productId }: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage> {
     const { medusaId } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productId.uuid },
+      where: { id: productId },
       select: { medusaId: true },
     });
 
@@ -469,11 +469,11 @@ export class MedusaClient implements IStoreClient {
   }
 
   async deleteProductImage(
-    productId: UUID,
+    { uuid: productId }: UUID,
     imageId: ImageStoreId,
   ): Promise<void> {
     this.logger.log(
-      `Deleting image ${imageId.value} from product ${productId.uuid}`,
+      `Deleting image ${imageId.value} from product ${productId}`,
     );
 
     if (imageId.medusaIdIfExists === undefined) {
@@ -482,7 +482,7 @@ export class MedusaClient implements IStoreClient {
 
     const { medusaId: productMedusaId } =
       await this.prisma.product.findUniqueOrThrow({
-        where: { id: productId.uuid },
+        where: { id: productId },
         select: { medusaId: true },
       });
 
@@ -505,13 +505,13 @@ export class MedusaClient implements IStoreClient {
     );
   }
 
-  approveProduct(productId: UUID): Promise<void> {
+  approveProduct({ uuid: productId }: UUID): Promise<void> {
     this.logger.log(`Approving product ${productId}`);
 
     throw new Error('Method not implemented.');
   }
 
-  rejectProduct(productId: UUID): Promise<void> {
+  rejectProduct({ uuid: productId }: UUID): Promise<void> {
     this.logger.log(`Rejecting product ${productId}`);
 
     throw new Error('Method not implemented.');
