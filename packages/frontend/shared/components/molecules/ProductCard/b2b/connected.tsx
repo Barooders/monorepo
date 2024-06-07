@@ -98,11 +98,11 @@ export const mapToProps = (
     id: rawProduct.id,
     productType: rawProduct.exposedProduct.productType,
     price: mainVariant?.price,
-    shopifyId: rawProduct.shopifyId,
     stock,
     title: rawProduct.exposedProduct.title,
     tags: enrichTags(extractTags(rawProduct.tags)),
     variantCondition: mainVariant.condition,
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     ...(rawProduct.b2bProduct.largest_bundle_price_in_cents && {
       largestBundlePrice: roundCurrency(
         rawProduct.b2bProduct.largest_bundle_price_in_cents / 100,

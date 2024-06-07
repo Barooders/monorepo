@@ -34,11 +34,9 @@ export const PRODUCT_CARD_FRAGMENT = /* GraphQL */ /* typed_for_public */ `
       collections {
         collection_id
       }
-      shopifyId
       merchantItemId: merchant_item_id
       variants(limit: 30) {
         id
-        shopifyId: shopify_id
         exposedVariant: variant {
           inventory_quantity
           option1Name
@@ -139,11 +137,9 @@ export const createProductFromFragment = (
   );
 
   const variants = productFromDBT.product.variants.map(
-    ({ shopifyId, exposedVariant, b2cVariant, id }) => ({
+    ({ exposedVariant, b2cVariant, id }) => ({
       name: exposedVariant ? createVariantName(exposedVariant) : '',
-      id: id ?? '',
-      // TODO: Remove this when we remove shopifyIds
-      shopifyId: shopifyId!,
+      id,
       price: Number(b2cVariant?.price),
       compareAtPrice: Number(b2cVariant?.compare_at_price),
       available:
@@ -185,7 +181,6 @@ export const createProductFromFragment = (
 
   return {
     id: String(productFromDBT.product.id),
-    shopifyId: productFromDBT.product.shopifyId,
     productMerchantItemId: productFromDBT.product.merchantItemId,
     labels,
     vendor: {
@@ -213,9 +208,7 @@ export const createProductFromFragment = (
     commissionAmount: roundCurrency(Number(commissionAmount)),
     description: productFromDBT.description ?? '',
     handle: productFromDBT.handle ?? '',
-    variantId: variant.id ?? '',
-    // TODO: Remove this when we remove shopifyIds
-    variantShopifyId: variant.shopifyId!,
+    variantId: variant.id,
     variants,
     productType: productFromDBT.productType ?? '',
     numberOfViews: productFromDBT.numberOfViews ?? 0,
