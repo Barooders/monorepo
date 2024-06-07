@@ -62,11 +62,14 @@ const DeliveryInformation: React.FC<PropsType> = ({
       <div className="flex w-full flex-col gap-2">
         <p className="flex items-center gap-2 font-medium uppercase">
           {dict.components.productCard.delivery.title}
-          {shipmentTimeframeSentence !== null && (
-            <span className="ml-2 text-sm font-normal normal-case">
-              {shipmentTimeframeSentence}
-            </span>
-          )}
+          {
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+            shipmentTimeframeSentence && (
+              <span className="ml-2 text-sm font-normal normal-case">
+                {shipmentTimeframeSentence}
+              </span>
+            )
+          }
           <InfoModal
             contentComponent={
               <>{dict.components.productCard.delivery.disclaimer}</>

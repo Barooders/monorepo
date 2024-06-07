@@ -1,4 +1,6 @@
 import { shopifyConfig } from '@config/shopify.config';
+import { PrismaMainClient } from '@libs/domain/prisma.main.client';
+import { UUID } from '@libs/domain/value-objects';
 import { Injectable, Logger } from '@nestjs/common';
 import {
   DeliveryConditionField,
@@ -11,7 +13,6 @@ import {
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
 import { composeGid } from '@shopify/admin-graphql-api-utilities';
 import { uniqBy } from 'lodash';
-import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 // eslint-disable-next-line import/no-restricted-paths
 import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-session.lib';
 
@@ -218,18 +219,18 @@ export class DeliveryProfileService {
   }
 
   async fetchEligibleProductVariantDeliveryProfile(
-    variantInternalId: string,
+    variantInternalId: UUID,
   ): Promise<{ methodDefinitions: DeliveryMethodDefinition[] } | undefined> {
     try {
-      //TODO: remove this from domain and use store (infra) to fetch delivery profiles
       const { shopifyId: variantShopifyId } =
         await this.prisma.productVariant.findUniqueOrThrow({
-          where: { id: variantInternalId },
+          where: { id: variantInternalId.uuid },
           select: { shopifyId: true },
         });
 
-      if (variantShopifyId === null)
-        throw new Error('Variant shopify id not found');
+      if (variantShopifyId === null) {
+        throw new Error('Product variant does not have a shopify id');
+      }
 
       const [productVariant, matchedMethodDefinitions] = await Promise.all([
         this.getProductVariant(Number(variantShopifyId)),
