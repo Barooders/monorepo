@@ -40,7 +40,6 @@ const DOCUMENT_CONFIG = {
       vendor,
     }: PublicVariantToIndex): TypesensePublicVariantDocument => ({
       id: variant.id.uuid,
-      variant_shopify_id: variant.shopifyId?.id,
       variant_internal_id: variant.id.uuid,
       variant_merchant_item_id: variant.merchantItemId,
       title: product.title,
@@ -77,7 +76,6 @@ const DOCUMENT_CONFIG = {
           : (variant.compareAtPrice.amount - variant.price.amount) /
             variant.compareAtPrice.amount,
       product_internal_id: product.id.uuid,
-      product_shopify_id: product.shopifyId?.id,
       product_merchant_item_id: product.merchantItemId,
       product_image: product.imageSrc?.url,
       compare_at_price: variant.compareAtPrice.amount,
@@ -97,7 +95,6 @@ const DOCUMENT_CONFIG = {
       product,
     }: B2BVariantToIndex): TypesenseB2BVariantDocument => ({
       id: variant.id.uuid,
-      variant_shopify_id: variant.shopifyId?.id,
       vendor_id: product.vendorId.uuid,
       variant_internal_id: variant.id?.uuid,
       computed_scoring: product.calculatedScoring ?? 0,
@@ -119,7 +116,6 @@ const DOCUMENT_CONFIG = {
       compare_at_price: variant.compareAtPrice.amount,
       largest_bundle_price: product.largestBundlePrice?.amount,
       product_internal_id: product.id.uuid,
-      product_shopify_id: product.shopifyId?.id,
       product_image: product.imageSrc?.url,
       publishedat_timestamp: product.publishedAt.timestamp,
       updatedat_timestamp: variant.updatedAt.timestamp,

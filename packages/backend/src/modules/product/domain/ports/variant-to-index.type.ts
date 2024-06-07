@@ -3,7 +3,6 @@ import { Condition } from '@libs/domain/prisma.store.client';
 import {
   Amount,
   Percentage,
-  ShopifyID,
   Stock,
   Tags,
   URL,
@@ -12,11 +11,9 @@ import {
 } from '@libs/domain/value-objects';
 import { BundleType } from 'shared-types';
 import { ProductType } from '../value-objects/product-type.value-object';
-import { StoreId } from '../value-objects/store-id.value-object';
 
 export interface PublicVariantToIndex {
   variant: {
-    shopifyId?: ShopifyID;
     merchantItemId: string;
     id: UUID;
     title: string;
@@ -29,7 +26,6 @@ export interface PublicVariantToIndex {
     compareAtPrice: Amount;
   };
   product: {
-    shopifyId?: ShopifyID;
     id: UUID;
     merchantItemId: string;
     isActive: boolean;
@@ -58,8 +54,6 @@ export interface PublicVariantToIndex {
 
 export interface B2BVariantToIndex {
   variant: {
-    medusaId?: StoreId;
-    shopifyId?: ShopifyID;
     id: UUID;
     updatedAt: ValueDate;
     createdAt: ValueDate;
@@ -69,8 +63,6 @@ export interface B2BVariantToIndex {
     compareAtPrice: Amount;
   };
   product: {
-    medusaId?: StoreId;
-    shopifyId?: ShopifyID;
     id: UUID;
     vendor: string;
     vendorId: UUID;
