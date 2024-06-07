@@ -67,7 +67,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_methods[0].shipping_option?.name} (
             {formatAmount({
-              amount: order.shipping_methods[0].price,
+              amount: order.shipping_methods[0].price / 100,
               region: order.region,
               includeTaxes: false,
             })

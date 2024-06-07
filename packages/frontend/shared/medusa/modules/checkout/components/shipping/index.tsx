@@ -174,7 +174,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods[0].shipping_option.name} (
                   {formatAmount({
-                    amount: cart.shipping_methods[0].price,
+                    amount: cart.shipping_methods[0].price / 100,
                     region: cart.region,
                     includeTaxes: false,
                   })
