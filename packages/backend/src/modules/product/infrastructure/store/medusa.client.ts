@@ -12,6 +12,7 @@ import {
 import { getValidTags } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents, toCents } from '@libs/helpers/currency';
+import { jsonStringify } from '@libs/helpers/json';
 import {
   handleMedusaResponse,
   medusaClient,
@@ -40,7 +41,6 @@ import compact from 'lodash/compact';
 import first from 'lodash/first';
 import uniq from 'lodash/uniq';
 import { ImageUploadsClient } from './image-uploads-client';
-import { jsonStringify } from '@libs/helpers/json';
 
 const handle = (title: string): string => {
   const slugified = title
@@ -472,7 +472,9 @@ export class MedusaClient implements IStoreClient {
     productId: UUID,
     imageId: ImageStoreId,
   ): Promise<void> {
-    this.logger.log(`Deleting image ${imageId} from product ${productId}`);
+    this.logger.log(
+      `Deleting image ${imageId.value} from product ${productId.uuid}`,
+    );
 
     if (imageId.medusaIdIfExists === undefined) {
       throw new Error('Image id is required');
