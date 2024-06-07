@@ -94,7 +94,7 @@ export const routesV1 = {
     executePayout: '/invoice/payout',
   },
   deliveryProfile: {
-    variant: '/delivery-profile/product-variant/:variantShopifyId',
+    variant: '/delivery-profile/product-variant/:variantInternalId',
   },
   shopify: {
     auth: '/shopify/auth',

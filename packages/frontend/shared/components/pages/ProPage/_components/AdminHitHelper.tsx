@@ -6,7 +6,7 @@ import { useKeyPressEvent } from 'react-use';
 import { SearchB2BVariantDocument } from 'shared-types';
 
 const AdminHitHelper = ({
-  hit: { product_shopify_id, vendor },
+  hit: { product_internal_id, vendor },
 }: {
   hit: SearchB2BVariantDocument;
 }) => {
@@ -18,7 +18,7 @@ const AdminHitHelper = ({
 
   if (!isAdmin() || !shouldShow) return <></>;
 
-  const retoolLink = `https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management?product_id=${product_shopify_id}&market=B2B`;
+  const retoolLink = `https://barooders.retool.com/apps/a95e27ba-5d41-11ee-8b5b-f3f500dba9d6/Product%20management?product_id=${product_internal_id}&market=B2B`;
 
   return (
     <div
