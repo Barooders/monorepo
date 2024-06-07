@@ -12,6 +12,7 @@ import {
 import { getValidTags } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { fromCents, toCents } from '@libs/helpers/currency';
+import { jsonStringify } from '@libs/helpers/json';
 import {
   handleMedusaResponse,
   medusaClient,
@@ -40,7 +41,6 @@ import compact from 'lodash/compact';
 import first from 'lodash/first';
 import uniq from 'lodash/uniq';
 import { ImageUploadsClient } from './image-uploads-client';
-import { jsonStringify } from '@libs/helpers/json';
 
 const handle = (title: string): string => {
   const slugified = title
@@ -286,13 +286,13 @@ export class MedusaClient implements IStoreClient {
   }
 
   async createProductVariant(
-    productInternalId: UUID,
+    { uuid: productInternalId }: UUID,
     data: Variant,
   ): Promise<VariantCreatedInStore> {
     this.logger.log(`Creating variant for product ${productInternalId}`);
 
     const { medusaId, variants } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productInternalId.uuid },
+      where: { id: productInternalId },
       select: {
         medusaId: true,
         variants: {
@@ -411,11 +411,11 @@ export class MedusaClient implements IStoreClient {
   }
 
   async addProductImage(
-    productId: UUID,
+    { uuid: productId }: UUID,
     image: ImageToUpload,
   ): Promise<ProductImage> {
     const { medusaId } = await this.prisma.product.findUniqueOrThrow({
-      where: { id: productId.uuid },
+      where: { id: productId },
       select: { medusaId: true },
     });
 
@@ -469,10 +469,12 @@ export class MedusaClient implements IStoreClient {
   }
 
   async deleteProductImage(
-    productId: UUID,
+    { uuid: productId }: UUID,
     imageId: ImageStoreId,
   ): Promise<void> {
-    this.logger.log(`Deleting image ${imageId} from product ${productId}`);
+    this.logger.log(
+      `Deleting image ${imageId.value} from product ${productId}`,
+    );
 
     if (imageId.medusaIdIfExists === undefined) {
       throw new Error('Image id is required');
@@ -480,7 +482,7 @@ export class MedusaClient implements IStoreClient {
 
     const { medusaId: productMedusaId } =
       await this.prisma.product.findUniqueOrThrow({
-        where: { id: productId.uuid },
+        where: { id: productId },
         select: { medusaId: true },
       });
 
@@ -503,13 +505,13 @@ export class MedusaClient implements IStoreClient {
     );
   }
 
-  approveProduct(productId: UUID): Promise<void> {
+  approveProduct({ uuid: productId }: UUID): Promise<void> {
     this.logger.log(`Approving product ${productId}`);
 
     throw new Error('Method not implemented.');
   }
 
-  rejectProduct(productId: UUID): Promise<void> {
+  rejectProduct({ uuid: productId }: UUID): Promise<void> {
     this.logger.log(`Rejecting product ${productId}`);
 
     throw new Error('Method not implemented.');

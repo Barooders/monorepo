@@ -302,7 +302,7 @@ export class ProductController {
     @Param('productInternalId') productInternalId: string,
     @Param('imageId') imageId: string,
   ): Promise<void> {
-    const imageStoreId = imageId.includes('-')
+    const imageStoreId = imageId.startsWith('img_')
       ? new ImageStoreId({ medusaId: imageId })
       : new ImageStoreId({ shopifyId: Number(imageId) });
 
