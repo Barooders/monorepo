@@ -62,19 +62,9 @@
       "optional": true
     },
     {
-      "name": "product_shopify_id",
-      "type": "int64",
-      "optional": true
-    },
-    {
       "name": "product_internal_id",
       "facet": true,
       "type": "string"
-    },
-    {
-      "name": "variant_shopify_id",
-      "type": "int64",
-      "optional": true
     },
     {
       "name": "variant_internal_id",
