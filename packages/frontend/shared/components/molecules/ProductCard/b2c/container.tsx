@@ -208,7 +208,7 @@ export const createProductFromFragment = (
     commissionAmount: roundCurrency(Number(commissionAmount)),
     description: productFromDBT.description ?? '',
     handle: productFromDBT.handle ?? '',
-    variantId: variant.id ?? '',
+    variantId: variant.id,
     variants,
     productType: productFromDBT.productType ?? '',
     numberOfViews: productFromDBT.numberOfViews ?? 0,
