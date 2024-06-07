@@ -1,3 +1,4 @@
+import { COMMISSION_TYPE } from '@libs/domain/constants/commission-product.constants';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import {
   Condition,
@@ -37,6 +38,7 @@ import { ImageStoreId } from '@modules/product/domain/value-objects/image-store-
 import { ProductStoreId } from '@modules/product/domain/value-objects/product-store-id.value-object';
 import { VariantStoreId } from '@modules/product/domain/value-objects/variant-store-id.value-object';
 import { Injectable, Logger } from '@nestjs/common';
+import { head } from 'lodash';
 import compact from 'lodash/compact';
 import first from 'lodash/first';
 import uniq from 'lodash/uniq';
@@ -561,8 +563,39 @@ export class MedusaClient implements IStoreClient {
     return new VariantStoreId({ medusaId: variant.id });
   }
 
-  cleanOldCommissions(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async cleanOldCommissions(beforeDate: Date): Promise<void> {
+    const commissionCategory = await medusaClient.admin.productCategories.list({
+      q: COMMISSION_TYPE,
+    });
+    const commissionCategoryId = head(
+      commissionCategory.product_categories,
+    )?.id;
+
+    if (commissionCategoryId === undefined) {
+      throw new Error('Commission category not found in Medusa');
+    }
+
+    const commissionProductsToDelete = await medusaClient.admin.products.list({
+      category_id: [commissionCategoryId],
+      created_at: {
+        lt: beforeDate,
+      },
+    });
+
+    this.logger.log(
+      `Deleting ${commissionProductsToDelete.products.length} commissions`,
+    );
+
+    for (const product of commissionProductsToDelete.products) {
+      if (product.id === undefined) {
+        throw new Error(
+          `Cannot delete product without id: ${jsonStringify(product)}`,
+        );
+      }
+
+      await medusaClient.admin.products.delete(product.id);
+      this.logger.log(`Deleted commission ${product.id}`);
+    }
   }
 
   private mapStatus(status: ProductStatus): MedusaProductStatus {

@@ -1,5 +1,5 @@
 import { routesV2 } from '@config/routes.config';
-import { PRODUCT_NAME } from '@libs/domain/constants/commission-product.constants';
+import { COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
 import { getOrderShippingSolution } from '@libs/domain/order.interface';
 import {
   Condition,
@@ -153,7 +153,7 @@ export class CreatedOrderWebhookMedusaController {
 
   private async getEnrichedOrderItems(order: OrderData) {
     const orderItemIsCommission = (item: LineItem) =>
-      item.title === PRODUCT_NAME;
+      item.title === COMMISSION_NAME;
 
     //TODO: Handle multiple order items, managing commission at order line level
     // instead of adding a new order line

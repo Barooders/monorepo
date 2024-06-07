@@ -1,9 +1,9 @@
 import {
-  PRODUCT_DESCRIPTION,
-  PRODUCT_FEATURED_IMAGE_URL,
-  PRODUCT_NAME,
-  PRODUCT_TYPE,
-  PRODUCT_VENDOR,
+  COMMISSION_DESCRIPTION,
+  COMMISSION_FEATURED_IMAGE_URL,
+  COMMISSION_NAME,
+  COMMISSION_TYPE,
+  COMMISSION_VENDOR,
 } from '@libs/domain/constants/commission-product.constants';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Amount, URL } from '@libs/domain/value-objects';
@@ -66,11 +66,11 @@ export class BuyerCommissionService {
 
     try {
       return await this.storeClient.createCommissionProduct({
-        title: PRODUCT_NAME,
-        description: PRODUCT_DESCRIPTION,
-        vendor: PRODUCT_VENDOR,
-        productType: PRODUCT_TYPE,
-        featuredImgSrc: new URL({ url: PRODUCT_FEATURED_IMAGE_URL }),
+        title: COMMISSION_NAME,
+        description: COMMISSION_DESCRIPTION,
+        vendor: COMMISSION_VENDOR,
+        productType: COMMISSION_TYPE,
+        featuredImgSrc: new URL({ url: COMMISSION_FEATURED_IMAGE_URL }),
         variants: [
           {
             price: cartLineAmount,
