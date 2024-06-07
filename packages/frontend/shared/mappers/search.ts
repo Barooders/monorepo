@@ -65,7 +65,7 @@ export const fromSearchToProductCard = (
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
+    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
   }
 
   const productTags = enrichTags(
@@ -160,7 +160,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
+    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
   }
 
   const productTags = enrichTags(
