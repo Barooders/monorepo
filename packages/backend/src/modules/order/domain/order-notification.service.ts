@@ -619,12 +619,6 @@ export class OrderNotificationService {
       );
     }
 
-    if (!orderData.customer) {
-      throw new Error(
-        `Cannot map order because no customer found for order ${orderId.uuid}`,
-      );
-    }
-
     const previousOrderLines = await this.prisma.orderLines.findMany({
       where: {
         vendor: {
@@ -672,7 +666,7 @@ export class OrderNotificationService {
           .filter(Boolean)
           .join(' '),
         phone: orderData.shippingAddressPhone ?? '',
-        fullName: [orderData.customer.firstName, orderData.customer.lastName]
+        fullName: [orderData.customer?.firstName, orderData.customer?.lastName]
           .filter(Boolean)
           .join(' '),
       },
