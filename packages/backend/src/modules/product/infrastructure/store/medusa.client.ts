@@ -582,8 +582,8 @@ export class MedusaClient implements IStoreClient {
       },
     });
 
-    this.logger.log(
-      `Deleting ${commissionProductsToDelete.products.length} commissions`,
+    this.logger.debug(
+      `Starting to delete ${commissionProductsToDelete.products.length} commission products in Medusa`,
     );
 
     for (const product of commissionProductsToDelete.products) {
