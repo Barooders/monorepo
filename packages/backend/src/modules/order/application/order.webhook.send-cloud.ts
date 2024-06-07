@@ -1,6 +1,6 @@
 import { routesV1 } from '@config/routes.config';
 import { SendCloudWebhookGuard } from '@libs/application/decorators/send-cloud-webhook.guard';
-import { PRODUCT_TYPE } from '@libs/domain/constants/commission-product.constants';
+import { COMMISSION_TYPE } from '@libs/domain/constants/commission-product.constants';
 import { InternalServerErrorException } from '@libs/domain/exceptions';
 import { OrderStatus, PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
@@ -52,7 +52,7 @@ export class OrderWebhookSendCloudController {
         select: {
           id: true,
           orderLines: {
-            where: { productType: { not: PRODUCT_TYPE } },
+            where: { productType: { not: COMMISSION_TYPE } },
             select: { fulfillmentOrderId: true },
           },
         },

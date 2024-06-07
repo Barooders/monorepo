@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import dayjs from 'dayjs';
 import { Command, Console } from 'nestjs-console';
 import { IStoreClient } from '../domain/ports/store.client';
 
@@ -16,6 +17,7 @@ export class CommissionCLIConsole {
     description: 'Delete product commissions that are older than 7 days',
   })
   async createExternalOrders(): Promise<void> {
-    await this.storeClient.cleanOldCommissions();
+    const beforeDate = dayjs().subtract(7, 'days').toDate();
+    await this.storeClient.cleanOldCommissions(beforeDate);
   }
 }

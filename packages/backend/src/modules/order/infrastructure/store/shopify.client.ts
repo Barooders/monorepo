@@ -1,4 +1,4 @@
-import { PRODUCT_NAME as COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
+import { COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';

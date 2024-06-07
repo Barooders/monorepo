@@ -3,7 +3,7 @@ import {
   BackOffPolicy,
   Retryable,
 } from '@libs/application/decorators/retryable.decorator';
-import { PRODUCT_TYPE as COMMISSION_TYPE } from '@libs/domain/constants/commission-product.constants';
+import { COMMISSION_TYPE } from '@libs/domain/constants/commission-product.constants';
 import { CustomerRepository } from '@libs/domain/customer.repository';
 import {
   Condition,
@@ -60,7 +60,6 @@ import {
   ProductVariantInventoryPolicy,
 } from '@quasarwork/shopify-api-types/api/admin/2023-04';
 import { RequestReturn } from '@quasarwork/shopify-api-types/utils/shopify-api';
-import dayjs from 'dayjs';
 import { first } from 'lodash';
 import { IProductVariant } from 'shopify-api-node';
 
@@ -364,15 +363,15 @@ export class ShopifyClient implements IStoreClient {
     await this.updateProductStatus(productId, 'denied');
   }
 
-  async cleanOldCommissions(): Promise<void> {
+  async cleanOldCommissions(beforeDate: Date): Promise<void> {
     const [firstProduct, ...commissionProducts] =
       await shopifyApiByToken.product.list({
-        created_at_max: dayjs().subtract(7, 'days').toISOString(),
+        created_at_max: beforeDate.toISOString(),
         product_type: COMMISSION_TYPE,
         limit: 250,
       });
 
-    this.logger.debug(dayjs().subtract(7, 'days').toISOString());
+    this.logger.debug(beforeDate.toISOString());
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (!firstProduct) {

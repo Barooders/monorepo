@@ -56,10 +56,10 @@ export class StoreClient implements IStoreClient {
     );
   }
 
-  async cleanOldCommissions(): Promise<void> {
+  async cleanOldCommissions(beforeDate: Date): Promise<void> {
     await Promise.all([
-      this.medusaClient.cleanOldCommissions(),
-      this.shopifyClient.cleanOldCommissions(),
+      this.medusaClient.cleanOldCommissions(beforeDate),
+      this.shopifyClient.cleanOldCommissions(beforeDate),
     ]);
   }
 
