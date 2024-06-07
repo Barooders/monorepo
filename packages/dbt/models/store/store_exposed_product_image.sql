@@ -9,7 +9,7 @@ WITH ranked_images AS (
     pi.product_id,
     pi.image_id,
     i.url,
-    ROW_NUMBER() OVER (PARTITION BY pi.product_id ORDER BY pi.image_id ORDER BY pi.image_id) AS position -- Replace `pi.image_id` with appropriate column for ordering if needed
+    ROW_NUMBER() OVER (PARTITION BY pi.product_id ORDER BY pi.image_id) AS position -- Replace `pi.image_id` with appropriate column for ordering if needed
   FROM medusa.product_images AS pi
   LEFT JOIN medusa.image AS i ON pi.image_id = i.id
 )
