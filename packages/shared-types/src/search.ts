@@ -19,7 +19,6 @@ export enum SearchPreset {
 }
 
 type SearchBaseVariantDocument = {
-  variant_shopify_id?: number;
   variant_internal_id: string;
   title: string;
   vendor: string;
@@ -30,7 +29,6 @@ type SearchBaseVariantDocument = {
   array_tags: Record<string, string[]>;
   price: number;
   compare_at_price: number;
-  product_shopify_id?: number;
   product_internal_id: string;
   product_image?: string;
   updatedat_timestamp: number;

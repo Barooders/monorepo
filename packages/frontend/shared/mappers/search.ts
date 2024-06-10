@@ -65,7 +65,7 @@ export const fromSearchToProductCard = (
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
+    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
   }
 
   const productTags = enrichTags(
@@ -93,7 +93,6 @@ export const fromSearchToProductCard = (
     });
   }
 
-  const variantShopifyId = hit.variant_shopify_id ?? 0;
   const variantId = hit.variant_internal_id;
 
   return {
@@ -117,14 +116,12 @@ export const fromSearchToProductCard = (
       {
         compareAtPrice: hit.compare_at_price,
         price: hit.price,
-        shopifyId: variantShopifyId,
         id: variantId,
         name: '',
         available: true,
         isRefurbished,
       },
     ],
-    variantShopifyId,
     variantId,
     isSoldOut: false,
     title: hit.title,
@@ -147,7 +144,6 @@ export const fromSearchToProductCard = (
     reviews: [],
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id ?? 0,
     id: hit.product_internal_id,
     productMerchantItemId: hit.product_merchant_item_id,
     collections: hit.collection_internal_ids ?? [],
@@ -160,7 +156,7 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (image) {
     imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '_500x.$1');
+    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
   }
 
   const productTags = enrichTags(
@@ -189,7 +185,6 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     stock: hit.total_quantity,
     productType: hit.product_type,
     handle: hit.handle,
-    shopifyId: hit.product_shopify_id,
     id: hit.product_internal_id,
     vendorId: hit.vendor_id,
   };

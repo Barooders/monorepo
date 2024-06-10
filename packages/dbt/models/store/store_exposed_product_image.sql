@@ -1,26 +1,29 @@
 {{ config(
     materialized='incremental',
-    unique_key='shopify_id',
+    unique_key='medusa_id',
 	pre_hook='delete from {{this}}'
 ) }}
 
-WITH product_images AS (
+WITH ranked_images AS (
   SELECT
-    id AS product_id,
-    jsonb_array_elements(images) AS image
-  FROM airbyte_shopify.products
+    pi.product_id,
+    pi.image_id,
+    i.url,
+    ROW_NUMBER() OVER (PARTITION BY pi.product_id ORDER BY pi.image_id) AS position -- Replace `pi.image_id` with appropriate column for ordering if needed
+  FROM medusa.product_images AS pi
+  LEFT JOIN medusa.image AS i ON pi.image_id = i.id
 )
 
 SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations and aggregates)
   bp.id AS "productId",
-  (pi.image ->> 'id')::bigint AS "shopify_id",
-  (pi.image ->> 'width')::bigint AS width,
-  (pi.image ->> 'height')::bigint AS height,
-  (pi.image ->> 'position')::bigint AS position, -- noqa: RF04
-  pi.image ->> 'src' AS src,
-  pi.image ->> 'alt' AS alt,
-  current_date AS "syncDate"
-FROM product_images AS pi
+  ri.image_id AS "medusa_id",
+  -1 AS width,
+  -1 AS height,
+  ri.position,
+  ri.url AS src,
+  NULL AS alt,
+  CURRENT_DATE AS "syncDate"
+FROM ranked_images AS ri
 INNER JOIN
   {{ ref('store_base_product') }} AS bp
-  ON pi.product_id = bp."shopifyId"
+  ON ri.product_id = bp."medusaId"
