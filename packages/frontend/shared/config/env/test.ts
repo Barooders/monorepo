@@ -1,9 +1,6 @@
 import { EnvType } from './types';
 
 const testEnv: EnvType = {
-  features: {
-    medusaCheckout: true,
-  },
   search: {
     publicVariantsCollection: 'staging_backend_products',
     publicVariantSuggestionsCollection:

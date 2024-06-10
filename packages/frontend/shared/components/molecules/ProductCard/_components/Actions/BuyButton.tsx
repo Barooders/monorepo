@@ -5,20 +5,12 @@ import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
-import envConfig from '@/config/env';
 import useUser from '@/hooks/state/useUser';
-import { useAuth } from '@/hooks/useAuth';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
-import useIsLoggedIn from '@/hooks/useIsLoggedIn';
-import useStorefront, {
-  ASSOCIATE_CHECKOUT,
-  CREATE_CHECKOUT,
-} from '@/hooks/useStorefront';
 import useWrappedAsyncFn from '@/hooks/useWrappedAsyncFn';
 import { getDictionary } from '@/i18n/translate';
 import { addToCart, createSingleItemCart } from '@/medusa/modules/cart/actions';
-import { toStorefrontId } from '@/utils/shopifyId';
 import { useEffect } from 'react';
 import { HASURA_ROLES } from 'shared-types';
 
@@ -39,20 +31,7 @@ const BuyButton: React.FC<{
   className?: string;
 }> = ({ variantInternalId, productMerchantItemId, className }) => {
   const { hasuraToken } = useUser();
-  const { getShopifyToken } = useAuth();
-  const { isLoggedIn } = useIsLoggedIn();
   const { fetchAPI } = useBackend();
-  const createCheckout = useStorefront<{
-    checkoutCreate: {
-      checkout: {
-        id: string;
-        webUrl: string;
-      };
-      checkoutUserErrors: {
-        message: string;
-      };
-    };
-  }>(CREATE_CHECKOUT);
   const fetchVariant = useHasura(graphql(FETCH_VARIANT), HASURA_ROLES.PUBLIC);
   const [{ value: fetchedVariant }, doFetchVariant] = useWrappedAsyncFn(() =>
     fetchVariant({ internalId: variantInternalId }),
@@ -61,18 +40,6 @@ const BuyButton: React.FC<{
   useEffect(() => {
     doFetchVariant();
   }, []);
-
-  const associateCheckout = useStorefront<{
-    checkoutCreate: {
-      checkout: {
-        id: string;
-        webUrl: string;
-      };
-      checkoutUserErrors: {
-        message: string;
-      };
-    };
-  }>(ASSOCIATE_CHECKOUT);
 
   const createCommissionOnStore = async () => {
     const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
@@ -89,50 +56,6 @@ const BuyButton: React.FC<{
       method: 'POST',
       body: JSON.stringify(commissionBody),
     });
-  };
-
-  const createShopifyCheckout = async () => {
-    const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
-    if (variantShopifyId === null || variantShopifyId === undefined)
-      throw new Error('Variant not found in hasura');
-
-    const { variantShopifyId: commissionShopifyId } =
-      await createCommissionOnStore();
-
-    const input: {
-      allowPartialAddresses?: boolean;
-      lineItems: { quantity: number; variantId: string }[];
-      email?: string;
-    } = {
-      allowPartialAddresses: true,
-      lineItems: [
-        {
-          quantity: 1,
-          variantId: toStorefrontId(variantShopifyId, 'ProductVariant'),
-        },
-        {
-          quantity: 1,
-          variantId: toStorefrontId(commissionShopifyId, 'ProductVariant'),
-        },
-      ],
-    };
-
-    if (hasuraToken?.user.email !== undefined) {
-      input.email = hasuraToken.user.email;
-    }
-
-    const createCheckoutResponse = await createCheckout({
-      input,
-    });
-
-    if (Boolean(isLoggedIn)) {
-      await associateCheckout({
-        checkoutId: createCheckoutResponse.checkoutCreate.checkout.id,
-        customerAccessToken: await getShopifyToken(),
-      });
-    }
-
-    return createCheckoutResponse.checkoutCreate.checkout.webUrl;
   };
 
   const createMedusaCheckout = async () => {
@@ -157,12 +80,10 @@ const BuyButton: React.FC<{
     return '/checkout?step=address';
   };
 
-  const [createState, doCreate] = useWrappedAsyncFn(
-    Boolean(envConfig.features.medusaCheckout)
-      ? createMedusaCheckout
-      : createShopifyCheckout,
-    [hasuraToken, createCheckout],
-  );
+  const [createState, doCreate] = useWrappedAsyncFn(createMedusaCheckout, [
+    hasuraToken,
+    createMedusaCheckout,
+  ]);
 
   useEffect(() => {
     if (createState.value !== undefined) {
