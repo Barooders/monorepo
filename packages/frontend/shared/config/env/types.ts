@@ -1,7 +1,4 @@
 export type EnvType = {
-  features: {
-    medusaCheckout: boolean;
-  };
   search: {
     publicVariantsCollection: string;
     publicVariantSuggestionsCollection: string;

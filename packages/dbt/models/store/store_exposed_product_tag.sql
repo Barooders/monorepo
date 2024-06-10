@@ -4,15 +4,17 @@
   pre_hook='delete from {{this}}'
 ) }}
 
-SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations and aggregates)
-  bp.id AS "product_id",
-  split_part(tag.value, ':', 1) AS tag,
-  tag.value AS full_tag,
-  min(substring(tag.value FROM position(':' IN tag.value) + 1)) AS value -- noqa: RF04, (ignore reserved keyword)
-FROM medusa.product_tag AS tag
-INNER JOIN medusa.product_tags AS tags ON tag.id = tags.product_tag_id
-INNER JOIN
-  {{ ref('store_base_product') }} AS bp
-  ON tags.product_id = bp."medusaId"
-WHERE value LIKE '%:%'
-GROUP BY 1, 2, 3
+SELECT
+    id AS product_id,
+		tag AS full_tag,
+    (regexp_split_to_array(tag, ':'))[1] AS tag,
+    (regexp_split_to_array(tag, ':'))[2] AS value -- noqa: RF04, (ignore reserved keyword)
+FROM (
+    SELECT
+        bp.id,
+        jsonb_array_elements_text(p.metadata->'tags') AS tag
+    FROM
+        {{ ref('store_base_product') }} AS bp
+		JOIN medusa.product p ON p.id = bp."medusaId"
+) AS tags_split
+WHERE tag LIKE '%:%'

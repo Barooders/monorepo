@@ -380,7 +380,7 @@ export class ShopifyClient implements IStoreClient {
     }
 
     this.logger.debug(
-      `Starting to delete ${commissionProducts.length + 1} commission products`,
+      `Starting to delete ${commissionProducts.length + 1} commission products in Shopify`,
     );
 
     // Wait for one to see an eventual error, then do the rest without waiting response

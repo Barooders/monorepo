@@ -564,26 +564,31 @@ export class MedusaClient implements IStoreClient {
   }
 
   async cleanOldCommissions(beforeDate: Date): Promise<void> {
-    const commissionCategory = await medusaClient.admin.productCategories.list({
-      q: COMMISSION_TYPE,
-    });
-    const commissionCategoryId = head(
-      commissionCategory.product_categories,
-    )?.id;
+    const commissionCategories =
+      await medusaClient.admin.productCategories.list({
+        q: COMMISSION_TYPE,
+      });
+    const commissionCategory = head(commissionCategories.product_categories);
 
-    if (commissionCategoryId === undefined) {
+    if (commissionCategory === undefined) {
       throw new Error('Commission category not found in Medusa');
     }
 
+    if (commissionCategory.name !== COMMISSION_TYPE) {
+      throw new Error(
+        `Invalid matched commission category name: ${commissionCategory.name}`,
+      );
+    }
+
     const commissionProductsToDelete = await medusaClient.admin.products.list({
-      category_id: [commissionCategoryId],
+      category_id: [commissionCategory.id],
       created_at: {
         lt: beforeDate,
       },
     });
 
-    this.logger.log(
-      `Deleting ${commissionProductsToDelete.products.length} commissions`,
+    this.logger.debug(
+      `Starting to delete ${commissionProductsToDelete.products.length} commission products in Medusa`,
     );
 
     for (const product of commissionProductsToDelete.products) {
