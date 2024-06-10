@@ -59,15 +59,6 @@ export const fromSearchToProductCard = (
   hit: SearchPublicVariantDocument,
 ): ProductMultiVariants => {
   const dict = getDictionary('fr');
-
-  let imageUrl = null;
-  const image = hit.product_image ?? null;
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (image) {
-    imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
-  }
-
   const productTags = enrichTags(
     mapValues(hit.array_tags, (tag) => tag.join(TAG_VALUES_JOINER)),
   );
@@ -101,10 +92,10 @@ export const fromSearchToProductCard = (
     hasRefurbishedVariant: isRefurbished,
     numberOfViews: 0,
     images:
-      imageUrl !== null
+      hit.product_image !== undefined
         ? [
             {
-              src: imageUrl.toString(),
+              src: hit.product_image,
               altText: hit.title,
               width: null,
               height: null,
@@ -151,14 +142,6 @@ export const fromSearchToProductCard = (
 };
 
 export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
-  let imageUrl = null;
-  const image = hit.product_image ?? null;
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (image) {
-    imageUrl = new URL(image);
-    imageUrl.pathname = imageUrl.pathname.replace(/\.([a-z]+)$/, '-medium.$1');
-  }
-
   const productTags = enrichTags(
     mapValues(hit.array_tags, (tag) => tag.join(TAG_VALUES_JOINER)),
   );
@@ -167,9 +150,9 @@ export const fromSearchToB2BProductCard = (hit: SearchB2BVariantDocument) => {
     tags: productTags,
     variantCondition: hit.condition as Condition,
     image:
-      imageUrl !== null
+      hit.product_image !== undefined
         ? {
-            src: imageUrl.toString(),
+            src: hit.product_image,
             altText: hit.title,
             width: null,
             height: null,

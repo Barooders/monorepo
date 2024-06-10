@@ -1,4 +1,5 @@
 import { Url } from '@/types';
+import isEmpty from '@/utils/isEmpty';
 
 type PropsType = {
   src: Url;
@@ -10,18 +11,12 @@ type PropsType = {
 
 const EXTRACT_EXTENSION_REGEX =
   /(.*)\.(apng|avif|gif|GIF|jfif|jpg|JPG|jpeg|JPEG|pjpeg|pjp|png|PNG|webp|svg)$/;
-const formatToDimension = {
-  thumbnail: 300,
-  medium: 800,
-  large: 1200,
-  full: Infinity,
-};
 
 export const getUrlByFormat = (
   src: PropsType['src'],
   format: PropsType['format'],
 ) => {
-  if (!src.includes('cdn.shopify.com')) return src;
+  if (!src.includes('s3.amazonaws.com')) return src;
 
   const imageUrl = new URL(src);
 
@@ -29,11 +24,9 @@ export const getUrlByFormat = (
     EXTRACT_EXTENSION_REGEX.exec(`${imageUrl.origin}${imageUrl.pathname}`) ??
     [];
 
-  if (!urlWithoutExtension) return originalUrl;
+  if (isEmpty(urlWithoutExtension)) return originalUrl;
 
-  const dimension = formatToDimension[format];
-  const dimensionModifier =
-    dimension !== Infinity ? `_${dimension}x${dimension}` : '';
+  const dimensionModifier = format !== 'full' ? `-${format}` : '';
 
   return `${urlWithoutExtension}${dimensionModifier}.${extension}`;
 };
@@ -45,13 +38,15 @@ const Image: React.FC<PropsType> = ({
   className,
   blurred = false,
 }) => {
+  console.log(`Not using format ${format}`);
   return (
     <img
       className={`h-full w-full object-contain ${
         blurred ? 'blur-sm' : ''
       } ${className}`}
       alt={altText}
-      src={getUrlByFormat(src, format)}
+      src={src}
+      loading="lazy"
     />
   );
 };
