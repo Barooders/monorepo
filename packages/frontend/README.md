@@ -2,6 +2,7 @@
 
 Next JS project to host Barooders frontend
 
+
 ## Debug Server Side Network
 
 - Install HTTP Toolkit: http://httptoolkit.com
