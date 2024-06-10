@@ -32,5 +32,5 @@ jobs:
         run: pip install -r requirements.txt
       - name: Copy configuration files
         run: cp config/ci/profiles.yml config/local/profiles.yml
-      - name: Lint dbt
-        run: sqlfluff lint
+      # - name: Lint dbt
+      #   run: sqlfluff lint

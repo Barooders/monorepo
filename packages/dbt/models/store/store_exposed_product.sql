@@ -60,7 +60,7 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
 FROM {{ ref("store_base_product") }} AS bp
 LEFT JOIN public."Product" AS p ON bp.id = p.id
 LEFT JOIN medusa.product AS mp ON bp."medusaId" = mp.id
-LEFT JOIN public."Customer" AS c ON mp.vendor_id = cast (c."authUserId" AS text)
+LEFT JOIN public."Customer" AS c ON mp.vendor_id = cast(c."authUserId" AS text)
 LEFT JOIN
   ( -- noqa: ST05, (Join/From clauses should not contain subqueries. Use CTEs instead)
     SELECT

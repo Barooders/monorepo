@@ -22,7 +22,7 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
   ri.position,
   ri.url AS src,
   NULL AS alt,
-  current_date AS "syncDate"
+  CURRENT_DATE AS "syncDate"
 FROM ranked_images AS ri
 INNER JOIN
   {{ ref('store_base_product') }} AS bp

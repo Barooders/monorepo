@@ -1,17 +1,12 @@
-import { operations } from '@/__generated/rest-schema';
 import { sendLogin } from '@/analytics';
 import { fetchAuth } from '@/clients/auth';
 import { HasuraAuthJwtType, HasuraToken } from '@/types';
 import { decodeJWT } from '@/utils/decodeJWT';
 import { useRouter } from 'next/navigation';
+import { HASURA_ROLES } from 'shared-types';
 import useUser from './state/useUser';
-import useBackend from './useBackend';
 import useFavoriteProducts from './useFavoriteProducts';
 import { useHasuraToken } from './useHasuraToken';
-import useStorefront, {
-  GET_STOREFRONT_TOKEN_FROM_MULTIPASS,
-} from './useStorefront';
-import { HASURA_ROLES } from 'shared-types';
 
 type LoginResponseType = {
   status: number;
@@ -23,15 +18,6 @@ export const useAuth = () => {
   const { logoutUser, hasuraToken } = useUser();
   const { storeNewToken, consumeRefreshToken } = useHasuraToken();
   const { fetchFavoriteProducts } = useFavoriteProducts();
-  const { fetchAPI } = useBackend();
-
-  const getShopifyTokenFromMultipass = useStorefront<{
-    customerAccessTokenCreateWithMultipass: {
-      customerAccessToken: {
-        accessToken: string;
-      };
-    };
-  }>(GET_STOREFRONT_TOKEN_FROM_MULTIPASS);
 
   const finalizeLogin = async (
     redirectUrl = '/account',
@@ -111,25 +97,11 @@ export const useAuth = () => {
     return hasuraToken?.user.roles.includes(HASURA_ROLES.B2B_USER) || false;
   };
 
-  const getShopifyToken = async () => {
-    const multipassResponse = await fetchAPI<
-      operations['ShopifyController_shopifyLogin']['responses']['default']['content']['application/json']
-    >('/v1/auth/shopify', { method: 'POST' });
-
-    const response = await getShopifyTokenFromMultipass({
-      multipassToken: multipassResponse.multipassToken,
-    });
-
-    return response.customerAccessTokenCreateWithMultipass.customerAccessToken
-      .accessToken;
-  };
-
   return {
     loginWithPassword,
     loginWithToken,
     logout,
     isAdmin,
     isB2BUser,
-    getShopifyToken,
   };
 };
