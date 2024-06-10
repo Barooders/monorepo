@@ -45,7 +45,7 @@ SELECT -- noqa: ST06, (Select wildcards then simple targets before calculations 
   mp.title,
   c."sellerName" AS vendor,
   replace_phone_number(replace_links_and_mails(mp.description)) AS "description",
-  mp.handle,
+  p.handle,
   cast(cast(p.status AS text) AS dbt."ProductStatus") AS status,
   t_brand.value AS brand,
   coalesce(pr.traffictot, 0) AS "numberOfViews",
