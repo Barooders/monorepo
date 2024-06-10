@@ -26,7 +26,7 @@ class ShippingOptionService extends MedusaShippingOptionService {
     const heaviestVariant = first(
       cart.items
         .map((item) => item.variant)
-        .sort((a, b) => (a.weight ?? 0) - (b.weight ?? 0)),
+        .sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0)),
     );
 
     if (heaviestVariant === undefined || heaviestVariant.weight === null) {
