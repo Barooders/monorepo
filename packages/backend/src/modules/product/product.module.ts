@@ -108,6 +108,7 @@ const commonProviders = [
     IPIMClient,
     ICommissionRepository,
     MedusaClient,
+    ImageUploadsClient,
   ],
 })
 export class ProductModule {}
