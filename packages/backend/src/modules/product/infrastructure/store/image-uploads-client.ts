@@ -105,9 +105,9 @@ export class ImageUploadsClient {
         const { width, height } = SIZE_CONFIG[size as Size];
         const output = await sharp(buffer)
           .resize(width, height, {
-            fit: 'contain',
+            fit: 'inside',
           })
-          .png()
+          .jpeg()
           .toBuffer();
 
         return this.publicUrl(
