@@ -1,8 +1,7 @@
 import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
-import { UUID } from '@libs/domain/value-objects';
-import { IPIMClient } from '@modules/product/domain/ports/pim.client';
-import { ProductUpdateService } from '@modules/product/domain/product-update.service';
+import { ImageUploadsClient } from '@modules/product/infrastructure/store/image-uploads-client';
 import { Logger } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { Command, Console } from 'nestjs-console';
 
 @Console()
@@ -11,75 +10,43 @@ export class FixProductImageCLI {
 
   constructor(
     private prisma: PrismaStoreClient,
-    private productUpdateService: ProductUpdateService,
-    private pimClient: IPIMClient,
+    private imageUploadClient: ImageUploadsClient,
   ) {}
 
   @Command({
     command: 'fixProductImages',
     options: [
       {
-        flags: '-d, --dry',
+        flags: '-l, --limit <limit>',
         required: false,
-        description: 'No updates made',
+        description: 'limit number of images to deal',
       },
     ],
   })
-  async fixProductImages({ dry = false }: { dry: boolean }): Promise<void> {
-    const productsWithoutImages = await this.prisma.storeBaseProduct.findMany({
-      where: {
-        exposedImages: { none: {} },
-      },
-      include: {
-        exposedProductTags: true,
-      },
-    });
-    this.logger.log(
-      `Found ${productsWithoutImages.length} products without images`,
-    );
+  async fixProductImages({ limit = 2000 }: { limit: number }): Promise<void> {
+    const imagesToFix = await this.prisma.$queryRawUnsafe<
+      { id: string; url: string }[]
+    >(`SELECT id, url FROM medusa.image
+		WHERE metadata->'formatFixed' IS NULL
+		LIMIT ${limit}`);
+    this.logger.log(`Found ${imagesToFix.length} products without images`);
 
-    for (const product of productsWithoutImages) {
+    for (const { id, url } of imagesToFix) {
       try {
-        const productModelName = product.exposedProductTags.find(
-          (tag) => tag.tag === 'modele',
-        )?.value;
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        if (!productModelName) {
-          this.logger.log(`No model tag for product ${product.id}`);
-          continue;
-        }
+        this.logger.log(`Treating image ${id}`);
+        const result = url.match(
+          /https:\/\/barooders-medusa-[a-z]*\.s3\.amazonaws\.com\/products\/([a-f0-9-]*)\.png$/,
+        );
+        const fileName = result?.[1] ?? randomUUID();
 
-        const productModel =
-          await this.pimClient.getPimProductModel(productModelName);
+        await this.imageUploadClient.multiFormatUploadFromUrl({
+          fileName,
+          url,
+        });
 
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-        if (!productModel) {
-          this.logger.log(`Cannot find model for product ${product.id}`);
-          continue;
-        }
-
-        if (!productModel.attributes.imageUrl) {
-          this.logger.log(
-            `No image on model ${productModelName} for product ${product.id}`,
-          );
-          continue;
-        }
-
-        if (dry) {
-          this.logger.log(
-            `Would upload ${productModel.attributes.imageUrl.toString()} to shopify for product ${product.shopifyId.toString()}`,
-          );
-        } else {
-          this.logger.log(
-            `Adding ${productModel.attributes.imageUrl.toString()} to product ${product.shopifyId.toString()}`,
-          );
-          await this.productUpdateService.addProductImage(
-            new UUID({ uuid: product.id }),
-            {
-              src: productModel.attributes.imageUrl.toString(),
-            },
-          );
-        }
+        await this.prisma.$executeRawUnsafe(
+          `UPDATE medusa.image SET metadata = '{"formatFixed": true}' WHERE id = '${id}';`,
+        );
       } catch (e) {
         const error = e as { message: string };
         this.logger.error(error.message);

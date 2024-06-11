@@ -1,4 +1,9 @@
-{{ config(schema='medusa', materialized='table') }}
+{{ config(
+    schema="medusa",
+    materialized='incremental',
+    unique_key="product_id||'-'||profile_id",
+    pre_hook='delete from {{this}}'
+) }}
 
 SELECT
   product.id AS product_id,

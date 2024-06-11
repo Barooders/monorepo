@@ -59,7 +59,7 @@ export class ImageUploadsClient {
     return this.publicUrl(fileName);
   }
 
-  private async multiFormatUploadFromUrl({
+  public async multiFormatUploadFromUrl({
     url,
     fileName,
   }: {
@@ -73,7 +73,13 @@ export class ImageUploadsClient {
       })
     ).data as Buffer;
 
-    return await this.multiFormatUploadFromBuffer({ buffer: input, fileName });
+    return await this.multiFormatUploadFromBuffer({
+      buffer: input,
+      fileName,
+      shouldUploadOriginal: !url.includes(
+        envConfig.externalServices.s3.bucketName,
+      ),
+    });
   }
 
   private async multiFormatUploadFromBase64Content({
@@ -90,22 +96,27 @@ export class ImageUploadsClient {
   private async multiFormatUploadFromBuffer({
     buffer,
     fileName,
+    shouldUploadOriginal = true,
   }: {
     buffer: Buffer;
     fileName: string;
+    shouldUploadOriginal?: boolean;
   }) {
     const results = await Promise.all([
-      (async () => {
-        const originalOutput = await sharp(buffer).png().toBuffer();
-        return this.publicUrl(
-          (await this.uploadFile(`${fileName}.png`, originalOutput)).Key,
-        );
-      })(),
+      shouldUploadOriginal
+        ? (async () => {
+            const originalOutput = await sharp(buffer).png().toBuffer();
+            return this.publicUrl(
+              (await this.uploadFile(`${fileName}.png`, originalOutput)).Key,
+            );
+          })()
+        : this.publicUrl(fileName),
       ...Object.keys(SIZE_CONFIG).map(async (size) => {
         const { width, height } = SIZE_CONFIG[size as Size];
         const output = await sharp(buffer)
           .resize(width, height, {
-            fit: 'contain',
+            fit: sharp.fit.inside,
+            withoutEnlargement: true,
           })
           .png()
           .toBuffer();
