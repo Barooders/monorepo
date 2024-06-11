@@ -11,8 +11,33 @@ export class MedusaClient implements IStoreClient {
   constructor(private prisma: PrismaMainClient) {}
 
   async getProductShippingProfile({
-    uuid: _variantInternalId,
+    uuid: variantInternalId,
   }: UUID): Promise<ProductDeliveryProfile> {
-    throw new Error('Method not implemented.');
+    const {
+      product: { medusaId: productMedusaId },
+    } = await this.prisma.productVariant.findUniqueOrThrow({
+      where: {
+        id: variantInternalId,
+      },
+      select: {
+        product: {
+          select: {
+            medusaId: true,
+          },
+        },
+      },
+    });
+
+    if (productMedusaId === null)
+      throw new Error('Medusa product ID not found');
+
+    return {
+      options: [
+        {
+          name: 'toto',
+          amount: 12,
+        },
+      ],
+    };
   }
 }
