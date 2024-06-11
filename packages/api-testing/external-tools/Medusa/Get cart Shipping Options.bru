@@ -4,18 +4,14 @@ meta {
   seq: 8
 }
 
-post {
-  url: {{medusaUrl}}/admin/uploads
+get {
+  url: {{medusaUrl}}/store/shipping-options/cart_01HZPZ3EBZW5D72VRE83M8Q9N7
   body: multipartForm
   auth: none
 }
 
 headers {
   x-medusa-access-token: {{medusaAdminToken}}
-}
-
-body:multipart-form {
-  files: @file(/Users/clementdessoude/Downloads/active_products_limit_photos.csv)
 }
 
 script:post-response {
