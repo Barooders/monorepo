@@ -1,5 +1,7 @@
 import { PrismaMainClient } from '@libs/domain/prisma.main.client';
 import { UUID } from '@libs/domain/value-objects';
+import { jsonStringify } from '@libs/helpers/json';
+import { medusaClient } from '@libs/infrastructure/medusa/client';
 import {
   IStoreClient,
   ProductDeliveryProfile,
@@ -31,11 +33,18 @@ export class MedusaClient implements IStoreClient {
     if (productMedusaId === null)
       throw new Error('Medusa product ID not found');
 
+    const product = await medusaClient.admin.products.retrieve(productMedusaId);
+    const profile = await medusaClient.admin.shippingProfiles.retrieve(
+      product.product.profile_id,
+    );
+
+    const firstShippingOption = profile.shipping_profile.shipping_options;
+
     return {
       options: [
         {
-          name: 'toto',
-          amount: 12,
+          name: jsonStringify(firstShippingOption),
+          amount: 10,
         },
       ],
     };
