@@ -99,7 +99,7 @@ export class CreatedOrderWebhookMedusaController {
   private async mapOrderData(order: OrderData): Promise<OrderToStore> {
     const fulfillmentOrders = order.fulfillments.map(this.mapFulfillment);
 
-    const { id: customerId } = await this.mainPrisma.users.findUniqueOrThrow({
+    const buyerCustomer = await this.mainPrisma.users.findUnique({
       where: {
         email: order.email,
       },
@@ -128,7 +128,7 @@ export class CreatedOrderWebhookMedusaController {
         salesChannelName: SalesChannelName.PUBLIC,
         status: OrderStatus.CREATED,
         customerEmail: order.email,
-        customerId,
+        customerId: buyerCustomer?.id ?? null,
         totalPriceInCents: totalPriceInCents,
         totalPriceCurrency: Currency.EUR,
         shippingAddressAddress1: order.shipping_address.address_1 ?? '',
