@@ -1,3 +1,4 @@
+import envConfig from '@config/env/env.config';
 import { routesV2 } from '@config/routes.config';
 import { COMMISSION_NAME } from '@libs/domain/constants/commission-product.constants';
 import { getOrderShippingSolution } from '@libs/domain/order.interface';
@@ -25,12 +26,14 @@ import {
 import { StoreId } from '@modules/product/domain/value-objects/store-id.value-object';
 import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { last } from 'lodash';
+import { first, last } from 'lodash';
 import head from 'lodash/head';
 import { v4 as uuidv4 } from 'uuid';
 import { OrderCreationService } from '../domain/order-creation.service';
+import { OrderNotificationService } from '../domain/order-notification.service';
 import {
   FulfillmentOrderToStore,
+  OrderCreatedData,
   OrderLineToStore,
   OrderToStore,
 } from '../domain/ports/types';
@@ -79,6 +82,7 @@ export class CreatedOrderWebhookMedusaController {
 
   constructor(
     private orderCreationService: OrderCreationService,
+    private orderNotificationService: OrderNotificationService,
     private storePrisma: PrismaStoreClient,
     private mainPrisma: PrismaMainClient,
   ) {}
@@ -92,14 +96,17 @@ export class CreatedOrderWebhookMedusaController {
       type: 'medusa',
     };
 
-    const orderToStore = await this.mapOrderData(orderData);
+    const orderToStore = await this.mapOrderToStore(orderData);
     await this.orderCreationService.storeOrder(orderToStore, author);
+
+    const orderCreated = await this.mapOrderCreated(orderData);
+    await this.orderNotificationService.notifyOrderCreated(orderCreated);
   }
 
-  private async mapOrderData(order: OrderData): Promise<OrderToStore> {
+  private async mapOrderToStore(order: OrderData): Promise<OrderToStore> {
     const fulfillmentOrders = order.fulfillments.map(this.mapFulfillment);
 
-    const { id: customerId } = await this.mainPrisma.users.findUniqueOrThrow({
+    const buyerCustomer = await this.mainPrisma.users.findUnique({
       where: {
         email: order.email,
       },
@@ -108,10 +115,7 @@ export class CreatedOrderWebhookMedusaController {
       },
     });
 
-    const totalPriceInCents = order.items.reduce(
-      (acc, item) => acc + item.unit_price * item.quantity,
-      0,
-    );
+    const totalPriceInCents = this.getTotalOrderPriceInCents(order);
 
     const orderItemsWithInternalVariant =
       await this.getEnrichedOrderItems(order);
@@ -128,7 +132,7 @@ export class CreatedOrderWebhookMedusaController {
         salesChannelName: SalesChannelName.PUBLIC,
         status: OrderStatus.CREATED,
         customerEmail: order.email,
-        customerId,
+        customerId: buyerCustomer?.id ?? null,
         totalPriceInCents: totalPriceInCents,
         totalPriceCurrency: Currency.EUR,
         shippingAddressAddress1: order.shipping_address.address_1 ?? '',
@@ -149,6 +153,42 @@ export class CreatedOrderWebhookMedusaController {
       fulfillmentOrders: fulfillmentOrders,
       priceOfferIds: await this.getPriceOffers(order.discounts),
     };
+  }
+
+  private async mapOrderCreated(order: OrderData): Promise<OrderCreatedData> {
+    const productLineItem = order.items.find(
+      (item) => item.title !== COMMISSION_NAME,
+    );
+
+    if (!productLineItem) {
+      throw new Error(`No product found in order ${order.id}`);
+    }
+
+    return {
+      customer: {
+        email: order.email,
+        firstName: '',
+        fullName: '',
+      },
+      order: {
+        adminUrl: `${envConfig.externalServices.medusa.baseUrl}/app/a/orders/${order.id}`,
+        name: `#${order.display_id}`,
+        paymentMethod: first(order.payments)?.provider_id ?? '',
+        totalPrice: (this.getTotalOrderPriceInCents(order) / 100).toFixed(2),
+      },
+      product: {
+        createdAt: productLineItem.created_at,
+        name: productLineItem.title,
+        referenceUrl: '',
+      },
+    };
+  }
+
+  private getTotalOrderPriceInCents(order: OrderData) {
+    return order.items.reduce(
+      (acc, item) => acc + item.unit_price * item.quantity,
+      0,
+    );
   }
 
   private async getEnrichedOrderItems(order: OrderData) {

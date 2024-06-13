@@ -23,19 +23,9 @@ import {
   OrderPaidData,
 } from './ports/types';
 
-const MANUAL_PAYMENT_CLIENT_NOTIFICATION = [
-  'Paiement 10x - Younited Pay',
-  'Paiement 24x - Younited Pay',
-];
+const MANUAL_PAYMENT_CLIENT_NOTIFICATION: string[] = [];
 
-const MANUAL_PAYMENT_INTERNAL_NOTIFICATION = [
-  'Paiement 10x - Younited Pay',
-  'Paiement 24x - Younited Pay',
-  'Paiement 3x - Floa Pay',
-  'Paiement 4x - Floa Pay',
-  'Paiement 10x - Floa Pay',
-  'Virement bancaire',
-];
+const MANUAL_PAYMENT_INTERNAL_NOTIFICATION = ['manual', 'stripe'];
 
 const OMS_URL =
   'https://barooders.retool.com/apps/f0b9cd78-71a8-11ee-a016-9f973c01a6b6/Order%20Management%20System';
