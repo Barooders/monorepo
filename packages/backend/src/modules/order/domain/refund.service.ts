@@ -52,7 +52,7 @@ const mapOrderToRefund = (
 });
 
 const getOrderLinkMrkdwn = (order: Order) => {
-  const orderAdminUrl = `https://${envConfig.externalServices.shopify.shopDns}/admin/orders/${order.shopifyId}`;
+  const orderAdminUrl = `https://${envConfig.externalServices.medusa.baseUrl}/app/a/orders/${order.medusaId}`;
   return `<${orderAdminUrl}|${order.name}>`;
 };
 
