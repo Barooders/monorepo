@@ -132,8 +132,9 @@ export class MedusaClient implements IStoreClient {
       ?.filter((image) => image.src !== undefined)
       .map((image) => image.src as string);
 
-    const uploadedImages =
-      await this.imageUploadsClient.uploadImages(imagesUrl);
+    const uploadedImages = await this.imageUploadsClient.uploadImages(
+      imagesUrl,
+    );
 
     this.logger.debug('Images uploaded');
 
@@ -176,7 +177,6 @@ export class MedusaClient implements IStoreClient {
         product.variants.map(
           (variant): MedusaVariantRequest => ({
             title: variant.title ?? 'Default',
-            weight,
             inventory_quantity: variant.inventory_quantity,
             prices: [
               ...(variant.price !== undefined
@@ -364,7 +364,10 @@ export class MedusaClient implements IStoreClient {
 
     if (compare_at_price !== undefined || condition !== undefined) {
       this.logger.warn(
-        `Compare at price and condition are not supported: ${jsonStringify({ compare_at_price, condition })}`,
+        `Compare at price and condition are not supported: ${jsonStringify({
+          compare_at_price,
+          condition,
+        })}`,
       );
     }
 
@@ -607,8 +610,8 @@ export class MedusaClient implements IStoreClient {
     return status === 'ACTIVE'
       ? MedusaProductStatus.PUBLISHED
       : status === 'ARCHIVED'
-        ? MedusaProductStatus.REJECTED
-        : MedusaProductStatus.DRAFT;
+      ? MedusaProductStatus.REJECTED
+      : MedusaProductStatus.DRAFT;
   }
 
   private async getOrCreateCategory(categoryName: string) {
