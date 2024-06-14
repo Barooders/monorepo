@@ -13,7 +13,7 @@ const SentryExample = ({ sentryInstance }: PropsType) => {
         <title>Sentry Onboarding</title>
         <meta
           name="description"
-          content="Test Sentry for your Next.js app!"
+          content="Test Sentry for your Next.js app"
         />
       </Head>
 
