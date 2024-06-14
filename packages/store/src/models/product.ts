@@ -6,4 +6,7 @@ export class Product extends MedusaProduct {
   @Index('ProductVendorId')
   @Column({ nullable: true })
   vendor_id?: string;
+
+  @Column({ type: 'numeric', nullable: true })
+  weight: number | null;
 }
