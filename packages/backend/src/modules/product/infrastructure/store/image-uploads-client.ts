@@ -115,6 +115,7 @@ export class ImageUploadsClient {
         const { width, height } = SIZE_CONFIG[size as Size];
         const output = await sharp(buffer)
           .resize(width, height, {
+            // eslint-disable-next-line import/no-named-as-default-member
             fit: sharp.fit.inside,
             withoutEnlargement: true,
           })
