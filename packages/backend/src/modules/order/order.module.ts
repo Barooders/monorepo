@@ -22,7 +22,6 @@ import { SendGridClient } from '@modules/order/infrastructure/email/sendgrid.cli
 import { SlackClient } from '@modules/order/infrastructure/internal-notification/slack.client';
 import { StripeClient } from '@modules/order/infrastructure/payment-provider/stripe.client';
 import { OrderMapper } from '@modules/order/infrastructure/store/order.mapper';
-import { ShopifyClient } from '@modules/order/infrastructure/store/shopify.client';
 import { GorgiasClient } from '@modules/order/infrastructure/support-center/gorgias.client';
 import { PriceOfferModule } from '@modules/price-offer/price-offer.module';
 import { ProVendorConsoleModule } from '@modules/pro-vendor/console.module';
@@ -43,6 +42,7 @@ import { OrderService } from './domain/order.service';
 import { IShippingClient } from './domain/ports/shipping.client';
 import { RefundService } from './domain/refund.service';
 import { SendCloudClient } from './infrastructure/shipping/send-cloud.client';
+import { MedusaClient } from './infrastructure/store/medusa.client';
 
 const commonProviders = [
   CustomerRepository,
@@ -57,7 +57,7 @@ const commonProviders = [
   },
   {
     provide: IStoreClient,
-    useClass: ShopifyClient,
+    useClass: MedusaClient,
   },
   FulfillmentService,
   RefundService,
