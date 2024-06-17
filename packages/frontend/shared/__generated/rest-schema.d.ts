@@ -33,6 +33,9 @@ export interface paths {
   "/v1/admin/orders/webhook/paid-event": {
     post: operations["PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin"];
   };
+  "/v2/orders/webhook/paid-event": {
+    post: operations["PaidOrderWebhookMedusaController_"];
+  };
   "/v1/orders/webhook/created-event": {
     post: operations["CreatedOrderWebhookShopifyController_handleCreatedOrderEvent"];
   };
@@ -154,7 +157,7 @@ export interface paths {
   "/v1/buy/payment/notify": {
     post: operations["PaymentFloaWebhookController_notifyPaymentResult"];
   };
-  "/v1/delivery-profile/product-variant/{variantShopifyId}": {
+  "/v1/delivery-profile/product-variant/{variantInternalId}": {
     get: operations["DeliveryProfileController_getProductDeliveryProfile"];
   };
   "/v1/__internal__/heartbeat": {
@@ -426,7 +429,7 @@ export interface components {
       email: string;
       /**
        * @description Iso formatted birthdate
-       * @example 2024-06-03T16:33:22.323Z
+       * @example 2024-06-11T13:14:07.920Z
        */
       birthDate: string;
       /**
@@ -455,6 +458,13 @@ export interface components {
     PaymentLinkDTO: {
       /** @description The id of the payment generated at eligibility */
       paymentId: string;
+    };
+    DeliveryProfileItemDTO: {
+      name: string;
+      amount: number;
+    };
+    ProductDeliveryProfileDTO: {
+      options: components["schemas"]["DeliveryProfileItemDTO"][];
     };
     RefinementDTO: {
       attribute: string;
@@ -577,6 +587,13 @@ export interface operations {
     };
   };
   PaidOrderWebhookShopifyController_handlePaidOrderEventAsAdmin: {
+    responses: {
+      201: {
+        content: never;
+      };
+    };
+  };
+  PaidOrderWebhookMedusaController_: {
     responses: {
       201: {
         content: never;
@@ -1145,12 +1162,14 @@ export interface operations {
   DeliveryProfileController_getProductDeliveryProfile: {
     parameters: {
       path: {
-        variantShopifyId: number;
+        variantInternalId: string;
       };
     };
     responses: {
-      200: {
-        content: never;
+      default: {
+        content: {
+          "application/json": components["schemas"]["ProductDeliveryProfileDTO"];
+        };
       };
     };
   };

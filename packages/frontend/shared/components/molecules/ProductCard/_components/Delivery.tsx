@@ -1,5 +1,6 @@
 'use client';
 
+import { operations } from '@/__generated/rest-schema';
 import Loader from '@/components/atoms/Loader';
 import InfoModal from '@/components/atoms/Modal/InfoModal';
 import useBackend from '@/hooks/useBackend';
@@ -9,29 +10,6 @@ import { useEffect } from 'react';
 import { HiOutlineTruck } from 'react-icons/hi2';
 
 const dict = getDictionary('fr');
-
-type DeliveryMethodDefinition = {
-  active: boolean;
-  description: string;
-  id: string;
-  name: string;
-  methodConditions: {
-    conditionCriteria: {
-      value: 9;
-      __typename: string;
-    };
-    field: string;
-    id: string;
-    operator: string;
-  }[];
-  rateProvider: {
-    id: string;
-    price: { amount: string };
-    __typename: string;
-  };
-};
-
-type MethodDefinitions = { methodDefinitions: DeliveryMethodDefinition[] };
 
 type PropsType = {
   variantInternalId: string;
@@ -46,10 +24,10 @@ const DeliveryInformation: React.FC<PropsType> = ({
   const [fetchState, doFetch] = useWrappedAsyncFn(
     async (variantInternalId) =>
       (
-        await fetchAPI<MethodDefinitions>(
-          `/v1/delivery-profile/product-variant/${variantInternalId}`,
-        )
-      ).methodDefinitions,
+        await fetchAPI<
+          operations['DeliveryProfileController_getProductDeliveryProfile']['responses']['default']['content']['application/json']
+        >(`/v1/delivery-profile/product-variant/${variantInternalId}`)
+      ).options,
   );
 
   useEffect(() => {
@@ -78,18 +56,18 @@ const DeliveryInformation: React.FC<PropsType> = ({
         </p>
         {fetchState.loading ? (
           <Loader />
-        ) : fetchState.value ? (
+        ) : fetchState.value !== undefined ? (
           <ul className="flex flex-col gap-1">
             {fetchState.value.map((deliveryOption) => (
               <li
                 className="flex justify-between text-sm text-slate-500"
-                key={deliveryOption.id}
+                key={deliveryOption.name}
               >
                 <p>{deliveryOption.name}</p>
                 <p className="uppercase">
-                  {deliveryOption.rateProvider.price.amount === '0.0'
+                  {deliveryOption.amount === 0
                     ? dict.components.productCard.free
-                    : `${deliveryOption.rateProvider.price.amount}€`}
+                    : `${deliveryOption.amount}€`}
                 </p>
               </li>
             ))}
