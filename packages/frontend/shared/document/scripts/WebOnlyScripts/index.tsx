@@ -2,23 +2,11 @@ import Script from 'next/script';
 
 const WebOnlyScripts = () => (
   <>
-    <Script
+    {/* <Script
       id="gorgias-chat-widget-install-v2"
       strategy="afterInteractive"
       src="https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=13513"
-    />
-    <Script
-      id="gorgias-chat-shopify-install"
-      strategy="afterInteractive"
-    >
-      {`
-        !(function (_) {
-          (_.SHOPIFY_PERMANENT_DOMAIN = '${process.env.NEXT_PUBLIC_FRONT_DOMAIN}'),
-            (_.SHOPIFY_CUSTOMER_ID = ''),
-            (_.SHOPIFY_CUSTOMER_EMAIL = '');
-        })(window || {});
-      `}
-    </Script>
+    /> */}
     <Script
       id="klaviyo-script-starter"
       strategy="beforeInteractive"
