@@ -3,10 +3,7 @@ import { PrismaStoreClient } from '@libs/domain/prisma.store.client';
 import { BIKES_COLLECTION_HANDLE } from '@libs/domain/types';
 import { UUID } from '@libs/domain/value-objects';
 import { medusaClient } from '@libs/infrastructure/medusa/client';
-import {
-  parseShopifyError,
-  shopifyApiByToken,
-} from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
+import { shopifyApiByToken } from '@libs/infrastructure/shopify/shopify-api/shopify-api-by-token.lib';
 import { RefundReason } from '@medusajs/medusa';
 import {
   IStoreClient,
@@ -129,17 +126,17 @@ export class MedusaClient implements IStoreClient {
         throw new Error(`Unprocessable payment for order ${medusaOrder.id}`);
       }
 
+      if (payment.data.capture_method === 'manual') {
+        return;
+      }
+
       await medusaClient.admin.payments.refundPayment(payment.id, {
         amount: amountInCents ?? payment.amount,
         reason: RefundReason.RETURN,
         note: 'Refunded from Retool',
       });
     } catch (error: any) {
-      const errorMessage = parseShopifyError(error);
-      this.logger.error(errorMessage, error);
-      throw new Error(
-        `Cannot refund order: ${error.message} because ${errorMessage}`,
-      );
+      throw new Error(`Cannot refund order: ${error}`);
     }
   }
 }
