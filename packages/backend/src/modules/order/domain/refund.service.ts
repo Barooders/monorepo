@@ -295,15 +295,11 @@ export class RefundService {
   }
 
   private async refundOrder(orderCancelledData: OrderCancelledData) {
-    const { id, name, totalPriceCurrency, totalPriceInCents } =
-      orderCancelledData.order;
+    const { id, name } = orderCancelledData.order;
 
     const { email } = orderCancelledData.customer;
 
-    await this.storeClient.refundOrder(new UUID({ uuid: id }), {
-      amountInCents: totalPriceInCents,
-      currency: totalPriceCurrency,
-    });
+    await this.storeClient.refundOrder(new UUID({ uuid: id }), {});
 
     this.logger.warn(`Refunded order ${id}`);
 

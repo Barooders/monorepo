@@ -32,8 +32,8 @@ export interface OrderLineForCommissionCompute {
 }
 
 export interface RefundOptions {
-  currency: Currency;
-  amountInCents: number;
+  currency?: Currency;
+  amountInCents?: number;
 }
 
 export abstract class IStoreClient {
