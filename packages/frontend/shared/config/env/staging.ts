@@ -1,6 +1,9 @@
 import { EnvType } from './types';
 
 const developmentEnv: EnvType = {
+	features: {
+		buyButton: true,
+	},
   search: {
     publicVariantsCollection: 'staging_backend_products',
     publicVariantSuggestionsCollection:

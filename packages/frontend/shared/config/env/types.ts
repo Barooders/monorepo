@@ -1,4 +1,7 @@
 export type EnvType = {
+  features: {
+    buyButton: boolean;
+  };
   search: {
     publicVariantsCollection: string;
     publicVariantSuggestionsCollection: string;

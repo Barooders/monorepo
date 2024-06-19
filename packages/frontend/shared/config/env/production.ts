@@ -1,6 +1,9 @@
 import { EnvType } from './types';
 
 const productionEnv: EnvType = {
+  features: {
+    buyButton: false,
+  },
   search: {
     publicVariantsCollection: 'backend_products',
     publicVariantSuggestionsCollection: 'backend_products_query_suggestions',

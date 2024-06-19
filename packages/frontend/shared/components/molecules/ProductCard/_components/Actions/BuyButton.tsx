@@ -5,6 +5,7 @@ import { operations } from '@/__generated/rest-schema';
 import { sendBeginCheckout } from '@/analytics';
 import Button from '@/components/atoms/Button';
 import Loader from '@/components/atoms/Loader';
+import envConfig from '@/config/env';
 import useUser from '@/hooks/state/useUser';
 import useBackend from '@/hooks/useBackend';
 import { useHasura } from '@/hooks/useHasura';
@@ -40,6 +41,11 @@ const BuyButton: React.FC<{
   useEffect(() => {
     doFetchVariant();
   }, []);
+
+  // TODO: Remove if you want to sell
+  if (!envConfig.features.buyButton) {
+    return <></>;
+  }
 
   const createCommissionOnStore = async () => {
     const variantShopifyId = fetchedVariant?.ProductVariant[0].shopifyId;
