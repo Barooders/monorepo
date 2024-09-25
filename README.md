@@ -1,5 +1,9 @@
 # Barooders' monorepo
 
+Barooders closed in July 2024.
+The code is now shared publicly.
+It represents the whole codebase, back / front / mobile app.
+
 ## Load staging data locally
 
 - Go to https://dashboard.render.com/d/dpg-co3cfo821fec738v4qlg-a/recovery
