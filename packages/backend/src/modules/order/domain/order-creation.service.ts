@@ -15,6 +15,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CommissionService } from './commission.service';
 import { OrderStatusHandlerService } from './order-status-handler.service';
 import { IInternalNotificationClient } from './ports/internal-notification.client';
+import { IShippingClient } from './ports/shipping.client';
 import { OrderToStore } from './ports/types';
 
 @Injectable()
@@ -28,6 +29,7 @@ export class OrderCreationService {
     private paymentService: IPaymentService,
     private internalNotificationClient: IInternalNotificationClient,
     private commissionService: CommissionService,
+    private shippingService: IShippingClient,
   ) {}
 
   async storeOrder(orderToStore: OrderToStore, author: Author): Promise<void> {
@@ -45,6 +47,8 @@ export class OrderCreationService {
         orderToStore,
         author,
       );
+
+      await this.shippingService.createShipmentFromOrder(orderToStore);
 
       await this.priceOfferService.updatePriceOfferStatusFromOrder(
         priceOfferIds,

@@ -1,18 +1,24 @@
 import envConfig from '@config/env/env.config';
-import { jsonStringify } from '@libs/helpers/json';
+import { fromCents } from '@libs/helpers/currency';
 import { IShippingClient } from '@modules/order/domain/ports/shipping.client';
+import { OrderToStore } from '@modules/order/domain/ports/types';
 import { Injectable, Logger } from '@nestjs/common';
+import axios, { AxiosRequestConfig } from 'axios';
+import dayjs from 'dayjs';
 import { first } from 'lodash';
 import { ShipmentNotFound } from './exceptions';
 import { FullParcelType, ParcelToCreate, ShipmentType } from './types';
 
 const SENDCLOUD_BASE_URL = 'https://panel.sendcloud.sc';
 
-const fetchSendCloudFullUrl = async (
+const shipmentEndpoint = `/integrations/${envConfig.externalServices.sendCloud.shopifyIntegrationId}/shipments`;
+
+const fetchSendCloudFullUrl = async <ResponseType = unknown>(
   fullUrl: string,
-  options: RequestInit = {},
+  options: AxiosRequestConfig = {},
 ) => {
-  const response = await fetch(fullUrl, {
+  const response = await axios<ResponseType>({
+    url: fullUrl,
     ...options,
     headers: {
       authorization: `Basic ${envConfig.externalServices.sendCloud.basicToken}`,
@@ -20,38 +26,38 @@ const fetchSendCloudFullUrl = async (
     },
   });
 
-  if (!response.ok) {
-    throw new Error(`Cannot GET from Sendcloud for : ${response.statusText}`);
-  }
-
   return response;
 };
 
 const fetchSendCloudApi = async <ResponseType = unknown>(
   path: string,
-  options: RequestInit = {},
+  options: AxiosRequestConfig = {},
 ): Promise<ResponseType> => {
-  const response = await fetchSendCloudFullUrl(
+  const response = await fetchSendCloudFullUrl<ResponseType>(
     `${SENDCLOUD_BASE_URL}/api/v2${path}`,
     {
       ...options,
       headers: {
         ...options.headers,
-        accept: 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     },
   );
 
-  const data = await response.json();
-
-  return data as ResponseType;
+  return response.data;
 };
 
 const fetchSendCloudDocuments = async (url: string): Promise<Buffer> => {
-  const response = await fetchSendCloudFullUrl(url);
+  const response = await fetchSendCloudFullUrl<Buffer>(url, {
+    responseType: 'arraybuffer',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/pdf',
+    },
+  });
 
-  return Buffer.from(await response.arrayBuffer());
+  return Buffer.from(response.data);
 };
 
 type ShipmentResultType = {
@@ -77,14 +83,70 @@ export class SendCloudClient implements IShippingClient {
     return (first(parcels) ?? null) as FullParcelType | null;
   }
 
+  async createShipmentFromOrder(order: OrderToStore) {
+    await fetchSendCloudApi<ShipmentResultType>(shipmentEndpoint, {
+      method: 'POST',
+      data: [
+        {
+          address: order.order.shippingAddressAddress1,
+          address_2: order.order.shippingAddressAddress2,
+          city: order.order.shippingAddressCity,
+          company_name: order.order.shippingAddressCompany,
+          country: order.order.shippingAddressCountry,
+          created_at: dayjs().toISOString(),
+          currency: 'EUR',
+          customs_invoice_nr: '',
+          customs_shipment_type: 0,
+          email: order.order.customerEmail,
+          external_order_id: order.order.shopifyId,
+          external_shipment_id: null, // The shopify extension gives a value to this
+          house_number: '',
+          name: order.order.customerId,
+          order_number: order.order.name,
+          order_status: { id: 'created', message: 'Created' },
+          parcel_items: order.orderLines
+            .filter((orderLine) => !!orderLine.shippingSolution)
+            .map((orderLine) => ({
+              description: orderLine.name,
+              hs_code: '',
+              origin_country: '',
+              product_id: orderLine.productVariantId,
+              properties: {},
+              quantity: orderLine.quantity,
+              sku: '',
+              value: fromCents(orderLine.priceInCents).toFixed(2),
+              weight: null,
+              mid_code: null,
+              material_content: null,
+              intended_use: null,
+            })),
+          payment_status: { id: 'paid', message: 'Paid' },
+          postal_code: order.order.shippingAddressZip,
+          shipping_method: null, // TODO: Fill this value
+          shipping_method_checkout_name: 'string', // TODO: Fill this value
+          telephone: order.order.shippingAddressPhone,
+          to_post_number: '',
+          to_service_point: 0, // TODO: Fill this value
+          to_state: null,
+          total_order_value: fromCents(order.order.totalPriceInCents).toFixed(
+            2,
+          ),
+          weight: null,
+          width: null,
+          height: null,
+          length: null,
+          customs_details: null,
+        },
+      ],
+    });
+  }
+
   async getShipmentFromOrderName(orderName: string) {
     const searchParams = new URLSearchParams({
       order_number: orderName,
     });
     const shipments = await fetchSendCloudApi<ShipmentResultType>(
-      `/integrations/${
-        envConfig.externalServices.sendCloud.shopifyIntegrationId
-      }/shipments?${searchParams.toString()}`,
+      `${shipmentEndpoint}?${searchParams.toString()}`,
     );
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -130,9 +192,9 @@ export class SendCloudClient implements IShippingClient {
       `/parcels`,
       {
         method: 'POST',
-        body: jsonStringify({
+        data: {
           parcel: parcelToCreate,
-        }),
+        },
       },
     );
 

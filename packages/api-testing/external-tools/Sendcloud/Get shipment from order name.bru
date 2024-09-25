@@ -1,0 +1,19 @@
+meta {
+  name: Get shipment from order name
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://panel.sendcloud.sc/api/v2/integrations/207753/shipments?order_number=%2314732
+  body: none
+  auth: none
+}
+
+query {
+  order_number: %2314732
+}
+
+headers {
+  Authorization: Basic {{sendCloudBasicToken}}
+}
