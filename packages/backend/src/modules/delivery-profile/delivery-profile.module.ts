@@ -7,6 +7,8 @@ import { ShopifyApiBySession } from '@libs/infrastructure/shopify/shopify-api/sh
 import { PrismaModule } from '@libs/domain/prisma.module';
 import { DeliveryProfileController } from './application/delivery-profile.web';
 import { DeliveryProfileService } from './domain/delivery-profile.service';
+import { IStoreClient } from './domain/ports/store.client';
+import { MedusaClient } from './infrastructure/store/medusa.client';
 
 @Module({
   imports: [PrismaModule],
@@ -16,6 +18,10 @@ import { DeliveryProfileService } from './domain/delivery-profile.service';
     SessionMapper,
     PostgreSQLSessionStorage,
     DeliveryProfileService,
+    {
+      provide: IStoreClient,
+      useClass: MedusaClient,
+    },
   ],
 })
 export class DeliveryProfileModule {}

@@ -5,7 +5,7 @@ const productionPublicConfig: EnvPublicConfig = {
   envName: Environments.PRODUCTION,
   logLevel:
     get('DEBUG').default('false').asString() === 'true' ? 'trace' : 'info',
-  prettyLog: get('DEBUG').default('false').asBool(),
+  prettyLog: true,
   hostname: 'https://backend.barooders.com',
   backendBaseUrl: 'https://backend.barooders.com',
   frontendBaseUrl: 'https://barooders.com',

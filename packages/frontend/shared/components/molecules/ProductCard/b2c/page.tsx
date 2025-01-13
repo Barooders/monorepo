@@ -14,6 +14,7 @@ import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import BuyButton from '../_components/Actions/BuyButton';
 import PriceOfferButton from '../_components/Actions/PriceOfferButton';
 import Characteristics from '../_components/Characteristics';
+import DeliveryInformation from '../_components/Delivery';
 import FavoriteButton from '../_components/FavoriteButton';
 import { Guarantees } from '../_components/Guarantees';
 import ProductDescription from '../_components/ProductDescription';
@@ -225,10 +226,10 @@ const ProductPage: React.FC<ProductSingleVariant> = (product) => {
             )}
           </div>
           <div className="flex flex-col gap-2">
-            {/* <DeliveryInformation
+            <DeliveryInformation
               variantInternalId={variantId}
               shipmentTimeframeSentence={vendor.shipmentTimeframeSentence}
-            /> */}
+            />
             {collections.some(
               (collection) => collection === config.collectionIds.bike,
             ) && <Support productPrice={price} />}
